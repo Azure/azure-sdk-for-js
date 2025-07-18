@@ -4,6 +4,8 @@
 
 This package is revived and is compatible with `@azure/identity` v4.11.0. See [Readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-vscode/README.md) for more details and examples on how to use this package.
 
+### Features Added
+
 This package extends `@azure/identity` by providing the dependencies of `VisualStudioCodeCredential` and enabling it within the `@azure/identity` package. If this extension package is not loaded using `useIdentityPlugin`, then `VisualStudioCodeCredential` from `@azure/identity` will throw a `CredentialUnavailableError`. By enabling `VisualStudioCodeCredential`, the `DefaultAzureCredential` class in `@azure/identity` will be able to authenticated with signed in account from "Azure Resource" if it is available.
 
 ## 1.0.1 (2025-04-14)
