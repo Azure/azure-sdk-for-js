@@ -60,8 +60,5 @@ export {
   FileSystemsGetOptionalParams,
 } from "./api/fileSystems/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
-  FileSystemsOperations,
-  OperationsOperations,
-} from "./classic/index.js";
+export { FileSystemsOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
