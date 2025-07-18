@@ -63,7 +63,7 @@ export const phoneNumberType: OperationQueryParameter = {
     required: true,
     type: {
       name: "Enum",
-      allowedValues: ["geographic", "tollFree"],
+      allowedValues: ["geographic", "tollFree", "mobile"],
     },
   },
 };
@@ -124,7 +124,7 @@ export const administrativeDivision: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-04-01",
+    defaultValue: "2025-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -181,7 +181,7 @@ export const phoneNumberType2: OperationQueryParameter = {
     serializedName: "phoneNumberType",
     type: {
       name: "Enum",
-      allowedValues: ["geographic", "tollFree"],
+      allowedValues: ["geographic", "tollFree", "mobile"],
     },
   },
 };

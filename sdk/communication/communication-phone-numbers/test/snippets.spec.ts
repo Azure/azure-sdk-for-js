@@ -181,6 +181,15 @@ describe("snippets", () => {
     }
   });
 
+  it("PhoneNumbersClientListMobileAreaCodes", async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+    // @ts-preserve-whitespace
+    for await (const areaCodeItem of client.listAvailableMobileAreaCodes("IE")) {
+      console.log("area code: ", areaCodeItem.areaCode);
+    }
+  });
+
   it("PhoneNumbersClientListAvailableLocalities", async () => {
     const credential = new DefaultAzureCredential();
     const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);

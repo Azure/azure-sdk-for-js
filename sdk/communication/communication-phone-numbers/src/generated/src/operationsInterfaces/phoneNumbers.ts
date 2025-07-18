@@ -58,7 +58,7 @@ export interface PhoneNumbers {
   /**
    * Gets the list of available area codes.
    * @param countryCode The ISO 3166-2 country code, e.g. US.
-   * @param phoneNumberType Filter by numberType, e.g. Geographic, TollFree.
+   * @param phoneNumberType Filter by numberType, e.g. Geographic, TollFree, Mobile.
    * @param options The options parameters.
    */
   listAreaCodes(
@@ -188,7 +188,7 @@ export interface PhoneNumbers {
   /**
    * Search for available phone numbers to purchase.
    * @param countryCode The ISO 3166-2 country code, e.g. US.
-   * @param phoneNumberType The type of phone numbers to search for, e.g. geographic, or tollFree.
+   * @param phoneNumberType The type of phone numbers to search for, e.g. geographic, tollFree, mobile.
    * @param assignmentType The assignment type of the phone numbers to search for. A phone number can be
    *                       assigned to a person, or to an application.
    * @param capabilities Capabilities of a phone number.
@@ -209,7 +209,7 @@ export interface PhoneNumbers {
   /**
    * Search for available phone numbers to purchase.
    * @param countryCode The ISO 3166-2 country code, e.g. US.
-   * @param phoneNumberType The type of phone numbers to search for, e.g. geographic, or tollFree.
+   * @param phoneNumberType The type of phone numbers to search for, e.g. geographic, tollFree, mobile.
    * @param assignmentType The assignment type of the phone numbers to search for. A phone number can be
    *                       assigned to a person, or to an application.
    * @param capabilities Capabilities of a phone number.
