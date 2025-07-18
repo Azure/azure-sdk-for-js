@@ -14,6 +14,7 @@ trigger:
       - sdk/containerservice/arm-containerservice
       - sdk/containerservice/arm-containerservice-rest
       - sdk/containerservice/arm-containerservicefleet
+      - sdk/containerservice/arm-containerservicesafeguards
 pr:
   branches:
     include:
@@ -29,6 +30,7 @@ pr:
       - sdk/containerservice/arm-containerservice
       - sdk/containerservice/arm-containerservice-rest
       - sdk/containerservice/arm-containerservicefleet
+      - sdk/containerservice/arm-containerservicesafeguards
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -40,3 +42,5 @@ extends:
         safeName: azurerestarmcontainerservice
       - name: azure-arm-containerservicefleet
         safeName: azurearmcontainerservicefleet
+      - name: azure-arm-containerservicesafeguards
+        safeName: azurearmcontainerservicesafeguards
