@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { PrivateLinkResources } from "../operationsInterfaces/index.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { SearchManagementClient } from "../searchManagementClient.js";
-import type {
+import { SearchManagementClient } from "../searchManagementClient.js";
+import {
   PrivateLinkResource,
   PrivateLinkResourcesListSupportedOptionalParams,
   PrivateLinkResourcesListSupportedResponse,
@@ -44,7 +44,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     searchServiceName: string,
     options?: PrivateLinkResourcesListSupportedOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listSupportedPagingAll(resourceGroupName, searchServiceName, options);
+    const iter = this.listSupportedPagingAll(
+      resourceGroupName,
+      searchServiceName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -73,7 +77,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     _settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateLinkResourcesListSupportedResponse;
-    result = await this._listSupported(resourceGroupName, searchServiceName, options);
+    result = await this._listSupported(
+      resourceGroupName,
+      searchServiceName,
+      options,
+    );
     yield result.value || [];
   }
 

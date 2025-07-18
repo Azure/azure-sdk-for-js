@@ -7,7 +7,6 @@
  */
 
 export * from "./operations.js";
-export * from "./offerings.js";
 export * from "./adminKeys.js";
 export * from "./queryKeys.js";
 export * from "./services.js";
