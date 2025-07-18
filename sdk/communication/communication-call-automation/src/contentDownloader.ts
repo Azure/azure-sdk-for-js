@@ -113,8 +113,7 @@ export class ContentDownloaderImpl {
     opt.headers?.set("OriginalUrl", sourceLocationUrl);
     opt.headers?.set("x-ms-host", endpoint.host);
     opt.headers?.set("accept", "application/json");
-
-    if (rangeHeader !== "bytes=" + undefined) {
+    if (options.offset) {
       opt.headers?.set("Range", rangeHeader);
     }
 
