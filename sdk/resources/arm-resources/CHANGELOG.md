@@ -2,6 +2,8 @@
     
 ## 7.0.0 (2025-06-10)
     
+- operation groups `DeploymentOperations` and `Deployments` are split in this version. If you want to use these two operations, please use [`@azure/arm-resourcesdeployment`](https://www.npmjs.com/package/@azure/arm-resourcesdeployments/v/1.0.0-beta.1).
+
 ### Breaking Changes
 
   - Removed operation group DeploymentOperations
