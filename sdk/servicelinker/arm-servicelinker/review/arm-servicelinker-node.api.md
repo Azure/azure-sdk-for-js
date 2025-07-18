@@ -68,7 +68,7 @@ export interface AzureResourcePropertiesBase {
 export type AzureResourcePropertiesBaseUnion = AzureResourcePropertiesBase | AzureKeyVaultProperties | AzureAppConfigProperties;
 
 // @public
-export type AzureResourceType = string;
+export type AzureResourceType = "KeyVault" | "AppConfig";
 
 // @public
 export interface BasicErrorDryrunPrerequisiteResult extends DryrunPrerequisiteResult {
@@ -497,12 +497,6 @@ export enum KnownAuthType {
     SystemAssignedIdentity = "systemAssignedIdentity",
     UserAccount = "userAccount",
     UserAssignedIdentity = "userAssignedIdentity"
-}
-
-// @public
-export enum KnownAzureResourceType {
-    AppConfig = "AppConfig",
-    KeyVault = "KeyVault"
 }
 
 // @public
