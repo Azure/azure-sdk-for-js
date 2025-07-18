@@ -87,6 +87,8 @@ export class DatabaseAccount {
       this.enableMultipleWritableLocations =
         body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS] === true ||
         body[Constants.ENABLE_MULTIPLE_WRITABLE_LOCATIONS] === "true";
+    } else {
+      this.enableMultipleWritableLocations = false;
     }
   }
 }

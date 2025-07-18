@@ -3,6 +3,7 @@
 
 import type { Sku } from "@azure/arm-cognitiveservices";
 import type { AzureClientOptions, OpenAI } from "openai";
+import type { APIVersion } from "./utils.js";
 
 export interface Metadata {
   foo: string;
@@ -36,6 +37,7 @@ export interface DeploymentInfo {
 export interface ModelInfo {
   readonly name: string;
   readonly version: string;
+  readonly apiVersion?: APIVersion;
 }
 
 export interface ResourceInfo {
