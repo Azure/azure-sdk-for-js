@@ -51,9 +51,7 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE",
-    "review/*",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
