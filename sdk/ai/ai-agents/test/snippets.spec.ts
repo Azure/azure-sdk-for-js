@@ -19,6 +19,7 @@ import {
   MessageTextContent,
   RequiredToolCall,
   ThreadRun,
+  DeepResearchToolDefinition,
 } from "../src/index.js";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -132,6 +133,30 @@ describe("snippets", function () {
     console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
+  it("MultiAgents", async function () {
+    const connectedAgentName = "stock_price_bot";
+    const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+    const stockAgent = await client.createAgent(modelDeploymentName, {
+      name: "stock-price-agent",
+      instructions:
+        "Your job is to get the stock price of a company. If you don't know the realtime stock price, return the last known stock price.",
+    });
+    // Initialize Connected Agent tool with the agent id, name, and description
+    const connectedAgentTool = ToolUtility.createConnectedAgentTool(
+      stockAgent.id,
+      connectedAgentName,
+      "Gets the stock price of a company",
+    );
+
+    // Create agent with the Connected Agent tool and process assistant run
+    const agent = await client.createAgent(modelDeploymentName, {
+      name: "my-agent",
+      instructions: "You are a helpful assistant, and use the connected agent to get stock prices.",
+      tools: [connectedAgentTool.definition],
+    });
+    console.log(`Created agent, agent ID: ${agent.id}`);
+  });
+
   it("bingGrounding", async function () {
     const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
     // @ts-preserve-whitespace
@@ -145,6 +170,32 @@ describe("snippets", function () {
       tools: [bingTool.definition],
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
+  });
+
+  it("DeepResearch", async function () {
+    const bingConnectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
+    const deepResearchModelDeploymentName =
+      process.env["DEEP_RESEARCH_MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+    const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+    // Create Deep Research tool definition
+    const deepResearchTool: DeepResearchToolDefinition = {
+      type: "deep_research",
+      deepResearch: {
+        deepResearchModel: deepResearchModelDeploymentName,
+        deepResearchBingGroundingConnections: [
+          {
+            connectionId: bingConnectionId,
+          },
+        ],
+      },
+    };
+    // Create agent with the Deep Research tool
+    const agent = await client.createAgent(modelDeploymentName, {
+      name: "my-agent",
+      instructions: "You are a helpful Agent that assists in researching scientific topics.",
+      tools: [deepResearchTool],
+    });
+    console.log(`Created agent, ID: ${agent.id}`);
   });
 
   it("AISearch", async function () {

@@ -8,3 +8,10 @@ export function checkURL(testString: string): URL {
 export function sanitizeEndpoint(url: string): string {
   return new URL(url).href.replace(/\/$/, "");
 }
+
+/**
+ * @internal
+ */
+export function normalizeEndpoint(endpoint: string): string {
+  return endpoint.replace(/\s+/g, "").toLowerCase();
+}

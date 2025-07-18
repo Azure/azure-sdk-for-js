@@ -6,7 +6,7 @@
  */
 
 import * as childProcess from "child_process";
-import * as fs from "node:fs";
+import fs from "node:fs";
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 // Load the .env file if it exists
