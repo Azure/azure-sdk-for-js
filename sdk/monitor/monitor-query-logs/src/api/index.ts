@@ -8,7 +8,8 @@ export {
 } from "./monitorQueryLogsContext.js";
 export { batch, executeWithResourceId, execute } from "./operations.js";
 export {
-  BatchOptionalParams,
+  LogsQueryBatchOptions,
+  LogsQueryOptions,
   ExecuteWithResourceIdOptionalParams,
   ExecuteOptionalParams,
   QueryLogsOptions,

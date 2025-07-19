@@ -10,10 +10,6 @@ import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface BatchOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface BatchQueryRequest {
     body: QueryBody;
     headers?: Record<string, string>;
@@ -52,6 +48,20 @@ export interface Column {
 
 // @public
 export type ColumnDataType = "bool" | "datetime" | "dynamic" | "int" | "long" | "real" | "string" | "guid" | "decimal" | "timespan";
+
+// @public
+export const Durations: {
+    sevenDays: string;
+    threeDays: string;
+    twoDays: string;
+    oneDay: string;
+    oneHour: string;
+    fourHours: string;
+    twentyFourHours: string;
+    fortyEightHours: string;
+    thirtyMinutes: string;
+    fiveMinutes: string;
+};
 
 // @public
 export interface ErrorDetail {
@@ -101,23 +111,43 @@ export interface LogsErrorInfo extends ErrorInfo {
 }
 
 // @public
-export interface LogsQueryBatchResult {
-    responses?: BatchQueryResponse[];
+export interface LogsQueryBatchOptions extends OperationOptions {
 }
+
+// @public
+export type LogsQueryBatchResult = Array<LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError>;
 
 // @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     readonly pipeline: Pipeline;
-    queryBatch(queries: QueryBatch[], options?: BatchOptionalParams): Promise<LogsQueryBatchResult>;
-    // Warning: (ae-forgotten-export) The symbol "LogsQueryResult_2" needs to be exported by the entry point index.d.ts
-    queryResource(resourceId: string, query: string, timespan: QueryTimeInterval, options?: ExecuteWithResourceIdOptionalParams): Promise<LogsQueryResult_2>;
-    queryWorkspace(workspaceId: string, query: string, timespan: QueryTimeInterval, options?: ExecuteOptionalParams): Promise<LogsQueryResult_2>;
+    queryBatch(batch: QueryBatch[], options?: LogsQueryBatchOptions): Promise<LogsQueryBatchResult>;
+    queryResource(resourceId: string, query: string, timespan: QueryTimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
+    queryWorkspace(workspaceId: string, query: string, timespan: QueryTimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
 }
 
 // @public
 export interface LogsQueryClientOptions extends ClientOptions {
     apiVersion?: string;
+    audience?: string;
+}
+
+// @public
+export interface LogsQueryError extends Error {
+    code: string;
+    status: LogsQueryResultStatus.Failure;
+}
+
+// @public (undocumented)
+export interface LogsQueryOptions extends OperationOptions {
+    // (undocumented)
+    additionalWorkspaces?: string[];
+    // (undocumented)
+    includeQueryStatistics?: boolean;
+    // (undocumented)
+    includeVisualization?: boolean;
+    // (undocumented)
+    serverTimeoutInSeconds?: number;
 }
 
 // @public
@@ -156,12 +186,13 @@ export interface LogsTable {
 
 // @public
 export interface QueryBatch {
-    headers?: Record<string, string>;
-    id: string;
+    additionalWorkspaces?: string[];
+    includeQueryStatistics?: boolean;
+    includeVisualization?: boolean;
     query: string;
+    serverTimeoutInSeconds?: number;
     timespan: QueryTimeInterval;
-    workspace: string;
-    workspaces?: string[];
+    workspaceId: string;
 }
 
 // @public
@@ -177,7 +208,18 @@ export interface QueryLogsOptions extends OperationOptions {
 }
 
 // @public
-export type QueryTimeInterval = string;
+export type QueryTimeInterval = {
+    startTime: Date;
+    endTime: Date;
+} | {
+    startTime: Date;
+    duration: string;
+} | {
+    duration: string;
+    endTime: Date;
+} | {
+    duration: string;
+};
 
 // @public
 export interface Table {

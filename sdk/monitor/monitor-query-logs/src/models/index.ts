@@ -3,7 +3,6 @@
 
 export {
   QueryBody,
-  LogsQueryResult,
   Table,
   Column,
   ColumnDataType,
@@ -12,11 +11,22 @@ export {
   ErrorResponse,
   BatchRequest,
   BatchQueryRequest,
-  LogsQueryBatchResult,
   BatchQueryResponse,
   BatchQueryResults,
   Versions,
-  QueryBatch,
   QueryTimeInterval,
 } from "./models.js";
+export {
+  LogsQueryResultStatus,
+  LogsColumn,
+  LogsTable,
+  LogsErrorInfo,
+  LogsQuerySuccessfulResult,
+  LogsQueryPartialResult,
+  LogsQueryError,
+  LogsQueryResult,
+  LogsQueryBatchResult,
+  QueryBatch,
+  KnownMonitorLogsQueryAudience,
+} from "./public.js";
 export * from "./constants.js";

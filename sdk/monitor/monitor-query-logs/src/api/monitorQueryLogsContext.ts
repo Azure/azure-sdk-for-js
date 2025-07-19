@@ -16,6 +16,11 @@ export interface MonitorQueryLogsContext extends Client {
 export interface LogsQueryClientOptions extends ClientOptions {
   /** The service API version. */
   apiVersion?: string;
+  /**
+   * The Audience to use for authentication with Microsoft Entra ID. The
+   * audience is not considered when using a shared key.
+   */
+  audience?: string;
 }
 
 export function createMonitorQueryLogs(

@@ -28,11 +28,13 @@ export {
   LogsErrorInfo,
   LogsQuerySuccessfulResult,
   LogsQueryPartialResult,
+  LogsQueryError,
   KnownMonitorLogsQueryAudience,
 } from "./models/public.js";
 export {
   LogsQueryClientOptions,
-  BatchOptionalParams,
+  LogsQueryBatchOptions,
+  LogsQueryOptions,
   ExecuteWithResourceIdOptionalParams,
   ExecuteOptionalParams,
   QueryLogsOptions,

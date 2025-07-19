@@ -490,8 +490,7 @@ describe("LogsQueryClient live tests", function () {
         }
 
         loggerForTest.verbose(
-          `[Attempt: ${i}/${args.maxTries}, elapsed: ${
-            Date.now() - startTime
+          `[Attempt: ${i}/${args.maxTries}, elapsed: ${Date.now() - startTime
           } ms] No rows, will poll again.`,
         );
 
@@ -583,8 +582,8 @@ function getInnermostErrorDetails(thrownError: any): undefined | ErrorInfo {
 
   let errorInfo: ErrorInfo = thrownError.details.error;
 
-  while (errorInfo.innerError) {
-    errorInfo = errorInfo.innerError;
+  while (errorInfo.innererror) {
+    errorInfo = errorInfo.innererror;
   }
 
   return errorInfo;

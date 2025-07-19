@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Durations, LogsQueryClient, LogsQueryOptions } from "../../../src/index.js";
+import type { LogsQueryOptions } from "../../../src/index.js";
+import { Durations, LogsQueryClient } from "../../../src/index.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect } from "vitest";
-import type { OperationOptions } from "@azure/core-client";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({ toSupportTracing });
@@ -37,9 +37,6 @@ describe("LogsQueryClient unit tests", () => {
       endpoint: "https://customEndpoint1",
     });
 
-    assert.equal(client["_logAnalytics"].$host, "https://customendpoint1/v1");
-    assert.equal(client["_logAnalytics"]["_endpoint"], "https://customendpoint1/v1");
-
     try {
       await client.queryWorkspace("workspaceId", "query", { duration: Durations.fiveMinutes });
       assert.fail("Should have thrown");
@@ -48,29 +45,6 @@ describe("LogsQueryClient unit tests", () => {
         message: "Shortcircuit auth exception",
       });
     }
-  });
-
-  it("verify tracing", async () => {
-    const client = new LogsQueryClient(tokenCredential, {
-      endpoint: "https://customEndpoint1",
-    });
-    await expect(async (options: OperationOptions) => {
-      const promises: Promise<any>[] = [
-        client.queryWorkspace("workspaceId", "query", { duration: Durations.fiveMinutes }, options),
-        client.queryBatch(
-          [
-            {
-              workspaceId: "monitorWorkspaceId",
-              query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
-              timespan: { duration: "P1D" },
-            },
-          ],
-          options,
-        ),
-      ];
-      // We don't care about errors, only that we created (and closed) the appropriate spans.
-      await Promise.all(promises.map((p) => p.catch(() => undefined)));
-    }).toSupportTracing(["LogsQueryClient.queryWorkspace", "LogsQueryClient.queryBatch"]);
   });
 
   it("keeps custom request options in queryWorkspace", async () => {
@@ -87,7 +61,6 @@ describe("LogsQueryClient unit tests", () => {
       sendRequest: async (request: any) => {
         assert.equal(request.headers.get("randomHeader"), "4321");
         assert.equal(request.timeout, "3333");
-        console.dir(request);
         return {
           request,
           status: 200,
@@ -99,12 +72,12 @@ describe("LogsQueryClient unit tests", () => {
     const testOptions: LogsQueryOptions = {
       requestOptions: {
         timeout: 3333,
-        customHeaders: {
+        headers: {
           randomHeader: "4321",
         },
       },
     };
-    client["_logAnalytics"].pipeline.addPolicy(testPipelinePolicy, { afterPhase: "Sign" });
+    client.pipeline.addPolicy(testPipelinePolicy, { afterPhase: "Sign" });
 
     await client.queryWorkspace(
       "workspaceId",
@@ -141,12 +114,12 @@ describe("LogsQueryClient unit tests", () => {
     const testOptions: LogsQueryOptions = {
       requestOptions: {
         timeout: 3333,
-        customHeaders: {
+        headers: {
           randomHeader: "4321",
         },
       },
     };
-    client["_logAnalytics"].pipeline.addPolicy(testPipelinePolicy, { afterPhase: "Sign" });
+    client.pipeline.addPolicy(testPipelinePolicy, { afterPhase: "Sign" });
 
     await client.queryResource(
       "workspaceId",

@@ -4,30 +4,32 @@
 import type { MonitorQueryLogsContext as Client } from "./index.js";
 import type {
   QueryBody,
-  LogsQueryResult,
   BatchRequest,
-  LogsQueryBatchResult,
 } from "../models/models.js";
+import type { LogsQueryBatchResult } from "../models/public.js";
 import {
   queryBodySerializer,
   queryResultsDeserializer,
+  convertToLogsQueryResult,
   errorResponseDeserializer,
   batchRequestSerializer,
   batchResponseDeserializer,
+  convertToLogsBatchResult,
 } from "../models/models.js";
 import type {
-  BatchOptionalParams,
+  LogsQueryBatchOptions,
   ExecuteWithResourceIdOptionalParams,
   ExecuteOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { LogsQueryResult } from "../models/public.js";
 
 export function _batchSend(
   context: Client,
   body: BatchRequest,
-  options: BatchOptionalParams = { requestOptions: {} },
+  options: LogsQueryBatchOptions = { requestOptions: {} },
 ): StreamableMethod {
   return context.path("/$batch").post({
     ...operationOptionsToRequestParameters(options),
@@ -50,7 +52,8 @@ export async function _batchDeserialize(
     throw error;
   }
 
-  return batchResponseDeserializer(result.body);
+  const internalResult = batchResponseDeserializer(result.body);
+  return convertToLogsBatchResult(internalResult);
 }
 
 /**
@@ -61,7 +64,7 @@ export async function _batchDeserialize(
 export async function batch(
   context: Client,
   body: BatchRequest,
-  options: BatchOptionalParams = { requestOptions: {} },
+  options: LogsQueryBatchOptions = { requestOptions: {} },
 ): Promise<LogsQueryBatchResult> {
   const result = await _batchSend(context, body, options);
   return _batchDeserialize(result);
@@ -104,7 +107,7 @@ export async function _executeWithResourceIdDeserialize(
     throw error;
   }
 
-  return queryResultsDeserializer(result.body);
+  return convertToLogsQueryResult(queryResultsDeserializer(result.body));
 }
 
 /**
@@ -157,7 +160,7 @@ export async function _executeDeserialize(result: PathUncheckedResponse): Promis
     throw error;
   }
 
-  return queryResultsDeserializer(result.body);
+  return convertToLogsQueryResult(queryResultsDeserializer(result.body));
 }
 
 /**

@@ -4,22 +4,54 @@
 import type { MonitorQueryLogsContext, LogsQueryClientOptions } from "./api/index.js";
 import { createMonitorQueryLogs } from "./api/index.js";
 import type {
-  LogsQueryBatchResult,
-  QueryBatch,
   QueryTimeInterval,
 } from "./models/models.js";
+import { convertQueryBatch } from "./models/models.js";
+import type { QueryBatch, LogsQueryBatchResult } from "./models/public.js";
 import type { QueryBody } from "./models/models.js";
 import type {
-  BatchOptionalParams,
-  ExecuteWithResourceIdOptionalParams,
-  ExecuteOptionalParams,
+  LogsQueryBatchOptions,
+  LogsQueryOptions,
 } from "./api/options.js";
-import { batch, executeWithResourceId, execute } from "./api/operations.js";
+import { batch as batchOperation, executeWithResourceId, execute } from "./api/operations.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
-import type { LogsQueryResult } from "./models/index.js";
+import type { BatchQueryRequest } from "./models/index.js";
+import { convertTimespanToInterval } from "./static-helpers/timespanConversion.js";
+import type { LogsQueryResult } from "./models/public.js";
 
 export { LogsQueryClientOptions } from "./api/monitorQueryLogsContext.js";
+
+/**
+ * Converts LogsQueryOptions to internal option format
+ */
+function convertToInternalOptions(options?: LogsQueryOptions): { prefer?: string; requestOptions: {} } {
+  if (!options) {
+    return { requestOptions: {} };
+  }
+
+  // Convert LogsQueryOptions properties to prefer header format
+  const preferParts: string[] = [];
+
+  if (options.serverTimeoutInSeconds !== undefined) {
+    preferParts.push(`wait=${options.serverTimeoutInSeconds}`);
+  }
+
+  if (options.includeQueryStatistics) {
+    preferParts.push("include-statistics=true");
+  }
+
+  if (options.includeVisualization) {
+    preferParts.push("include-render=true");
+  }
+
+  const prefer = preferParts.length > 0 ? preferParts.join(",") : undefined;
+
+  return {
+    prefer,
+    requestOptions: options.requestOptions ? options.requestOptions : {},
+  };
+}
 
 /**
  * The client to query Azure Monitor logs.
@@ -50,29 +82,34 @@ export class LogsQueryClient {
    * Executes a batch of Analytics queries for data.
    * [Here](https://learn.microsoft.com/azure/azure-monitor/logs/api/batch-queries)
    * is an example for using POST with an Analytics query.
-   * @param queries - The batch of queries to execute.
+   * @param batch - The batch of queries to execute.
    * @param options - The optional parameters for the operation.
    * @returns The results of the batch of queries.
    */
   queryBatch(
-    queries: QueryBatch[],
-    options: BatchOptionalParams = { requestOptions: {} },
+    batch: QueryBatch[],
+    options: LogsQueryBatchOptions = { requestOptions: {} },
   ): Promise<LogsQueryBatchResult> {
-    const requests = queries.map((q) => {
+    const requests: BatchQueryRequest[] = batch.map((q, index) => {
+      // Generate a unique ID for each query
+      const id = `query-${index}`;
+      // Convert public QueryBatch to internal InternalQueryBatch
+      const internalQuery = convertQueryBatch(q, id);
+
       return {
-        id: q.id,
+        id: internalQuery.id,
         body: {
-          query: q.query,
-          timespan: q.timespan,
-          workspaces: q.workspaces,
+          query: internalQuery.query,
+          timespan: internalQuery.timespan ? convertTimespanToInterval(internalQuery.timespan) : undefined,
+          workspaces: internalQuery.workspaces,
         },
         path: "/query" as const,
         method: "POST" as const,
-        workspace: q.workspace,
-        headers: q.headers,
+        workspace: internalQuery.workspace,
+        headers: internalQuery.headers,
       };
     });
-    return batch(this._client, { requests }, options);
+    return batchOperation(this._client, { requests: requests }, options);
   }
 
   /**
@@ -89,13 +126,16 @@ export class LogsQueryClient {
     resourceId: string,
     query: string,
     timespan: QueryTimeInterval,
-    options: ExecuteWithResourceIdOptionalParams = { requestOptions: {} },
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: LogsQueryOptions,
   ): Promise<LogsQueryResult> {
+    const internalOptions = convertToInternalOptions(options);
     const body: QueryBody = {
       query,
-      timespan,
+      timespan: convertTimespanToInterval(timespan),
+      workspaces: options?.additionalWorkspaces,
     };
-    return executeWithResourceId(this._client, resourceId, body, options);
+    return executeWithResourceId(this._client, resourceId, body, internalOptions);
   }
 
   /**
@@ -112,12 +152,15 @@ export class LogsQueryClient {
     workspaceId: string,
     query: string,
     timespan: QueryTimeInterval,
-    options: ExecuteOptionalParams = { requestOptions: {} },
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: LogsQueryOptions,
   ): Promise<LogsQueryResult> {
+    const internalOptions = convertToInternalOptions(options);
     const body: QueryBody = {
       query,
-      timespan,
+      timespan: convertTimespanToInterval(timespan),
+      workspaces: options?.additionalWorkspaces,
     };
-    return execute(this._client, workspaceId, body, options);
+    return execute(this._client, workspaceId, body, internalOptions);
   }
 }

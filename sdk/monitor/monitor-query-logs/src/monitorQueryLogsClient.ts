@@ -6,10 +6,10 @@ import { createMonitorQueryLogs } from "./api/index.js";
 import type {
   QueryBody,
   BatchRequest,
-  LogsQueryBatchResult,
 } from "./models/models.js";
+import type { LogsQueryBatchResult } from "./models/public.js";
 import type {
-  BatchOptionalParams,
+  LogsQueryBatchOptions,
   ExecuteWithResourceIdOptionalParams,
   ExecuteOptionalParams,
 } from "./api/options.js";
@@ -44,7 +44,7 @@ export class LogsQueryClient {
    */
   batch(
     body: BatchRequest,
-    options: BatchOptionalParams = { requestOptions: {} },
+    options: LogsQueryBatchOptions = { requestOptions: {} },
   ): Promise<LogsQueryBatchResult> {
     return batch(this._client, body, options);
   }

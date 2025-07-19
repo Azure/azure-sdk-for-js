@@ -1,7 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LogsQueryResult } from "./index.js";
+import type {
+  LogsQueryResult,
+  LogsTable,
+  LogsErrorInfo,
+  QueryBatch,
+  LogsQueryBatchResult,
+  LogsQueryError,
+  LogsQuerySuccessfulResult,
+  LogsQueryPartialResult,
+} from "./public.js";
+import { LogsQueryResultStatus } from "./public.js";/** Converts public QueryBatch to internal InternalQueryBatch */
+export function convertQueryBatch(query: QueryBatch, id: string): InternalQueryBatch {
+  const headers: Record<string, string> = {};
+
+  // Build prefer header from options
+  const preferParts: string[] = [];
+  if (query.serverTimeoutInSeconds) {
+    preferParts.push(`wait=${query.serverTimeoutInSeconds}`);
+  }
+  if (query.includeQueryStatistics) {
+    preferParts.push("include-statistics=true");
+  }
+  if (query.includeVisualization) {
+    preferParts.push("include-render=true");
+  }
+
+  if (preferParts.length > 0) {
+    headers.prefer = preferParts.join(",");
+  }
+
+  return {
+    id,
+    query: query.query,
+    timespan: query.timespan,
+    headers: Object.keys(headers).length > 0 ? headers : undefined,
+    workspaces: query.additionalWorkspaces,
+    workspace: query.workspaceId,
+  };
+}
 
 /**
  * The timespan for the query. This is an ISO8601 time period value.
@@ -53,17 +91,100 @@ export function queryBodySerializer(item: QueryBody): any {
   };
 }
 
+/** Contains the tables, columns & rows resulting from a query. */
+export interface QueryResults {
+  /** The results of the query in tabular format. */
+  tables: Table[];
+  /** Statistics represented in JSON format. */
+  statistics?: Record<string, any>;
+  /** Visualization data in JSON format. */
+  render?: Record<string, any>;
+  /** The code and message for an error. */
+  error?: ErrorInfo;
+}
+
 export function queryResultsDeserializer(item: {
   tables: any[];
   statistics: any;
   render: any;
   error: any;
-}): LogsQueryResult {
+}): QueryResults {
   return {
     tables: tableArrayDeserializer(item["tables"]),
     statistics: item["statistics"],
     render: item["render"],
     error: !item["error"] ? item["error"] : errorInfoDeserializer(item["error"]),
+  };
+}
+
+/** Converts QueryResults to LogsQueryResult */
+/**
+ * Converts a table from the API response to LogsTable format with proper type conversion
+ */
+function convertTable(table: Table): LogsTable {
+  const dynamicsIndices: number[] = [];
+  const datesIndices: number[] = [];
+
+  // Find indices of columns that need special conversion
+  for (let i = 0; i < table.columns.length; ++i) {
+    if (table.columns[i].type === "datetime") {
+      datesIndices.push(i);
+    } else if (table.columns[i].type === "dynamic") {
+      dynamicsIndices.push(i);
+    }
+  }
+
+  return {
+    name: table.name,
+    columnDescriptors: table.columns,
+    rows: table.rows.map((originalRow) => {
+      // Create a copy of the row to avoid mutating the original
+      const row = [...originalRow];
+
+      // Convert datetime columns to Date objects
+      for (const dateIndex of datesIndices) {
+        if (row[dateIndex] != null && typeof row[dateIndex] === "string") {
+          row[dateIndex] = new Date(row[dateIndex] as string);
+        }
+      }
+
+      // Convert dynamic columns to JSON objects
+      for (const dynamicIndex of dynamicsIndices) {
+        try {
+          if (row[dynamicIndex] != null && typeof row[dynamicIndex] === "string") {
+            row[dynamicIndex] = JSON.parse(row[dynamicIndex] as string) as Record<string, unknown>;
+          }
+        } catch (_err: any) {
+          /* leave as is if JSON parse fails */
+        }
+      }
+
+      return row;
+    }),
+  };
+}
+
+export function convertToLogsQueryResult(queryResults: QueryResults): LogsQueryResult {
+  // Convert tables to LogsTable format with proper type conversion
+  const convertedTables: LogsTable[] = queryResults.tables.map(convertTable);
+
+  // If there's an error, return a partial result
+  if (queryResults.error) {
+    return {
+      status: LogsQueryResultStatus.PartialFailure,
+      partialTables: convertedTables,
+      partialError: queryResults.error as LogsErrorInfo,
+      statistics: queryResults.statistics,
+      visualization: queryResults.render,
+    };
+  }
+
+  // Otherwise, return a successful result
+  return {
+    status: LogsQueryResultStatus.Success,
+    tables: convertedTables,
+    statistics: queryResults.statistics,
+    visualization: queryResults.render,
   };
 }
 
@@ -218,7 +339,7 @@ export function errorResponseDeserializer(item: { error: any }): ErrorResponse {
 }
 
 /** A single request in a batch. */
-export interface QueryBatch {
+export interface InternalQueryBatch {
   /** Unique ID corresponding to each request in the batch. */
   id: string;
   /**
@@ -299,17 +420,55 @@ export function batchQueryRequestSerializer(item: BatchQueryRequest): any {
 }
 
 /** Response to a batch query. */
-export interface LogsQueryBatchResult {
+export interface InternalBatchResult {
   /** An array of responses corresponding to each individual request in a batch. */
   responses?: BatchQueryResponse[];
 }
 
-export function batchResponseDeserializer(item: { responses: any }): LogsQueryBatchResult {
+export function batchResponseDeserializer(item: { responses: any }): InternalBatchResult {
   return {
     responses: !item["responses"]
       ? item["responses"]
       : batchQueryResponseArrayDeserializer(item["responses"]),
   };
+}
+
+/** Converts InternalBatchResult to LogsQueryBatchResult */
+export function convertToLogsBatchResult(internalResult: InternalBatchResult): LogsQueryBatchResult {
+  if (!internalResult.responses) {
+    return [];
+  }
+
+  return internalResult.responses.map((response): LogsQuerySuccessfulResult | LogsQueryPartialResult | LogsQueryError => {
+    // If the response has no body, it's an error
+    if (!response.body) {
+      const error: LogsQueryError = {
+        name: "LogsQueryError",
+        message: "Query failed with no response body",
+        code: response.status?.toString() || "Unknown",
+        status: LogsQueryResultStatus.Failure,
+      };
+      return error;
+    }
+
+    // Convert BatchQueryResults to QueryResults format for converter
+    const queryResults: QueryResults = {
+      tables: response.body.tables || [],
+      statistics: response.body.statistics,
+      render: response.body.render,
+      error: response.body.error,
+    };
+
+    // Convert using the existing converter
+    const queryResult = convertToLogsQueryResult(queryResults);
+
+    // If the converted result has an error status, create a LogsQueryError
+    if (queryResult.status === LogsQueryResultStatus.PartialFailure) {
+      return queryResult as LogsQueryPartialResult;
+    }
+
+    return queryResult as LogsQuerySuccessfulResult;
+  });
 }
 
 export function batchQueryResponseArrayDeserializer(result: Array<BatchQueryResponse>): any[] {
