@@ -242,15 +242,10 @@ export { ParticipantsRemovedEvent }
 
 // @public
 export interface PollingOptions {
-    // (undocumented)
     adaptivePolling?: boolean;
-    // (undocumented)
     enabled?: boolean;
-    // (undocumented)
     fast?: number;
-    // (undocumented)
     intervalInSec?: number;
-    // (undocumented)
     slow?: number;
 }
 
@@ -313,7 +308,7 @@ export interface SendTypingNotificationOptions extends OperationOptions {
     senderDisplayName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface StartRealtimeNotificationsOptions {
     // (undocumented)
     pollingOptions?: PollingOptions;
