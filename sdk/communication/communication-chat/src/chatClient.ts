@@ -82,7 +82,18 @@ export interface PollingOptions {
  * If pollingOptions is provided, it will configure the polling behavior.
  */
 export interface StartRealtimeNotificationsOptions {
+  /**
+   * List of thread IDs to poll for messages.
+   * If provided, the client will poll for messages in these threads.
+   * The maximum number of threads that can be polled is 10.
+   * If this is not provided, the client will only use realtime notifications.
+   */
   threadsIds?: string[];
+  /**
+   * Options to configure polling behavior.
+   * If provided, the client will poll for messages in the specified threads.
+   * If not provided, polling will not be started.
+   */
   pollingOptions?: PollingOptions;
 }
 

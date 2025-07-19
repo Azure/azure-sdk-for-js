@@ -310,9 +310,7 @@ export interface SendTypingNotificationOptions extends OperationOptions {
 
 // @public
 export interface StartRealtimeNotificationsOptions {
-    // (undocumented)
     pollingOptions?: PollingOptions;
-    // (undocumented)
     threadsIds?: string[];
 }
 
