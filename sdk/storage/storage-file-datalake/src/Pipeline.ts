@@ -35,10 +35,10 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
-import type { StorageRetryOptions } from "@azure/storage-blob";
-import { StorageRetryPolicyFactory } from "@azure/storage-blob";
+import type { StorageRetryOptions } from "@azure/storage-common";
+import { StorageRetryPolicyFactory } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-common";
 import {
   StorageOAuthScopes,
   StorageDataLakeLoggingAllowedHeaderNames,
@@ -46,11 +46,11 @@ import {
   SDK_VERSION,
 } from "./utils/constants.js";
 import { getCachedDefaultHttpClient } from "@azure/storage-common";
-import { storageBrowserPolicy } from "@azure/storage-blob";
-import { StorageBrowserPolicyFactory } from "@azure/storage-blob";
-import { storageCorrectContentLengthPolicy } from "@azure/storage-blob";
-import { storageRetryPolicy } from "@azure/storage-blob";
-import { storageSharedKeyCredentialPolicy } from "@azure/storage-blob";
+import { storageBrowserPolicy } from "@azure/storage-common";
+import { StorageBrowserPolicyFactory } from "@azure/storage-common";
+import { storageCorrectContentLengthPolicy } from "@azure/storage-common";
+import { storageRetryPolicy } from "@azure/storage-common";
+import { storageSharedKeyCredentialPolicy } from "@azure/storage-common";
 import {
   ServiceClientOptions,
   PipelineOptions,
