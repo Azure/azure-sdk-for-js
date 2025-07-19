@@ -65,7 +65,6 @@ const toolMap = {
   bing_custom_search: "bingCustomSearch",
 };
 
-
 /**
  * Utility class for creating various tools.
  */

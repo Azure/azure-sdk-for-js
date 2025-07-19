@@ -10,8 +10,8 @@
  *
  */
 
-import type { 
-  MessageContent, 
+import type {
+  MessageContent,
   MessageTextContent,
   SubmitToolApprovalAction,
   RequiredMcpToolCall,
@@ -26,11 +26,12 @@ const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 // Get MCP server configuration from environment variables
-const mcpServerUrl = process.env["MCP_SERVER_URL"] || "https://gitmcp.io/Azure/azure-rest-api-specs";
+const mcpServerUrl =
+  process.env["MCP_SERVER_URL"] || "https://gitmcp.io/Azure/azure-rest-api-specs";
 const mcpServerLabel = process.env["MCP_SERVER_LABEL"] || "github";
 
 async function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export async function main(): Promise<void> {
@@ -52,7 +53,8 @@ export async function main(): Promise<void> {
   // Create agent with MCP tool
   const agent = await client.createAgent(modelDeploymentName, {
     name: "my-mcp-agent",
-    instructions: "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
+    instructions:
+      "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
     tools: mcpTool.definitions,
   });
   console.log(`Created agent, agent ID : ${agent.id}`);
@@ -73,7 +75,7 @@ export async function main(): Promise<void> {
   // Create and process agent run in thread with MCP tools
   mcpTool.updateHeaders("SuperSecret", "123456");
   // mcpTool.setApprovalMode("never"); // Uncomment to disable approval requirement
-  
+
   console.log("Creating run...");
   let run = await client.runs.create(thread.id, agent.id, {
     toolResources: mcpTool.resources,
@@ -81,13 +83,21 @@ export async function main(): Promise<void> {
   console.log(`Created run, run ID: ${run.id}`);
 
   // Poll the run status
-  while (run.status === "queued" || run.status === "in_progress" || run.status === "requires_action") {
+  while (
+    run.status === "queued" ||
+    run.status === "in_progress" ||
+    run.status === "requires_action"
+  ) {
     await sleep(1000);
     run = await client.runs.get(thread.id, run.id);
 
-    if (run.status === "requires_action" && run.requiredAction && isOutputOfType<SubmitToolApprovalAction>(run.requiredAction, "submit_tool_approval")) {
+    if (
+      run.status === "requires_action" &&
+      run.requiredAction &&
+      isOutputOfType<SubmitToolApprovalAction>(run.requiredAction, "submit_tool_approval")
+    ) {
       const toolCalls = run.requiredAction.submitToolApproval.toolCalls;
-      
+
       if (!toolCalls?.length) {
         console.log("No tool calls provided - cancelling run");
         await client.runs.cancel(thread.id, run.id);
@@ -95,7 +105,7 @@ export async function main(): Promise<void> {
       }
 
       const toolApprovals: ToolApproval[] = [];
-      
+
       for (const toolCall of toolCalls) {
         if (isOutputOfType<RequiredMcpToolCall>(toolCall, "mcp")) {
           console.log(`Approving tool call: ${JSON.stringify(toolCall)}`);
@@ -126,15 +136,15 @@ export async function main(): Promise<void> {
   // Display run steps and tool calls
   const runStepsIterator = client.runSteps.list(thread.id, run.id);
   console.log("\nRun Steps:");
-  
+
   for await (const step of runStepsIterator) {
     console.log(`Step ${step.id} status: ${step.status}`);
-    
+
     // Check if there are tool calls in the step details
     // if (step.stepDetails && step.stepDetails.type === "tool_calls") {
     if (isOutputOfType<RunStepToolCallDetails>(step.stepDetails, "tool_calls")) {
       const toolCalls = step.stepDetails.toolCalls;
-      
+
       console.log("  MCP Tool calls:");
       for (const call of toolCalls) {
         console.log(`Tool Call ID: ${call.id}`);
@@ -146,14 +156,14 @@ export async function main(): Promise<void> {
   // Fetch and log all messages
   console.log("\nConversation:");
   console.log("-".repeat(50));
-  
+
   const messagesIterator = client.messages.list(thread.id);
   const messages: any[] = [];
-  
+
   for await (const msg of messagesIterator) {
     messages.unshift(msg); // Add to beginning to maintain chronological order
   }
-  
+
   for (const msg of messages) {
     const messageContent: MessageContent = msg.content[0];
     if (isOutputOfType<MessageTextContent>(messageContent, "text")) {

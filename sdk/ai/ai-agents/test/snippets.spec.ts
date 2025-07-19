@@ -200,7 +200,8 @@ describe("snippets", function () {
 
   it("MCPTool", async function () {
     // Get MCP server configuration from environment variables
-    const mcpServerUrl = process.env["MCP_SERVER_URL"] || "https://gitmcp.io/Azure/azure-rest-api-specs";
+    const mcpServerUrl =
+      process.env["MCP_SERVER_URL"] || "https://gitmcp.io/Azure/azure-rest-api-specs";
     const mcpServerLabel = process.env["MCP_SERVER_LABEL"] || "github";
     // Create an Azure AI Client
     const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
@@ -220,7 +221,8 @@ describe("snippets", function () {
     // Create agent with MCP tool
     const agent = await client.createAgent(modelDeploymentName, {
       name: "my-mcp-agent",
-      instructions: "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
+      instructions:
+        "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
       tools: mcpTool.definitions,
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
