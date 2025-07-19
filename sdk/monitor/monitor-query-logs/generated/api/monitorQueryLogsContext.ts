@@ -23,8 +23,7 @@ export function createMonitorQueryLogs(
 ): MonitorQueryLogsContext {
   const endpointParam = options.endpointParam ?? "https://api.loganalytics.io";
   const apiVersion = options.apiVersion ?? "v1";
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${endpointParam}/${apiVersion}`;
+  const endpointUrl = options.endpoint ?? `${endpointParam}/${apiVersion}`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-monitor-query-logs/2.0.0`;
   const userAgentPrefix = prefixFromOptions
