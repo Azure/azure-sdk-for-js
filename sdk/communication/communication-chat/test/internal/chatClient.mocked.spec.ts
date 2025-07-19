@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { ChatClientOptions, CreateChatThreadRequest } from "../../src/index.js";
-import { ChatClient, PollingMode } from "../../src/index.js";
+import { ChatClient } from "../../src/index.js";
 import type * as RestModel from "../../src/generated/src/models/index.js";
 import { apiVersion } from "../../src/generated/src/models/parameters.js";
 import { baseUri, generateToken } from "../public/utils/connectionUtils.js";
@@ -362,26 +362,29 @@ describe("[Mocked] ChatClient", async () => {
 
     // Act
     await chatClient.startRealtimeNotifications({
-      pollingThreadsIDs: [mockThreadItem.id],
-      pollingIntervals: { Default: 10, Idle: 60, Emergency: 5 },
-      adaptativePolling: true,
+      threadsIds: [mockThreadItem.id],
+      pollingOptions: {
+        enabled: true,
+        intervalInSec: 10,
+        adaptivePolling: true,
+      },
     });
 
     // Assert
     assert.isTrue((chatClient as any).isPollingEnable);
     assert.equal(
-      (chatClient as any).pollingIntervals[PollingMode.Default],
+      (chatClient as any).pollingMode.get("default"),
       10000, // 10 seconds * 1000 = 10000 milliseconds
     );
     assert.equal(
-      (chatClient as any).pollingIntervals[PollingMode.Idle],
+      (chatClient as any).pollingMode.get("slow"),
       60000, // 60 seconds * 1000 = 60000 milliseconds
     );
     assert.equal(
-      (chatClient as any).pollingIntervals[PollingMode.Emergency],
+      (chatClient as any).pollingMode.get("fast"),
       5000, // 5 seconds * 1000 = 5000 milliseconds
     );
-    assert.isTrue((chatClient as any).adaptativePolling);
+    assert.isTrue((chatClient as any).adaptivePolling);
   });
 
   it("enables polling with default intervals when options does not have intervals specified", async () => {
@@ -391,21 +394,24 @@ describe("[Mocked] ChatClient", async () => {
 
     // Act
     await chatClient.startRealtimeNotifications({
-      pollingThreadsIDs: [mockThreadItem.id] // Valid thread ID needed for polling
+      threadsIds: [mockThreadItem.id], // Valid thread ID needed for polling
+      pollingOptions: {
+        enabled: true,
+      },
     });
 
     // Assert
     assert.isTrue((chatClient as any).isPollingEnable);
     assert.equal(
-      (chatClient as any).pollingIntervals[PollingMode.Default],
+      (chatClient as any).pollingMode.get("default"),
       20000, // 20 seconds * 1000 = 20000 milliseconds (default)
     );
     assert.equal(
-      (chatClient as any).pollingIntervals[PollingMode.Idle],
-      600000, // 600 seconds * 1000 = 600000 milliseconds (default)
+      (chatClient as any).pollingMode.get("slow"),
+      60000, // 60 seconds * 1000 = 60000 milliseconds (default)
     );
     assert.equal(
-      (chatClient as any).pollingIntervals[PollingMode.Emergency],
+      (chatClient as any).pollingMode.get("fast"),
       5000, // 5 seconds * 1000 = 5000 milliseconds (default)
     );
   });
@@ -422,15 +428,18 @@ describe("[Mocked] ChatClient", async () => {
     assert.isFalse((chatClient as any).isPollingEnable);
   });
 
-  it("does not enable polling if pollingThreadsIDs is empty", async () => {
+  it("does not enable polling if threadIds is empty", async () => {
     // Arrange
     const mockHttpClient = generateHttpClient(200, { value: [mockThreadItem] });
     chatClient = createChatClientWithSignaling(mockHttpClient);
 
     // Act
     await chatClient.startRealtimeNotifications({
-      pollingThreadsIDs: [], // Empty array - should prevent polling
-      adaptativePolling: true
+      threadsIds: [], // Empty array - should prevent polling
+      pollingOptions: {
+        enabled: true,
+        adaptivePolling: true,
+      },
     });
 
     // Assert
@@ -444,23 +453,29 @@ describe("[Mocked] ChatClient", async () => {
 
     // Act
     await chatClient.startRealtimeNotifications({
-      pollingThreadsIDs: ["invalid-thread-id"], // No matching threads
-      adaptativePolling: true
+      threadsIds: ["invalid-thread-id"], // No matching threads
+      pollingOptions: {
+        enabled: false,
+        adaptivePolling: true,
+      },
     });
 
     // Assert
     assert.isFalse((chatClient as any).isPollingEnable);
   });
 
-  it("switches to Emergency polling mode when adaptativePolling is enabled and no RTN activity", async () => {
+  it("switches to fast polling mode when adaptivePolling is enabled and no RTN activity", async () => {
     // Arrange
     const mockHttpClient = generateHttpClient(200, { value: [mockThreadItem] });
     chatClient = createChatClientWithSignaling(mockHttpClient);
 
-    // Start with adaptativePolling enabled
+    // Start with adaptivePolling enabled
     await chatClient.startRealtimeNotifications({
-      pollingThreadsIDs: [mockThreadItem.id],
-      adaptativePolling: true,
+      threadsIds: [mockThreadItem.id],
+      pollingOptions: {
+        enabled: true,
+        adaptivePolling: true,
+      },
     });
 
     // Simulate last RTN activity was a long time ago (30 seconds ago, more than default 20s interval)
@@ -474,20 +489,20 @@ describe("[Mocked] ChatClient", async () => {
     const currentTime = Date.now();
     const lastRTNTime = (chatClient as any).lastTimeRTNWorked?.getTime() ?? 0;
     const timeSinceLastRTN = currentTime - lastRTNTime;
-    const currentInterval = (chatClient as any).pollingIntervals[(chatClient as any).currentPollingMode];
+    const currentInterval = (chatClient as any).pollingMode.get((chatClient as any).currentPollingMode);
 
-    // Verify the conditions that would trigger Emergency mode
-    const shouldSwitchToEmergency =
-      (chatClient as any).adaptativePolling &&
-      ((timeSinceLastRTN > currentInterval && (chatClient as any).currentPollingMode === PollingMode.Default) ||
+    // Verify the conditions that would trigger fast mode
+    const shouldSwitchToFast =
+      (chatClient as any).adaptivePolling &&
+      ((timeSinceLastRTN > currentInterval && (chatClient as any).currentPollingMode === "default") ||
         (chatClient as any).isRealtimeNotificationsConnected === false);
 
-    if (shouldSwitchToEmergency) {
-      (chatClient as any).updatePollingMode(PollingMode.Emergency);
+    if (shouldSwitchToFast) {
+      (chatClient as any).updatePollingMode("fast");
     }
 
-    // Assert: Should have switched to Emergency mode
-    assert.isTrue(shouldSwitchToEmergency, "Should meet conditions to switch to Emergency mode");
-    assert.equal((chatClient as any).currentPollingMode, PollingMode.Emergency);
+    // Assert: Should have switched to fast mode
+    assert.isTrue(shouldSwitchToFast, "Should meet conditions to switch to fast mode");
+    assert.equal((chatClient as any).currentPollingMode, "fast");
   });
 });

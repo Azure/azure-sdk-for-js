@@ -36,12 +36,6 @@ export interface AddParticipantsRequest {
 }
 
 // @public
-export type AllowedPollingIntervals = 5 | 10 | 20 | 30 | 60 | 600;
-
-// @public
-export const AllowedPollingValues: AllowedPollingIntervals[];
-
-// @public
 export interface ChatAttachment {
     attachmentType: ChatAttachmentType;
     id: string;
@@ -82,7 +76,7 @@ export class ChatClient {
     on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
     on(event: "realTimeNotificationConnected", listener: () => void): void;
     on(event: "realTimeNotificationDisconnected", listener: () => void): void;
-    startRealtimeNotifications(options?: PollingOptions): Promise<void>;
+    startRealtimeNotifications(options?: StartRealtimeNotificationsOptions): Promise<void>;
     stopPolling(): void;
     stopRealtimeNotifications(): Promise<void>;
 }
@@ -247,17 +241,17 @@ export { ParticipantsAddedEvent }
 export { ParticipantsRemovedEvent }
 
 // @public
-export enum PollingMode {
-    Default = "Default",
-    Emergency = "Emergency",
-    Idle = "Idle"
-}
-
-// @public
 export interface PollingOptions {
-    adaptativePolling?: boolean;
-    pollingIntervals?: Partial<Record<PollingMode, AllowedPollingIntervals>>;
-    pollingThreadsIDs?: string[];
+    // (undocumented)
+    adaptivePolling?: boolean;
+    // (undocumented)
+    enabled?: boolean;
+    // (undocumented)
+    fast?: number;
+    // (undocumented)
+    intervalInSec?: number;
+    // (undocumented)
+    slow?: number;
 }
 
 export { ReadReceiptReceivedEvent }
@@ -317,6 +311,14 @@ export interface SendReadReceiptRequest {
 // @public
 export interface SendTypingNotificationOptions extends OperationOptions {
     senderDisplayName?: string;
+}
+
+// @public (undocumented)
+export interface StartRealtimeNotificationsOptions {
+    // (undocumented)
+    pollingOptions?: PollingOptions;
+    // (undocumented)
+    threadsIds?: string[];
 }
 
 export { TypingIndicatorReceivedEvent }

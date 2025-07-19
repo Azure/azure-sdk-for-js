@@ -42,57 +42,20 @@ import { logger } from "./models/logger.js";
 import { tracingClient } from "./generated/src/tracing.js";
 
 /**
- * Polling modes
- */
-export enum PollingMode {
-  /**
-   * Default polling mode.
-   * This is the default polling frequency for active threads.
-   */
-  Default = "Default",
-  /**
-   * Idle polling mode.
-   * This mode is used when there are no active threads.
-   */
-  Idle = "Idle",
-  /**
-   * Emergency polling mode.
-   * This mode is used when there is an urgent need to poll for messages.
-   */
-  Emergency = "Emergency",
-}
-
-/**
  * Options for starting realtime notifications.
  */
 export interface PollingOptions {
-  /**
-   * List of thread IDs to poll for messages.
-   * If not provided or empty, polling will not be started.
-   */
-  pollingThreadsIDs?: string[];
-  /**
-   * Frequency to poll for messages.
-   */
-  pollingIntervals?: Partial<Record<PollingMode, AllowedPollingIntervals>>;
-  /**
-   * Whether to enable adaptive polling.
-   * Adaptative polling adjusts the polling frequency based on the activity in the chat threads.
-   */
-  adaptativePolling?: boolean;
+  enabled?: boolean;
+  intervalInSec?: number;
+  adaptivePolling?: boolean;
+  fast?: number;
+  slow?: number;
 }
 
-/**
- * Allowed polling intervals for the PollingOptions these values are in seconds.
- */
-export type AllowedPollingIntervals = 5 | 10 | 20 | 30 | 60 | 600;
-/**
- * Allowed polling intervals for the PollingOptions.
- * These values are in seconds.
- */
-export const AllowedPollingValues: AllowedPollingIntervals[] = [
-  5, 10, 20, 30, 60, 600,
-];
+export interface StartRealtimeNotificationsOptions {
+  threadsIds?: string[];
+  pollingOptions?: PollingOptions;
+}
 
 declare interface InternalChatClientOptions extends ChatClientOptions {
   signalingClientOptions?: SignalingClientOptions;
@@ -113,17 +76,7 @@ export class ChatClient {
   /* Map to store threads with polling enabled.
    * The key is the thread ID and the value is the ChatThreadClient instance.*/
   private threadsWithPolling: Map<string, ChatThreadClient> = new Map();
-  /**
-   * Polling frequency in milliseconds.
-   * Default is set to 20 seconds (20000 ms).
-   * Can be set to one of the following values: 5000, 10000, 20000, 30000, 60000, 600000.
-   */
-  private pollingIntervals: Partial<Record<PollingMode, number>> = {
-    [PollingMode.Default]: 20000,
-    [PollingMode.Idle]: 600000,
-    [PollingMode.Emergency]: 5000,
-  };
-  private currentPollingMode: PollingMode = PollingMode.Default;
+
   /* Indicates if polling is active
    * If true, the client will poll for messages in the specified threads.*/
   private isPollingEnable: boolean = false;
@@ -132,12 +85,19 @@ export class ChatClient {
   */
   private isPollingRunning: boolean = false;
 
-  private adaptativePolling: boolean = false;
+  private adaptivePolling: boolean = false;
 
   private lastTimeRTNWorked: Date | null = null;
 
-  private firstEmergencyPoll: boolean = false;
+  private fastPollCounter: number = 0;
 
+  private pollingMode: Map<string, number> = new Map([
+    ["default", 20000],
+    ["slow", 60000],
+    ["fast", 5000],
+  ]);
+
+  private currentPollingMode: string = "default";
   /**
    * Variables to manage adaptive polling.
    * pollingTimestamp is used to track the last time polling was done.
@@ -321,7 +281,7 @@ export class ChatClient {
    * To add polling for messages as a backup mechanism, its necessary to add options parameter with the pollingThreadsIDs array.
    * @param options - Options for starting realtime notifications.
    */
-  public async startRealtimeNotifications(options?: PollingOptions): Promise<void> {
+  public async startRealtimeNotifications(options?: StartRealtimeNotificationsOptions): Promise<void> {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are not supported in node js.");
     }
@@ -334,86 +294,71 @@ export class ChatClient {
 
     // 1. No polling if parameter is undefined or null
     if (options === undefined || options === null) {
-      console.log(
+      logger.info(
         "No polling options provided. Realtime notifications will be used without polling.",
       );
       return;
     }
 
     // 2. If options has values, use custom polling values
-    const { pollingThreadsIDs, pollingIntervals, adaptativePolling } = options;
-    console.log("Polling options provided:");
-    if (
-      pollingThreadsIDs !== undefined &&
-      pollingThreadsIDs.length > 0 &&
-      pollingThreadsIDs.length <= 10
-    ) {
+    const { threadsIds, pollingOptions } = options;
+    if (threadsIds !== undefined && threadsIds.length > 0 && threadsIds.length <= 10 && pollingOptions?.enabled === true) {
+      logger.info("Chat threads provided");
       // Fetch all chat threads to validate the provided thread IDs
-      const allChatThreads = this.listChatThreads();
-      for await (const thread of allChatThreads) {
-        if (pollingThreadsIDs.includes(thread.id)) {
-          const chatThreadClient = this.getChatThreadClient(thread.id);
-          this.threadsWithPolling.set(thread.id, chatThreadClient);
+      for (const threadId of threadsIds) {
+        try {
+          const chatThreadClient = this.getChatThreadClient(threadId);
+          this.threadsWithPolling.set(threadId, chatThreadClient);
+        } catch (error) {
+          logger.error(`Error fetching thread ${threadId}:`, error);
         }
       }
-
       // Check if we found any matching threads
       if (this.threadsWithPolling.size === 0) {
-        return console.warn("No matching chat threads found for the provided pollingThreadsIDs. Polling will not be started.");
+        logger.warning("No matching chat threads found for the provided threadsIds. Polling will not be started.");
+        return;
+      }
+      // Check and configure polling options
+      if (pollingOptions !== undefined) {
+        if (
+          pollingOptions.intervalInSec !== undefined &&
+          pollingOptions.intervalInSec >= 10 &&
+          pollingOptions.intervalInSec <= 600) {
+          this.pollingMode.set("default", pollingOptions.intervalInSec * 1000);
+        } else {
+          logger.warning("Invalid polling interval for Default mode. Using default value of 20 seconds.");
+        }
+        if (pollingOptions.adaptivePolling !== undefined && pollingOptions.adaptivePolling === true) {
+          if (
+            pollingOptions.slow !== undefined &&
+            pollingOptions.slow >= 10 &&
+            pollingOptions.slow <= 600
+          ) {
+            this.pollingMode.set("slow", pollingOptions.slow * 1000);
+          } else {
+            logger.warning("Invalid polling interval for Slow mode. Using default value of 60 seconds.");
+          }
+          if (
+            pollingOptions.fast !== undefined &&
+            pollingOptions.fast >= 1 &&
+            pollingOptions.fast <= 600
+          ) {
+            this.pollingMode.set("fast", pollingOptions.fast * 1000);
+          } else {
+            logger.warning(
+              "Invalid polling interval for Fast mode. Using default value of 5 seconds.",
+            );
+          }
+        }
       }
     } else {
-      return console.warn("No valid pollingThreadsIDs provided. Polling will not be started.");
+      logger.warning(
+        "No valid ThreadsIds provided or enabled has not been set as true in polling options. Polling will not be started.");
+      return;
     }
 
-    // Set polling intervals
-    if (pollingIntervals !== undefined) {
-      if (
-        pollingIntervals.Default !== undefined &&
-        AllowedPollingValues.includes(pollingIntervals.Default)
-      ) {
-        this.pollingIntervals[PollingMode.Default] = pollingIntervals.Default * 1000;
-      } else {
-        console.warn("Invalid polling interval for Default mode. Using default value of 20 seconds.");
-        // this.pollingIntervals[PollingMode.Default] = 20000;
-        console.log('Default:', this.pollingIntervals[PollingMode.Default]);
-      }
-      if (
-        pollingIntervals.Idle !== undefined &&
-        AllowedPollingValues.includes(pollingIntervals.Idle)
-      ) {
-        this.pollingIntervals[PollingMode.Idle] = pollingIntervals.Idle * 1000;
-      } else {
-        console.warn("Invalid polling interval for Idle mode. Using default value of 60 seconds.");
-        // this.pollingIntervals[PollingMode.Idle] = 600000;
-        console.log('Idle:', this.pollingIntervals[PollingMode.Idle]);
-      }
-      if (
-        pollingIntervals.Emergency !== undefined &&
-        AllowedPollingValues.includes(pollingIntervals.Emergency)
-      ) {
-        this.pollingIntervals[PollingMode.Emergency] = pollingIntervals.Emergency * 1000;
-      } else {
-        console.warn(
-          "Invalid polling interval for Emergency mode. Using default value of 5 seconds.",
-        );
-        // this.pollingIntervals[PollingMode.Emergency] = 5000;
-        console.log('Emergency:', this.pollingIntervals[PollingMode.Emergency]);
-      }
-    } else {
-      // If pollingIntervals is not provided, use defaults
-      /* this.pollingIntervals = {
-        [PollingMode.Default]: 20000,
-        [PollingMode.Idle]: 600000,
-        [PollingMode.Emergency]: 5000,
-      };*/
-      console.log("No polling intervals provided. Using default polling intervals.");
-      console.log('Default:', this.pollingIntervals[PollingMode.Default]);
-      console.log('Idle:', this.pollingIntervals[PollingMode.Idle]);
-      console.log('Emergency:', this.pollingIntervals[PollingMode.Emergency]);
-    }
-
-    // Enable adaptative polling if specified
-    this.adaptativePolling = !!adaptativePolling;
+    // Enable adaptive polling if specified
+    this.adaptivePolling = !!pollingOptions?.adaptivePolling;
     this.startPolling();
   }
 
@@ -442,13 +387,11 @@ export class ChatClient {
 
   /**
    * Update the polling frequency value for a specific key.
-   * @param frequencyKey - The key for the polling frequency to update.
-   * @param value - The new value for the polling frequency.
-   * @throws Error if the value is not a positive number.
+   * @param pollingMode - The key for the polling frequency to update.
    */
-  private updatePollingMode(pollingMode: PollingMode): void {
+  private updatePollingMode(pollingMode: "default" | "fast" | "slow"): void {
     this.currentPollingMode = pollingMode;
-    console.log("Update Polling with frequency:", this.pollingIntervals[this.currentPollingMode]);
+    console.log("Update Polling with frequency:", this.pollingMode.get(this.currentPollingMode));
   }
 
   /**
@@ -655,12 +598,12 @@ export class ChatClient {
     this.signalingClient.on("connectionChanged", (payload) => {
       if (payload === ConnectionState.Connected) {
         this.emitter.emit("realTimeNotificationConnected");
-        if (this.adaptativePolling && this.isPollingEnable) {
+        if (this.adaptivePolling && this.isPollingEnable) {
           this.isRealtimeNotificationsConnected = true; // RTN is back, set the flag to true
         }
       } else if (payload === ConnectionState.Disconnected) {
         this.emitter.emit("realTimeNotificationDisconnected");
-        if (this.adaptativePolling && this.isPollingEnable) {
+        if (this.adaptivePolling && this.isPollingEnable) {
           this.isRealtimeNotificationsConnected = false; // RTN is gone, set the flag to false
         }
       }
@@ -675,7 +618,7 @@ export class ChatClient {
         this.emitter.emit("chatMessageReceived", payload);
         if (this.isPollingEnable) {
           this.lastTimeRTNWorked = new Date();
-          if (this.adaptativePolling && this.currentPollingMode !== PollingMode.Default) {
+          if (this.adaptivePolling && this.currentPollingMode !== "default") {
             // Interrupt current polling and switch to Default mode
             if (this.pollingTimeOutHandle !== null) {
               clearTimeout(this.pollingTimeOutHandle);
@@ -683,11 +626,11 @@ export class ChatClient {
               this.isPollingRunning = false; // Reset polling running state
             }
             this.pollingTimeOutInterruption = true;
-            this.updatePollingMode(PollingMode.Default);
+            this.updatePollingMode("default");
             // Schedule a new poll with Default interval
             this.pollingTimeOutHandle = setTimeout(
               () => this.startPolling(),
-              this.pollingIntervals[PollingMode.Default] ?? 20000,
+              this.pollingMode.get("default") ?? 20000,
             );
             console.log(
               "Polling interrupted and rescheduled with Default interval due to chatMessageReceived.",
@@ -749,7 +692,7 @@ export class ChatClient {
     if (this.isPollingRunning) return;
     this.isPollingEnable = true;
     this.isPollingRunning = true;
-    const waitTime = this.pollingIntervals[this.currentPollingMode] ?? 20000;
+    const waitTime = this.pollingMode.get(this.currentPollingMode) ?? 20000;
     await new Promise((resolve) => setTimeout(resolve, waitTime));
     const poll = async (): Promise<void> => {
       if (!this.isPollingEnable) {
@@ -759,7 +702,7 @@ export class ChatClient {
       try {
         // Check the last time RTN worked and update the polling frequency accordingly.
         // Iterate through the threadsWithPolling map and poll for messages in each thread.
-        const returnTime = this.pollingIntervals[this.currentPollingMode] ?? 20000;
+        const returnTime = this.pollingMode.get(this.currentPollingMode) ?? 20000;
         let startTime = new Date(Date.now() - returnTime);
         for (const [key, chatThread] of this.threadsWithPolling) {
           try {
@@ -798,28 +741,30 @@ export class ChatClient {
              * Check if the last time RTN worked is more than the polling interval.
              * If so, switch to Emergency polling mode.
              */
-            if (this.adaptativePolling) {
-              console.log("Checking adaptative polling conditions...");
+            if (this.adaptivePolling) {
+              console.log("Checking adaptive polling conditions...");
               if (
                 (Date.now() - (this.lastTimeRTNWorked?.getTime() ?? 0) >
-                  (this.pollingIntervals[this.currentPollingMode] ?? 20000) &&
-                  this.currentPollingMode === PollingMode.Default) ||
+                  (this.pollingMode.get(this.currentPollingMode) ?? 20000) &&
+                  this.currentPollingMode === "default") ||
                 this.isRealtimeNotificationsConnected === false
               ) {
-                console.log("No new messages detected, switching to Emergency polling mode.");
-                this.updatePollingMode(PollingMode.Emergency);
-                this.firstEmergencyPoll = true;
+                console.log("No new messages detected, switching to fast polling mode.");
+                this.updatePollingMode("fast");
+                this.fastPollCounter = 0;
               } else {
                 if (
-                  this.currentPollingMode === PollingMode.Emergency &&
-                  !this.firstEmergencyPoll &&
+                  this.currentPollingMode === "fast" &&
+                  this.fastPollCounter < 3 &&
                   messagesArray.length === 0
                 ) {
-                  console.log("No new messages found, switching to Idle polling mode.");
-                  this.updatePollingMode(PollingMode.Idle);
+                  console.log("No new messages found, switching to slow polling mode.");
+                  this.updatePollingMode("slow");
+                  this.fastPollCounter = 0; // Reset the fast poll counter
+                } else {
+                  this.fastPollCounter++;
                 }
               }
-              this.firstEmergencyPoll = false; // Reset the firstEmergencyPoll flag after the first check
               this.pollingTimestamp = new Date(); // Update the polling timestamp
             }
           } catch (error) {
@@ -833,8 +778,8 @@ export class ChatClient {
       // Schedule the next poll only after this one finishes
       if (this.isPollingEnable) {
         this.messagesDetected = []; // Clear the messagesDetected array after each poll
-        const pollingInterval = this.pollingIntervals[this.currentPollingMode] ?? 20000;
-        console.log(
+        const pollingInterval = this.pollingMode.get(this.currentPollingMode) ?? 20000;
+        logger.info(
           "Schedule Polling with frequency:",
           pollingInterval / 1000 + " seconds",
         );
