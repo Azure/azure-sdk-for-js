@@ -8,7 +8,8 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 import { FileContents } from "./static-helpers/multipartHelpers.js";
 export * from "./models/streamingModels.js";
-export * from "./utils.js";
+export * from "./utils/utils.js";
+export { MCPTool } from "./utils/MCPTool.js";
 export { AgentsClient } from "./agentsClient.js";
 export {
   ToolDefinition,
@@ -46,6 +47,7 @@ export {
   DeepResearchToolDefinition,
   DeepResearchDetails,
   DeepResearchBingGroundingConnection,
+  MCPToolDefinition,
   AzureFunctionToolDefinition,
   AzureFunctionDefinition,
   AzureFunctionBinding,
@@ -60,6 +62,7 @@ export {
   AzureAISearchToolResource,
   AISearchIndexResource,
   AzureAISearchQueryType,
+  MCPToolResource,
   AgentsResponseFormat,
   ResponseFormat,
   ResponseFormatJsonSchemaType,
@@ -102,6 +105,9 @@ export {
   RequiredToolCallUnion,
   RequiredFunctionToolCall,
   RequiredFunctionToolCallDetails,
+  RequiredMcpToolCall,
+  SubmitToolApprovalAction,
+  SubmitToolApprovalDetails,
   RunError,
   IncompleteRunDetails,
   IncompleteDetailsReason,
@@ -127,6 +133,7 @@ export {
   MessageImageFileContent,
   MessageImageFileDetails,
   ToolOutput,
+  ToolApproval,
   RunStep,
   RunStepType,
   RunStepStatus,
@@ -150,6 +157,10 @@ export {
   FileSearchToolCallContent,
   RunStepBingGroundingToolCall,
   RunStepAzureAISearchToolCall,
+  RunStepMcpToolCall,
+  RunStepSharepointToolCall,
+  RunStepMicrosoftFabricToolCall,
+  RunStepBingCustomSearchToolCall,
   RunStepFunctionToolCall,
   RunStepFunctionToolCallDetails,
   RunStepOpenAPIToolCall,

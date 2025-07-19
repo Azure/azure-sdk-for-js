@@ -29,7 +29,7 @@ export function _listRunStepsSend(
   options: RunStepsListRunStepsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/steps{?include%5B%5D,api%2Dversion,limit,order,after,before}",
+    "/threads/{threadId}/runs/{runId}/steps{?include%5B%5D,api-version,limit,order,after,before}",
     {
       threadId: threadId,
       runId: runId,
@@ -38,7 +38,7 @@ export function _listRunStepsSend(
         : options?.include.map((p: any) => {
             return p;
           }),
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -94,12 +94,12 @@ export function _getRunStepSend(
   options: RunStepsGetRunStepOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/steps/{stepId}{?api%2Dversion,include%5B%5D}",
+    "/threads/{threadId}/runs/{runId}/steps/{stepId}{?api-version,include%5B%5D}",
     {
       threadId: threadId,
       runId: runId,
       stepId: stepId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       "include%5B%5D": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {

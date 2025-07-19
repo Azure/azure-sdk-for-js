@@ -289,6 +289,44 @@ const agent = await client.createAgent(modelDeploymentName, {
 console.log(`Created agent, ID: ${agent.id}`);
 ```
 
+#### Create Agent with MCP tool
+
+To enable your Agent to use the MCP tool, you can create an instance of the MCP tool and pass it to the agent during creation.
+Here is an example to integrate MCP tool:
+
+```ts snippet:MCPTool
+import { AgentsClient, ToolUtility } from "@azure/ai-agents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+// Get MCP server configuration from environment variables
+const mcpServerUrl =
+  process.env["MCP_SERVER_URL"] || "https://gitmcp.io/Azure/azure-rest-api-specs";
+const mcpServerLabel = process.env["MCP_SERVER_LABEL"] || "github";
+// Create an Azure AI Client
+const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
+// Initialize agent MCP tool
+const mcpTool = ToolUtility.createMCPTool({
+  serverLabel: mcpServerLabel,
+  serverUrl: mcpServerUrl,
+  allowedTools: [], // Optional: specify allowed tools
+});
+// You can also add or remove allowed tools dynamically
+const searchApiCode = "search_azure_rest_api_code";
+mcpTool.allowTool(searchApiCode);
+console.log(`Allowed tools: ${mcpTool.allowedTools}`);
+// Create agent with MCP tool
+const agent = await client.createAgent(modelDeploymentName, {
+  name: "my-mcp-agent",
+  instructions:
+    "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
+  tools: mcpTool.definitions,
+});
+console.log(`Created agent, agent ID : ${agent.id}`);
+```
+
+
+
+
 #### Create Agent with Azure AI Search
 
 Azure AI Search is an enterprise search system for high-performance applications. It integrates with Azure OpenAI Service and Azure Machine Learning, offering advanced search technologies like vector search and full-text search. Ideal for knowledge base insights, information discovery, and automation

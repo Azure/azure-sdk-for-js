@@ -1,5 +1,19 @@
 # Release History
 
+## 1.1.0-beta.2 (2025-07-18)
+
+### Features Added
+
+- Add MCP tool
+
+### Bugs Fixed
+
+- Adds back `MicrosoftFabricTool`, `SharepointTool` and `BingCustomSearchTool` related utils.
+
+### Breaking changes
+
+- The `DeepResearchDetails` type has been updated: the field `deepResearchBingGroundingConnections` has been renamed to `bingGroundingConnections` and the field `deepResearchModel` has been renamed to `model`.
+
 ## 1.1.0-beta.1 (2025-07-15)
 
 ### Features Added

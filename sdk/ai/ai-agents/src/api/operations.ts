@@ -62,9 +62,9 @@ export function _createThreadAndRunSend(
   options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/runs{?api%2Dversion}",
+    "/threads/runs{?api-version}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,10 +148,10 @@ export function _deleteAgentSend(
   options: DeleteAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api%2Dversion}",
+    "/assistants/{assistantId}{?api-version}",
     {
       assistantId: assistantId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,10 +195,10 @@ export function _updateAgentSend(
   options: UpdateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api%2Dversion}",
+    "/assistants/{assistantId}{?api-version}",
     {
       assistantId: assistantId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,10 +257,10 @@ export function _getAgentSend(
   options: GetAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api%2Dversion}",
+    "/assistants/{assistantId}{?api-version}",
     {
       assistantId: assistantId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -301,9 +301,9 @@ export function _listAgentsSend(
   options: ListAgentsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants{?api%2Dversion,limit,order,after,before}",
+    "/assistants{?api-version,limit,order,after,before}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -355,9 +355,9 @@ export function _createAgentSend(
   options: CreateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants{?api%2Dversion}",
+    "/assistants{?api-version}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
