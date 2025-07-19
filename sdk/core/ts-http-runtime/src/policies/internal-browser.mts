@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { agentPolicy, agentPolicyName } from "./agentPolicy.js";
-export {
-  decompressResponsePolicy,
-  decompressResponsePolicyName,
-} from "./decompressResponsePolicy.js";
 export {
   defaultRetryPolicy,
   defaultRetryPolicyName,
@@ -27,8 +22,6 @@ export { throttlingRetryPolicy, throttlingRetryPolicyName } from "./throttlingRe
 export { formDataPolicy, formDataPolicyName } from "./formDataPolicy.js";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./logPolicy.js";
 export { multipartPolicy, multipartPolicyName } from "./multipartPolicy.js";
-export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./proxyPolicy.js";
 export { redirectPolicy, redirectPolicyName } from "./redirectPolicy.js";
-export { tlsPolicy, tlsPolicyName } from "./tlsPolicy.js";
 export { userAgentPolicy, userAgentPolicyName } from "./userAgentPolicy.js";
 export { UserAgentPolicyOptions, RedirectPolicyOptions } from "../interfaces.js";
