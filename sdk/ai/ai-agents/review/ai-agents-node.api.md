@@ -491,7 +491,6 @@ export class MCPTool {
     get _definition(): MCPToolDefinition;
     get definitions(): MCPToolDefinition[];
     disallowTool(toolName: string): void;
-    execute(_toolCall: any): void;
     get headers(): Record<string, string>;
     get _resource(): MCPToolResource;
     get resources(): ToolResources;

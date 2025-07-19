@@ -8,11 +8,11 @@
 
 ### Bugs Fixed
 
-- Add back `MicrosoftFabricTool`, `SharepointTool` and `BingCustomSearchTool` relate utils
+- Adds back `MicrosoftFabricTool`, `SharepointTool` and `BingCustomSearchTool` related utils.
 
 ### Breaking changes
 
-- `DeepResearchDetails` fields `deepResearchBingGroundingConnections` is now `bingGroundingConnections` and `deepResearchModel` is now `model`
+- The `DeepResearchDetails` type has been updated: the field `deepResearchBingGroundingConnections` has been renamed to `bingGroundingConnections` and the field `deepResearchModel` has been renamed to `model`.
 
 ## 1.1.0-beta.1 (2025-07-15)
 

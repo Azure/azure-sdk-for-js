@@ -145,13 +145,4 @@ export class MCPTool {
       mcp: [this._resource],
     };
   }
-
-  /**
-   * MCPTool approvals should currently be handled client-side.
-   * @param _toolCall - The tool call to execute
-   */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  execute(_toolCall: any): void {
-    // MCPTool approvals are handled client-side
-  }
 }
