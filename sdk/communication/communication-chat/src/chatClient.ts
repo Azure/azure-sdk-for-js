@@ -423,6 +423,10 @@ export class ChatClient {
    */
   public stopPolling(): void {
     this.isPollingEnable = false;
+    if (this.pollingTimeOutHandle) {
+      clearTimeout(this.pollingTimeOutHandle);
+      this.pollingTimeOutHandle = undefined;
+    }
   }
 
   /**
