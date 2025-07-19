@@ -1120,6 +1120,9 @@ importers:
       '@rush-temp/monitor-query':
         specifier: file:./projects/monitor-query.tgz
         version: file:projects/monitor-query.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/monitor-query-logs':
+        specifier: file:./projects/monitor-query-logs.tgz
+        version: file:projects/monitor-query-logs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/notification-hubs':
         specifier: file:./projects/notification-hubs.tgz
         version: file:projects/notification-hubs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -1409,9 +1412,9 @@ packages:
     resolution: {integrity: sha512-nlbkQzD2Jrkwwj01tGETQEj4HV28WXdqIt45DkHtamVeoFFNem/uJIri4dUymzAwgK7c1czGoVobuft8UH5Eig==}
     engines: {node: '>=8.0.0'}
 
-  '@azure/core-amqp@4.4.0':
-    resolution: {integrity: sha512-Rqryrb+UnJhQBAXtwrKOzsiF2Rmtia2+Cw7gqoqWTC67utl41oMylDiJ5/Us67QnXA/ZXlu+ITNfzYxBNdptgQ==}
-    engines: {node: '>=20.0.0'}
+  '@azure/core-amqp@4.3.6':
+    resolution: {integrity: sha512-M8nP/DtrJI5SxlGCweijHSCHq70g1SXdJP1KVweoKRPiBVHbRcmCn9ExGbfUwHor/sKHqqVG7DAzPf0+bOtRSw==}
+    engines: {node: '>=18.0.0'}
 
   '@azure/core-auth@1.9.0':
     resolution: {integrity: sha512-FPwHpZywuyasDSLMqJ6fhbOK3TqUdviZNF8OqRGA4W5Ewib2lEEZ+pBsYcBa88B2NGO/SEnYPGhyBqNlE8ilSw==}
@@ -3986,6 +3989,10 @@ packages:
     resolution: {integrity: sha512-8gKicb8TD2BQr684C4kkahs1dUYsIPR1KCEV1dIrK9r27LcynndRITyctYHGgOohZOzoul7d23j+7mHikwFZNw==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
+  '@rush-temp/monitor-query-logs@file:projects/monitor-query-logs.tgz':
+    resolution: {integrity: sha512-iDOGII5KxRBHJTs4xJ4zFHZtyMwzi1xhjwW227pJMKni026pdn+G1pSiEDYGsJXHDam5Ovw7OZzWFBx65jMR5Q==, tarball: file:projects/monitor-query-logs.tgz}
+    version: 0.0.0
+
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
     resolution: {integrity: sha512-EOniWeZyOnUzL1Jvi6fbPVMrhzt6gIQSt/8rPZ9TNr+xt5bnZUdmjipr7GjFPjUZeJjB3wE6JGlkxo98NKWx1Q==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
@@ -6260,8 +6267,8 @@ packages:
       zod:
         optional: true
 
-  openai@5.9.0:
-    resolution: {integrity: sha512-cmLC0pfqLLhBGxE4aZPyRPjydgYCncppV2ClQkKmW79hNjCvmzkfhz8rN5/YVDmjVQlFV+UsF1JIuNjNgeagyQ==}
+  openai@5.10.1:
+    resolution: {integrity: sha512-fq6xVfv1/gpLbsj8fArEt3b6B9jBxdhAK+VJ+bDvbUvNd+KTLlA3bnDeYZaBsGH9LUhJ1M1yXfp9sEyBLMx6eA==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -7633,7 +7640,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/core-amqp@4.4.0':
+  '@azure/core-amqp@4.3.6':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.9.0
@@ -7645,7 +7652,6 @@ snapshots:
       rhea: 3.0.4
       rhea-promise: 3.0.3
       tslib: 2.8.1
-      util: 0.12.5
     transitivePeerDependencies:
       - supports-color
 
@@ -7934,7 +7940,7 @@ snapshots:
   '@azure/service-bus@7.9.5':
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-amqp': 4.4.0
+      '@azure/core-amqp': 4.3.6
       '@azure/core-auth': 1.9.0
       '@azure/core-client': 1.9.4
       '@azure/core-paging': 1.6.2
@@ -9496,7 +9502,7 @@ snapshots:
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
       eslint: 9.29.0
-      openai: 5.9.0(ws@8.18.2)(zod@3.25.67)
+      openai: 5.10.1(ws@8.18.2)(zod@3.25.67)
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
@@ -22412,6 +22418,45 @@ snapshots:
       - tsx
       - yaml
 
+  '@rush-temp/monitor-query-logs@file:projects/monitor-query-logs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@azure/identity': 4.10.1
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
+      '@types/node': 20.19.1
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.5.0
+      eslint: 9.29.0
+      playwright: 1.53.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.1
@@ -26441,7 +26486,7 @@ snapshots:
       ws: 8.18.2
       zod: 3.25.67
 
-  openai@5.9.0(ws@8.18.2)(zod@3.25.67):
+  openai@5.10.1(ws@8.18.2)(zod@3.25.67):
     optionalDependencies:
       ws: 8.18.2
       zod: 3.25.67
