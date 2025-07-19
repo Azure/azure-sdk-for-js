@@ -42,16 +42,45 @@ import { logger } from "./models/logger.js";
 import { tracingClient } from "./generated/src/tracing.js";
 
 /**
- * Options for starting realtime notifications.
+ * Options to configure polling behavior.
  */
 export interface PollingOptions {
+  /**
+   * Indicates whether polling is enabled.
+   * It is necessary to set this to true to enable polling.
+   * If not set, polling will not be started.
+   */
   enabled?: boolean;
+  /**
+   * The interval in seconds at which to poll for messages.
+   * Must be between 10 and 600 seconds.
+   * Default is 20 seconds.
+   */
   intervalInSec?: number;
+  /**
+   * Indicates whether adaptive polling is enabled.
+   * If true, the client will switch between fast and slow polling modes based on message activity.
+   */
   adaptivePolling?: boolean;
+  /**
+   * The interval in seconds for fast polling mode.
+   * Must be between 10 and 600 seconds.
+   * Default is 5 seconds.
+   */
   fast?: number;
+  /**
+   * The interval in seconds for slow polling mode.
+   * Must be between 10 and 600 seconds.
+   * Default is 60 seconds.
+   */
   slow?: number;
 }
 
+/**
+ * Options for starting realtime notifications.
+ * If threadsIds is provided, the client will poll for messages in those threads.
+ * If pollingOptions is provided, it will configure the polling behavior.
+ */
 export interface StartRealtimeNotificationsOptions {
   threadsIds?: string[];
   pollingOptions?: PollingOptions;
