@@ -244,7 +244,7 @@ async function runCommand(command: string): Promise<string> {
 
 export async function getRunName(ciInfo: CIInfo): Promise<string> {
   if (
-    ciInfo.provider === CI_PROVIDERS.GITHUB &&
+    ciInfo.providerName === CI_PROVIDERS.GITHUB &&
     process.env["GITHUB_EVENT_NAME"] === "pull_request"
   ) {
     const prNumber: string = `${process.env["GITHUB_REF_NAME"]?.split("/")[0]}`;

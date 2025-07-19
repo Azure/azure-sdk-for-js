@@ -40,6 +40,9 @@ export async function main(): Promise<void> {
   });
 
   const stream = response.body;
+  if (!stream) {
+    throw new Error("No audio stream returned from the API.");
+  }
   console.log(`Streaming response to ${speechFilePath}`);
   await writeFile(speechFilePath, stream);
   console.log("Finished streaming");

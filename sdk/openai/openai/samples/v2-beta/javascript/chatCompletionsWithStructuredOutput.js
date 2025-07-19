@@ -34,7 +34,7 @@ async function main() {
     steps: z.array(Step),
     final_answer: z.string(),
   });
-  const result = await client.beta.chat.completions.parse({
+  const result = await client.chat.completions.parse({
     model: deployment,
     messages: [
       {

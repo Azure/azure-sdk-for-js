@@ -52,7 +52,7 @@
     "LICENSE"
   ],
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
@@ -128,7 +128,7 @@
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "openai": "^4.96.0",
+    "openai": "^5.10.1",
     "playwright": "^1.50.1",
     "typescript": "~5.8.2",
     "vitest": "^3.0.9",
