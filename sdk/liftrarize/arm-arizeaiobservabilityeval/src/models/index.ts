@@ -2,15 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
   OrganizationResource,
   OrganizationProperties,
   MarketplaceDetails,
@@ -35,6 +26,15 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   OrganizationResourceUpdate,
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
   KnownVersions,
 } from "./models.js";

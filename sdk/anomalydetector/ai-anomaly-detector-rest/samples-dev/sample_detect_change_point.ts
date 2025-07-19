@@ -15,7 +15,7 @@ import AnomalyDetector, { isUnexpected } from "@azure-rest/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import { parse } from "csv-parse/sync";
-import fs from "node:fs";
+import * as fs from "node:fs";
 
 // Load the .env file if it exists
 import "dotenv/config";

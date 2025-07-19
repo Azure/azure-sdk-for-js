@@ -1,7 +1,15 @@
 # Release History
-    
-## 1.0.0 (2025-06-03)
+
+## 1.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
-This is the first stable version with the package of @azure/arm-recoveryservicesdatareplication
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.1 (2023-09-26)
+
+The package of @azure/arm-recoveryservicesdatareplication is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

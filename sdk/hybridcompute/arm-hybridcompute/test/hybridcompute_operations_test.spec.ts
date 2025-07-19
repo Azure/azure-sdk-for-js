@@ -47,7 +47,7 @@ describe("HybridCompute test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    location = "eastus";
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
   });
@@ -99,7 +99,6 @@ describe("HybridCompute test", () => {
 
   it("licenses delete test", async () => {
     const resArray = new Array();
-    await client.licenses.beginDeleteAndWait(resourceGroup, resourcename);
     for await (const item of client.licenses.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

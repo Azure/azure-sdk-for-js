@@ -6,6 +6,7 @@ import { assertEnvironmentVariable, type Recorder } from "@azure-tools/test-reco
 import type { KeyVaultAccessControlClient } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
+import { AbortError } from "@azure/abort-controller";
 
 describe("Aborting KeyVaultAccessControlClient's requests", () => {
   let client: KeyVaultAccessControlClient;
@@ -32,7 +33,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
 
     await expect(
       client.listRoleDefinitions("/", { abortSignal: controller.signal }).next(),
-    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
+    ).rejects.toThrow(AbortError);
   });
 
   it("can abort listRoleAssignments", async () => {
@@ -45,7 +46,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
           abortSignal: controller.signal,
         })
         .next(),
-    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
+    ).rejects.toThrow(AbortError);
   });
 
   it("can abort createRoleAssignment", async () => {
@@ -65,7 +66,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
           abortSignal: controller.signal,
         },
       ),
-    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
+    ).rejects.toThrow(AbortError);
   });
 
   it("can abort getRoleAssignment", async () => {
@@ -78,7 +79,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
       client.getRoleAssignment(globalScope, name, {
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
+    ).rejects.toThrow(AbortError);
   });
 
   it("can abort deleteRoleAssignment", async () => {
@@ -91,6 +92,6 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
       client.deleteRoleAssignment(globalScope, name, {
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
+    ).rejects.toThrow(AbortError);
   });
 });

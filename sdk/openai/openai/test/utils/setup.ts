@@ -192,17 +192,9 @@ async function getAzureSearchInfo(
 }
 
 export default async function ({ provide }: TestProject): Promise<void> {
-  try {
-    if (assertEnvironmentVariable(EnvironmentVariableNames.TEST_MODE) !== "live") {
-      throw new Error();
-    }
-  } catch (error) {
-    console.log("Tests are skipped. Set TEST_MODE=live to run it.");
-    process.exit(0);
-  }
+  const cred = createLiveCredential();
   const subId = assertEnvironmentVariable(EnvironmentVariableNames.SUBSCRIPTION_ID);
   const rgName = assertEnvironmentVariable(EnvironmentVariableNames.RESOURCE_GROUP);
-  const cred = createLiveCredential();
   const deployments = await getDeployments(subId, rgName, cred);
   provide("resourcesInfo", deployments);
   const azureSearchResources = await getAzureSearchInfo(subId, rgName, cred);

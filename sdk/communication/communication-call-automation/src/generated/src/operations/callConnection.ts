@@ -34,6 +34,9 @@ import {
   MuteParticipantsRequest,
   CallConnectionMuteOptionalParams,
   CallConnectionMuteResponse,
+  UnmuteParticipantsRequest,
+  CallConnectionUnmuteOptionalParams,
+  CallConnectionUnmuteResponse,
   CancelAddParticipantRequest,
   CallConnectionCancelAddParticipantOptionalParams,
   CallConnectionCancelAddParticipantResponse,
@@ -205,7 +208,7 @@ export class CallConnectionImpl implements CallConnection {
   /**
    * Add a participant to the call.
    * @param callConnectionId The call connection Id
-   * @param addParticipantRequest The request payload for adding participant to the call.
+   * @param addParticipantRequest The add participants request.
    * @param options The options parameters.
    */
   addParticipant(
@@ -250,6 +253,23 @@ export class CallConnectionImpl implements CallConnection {
     return this.client.sendOperationRequest(
       { callConnectionId, muteParticipantsRequest, options },
       muteOperationSpec,
+    );
+  }
+
+  /**
+   * Unmute participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param unmuteParticipantsRequest The participants to be unmuted from the call.
+   * @param options The options parameters.
+   */
+  unmute(
+    callConnectionId: string,
+    unmuteParticipantsRequest: UnmuteParticipantsRequest,
+    options?: CallConnectionUnmuteOptionalParams,
+  ): Promise<CallConnectionUnmuteResponse> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, unmuteParticipantsRequest, options },
+      unmuteOperationSpec,
     );
   }
 
@@ -452,6 +472,29 @@ const muteOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.muteParticipantsRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent,
+  ],
+  mediaType: "json",
+  serializer,
+};
+const unmuteOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/participants:unmute",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.UnmuteParticipantsResponse,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.unmuteParticipantsRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [

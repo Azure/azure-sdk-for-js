@@ -32,7 +32,3 @@ extends:
     Artifacts:
       - name: azure-rest-load-testing
         safeName: azurerestloadtesting
-      - name: azure-create-playwright
-        safeName: azurecreateplaywright
-      - name: azure-playwright
-        safeName: azureplaywright

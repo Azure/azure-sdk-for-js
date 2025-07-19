@@ -8,28 +8,24 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
-vi.mock("node:https", async () => {
-  const actual = await vi.importActual("node:https");
+vi.mock("https", async () => {
+  const actual = await vi.importActual("https");
   return {
-    default: {
-      ...(actual as any).default,
-      request: vi.fn(),
-    },
+    ...actual,
+    request: vi.fn(),
   };
 });
 
-vi.mock("node:http", async () => {
-  const actual = await vi.importActual("node:http");
+vi.mock("http", async () => {
+  const actual = await vi.importActual("http");
   return {
-    default: {
-      ...(actual as any).default,
-      request: vi.fn(),
-    },
+    ...actual,
+    request: vi.fn(),
   };
 });
 
-import https from "https";
-import http from "http";
+import * as https from "https";
+import * as http from "http";
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;

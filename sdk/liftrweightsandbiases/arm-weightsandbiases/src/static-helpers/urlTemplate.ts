@@ -141,8 +141,7 @@ function getVarValue(option: ValueOptions): string | undefined {
     const [named, ifEmpty] = getNamedAndIfEmpty(op);
     const vals: string[] = [getFirstOrSep(op, isFirst)];
     if (named && varName) {
-      // No need to encode varName considering it is already encoded
-      vals.push(varName);
+      vals.push(encodeRFC3986URIComponent(varName));
       val === "" ? vals.push(ifEmpty) : vals.push("=");
     }
     if (modifier && modifier !== "*") {

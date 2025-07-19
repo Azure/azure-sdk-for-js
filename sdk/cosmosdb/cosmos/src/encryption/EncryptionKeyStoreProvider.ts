@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { Constants } from "../common/index.js";
-import { startBackgroundTask } from "../utils/time.js";
 import type { EncryptionKeyResolver } from "./EncryptionKeyResolver/index.js";
 import type { KeyEncryptionAlgorithm } from "./enums/index.js";
 /**
@@ -68,7 +67,7 @@ export class EncryptionKeyStoreProvider {
   }
 
   private async clearCacheOnTtlExpiry(): Promise<void> {
-    this.cacheRefresher = startBackgroundTask(async () => {
+    this.cacheRefresher = setInterval(() => {
       const now = new Date();
       for (const key in this.unwrappedEncryptionKeyCache) {
         if (

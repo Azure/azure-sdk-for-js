@@ -45,9 +45,11 @@ export async function main(): Promise<void> {
 
   // List vector store files
   const vectorStoreFiles = client.vectorStoreFiles.list(vectorStore.id);
+  const vectorStoreFileIds = [];
   for await (const f of vectorStoreFiles) {
-    console.log(`Vector Store File ID: ${f.id}`);
+    vectorStoreFileIds.push(f.id);
   }
+  console.log(`List of vector store files: ${vectorStoreFileIds.join(", ")}`);
 
   // Delete vector store file
   await client.vectorStoreFiles.delete(vectorStore.id, vectorStoreFile.id);

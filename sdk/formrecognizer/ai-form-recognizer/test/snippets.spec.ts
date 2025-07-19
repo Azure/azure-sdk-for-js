@@ -8,7 +8,6 @@ import {
   DocumentModelAdministrationClient,
   DocumentObjectField,
   DocumentStringField,
-  KnownFormRecognizerAudience,
 } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
@@ -846,17 +845,6 @@ describe("snippets", () => {
         } = operation;
       }
     }
-  });
-
-  it("ReadmeSampleSovereignClouds", () => {
-    const credential = new DefaultAzureCredential();
-    const client = new DocumentAnalysisClient(
-      "https://<resource name>.cognitiveservices.azure.com", // endpoint
-      credential,
-      {
-        audience: KnownFormRecognizerAudience.AzureGovernment,
-      },
-    );
   });
 
   it("SetLogLevel", async () => {

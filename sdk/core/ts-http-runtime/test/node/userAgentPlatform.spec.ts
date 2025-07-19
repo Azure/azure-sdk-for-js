@@ -3,16 +3,14 @@
 
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { setPlatformSpecificData } from "../../src/util/userAgentPlatform.js";
-import process from "node:process";
+import * as process from "process";
 
 describe("userAgentPlatform", () => {
-  vi.mock("node:process", async () => {
-    const actual = await vi.importActual("node:process");
+  vi.mock("process", async () => {
+    const actual = await vi.importActual("process");
     return {
-      default: {
-        ...(actual as any).default,
-        versions: {},
-      },
+      ...actual,
+      versions: {},
     };
   });
 

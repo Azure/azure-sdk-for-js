@@ -3,6 +3,7 @@
 
 import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
 
+import type { RestErrorOptions as TspRestErrorOptions } from "@typespec/ts-http-runtime";
 import {
   RestError as TspRestError,
   isRestError as tspIsRestError,
@@ -33,63 +34,53 @@ export interface RestErrorOptions {
 /**
  * A custom error type for failed pipeline requests.
  */
-export interface RestErrorConstructor {
+export class RestError extends Error {
   /**
    * Something went wrong when making the request.
    * This means the actual request failed for some reason,
    * such as a DNS issue or the connection being lost.
    */
-  readonly REQUEST_SEND_ERROR: string;
+  static readonly REQUEST_SEND_ERROR: string = "REQUEST_SEND_ERROR";
   /**
    * This means that parsing the response from the server failed.
    * It may have been malformed.
    */
-  readonly PARSE_ERROR: string;
+  static readonly PARSE_ERROR: string = "PARSE_ERROR";
 
-  /**
-   * Prototype of RestError
-   */
-  readonly prototype: RestError;
-
-  /**
-   * Construct a new RestError.
-   */
-  new (message: string, options?: RestErrorOptions): RestError;
-}
-
-/**
- * A custom error type for failed pipeline requests.
- */
-export interface RestError extends Error {
   /**
    * The code of the error itself (use statics on RestError if possible.)
    */
-  code?: string;
+  public code?: string;
   /**
    * The HTTP status code of the request (if applicable.)
    */
-  statusCode?: number;
+  public statusCode?: number;
   /**
    * The request that was made.
    * This property is non-enumerable.
    */
-  request?: PipelineRequest;
+  public request?: PipelineRequest;
   /**
    * The response received (if any.)
    * This property is non-enumerable.
    */
-  response?: PipelineResponse;
+  public response?: PipelineResponse;
   /**
    * Bonus property set by the throw site.
    */
-  details?: unknown;
-}
+  public details?: unknown;
 
-/**
- * A custom error type for failed pipeline requests.
- */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RestError: RestErrorConstructor = TspRestError as RestErrorConstructor;
+  constructor(message: string, options: RestErrorOptions = {}) {
+    super(message);
+
+    // what is this??
+    // it turns out that you can return from a constructor and it causes
+    // calling `new` to return the value you return.
+    // this lets us wrap the TypeSpec RestError so that calling this constructor will give you the same type of object as calling the TypeSpec one,
+    // even though the constructor signatures (through RestErrorOptions) are slightly different.
+    return new TspRestError(message, options as TspRestErrorOptions);
+  }
+}
 
 /**
  * Typeguard for RestError

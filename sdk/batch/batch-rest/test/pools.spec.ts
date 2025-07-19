@@ -7,8 +7,8 @@ import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
 import type {
   BatchClient,
-  BatchPoolResizeOptions,
-  BatchPoolUpdateOptions,
+  BatchPoolResizeContent,
+  BatchPoolUpdateContent,
   CreatePoolParameters,
   GetPoolParameters,
   ListPoolsParameters,
@@ -108,7 +108,7 @@ describe("Pool Operations Test", () => {
   });
 
   it("should patch pool parameters successfully", async () => {
-    const options: BatchPoolUpdateOptions = {
+    const options: BatchPoolUpdateContent = {
       metadata: [
         {
           name: "foo2",
@@ -193,7 +193,6 @@ describe("Pool Operations Test", () => {
         applicationPackageReferences: [],
         // Ensures the start task isn't cleared
         startTask: { commandLine: "cmd /c echo hello > hello.txt" },
-        certificateReferences: [],
       },
       contentType: "application/json; odata=minimalmetadata",
     };
@@ -513,7 +512,7 @@ describe("Pool Operations Test", () => {
     };
     await waitForNotNull(getSteadyPool);
 
-    const options: BatchPoolResizeOptions = {
+    const options: BatchPoolResizeContent = {
       targetDedicatedNodes: 3,
       targetLowPriorityNodes: 2,
     };

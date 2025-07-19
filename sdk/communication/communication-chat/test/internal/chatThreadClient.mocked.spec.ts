@@ -4,7 +4,6 @@ import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import type {
   AddParticipantsRequest,
-  ChatRetentionPolicy,
   SendMessageOptions,
   SendMessageRequest,
   UpdateMessageOptions,
@@ -21,7 +20,6 @@ import {
   mockMessageWithFileAttachment,
   mockMessageWithImageAttachment,
   mockParticipant,
-  mockParticipantWithMetadata,
   mockSdkModelParticipant,
   mockThread,
 } from "./utils/mockClient.js";
@@ -83,57 +81,6 @@ describe("[Mocked] ChatThreadClient", async () => {
     assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
     assert.equal(request.method, "PATCH");
     assert.deepEqual(JSON.parse(request.body as string), { topic: topic });
-  });
-
-  it("makes successful update thread metadata", async function () {
-    const mockHttpClient = generateHttpClient(204);
-    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
-
-    const spy = vi.spyOn(mockHttpClient, "sendRequest");
-
-    const metadata = { threadType: "primary", secondaryThread: "test-id" };
-
-    await chatThreadClient.updateProperties({ metadata: metadata });
-
-    expect(spy).toHaveBeenCalledOnce();
-    const request = spy.mock.calls[0][0];
-    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
-    assert.equal(request.method, "PATCH");
-    assert.deepEqual(JSON.parse(request.body as string), { metadata: metadata });
-  });
-
-  it("makes successful update thread retention policy request", async function () {
-    const mockHttpClient = generateHttpClient(204);
-    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
-
-    const spy = vi.spyOn(mockHttpClient, "sendRequest");
-
-    const retentionPolicy: ChatRetentionPolicy = {
-      kind: "threadCreationDate",
-      deleteThreadAfterDays: 90,
-    };
-    await chatThreadClient.updateProperties({ retentionPolicy: retentionPolicy });
-
-    expect(spy).toHaveBeenCalledOnce();
-    const request = spy.mock.calls[0][0];
-    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
-    assert.equal(request.method, "PATCH");
-    assert.deepEqual(JSON.parse(request.body as string), { retentionPolicy: retentionPolicy });
-  });
-
-  it("makes successful update thread retention policy to null", async function () {
-    const mockHttpClient = generateHttpClient(204);
-    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
-
-    const spy = vi.spyOn(mockHttpClient, "sendRequest");
-
-    await chatThreadClient.updateProperties({ retentionPolicy: null as any });
-
-    expect(spy).toHaveBeenCalledOnce();
-    const request = spy.mock.calls[0][0];
-    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
-    assert.equal(request.method, "PATCH");
-    assert.deepEqual(JSON.parse(request.body as string), { retentionPolicy: null });
   });
 
   it("makes successful send message request", async () => {
@@ -433,44 +380,9 @@ describe("[Mocked] ChatThreadClient", async () => {
     );
   });
 
-  it("makes successful add chat participants request with metadata", async function () {
-    const mockHttpClient = generateHttpClient(201);
-    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
-    const spy = vi.spyOn(mockHttpClient, "sendRequest");
-
-    const sendRequest: AddParticipantsRequest = {
-      participants: [
-        {
-          ...mockSdkModelParticipant,
-          metadata: {
-            userType: "C2",
-          },
-        },
-      ],
-    };
-
-    await chatThreadClient.addParticipants(sendRequest);
-
-    expect(spy).toHaveBeenCalledOnce();
-    const request = spy.mock.calls[0][0];
-
-    assert.equal(
-      request.url,
-      `${baseUri}/chat/threads/${threadId}/participants/:add?api-version=${API_VERSION}`,
-    );
-    assert.equal(request.method, "POST");
-    const requestJson = JSON.parse(request.body as string);
-    assert.equal(
-      (sendRequest.participants[0].id as CommunicationUserIdentifier).communicationUserId,
-      requestJson.participants[0].communicationIdentifier.communicationUser.id,
-    );
-    assert.equal(sendRequest.participants[0].displayName, requestJson.participants[0].displayName);
-    assert.deepEqual(sendRequest.participants[0].metadata, requestJson.participants[0].metadata);
-  });
-
   it("makes successful list chat participants request", async () => {
     const mockHttpClient = generateHttpClient(200, {
-      value: [mockParticipantWithMetadata],
+      value: [mockParticipant],
     });
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = vi.spyOn(mockHttpClient, "sendRequest");
@@ -479,7 +391,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     for await (const participant of chatThreadClient.listParticipants()) {
       ++count;
       const { id, ...requestParticipant } = participant;
-      const { communicationIdentifier, ...expectedParticipant } = mockParticipantWithMetadata;
+      const { communicationIdentifier, ...expectedParticipant } = mockParticipant;
 
       assert.equal(
         (id as CommunicationUserIdentifier).communicationUserId,
@@ -511,16 +423,9 @@ describe("[Mocked] ChatThreadClient", async () => {
     let count = 0;
     for await (const page of iterator.byPage()) {
       // loop over each item in the page
-      for (const participant of page) {
+      for (const info of page) {
         ++count;
-        const { id, ...requestParticipant } = participant;
-        const { communicationIdentifier, ...expectedParticipant } = mockParticipant;
-
-        assert.equal(
-          (id as CommunicationUserIdentifier).communicationUserId,
-          communicationIdentifier?.communicationUser?.id,
-        );
-        assert.deepEqual(requestParticipant, expectedParticipant);
+        assert.isNotNull(info);
       }
     }
 

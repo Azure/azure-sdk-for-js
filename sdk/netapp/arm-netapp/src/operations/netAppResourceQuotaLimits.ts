@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
 import {
-  QuotaItem,
+  SubscriptionQuotaItem,
   NetAppResourceQuotaLimitsListOptionalParams,
   NetAppResourceQuotaLimitsListResponse,
   NetAppResourceQuotaLimitsGetOptionalParams,
@@ -43,7 +43,7 @@ export class NetAppResourceQuotaLimitsImpl
   public list(
     location: string,
     options?: NetAppResourceQuotaLimitsListOptionalParams,
-  ): PagedAsyncIterableIterator<QuotaItem> {
+  ): PagedAsyncIterableIterator<SubscriptionQuotaItem> {
     const iter = this.listPagingAll(location, options);
     return {
       next() {
@@ -65,7 +65,7 @@ export class NetAppResourceQuotaLimitsImpl
     location: string,
     options?: NetAppResourceQuotaLimitsListOptionalParams,
     _settings?: PageSettings,
-  ): AsyncIterableIterator<QuotaItem[]> {
+  ): AsyncIterableIterator<SubscriptionQuotaItem[]> {
     let result: NetAppResourceQuotaLimitsListResponse;
     result = await this._list(location, options);
     yield result.value || [];
@@ -74,7 +74,7 @@ export class NetAppResourceQuotaLimitsImpl
   private async *listPagingAll(
     location: string,
     options?: NetAppResourceQuotaLimitsListOptionalParams,
-  ): AsyncIterableIterator<QuotaItem> {
+  ): AsyncIterableIterator<SubscriptionQuotaItem> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
     }
@@ -120,7 +120,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaItemList,
+      bodyMapper: Mappers.SubscriptionQuotaItemList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -140,7 +140,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaItem,
+      bodyMapper: Mappers.SubscriptionQuotaItem,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

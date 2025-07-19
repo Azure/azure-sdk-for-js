@@ -4,9 +4,9 @@ parameters:
   type: string
   default: 'Linux, Windows'
 - name: LanguageVersion
-  displayName: LanguageVersion (MAINTENANCE, CURRENT, ACTIVE)
+  displayName: LanguageVersion (14, 16, 18)
   type: string
-  default: '$(NODE_VERSION_LTS_MAINTENANCE)'
+  default: '18'
 - name: PackageVersions
   displayName: PackageVersions (regex of package versions to run)
   type: string

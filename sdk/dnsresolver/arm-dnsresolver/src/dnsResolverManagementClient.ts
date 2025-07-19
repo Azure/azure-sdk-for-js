@@ -72,7 +72,7 @@ export class DnsResolverManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-dnsresolver/1.2.0`;
+    const packageDetails = `azsdk-js-arm-dnsresolver/1.2.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -126,7 +126,7 @@ export class DnsResolverManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-05-01";
+    this.apiVersion = options.apiVersion || "2023-07-01-preview";
     this.dnsResolvers = new DnsResolversImpl(this);
     this.inboundEndpoints = new InboundEndpointsImpl(this);
     this.outboundEndpoints = new OutboundEndpointsImpl(this);

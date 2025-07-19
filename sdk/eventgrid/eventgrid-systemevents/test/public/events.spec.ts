@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { isSystemEvent } from "../../src/index.js";
-import type { KeyVaultSecretNearExpiryEventData } from "../../src/index.js";
-import { describe, it, assert, expectTypeOf } from "vitest";
+import { describe, it, assert } from "vitest";
 
 describe("Events tests", () => {
   it("isSystemEvent test", async () => {
-    const e = {
+    const result = isSystemEvent("Microsoft.KeyVault.SecretNearExpiry", {
       eventType: "Microsoft.KeyVault.SecretNearExpiry",
       eventTime: new Date(),
       id: "id",
@@ -16,9 +15,7 @@ describe("Events tests", () => {
         id: "id",
         vaultName: "vaultName",
       },
-    };
-    const result = isSystemEvent("Microsoft.KeyVault.SecretNearExpiry", e);
+    });
     assert.isTrue(result);
-    expectTypeOf(e).toMatchTypeOf<KeyVaultSecretNearExpiryEventData>();
   });
 });

@@ -446,11 +446,7 @@ describe("#LiveMetrics", () => {
       QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME_NORMALIZED,
     );
     assert.strictEqual(metrics[7].dataPoints.length, 1, "dataPoints count");
-    assert.isAtLeast(
-      metrics[7].dataPoints[0].value as number,
-      0,
-      "PROCESSOR_TIME_NORMALIZED value",
-    );
+    assert.isAbove(metrics[7].dataPoints[0].value as number, 0, "PROCESSOR_TIME_NORMALIZED value");
     assert.strictEqual(
       metrics[8].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE,

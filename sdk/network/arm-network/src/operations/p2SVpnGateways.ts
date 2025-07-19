@@ -1202,7 +1202,7 @@ const generateVpnProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters97,
+  requestBody: Parameters.parameters89,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1265,7 +1265,7 @@ const getP2SVpnConnectionHealthDetailedOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.CloudError,
       },
     },
-    requestBody: Parameters.request4,
+    requestBody: Parameters.request3,
     queryParameters: [Parameters.apiVersion],
     urlParameters: [
       Parameters.$host,
@@ -1289,7 +1289,7 @@ const disconnectP2SVpnConnectionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

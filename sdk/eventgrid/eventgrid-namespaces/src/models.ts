@@ -9,9 +9,9 @@ import type {
   AcknowledgeCloudEventsOptionalParams,
   RejectCloudEventsOptionalParams,
   RenewCloudEventLocksOptionalParams,
-  EventGridClientOptionalParams as EventGridOptions,
+  EventGridClientOptions as EventGridOptions,
   ReleaseDelay,
-} from "./generated/index.js";
+} from "./cadl-generated/index.js";
 
 /** Send Event Options */
 export interface SendEventOptions extends OperationOptions {
@@ -48,6 +48,24 @@ export interface RejectEventsOptions extends RejectCloudEventsOptionalParams {}
 
 /** Renew Event Locks Options */
 export interface RenewEventLocksOptions extends RenewCloudEventLocksOptionalParams {}
+
+/** Known values of {@link ReleaseDelay} that the service accepts. */
+export enum KnownReleaseDelay {
+  /** Ten Minutes */
+  TenMinutes = "600",
+
+  /** One Minute */
+  OneMinute = "60",
+
+  /** Ten Seconds */
+  TenSeconds = "10",
+
+  /** One Hour */
+  OneHour = "3600",
+
+  /** No Delay */
+  NoDelay = "0",
+}
 
 /** Receive operation details per Cloud Event. */
 export interface ReceiveDetails<T> {

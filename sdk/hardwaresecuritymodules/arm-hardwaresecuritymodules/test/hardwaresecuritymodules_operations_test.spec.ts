@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AzureDedicatedHSMResourceProvider } from "../src/azureDedicatedHSMResourceProvider.js";
+import { AzureHSMResourceProvider } from "../src/azureHSMResourceProvider.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
@@ -34,7 +34,7 @@ export const testPollingOptions = {
 describe("hardwaresecuritymodules test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let client: AzureDedicatedHSMResourceProvider;
+  let client: AzureHSMResourceProvider;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -42,7 +42,7 @@ describe("hardwaresecuritymodules test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AzureDedicatedHSMResourceProvider(
+    client = new AzureHSMResourceProvider(
       credential,
       subscriptionId,
       recorder.configureClientOptions({}),

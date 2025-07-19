@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import os from "node:os";
-import type { Resource } from "@opentelemetry/resources";
-import { defaultResource, resourceFromAttributes } from "@opentelemetry/resources";
+import { Resource } from "@opentelemetry/resources";
 import type { Tags } from "../../src/types.js";
 import { createTagsFromResource, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
@@ -11,7 +10,7 @@ import { describe, it, assert } from "vitest";
 describe("commonUtils.ts", () => {
   describe("#createTagsFromResource", () => {
     it("default values", () => {
-      const resource: Resource = resourceFromAttributes({});
+      const resource: Resource = Resource.EMPTY;
       const tags: Tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "");
       assert.strictEqual(tags["ai.cloud.roleInstance"], os.hostname());
@@ -19,7 +18,7 @@ describe("commonUtils.ts", () => {
     });
 
     it("should create Tags using custom Service attributes", () => {
-      let resource = resourceFromAttributes({
+      let resource = new Resource({
         "service.name": "testServiceName",
         "service.namespace": "testServiceNamespace",
         "service.instance.id": "testServiceInstanceId",
@@ -35,7 +34,7 @@ describe("commonUtils.ts", () => {
       assert.strictEqual(tags["ai.cloud.role"], "testServiceNamespace.testServiceName");
       assert.strictEqual(tags["ai.cloud.roleInstance"], "testK8sPod");
 
-      resource = resourceFromAttributes({
+      resource = new Resource({
         "service.name": "testServiceName",
       });
       tags = createTagsFromResource(resource);
@@ -43,7 +42,7 @@ describe("commonUtils.ts", () => {
     });
 
     it("should create Tags using Kubernetes attributes if available", () => {
-      let resource = resourceFromAttributes({
+      let resource = new Resource({
         "k8s.deployment.name": "testK8sDeployment",
         "k8s.replicaset.name": "testK8sReplicaset",
         "k8s.statefulset.name": "testK8sStatefulSet",
@@ -56,7 +55,7 @@ describe("commonUtils.ts", () => {
       assert.strictEqual(tags["ai.cloud.role"], "testK8sDeployment");
       assert.strictEqual(tags["ai.cloud.roleInstance"], "testK8sPod");
 
-      resource = resourceFromAttributes({
+      resource = new Resource({
         "k8s.replicaset.name": "testK8sReplicaset",
         "k8s.statefulset.name": "testK8sStatefulSet",
         "k8s.job.name": "testK8sJob",
@@ -65,7 +64,7 @@ describe("commonUtils.ts", () => {
       });
       tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "testK8sReplicaset");
-      resource = resourceFromAttributes({
+      resource = new Resource({
         "k8s.statefulset.name": "testK8sStatefulSet",
         "k8s.job.name": "testK8sJob",
         "k8s.cronjob.name": "testK8sCronJob",
@@ -73,20 +72,20 @@ describe("commonUtils.ts", () => {
       });
       tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "testK8sStatefulSet");
-      resource = resourceFromAttributes({
+      resource = new Resource({
         "k8s.job.name": "testK8sJob",
         "k8s.cronjob.name": "testK8sCronJob",
         "k8s.daemonset.name": "testK8sDaemonset",
       });
       tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "testK8sJob");
-      resource = resourceFromAttributes({
+      resource = new Resource({
         "k8s.cronjob.name": "testK8sCronJob",
         "k8s.daemonset.name": "testK8sDaemonset",
       });
       tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "testK8sCronJob");
-      resource = resourceFromAttributes({
+      resource = new Resource({
         "k8s.daemonset.name": "testK8sDaemonset",
       });
       tags = createTagsFromResource(resource);
@@ -94,8 +93,7 @@ describe("commonUtils.ts", () => {
     });
 
     it("should create Tags using default Resource", () => {
-      const defResource = defaultResource();
-      const resource = resourceFromAttributes({ ...defResource.attributes });
+      const resource = Resource.default();
       const tags: Tags = createTagsFromResource(resource);
       assert.ok(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
     });

@@ -14,7 +14,7 @@ import {
   NON_EU_CONNECTION_STRING,
   StatsbeatResourceProvider,
 } from "./types.js";
-import os from "node:os";
+import * as os from "node:os";
 
 export class StatsbeatMetrics {
   protected resourceProvider: string = StatsbeatResourceProvider.unknown;
@@ -29,7 +29,7 @@ export class StatsbeatMetrics {
       // AKS
       this.resourceProvider = StatsbeatResourceProvider.aks;
       this.resourceIdentifier = process.env.AKS_ARM_NAMESPACE_ID;
-    } else if (process.env.WEBSITE_SITE_NAME && !process.env.FUNCTIONS_WORKER_RUNTIME) {
+    } else if (process.env.WEBSITE_SITE_NAME) {
       // Web apps
       this.resourceProvider = StatsbeatResourceProvider.appsvc;
       this.resourceIdentifier = process.env.WEBSITE_SITE_NAME;

@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { CheckNameAvailability } from "../operationsInterfaces/index.js";
+import { CheckNameAvailability } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import type {
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import {
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityExecuteOptionalParams,
   CheckNameAvailabilityExecuteResponse,

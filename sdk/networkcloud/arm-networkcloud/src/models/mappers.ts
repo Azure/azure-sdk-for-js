@@ -4707,13 +4707,6 @@ export const BareMetalMachine: coreClient.CompositeMapper = {
     className: "BareMetalMachine",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -5000,13 +4993,6 @@ export const CloudServicesNetwork: coreClient.CompositeMapper = {
     className: "CloudServicesNetwork",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -5126,13 +5112,6 @@ export const ClusterManager: coreClient.CompositeMapper = {
     className: "ClusterManager",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       identity: {
         serializedName: "identity",
         type: {
@@ -5228,13 +5207,6 @@ export const Cluster: coreClient.CompositeMapper = {
     className: "Cluster",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -5486,13 +5458,6 @@ export const KubernetesCluster: coreClient.CompositeMapper = {
     className: "KubernetesCluster",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -5661,13 +5626,6 @@ export const L2Network: coreClient.CompositeMapper = {
     className: "L2Network",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -5772,13 +5730,6 @@ export const L3Network: coreClient.CompositeMapper = {
     className: "L3Network",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -5916,13 +5867,6 @@ export const Rack: coreClient.CompositeMapper = {
     className: "Rack",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -6006,13 +5950,6 @@ export const StorageAppliance: coreClient.CompositeMapper = {
     className: "StorageAppliance",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -6166,13 +6103,6 @@ export const TrunkedNetwork: coreClient.CompositeMapper = {
     className: "TrunkedNetwork",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -6300,13 +6230,6 @@ export const VirtualMachine: coreClient.CompositeMapper = {
     className: "VirtualMachine",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -6528,13 +6451,6 @@ export const Volume: coreClient.CompositeMapper = {
     className: "Volume",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -6602,13 +6518,6 @@ export const BareMetalMachineKeySet: coreClient.CompositeMapper = {
     className: "BareMetalMachineKeySet",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -6723,13 +6632,6 @@ export const BmcKeySet: coreClient.CompositeMapper = {
     className: "BmcKeySet",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -6822,13 +6724,6 @@ export const ClusterMetricsConfiguration: coreClient.CompositeMapper = {
     className: "ClusterMetricsConfiguration",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -6901,13 +6796,6 @@ export const AgentPool: coreClient.CompositeMapper = {
     className: "AgentPool",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {
@@ -7037,13 +6925,6 @@ export const KubernetesClusterFeature: coreClient.CompositeMapper = {
     className: "KubernetesClusterFeature",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       availabilityLifecycle: {
         serializedName: "properties.availabilityLifecycle",
         readOnly: true,
@@ -7108,13 +6989,6 @@ export const Console: coreClient.CompositeMapper = {
     className: "Console",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
       extendedLocation: {
         serializedName: "extendedLocation",
         type: {

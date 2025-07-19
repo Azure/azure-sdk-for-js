@@ -20,7 +20,6 @@ import {
   MachineExtension as MachineExtensionMapper,
   MachineExtensionUpdate as MachineExtensionUpdateMapper,
   MachineExtensionUpgrade as MachineExtensionUpgradeMapper,
-  SetupExtensionRequest as SetupExtensionRequestMapper,
   MachineRunCommand as MachineRunCommandMapper,
   Gateway as GatewayMapper,
   GatewayUpdate as GatewayUpdateMapper,
@@ -74,7 +73,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-02-19-preview",
+    defaultValue: "2024-07-31-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -268,11 +267,6 @@ export const extensionUpgradeParameters: OperationParameter = {
   mapper: MachineExtensionUpgradeMapper,
 };
 
-export const extensions: OperationParameter = {
-  parameterPath: "extensions",
-  mapper: SetupExtensionRequestMapper,
-};
-
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
@@ -310,20 +304,6 @@ export const version: OperationURLParameter = {
   parameterPath: "version",
   mapper: {
     serializedName: "version",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const location1: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    constraints: {
-      MinLength: 1,
-    },
-    serializedName: "location",
     required: true,
     type: {
       name: "String",
@@ -457,6 +437,20 @@ export const parameters7: OperationParameter = {
 export const privateLinkScopeTags: OperationParameter = {
   parameterPath: "privateLinkScopeTags",
   mapper: TagsResourceMapper,
+};
+
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const privateLinkScopeId: OperationURLParameter = {

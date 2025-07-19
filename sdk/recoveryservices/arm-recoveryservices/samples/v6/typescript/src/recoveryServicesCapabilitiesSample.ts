@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   ResourceCapabilities,
   RecoveryServicesClient,
@@ -17,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to API to get details about capabilities provided by Microsoft.RecoveryServices RP
  *
  * @summary API to get details about capabilities provided by Microsoft.RecoveryServices RP
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Capabilities.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Capabilities.json
  */
 async function capabilitiesForMicrosoftRecoveryServicesOrVaults(): Promise<void> {
   const subscriptionId =
@@ -40,7 +42,7 @@ async function capabilitiesForMicrosoftRecoveryServicesOrVaults(): Promise<void>
 }
 
 async function main(): Promise<void> {
-  await capabilitiesForMicrosoftRecoveryServicesOrVaults();
+  capabilitiesForMicrosoftRecoveryServicesOrVaults();
 }
 
 main().catch(console.error);

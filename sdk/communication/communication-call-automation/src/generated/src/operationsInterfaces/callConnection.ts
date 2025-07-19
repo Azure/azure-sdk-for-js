@@ -26,6 +26,9 @@ import {
   MuteParticipantsRequest,
   CallConnectionMuteOptionalParams,
   CallConnectionMuteResponse,
+  UnmuteParticipantsRequest,
+  CallConnectionUnmuteOptionalParams,
+  CallConnectionUnmuteResponse,
   CancelAddParticipantRequest,
   CallConnectionCancelAddParticipantOptionalParams,
   CallConnectionCancelAddParticipantResponse,
@@ -87,7 +90,7 @@ export interface CallConnection {
   /**
    * Add a participant to the call.
    * @param callConnectionId The call connection Id
-   * @param addParticipantRequest The request payload for adding participant to the call.
+   * @param addParticipantRequest The add participants request.
    * @param options The options parameters.
    */
   addParticipant(
@@ -117,6 +120,17 @@ export interface CallConnection {
     muteParticipantsRequest: MuteParticipantsRequest,
     options?: CallConnectionMuteOptionalParams,
   ): Promise<CallConnectionMuteResponse>;
+  /**
+   * Unmute participants from the call using identifier.
+   * @param callConnectionId The call connection id.
+   * @param unmuteParticipantsRequest The participants to be unmuted from the call.
+   * @param options The options parameters.
+   */
+  unmute(
+    callConnectionId: string,
+    unmuteParticipantsRequest: UnmuteParticipantsRequest,
+    options?: CallConnectionUnmuteOptionalParams,
+  ): Promise<CallConnectionUnmuteResponse>;
   /**
    * Cancel add participant operation.
    * @param callConnectionId The call connection Id

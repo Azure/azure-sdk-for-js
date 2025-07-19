@@ -1,21 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentsContext as Client } from "../index.js";
-import type {
-  FileListResponse,
-  FileInfo,
-  FilePurpose,
-  FileDeletionStatus,
-} from "../../models/models.js";
+import { AgentsContext as Client } from "../index.js";
 import {
-  agentV1ErrorDeserializer,
+  FileListResponse,
   fileListResponseDeserializer,
+  FileInfo,
   fileInfoDeserializer,
+  FilePurpose,
   _uploadFileRequestSerializer,
+  FileDeletionStatus,
   fileDeletionStatusDeserializer,
 } from "../../models/models.js";
-import type {
+import {
   FilesGetFileContentOptionalParams,
   FilesGetFileOptionalParams,
   FilesDeleteFileOptionalParams,
@@ -23,8 +20,12 @@ import type {
   FilesListFilesOptionalParams,
 } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 import type { OperationState, OperationStatus, PollerLike } from "@azure/core-lro";
 import { createPoller } from "../poller.js";
 
@@ -34,10 +35,10 @@ export function _getFileContentSend(
   options: FilesGetFileContentOptionalParams = { requestOptions: {} },
 ): StreamableMethod<string | Uint8Array> {
   const path = expandUrlTemplate(
-    "/files/{fileId}/content{?api-version}",
+    "/files/{fileId}/content{?api%2Dversion}",
     {
       fileId: fileId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,10 +69,10 @@ export function _getFileSend(
   options: FilesGetFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/files/{fileId}{?api-version}",
+    "/files/{fileId}{?api%2Dversion}",
     {
       fileId: fileId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,9 +90,7 @@ export function _getFileSend(
 export async function _getFileDeserialize(result: PathUncheckedResponse): Promise<FileInfo> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return fileInfoDeserializer(result.body);
@@ -136,9 +135,7 @@ export async function _deleteFileDeserialize(
 ): Promise<FileDeletionStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return fileDeletionStatusDeserializer(result.body);
@@ -163,16 +160,7 @@ export function _uploadFileSend(
   },
   options: FilesUploadFileOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/files{?api-version}",
-    {
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
+  return context.path("/files").post({
     ...operationOptionsToRequestParameters(options),
     contentType: "multipart/form-data",
     headers: {
@@ -186,9 +174,7 @@ export function _uploadFileSend(
 export async function _uploadFileDeserialize(result: PathUncheckedResponse): Promise<FileInfo> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return fileInfoDeserializer(result.body);
@@ -290,9 +276,7 @@ export async function _listFilesDeserialize(
 ): Promise<FileListResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return fileListResponseDeserializer(result.body);
@@ -306,7 +290,6 @@ export async function listFiles(
   const result = await _listFilesSend(context, options);
   return _listFilesDeserialize(result);
 }
-
 function getLroOperationStatus(result: FileInfo): OperationStatus {
   switch (result.status) {
     case "running":

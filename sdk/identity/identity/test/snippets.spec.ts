@@ -19,13 +19,6 @@ import dotenv from "dotenv";
 import { describe, it } from "vitest";
 
 describe("snippets", function () {
-  it("defaultazurecredential_vscode", function () {
-    // @ts-ignore
-    useIdentityPlugin(vsCodePlugin);
-    // @ts-ignore
-    const credential = new DefaultAzureCredential();
-  });
-
   it("defaultazurecredential_authenticate", function () {
     // Configure vault URL
     const vaultUrl = "https://<your-unique-keyvault-name>.vault.azure.net";
@@ -37,7 +30,8 @@ describe("snippets", function () {
     // @ts-ignore
     const client = new KeyClient(vaultUrl, credential);
   });
-  snippet: it("chaintedtokencredential_authenticate", function () {
+
+  it("chaintedtokencredential_authenticate", function () {
     // Configure variables
     const vaultUrl = "https://<your-unique-keyvault-name>.vault.azure.net";
     const tenantId = "<tenant-id>";

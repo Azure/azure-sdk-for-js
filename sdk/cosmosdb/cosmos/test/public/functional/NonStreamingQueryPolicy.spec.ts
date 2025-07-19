@@ -559,7 +559,8 @@ async function executeQueryAndVerifyOrder(
   assert.equal(count, size);
 }
 
-describe("Full text search feature", async () => {
+// Skipping these tests as they are not supported by public emulator
+describe.skip("Full text search feature", async () => {
   let database: Database;
 
   beforeAll(async () => {

@@ -3,16 +3,16 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for StorageManagementClient.",
-  "version": "18.6.0",
+  "version": "18.5.0",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
-    "@azure/core-lro": "^2.5.4",
     "@azure/abort-controller": "^2.1.2",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-client": "^1.9.3",
     "@azure/core-auth": "^1.9.0",
+    "@azure/core-client": "^1.9.3",
+    "@azure/core-lro": "^2.5.4",
+    "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.19.1",
     "tslib": "^2.8.1"
   },
@@ -21,37 +21,40 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "type": "module",
   "devDependencies": {
-    "typescript": "~5.8.2",
-    "dotenv": "^16.0.0",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.9.0",
     "@azure/logger": "^1.1.4",
-    "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@types/node": "^20.0.0",
+    "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
+    "dotenv": "^16.0.0",
     "playwright": "^1.52.0",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "review/",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -80,10 +83,18 @@
     ]
   },
   "autoPublish": true,
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/arm-storage",
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storage?view=azure-node-preview"
+  },
+  "type": "module",
   "tshy": {
-    "project": "../../../tsconfig.src.build.json",
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -98,15 +109,8 @@
     ],
     "selfLink": false
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/arm-storage",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storage?view=azure-node-preview"
-  },
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {

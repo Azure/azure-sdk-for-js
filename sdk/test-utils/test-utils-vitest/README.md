@@ -79,8 +79,6 @@ Most Azure SDK for JavaScript libraries support multiple methods of authenticati
 
 ### Import functions
 
-<!-- dev-tool snippets ignore -->
-
 ```javascript
 import { matrix } from "@azure/test-utils-vitest";
 ```

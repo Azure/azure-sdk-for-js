@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import {
   CheckNameAvailabilityParameters,
   RecoveryServicesClient,
@@ -21,7 +23,7 @@ or if one or more such resources exist, each of these must be GC'd and their tim
  * @summary API to check for resource name availability.
 A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
 or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/CheckNameAvailability_Available.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/CheckNameAvailability_Available.json
  */
 async function availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours(): Promise<void> {
   const subscriptionId =
@@ -52,7 +54,7 @@ or if one or more such resources exist, each of these must be GC'd and their tim
  * @summary API to check for resource name availability.
 A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
 or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/CheckNameAvailability_NotAvailable.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/CheckNameAvailability_NotAvailable.json
  */
 async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists(): Promise<void> {
   const subscriptionId =
@@ -76,8 +78,8 @@ async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSu
 }
 
 async function main(): Promise<void> {
-  await availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours();
-  await availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists();
+  availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours();
+  availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists();
 }
 
 main().catch(console.error);

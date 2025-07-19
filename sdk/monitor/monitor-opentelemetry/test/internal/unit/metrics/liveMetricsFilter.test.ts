@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "node:assert";
+import * as assert from "node:assert";
 import type {
   DerivedMetricInfo,
   FilterConjunctionGroupInfo,

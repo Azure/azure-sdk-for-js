@@ -13,7 +13,6 @@ describe.concurrent.each(APIMatrix)("Embeddings [%s]", (apiVersion: APIVersion) 
     describe("embeddings test", () => {
       testWithDeployments({
         clientsAndDeploymentsInfo,
-        apiVersion,
         run: (client, deploymentName) =>
           client.embeddings.create({
             model: deploymentName,
@@ -26,7 +25,6 @@ describe.concurrent.each(APIMatrix)("Embeddings [%s]", (apiVersion: APIVersion) 
     describe("embeddings request with dimensions", () => {
       testWithDeployments({
         clientsAndDeploymentsInfo,
-        apiVersion,
         run: (client, deploymentName) =>
           client.embeddings.create({
             model: deploymentName,

@@ -6,7 +6,7 @@ import {
   _$deleteDeserialize,
   _updateDeserialize,
   _createOrUpdateDeserialize,
-} from "./api/onlineExperimentationWorkspaces/operations.js";
+} from "./api/onlineExperimentWorkspaces/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";

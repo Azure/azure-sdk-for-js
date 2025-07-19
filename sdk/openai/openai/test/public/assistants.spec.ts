@@ -8,7 +8,7 @@ import { createClientsAndDeployments } from "../utils/createClients.js";
 import type { ClientsAndDeploymentsInfo, Metadata } from "../utils/types.js";
 import { APIVersion, isRateLimitRun, testWithDeployments } from "../utils/utils.js";
 
-describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: APIVersion) => {
+describe.each([APIVersion.v2025_03_01_preview])("Assistants [%s]", (apiVersion: APIVersion) => {
   function createCodeAssistant(deploymentName: string): AssistantCreateParams {
     return {
       tools: [{ type: "code_interpreter" as const }],
@@ -38,7 +38,6 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
     describe("creates, gets, lists, modifies, and deletes an assistant", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
-        apiVersion,
         run: async (client, deployment) => {
           const codeAssistant = createCodeAssistant(deployment);
           const assistantResponse = await client.beta.assistants.create(codeAssistant);
@@ -63,9 +62,7 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
             assert.equal(firstID, lastID);
             assert.equal(oneAssistantList.data[0].id, firstID);
           } finally {
-            const deleteAssistantResponse = await client.beta.assistants.delete(
-              assistantResponse.id,
-            );
+            const deleteAssistantResponse = await client.beta.assistants.del(assistantResponse.id);
             assert.equal(deleteAssistantResponse.deleted, true);
           }
         },
@@ -79,7 +76,6 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
     describe("creates, gets, modifies, and deletes a thread", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
-        apiVersion,
         run: async (client) => {
           const metadataValue = "bar";
           const thread = {
@@ -106,7 +102,7 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
               newMetadataValue,
             );
           } finally {
-            const deleteThreadResponse = await client.beta.threads.delete(threadResponse.id);
+            const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
             assert.equal(deleteThreadResponse.deleted, true);
           }
         },
@@ -116,7 +112,6 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
     describe("creates, gets, modifies, and lists a message", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
-        apiVersion,
         run: async (client) => {
           const thread = {
             messages: [],
@@ -145,8 +140,8 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
             }
             assert.equal((messageResponse.metadata as unknown as Metadata).foo, metadataValue);
             const getMessageResponse = await client.beta.threads.messages.retrieve(
-              messageResponse.id,
-              { thread_id: threadResponse.id },
+              threadResponse.id,
+              messageResponse.id || "",
             );
             messageContent = getMessageResponse.content[0];
             assert.equal(messageResponse.id, getMessageResponse.id);
@@ -160,11 +155,9 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
             messageOptions.metadata.foo = newMetadataValue;
 
             const updateMessageResponse = await client.beta.threads.messages.update(
-              messageResponse.id,
-              {
-                thread_id: threadResponse.id,
-                metadata: messageOptions.metadata,
-              },
+              threadResponse.id,
+              messageResponse.id || "",
+              messageOptions,
             );
             assert.equal(messageResponse.id, updateMessageResponse.id);
             assert.equal(
@@ -182,7 +175,7 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
             assert.equal(firstID, lastID);
             assert.equal(oneMessageList.data[0].id, firstID);
           } finally {
-            const deleteThreadResponse = await client.beta.threads.delete(threadResponse.id);
+            const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
             assert.equal(deleteThreadResponse.deleted, true);
           }
         },
@@ -192,7 +185,6 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
     describe.concurrent("creates, lists, gets, and cancels a run", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
-        apiVersion,
         run: async (client, deployment) => {
           const [assistant, thread] = await Promise.all([
             client.beta.assistants.create({
@@ -235,24 +227,22 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
             assert.equal(firstID, lastID);
             assert.equal(list.data[0].id, firstID);
 
-            const cancel = await client.beta.threads.runs.cancel(run.id, { thread_id: thread.id });
+            const cancel = await client.beta.threads.runs.cancel(thread.id, run.id);
             assert.equal(cancel.id, run.id);
             assert.equal(cancel.thread_id, thread.id);
             assert.equal(cancel.assistant_id, assistant.id);
             assert.equal(cancel.instructions, instructions);
             assert.equal(cancel.status, "cancelling");
 
-            const getRun = await client.beta.threads.runs.retrieve(run.id, {
-              thread_id: thread.id,
-            });
+            const getRun = await client.beta.threads.runs.retrieve(thread.id, run.id);
             assert.equal(getRun.id, run.id);
             assert.equal(getRun.thread_id, thread.id);
             assert.equal(getRun.assistant_id, assistant.id);
             assert.equal(getRun.instructions, instructions);
             assert.equal((getRun.metadata as unknown as Metadata).foo, metadataValue);
           } finally {
-            const deleteThreadResponse = await client.beta.threads.delete(thread.id);
-            const deleteAssistantResponse = await client.beta.assistants.delete(assistant.id);
+            const deleteThreadResponse = await client.beta.threads.del(thread.id);
+            const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
             // All deletes before any asserts
             assert.equal(deleteThreadResponse.deleted, true);
             assert.equal(deleteAssistantResponse.deleted, true);
@@ -273,7 +263,6 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
     describe("create and run code interpreter scenario", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
-        apiVersion,
         run: async (client, deployment) => {
           const codeAssistant = createCodeAssistant(deployment);
           const assistant = await client.beta.assistants.create(codeAssistant);
@@ -318,8 +307,8 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
               }
             }
           } finally {
-            const deleteThreadResponse = await client.beta.threads.delete(thread.id);
-            const deleteAssistantResponse = await client.beta.assistants.delete(assistant.id);
+            const deleteThreadResponse = await client.beta.threads.del(thread.id);
+            const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
             // All deletes before any asserts
             assert.equal(deleteThreadResponse.deleted, true);
             assert.equal(deleteAssistantResponse.deleted, true);
@@ -339,7 +328,6 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
     describe.sequential("create and run function scenario for assistant", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
-        apiVersion,
         run: async (client, deployment) => {
           const favoriteCityFunctionName = "getUserFavoriteCity";
           const favoriteCityFunctionDescription = "Gets the user's favorite city.";
@@ -463,8 +451,7 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
                   toolOutputs.push(getResolvedToolOutput(toolCall));
                 }
               }
-              run = await client.beta.threads.runs.submitToolOutputsAndPoll(run.id, {
-                thread_id: thread.id,
+              run = await client.beta.threads.runs.submitToolOutputsAndPoll(thread.id, run.id, {
                 tool_outputs: toolOutputs,
               });
 
@@ -488,8 +475,8 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
               }
             }
           } finally {
-            const deleteThreadResponse = await client.beta.threads.delete(thread.id);
-            const deleteAssistantResponse = await client.beta.assistants.delete(assistant.id);
+            const deleteThreadResponse = await client.beta.threads.del(thread.id);
+            const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
             // All deletes before any asserts
             assert.equal(deleteThreadResponse.deleted, true);
             assert.equal(deleteAssistantResponse.deleted, true);

@@ -6,19 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { CheckNameAvailabilityWithLocation } from "../operationsInterfaces/index.js";
+import { CheckNameAvailabilityWithLocation } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import type {
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import {
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityWithLocationExecuteOptionalParams,
   CheckNameAvailabilityWithLocationExecuteResponse,
 } from "../models/index.js";
 
 /** Class containing CheckNameAvailabilityWithLocation operations. */
-export class CheckNameAvailabilityWithLocationImpl implements CheckNameAvailabilityWithLocation {
+export class CheckNameAvailabilityWithLocationImpl
+  implements CheckNameAvailabilityWithLocation
+{
   private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
@@ -62,7 +64,11 @@ const executeOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.nameAvailabilityRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.locationName,
+  ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,

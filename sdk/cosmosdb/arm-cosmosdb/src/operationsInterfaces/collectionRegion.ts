@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  Metric,
-  CollectionRegionListMetricsOptionalParams,
-} from "../models/index.js";
+import { Metric, CollectionRegionListMetricsOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CollectionRegion. */

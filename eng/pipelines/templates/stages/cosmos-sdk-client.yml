@@ -41,12 +41,9 @@ extends:
           MatrixFilters:
             - TestType=node
             - DependencyVersion=^$
-            - NodeTestVersion=env:NODE_VERSION_LTS_MAINTENANCE
+            - NodeTestVersion=18.x
           PreSteps:
             - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml@self
-          PostSteps:
-            - template: /eng/pipelines/templates/steps/cosmos-additional-steps.yml@self
-
           # Temporary fix for cosmos ci pipeline
           UseFederatedAuth: false
           EnvVars:
@@ -60,5 +57,6 @@ extends:
               DependsOn: Build
               ServiceDirectory: ${{parameters.ServiceDirectory}}
               Artifacts: ${{parameters.Artifacts}}
+              ArtifactName: packages
               TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
               TargetDocRepoName: ${{ parameters.TargetDocRepoName }}

@@ -2,9 +2,9 @@
   "name": "@azure-samples/arm-servicefabricmanagedclusters-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-servicefabricmanagedclusters client library samples for JavaScript (Beta)",
+  "description": " client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
@@ -14,7 +14,6 @@
   "keywords": [
     "node",
     "azure",
-    "cloud",
     "typescript",
     "browser",
     "isomorphic"
@@ -28,6 +27,6 @@
   "dependencies": {
     "@azure/arm-servicefabricmanagedclusters": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.6.0"
+    "@azure/identity": "^4.2.1"
   }
 }

@@ -1,35 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import type { RequestParameters } from "@azure-rest/core-client";
-import type {
-  BatchPoolCreateOptions,
-  BatchPoolUpdateOptions,
-  BatchPoolEnableAutoScaleOptions,
-  BatchPoolEvaluateAutoScaleOptions,
-  BatchPoolResizeOptions,
-  BatchPoolReplaceOptions,
-  BatchNodeRemoveOptions,
-  BatchJobUpdateOptions,
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import { RequestParameters } from "@azure-rest/core-client";
+import {
+  BatchPoolCreateContent,
+  BatchPoolUpdateContent,
+  BatchPoolEnableAutoScaleContent,
+  BatchPoolEvaluateAutoScaleContent,
+  BatchPoolResizeContent,
+  BatchPoolReplaceContent,
+  BatchNodeRemoveContent,
+  BatchJobUpdateContent,
   BatchJob,
-  BatchJobDisableOptions,
-  BatchJobTerminateOptions,
-  BatchJobCreateOptions,
-  BatchCertificate,
-  BatchJobScheduleUpdateOptions,
+  BatchJobDisableContent,
+  BatchJobTerminateContent,
+  BatchJobCreateContent,
+  BatchJobScheduleUpdateContent,
   BatchJobSchedule,
-  BatchJobScheduleCreateOptions,
-  BatchTaskCreateOptions,
+  BatchJobScheduleCreateContent,
+  BatchTaskCreateContent,
   BatchTaskGroup,
   BatchTask,
-  BatchNodeUserCreateOptions,
-  BatchNodeUserUpdateOptions,
-  BatchNodeRebootOptions,
-  BatchNodeDeallocateOptions,
-  BatchNodeReimageOptions,
-  BatchNodeDisableSchedulingOptions,
-  UploadBatchServiceLogsOptions,
+  BatchNodeUserCreateContent,
+  BatchNodeUserUpdateContent,
+  BatchNodeRebootContent,
+  BatchNodeDeallocateContent,
+  BatchNodeReimageContent,
+  BatchNodeDisableSchedulingContent,
+  UploadBatchServiceLogsContent,
 } from "./models.js";
 
 export interface ListApplicationsHeaders {
@@ -141,7 +140,7 @@ export interface ListPoolUsageMetricsQueryParamProperties {
   endtime?: Date | string;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.
    */
   $filter?: string;
 }
@@ -176,7 +175,7 @@ export interface CreatePoolHeaders {
 
 export interface CreatePoolBodyParam {
   /** The Pool to be created. */
-  body: BatchPoolCreateOptions;
+  body: BatchPoolCreateContent;
 }
 
 export interface CreatePoolQueryParamProperties {
@@ -219,26 +218,6 @@ export interface ListPoolsHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface ListPoolsSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-/** This is the wrapper object for the parameter `$expand` with explode set to false and style set to form. */
-export interface ListPoolsExpandQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface ListPoolsQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
@@ -249,13 +228,13 @@ export interface ListPoolsQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-pools.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-pools.
    */
   $filter?: string;
   /** An OData $select clause. */
-  $select?: string[] | ListPoolsSelectQueryParam;
+  $select?: string[];
   /** An OData $expand clause. */
-  $expand?: string[] | ListPoolsExpandQueryParam;
+  $expand?: string[];
 }
 
 export interface ListPoolsQueryParam {
@@ -424,33 +403,13 @@ export interface GetPoolHeaders {
   "If-None-Match"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface GetPoolSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-/** This is the wrapper object for the parameter `$expand` with explode set to false and style set to form. */
-export interface GetPoolExpandQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface GetPoolQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /** An OData $select clause. */
-  $select?: string[] | GetPoolSelectQueryParam;
+  $select?: string[];
   /** An OData $expand clause. */
-  $expand?: string[] | GetPoolExpandQueryParam;
+  $expand?: string[];
 }
 
 export interface GetPoolQueryParam {
@@ -507,7 +466,7 @@ export interface UpdatePoolHeaders {
 
 export interface UpdatePoolBodyParam {
   /** The pool properties to update. */
-  body: BatchPoolUpdateOptions;
+  body: BatchPoolUpdateContent;
 }
 
 export interface UpdatePoolQueryParamProperties {
@@ -609,7 +568,7 @@ export interface EnablePoolAutoScaleHeaders {
 
 export interface EnablePoolAutoScaleBodyParam {
   /** The options to use for enabling automatic scaling. */
-  body: BatchPoolEnableAutoScaleOptions;
+  body: BatchPoolEnableAutoScaleContent;
 }
 
 export interface EnablePoolAutoScaleQueryParamProperties {
@@ -654,7 +613,7 @@ export interface EvaluatePoolAutoScaleHeaders {
 
 export interface EvaluatePoolAutoScaleBodyParam {
   /** The options to use for evaluating the automatic scaling formula. */
-  body: BatchPoolEvaluateAutoScaleOptions;
+  body: BatchPoolEvaluateAutoScaleContent;
 }
 
 export interface EvaluatePoolAutoScaleQueryParamProperties {
@@ -723,7 +682,7 @@ export interface ResizePoolHeaders {
 
 export interface ResizePoolBodyParam {
   /** The options to use for resizing the pool. */
-  body: BatchPoolResizeOptions;
+  body: BatchPoolResizeContent;
 }
 
 export interface ResizePoolQueryParamProperties {
@@ -825,7 +784,7 @@ export interface ReplacePoolPropertiesHeaders {
 
 export interface ReplacePoolPropertiesBodyParam {
   /** The options to use for replacing properties on the pool. */
-  body: BatchPoolReplaceOptions;
+  body: BatchPoolReplaceContent;
 }
 
 export interface ReplacePoolPropertiesQueryParamProperties {
@@ -894,7 +853,7 @@ export interface RemoveNodesHeaders {
 
 export interface RemoveNodesBodyParam {
   /** The options to use for removing the node. */
-  body: BatchNodeRemoveOptions;
+  body: BatchNodeRemoveContent;
 }
 
 export interface RemoveNodesQueryParamProperties {
@@ -947,7 +906,7 @@ export interface ListSupportedImagesQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-support-images.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-support-images.
    */
   $filter?: string;
 }
@@ -990,7 +949,7 @@ export interface ListPoolNodeCountsQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-support-images.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-support-images.
    */
   $filter?: string;
 }
@@ -1106,33 +1065,13 @@ export interface GetJobHeaders {
   "If-None-Match"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface GetJobSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-/** This is the wrapper object for the parameter `$expand` with explode set to false and style set to form. */
-export interface GetJobExpandQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface GetJobQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /** An OData $select clause. */
-  $select?: string[] | GetJobSelectQueryParam;
+  $select?: string[];
   /** An OData $expand clause. */
-  $expand?: string[] | GetJobExpandQueryParam;
+  $expand?: string[];
 }
 
 export interface GetJobQueryParam {
@@ -1189,7 +1128,7 @@ export interface UpdateJobHeaders {
 
 export interface UpdateJobBodyParam {
   /** The options to use for updating the Job. */
-  body: BatchJobUpdateOptions;
+  body: BatchJobUpdateContent;
 }
 
 export interface UpdateJobQueryParamProperties {
@@ -1327,7 +1266,7 @@ export interface DisableJobHeaders {
 
 export interface DisableJobBodyParam {
   /** The options to use for disabling the Job. */
-  body: BatchJobDisableOptions;
+  body: BatchJobDisableContent;
 }
 
 export interface DisableJobQueryParamProperties {
@@ -1453,7 +1392,7 @@ export interface TerminateJobHeaders {
 
 export interface TerminateJobBodyParam {
   /** The options to use for terminating the Job. */
-  body?: BatchJobTerminateOptions;
+  body?: BatchJobTerminateContent;
 }
 
 export interface TerminateJobQueryParamProperties {
@@ -1500,7 +1439,7 @@ export interface CreateJobHeaders {
 
 export interface CreateJobBodyParam {
   /** The Job to be created. */
-  body: BatchJobCreateOptions;
+  body: BatchJobCreateContent;
 }
 
 export interface CreateJobQueryParamProperties {
@@ -1543,26 +1482,6 @@ export interface ListJobsHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface ListJobsSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-/** This is the wrapper object for the parameter `$expand` with explode set to false and style set to form. */
-export interface ListJobsExpandQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface ListJobsQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
@@ -1573,13 +1492,13 @@ export interface ListJobsQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-jobs.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-jobs.
    */
   $filter?: string;
   /** An OData $select clause. */
-  $select?: string[] | ListJobsSelectQueryParam;
+  $select?: string[];
   /** An OData $expand clause. */
-  $expand?: string[] | ListJobsExpandQueryParam;
+  $expand?: string[];
 }
 
 export interface ListJobsQueryParam {
@@ -1610,26 +1529,6 @@ export interface ListJobsFromScheduleHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface ListJobsFromScheduleSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-/** This is the wrapper object for the parameter `$expand` with explode set to false and style set to form. */
-export interface ListJobsFromScheduleExpandQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface ListJobsFromScheduleQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
@@ -1640,13 +1539,13 @@ export interface ListJobsFromScheduleQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-jobs-in-a-job-schedule.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-jobs-in-a-job-schedule.
    */
   $filter?: string;
   /** An OData $select clause. */
-  $select?: string[] | ListJobsFromScheduleSelectQueryParam;
+  $select?: string[];
   /** An OData $expand clause. */
-  $expand?: string[] | ListJobsFromScheduleExpandQueryParam;
+  $expand?: string[];
 }
 
 export interface ListJobsFromScheduleQueryParam {
@@ -1677,16 +1576,6 @@ export interface ListJobPreparationAndReleaseTaskStatusHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface ListJobPreparationAndReleaseTaskStatusSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface ListJobPreparationAndReleaseTaskStatusQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
@@ -1697,11 +1586,11 @@ export interface ListJobPreparationAndReleaseTaskStatusQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
    */
   $filter?: string;
   /** An OData $select clause. */
-  $select?: string[] | ListJobPreparationAndReleaseTaskStatusSelectQueryParam;
+  $select?: string[];
 }
 
 export interface ListJobPreparationAndReleaseTaskStatusQueryParam {
@@ -1748,218 +1637,6 @@ export interface GetJobTaskCountsHeaderParam {
 
 export type GetJobTaskCountsParameters = GetJobTaskCountsQueryParam &
   GetJobTaskCountsHeaderParam &
-  RequestParameters;
-
-export interface CreateCertificateHeaders {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
-}
-
-export interface CreateCertificateBodyParam {
-  /** The Certificate to be created. */
-  body: BatchCertificate;
-}
-
-export interface CreateCertificateQueryParamProperties {
-  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
-  timeOut?: number;
-}
-
-export interface CreateCertificateQueryParam {
-  queryParameters?: CreateCertificateQueryParamProperties;
-}
-
-export interface CreateCertificateHeaderParam {
-  headers?: RawHttpHeadersInput & CreateCertificateHeaders;
-}
-
-export interface CreateCertificateMediaTypesParam {
-  /** Type of content */
-  contentType: "application/json; odata=minimalmetadata";
-}
-
-export type CreateCertificateParameters = CreateCertificateQueryParam &
-  CreateCertificateHeaderParam &
-  CreateCertificateMediaTypesParam &
-  CreateCertificateBodyParam &
-  RequestParameters;
-
-export interface ListCertificatesHeaders {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
-}
-
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface ListCertificatesSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-export interface ListCertificatesQueryParamProperties {
-  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
-  timeOut?: number;
-  /**
-   * The maximum number of items to return in the response. A maximum of 1000
-   * applications can be returned.
-   */
-  maxresults?: number;
-  /**
-   * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-certificates.
-   */
-  $filter?: string;
-  /** An OData $select clause. */
-  $select?: string[] | ListCertificatesSelectQueryParam;
-}
-
-export interface ListCertificatesQueryParam {
-  queryParameters?: ListCertificatesQueryParamProperties;
-}
-
-export interface ListCertificatesHeaderParam {
-  headers?: RawHttpHeadersInput & ListCertificatesHeaders;
-}
-
-export type ListCertificatesParameters = ListCertificatesQueryParam &
-  ListCertificatesHeaderParam &
-  RequestParameters;
-
-export interface CancelCertificateDeletionHeaders {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
-}
-
-export interface CancelCertificateDeletionQueryParamProperties {
-  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
-  timeOut?: number;
-}
-
-export interface CancelCertificateDeletionQueryParam {
-  queryParameters?: CancelCertificateDeletionQueryParamProperties;
-}
-
-export interface CancelCertificateDeletionHeaderParam {
-  headers?: RawHttpHeadersInput & CancelCertificateDeletionHeaders;
-}
-
-export type CancelCertificateDeletionParameters =
-  CancelCertificateDeletionQueryParam &
-    CancelCertificateDeletionHeaderParam &
-    RequestParameters;
-
-export interface DeleteCertificateHeaders {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
-}
-
-export interface DeleteCertificateQueryParamProperties {
-  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
-  timeOut?: number;
-}
-
-export interface DeleteCertificateQueryParam {
-  queryParameters?: DeleteCertificateQueryParamProperties;
-}
-
-export interface DeleteCertificateHeaderParam {
-  headers?: RawHttpHeadersInput & DeleteCertificateHeaders;
-}
-
-export type DeleteCertificateParameters = DeleteCertificateQueryParam &
-  DeleteCertificateHeaderParam &
-  RequestParameters;
-
-export interface GetCertificateHeaders {
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
-}
-
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface GetCertificateSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-export interface GetCertificateQueryParamProperties {
-  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
-  timeOut?: number;
-  /** An OData $select clause. */
-  $select?: string[] | GetCertificateSelectQueryParam;
-}
-
-export interface GetCertificateQueryParam {
-  queryParameters?: GetCertificateQueryParamProperties;
-}
-
-export interface GetCertificateHeaderParam {
-  headers?: RawHttpHeadersInput & GetCertificateHeaders;
-}
-
-export type GetCertificateParameters = GetCertificateQueryParam &
-  GetCertificateHeaderParam &
   RequestParameters;
 
 export interface JobScheduleExistsHeaders {
@@ -2118,33 +1795,13 @@ export interface GetJobScheduleHeaders {
   "If-None-Match"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface GetJobScheduleSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-/** This is the wrapper object for the parameter `$expand` with explode set to false and style set to form. */
-export interface GetJobScheduleExpandQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface GetJobScheduleQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /** An OData $select clause. */
-  $select?: string[] | GetJobScheduleSelectQueryParam;
+  $select?: string[];
   /** An OData $expand clause. */
-  $expand?: string[] | GetJobScheduleExpandQueryParam;
+  $expand?: string[];
 }
 
 export interface GetJobScheduleQueryParam {
@@ -2201,7 +1858,7 @@ export interface UpdateJobScheduleHeaders {
 
 export interface UpdateJobScheduleBodyParam {
   /** The options to use for updating the Job Schedule. */
-  body: BatchJobScheduleUpdateOptions;
+  body: BatchJobScheduleUpdateContent;
 }
 
 export interface UpdateJobScheduleQueryParamProperties {
@@ -2488,7 +2145,7 @@ export interface CreateJobScheduleHeaders {
 
 export interface CreateJobScheduleBodyParam {
   /** The Job Schedule to be created. */
-  body: BatchJobScheduleCreateOptions;
+  body: BatchJobScheduleCreateContent;
 }
 
 export interface CreateJobScheduleQueryParamProperties {
@@ -2531,26 +2188,6 @@ export interface ListJobSchedulesHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface ListJobSchedulesSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-/** This is the wrapper object for the parameter `$expand` with explode set to false and style set to form. */
-export interface ListJobSchedulesExpandQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface ListJobSchedulesQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
@@ -2561,13 +2198,13 @@ export interface ListJobSchedulesQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-job-schedules.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-job-schedules.
    */
   $filter?: string;
   /** An OData $select clause. */
-  $select?: string[] | ListJobSchedulesSelectQueryParam;
+  $select?: string[];
   /** An OData $expand clause. */
-  $expand?: string[] | ListJobSchedulesExpandQueryParam;
+  $expand?: string[];
 }
 
 export interface ListJobSchedulesQueryParam {
@@ -2600,7 +2237,7 @@ export interface CreateTaskHeaders {
 
 export interface CreateTaskBodyParam {
   /** The Task to be created. */
-  body: BatchTaskCreateOptions;
+  body: BatchTaskCreateContent;
 }
 
 export interface CreateTaskQueryParamProperties {
@@ -2643,26 +2280,6 @@ export interface ListTasksHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface ListTasksSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-/** This is the wrapper object for the parameter `$expand` with explode set to false and style set to form. */
-export interface ListTasksExpandQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface ListTasksQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
@@ -2673,13 +2290,13 @@ export interface ListTasksQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-tasks.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-tasks.
    */
   $filter?: string;
   /** An OData $select clause. */
-  $select?: string[] | ListTasksSelectQueryParam;
+  $select?: string[];
   /** An OData $expand clause. */
-  $expand?: string[] | ListTasksExpandQueryParam;
+  $expand?: string[];
 }
 
 export interface ListTasksQueryParam {
@@ -2836,33 +2453,13 @@ export interface GetTaskHeaders {
   "If-None-Match"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface GetTaskSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-/** This is the wrapper object for the parameter `$expand` with explode set to false and style set to form. */
-export interface GetTaskExpandQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface GetTaskQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /** An OData $select clause. */
-  $select?: string[] | GetTaskSelectQueryParam;
+  $select?: string[];
   /** An OData $expand clause. */
-  $expand?: string[] | GetTaskExpandQueryParam;
+  $expand?: string[];
 }
 
 export interface GetTaskQueryParam {
@@ -2962,21 +2559,11 @@ export interface ListSubTasksHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface ListSubTasksSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface ListSubTasksQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /** An OData $select clause. */
-  $select?: string[] | ListSubTasksSelectQueryParam;
+  $select?: string[];
 }
 
 export interface ListSubTasksQueryParam {
@@ -3266,7 +2853,7 @@ export interface ListTaskFilesQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-task-files.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-task-files.
    */
   $filter?: string;
   /**
@@ -3306,7 +2893,7 @@ export interface CreateNodeUserHeaders {
 
 export interface CreateNodeUserBodyParam {
   /** The options to use for creating the user. */
-  body: BatchNodeUserCreateOptions;
+  body: BatchNodeUserCreateContent;
 }
 
 export interface CreateNodeUserQueryParamProperties {
@@ -3384,7 +2971,7 @@ export interface ReplaceNodeUserHeaders {
 
 export interface ReplaceNodeUserBodyParam {
   /** The options to use for updating the user. */
-  body: BatchNodeUserUpdateOptions;
+  body: BatchNodeUserUpdateContent;
 }
 
 export interface ReplaceNodeUserQueryParamProperties {
@@ -3427,21 +3014,11 @@ export interface GetNodeHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface GetNodeSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface GetNodeQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /** An OData $select clause. */
-  $select?: string[] | GetNodeSelectQueryParam;
+  $select?: string[];
 }
 
 export interface GetNodeQueryParam {
@@ -3474,7 +3051,7 @@ export interface RebootNodeHeaders {
 
 export interface RebootNodeBodyParam {
   /** The options to use for rebooting the Compute Node. */
-  body?: BatchNodeRebootOptions;
+  body?: BatchNodeRebootContent;
 }
 
 export interface RebootNodeQueryParamProperties {
@@ -3552,7 +3129,7 @@ export interface DeallocateNodeHeaders {
 
 export interface DeallocateNodeBodyParam {
   /** The options to use for deallocating the Compute Node. */
-  body?: BatchNodeDeallocateOptions;
+  body?: BatchNodeDeallocateContent;
 }
 
 export interface DeallocateNodeQueryParamProperties {
@@ -3597,7 +3174,7 @@ export interface ReimageNodeHeaders {
 
 export interface ReimageNodeBodyParam {
   /** The options to use for reimaging the Compute Node. */
-  body?: BatchNodeReimageOptions;
+  body?: BatchNodeReimageContent;
 }
 
 export interface ReimageNodeQueryParamProperties {
@@ -3642,7 +3219,7 @@ export interface DisableNodeSchedulingHeaders {
 
 export interface DisableNodeSchedulingBodyParam {
   /** The options to use for disabling scheduling on the Compute Node. */
-  body?: BatchNodeDisableSchedulingOptions;
+  body?: BatchNodeDisableSchedulingContent;
 }
 
 export interface DisableNodeSchedulingQueryParamProperties {
@@ -3754,7 +3331,7 @@ export interface UploadNodeLogsHeaders {
 
 export interface UploadNodeLogsBodyParam {
   /** The Azure Batch service log files upload options. */
-  body: UploadBatchServiceLogsOptions;
+  body: UploadBatchServiceLogsContent;
 }
 
 export interface UploadNodeLogsQueryParamProperties {
@@ -3797,16 +3374,6 @@ export interface ListNodesHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface ListNodesSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface ListNodesQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
@@ -3817,11 +3384,11 @@ export interface ListNodesQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-nodes-in-a-pool.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-nodes-in-a-pool.
    */
   $filter?: string;
   /** An OData $select clause. */
-  $select?: string[] | ListNodesSelectQueryParam;
+  $select?: string[];
 }
 
 export interface ListNodesQueryParam {
@@ -3852,21 +3419,11 @@ export interface GetNodeExtensionHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface GetNodeExtensionSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface GetNodeExtensionQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /** An OData $select clause. */
-  $select?: string[] | GetNodeExtensionSelectQueryParam;
+  $select?: string[];
 }
 
 export interface GetNodeExtensionQueryParam {
@@ -3897,16 +3454,6 @@ export interface ListNodeExtensionsHeaders {
   "ocp-date"?: string;
 }
 
-/** This is the wrapper object for the parameter `$select` with explode set to false and style set to form. */
-export interface ListNodeExtensionsSelectQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
 export interface ListNodeExtensionsQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
@@ -3916,7 +3463,7 @@ export interface ListNodeExtensionsQueryParamProperties {
    */
   maxresults?: number;
   /** An OData $select clause. */
-  $select?: string[] | ListNodeExtensionsSelectQueryParam;
+  $select?: string[];
 }
 
 export interface ListNodeExtensionsQueryParam {
@@ -4092,7 +3639,7 @@ export interface ListNodeFilesQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://learn.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-compute-node-files.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-compute-node-files.
    */
   $filter?: string;
   /** Whether to list children of a directory. */

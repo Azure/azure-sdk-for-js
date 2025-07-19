@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0 (2025-05-08)
+## 1.0.0-beta.1 (2025-03-26)
 
 ### Features Added
 
-This is the first stable version with the package of @azure/arm-weightsandbiases.
+Initial release of the Azure WeightsAndBiases package

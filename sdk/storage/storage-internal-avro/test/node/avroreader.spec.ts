@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "node:fs";
+import * as fs from "node:fs";
 import { AvroReadableFromStream, AvroReader } from "../../src/index.js";
 import { Readable } from "node:stream";
 import { arraysEqual } from "../../src/utils/utils.common.js";

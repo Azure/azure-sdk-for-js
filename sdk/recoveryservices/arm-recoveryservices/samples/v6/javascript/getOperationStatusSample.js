@@ -6,15 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the operation status for a resource.
  *
  * @summary Gets the operation status for a resource.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/GetOperationStatus.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/GetOperationStatus.json
  */
 async function getOperationStatus() {
   const subscriptionId =
@@ -30,7 +32,7 @@ async function getOperationStatus() {
 }
 
 async function main() {
-  await getOperationStatus();
+  getOperationStatus();
 }
 
 main().catch(console.error);

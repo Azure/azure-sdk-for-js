@@ -12,9 +12,6 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  PhoneNumbersBrowseRequest as PhoneNumbersBrowseRequestMapper,
-  PhoneNumbersReservation as PhoneNumbersReservationMapper,
-  PhoneNumbersReservationPurchaseRequest as PhoneNumbersReservationPurchaseRequestMapper,
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
   PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper,
@@ -124,7 +121,7 @@ export const administrativeDivision: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-04-01",
+    defaultValue: "2025-02-11",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -143,6 +140,17 @@ export const acceptLanguage: OperationParameter = {
   },
 };
 
+export const phoneNumberType1: OperationQueryParameter = {
+  parameterPath: ["options", "phoneNumberType"],
+  mapper: {
+    serializedName: "phoneNumberType",
+    type: {
+      name: "Enum",
+      allowedValues: ["geographic", "tollFree"],
+    },
+  },
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -155,96 +163,17 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const phoneNumberType1: OperationParameter = {
-  parameterPath: "phoneNumberType",
-  mapper: PhoneNumbersBrowseRequestMapper,
-};
-
-export const capabilities: OperationParameter = {
-  parameterPath: ["options", "capabilities"],
-  mapper: PhoneNumbersBrowseRequestMapper,
-};
-
-export const assignmentType1: OperationParameter = {
-  parameterPath: ["options", "assignmentType"],
-  mapper: PhoneNumbersBrowseRequestMapper,
-};
-
-export const phoneNumberPrefixes: OperationParameter = {
-  parameterPath: ["options", "phoneNumberPrefixes"],
-  mapper: PhoneNumbersBrowseRequestMapper,
-};
-
-export const phoneNumberType2: OperationQueryParameter = {
-  parameterPath: ["options", "phoneNumberType"],
-  mapper: {
-    serializedName: "phoneNumberType",
-    type: {
-      name: "Enum",
-      allowedValues: ["geographic", "tollFree"],
-    },
-  },
-};
-
-export const contentType1: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/merge-patch+json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const id: OperationParameter = {
-  parameterPath: ["options", "id"],
-  mapper: PhoneNumbersReservationMapper,
-};
-
-export const expiresAt: OperationParameter = {
-  parameterPath: ["options", "expiresAt"],
-  mapper: PhoneNumbersReservationMapper,
-};
-
-export const phoneNumbers: OperationParameter = {
-  parameterPath: ["options", "phoneNumbers"],
-  mapper: PhoneNumbersReservationMapper,
-};
-
-export const status: OperationParameter = {
-  parameterPath: ["options", "status"],
-  mapper: PhoneNumbersReservationMapper,
-};
-
-export const reservationId: OperationURLParameter = {
-  parameterPath: "reservationId",
-  mapper: {
-    serializedName: "reservationId",
-    required: true,
-    type: {
-      name: "Uuid",
-    },
-  },
-};
-
-export const agreeToNotResell: OperationParameter = {
-  parameterPath: ["options", "agreeToNotResell"],
-  mapper: PhoneNumbersReservationPurchaseRequestMapper,
-};
-
-export const phoneNumberType3: OperationParameter = {
+export const phoneNumberType2: OperationParameter = {
   parameterPath: "phoneNumberType",
   mapper: PhoneNumberSearchRequestMapper,
 };
 
-export const assignmentType2: OperationParameter = {
+export const assignmentType1: OperationParameter = {
   parameterPath: "assignmentType",
   mapper: PhoneNumberSearchRequestMapper,
 };
 
-export const capabilities1: OperationParameter = {
+export const capabilities: OperationParameter = {
   parameterPath: "capabilities",
   mapper: PhoneNumberSearchRequestMapper,
 };
@@ -275,16 +204,23 @@ export const searchId1: OperationParameter = {
   mapper: PhoneNumberPurchaseRequestMapper,
 };
 
-export const agreeToNotResell1: OperationParameter = {
-  parameterPath: ["options", "agreeToNotResell"],
-  mapper: PhoneNumberPurchaseRequestMapper,
-};
-
 export const operationId: OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
     serializedName: "operationId",
     required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
     type: {
       name: "String",
     },
@@ -323,7 +259,7 @@ export const top: OperationQueryParameter = {
   },
 };
 
-export const phoneNumbers1: OperationParameter = {
+export const phoneNumbers: OperationParameter = {
   parameterPath: "phoneNumbers",
   mapper: OperatorInformationRequestMapper,
 };

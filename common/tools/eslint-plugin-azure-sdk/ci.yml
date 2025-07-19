@@ -25,11 +25,9 @@ jobs:
 
     variables:
       - template: /eng/pipelines/templates/variables/globals.yml
-      - template: /eng/pipelines/templates/variables/image.yml
 
     pool:
-      name: $(LINUXPOOL)
-      demands: ImageOverride -equals $(LINUXVMIMAGE)
+      vmImage: 'Ubuntu 20.04'
 
     steps:
       - template: /eng/pipelines/templates/steps/common.yml

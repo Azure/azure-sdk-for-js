@@ -1868,11 +1868,6 @@ export interface RackSku extends Resource {
 
 /** BareMetalMachine represents the physical machine in the rack. */
 export interface BareMetalMachine extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /**
@@ -2011,11 +2006,6 @@ export interface BareMetalMachine extends TrackedResource {
  * virtual machines and/or Hybrid AKS clusters.
  */
 export interface CloudServicesNetwork extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /** The list of egress endpoints. This allows for connection from a Hybrid AKS cluster to the specified endpoint. */
@@ -2071,11 +2061,6 @@ export interface CloudServicesNetwork extends TrackedResource {
 
 /** ClusterManager represents a control-plane to manage one or more on-premises clusters. */
 export interface ClusterManager extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The identity of the cluster manager. */
   identity?: ManagedServiceIdentity;
   /** The resource ID of the Log Analytics workspace that is used for the logs collection. */
@@ -2117,11 +2102,6 @@ export interface ClusterManager extends TrackedResource {
 
 /** Cluster represents the on-premises Network Cloud cluster. */
 export interface Cluster extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster manager associated with the cluster. */
   extendedLocation: ExtendedLocation;
   /** The identity for the resource. */
@@ -2232,11 +2212,6 @@ export interface Cluster extends TrackedResource {
 
 /** KubernetesCluster represents the Kubernetes cluster hosted on Network Cloud. */
 export interface KubernetesCluster extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /** The Azure Active Directory Integration properties. */
@@ -2307,11 +2282,6 @@ export interface KubernetesCluster extends TrackedResource {
 
 /** L2Network represents a network that utilizes a single isolation domain set up for layer-2 resources. */
 export interface L2Network extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /**
@@ -2359,11 +2329,6 @@ export interface L2Network extends TrackedResource {
 
 /** L3Network represents a network that utilizes a single isolation domain set up for layer-3 resources. */
 export interface L3Network extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /**
@@ -2427,11 +2392,6 @@ export interface L3Network extends TrackedResource {
 
 /** Rack represents the hardware of the rack and is dependent upon the cluster for lifecycle. */
 export interface Rack extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /** The value that will be used for machines in this rack to represent the availability zones that can be referenced by Hybrid AKS Clusters for node arrangement. */
@@ -2466,11 +2426,6 @@ export interface Rack extends TrackedResource {
 
 /** StorageAppliance represents on-premises Network Cloud storage appliance. */
 export interface StorageAppliance extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /** The credentials of the administrative interface on this storage appliance. */
@@ -2552,11 +2507,6 @@ export interface StorageAppliance extends TrackedResource {
 
 /** TrunkedNetwork represents a network that utilizes multiple isolation domains and specified VLANs to create a trunked network. */
 export interface TrunkedNetwork extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /**
@@ -2606,11 +2556,6 @@ export interface TrunkedNetwork extends TrackedResource {
 
 /** VirtualMachine represents the on-premises Network Cloud virtual machine. */
 export interface VirtualMachine extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /** The name of the administrator to which the ssh public keys will be added into the authorized keys. */
@@ -2691,11 +2636,6 @@ export interface VirtualMachine extends TrackedResource {
 
 /** Volume represents storage made available for use by resources running on the cluster. */
 export interface Volume extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /**
@@ -2729,11 +2669,6 @@ export interface Volume extends TrackedResource {
 
 /** BareMetalMachineKeySet represents the bare metal machine key set. */
 export interface BareMetalMachineKeySet extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /** The object ID of Azure Active Directory group that all users in the list must be in for access to be granted. Users that are not in the group will not have access. */
@@ -2777,11 +2712,6 @@ export interface BareMetalMachineKeySet extends TrackedResource {
 
 /** BmcKeySet represents the baseboard management controller key set. */
 export interface BmcKeySet extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /** The object ID of Azure Active Directory group that all users in the list must be in for access to be granted. Users that are not in the group will not have access. */
@@ -2821,11 +2751,6 @@ export interface BmcKeySet extends TrackedResource {
 
 /** ClusterMetricsConfiguration represents the metrics configuration of an on-premises Network Cloud cluster. */
 export interface ClusterMetricsConfiguration extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation: ExtendedLocation;
   /** The interval in minutes by which metrics will be collected. */
@@ -2856,11 +2781,6 @@ export interface ClusterMetricsConfiguration extends TrackedResource {
 
 /** AgentPool represents the agent pool of Kubernetes cluster. */
 export interface AgentPool extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster associated with the resource. */
   extendedLocation?: ExtendedLocation;
   /** The administrator credentials to be used for the nodes in this agent pool. */
@@ -2908,11 +2828,6 @@ export interface AgentPool extends TrackedResource {
 /** KubernetesClusterFeature represents the feature of a Kubernetes cluster. */
 export interface KubernetesClusterFeature extends TrackedResource {
   /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
    * The lifecycle indicator of the feature.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2948,11 +2863,6 @@ export interface KubernetesClusterFeature extends TrackedResource {
 
 /** Console represents the console of an on-premises Network Cloud virtual machine. */
 export interface Console extends TrackedResource {
-  /**
-   * Resource ETag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
   /** The extended location of the cluster manager associated with the cluster this virtual machine is created on. */
   extendedLocation: ExtendedLocation;
   /**
@@ -5126,7 +5036,7 @@ export enum KnownVirtualMachineDeviceModelType {
   T1 = "T1",
   /** Modern and enhanced device virtualization interface. */
   T2 = "T2",
-  /** Improved security and functionality (including TPM and secure boot support). Required for windows 11 and server 2025. */
+  /** Improved security and functionality (including TPM and secure boot support). */
   T3 = "T3",
 }
 
@@ -5137,7 +5047,7 @@ export enum KnownVirtualMachineDeviceModelType {
  * ### Known values supported by the service
  * **T1**: Traditional and most compatible device virtualization interface. \
  * **T2**: Modern and enhanced device virtualization interface. \
- * **T3**: Improved security and functionality (including TPM and secure boot support). Required for windows 11 and server 2025.
+ * **T3**: Improved security and functionality (including TPM and secure boot support).
  */
 export type VirtualMachineDeviceModelType = string;
 
@@ -5722,10 +5632,6 @@ export type BareMetalMachinesGetResponse = BareMetalMachine;
 /** Optional parameters. */
 export interface BareMetalMachinesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5738,10 +5644,6 @@ export type BareMetalMachinesCreateOrUpdateResponse = BareMetalMachine;
 /** Optional parameters. */
 export interface BareMetalMachinesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5754,10 +5656,6 @@ export type BareMetalMachinesDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface BareMetalMachinesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   bareMetalMachineUpdateParameters?: BareMetalMachinePatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -5937,10 +5835,6 @@ export type CloudServicesNetworksGetResponse = CloudServicesNetwork;
 /** Optional parameters. */
 export interface CloudServicesNetworksCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5953,10 +5847,6 @@ export type CloudServicesNetworksCreateOrUpdateResponse = CloudServicesNetwork;
 /** Optional parameters. */
 export interface CloudServicesNetworksDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -5969,10 +5859,6 @@ export type CloudServicesNetworksDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface CloudServicesNetworksUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   cloudServicesNetworkUpdateParameters?: CloudServicesNetworkPatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -6024,10 +5910,6 @@ export type ClusterManagersGetResponse = ClusterManager;
 /** Optional parameters. */
 export interface ClusterManagersCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6040,10 +5922,6 @@ export type ClusterManagersCreateOrUpdateResponse = ClusterManager;
 /** Optional parameters. */
 export interface ClusterManagersDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6056,10 +5934,6 @@ export type ClusterManagersDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface ClusterManagersUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   clusterManagerUpdateParameters?: ClusterManagerPatchParameters;
 }
@@ -6105,10 +5979,6 @@ export type ClustersGetResponse = Cluster;
 /** Optional parameters. */
 export interface ClustersCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6121,10 +5991,6 @@ export type ClustersCreateOrUpdateResponse = Cluster;
 /** Optional parameters. */
 export interface ClustersDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6137,10 +6003,6 @@ export type ClustersDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface ClustersUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   clusterUpdateParameters?: ClusterPatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -6244,10 +6106,6 @@ export type KubernetesClustersGetResponse = KubernetesCluster;
 /** Optional parameters. */
 export interface KubernetesClustersCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6260,10 +6118,6 @@ export type KubernetesClustersCreateOrUpdateResponse = KubernetesCluster;
 /** Optional parameters. */
 export interface KubernetesClustersDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6276,10 +6130,6 @@ export type KubernetesClustersDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface KubernetesClustersUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   kubernetesClusterUpdateParameters?: KubernetesClusterPatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -6343,10 +6193,6 @@ export type L2NetworksGetResponse = L2Network;
 /** Optional parameters. */
 export interface L2NetworksCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6359,10 +6205,6 @@ export type L2NetworksCreateOrUpdateResponse = L2Network;
 /** Optional parameters. */
 export interface L2NetworksDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6375,10 +6217,6 @@ export type L2NetworksDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface L2NetworksUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   l2NetworkUpdateParameters?: L2NetworkPatchParameters;
 }
@@ -6424,10 +6262,6 @@ export type L3NetworksGetResponse = L3Network;
 /** Optional parameters. */
 export interface L3NetworksCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6440,10 +6274,6 @@ export type L3NetworksCreateOrUpdateResponse = L3Network;
 /** Optional parameters. */
 export interface L3NetworksDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6456,10 +6286,6 @@ export type L3NetworksDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface L3NetworksUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   l3NetworkUpdateParameters?: L3NetworkPatchParameters;
 }
@@ -6525,10 +6351,6 @@ export type RacksGetResponse = Rack;
 /** Optional parameters. */
 export interface RacksCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6540,10 +6362,6 @@ export type RacksCreateOrUpdateResponse = Rack;
 
 /** Optional parameters. */
 export interface RacksDeleteOptionalParams extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6555,10 +6373,6 @@ export type RacksDeleteResponse = OperationStatusResult;
 
 /** Optional parameters. */
 export interface RacksUpdateOptionalParams extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   rackUpdateParameters?: RackPatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -6608,10 +6422,6 @@ export type StorageAppliancesGetResponse = StorageAppliance;
 /** Optional parameters. */
 export interface StorageAppliancesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6624,10 +6434,6 @@ export type StorageAppliancesCreateOrUpdateResponse = StorageAppliance;
 /** Optional parameters. */
 export interface StorageAppliancesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6640,10 +6446,6 @@ export type StorageAppliancesDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface StorageAppliancesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   storageApplianceUpdateParameters?: StorageAppliancePatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -6723,10 +6525,6 @@ export type TrunkedNetworksGetResponse = TrunkedNetwork;
 /** Optional parameters. */
 export interface TrunkedNetworksCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6739,10 +6537,6 @@ export type TrunkedNetworksCreateOrUpdateResponse = TrunkedNetwork;
 /** Optional parameters. */
 export interface TrunkedNetworksDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6755,10 +6549,6 @@ export type TrunkedNetworksDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface TrunkedNetworksUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   trunkedNetworkUpdateParameters?: TrunkedNetworkPatchParameters;
 }
@@ -6804,10 +6594,6 @@ export type VirtualMachinesGetResponse = VirtualMachine;
 /** Optional parameters. */
 export interface VirtualMachinesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6820,10 +6606,6 @@ export type VirtualMachinesCreateOrUpdateResponse = VirtualMachine;
 /** Optional parameters. */
 export interface VirtualMachinesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6836,10 +6618,6 @@ export type VirtualMachinesDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface VirtualMachinesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   virtualMachineUpdateParameters?: VirtualMachinePatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -6938,10 +6716,6 @@ export type VolumesGetResponse = Volume;
 /** Optional parameters. */
 export interface VolumesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6954,10 +6728,6 @@ export type VolumesCreateOrUpdateResponse = Volume;
 /** Optional parameters. */
 export interface VolumesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -6970,10 +6740,6 @@ export type VolumesDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface VolumesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   volumeUpdateParameters?: VolumePatchParameters;
 }
@@ -7013,10 +6779,6 @@ export type BareMetalMachineKeySetsGetResponse = BareMetalMachineKeySet;
 /** Optional parameters. */
 export interface BareMetalMachineKeySetsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7030,10 +6792,6 @@ export type BareMetalMachineKeySetsCreateOrUpdateResponse =
 /** Optional parameters. */
 export interface BareMetalMachineKeySetsDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7046,10 +6804,6 @@ export type BareMetalMachineKeySetsDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface BareMetalMachineKeySetsUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   bareMetalMachineKeySetUpdateParameters?: BareMetalMachineKeySetPatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -7086,10 +6840,6 @@ export type BmcKeySetsGetResponse = BmcKeySet;
 /** Optional parameters. */
 export interface BmcKeySetsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7102,10 +6852,6 @@ export type BmcKeySetsCreateOrUpdateResponse = BmcKeySet;
 /** Optional parameters. */
 export interface BmcKeySetsDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7118,10 +6864,6 @@ export type BmcKeySetsDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface BmcKeySetsUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   bmcKeySetUpdateParameters?: BmcKeySetPatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -7158,10 +6900,6 @@ export type MetricsConfigurationsGetResponse = ClusterMetricsConfiguration;
 /** Optional parameters. */
 export interface MetricsConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7175,10 +6913,6 @@ export type MetricsConfigurationsCreateOrUpdateResponse =
 /** Optional parameters. */
 export interface MetricsConfigurationsDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7191,10 +6925,6 @@ export type MetricsConfigurationsDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface MetricsConfigurationsUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   metricsConfigurationUpdateParameters?: ClusterMetricsConfigurationPatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -7231,10 +6961,6 @@ export type AgentPoolsGetResponse = AgentPool;
 /** Optional parameters. */
 export interface AgentPoolsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7247,10 +6973,6 @@ export type AgentPoolsCreateOrUpdateResponse = AgentPool;
 /** Optional parameters. */
 export interface AgentPoolsDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7263,10 +6985,6 @@ export type AgentPoolsDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface AgentPoolsUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   agentPoolUpdateParameters?: AgentPoolPatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -7303,10 +7021,6 @@ export type KubernetesClusterFeaturesGetResponse = KubernetesClusterFeature;
 /** Optional parameters. */
 export interface KubernetesClusterFeaturesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7320,10 +7034,6 @@ export type KubernetesClusterFeaturesCreateOrUpdateResponse =
 /** Optional parameters. */
 export interface KubernetesClusterFeaturesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7336,10 +7046,6 @@ export type KubernetesClusterFeaturesDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface KubernetesClusterFeaturesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   kubernetesClusterFeatureUpdateParameters?: KubernetesClusterFeaturePatchParameters;
   /** Delay to wait until next poll, in milliseconds. */
@@ -7376,10 +7082,6 @@ export type ConsolesGetResponse = Console;
 /** Optional parameters. */
 export interface ConsolesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7392,10 +7094,6 @@ export type ConsolesCreateOrUpdateResponse = Console;
 /** Optional parameters. */
 export interface ConsolesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7408,10 +7106,6 @@ export type ConsolesDeleteResponse = OperationStatusResult;
 /** Optional parameters. */
 export interface ConsolesUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The ETag of the transformation. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
-  ifMatch?: string;
-  /** Set to '*' to allow a new record set to be created, but to prevent updating an existing resource. Other values will result in error from server as they are not supported. */
-  ifNoneMatch?: string;
   /** The request body. */
   consoleUpdateParameters?: ConsolePatchParameters;
   /** Delay to wait until next poll, in milliseconds. */

@@ -9,7 +9,6 @@ import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
 import { withMetadataDiagnostics } from "./utils/diagnostics.js";
-import { normalizeEndpoint } from "./utils/checkURL.js";
 
 /**
  * @hidden
@@ -34,7 +33,6 @@ export class GlobalEndpointManager {
   private readableLocations: Location[] = [];
   private unavailableReadableLocations: Location[] = [];
   private unavailableWriteableLocations: Location[] = [];
-  private enableMultipleWriteLocations: boolean;
 
   public preferredLocationsCount: number;
   /**
@@ -78,13 +76,6 @@ export class GlobalEndpointManager {
     return this.writeableLocations.map((loc) => loc.databaseAccountEndpoint);
   }
 
-  /**
-   * Gets the read locations from the endpoint cache.
-   */
-  public async getReadLocations(): Promise<ReadonlyArray<Location>> {
-    return this.readableLocations;
-  }
-
   public async markCurrentLocationUnavailableForRead(
     diagnosticNode: DiagnosticNodeInternal,
     endpoint: string,
@@ -117,8 +108,7 @@ export class GlobalEndpointManager {
     resourceType?: ResourceType,
     operationType?: OperationType,
   ): boolean {
-    let canUse =
-      this.options.connectionPolicy.useMultipleWriteLocations && this.enableMultipleWriteLocations;
+    let canUse = this.options.connectionPolicy.useMultipleWriteLocations;
 
     if (resourceType) {
       canUse =
@@ -164,7 +154,6 @@ export class GlobalEndpointManager {
 
       this.writeableLocations = resourceResponse.resource.writableLocations;
       this.readableLocations = resourceResponse.resource.readableLocations;
-      this.enableMultipleWriteLocations = resourceResponse.resource.enableMultipleWritableLocations;
     }
 
     const locations = isReadRequest(operationType)
@@ -369,4 +358,8 @@ export class GlobalEndpointManager {
 
     return null;
   }
+}
+
+function normalizeEndpoint(endpoint: string): string {
+  return endpoint.split(" ").join("").toLowerCase();
 }

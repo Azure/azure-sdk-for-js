@@ -54,20 +54,17 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCredentialEntraUser", async () => {
-    const options = {
-      tenantId: "<your-tenant-id>",
-      clientId: "<your-client-id>",
-      redirectUri: "<your-redirect-uri>",
-    };
-    const entraTokenCredential = new InteractiveBrowserCredential(options);
+    function fetchTokenFromMyServerForUser(user: string): Promise<string> {
+      // Your custom implementation to fetch a token for the user
+      return Promise.resolve("some-unique-token-for-" + user);
+    }
     // @ts-preserve-whitespace
-    const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
-      resourceEndpoint: "https://<your-resource>.communication.azure.com",
-      tokenCredential: entraTokenCredential,
-      scopes: ["https://communication.azure.com/clients/VoIP"],
-    };
-    // @ts-preserve-whitespace
-    const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
+    const tokenCredential = new AzureCommunicationTokenCredential({
+      tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
+      refreshProactively: true,
+      token:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
+    });
   });
 
   it("ReadmeSampleCredentialEntraUserTeamsPhoneExtensibility", async () => {

@@ -11,18 +11,16 @@ import { createHttpHeaders } from "../../src/httpHeaders.js";
 import { createNodeHttpClient } from "../../src/nodeHttpClient.js";
 import { createPipelineFromOptions } from "../../src/createPipelineFromOptions.js";
 
-vi.mock("node:https", async () => {
-  const actual = await vi.importActual("node:https");
+vi.mock("https", async () => {
+  const actual = await vi.importActual("https");
   return {
-    default: {
-      ...(actual as any).default,
-      request: vi.fn(),
-    },
+    ...actual,
+    request: vi.fn(),
   };
 });
 
 import type { Agent } from "node:http";
-import https from "node:https";
+import * as https from "node:https";
 
 describe("HttpsPipeline", function () {
   describe("Agent creation", function () {

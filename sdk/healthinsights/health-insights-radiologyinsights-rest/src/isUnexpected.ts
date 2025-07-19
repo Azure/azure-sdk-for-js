@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type {
-  GetJob200Response,
-  GetJobDefaultResponse,
   CreateJob200Response,
   CreateJob201Response,
-  CreateJobLogicalResponse,
   CreateJobDefaultResponse,
+  CreateJobLogicalResponse,
+  GetJob200Response,
+  GetJobDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {

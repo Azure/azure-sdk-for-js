@@ -18,13 +18,12 @@ import type {
   VectorStoreDataSource,
   OpenApiFunctionDefinition,
   AISearchIndexResource,
-  BingCustomSearchConfiguration,
-  BingCustomSearchToolDefinition,
   BingGroundingToolDefinition,
-  BingGroundingSearchConfiguration,
-  ConnectedAgentToolDefinition,
   MicrosoftFabricToolDefinition,
+  BingCustomSearchToolDefinition,
+  BingCustomSearchConfiguration,
   SharepointToolDefinition,
+  BingGroundingSearchConfiguration,
 } from "./index.js";
 
 /**
@@ -125,13 +124,11 @@ export class ToolUtility {
   static createBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
     definition: BingGroundingToolDefinition;
   } {
-    // Ensure searchConfigurations is an array even if it's undefined
-    const configs = searchConfigurations || [];
     return {
       definition: {
         type: "bing_grounding",
         bingGrounding: {
-          searchConfigurations: configs.map((searchConfiguration) => ({
+          searchConfigurations: searchConfigurations.map((searchConfiguration) => ({
             connectionId: searchConfiguration.connectionId,
             market: searchConfiguration?.market,
             setLang: searchConfiguration?.setLang,
@@ -235,28 +232,6 @@ export class ToolUtility {
               filter: options?.filter,
             },
           ],
-        },
-      },
-    };
-  }
-
-  /**
-   * Creates a connected agent tool
-   *
-   * @returns An object containing the definition for the connected agent tool.
-   */
-  static createConnectedAgentTool(
-    id: string,
-    name: string,
-    description: string,
-  ): { definition: ConnectedAgentToolDefinition } {
-    return {
-      definition: {
-        type: "connected_agent",
-        connectedAgent: {
-          id: id,
-          name: name,
-          description: description,
         },
       },
     };
@@ -430,24 +405,6 @@ export class ToolSet {
     definition: BingGroundingToolDefinition;
   } {
     const tool = ToolUtility.createBingGroundingTool(searchConfigurations);
-    this.toolDefinitions.push(tool.definition);
-    return tool;
-  }
-
-  /**
-   * Adds a connected agent tool to the tool set.
-   *
-   * @param id - The ID of the connected agent.
-   * @param name - The name of the connected agent.
-   * @param description - The description of the connected agent.
-   * @returns An object containing the definition for the connected agent tool
-   */
-  addConnectedAgentTool(
-    id: string,
-    name: string,
-    description: string,
-  ): { definition: ConnectedAgentToolDefinition } {
-    const tool = ToolUtility.createConnectedAgentTool(id, name, description);
     this.toolDefinitions.push(tool.definition);
     return tool;
   }

@@ -3,6 +3,8 @@
 
 import type {
   GetConstitutionParameters,
+  GetUserDefinedEndpointParameters,
+  CreateUserDefinedEndpointParameters,
   ListConsortiumMembersParameters,
   GetEnclaveQuotesParameters,
   ListCollectionsParameters,
@@ -13,23 +15,21 @@ import type {
   GetTransactionStatusParameters,
   GetCurrentLedgerEntryParameters,
   ListUsersParameters,
-  ListLedgerUsersParameters,
   DeleteUserParameters,
   GetUserParameters,
   CreateOrUpdateUserParameters,
   DeleteLedgerUserParameters,
   GetLedgerUserParameters,
   CreateOrUpdateLedgerUserParameters,
-  GetUserDefinedEndpointParameters,
-  CreateUserDefinedEndpointParameters,
-  GetRuntimeOptionsParameters,
-  UpdateRuntimeOptionsParameters,
-  GetUserDefinedEndpointsModuleParameters,
   ListUserDefinedFunctionsParameters,
   DeleteUserDefinedFunctionParameters,
   GetUserDefinedFunctionParameters,
   CreateUserDefinedFunctionParameters,
   ExecuteUserDefinedFunctionParameters,
+  ListLedgerUsersParameters,
+  GetRuntimeOptionsParameters,
+  UpdateRuntimeOptionsParameters,
+  GetUserDefinedEndpointsModuleParameters,
   GetUserDefinedRoleParameters,
   CreateUserDefinedRoleParameters,
   UpdateUserDefinedRoleParameters,
@@ -38,6 +38,10 @@ import type {
 import type {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
+  GetUserDefinedEndpoint200Response,
+  GetUserDefinedEndpointDefaultResponse,
+  CreateUserDefinedEndpoint201Response,
+  CreateUserDefinedEndpointDefaultResponse,
   ListConsortiumMembers200Response,
   ListConsortiumMembersDefaultResponse,
   GetEnclaveQuotes200Response,
@@ -58,8 +62,6 @@ import type {
   GetCurrentLedgerEntryDefaultResponse,
   ListUsers200Response,
   ListUsersDefaultResponse,
-  ListLedgerUsers200Response,
-  ListLedgerUsersDefaultResponse,
   DeleteUser204Response,
   DeleteUserDefaultResponse,
   GetUser200Response,
@@ -68,20 +70,6 @@ import type {
   CreateOrUpdateUserDefaultResponse,
   DeleteLedgerUser204Response,
   DeleteLedgerUserDefaultResponse,
-  GetLedgerUser200Response,
-  GetLedgerUserDefaultResponse,
-  CreateOrUpdateLedgerUser200Response,
-  CreateOrUpdateLedgerUserDefaultResponse,
-  GetUserDefinedEndpoint200Response,
-  GetUserDefinedEndpointDefaultResponse,
-  CreateUserDefinedEndpoint201Response,
-  CreateUserDefinedEndpointDefaultResponse,
-  GetRuntimeOptions200Response,
-  GetRuntimeOptionsDefaultResponse,
-  UpdateRuntimeOptions200Response,
-  UpdateRuntimeOptionsDefaultResponse,
-  GetUserDefinedEndpointsModule200Response,
-  GetUserDefinedEndpointsModuleDefaultResponse,
   ListUserDefinedFunctions200Response,
   ListUserDefinedFunctionsDefaultResponse,
   DeleteUserDefinedFunction204Response,
@@ -93,6 +81,18 @@ import type {
   CreateUserDefinedFunctionDefaultResponse,
   ExecuteUserDefinedFunction200Response,
   ExecuteUserDefinedFunctionDefaultResponse,
+  ListLedgerUsers200Response,
+  ListLedgerUsersDefaultResponse,
+  GetLedgerUser200Response,
+  GetLedgerUserDefaultResponse,
+  CreateOrUpdateLedgerUser200Response,
+  CreateOrUpdateLedgerUserDefaultResponse,
+  GetRuntimeOptions200Response,
+  GetRuntimeOptionsDefaultResponse,
+  UpdateRuntimeOptions200Response,
+  UpdateRuntimeOptionsDefaultResponse,
+  GetUserDefinedEndpointsModule200Response,
+  GetUserDefinedEndpointsModuleDefaultResponse,
   GetUserDefinedRole200Response,
   GetUserDefinedRoleDefaultResponse,
   CreateUserDefinedRole200Response,
@@ -103,6 +103,19 @@ import type {
   DeleteUserDefinedRoleDefaultResponse,
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
+
+export interface GetUserDefinedEndpoint {
+  /** Returns the user defined endpoint in the ACL instance */
+  get(
+    options?: GetUserDefinedEndpointParameters,
+  ): StreamableMethod<GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse>;
+  /** Creates the user defined endpoint in the ACL instance */
+  put(
+    options: CreateUserDefinedEndpointParameters,
+  ): StreamableMethod<
+    CreateUserDefinedEndpoint201Response | CreateUserDefinedEndpointDefaultResponse
+  >;
+}
 
 export interface GetConstitution {
   /** The constitution is a script that assesses and applies proposals from consortium members. */
@@ -172,7 +185,7 @@ export interface GetCurrentLedgerEntry {
 }
 
 export interface ListUsers {
-  /** All users' object IDs and single role per user will be returned. */
+  /** All users' object IDs and roles will be returned. */
   get(
     options?: ListUsersParameters,
   ): StreamableMethod<ListUsers200Response | ListUsersDefaultResponse>;
@@ -212,19 +225,6 @@ export interface DeleteLedgerUser {
     options: CreateOrUpdateLedgerUserParameters,
   ): StreamableMethod<
     CreateOrUpdateLedgerUser200Response | CreateOrUpdateLedgerUserDefaultResponse
-  >;
-}
-
-export interface GetUserDefinedEndpoint {
-  /** Returns the user defined endpoint in the ACL instance */
-  get(
-    options?: GetUserDefinedEndpointParameters,
-  ): StreamableMethod<GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse>;
-  /** Creates the user defined endpoint in the ACL instance */
-  put(
-    options: CreateUserDefinedEndpointParameters,
-  ): StreamableMethod<
-    CreateUserDefinedEndpoint201Response | CreateUserDefinedEndpointDefaultResponse
   >;
 }
 
@@ -333,7 +333,7 @@ export interface Routes {
   (path: "/app/users/{userId}", userId: string): DeleteUser;
   /** Resource for '/app/ledgerUsers/\{userId\}' has methods for the following verbs: delete, get, patch */
   (path: "/app/ledgerUsers/{userId}", userId: string): DeleteLedgerUser;
-  /** Resource for '/app/userDefinedEndpoints' has methods for the following verbs: get, put */
+  /** Resource for '/app/userDefinedEndpoints' has methods for the following verbs: delete, get, patch */
   (path: "/app/userDefinedEndpoints"): GetUserDefinedEndpoint;
   /** Resource for '/app/userDefinedEndpoints/runtimeOptions' has methods for the following verbs: get, patch */
   (path: "/app/userDefinedEndpoints/runtimeOptions"): GetRuntimeOptions;

@@ -20,7 +20,6 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
-import { SqlQuerySpec } from "./SqlQuerySpec.js";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -51,7 +50,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
-    private query: string | SqlQuerySpec,
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     private correlatedActivityId: string,
@@ -440,17 +438,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         queryInfo: componentQueryInfo,
         queryRanges: this.partitionedQueryExecutionInfo.queryRanges,
       };
-      const rewrittenSqlQuerySpec: string | SqlQuerySpec =
-        typeof this.query === "string"
-          ? componentQueryInfo.rewrittenQuery
-          : {
-              query: componentQueryInfo.rewrittenQuery,
-              parameters: this.query?.parameters ?? [],
-            };
       const executionContext = new PipelinedQueryExecutionContext(
         this.clientContext,
         this.collectionLink,
-        rewrittenSqlQuerySpec,
+        componentQueryInfo.rewrittenQuery,
         this.options,
         componentPartitionExecutionInfo,
         this.correlatedActivityId,

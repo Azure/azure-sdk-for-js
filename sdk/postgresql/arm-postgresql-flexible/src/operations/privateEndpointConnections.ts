@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
+import { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import type {
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByServerNextOptionalParams,
   PrivateEndpointConnectionsListByServerOptionalParams,
@@ -25,7 +25,9 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnections {
+export class PrivateEndpointConnectionsImpl
+  implements PrivateEndpointConnections
+{
   private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
@@ -47,7 +49,11 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
     serverName: string,
     options?: PrivateEndpointConnectionsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
+    const iter = this.listByServerPagingAll(
+      resourceGroupName,
+      serverName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -59,7 +65,12 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
+        return this.listByServerPagingPage(
+          resourceGroupName,
+          serverName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -74,7 +85,7 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByServer(resourceGroupName, serverName, options);
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -87,7 +98,7 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
         options,
       );
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -98,7 +109,11 @@ export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnection
     serverName: string,
     options?: PrivateEndpointConnectionsListByServerOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnection> {
-    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
+    for await (const page of this.listByServerPagingPage(
+      resourceGroupName,
+      serverName,
+      options,
+    )) {
       yield* page;
     }
   }

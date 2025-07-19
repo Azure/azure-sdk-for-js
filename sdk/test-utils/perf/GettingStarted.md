@@ -1,5 +1,3 @@
-<!-- dev-tool snippets ignore -->
-
 # Writing Performance Tests
 
 ## [Index](#index)

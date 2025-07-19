@@ -6,28 +6,24 @@ import { PassThrough, Writable } from "node:stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { createPipelineRequest } from "../../src/index.js";
 
-vi.mock("node:https", async () => {
-  const actual = await vi.importActual("node:https");
+vi.mock("https", async () => {
+  const actual = await vi.importActual("https");
   return {
-    default: {
-      ...(actual as any).default,
-      request: vi.fn(),
-    },
+    ...actual,
+    request: vi.fn(),
   };
 });
 
-vi.mock("node:http", async () => {
-  const actual = await vi.importActual("node:http");
+vi.mock("http", async () => {
+  const actual = await vi.importActual("http");
   return {
-    default: {
-      ...(actual as any).default,
-      request: vi.fn(),
-    },
+    ...actual,
+    request: vi.fn(),
   };
 });
 
-import https from "node:https";
-import http from "node:http";
+import * as https from "https";
+import * as http from "http";
 import { createDefaultHttpClient } from "../../src/defaultHttpClient.js";
 
 function delay(timeInMs: number): Promise<void> {

@@ -223,8 +223,7 @@ describe("projectsClient - vector stores files", () => {
 async function generateFileStream(): Promise<ReadableStream<Uint8Array> | NodeJS.ReadableStream> {
   if (isNodeLike) {
     const stream = await import("stream");
-    // Create a new stream instance each time to prevent "locked" errors
-    return stream.Readable.from(Buffer.from("fileContent"));
+    return stream.Readable.from("fileContent");
   } else {
     return new ReadableStream<Uint8Array>({
       start(controller) {

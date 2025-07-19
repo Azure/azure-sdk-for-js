@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Sku } from "@azure/arm-cognitiveservices";
-import type { OpenAI } from "openai/";
-import type { AzureClientOptions } from "openai/azure";
-import type { APIVersion } from "./utils.js";
+import type { AzureClientOptions, OpenAI } from "openai";
 
 export interface Metadata {
   foo: string;
@@ -38,7 +36,6 @@ export interface DeploymentInfo {
 export interface ModelInfo {
   readonly name: string;
   readonly version: string;
-  readonly apiVersion?: APIVersion;
 }
 
 export interface ResourceInfo {

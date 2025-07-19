@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
+import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter,
@@ -28,7 +28,6 @@ import {
   MigrationNameAvailabilityResource as MigrationNameAvailabilityResourceMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ServerThreatProtectionSettingsModel as ServerThreatProtectionSettingsModelMapper,
-  ConfigTuningRequestParameter as ConfigTuningRequestParameterMapper,
   VirtualEndpointResource as VirtualEndpointResourceMapper,
   VirtualEndpointResourceForPatch as VirtualEndpointResourceForPatchMapper,
   VirtualNetworkSubnetUsageParameter as VirtualNetworkSubnetUsageParameterMapper,
@@ -131,7 +130,7 @@ export const objectId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-01-01-preview",
+    defaultValue: "2024-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -221,7 +220,7 @@ export const databaseName: OperationURLParameter = {
   parameterPath: "databaseName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z_][a-zA-Z0-9_]{0,30}$"),
+      Pattern: new RegExp("^[-\\w\\._]+$"),
       MinLength: 1,
     },
     serializedName: "databaseName",
@@ -421,43 +420,6 @@ export const threatProtectionName: OperationURLParameter = {
 export const parameters14: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServerThreatProtectionSettingsModelMapper,
-};
-
-export const tuningOption: OperationURLParameter = {
-  parameterPath: "tuningOption",
-  mapper: {
-    serializedName: "tuningOption",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const recommendationType: OperationQueryParameter = {
-  parameterPath: ["options", "recommendationType"],
-  mapper: {
-    serializedName: "recommendationType",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const configTuningRequest: OperationParameter = {
-  parameterPath: "configTuningRequest",
-  mapper: ConfigTuningRequestParameterMapper,
-};
-
-export const sessionId: OperationQueryParameter = {
-  parameterPath: "sessionId",
-  mapper: {
-    serializedName: "sessionId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const parameters15: OperationParameter = {

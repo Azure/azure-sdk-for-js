@@ -24,7 +24,6 @@ import {
 import { SpatialType } from "../../../src/index.js";
 import { GeospatialType } from "../../../src/index.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
-import { skipTestForSignOff } from "../common/_testConfig.js";
 
 describe("Containers", { timeout: 10000 }, () => {
   beforeEach(async () => {
@@ -752,7 +751,7 @@ describe("Reading items using container", () => {
   });
 });
 
-describe.skipIf(skipTestForSignOff)("container.deleteAllItemsForPartitionKey", () => {
+describe("container.deleteAllItemsForPartitionKey", () => {
   it("should delete all items for partition key value", async () => {
     const container = await getTestContainer("container", undefined, { partitionKey: "/pk" });
     await testDeleteAllItemsForPartitionKey(container);

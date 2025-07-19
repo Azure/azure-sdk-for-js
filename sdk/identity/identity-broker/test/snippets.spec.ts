@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  InteractiveBrowserCredential,
-  useIdentityPlugin,
-  DefaultAzureCredential,
-} from "@azure/identity";
+import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 import { nativeBrokerPlugin } from "@azure/identity-broker";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -25,13 +21,6 @@ describe("snippets", function () {
         parentWindowHandle: new Uint8Array(0), // This should be a handle to the parent window
       },
     });
-  });
-
-  it("using_plugins_dac", async function () {
-    useIdentityPlugin(nativeBrokerPlugin);
-    // @ts-preserve-whitespace
-    // @ts-ignore
-    const credential = new DefaultAzureCredential();
   });
 
   it("usage_example", async function () {

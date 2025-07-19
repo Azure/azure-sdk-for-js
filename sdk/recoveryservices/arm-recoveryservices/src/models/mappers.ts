@@ -1283,13 +1283,6 @@ export const SecuritySettings: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      sourceScanConfiguration: {
-        serializedName: "sourceScanConfiguration",
-        type: {
-          name: "Composite",
-          className: "SourceScanConfiguration",
-        },
-      },
     },
   },
 };
@@ -1328,49 +1321,6 @@ export const SoftDeleteSettings: coreClient.CompositeMapper = {
       },
       enhancedSecurityState: {
         serializedName: "enhancedSecurityState",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const SourceScanConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SourceScanConfiguration",
-    modelProperties: {
-      state: {
-        serializedName: "state",
-        type: {
-          name: "String",
-        },
-      },
-      sourceScanIdentity: {
-        serializedName: "sourceScanIdentity",
-        type: {
-          name: "Composite",
-          className: "AssociatedIdentity",
-        },
-      },
-    },
-  },
-};
-
-export const AssociatedIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AssociatedIdentity",
-    modelProperties: {
-      operationIdentityType: {
-        serializedName: "operationIdentityType",
-        type: {
-          name: "String",
-        },
-      },
-      userAssignedIdentity: {
-        serializedName: "userAssignedIdentity",
         type: {
           name: "String",
         },

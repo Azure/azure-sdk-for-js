@@ -6,11 +6,14 @@
  */
 
 const childProcess = require("child_process");
-const fs = require("node:fs");
+// Load the .env file if it exists
+const dotenv = require("dotenv");
+const fs = require("fs");
+
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
-// Load the .env file if it exists
-require("dotenv/config");
+
+dotenv.config();
 
 async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
@@ -52,7 +55,7 @@ ${base64Csr}
   // For more information on how to set up a local certificate authority
   // go to: https://gist.github.com/Soarez/9688998
   childProcess.execSync(
-    "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt",
+    "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"
   );
   const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 

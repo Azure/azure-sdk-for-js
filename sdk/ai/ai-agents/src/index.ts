@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { FileContents } from "./static-helpers/multipartHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
-import { FileContents } from "./static-helpers/multipartHelpers.js";
+
+export { AgentsClient } from "./agentsClient.js";
 export * from "./models/streamingModels.js";
 export * from "./utils.js";
-export { AgentsClient } from "./agentsClient.js";
 export {
   ToolDefinition,
   ToolDefinitionUnion,
@@ -20,13 +21,12 @@ export {
   FunctionToolDefinition,
   FunctionDefinition,
   BingGroundingToolDefinition,
-  BingGroundingSearchToolParameters,
+  BingGroundingSearchConfigurationList,
   BingGroundingSearchConfiguration,
   MicrosoftFabricToolDefinition,
-  FabricDataAgentToolParameters,
+  ToolConnectionList,
   ToolConnection,
   SharepointToolDefinition,
-  SharepointGroundingToolParameters,
   AzureAISearchToolDefinition,
   OpenApiToolDefinition,
   OpenApiFunctionDefinition,
@@ -39,13 +39,10 @@ export {
   OpenApiManagedAuthDetails,
   OpenApiManagedSecurityScheme,
   BingCustomSearchToolDefinition,
-  BingCustomSearchToolParameters,
+  BingCustomSearchConfigurationList,
   BingCustomSearchConfiguration,
   ConnectedAgentToolDefinition,
   ConnectedAgentDetails,
-  DeepResearchToolDefinition,
-  DeepResearchDetails,
-  DeepResearchBingGroundingConnection,
   AzureFunctionToolDefinition,
   AzureFunctionDefinition,
   AzureFunctionBinding,
@@ -57,7 +54,7 @@ export {
   FileSearchToolResource,
   VectorStoreConfigurations,
   VectorStoreConfiguration,
-  AzureAISearchToolResource,
+  AzureAISearchResource,
   AISearchIndexResource,
   AzureAISearchQueryType,
   AgentsResponseFormat,
@@ -67,8 +64,6 @@ export {
   AgentsResponseFormatOption,
   AgentsResponseFormatMode,
   Agent,
-  AgentV1Error,
-  AgentErrorDetail,
   AgentDeletionStatus,
   AgentThreadCreationOptions,
   ThreadMessageOptions,
@@ -85,6 +80,9 @@ export {
   MessageImageUrlParam,
   MessageAttachment,
   MessageAttachmentToolDefinition,
+  UpdateToolResourcesOptions,
+  UpdateCodeInterpreterToolResourceOptions,
+  UpdateFileSearchToolResourceOptions,
   TruncationObject,
   TruncationStrategy,
   AgentsNamedToolChoice,
@@ -150,11 +148,12 @@ export {
   FileSearchToolCallContent,
   RunStepBingGroundingToolCall,
   RunStepAzureAISearchToolCall,
+  RunStepSharepointToolCall,
+  RunStepMicrosoftFabricToolCall,
+  RunStepBingCustomSearchToolCall,
   RunStepFunctionToolCall,
   RunStepFunctionToolCallDetails,
   RunStepOpenAPIToolCall,
-  RunStepDeepResearchToolCall,
-  RunStepDeepResearchToolCallDetails,
   RunStepError,
   RunStepErrorCode,
   RunStepCompletionUsage,

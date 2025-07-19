@@ -24,49 +24,12 @@ import type {
   GetCurrentLedgerEntryDefaultResponse,
   ListUsers200Response,
   ListUsersDefaultResponse,
-  ListLedgerUsers200Response,
-  ListLedgerUsersDefaultResponse,
   DeleteUser204Response,
   DeleteUserDefaultResponse,
   GetUser200Response,
   GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
   CreateOrUpdateUserDefaultResponse,
-  DeleteLedgerUser204Response,
-  DeleteLedgerUserDefaultResponse,
-  GetLedgerUser200Response,
-  GetLedgerUserDefaultResponse,
-  CreateOrUpdateLedgerUser200Response,
-  CreateOrUpdateLedgerUserDefaultResponse,
-  GetUserDefinedEndpoint200Response,
-  GetUserDefinedEndpointDefaultResponse,
-  CreateUserDefinedEndpoint201Response,
-  CreateUserDefinedEndpointDefaultResponse,
-  GetRuntimeOptions200Response,
-  GetRuntimeOptionsDefaultResponse,
-  UpdateRuntimeOptions200Response,
-  UpdateRuntimeOptionsDefaultResponse,
-  GetUserDefinedEndpointsModule200Response,
-  GetUserDefinedEndpointsModuleDefaultResponse,
-  ListUserDefinedFunctions200Response,
-  ListUserDefinedFunctionsDefaultResponse,
-  DeleteUserDefinedFunction204Response,
-  DeleteUserDefinedFunctionDefaultResponse,
-  GetUserDefinedFunction200Response,
-  GetUserDefinedFunctionDefaultResponse,
-  CreateUserDefinedFunction200Response,
-  CreateUserDefinedFunction201Response,
-  CreateUserDefinedFunctionDefaultResponse,
-  ExecuteUserDefinedFunction200Response,
-  ExecuteUserDefinedFunctionDefaultResponse,
-  GetUserDefinedRole200Response,
-  GetUserDefinedRoleDefaultResponse,
-  CreateUserDefinedRole200Response,
-  CreateUserDefinedRoleDefaultResponse,
-  UpdateUserDefinedRole200Response,
-  UpdateUserDefinedRoleDefaultResponse,
-  DeleteUserDefinedRole200Response,
-  DeleteUserDefinedRoleDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -81,27 +44,9 @@ const responseMap: Record<string, string[]> = {
   "GET /app/transactions/{transactionId}/status": ["200"],
   "GET /app/transactions/current": ["200"],
   "GET /app/users": ["200"],
-  "GET /app/ledgerUsers": ["200"],
   "DELETE /app/users/{userId}": ["204"],
   "GET /app/users/{userId}": ["200"],
   "PATCH /app/users/{userId}": ["200"],
-  "DELETE /app/ledgerUsers/{userId}": ["204"],
-  "GET /app/ledgerUsers/{userId}": ["200"],
-  "PATCH /app/ledgerUsers/{userId}": ["200"],
-  "GET /app/userDefinedEndpoints": ["200"],
-  "PUT /app/userDefinedEndpoints": ["201"],
-  "GET /app/userDefinedEndpoints/runtimeOptions": ["200"],
-  "PATCH /app/userDefinedEndpoints/runtimeOptions": ["200"],
-  "GET /app/userDefinedEndpoints/modules": ["200"],
-  "GET /app/userDefinedFunctions": ["200"],
-  "DELETE /app/userDefinedFunctions/{functionId}": ["204"],
-  "GET /app/userDefinedFunctions/{functionId}": ["200"],
-  "PUT /app/userDefinedFunctions/{functionId}": ["200", "201"],
-  "POST /app/userDefinedFunctions/{functionId}:execute": ["200"],
-  "GET /app/roles": ["200"],
-  "PUT /app/roles": ["200"],
-  "PATCH /app/roles": ["200"],
-  "DELETE /app/roles": ["200"],
 };
 
 export function isUnexpected(
@@ -138,9 +83,6 @@ export function isUnexpected(
   response: ListUsers200Response | ListUsersDefaultResponse,
 ): response is ListUsersDefaultResponse;
 export function isUnexpected(
-  response: ListLedgerUsers200Response | ListLedgerUsersDefaultResponse,
-): response is ListLedgerUsersDefaultResponse;
-export function isUnexpected(
   response: DeleteUser204Response | DeleteUserDefaultResponse,
 ): response is DeleteUserDefaultResponse;
 export function isUnexpected(
@@ -149,60 +91,6 @@ export function isUnexpected(
 export function isUnexpected(
   response: CreateOrUpdateUser200Response | CreateOrUpdateUserDefaultResponse,
 ): response is CreateOrUpdateUserDefaultResponse;
-export function isUnexpected(
-  response: DeleteLedgerUser204Response | DeleteLedgerUserDefaultResponse,
-): response is DeleteLedgerUserDefaultResponse;
-export function isUnexpected(
-  response: GetLedgerUser200Response | GetLedgerUserDefaultResponse,
-): response is GetLedgerUserDefaultResponse;
-export function isUnexpected(
-  response: CreateOrUpdateLedgerUser200Response | CreateOrUpdateLedgerUserDefaultResponse,
-): response is CreateOrUpdateLedgerUserDefaultResponse;
-export function isUnexpected(
-  response: GetUserDefinedEndpoint200Response | GetUserDefinedEndpointDefaultResponse,
-): response is GetUserDefinedEndpointDefaultResponse;
-export function isUnexpected(
-  response: CreateUserDefinedEndpoint201Response | CreateUserDefinedEndpointDefaultResponse,
-): response is CreateUserDefinedEndpointDefaultResponse;
-export function isUnexpected(
-  response: GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse,
-): response is GetRuntimeOptionsDefaultResponse;
-export function isUnexpected(
-  response: UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse,
-): response is UpdateRuntimeOptionsDefaultResponse;
-export function isUnexpected(
-  response: GetUserDefinedEndpointsModule200Response | GetUserDefinedEndpointsModuleDefaultResponse,
-): response is GetUserDefinedEndpointsModuleDefaultResponse;
-export function isUnexpected(
-  response: ListUserDefinedFunctions200Response | ListUserDefinedFunctionsDefaultResponse,
-): response is ListUserDefinedFunctionsDefaultResponse;
-export function isUnexpected(
-  response: DeleteUserDefinedFunction204Response | DeleteUserDefinedFunctionDefaultResponse,
-): response is DeleteUserDefinedFunctionDefaultResponse;
-export function isUnexpected(
-  response: GetUserDefinedFunction200Response | GetUserDefinedFunctionDefaultResponse,
-): response is GetUserDefinedFunctionDefaultResponse;
-export function isUnexpected(
-  response:
-    | CreateUserDefinedFunction200Response
-    | CreateUserDefinedFunction201Response
-    | CreateUserDefinedFunctionDefaultResponse,
-): response is CreateUserDefinedFunctionDefaultResponse;
-export function isUnexpected(
-  response: ExecuteUserDefinedFunction200Response | ExecuteUserDefinedFunctionDefaultResponse,
-): response is ExecuteUserDefinedFunctionDefaultResponse;
-export function isUnexpected(
-  response: GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse,
-): response is GetUserDefinedRoleDefaultResponse;
-export function isUnexpected(
-  response: CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse,
-): response is CreateUserDefinedRoleDefaultResponse;
-export function isUnexpected(
-  response: UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse,
-): response is UpdateUserDefinedRoleDefaultResponse;
-export function isUnexpected(
-  response: DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse,
-): response is DeleteUserDefinedRoleDefaultResponse;
 export function isUnexpected(
   response:
     | GetConstitution200Response
@@ -227,49 +115,12 @@ export function isUnexpected(
     | GetCurrentLedgerEntryDefaultResponse
     | ListUsers200Response
     | ListUsersDefaultResponse
-    | ListLedgerUsers200Response
-    | ListLedgerUsersDefaultResponse
     | DeleteUser204Response
     | DeleteUserDefaultResponse
     | GetUser200Response
     | GetUserDefaultResponse
     | CreateOrUpdateUser200Response
-    | CreateOrUpdateUserDefaultResponse
-    | DeleteLedgerUser204Response
-    | DeleteLedgerUserDefaultResponse
-    | GetLedgerUser200Response
-    | GetLedgerUserDefaultResponse
-    | CreateOrUpdateLedgerUser200Response
-    | CreateOrUpdateLedgerUserDefaultResponse
-    | GetUserDefinedEndpoint200Response
-    | GetUserDefinedEndpointDefaultResponse
-    | CreateUserDefinedEndpoint201Response
-    | CreateUserDefinedEndpointDefaultResponse
-    | GetRuntimeOptions200Response
-    | GetRuntimeOptionsDefaultResponse
-    | UpdateRuntimeOptions200Response
-    | UpdateRuntimeOptionsDefaultResponse
-    | GetUserDefinedEndpointsModule200Response
-    | GetUserDefinedEndpointsModuleDefaultResponse
-    | ListUserDefinedFunctions200Response
-    | ListUserDefinedFunctionsDefaultResponse
-    | DeleteUserDefinedFunction204Response
-    | DeleteUserDefinedFunctionDefaultResponse
-    | GetUserDefinedFunction200Response
-    | GetUserDefinedFunctionDefaultResponse
-    | CreateUserDefinedFunction200Response
-    | CreateUserDefinedFunction201Response
-    | CreateUserDefinedFunctionDefaultResponse
-    | ExecuteUserDefinedFunction200Response
-    | ExecuteUserDefinedFunctionDefaultResponse
-    | GetUserDefinedRole200Response
-    | GetUserDefinedRoleDefaultResponse
-    | CreateUserDefinedRole200Response
-    | CreateUserDefinedRoleDefaultResponse
-    | UpdateUserDefinedRole200Response
-    | UpdateUserDefinedRoleDefaultResponse
-    | DeleteUserDefinedRole200Response
-    | DeleteUserDefinedRoleDefaultResponse,
+    | CreateOrUpdateUserDefaultResponse,
 ): response is
   | GetConstitutionDefaultResponse
   | ListConsortiumMembersDefaultResponse
@@ -282,27 +133,9 @@ export function isUnexpected(
   | GetTransactionStatusDefaultResponse
   | GetCurrentLedgerEntryDefaultResponse
   | ListUsersDefaultResponse
-  | ListLedgerUsersDefaultResponse
   | DeleteUserDefaultResponse
   | GetUserDefaultResponse
-  | CreateOrUpdateUserDefaultResponse
-  | DeleteLedgerUserDefaultResponse
-  | GetLedgerUserDefaultResponse
-  | CreateOrUpdateLedgerUserDefaultResponse
-  | GetUserDefinedEndpointDefaultResponse
-  | CreateUserDefinedEndpointDefaultResponse
-  | GetRuntimeOptionsDefaultResponse
-  | UpdateRuntimeOptionsDefaultResponse
-  | GetUserDefinedEndpointsModuleDefaultResponse
-  | ListUserDefinedFunctionsDefaultResponse
-  | DeleteUserDefinedFunctionDefaultResponse
-  | GetUserDefinedFunctionDefaultResponse
-  | CreateUserDefinedFunctionDefaultResponse
-  | ExecuteUserDefinedFunctionDefaultResponse
-  | GetUserDefinedRoleDefaultResponse
-  | CreateUserDefinedRoleDefaultResponse
-  | UpdateUserDefinedRoleDefaultResponse
-  | DeleteUserDefinedRoleDefaultResponse {
+  | CreateOrUpdateUserDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

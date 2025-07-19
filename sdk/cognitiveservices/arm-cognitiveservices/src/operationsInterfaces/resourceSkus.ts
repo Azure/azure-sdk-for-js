@@ -16,5 +16,7 @@ export interface ResourceSkus {
    * Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
    * @param options The options parameters.
    */
-  list(options?: ResourceSkusListOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
+  list(
+    options?: ResourceSkusListOptionalParams,
+  ): PagedAsyncIterableIterator<ResourceSku>;
 }

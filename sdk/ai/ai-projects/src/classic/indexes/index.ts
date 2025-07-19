@@ -20,7 +20,7 @@ export interface IndexesOperations {
   createOrUpdate: (
     name: string,
     version: string,
-    index: IndexUnion,
+    body: IndexUnion,
     options?: IndexesCreateOrUpdateOptionalParams,
   ) => Promise<IndexUnion>;
   /** Delete the specific version of the Index */
@@ -46,9 +46,9 @@ function _getIndexes(context: AIProjectContext) {
     createOrUpdate: (
       name: string,
       version: string,
-      index: IndexUnion,
+      body: IndexUnion,
       options?: IndexesCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, name, version, index, options),
+    ) => createOrUpdate(context, name, version, body, options),
     delete: (name: string, version: string, options?: IndexesDeleteOptionalParams) =>
       $delete(context, name, version, options),
     get: (name: string, version: string, options?: IndexesGetOptionalParams) =>

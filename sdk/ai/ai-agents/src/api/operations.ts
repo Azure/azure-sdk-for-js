@@ -1,32 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentsContext as Client } from "./index.js";
-import type {
-  Agent,
-  _AgentsPagedResultAgent,
-  AgentDeletionStatus,
-  ThreadRun,
-} from "../models/models.js";
+import { AgentsContext as Client } from "./index.js";
 import {
   toolResourcesSerializer,
   toolDefinitionUnionArraySerializer,
   agentsResponseFormatOptionSerializer,
+  Agent,
   agentDeserializer,
-  agentV1ErrorDeserializer,
+  _AgentsPagedResultAgent,
   _agentsPagedResultAgentDeserializer,
+  AgentDeletionStatus,
   agentDeletionStatusDeserializer,
   agentThreadCreationOptionsSerializer,
+  updateToolResourcesOptionsSerializer,
   truncationObjectSerializer,
   agentsToolChoiceOptionSerializer,
+  ThreadRun,
   threadRunDeserializer,
-  MessageStreamEvent,
-  RunStepStreamEvent,
-  RunStreamEvent,
-  ThreadStreamEvent,
-  ToolOutput,
 } from "../models/models.js";
-import type {
+import {
   CreateThreadAndRunOptionalParams,
   DeleteAgentOptionalParams,
   UpdateAgentOptionalParams,
@@ -34,27 +27,36 @@ import type {
   ListAgentsOptionalParams,
   CreateAgentOptionalParams,
 } from "./options.js";
-import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type {
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import {
   AgentEventMessage,
   AgentEventMessageStream,
   AgentEventStreamData,
   AgentRunResponse,
+  MessageStreamEvent,
+  RunStepStreamEvent,
+  RunStreamEvent,
+  ThreadStreamEvent,
 } from "../models/streamingModels.js";
-import type {
+import {
   RunsCreateRunOptionalParams,
   RunsSubmitToolOutputsToRunOptionalParams,
 } from "./runs/options.js";
-import type { EventMessageStream, EventMessage } from "@azure/core-sse";
-import { createSseStream } from "@azure/core-sse";
+import { EventMessageStream, EventMessage, createSseStream } from "@azure/core-sse";
 import { isNodeLike } from "@azure/core-util";
-import type { IncomingMessage } from "http";
+import { IncomingMessage } from "http";
 import { logger } from "../logger.js";
-import { _createRunSend, _submitToolOutputsToRunSend } from "./runs/operations.js";
+import { _createRunSend } from "./runs/operations.js";
 
 export function _createThreadAndRunSend(
   context: Client,
@@ -87,7 +89,7 @@ export function _createThreadAndRunSend(
       tools: !options?.tools ? options?.tools : toolDefinitionUnionArraySerializer(options?.tools),
       tool_resources: !options?.toolResources
         ? options?.toolResources
-        : toolResourcesSerializer(options?.toolResources),
+        : updateToolResourcesOptionsSerializer(options?.toolResources),
       stream: options?.stream,
       temperature: options?.temperature,
       top_p: options?.topP,
@@ -113,9 +115,7 @@ export async function _createThreadAndRunDeserialize(
 ): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return threadRunDeserializer(result.body);
@@ -171,9 +171,7 @@ export async function _deleteAgentDeserialize(
 ): Promise<AgentDeletionStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return agentDeletionStatusDeserializer(result.body);
@@ -233,9 +231,7 @@ export function _updateAgentSend(
 export async function _updateAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return agentDeserializer(result.body);
@@ -278,9 +274,7 @@ export function _getAgentSend(
 export async function _getAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return agentDeserializer(result.body);
@@ -327,9 +321,7 @@ export async function _listAgentsDeserialize(
 ): Promise<_AgentsPagedResultAgent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return _agentsPagedResultAgentDeserializer(result.body);
@@ -392,9 +384,7 @@ export function _createAgentSend(
 export async function _createAgentDeserialize(result: PathUncheckedResponse): Promise<Agent> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return agentDeserializer(result.body);
@@ -432,9 +422,6 @@ async function* toAsyncIterable(stream: EventMessageStream): AsyncIterable<Agent
 function deserializeEventData(event: EventMessage): AgentEventStreamData {
   try {
     const jsonData = JSON.parse(event.data);
-    if (Object.values(RunStreamEvent).includes(event.event as RunStreamEvent)) {
-      return threadRunDeserializer(jsonData);
-    }
     switch (event.event) {
       case MessageStreamEvent.ThreadMessageDelta:
         return jsonData;
@@ -482,9 +469,9 @@ export async function createRunStreaming(
   threadId: string,
   options: RunsCreateRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentEventMessageStream> {
-  const streamOptions = { ...options, stream: true };
+  options.stream = true;
 
-  return processStream(_createRunSend(context, threadId, assistantId, streamOptions));
+  return processStream(_createRunSend(context, threadId, assistantId, options));
 }
 
 /** Create a thread and run and stream the events */
@@ -493,20 +480,21 @@ export async function createThreadAndRunStreaming(
   assistantId: string,
   options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentEventMessageStream> {
-  const streamOptions = { ...options, stream: true };
-  return processStream(_createThreadAndRunSend(context, assistantId, streamOptions));
+  options.stream = true;
+  return processStream(_createThreadAndRunSend(context, assistantId, options));
 }
 
 export async function submitToolOutputsToRunStreaming(
   context: Client,
   threadId: string,
   runId: string,
-  toolOutputs: ToolOutput[],
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): Promise<AgentEventMessageStream> {
-  const streamOptions = { ...options, stream: true };
+  options.stream = true;
 
   return processStream(
-    _submitToolOutputsToRunSend(context, threadId, runId, toolOutputs, streamOptions),
+    context
+      .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
+      .post(options),
   );
 }

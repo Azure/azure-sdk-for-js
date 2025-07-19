@@ -177,7 +177,7 @@ describe("KeyVaultBackupClient", () => {
 
     it("selectiveKeyRestore completes successfully", async () => {
       const keyName = "rsa1";
-      await keyClient.createRsaKey(keyName, { enabled: false });
+      await keyClient.createRsaKey(keyName);
       const backupPoller = await client.beginBackup(blobStorageUri, testPollerProperties);
       const backupURI = await backupPoller.pollUntilDone();
       expect(backupURI.folderUri).toBeDefined();

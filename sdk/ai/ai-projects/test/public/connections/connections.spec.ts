@@ -32,9 +32,11 @@ describe("connections - basic", () => {
     const connectionsList: Connection[] = [];
     for await (const connection of connectionsListIterator) {
       connectionsList.push(connection);
+      console.log(`Connection name: ${connection.name}`);
     }
 
     assert.isNotNull(connectionsList);
+    console.log(`Retrieved ${connectionsList.length} connections`);
   });
 
   it("should retrieve a connection without secrets", async function () {
@@ -43,6 +45,7 @@ describe("connections - basic", () => {
     const connectionsList: Connection[] = [];
     for await (const connection of connectionsListIterator) {
       connectionsList.push(connection);
+      console.log(`Connection name: ${connection.name}`);
     }
     assert.isNotNull(connectionsList);
     assert.isAtLeast(connectionsList.length, 1);
@@ -53,6 +56,7 @@ describe("connections - basic", () => {
       const connection = await connections.get(connectionName);
       assert.isNotNull(connection);
       assert.equal(connection.name, connectionName);
+      console.log(`Retrieved connection, connection name: ${connection.name}`);
     }
   });
 
@@ -74,11 +78,5 @@ describe("connections - basic", () => {
       assert.equal(connection.name, connectionName);
       assert.isNotNull(connection.credentials);
     }
-  });
-
-  it("get default connection with credentials", async function () {
-    const defaultConnection = await connections.getDefault("AzureOpenAI", true);
-    assert.isNotNull(defaultConnection);
-    assert.isNotNull(defaultConnection.credentials);
   });
 });

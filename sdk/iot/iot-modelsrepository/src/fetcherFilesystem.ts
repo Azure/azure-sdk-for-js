@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import fs from "node:fs";
-import path from "node:path";
+import * as path from "node:path";
 import type { RestErrorOptions } from "@azure/core-rest-pipeline";
 import { RestError } from "@azure/core-rest-pipeline";
 import type { Fetcher } from "./fetcherAbstract.js";

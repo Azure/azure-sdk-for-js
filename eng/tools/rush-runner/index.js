@@ -5,24 +5,11 @@
 
 import { exit } from "node:process";
 import { executeActions } from "./src/actions.js";
-import { parseProcessArgs } from "./src/args.js";
-import { getChangedInfo } from "./src/changed.js";
+import { parseArgs } from "./src/args.js";
 
-async function main() {
-  const {
-    action,
-    serviceDirs,
-    rushParams,
-    artifactNames,
-    ciFlag,
-    packageInfoPath,
-    changeInfoPath,
-  } = parseProcessArgs();
-  const changedInfo = await getChangedInfo(packageInfoPath, changeInfoPath);
-  exit(executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag, changedInfo));
+function main() {
+  const { action, serviceDirs, rushParams, artifactNames, ciFlag } = parseArgs();
+  exit(executeActions(action, serviceDirs, rushParams, artifactNames, ciFlag));
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+main();

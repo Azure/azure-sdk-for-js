@@ -346,8 +346,8 @@ const healthOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.groupName2,
-    Parameters.loadBalancerName2,
+    Parameters.groupName1,
+    Parameters.loadBalancerName1,
     Parameters.loadBalancingRuleName1,
   ],
   headerParameters: [Parameters.accept],

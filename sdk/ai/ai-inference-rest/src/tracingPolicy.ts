@@ -104,3 +104,4 @@ function tryCreateSpan(
     return undefined;
   }
 }
+

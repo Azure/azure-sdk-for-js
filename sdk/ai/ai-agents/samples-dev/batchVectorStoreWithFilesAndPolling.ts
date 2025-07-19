@@ -43,13 +43,15 @@ export async function main(): Promise<void> {
   });
   console.log(`Uploaded file2, file ID: ${file2.id}`);
 
+  // (Optional) Define an onResponse callback to monitor the progress of polling
+  function onResponse(response: any): void {
+    console.log(`Received response with status: ${response.parsedBody?.status}`);
+  }
+
   // Create vector store file batch, which will automatically poll until the operation is complete
   const vectorStoreFileBatch1 = await client.vectorStoreFileBatches.create(vectorStore.id, {
     fileIds: [file1.id, file2.id],
-    // (Optional) Define an onResponse callback to monitor the progress of polling
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    onResponse: onResponse,
   });
   console.log(
     `Created vector store file batch with status ${vectorStoreFileBatch1.status}, vector store file batch ID: ${vectorStoreFileBatch1.id}`,
@@ -61,9 +63,7 @@ export async function main(): Promise<void> {
   const abortController = new AbortController();
   const vectorStoreFileBatchPoller = client.vectorStoreFileBatches.createAndPoll(vectorStore.id, {
     fileIds: [file1.id, file2.id],
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    onResponse: onResponse,
   });
   const vectorStoreFileBatch2 = await vectorStoreFileBatchPoller.pollUntilDone({
     abortSignal: abortController.signal,

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
-import fs from "fs";
-import nodePath from "path";
-import { DatasetUploadInternalOptions, AIProjectContext as Client } from "../index.js";
+import * as fs from "fs";
+import * as nodePath from "path";
+import { AIProjectContext as Client } from "../index.js";
 import {
   _PagedDatasetVersion,
   _pagedDatasetVersionDeserializer,
@@ -92,7 +92,7 @@ export function _pendingUploadSend(
   context: Client,
   name: string,
   version: string,
-  pendingUploadRequest: PendingUploadRequest,
+  body: PendingUploadRequest,
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -113,7 +113,7 @@ export function _pendingUploadSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: pendingUploadRequestSerializer(pendingUploadRequest),
+    body: pendingUploadRequestSerializer(body),
   });
 }
 
@@ -133,10 +133,10 @@ export async function pendingUpload(
   context: Client,
   name: string,
   version: string,
-  pendingUploadRequest: PendingUploadRequest,
+  body: PendingUploadRequest,
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): Promise<PendingUploadResponse> {
-  const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
+  const result = await _pendingUploadSend(context, name, version, body, options);
   return _pendingUploadDeserialize(result);
 }
 
@@ -145,9 +145,9 @@ async function createDatasetAndGetItsContainer(
   context: Client,
   name: string,
   version: string,
-  options?: DatasetUploadInternalOptions,
+  // Optional connection name for the storage account to be used
+  connectionName?: string,
 ): Promise<{ containerClient: ContainerClient; version: string }> {
-  const { connectionName, projectOptions = {} } = options || {};
   // Start a pending upload to get the container URL with SAS token
   const pendingUploadResponse = await pendingUpload(context, name, version, {
     pendingUploadType: "BlobReference",
@@ -195,11 +195,6 @@ async function createDatasetAndGetItsContainer(
   // Create container client from the blob URI (which includes the SAS token)
   const containerClient = new ContainerClient(blobReference.credential.sasUri);
 
-  const pipeline = containerClient["storageClientContext"].pipeline;
-  for (const { policy } of projectOptions.additionalPolicies ?? []) {
-    pipeline.addPolicy(policy, { afterPhase: "Sign" });
-  }
-
   return {
     containerClient,
     version,
@@ -211,7 +206,7 @@ export async function uploadFile(
   name: string,
   version: string,
   filePath: string,
-  options?: DatasetUploadInternalOptions,
+  connectionName?: string,
 ): Promise<DatasetVersionUnion> {
   // if file does not exist
 
@@ -229,7 +224,7 @@ export async function uploadFile(
     context,
     name,
     version,
-    options,
+    connectionName,
   );
   // file name as blob name
   const blobName = nodePath.basename(filePath);
@@ -250,7 +245,7 @@ export async function uploadFolder(
   name: string,
   version: string,
   folderPath: string,
-  options?: DatasetUploadInternalOptions,
+  connectionName?: string,
 ): Promise<DatasetVersionUnion> {
   // Check if the folder exists
   const folderExists = fs.existsSync(folderPath);
@@ -267,7 +262,7 @@ export async function uploadFolder(
     context,
     name,
     version,
-    options,
+    connectionName,
   );
 
   // Helper function to recursively get all files in a directory
@@ -290,17 +285,12 @@ export async function uploadFolder(
 
   // Get all files in the folder
   const allFiles = await getAllFiles(folderPath);
-  let filteredFiles = allFiles;
-  if (options?.filePattern) {
-    filteredFiles = allFiles.filter((file) => options.filePattern?.test(file));
-  }
-
-  if (filteredFiles.length === 0) {
+  if (allFiles.length === 0) {
     throw new Error("The provided folder is empty.");
   }
 
   // Upload each file to blob storage while maintaining relative paths
-  for (const filePath of filteredFiles) {
+  for (const filePath of allFiles) {
     // Create blob name as relative path from the base folder
     const relativePath = nodePath.relative(folderPath, filePath).split(nodePath.sep).join("/");
 
@@ -334,7 +324,7 @@ export function _createOrUpdateSend(
   context: Client,
   name: string,
   version: string,
-  datasetVersion: DatasetVersionUnion,
+  body: DatasetVersionUnion,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -355,7 +345,7 @@ export function _createOrUpdateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: datasetVersionUnionSerializer(datasetVersion),
+    body: datasetVersionUnionSerializer(body),
   });
 }
 
@@ -375,10 +365,10 @@ export async function createOrUpdate(
   context: Client,
   name: string,
   version: string,
-  datasetVersion: DatasetVersionUnion,
+  body: DatasetVersionUnion,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<DatasetVersionUnion> {
-  const result = await _createOrUpdateSend(context, name, version, datasetVersion, options);
+  const result = await _createOrUpdateSend(context, name, version, body, options);
   return _createOrUpdateDeserialize(result);
 }
 

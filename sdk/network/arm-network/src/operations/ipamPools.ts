@@ -617,11 +617,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.poolName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -645,11 +641,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.poolName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -703,7 +695,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.poolName,
   ],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const getPoolUsageOperationSpec: coreClient.OperationSpec = {

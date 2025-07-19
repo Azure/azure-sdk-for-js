@@ -5,10 +5,10 @@
  * @summary Displays the finding of the Radiology Insights request.
  */
 const { DefaultAzureCredential } = require("@azure/identity");
-
 const dotenv = require("dotenv");
+
 const AzureHealthInsightsClient = require("../src").default,
-  { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../src");
+  { ClinicalDocumentTypeEnum, getLongRunningPoller, isUnexpected } = require("../src");
 
 dotenv.config();
 
@@ -93,7 +93,7 @@ function printResults(radiologyInsightsResult) {
 // Create request body for radiology insights
 function createRequestBody() {
   const codingData = {
-    system: "http://www.ama-assn.org/go/cpt",
+    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
     code: "ANG366",
     display: "XA VENACAVA FILTER INSERTION",
   };
@@ -145,14 +145,14 @@ function createRequestBody() {
   };
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport",
+    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: "2021-05-31T16:00:00.000Z",
+    createdAt: new Date("2021-05-31T16:00:00.000Z"),
     orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION",
   };
 
@@ -175,9 +175,6 @@ function createRequestBody() {
     "followupRecommendation",
     "followupCommunication",
     "radiologyProcedure",
-    "scoringAndAssessment",
-    "guidance",
-    "qualityMeasure",
   ];
 
   const followupRecommendationOptions = {

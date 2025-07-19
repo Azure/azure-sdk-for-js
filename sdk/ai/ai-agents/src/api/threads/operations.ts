@@ -4,7 +4,6 @@
 import { AgentsContext as Client } from "../index.js";
 import {
   toolResourcesSerializer,
-  agentV1ErrorDeserializer,
   threadMessageOptionsArraySerializer,
   AgentThread,
   agentThreadDeserializer,
@@ -61,9 +60,7 @@ export async function _deleteThreadDeserialize(
 ): Promise<ThreadDeletionStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return threadDeletionStatusDeserializer(result.body);
@@ -115,9 +112,7 @@ export async function _updateThreadDeserialize(
 ): Promise<AgentThread> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return agentThreadDeserializer(result.body);
@@ -160,9 +155,7 @@ export function _getThreadSend(
 export async function _getThreadDeserialize(result: PathUncheckedResponse): Promise<AgentThread> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return agentThreadDeserializer(result.body);
@@ -209,9 +202,7 @@ export async function _listThreadsDeserialize(
 ): Promise<_AgentsPagedResultAgentThread> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return _agentsPagedResultAgentThreadDeserializer(result.body);
@@ -268,9 +259,7 @@ export async function _createThreadDeserialize(
 ): Promise<AgentThread> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return agentThreadDeserializer(result.body);

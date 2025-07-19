@@ -13,7 +13,6 @@ import {
   MachinesListByResourceGroupOptionalParams,
   MachinesListBySubscriptionOptionalParams,
   MachinesDeleteOptionalParams,
-  MachinesDeleteResponse,
   MachinesGetOptionalParams,
   MachinesGetResponse,
   MachinesAssessPatchesOptionalParams,
@@ -50,27 +49,11 @@ export interface Machines {
    * @param machineName The name of the hybrid machine.
    * @param options The options parameters.
    */
-  beginDelete(
+  delete(
     resourceGroupName: string,
     machineName: string,
     options?: MachinesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<MachinesDeleteResponse>,
-      MachinesDeleteResponse
-    >
-  >;
-  /**
-   * The operation to delete a hybrid machine.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the hybrid machine.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    machineName: string,
-    options?: MachinesDeleteOptionalParams,
-  ): Promise<MachinesDeleteResponse>;
+  ): Promise<void>;
   /**
    * Retrieves information about the model view or the instance view of a hybrid machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

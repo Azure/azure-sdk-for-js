@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   VectorStoreDataSource,
   VectorStoreChunkingStrategyRequestUnion,
   ListSortOrder,
   VectorStoreFileStatusFilter,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
-import type { PollingOptionsParams } from "../options.js";
+import { OperationOptions } from "@azure-rest/core-client";
+import { PollingOptionsParams } from "../options.js";
 
 /** Optional parameters. */
 export interface VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams

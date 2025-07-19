@@ -10,7 +10,6 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   KeyValuesGetOptionalParams,
   KeyValuesGetResponse,
-  KeyValue,
   KeyValuesCreateOrUpdateOptionalParams,
   KeyValuesCreateOrUpdateResponse,
   KeyValuesDeleteOptionalParams,
@@ -41,14 +40,12 @@ export interface KeyValues {
    * @param configStoreName The name of the configuration store.
    * @param keyValueName Identifier of key and label combination. Key and label are joined by $
    *                     character. Label is optional.
-   * @param keyValueParameters The parameters for creating a key-value.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     configStoreName: string,
     keyValueName: string,
-    keyValueParameters: KeyValue,
     options?: KeyValuesCreateOrUpdateOptionalParams,
   ): Promise<KeyValuesCreateOrUpdateResponse>;
   /**

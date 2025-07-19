@@ -22,7 +22,6 @@ describe.concurrent.each(APIMatrix)("Legacy Completions [%s]", (apiVersion: APIV
       const prompt = ["What is Azure OpenAI?"];
       await testWithDeployments({
         clientsAndDeploymentsInfo: clientsAndDeployments,
-        apiVersion,
         run: (client, deploymentName) =>
           client.completions.create({ model: deploymentName, prompt }),
         validate: assertCompletions,
@@ -34,7 +33,6 @@ describe.concurrent.each(APIMatrix)("Legacy Completions [%s]", (apiVersion: APIV
       const prompt = ["This is Azure OpenAI?"];
       await testWithDeployments({
         clientsAndDeploymentsInfo: clientsAndDeployments,
-        apiVersion,
         run: (client, deploymentName) =>
           client.completions.create({ model: deploymentName, prompt, stream: true }),
         validate: (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
@@ -100,7 +98,6 @@ describe.concurrent.each(APIMatrix)("Legacy Completions [%s]", (apiVersion: APIV
       ];
       await testWithDeployments({
         clientsAndDeploymentsInfo: clientsAndDeployments,
-        apiVersion,
         run: (client, deploymentName) =>
           client.completions.create(
             { model: deploymentName, prompt, stream: true, max_tokens: 2048 },

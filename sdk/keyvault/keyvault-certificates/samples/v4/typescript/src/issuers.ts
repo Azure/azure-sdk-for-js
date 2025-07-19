@@ -5,10 +5,13 @@
  * @summary Creates, updates and deletes certificate issuers.
  */
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
-// Load the .env file if it exists
-import "dotenv/config";
+
+dotenv.config();
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.

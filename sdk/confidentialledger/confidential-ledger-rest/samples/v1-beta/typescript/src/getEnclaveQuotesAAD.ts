@@ -9,11 +9,13 @@
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
+
 const endpoint = process.env["ENDPOINT"] || "";
 const ledgerId = process.env["LEDGER_ID"] || "";
 
-export async function main(): Promise<void> {
+export async function main() {
   console.log("== Confidential Ledger ==");
 
   // Get cert to verify host

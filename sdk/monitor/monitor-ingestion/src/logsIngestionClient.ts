@@ -1,30 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LogsIngestionContext, LogsIngestionClientOptions } from "./api/index.js";
-import { createLogsIngestion } from "./api/index.js";
-import type { LogsUploadOptions } from "./api/options.js";
-import { upload } from "./api/operations.js";
-import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
-import type { LogsUploadFailure } from "./models/models.js";
-import { AggregateLogsUploadError } from "./models/models.js";
-import { isError } from "@azure/core-util";
+import type { CommonClientOptions } from "@azure/core-client";
+import { GeneratedMonitorIngestionClient } from "./generated/index.js";
+import type { LogsUploadFailure, LogsUploadOptions } from "./models.js";
+import { AggregateLogsUploadError } from "./models.js";
 import { GZippingPolicy } from "./gZippingPolicy.js";
 import { concurrentRun } from "./utils/concurrentPoolHelper.js";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper.js";
-export { LogsIngestionClientOptions } from "./api/logsIngestionContext.js";
+import { isError } from "@azure/core-util";
+import { KnownMonitorAudience } from "./constants.js";
+/**
+ * Options for Monitor Logs Ingestion Client
+ */
+export interface LogsIngestionClientOptions extends CommonClientOptions {
+  /** Api Version */
+  apiVersion?: string;
 
+  /**
+   * The Audience to use for authentication with Microsoft Entra ID. The
+   * audience is not considered when using a shared key.
+   * {@link KnownMonitorAudience} can be used interchangeably with audience
+   */
+  audience?: string;
+}
 const DEFAULT_MAX_CONCURRENCY = 5;
 
 /**
  * Client for Monitor Logs Ingestion
  */
 export class LogsIngestionClient {
-  private _client: LogsIngestionContext;
-  /** The pipeline used by this client to make requests */
-  public readonly pipeline: Pipeline;
-
+  /**
+   * Overrides client endpoint.
+   */
+  private endpoint: string;
+  private _dataClient: GeneratedMonitorIngestionClient;
   /**
    * Construct a MonitorIngestionClient that can be used to query logs using the Log Analytics Query language.
    *
@@ -36,16 +47,17 @@ export class LogsIngestionClient {
     tokenCredential: TokenCredential,
     options?: LogsIngestionClientOptions,
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createLogsIngestion(endpoint, tokenCredential, {
+    const scope: string = options?.audience
+      ? `${options.audience}/.default`
+      : `${KnownMonitorAudience.AzurePublicCloud}/.default`;
+
+    this.endpoint = endpoint;
+    this._dataClient = new GeneratedMonitorIngestionClient(tokenCredential, this.endpoint, {
       ...options,
-      userAgentOptions: { userAgentPrefix },
+      credentialScopes: scope,
     });
-    this.pipeline = this._client.pipeline;
-    this.pipeline.addPolicy(GZippingPolicy);
+    // adding gzipping policy because this is a single method client which needs gzipping
+    this._dataClient.pipeline.addPolicy(GZippingPolicy);
   }
 
   /**
@@ -60,6 +72,7 @@ export class LogsIngestionClient {
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
+
     options?: LogsUploadOptions,
   ): Promise<void> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
@@ -72,9 +85,9 @@ export class LogsIngestionClient {
     await concurrentRun(
       concurrency,
       chunkArray,
-      async (eachChunk: Record<string, unknown>[]): Promise<void> => {
+      async (eachChunk): Promise<void> => {
         try {
-          await upload(this._client, ruleId, streamName, eachChunk, {
+          await this._dataClient.upload(ruleId, streamName, eachChunk, {
             contentEncoding: "gzip",
             abortSignal: options?.abortSignal,
           });
@@ -96,6 +109,5 @@ export class LogsIngestionClient {
     if (uploadResultErrors.length > 0) {
       throw new AggregateLogsUploadError(uploadResultErrors);
     }
-    return Promise.resolve();
   }
 }

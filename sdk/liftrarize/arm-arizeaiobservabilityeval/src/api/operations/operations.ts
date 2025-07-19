@@ -3,10 +3,10 @@
 
 import { ObservabilityEvalContext as Client } from "../index.js";
 import {
+  errorResponseDeserializer,
   _OperationListResult,
   _operationListResultDeserializer,
   Operation,
-  errorResponseDeserializer,
 } from "../../models/models.js";
 import { OperationsListOptionalParams } from "./options.js";
 import {
@@ -26,9 +26,9 @@ export function _listSend(
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/providers/ArizeAi.ObservabilityEval/operations{?api%2Dversion}",
+    "/providers/ArizeAi.ObservabilityEval/operations{?api-version}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

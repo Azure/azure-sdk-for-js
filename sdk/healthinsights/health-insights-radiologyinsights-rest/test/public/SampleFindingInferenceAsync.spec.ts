@@ -3,12 +3,12 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
-import { getLongRunningPoller } from "../../src/index.js";
+import { ClinicalDocumentTypeEnum, getLongRunningPoller } from "../../src/index.js";
 import { createRecorder, createTestClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
-  system: "http://www.ama-assn.org/go/cpt",
+  system: "Http://hl7.org/fhir/ValueSet/cpt-all",
   code: "ANG366",
   display: "XA VENACAVA FILTER INSERTION",
 };
@@ -19,7 +19,7 @@ const code = {
 
 const patientInfo = {
   sex: "male",
-  birthDate: "1980-04-22T02:00:00+00:00",
+  birthDate: new Date("1980-04-22T02:00:00+00:00"),
 };
 
 const encounterData = {
@@ -58,14 +58,14 @@ const content = {
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: "radiologyReport",
+  clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
   id: "docid1",
   language: "en",
   authors: [authorData],
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdAt: "2021-05-31T16:00:00.000Z",
+  createdAt: new Date("2021-05-31T16:00:00.000Z"),
   orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION",
 };
 
@@ -88,9 +88,6 @@ const inferenceTypes = [
   "followupRecommendation",
   "followupCommunication",
   "radiologyProcedure",
-  "scoringAndAssessment",
-  "guidance",
-  "qualityMeasure",
 ];
 
 const followupRecommendationOptions = {

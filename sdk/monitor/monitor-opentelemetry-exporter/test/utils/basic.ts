@@ -8,10 +8,10 @@ import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk
 
 import { AzureMonitorTraceExporter, AzureMonitorMetricExporter } from "../../src/index.js";
 import type { Expectation, Scenario } from "./types.js";
-import { SpanStatusCode, trace } from "@opentelemetry/api";
+import { SpanStatusCode } from "@opentelemetry/api";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { FlushSpanProcessor } from "./flushSpanProcessor.js";
-import { resourceFromAttributes } from "@opentelemetry/resources";
+import { Resource } from "@opentelemetry/resources";
 import {
   SemanticResourceAttributes,
   SemanticAttributes,
@@ -38,18 +38,16 @@ export class TraceBasicScenario implements Scenario {
       connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
     });
     this._processor = new FlushSpanProcessor(exporter);
-    const resource = resourceFromAttributes({
+    const resource = new Resource({
       "service.name": "testServiceName",
       "k8s.cluster.name": "testClusterName",
       "k8s.node.name": "testNodeName",
       "k8s.namespace.name": "testNamespaceName",
       "k8s.pod.name": "testPodName",
     });
-    const provider = new BasicTracerProvider({
-      spanProcessors: [this._processor],
-      resource: resource,
-    });
-    trace.setGlobalTracerProvider(provider);
+    const provider = new BasicTracerProvider({ resource: resource });
+    provider.addSpanProcessor(this._processor);
+    provider.register();
   }
 
   async run(): Promise<void> {
@@ -267,11 +265,17 @@ export class MetricBasicScenario implements Scenario {
   private _provider: MeterProvider;
 
   constructor() {
-    const testResource = resourceFromAttributes({
+    const testResource = new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: "my-helloworld-service",
       [SemanticResourceAttributes.SERVICE_NAMESPACE]: "my-namespace",
       [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "my-instance",
     });
+    this._provider = new MeterProvider({
+      resource: testResource,
+    });
+  }
+
+  prepare(): void {
     const exporter = new AzureMonitorMetricExporter({
       connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
     });
@@ -279,14 +283,9 @@ export class MetricBasicScenario implements Scenario {
       exporter: exporter,
       exportIntervalMillis: 100,
     };
-    this._provider = new MeterProvider({
-      resource: testResource,
-      readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-    });
-  }
+    const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
 
-  prepare(): void {
-    // NOOP
+    this._provider.addMetricReader(metricReader);
   }
 
   async run(): Promise<void> {

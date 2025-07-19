@@ -5,10 +5,13 @@
  * @summary Uses a CertificateClient to create, update, and delete a certificate's operation.
  */
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
-// Load the .env file if it exists
-import "dotenv/config";
+
+dotenv.config();
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.

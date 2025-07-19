@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 import AzureHealthInsightsClient, {
-  ClinicalDocumentType,
+  ClinicalDocumentTypeEnum,
   CreateJobParameters,
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
@@ -96,7 +96,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 function createRequestBody(): CreateJobParameters {
 
   const codingData = {
-    system: "http://www.ama-assn.org/go/cpt",
+    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
     code: "ANG366",
     display: "XA VENACAVA FILTER INSERTION"
   };
@@ -145,14 +145,14 @@ function createRequestBody(): CreateJobParameters {
   };
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport",
+    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: "2021-05-31T16:00:00.000Z",
+    createdAt: new Date("2021-05-31T16:00:00.000Z"),
     orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION"
   };
 

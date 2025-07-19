@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 import AzureHealthInsightsClient, {
-  ClinicalDocumentType,
+  ClinicalDocumentTypeEnum,
   CreateJobParameters,
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
@@ -98,7 +98,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 function createRequestBody(): CreateJobParameters {
 
   const codingData = {
-    system: "http://www.ama-assn.org/go/cpt",
+    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
     code: "24727-0",
     display: "CT HEAD W CONTRAST IV"
   };
@@ -109,7 +109,7 @@ function createRequestBody(): CreateJobParameters {
 
   const patientInfo = {
     sex: "female",
-    birthDate: "1959-11-11T19:00:00+00:00",
+    birthDate: new Date("1959-11-11T19:00:00+00:00"),
   };
 
   const encounterData = {
@@ -152,14 +152,14 @@ function createRequestBody(): CreateJobParameters {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport",
+    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: "2021-05-31T16:00:00.000Z",
+    createdAt: new Date("2021-05-31T16:00:00.000Z"),
     orderedProceduresAsCsv: "CT HEAD W CONTRAST IV"
   };
 

@@ -26,13 +26,6 @@ export const commandInfo = makeCommandInfo(
       description: "specify the path of the output directory where the samples will be written",
       shortName: "o",
     },
-    force: {
-      kind: "boolean",
-      description:
-        "force writing of samples, even if the output directory is not empty (will delete everything in the output directory)",
-      shortName: "f",
-      default: false,
-    },
   } as const,
 );
 
@@ -52,7 +45,7 @@ export default leafCommand(commandInfo, async (options) => {
   // This creates the samples output
   try {
     // Gather sample meta-information and use it to assemble a template
-    const factory = await makeSamplesFactory(projectInfo, undefined, { force: options?.force });
+    const factory = await makeSamplesFactory(projectInfo);
 
     // This is where the actual magic of creating the output from the template happens
     await factory(basePath);

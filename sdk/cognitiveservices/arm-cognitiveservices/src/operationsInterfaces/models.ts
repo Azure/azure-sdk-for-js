@@ -17,5 +17,8 @@ export interface Models {
    * @param location Resource location.
    * @param options The options parameters.
    */
-  list(location: string, options?: ModelsListOptionalParams): PagedAsyncIterableIterator<Model>;
+  list(
+    location: string,
+    options?: ModelsListOptionalParams,
+  ): PagedAsyncIterableIterator<Model>;
 }

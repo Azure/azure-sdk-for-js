@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -14,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Retrieve a list of Vaults.
  *
  * @summary Retrieve a list of Vaults.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ListResources.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ListResources.json
  */
 async function listOfRecoveryServicesResourcesInResourceGroup(): Promise<void> {
   const subscriptionId =
@@ -26,16 +28,14 @@ async function listOfRecoveryServicesResourcesInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.vaults.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (let item of client.vaults.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await listOfRecoveryServicesResourcesInResourceGroup();
+  listOfRecoveryServicesResourcesInResourceGroup();
 }
 
 main().catch(console.error);

@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { PrivateLinkResources } from "../operationsInterfaces/index.js";
+import { PrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import type {
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import {
   PrivateLinkResource,
   PrivateLinkResourcesListByServerNextOptionalParams,
   PrivateLinkResourcesListByServerOptionalParams,
@@ -47,7 +47,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     serverName: string,
     options?: PrivateLinkResourcesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
+    const iter = this.listByServerPagingAll(
+      resourceGroupName,
+      serverName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -59,7 +63,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
+        return this.listByServerPagingPage(
+          resourceGroupName,
+          serverName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -74,7 +83,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByServer(resourceGroupName, serverName, options);
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -87,7 +96,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         options,
       );
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -98,7 +107,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     serverName: string,
     options?: PrivateLinkResourcesListByServerOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
-    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
+    for await (const page of this.listByServerPagingPage(
+      resourceGroupName,
+      serverName,
+      options,
+    )) {
       yield* page;
     }
   }

@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { concurrently } from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import path from "node:path";
-import { spawnSync, StdioOptions } from "node:child_process";
-import { isWindows } from "../../util/platform";
 
 const log = createPrinter("build-package");
 
@@ -14,22 +13,16 @@ export const commandInfo = makeCommandInfo("build-package", "build a package for
 const TSHY_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", ".bin", "tshy");
 
 export default leafCommand(commandInfo, async () => {
-  const commandPath = isWindows() ? `${TSHY_BIN_PATH}.CMD` : TSHY_BIN_PATH;
-  log.info(`Building package with tshy from ${commandPath}`);
+  log.info(`Building package with tshy from ${TSHY_BIN_PATH}`);
 
-  const proc = spawnSync(commandPath, { stdio: "pipe" as StdioOptions, shell: isWindows() });
-
-  if (proc.error) {
-    log.error(proc.error.message);
-    return false;
-  }
-
-  if (proc.status !== 0) {
-    log.error(`Package failed to build:
-
-${proc.stdout.toString()}`);
-    return false;
-  }
+  await concurrently(
+    [
+      {
+        command: TSHY_BIN_PATH,
+      },
+    ],
+    { raw: true },
+  ).result;
 
   log.info("Package built successfully.");
 

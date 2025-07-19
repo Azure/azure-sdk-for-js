@@ -18,7 +18,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
@@ -50,15 +50,13 @@ async function main() {
       case MessageStreamEvent.ThreadMessageDelta:
         {
           const messageDelta = eventMessage.data;
-          if (messageDelta.delta && messageDelta.delta.content) {
-            messageDelta.delta.content.forEach((contentPart) => {
-              if (contentPart.type === "text") {
-                const textContent = contentPart;
-                const textValue = textContent.text?.value || "No text";
-                console.log(`Text delta received:: ${textValue}`);
-              }
-            });
-          }
+          messageDelta.delta.content.forEach((contentPart) => {
+            if (contentPart.type === "text") {
+              const textContent = contentPart;
+              const textValue = textContent.text?.value || "No text";
+              console.log(`Text delta received:: ${textValue}`);
+            }
+          });
         }
         break;
 

@@ -19,8 +19,8 @@ export {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
-  OnlineExperimentationWorkspace,
-  OnlineExperimentationWorkspaceProperties,
+  OnlineExperimentWorkspace,
+  OnlineExperimentWorkspaceProperties,
   KnownResourceProvisioningState,
   ResourceProvisioningState,
   ResourceEncryptionConfiguration,
@@ -42,21 +42,17 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  OnlineExperimentationWorkspacePatch,
   KnownVersions,
 } from "./models/index.js";
 export { OnlineExperimentationClientOptionalParams } from "./api/index.js";
 export {
-  OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
-  OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
-  OnlineExperimentationWorkspacesDeleteOptionalParams,
-  OnlineExperimentationWorkspacesUpdateOptionalParams,
-  OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
-  OnlineExperimentationWorkspacesGetOptionalParams,
-} from "./api/onlineExperimentationWorkspaces/index.js";
+  OnlineExperimentWorkspacesListBySubscriptionOptionalParams,
+  OnlineExperimentWorkspacesListByResourceGroupOptionalParams,
+  OnlineExperimentWorkspacesDeleteOptionalParams,
+  OnlineExperimentWorkspacesUpdateOptionalParams,
+  OnlineExperimentWorkspacesCreateOrUpdateOptionalParams,
+  OnlineExperimentWorkspacesGetOptionalParams,
+} from "./api/onlineExperimentWorkspaces/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
-  OnlineExperimentationWorkspacesOperations,
-  OperationsOperations,
-} from "./classic/index.js";
+export { OnlineExperimentWorkspacesOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

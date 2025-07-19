@@ -5,6 +5,7 @@ import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpResponse } from "@azure-rest/core-client";
 import type {
   ConstitutionOutput,
+  BundleOutput,
   ConfidentialLedgerErrorOutput,
   ConsortiumOutput,
   ConfidentialLedgerEnclavesOutput,
@@ -19,12 +20,11 @@ import type {
   PagedLedgerUsersOutput,
   LedgerUserOutput,
   LedgerUserMultipleRolesOutput,
-  BundleOutput,
-  JSRuntimeOptionsOutput,
-  ModuleDefOutput,
   PagedUserDefinedFunctionsOutput,
   UserDefinedFunctionOutput,
   UserDefinedFunctionExecutionResponseOutput,
+  JSRuntimeOptionsOutput,
+  ModuleDefOutput,
   RoleOutput,
 } from "./outputModels.js";
 
@@ -36,6 +36,17 @@ export interface GetConstitution200Response extends HttpResponse {
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
 export interface GetConstitutionDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Creates the user defined endpoint in the ACL instance */
+export interface CreateUserDefinedEndpoint201Response extends HttpResponse {
+  status: "201";
+}
+
+/** Creates the user defined endpoint in the ACL instance */
+export interface CreateUserDefinedEndpointDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -154,13 +165,13 @@ export interface GetCurrentLedgerEntryDefaultResponse extends HttpResponse {
   body: ConfidentialLedgerErrorOutput;
 }
 
-/** All users' object IDs and single role per user will be returned. */
+/** All users' object IDs and roles will be returned. */
 export interface ListUsers200Response extends HttpResponse {
   status: "200";
   body: PagedUsersOutput;
 }
 
-/** All users' object IDs and single role per user will be returned. */
+/** All users' object IDs and roles will be returned. */
 export interface ListUsersDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
@@ -174,41 +185,6 @@ export interface ListLedgerUsers200Response extends HttpResponse {
 
 /** All users' object IDs and multiple roles will be returned. */
 export interface ListLedgerUsersDefaultResponse extends HttpResponse {
-  status: string;
-  body: ConfidentialLedgerErrorOutput;
-}
-
-/** Deletes a user from the Confidential Ledger. */
-export interface DeleteUser204Response extends HttpResponse {
-  status: "204";
-}
-
-/** Deletes a user from the Confidential Ledger. */
-export interface DeleteUserDefaultResponse extends HttpResponse {
-  status: string;
-  body: ConfidentialLedgerErrorOutput;
-}
-
-/** Gets a user. */
-export interface GetUser200Response extends HttpResponse {
-  status: "200";
-  body: LedgerUserOutput;
-}
-
-/** Gets a user. */
-export interface GetUserDefaultResponse extends HttpResponse {
-  status: string;
-  body: ConfidentialLedgerErrorOutput;
-}
-
-/** A JSON merge patch is applied for existing users */
-export interface CreateOrUpdateUser200Response extends HttpResponse {
-  status: "200";
-  body: LedgerUserOutput;
-}
-
-/** A JSON merge patch is applied for existing users */
-export interface CreateOrUpdateUserDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
@@ -248,6 +224,41 @@ export interface CreateOrUpdateLedgerUserDefaultResponse extends HttpResponse {
   body: ConfidentialLedgerErrorOutput;
 }
 
+/** Deletes a user from the Confidential Ledger. */
+export interface DeleteUser204Response extends HttpResponse {
+  status: "204";
+}
+
+/** Deletes a user from the Confidential Ledger. */
+export interface DeleteUserDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** Gets a user. */
+export interface GetUser200Response extends HttpResponse {
+  status: "200";
+  body: LedgerUserOutput;
+}
+
+/** Gets a user. */
+export interface GetUserDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** A JSON merge patch is applied for existing users */
+export interface CreateOrUpdateUser200Response extends HttpResponse {
+  status: "200";
+  body: LedgerUserOutput;
+}
+
+/** A JSON merge patch is applied for existing users */
+export interface CreateOrUpdateUserDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
 /** Returns the user defined endpoint in the ACL instance */
 export interface GetUserDefinedEndpoint200Response extends HttpResponse {
   status: "200";
@@ -256,17 +267,6 @@ export interface GetUserDefinedEndpoint200Response extends HttpResponse {
 
 /** Returns the user defined endpoint in the ACL instance */
 export interface GetUserDefinedEndpointDefaultResponse extends HttpResponse {
-  status: string;
-  body: ConfidentialLedgerErrorOutput;
-}
-
-/** Creates the user defined endpoint in the ACL instance */
-export interface CreateUserDefinedEndpoint201Response extends HttpResponse {
-  status: "201";
-}
-
-/** Creates the user defined endpoint in the ACL instance */
-export interface CreateUserDefinedEndpointDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }

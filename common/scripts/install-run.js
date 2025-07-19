@@ -16,46 +16,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 16928:
-/*!***********************!*\
-  !*** external "path" ***!
-  \***********************/
-/***/ ((module) => {
-
-module.exports = require("path");
-
-/***/ }),
-
-/***/ 179896:
-/*!*********************!*\
-  !*** external "fs" ***!
-  \*********************/
-/***/ ((module) => {
-
-module.exports = require("fs");
-
-/***/ }),
-
-/***/ 370857:
-/*!*********************!*\
-  !*** external "os" ***!
-  \*********************/
-/***/ ((module) => {
-
-module.exports = require("os");
-
-/***/ }),
-
-/***/ 535317:
-/*!********************************!*\
-  !*** external "child_process" ***!
-  \********************************/
-/***/ ((module) => {
-
-module.exports = require("child_process");
-
-/***/ }),
-
 /***/ 832286:
 /*!************************************************!*\
   !*** ./lib-esnext/utilities/npmrcUtilities.js ***!
@@ -206,12 +166,9 @@ function syncNpmrc(options) {
             if (!fs__WEBPACK_IMPORTED_MODULE_0__.existsSync(targetNpmrcFolder)) {
                 fs__WEBPACK_IMPORTED_MODULE_0__.mkdirSync(targetNpmrcFolder, { recursive: true });
             }
-            return _copyAndTrimNpmrcFile({
-                sourceNpmrcPath,
+            return _copyAndTrimNpmrcFile(Object.assign({ sourceNpmrcPath,
                 targetNpmrcPath,
-                logger,
-                ...options
-            });
+                logger }, options));
         }
         else if (fs__WEBPACK_IMPORTED_MODULE_0__.existsSync(targetNpmrcPath)) {
             // If the source .npmrc doesn't exist and there is one in the target, delete the one in the target
@@ -234,6 +191,46 @@ function isVariableSetInNpmrcFile(sourceNpmrcFolder, variableKey, supportEnvVarF
     return trimmedNpmrcFile.match(variableKeyRegExp) !== null;
 }
 //# sourceMappingURL=npmrcUtilities.js.map
+
+/***/ }),
+
+/***/ 535317:
+/*!********************************!*\
+  !*** external "child_process" ***!
+  \********************************/
+/***/ ((module) => {
+
+module.exports = require("child_process");
+
+/***/ }),
+
+/***/ 179896:
+/*!*********************!*\
+  !*** external "fs" ***!
+  \*********************/
+/***/ ((module) => {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 370857:
+/*!*********************!*\
+  !*** external "os" ***!
+  \*********************/
+/***/ ((module) => {
+
+module.exports = require("os");
+
+/***/ }),
+
+/***/ 16928:
+/*!***********************!*\
+  !*** external "path" ***!
+  \***********************/
+/***/ ((module) => {
+
+module.exports = require("path");
 
 /***/ })
 
@@ -306,7 +303,7 @@ function isVariableSetInNpmrcFile(sourceNpmrcFolder, variableKey, supportEnvVarF
 /******/
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 /*!*******************************************!*\
   !*** ./lib-esnext/scripts/install-run.js ***!

@@ -41,11 +41,7 @@ import {
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
 import { hashPartitionKey } from "../../utils/hashing/hash.js";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
-import type {
-  PartitionKey,
-  PartitionKeyDefinition,
-  PartitionKeyInternal,
-} from "../../documents/index.js";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
 import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
   ChangeFeedPullModelIterator,
@@ -60,7 +56,7 @@ import {
   addDiagnosticChild,
 } from "../../utils/diagnostics.js";
 import { randomUUID } from "@azure/core-util";
-import { computePartitionKeyRangeId, readPartitionKeyDefinition } from "../ClientUtils.js";
+import { readPartitionKeyDefinition } from "../ClientUtils.js";
 import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder.js";
 import type { EncryptionQueryBuilder } from "../../encryption/index.js";
 import type { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder.js";
@@ -93,7 +89,7 @@ export class Items {
     public readonly container: Container,
     private readonly clientContext: ClientContext,
   ) {
-    this.partitionKeyRangeCache = this.clientContext.partitionKeyRangeCache;
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
   }
 
   /**
@@ -155,19 +151,6 @@ export class Items {
       innerOptions: FeedOptions,
       correlatedActivityId: string,
     ) => {
-      let internalPartitionKey: PartitionKeyInternal | undefined;
-      if (options.partitionKey) {
-        internalPartitionKey = convertToInternalPartitionKey(options.partitionKey);
-      }
-      const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
-      const partitionKeyRangeId = await computePartitionKeyRangeId(
-        diagnosticNode,
-        internalPartitionKey,
-        this.partitionKeyRangeCache,
-        isPartitionLevelFailOverEnabled,
-        this.container,
-      );
-
       const response = await this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.item,
@@ -178,7 +161,6 @@ export class Items {
         partitionKey: options.partitionKey,
         diagnosticNode,
         correlatedActivityId: correlatedActivityId,
-        partitionKeyRangeId,
       });
       return response;
     };
@@ -233,16 +215,6 @@ export class Items {
   ): Promise<QueryIterator<ItemDefinition>> {
     const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
     const sqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
-    if (this.clientContext.enableEncryption && options.partitionKey) {
-      await this.container.checkAndInitializeEncryption();
-      const { partitionKeyList, encryptedCount } =
-        await this.container.encryptionProcessor.getEncryptedPartitionKeyValue([
-          options.partitionKey,
-        ] as PartitionKeyInternal);
-      if (encryptedCount > 0) {
-        options.partitionKey = partitionKeyList[0];
-      }
-    }
     const iterator = this.query<ItemDefinition>(sqlQuerySpec, options);
     return iterator;
   }
@@ -550,18 +522,6 @@ export class Items {
         }
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
-
-        const isPartitionLevelFailOverEnabled =
-          this.clientContext.isPartitionLevelFailOverEnabled();
-        const partitionKeyRangeId = await computePartitionKeyRangeId(
-          diagnosticNode,
-          partitionKey,
-          this.partitionKeyRangeCache,
-          isPartitionLevelFailOverEnabled,
-          this.container,
-          partitionKeyDefinition,
-        );
-
         response = await this.clientContext.create<T>({
           body,
           path,
@@ -570,7 +530,6 @@ export class Items {
           diagnosticNode,
           options,
           partitionKey,
-          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -717,18 +676,6 @@ export class Items {
 
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
-
-        const isPartitionLevelFailOverEnabled =
-          this.clientContext.isPartitionLevelFailOverEnabled();
-        const partitionKeyRangeId = await computePartitionKeyRangeId(
-          diagnosticNode,
-          partitionKey,
-          this.partitionKeyRangeCache,
-          isPartitionLevelFailOverEnabled,
-          this.container,
-          partitionKeyDefinition,
-        );
-
         response = await this.clientContext.upsert<T>({
           body,
           path,
@@ -737,7 +684,6 @@ export class Items {
           options,
           partitionKey,
           diagnosticNode,
-          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -833,7 +779,6 @@ export class Items {
 
   /**
    * Execute bulk operations on items.
-   * @deprecated Use `executeBulkOperations` instead.
    *
    * Bulk takes an array of Operations which are typed based on what the operation does.
    * The choices are: Create, Upsert, Read, Replace, and Delete
@@ -1220,16 +1165,6 @@ export class Items {
           );
         }
 
-        const isPartitionLevelFailOverEnabled =
-          this.clientContext.isPartitionLevelFailOverEnabled();
-        const partitionKeyRangeId = await computePartitionKeyRangeId(
-          diagnosticNode,
-          partitionKey,
-          this.partitionKeyRangeCache,
-          isPartitionLevelFailOverEnabled,
-          this.container,
-        );
-
         response = await this.clientContext.batch({
           body: operations,
           partitionKey,
@@ -1237,7 +1172,6 @@ export class Items {
           resourceId: this.container.url,
           options,
           diagnosticNode,
-          partitionKeyRangeId,
         });
       } catch (err: any) {
         if (this.clientContext.enableEncryption) {

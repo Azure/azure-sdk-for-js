@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const fs = require("fs");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 async function main() {
   // Create an Azure AI Client

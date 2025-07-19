@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// dev-tool snippets ignore
 import path from "node:path";
 import fs from "node:fs";
 import { RecorderError } from "./utils.js";
@@ -58,14 +57,18 @@ function relativePackagePath(): string {
  * Returns the potential `recordings` folder(relative path) for the project using `process.cwd()`.
  *
  * Note for browser tests:
- *    1. Supposed to be called from the global config vitest.browser.shared.config.ts.
+ *    1. Supposed to be called from karma.conf.js in the package for which the testing is being done.
  *    2. Set this `RECORDINGS_RELATIVE_PATH` as an env variable
- *      ```ts
- *        const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
- *        process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+ *      ```js
+ *        const { relativeRecordingsPathForBrowser } = require("@azure-tools/test-recorder-new");
+ *        process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPathForBrowser();
+ *      ```
+ *    3. Add "RECORDINGS_RELATIVE_PATH" in the `envPreprocessor` array to let this be loaded in the browser environment.
+ *      ```
+ *        envPreprocessor: ["RECORDINGS_RELATIVE_PATH"],
  *      ```
  *
- * `RECORDINGS_RELATIVE_PATH` in the browser environment is used in the recorder to tell the test-proxy tool about the location to generate the browser recordings at.
+ * `RECORDINGS_RELATIVE_PATH` in the browser environment is used in the recorder to tell the proxy-tool about the location to generate the browser recordings at.
  *
  * @export
  * @returns {string} location of the relative `recordings` folder path - `sdk/storage/storage-blob/recordings/` example

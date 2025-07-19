@@ -4,9 +4,8 @@ param(
     [string]$FileName = 'Azure.Sdk.Tools.Cli',
     [string]$Package = 'azsdk',
     [string]$Version, # Default to latest
-    [string]$InstallDirectory = '',
+    [string]$InstallDirectory = (Join-Path $HOME ".azure-sdk-mcp" "azsdk"),
     [string]$Repository = 'Azure/azure-sdk-tools',
-    [string]$RunDirectory = (Resolve-Path (Join-Path $PSScriptRoot .. .. ..)),
     [switch]$Run,
     [switch]$UpdateVsCodeConfig,
     [switch]$Clean
@@ -14,11 +13,6 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-if (-not $InstallDirectory)
-{
-    $homeDir = if ($env:HOME) { $env:HOME } else { $env:USERPROFILE }
-    $InstallDirectory = (Join-Path $homeDir ".azure-sdk-mcp" "azsdk")
-}
 . (Join-Path $PSScriptRoot '..' 'scripts' 'Helpers' 'AzSdkTool-Helpers.ps1')
 
 if ($Clean) {
@@ -26,9 +20,9 @@ if ($Clean) {
 }
 
 if ($UpdateVsCodeConfig) {
-    $vscodeConfigPath = Join-Path $PSScriptRoot ".." ".." ".." ".vscode" "mcp.json"
+    $vscodeConfigPath = $PSScriptRoot + "../../../.vscode/mcp.json"
     if (Test-Path $vscodeConfigPath) {
-        $vscodeConfig = Get-Content -Raw $vscodeConfigPath | ConvertFrom-Json -AsHashtable
+        $vscodeConfig = Get-Content -Raw $vscodeConfig | ConvertFrom-Json -AsHashtable
     }
     else {
         $vscodeConfig = @{}
@@ -36,7 +30,7 @@ if ($UpdateVsCodeConfig) {
     $serverKey = "azure-sdk-mcp"
     $serverConfig = @{
         "type"    = "stdio"
-        "command" = "$PSCommandPath"
+        "command" = "/home/ben/azs/azure-sdk-tools/eng/common/mcp/azure-sdk-mcp.ps1"
     }
     $orderedServers = [ordered]@{
         $serverKey = $serverConfig
@@ -51,7 +45,7 @@ if ($UpdateVsCodeConfig) {
     }
     $vscodeConfig.servers = $orderedServers
     Write-Host "Updating vscode mcp config at $vscodeConfigPath"
-    $vscodeConfig | ConvertTo-Json -Depth 10 | Set-Content -Path $vscodeConfigPath -Force
+    $vscodeConfig | ConvertTo-Json -Depth 10 | Set-Content -Path $vscodeConfig -Force
 }
 
 $exe = Install-Standalone-Tool `
@@ -62,5 +56,5 @@ $exe = Install-Standalone-Tool `
     -Repository $Repository
 
 if ($Run) {
-    Start-Process -WorkingDirectory $RunDirectory -FilePath $exe -ArgumentList 'start' -NoNewWindow -Wait
+    Start-Process -FilePath $exe -ArgumentList 'start' -NoNewWindow -Wait
 }

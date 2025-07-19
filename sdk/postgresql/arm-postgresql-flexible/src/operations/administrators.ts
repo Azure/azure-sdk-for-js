@@ -6,17 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { Administrators } from "../operationsInterfaces/index.js";
+import { Administrators } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import type {
+import {
   ActiveDirectoryAdministrator,
   AdministratorsListByServerNextOptionalParams,
   AdministratorsListByServerOptionalParams,
@@ -54,7 +57,11 @@ export class AdministratorsImpl implements Administrators {
     serverName: string,
     options?: AdministratorsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ActiveDirectoryAdministrator> {
-    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
+    const iter = this.listByServerPagingAll(
+      resourceGroupName,
+      serverName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -66,7 +73,12 @@ export class AdministratorsImpl implements Administrators {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
+        return this.listByServerPagingPage(
+          resourceGroupName,
+          serverName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -81,7 +93,7 @@ export class AdministratorsImpl implements Administrators {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByServer(resourceGroupName, serverName, options);
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -94,7 +106,7 @@ export class AdministratorsImpl implements Administrators {
         options,
       );
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -105,7 +117,11 @@ export class AdministratorsImpl implements Administrators {
     serverName: string,
     options?: AdministratorsListByServerOptionalParams,
   ): AsyncIterableIterator<ActiveDirectoryAdministrator> {
-    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
+    for await (const page of this.listByServerPagingPage(
+      resourceGroupName,
+      serverName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -115,7 +131,7 @@ export class AdministratorsImpl implements Administrators {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param objectId Guid of the objectId for the administrator.
-   * @param parameters The required parameters for adding an Microsoft Entra Administrator for a server.
+   * @param parameters The required parameters for adding an active directory administrator for a server.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -125,7 +141,10 @@ export class AdministratorsImpl implements Administrators {
     parameters: ActiveDirectoryAdministratorAdd,
     options?: AdministratorsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<AdministratorsCreateResponse>, AdministratorsCreateResponse>
+    SimplePollerLike<
+      OperationState<AdministratorsCreateResponse>,
+      AdministratorsCreateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -137,7 +156,8 @@ export class AdministratorsImpl implements Administrators {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -186,7 +206,7 @@ export class AdministratorsImpl implements Administrators {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param objectId Guid of the objectId for the administrator.
-   * @param parameters The required parameters for adding an Microsoft Entra Administrator for a server.
+   * @param parameters The required parameters for adding an active directory administrator for a server.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -207,7 +227,7 @@ export class AdministratorsImpl implements Administrators {
   }
 
   /**
-   * Deletes an Microsoft Entra Administrator associated with the server.
+   * Deletes an Active Directory Administrator associated with the server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param objectId Guid of the objectId for the administrator.
@@ -229,7 +249,8 @@ export class AdministratorsImpl implements Administrators {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -271,7 +292,7 @@ export class AdministratorsImpl implements Administrators {
   }
 
   /**
-   * Deletes an Microsoft Entra Administrator associated with the server.
+   * Deletes an Active Directory Administrator associated with the server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param objectId Guid of the objectId for the administrator.
@@ -283,7 +304,12 @@ export class AdministratorsImpl implements Administrators {
     objectId: string,
     options?: AdministratorsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, serverName, objectId, options);
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      serverName,
+      objectId,
+      options,
+    );
     return poller.pollUntilDone();
   }
 

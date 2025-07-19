@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { MockInstance } from "vitest";
-import { afterEach, assert, beforeAll, afterAll, describe, it, vi } from "vitest";
+import { afterEach, assert, beforeAll, afterAll, describe, it, vi, MockInstance } from "vitest";
 import { SpanKind } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import { PerformanceCounterMetrics } from "../../../../src/metrics/performanceCounters.js";
@@ -9,7 +8,7 @@ import {
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_INSTANCE_ID,
 } from "@opentelemetry/semantic-conventions";
-import { resourceFromAttributes } from "@opentelemetry/resources";
+import { Resource } from "@opentelemetry/resources";
 import type { Histogram } from "@opentelemetry/sdk-metrics";
 import { InternalConfig } from "../../../../src/shared/config.js";
 
@@ -44,7 +43,7 @@ describe("PerformanceCounterMetricsHandler", () => {
     await autoCollect.shutdown();
   });
 
-  const resource = resourceFromAttributes({});
+  const resource = new Resource({});
   resource.attributes[SEMRESATTRS_SERVICE_NAME] = "testcloudRoleName";
   resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
   const serverSpan: any = {

@@ -3,7 +3,6 @@
 
 import { AgentsContext as Client } from "../index.js";
 import {
-  agentV1ErrorDeserializer,
   RunStep,
   runStepDeserializer,
   _AgentsPagedResultRunStep,
@@ -62,9 +61,7 @@ export async function _listRunStepsDeserialize(
 ): Promise<_AgentsPagedResultRunStep> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return _agentsPagedResultRunStepDeserializer(result.body);
@@ -122,9 +119,7 @@ export function _getRunStepSend(
 export async function _getRunStepDeserialize(result: PathUncheckedResponse): Promise<RunStep> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = agentV1ErrorDeserializer(result.body);
-    throw error;
+    throw createRestError(result);
   }
 
   return runStepDeserializer(result.body);

@@ -3,8 +3,8 @@
 
 // @ts-check
 
-import fs from "node:fs";
-import path from "node:path";
+import * as fs from "node:fs";
+import * as path from "node:path";
 
 import { getBaseDir } from "./env.js";
 
@@ -65,8 +65,8 @@ export const restrictedToPackages = [
  * @param {string[]} packageNames - An array of strings containing the packages names to run the action on.
  * @param {string} action - The action being performed ("build", "build:samples", "test:node", "test:browser"
  * @param {string[]} serviceDirs - An array of strings containing the serviceDirs affected
- * @param {{changedPackages: Set<string>, diff: { changedFiles: string[], changedServices: string[] }} | undefined} [changedInfo=undefined] - information about changed packages and  */
-export function getDirectionMappedPackages(packageNames, action, serviceDirs, changedInfo) {
+ */
+export const getDirectionMappedPackages = (packageNames, action, serviceDirs) => {
   const mappedPackages = [];
 
   let fullPackageNames = packageNames.slice();
@@ -107,19 +107,13 @@ export function getDirectionMappedPackages(packageNames, action, serviceDirs, ch
     }
   } else {
     // we are in a test task of some kind
-    mappedPackages.push(
-      ...fullPackageNames.map((p) => {
-        if (!restrictedToPackages.includes(p) && changedInfo?.changedPackages.has(p)) {
-          return ["--impacted-by", p];
-        } else {
-          return ["--only", p];
-        }
-      }),
-    );
+    const rushCommandFlag = isReducedTestScopeEnabled ? "--only" : "--impacted-by";
+
+    mappedPackages.push(...fullPackageNames.map((p) => [rushCommandFlag, p]));
   }
 
   return mappedPackages;
-}
+};
 
 /**
  * Returns an array of full paths to package.json files under a directory

@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { Readable } = require("stream");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 
 async function main() {
   // Create an Azure AI Client
@@ -32,16 +32,18 @@ async function main() {
   });
   console.log(`Uploaded file, file ID: ${file.id}`);
 
+  // (Optional) Define an onResponse callback to monitor the progress of polling
+  function onResponse(response) {
+    console.log(`Received response with status: ${response.parsedBody?.status}`);
+  }
+
   // Create vector store file, which will automatically poll until the operation is complete
   const vectorStoreFile1 = await client.vectorStoreFiles.create(vectorStore.id, {
     fileId: file.id,
     pollingOptions: {
       intervalInMs: 2000,
     },
-    // (Optional) Define an onResponse callback to monitor the progress of polling
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    onResponse: onResponse,
   });
   console.log(
     `Created vector store file with status ${vectorStoreFile1.status}, vector store file ID: ${vectorStoreFile1.id}`,
@@ -56,9 +58,7 @@ async function main() {
     pollingOptions: {
       intervalInMs: 2000,
     },
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
+    onResponse: onResponse,
   });
   const vectorStoreFile2 = await vectorStoreFilePoller.pollUntilDone({
     abortSignal: abortController.signal,

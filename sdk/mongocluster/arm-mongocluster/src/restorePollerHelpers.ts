@@ -2,21 +2,20 @@
 // Licensed under the MIT License.
 
 import { MongoClusterManagementClient } from "./mongoClusterManagementClient.js";
-import { _$deleteDeserialize, _createOrUpdateDeserialize } from "./api/users/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnections,
-  _createDeserialize,
-} from "./api/privateEndpointConnections/operations.js";
+  _mongoClustersCreateOrUpdateDeserialize,
+  _mongoClustersUpdateDeserialize,
+  _mongoClustersDeleteDeserialize,
+  _mongoClustersPromoteDeserialize,
+} from "./api/mongoClusters/index.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeFirewallRules,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeFirewallRules,
-} from "./api/firewallRules/operations.js";
+  _firewallRulesCreateOrUpdateDeserialize,
+  _firewallRulesDeleteDeserialize,
+} from "./api/firewallRules/index.js";
 import {
-  _promoteDeserialize,
-  _$deleteDeserialize as _$deleteDeserializeMongoClusters,
-  _updateDeserialize,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeMongoClusters,
-} from "./api/mongoClusters/operations.js";
+  _privateEndpointConnectionsCreateDeserialize,
+  _privateEndpointConnectionsDeleteDeserialize,
+} from "./api/privateEndpointConnections/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -90,49 +89,45 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/users/{userName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
     {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/users/{userName}":
-    {
-      deserializer: _createOrUpdateDeserialize,
+      deserializer: _mongoClustersCreateOrUpdateDeserialize,
       expectedStatuses: ["200", "201"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
     {
-      deserializer: _$deleteDeserializePrivateEndpointConnections,
+      deserializer: _mongoClustersUpdateDeserialize,
+      expectedStatuses: ["200", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
+    {
+      deserializer: _mongoClustersDeleteDeserialize,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/promote":
+    {
+      deserializer: _mongoClustersPromoteDeserialize,
+      expectedStatuses: ["202", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
+    {
+      deserializer: _firewallRulesCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
+    {
+      deserializer: _firewallRulesDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
-      deserializer: _createDeserialize,
-      expectedStatuses: ["202", "200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
-    {
-      deserializer: _$deleteDeserializeFirewallRules,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
-    {
-      deserializer: _createOrUpdateDeserializeFirewallRules,
+      deserializer: _privateEndpointConnectionsCreateDeserialize,
       expectedStatuses: ["200", "201", "202"],
     },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/promote":
-    { deserializer: _promoteDeserialize, expectedStatuses: ["202", "200"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
-      deserializer: _$deleteDeserializeMongoClusters,
+      deserializer: _privateEndpointConnectionsDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
-    {
-      deserializer: _createOrUpdateDeserializeMongoClusters,
-      expectedStatuses: ["200", "201"],
     },
 };
 

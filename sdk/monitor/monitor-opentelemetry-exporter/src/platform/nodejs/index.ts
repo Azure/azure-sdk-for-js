@@ -6,6 +6,5 @@
  */
 export * from "./constants.js";
 export * from "./persist/index.js";
-export * from "./baseSender.js";
 export * from "./httpSender.js";
 export * from "./context/index.js";

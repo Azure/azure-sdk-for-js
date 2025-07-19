@@ -5397,6 +5397,8 @@ export const TriggerParameters: coreClient.CompositeMapper = {
         },
       },
       intervalUnit: {
+        defaultValue: "Days",
+        isConstant: true,
         serializedName: "intervalUnit",
         type: {
           name: "String",
@@ -5694,6 +5696,8 @@ export const TriggerParametersUpdate: coreClient.CompositeMapper = {
         },
       },
       intervalUnit: {
+        defaultValue: "Days",
+        isConstant: true,
         serializedName: "intervalUnit",
         type: {
           name: "String",

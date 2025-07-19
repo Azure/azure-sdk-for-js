@@ -6,17 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { Backups } from "../operationsInterfaces/index.js";
+import { Backups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import type {
+import {
   ServerBackup,
   BackupsListByServerNextOptionalParams,
   BackupsListByServerOptionalParams,
@@ -54,7 +57,11 @@ export class BackupsImpl implements Backups {
     serverName: string,
     options?: BackupsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerBackup> {
-    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
+    const iter = this.listByServerPagingAll(
+      resourceGroupName,
+      serverName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -66,7 +73,12 @@ export class BackupsImpl implements Backups {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
+        return this.listByServerPagingPage(
+          resourceGroupName,
+          serverName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -81,7 +93,7 @@ export class BackupsImpl implements Backups {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByServer(resourceGroupName, serverName, options);
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -94,7 +106,7 @@ export class BackupsImpl implements Backups {
         options,
       );
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -105,7 +117,11 @@ export class BackupsImpl implements Backups {
     serverName: string,
     options?: BackupsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerBackup> {
-    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
+    for await (const page of this.listByServerPagingPage(
+      resourceGroupName,
+      serverName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -122,7 +138,12 @@ export class BackupsImpl implements Backups {
     serverName: string,
     backupName: string,
     options?: BackupsCreateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<BackupsCreateResponse>, BackupsCreateResponse>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupsCreateResponse>,
+      BackupsCreateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -133,7 +154,8 @@ export class BackupsImpl implements Backups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -190,7 +212,12 @@ export class BackupsImpl implements Backups {
     backupName: string,
     options?: BackupsCreateOptionalParams,
   ): Promise<BackupsCreateResponse> {
-    const poller = await this.beginCreate(resourceGroupName, serverName, backupName, options);
+    const poller = await this.beginCreate(
+      resourceGroupName,
+      serverName,
+      backupName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -206,7 +233,12 @@ export class BackupsImpl implements Backups {
     serverName: string,
     backupName: string,
     options?: BackupsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<BackupsDeleteResponse>, BackupsDeleteResponse>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupsDeleteResponse>,
+      BackupsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -217,7 +249,8 @@ export class BackupsImpl implements Backups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -274,7 +307,12 @@ export class BackupsImpl implements Backups {
     backupName: string,
     options?: BackupsDeleteOptionalParams,
   ): Promise<BackupsDeleteResponse> {
-    const poller = await this.beginDelete(resourceGroupName, serverName, backupName, options);
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      serverName,
+      backupName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 

@@ -6,7 +6,7 @@ Network Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/network/arm-network) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-network) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-network?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-network) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -72,6 +72,7 @@ const client = new NetworkManagementClient(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -105,7 +106,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { resourceFromAttributes } from "@opentelemetry/resources";
+import { Resource } from "@opentelemetry/resources";
 import fs from "node:fs";
 import path from "node:path";
+import * as os from "node:os";
 import type {
   ResourceMetrics,
   PeriodicExportingMetricReaderOptions,
@@ -40,7 +41,7 @@ class TestExporter extends AzureMonitorMetricExporter {
   }
   async export(metrics: ResourceMetrics): Promise<void> {
     testMetrics = metrics;
-    testMetrics.resource = resourceFromAttributes({
+    testMetrics.resource = new Resource({
       [SEMRESATTRS_SERVICE_INSTANCE_ID]: "testServiceInstanceID",
       [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
       [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace",
@@ -101,7 +102,7 @@ function assertStatsbeatEnvelope(
 
   assert.strictEqual(envelope.instrumentationKey, "ikey");
 
-  assert.deepStrictEqual(Object.keys(envelope.tags || {}).length, 1);
+  assert.deepStrictEqual(Object.keys(envelope.tags || {}).length, 2);
 }
 
 describe("metricUtil.ts", () => {
@@ -115,18 +116,19 @@ describe("metricUtil.ts", () => {
     newEnv[ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED] = "false";
     process.env = newEnv;
 
+    const provider = new MeterProvider({
+      resource: new Resource({
+        [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+      }),
+    });
     const exporter = new TestExporter({
       connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
     });
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: exporter,
     };
-    const provider = new MeterProvider({
-      readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-      resource: resourceFromAttributes({
-        [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-      }),
-    });
+    const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+    provider.addMetricReader(metricReader);
     const meter = provider.getMeter("example-meter-node");
     // Create Counter instrument with the meter
     const counter = meter.createCounter("counter");
@@ -145,6 +147,7 @@ describe("metricUtil.ts", () => {
   describe("#resourceMetricsToEnvelope", () => {
     it("should create a metric envelope", async () => {
       const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData: Partial<RequestData> = {
@@ -153,18 +156,19 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const provider = new MeterProvider({
-        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-        resource: resourceFromAttributes({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter("counter");
@@ -193,6 +197,7 @@ describe("metricUtil.ts", () => {
       process.env = newEnv;
 
       const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData: Partial<RequestData> = {
@@ -204,18 +209,19 @@ describe("metricUtil.ts", () => {
       const expectedProperties = {
         "_MS.SentToAMW": "True",
       };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const provider = new MeterProvider({
-        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-        resource: resourceFromAttributes({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter("counter");
@@ -240,6 +246,7 @@ describe("metricUtil.ts", () => {
   describe("#performanceMetricsToEnvelope", () => {
     it("should create private bytes envelopes with the correct name", async () => {
       const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -248,18 +255,19 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const provider = new MeterProvider({
-        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-        resource: resourceFromAttributes({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.PRIVATE_BYTES);
@@ -280,6 +288,7 @@ describe("metricUtil.ts", () => {
     });
     it("should create available bytes envelopes with the correct name", async () => {
       const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -288,18 +297,19 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const provider = new MeterProvider({
-        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-        resource: resourceFromAttributes({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.AVAILABLE_BYTES);
@@ -320,6 +330,7 @@ describe("metricUtil.ts", () => {
     });
     it("should create processor time envelopes with the correct name", async () => {
       const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -328,18 +339,19 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const provider = new MeterProvider({
-        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-        resource: resourceFromAttributes({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.PROCESSOR_TIME);
@@ -360,6 +372,7 @@ describe("metricUtil.ts", () => {
     });
     it("should create process time envelopes with the correct name", async () => {
       const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -368,18 +381,19 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const provider = new MeterProvider({
-        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-        resource: resourceFromAttributes({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.PROCESS_TIME_STANDARD);
@@ -400,6 +414,7 @@ describe("metricUtil.ts", () => {
     });
     it("should create request rate envelopes with the correct name", async () => {
       const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -408,18 +423,19 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const provider = new MeterProvider({
-        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-        resource: resourceFromAttributes({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.REQUEST_RATE);
@@ -440,6 +456,7 @@ describe("metricUtil.ts", () => {
     });
     it("should create request duration envelopes with the correct name", async () => {
       const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -448,18 +465,19 @@ describe("metricUtil.ts", () => {
         dataPointType: "Aggregation",
         count: 1,
       };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const provider = new MeterProvider({
-        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-        resource: resourceFromAttributes({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.REQUEST_DURATION);
@@ -488,6 +506,7 @@ describe("metricUtil.ts", () => {
       process.env = newEnv;
 
       const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
         "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
       };
       const expectedBaseData = {
@@ -499,18 +518,19 @@ describe("metricUtil.ts", () => {
       const expectedProperties = {
         "_MS.SentToAMW": "True",
       };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const provider = new MeterProvider({
-        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-        resource: resourceFromAttributes({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(OTelPerformanceCounterNames.REQUEST_DURATION);
@@ -531,18 +551,19 @@ describe("metricUtil.ts", () => {
       process.env = originalEnv;
     });
     it("should add not attach tags to statsbeat telemetry", async () => {
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
       const exporter = new TestExporter({
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       });
       const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
         exporter: exporter,
       };
-      const provider = new MeterProvider({
-        readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
-        resource: resourceFromAttributes({
-          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-        }),
-      });
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
       const meter = provider.getMeter("example-meter-node");
       // Create Counter instrument with the meter
       const counter = meter.createCounter(StatsbeatCounter.SUCCESS_COUNT);

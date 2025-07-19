@@ -414,8 +414,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             documentProducer: DocumentProducer,
           ): Promise<void> => {
             try {
-              const headers = await documentProducer.bufferMore(diagnosticNode);
-              this._mergeWithActiveResponseHeaders(headers);
+              await documentProducer.bufferMore(diagnosticNode);
               // if buffer of document producer is filled, add it to the buffered document producers queue
               const nextItem = documentProducer.peakNextItem();
               if (nextItem !== undefined) {

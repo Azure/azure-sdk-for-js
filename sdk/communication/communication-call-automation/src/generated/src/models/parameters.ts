@@ -21,18 +21,22 @@ import {
   AddParticipantRequest as AddParticipantRequestMapper,
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
   MuteParticipantsRequest as MuteParticipantsRequestMapper,
+  UnmuteParticipantsRequest as UnmuteParticipantsRequestMapper,
   CancelAddParticipantRequest as CancelAddParticipantRequestMapper,
   PlayRequest as PlayRequestMapper,
   StartTranscriptionRequest as StartTranscriptionRequestMapper,
   StopTranscriptionRequest as StopTranscriptionRequestMapper,
-  UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
+  UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
   HoldRequest as HoldRequestMapper,
   UnholdRequest as UnholdRequestMapper,
   StartMediaStreamingRequest as StartMediaStreamingRequestMapper,
   StopMediaStreamingRequest as StopMediaStreamingRequestMapper,
+  InterruptAudioAndAnnounceRequest as InterruptAudioAndAnnounceRequestMapper,
+  StartDialogRequest as StartDialogRequestMapper,
+  UpdateDialogRequest as UpdateDialogRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper,
 } from "../models/mappers.js";
 
@@ -80,7 +84,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-05-15",
+    defaultValue: "2024-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -160,6 +164,11 @@ export const muteParticipantsRequest: OperationParameter = {
   mapper: MuteParticipantsRequestMapper,
 };
 
+export const unmuteParticipantsRequest: OperationParameter = {
+  parameterPath: "unmuteParticipantsRequest",
+  mapper: UnmuteParticipantsRequestMapper,
+};
+
 export const cancelAddParticipantRequest: OperationParameter = {
   parameterPath: "cancelAddParticipantRequest",
   mapper: CancelAddParticipantRequestMapper,
@@ -203,11 +212,6 @@ export const stopTranscriptionRequest: OperationParameter = {
   mapper: StopTranscriptionRequestMapper,
 };
 
-export const updateTranscriptionRequest: OperationParameter = {
-  parameterPath: "updateTranscriptionRequest",
-  mapper: UpdateTranscriptionRequestMapper,
-};
-
 export const recognizeRequest: OperationParameter = {
   parameterPath: "recognizeRequest",
   mapper: RecognizeRequestMapper,
@@ -221,6 +225,11 @@ export const continuousDtmfRecognitionRequest: OperationParameter = {
 export const sendDtmfTonesRequest: OperationParameter = {
   parameterPath: "sendDtmfTonesRequest",
   mapper: SendDtmfTonesRequestMapper,
+};
+
+export const updateTranscriptionRequest: OperationParameter = {
+  parameterPath: "updateTranscriptionRequest",
+  mapper: UpdateTranscriptionRequestMapper,
 };
 
 export const holdRequest: OperationParameter = {
@@ -241,6 +250,42 @@ export const startMediaStreamingRequest: OperationParameter = {
 export const stopMediaStreamingRequest: OperationParameter = {
   parameterPath: "stopMediaStreamingRequest",
   mapper: StopMediaStreamingRequestMapper,
+};
+
+export const interruptRequest: OperationParameter = {
+  parameterPath: "interruptRequest",
+  mapper: InterruptAudioAndAnnounceRequestMapper,
+};
+
+export const startDialogRequest: OperationParameter = {
+  parameterPath: "startDialogRequest",
+  mapper: StartDialogRequestMapper,
+};
+
+export const dialogId: OperationURLParameter = {
+  parameterPath: "dialogId",
+  mapper: {
+    serializedName: "dialogId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const operationCallbackUri: OperationQueryParameter = {
+  parameterPath: ["options", "operationCallbackUri"],
+  mapper: {
+    serializedName: "operationCallbackUri",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const updateDialogRequest: OperationParameter = {
+  parameterPath: "updateDialogRequest",
+  mapper: UpdateDialogRequestMapper,
 };
 
 export const startCallRecording: OperationParameter = {

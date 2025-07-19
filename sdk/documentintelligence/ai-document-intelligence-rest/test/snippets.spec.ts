@@ -4,7 +4,6 @@
 import DocumentIntelligence, {
   AnalyzeOperationOutput,
   DocumentClassifierBuildOperationDetailsOutput,
-  KnownDocumentIntelligenceAudience,
   getLongRunningPoller,
   isUnexpected,
   paginate,
@@ -338,19 +337,6 @@ describe("snippets", () => {
     for await (const model of paginate(client, response)) {
       console.log(model.modelId);
     }
-  });
-
-  it("ReadmeSampleCreateClient_SovereignClouds", () => {
-    const client = DocumentIntelligence(
-      process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
-      new DefaultAzureCredential(),
-      {
-        credentials: {
-          // Use the correct audience for your cloud environment
-          scopes: [KnownDocumentIntelligenceAudience.AzureGovernment],
-        },
-      },
-    );
   });
 
   it("SetLogLevel", async () => {

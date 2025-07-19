@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { ServerCapabilities } from "../operationsInterfaces/index.js";
+import { ServerCapabilities } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import type {
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import {
   FlexibleServerCapability,
   ServerCapabilitiesListNextOptionalParams,
   ServerCapabilitiesListOptionalParams,
@@ -57,7 +57,12 @@ export class ServerCapabilitiesImpl implements ServerCapabilities {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, serverName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          serverName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -72,15 +77,20 @@ export class ServerCapabilitiesImpl implements ServerCapabilities {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, serverName, options);
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, serverName, continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        serverName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -91,7 +101,11 @@ export class ServerCapabilitiesImpl implements ServerCapabilities {
     serverName: string,
     options?: ServerCapabilitiesListOptionalParams,
   ): AsyncIterableIterator<FlexibleServerCapability> {
-    for await (const page of this.listPagingPage(resourceGroupName, serverName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      serverName,
+      options,
+    )) {
       yield* page;
     }
   }

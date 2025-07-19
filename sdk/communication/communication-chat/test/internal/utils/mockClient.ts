@@ -9,6 +9,8 @@ import type { ChatParticipant } from "../../../src/index.js";
 import { ChatClient, ChatThreadClient } from "../../../src/index.js";
 import type { CommunicationIdentifierModel } from "../../../src/generated/src/index.js";
 import { baseUri, generateToken } from "../../public/utils/connectionUtils.js";
+import type { SignalingClient } from "@azure/communication-signaling";
+import { EventEmitter } from "events";
 
 export const mockCommunicationIdentifier: CommunicationIdentifierModel = {
   communicationUser: { id: "id" },
@@ -19,14 +21,6 @@ export const mockParticipant: RestModel.ChatParticipant = {
   communicationIdentifier: mockCommunicationIdentifier,
   displayName: "displayName",
   shareHistoryTime: new Date("2020-05-26T18:06:06Z"),
-};
-
-export const mockParticipantWithMetadata: RestModel.ChatParticipant = {
-  communicationIdentifier: mockCommunicationIdentifier,
-  displayName: "displayName",
-  metadata: {
-    userType: "C2",
-  },
 };
 
 export const mockSdkModelParticipant: ChatParticipant = {
@@ -40,7 +34,6 @@ export const mockSdkModelParticipant: ChatParticipant = {
 export const mockThread: RestModel.ChatThreadProperties = {
   id: "threadid",
   topic: "topic",
-  metadata: { threadType: "primary", secondaryThread: "test-id" },
   createdByCommunicationIdentifier: mockCommunicationIdentifier,
   createdOn: new Date("2020-06-26T18:06:06Z"),
 };
@@ -54,14 +47,6 @@ export const mockThreadItem: RestModel.ChatThreadItem = {
   id: "threadid",
   topic: "topic",
   lastMessageReceivedOn: new Date("2020-06-26T18:06:06Z"),
-};
-
-export const mockThreadItemWithRetentionPolicy: RestModel.ChatThreadProperties = {
-  id: "threadid",
-  topic: "topic",
-  createdByCommunicationIdentifier: mockCommunicationIdentifier,
-  createdOn: new Date("2020-06-26T18:06:06Z"),
-  retentionPolicy: { kind: "threadCreationDate", deleteThreadAfterDays: 90 },
 };
 
 export const mockMessage: RestModel.ChatMessage = {
@@ -166,4 +151,30 @@ export const createChatThreadClient = (
       httpClient: mockHttpClient,
     },
   );
+};
+
+// Mock SignalingClient for Node.js testing
+class MockSignalingClient extends EventEmitter implements SignalingClient {
+  public start(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  public stop(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  public dispose(): void {
+    // Mock implementation
+  }
+}
+
+export const createChatClientWithSignaling = (mockHttpClient: HttpClient): ChatClient => {
+  const client = new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()), {
+    httpClient: mockHttpClient,
+  });
+  
+  // Inject mock signaling client for testing purposes
+  (client as any).signalingClient = new MockSignalingClient();
+  
+  return client;
 };

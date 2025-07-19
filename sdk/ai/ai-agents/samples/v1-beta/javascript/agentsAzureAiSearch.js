@@ -8,25 +8,26 @@
  */
 
 const { AgentsClient, isOutputOfType, ToolUtility } = require("@azure/ai-agents");
+const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
   // Create an Azure AI Client
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
-  const connectionName = process.env["AZURE_AI_SEARCH_CONNECTION_NAME"] || "<connection-name>";
+  const connectionId = process.env["AZURE_AI_CONNECTION_ID"] || "<connection-name>";
 
   // Initialize Azure AI Search tool
-  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionName, "search-index", {
+  const azureAISearchTool = ToolUtility.createAzureAISearchTool(connectionId, "ai-search-sample", {
     queryType: "simple",
     topK: 3,
     filter: "",
-    indexConnectionId: connectionName,
-    indexName: "search-index",
+    indexConnectionId: "",
+    indexName: "",
   });
 
   // Create agent with the Azure AI search tool
@@ -50,16 +51,15 @@ async function main() {
   );
   console.log(`Created message, message ID : ${message.id}`);
 
-  // Create and poll a run
-  console.log("Creating run...");
-  const run = await client.runs.createAndPoll(thread.id, agent.id, {
-    pollingOptions: {
-      intervalInMs: 2000,
-    },
-    onResponse: (response) => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
-    },
-  });
+  // Create and process agent run in thread with tools
+  let run = await client.runs.create(thread.id, agent.id);
+  while (run.status === "queued" || run.status === "in_progress") {
+    await delay(1000);
+    run = await client.runs.get(thread.id, run.id);
+  }
+  if (run.status === "failed") {
+    console.log(`Run failed:`, JSON.stringify(run, null, 2));
+  }
   console.log(`Run finished with status: ${run.status}`);
 
   // Fetch run steps to get the details of agent run
@@ -90,13 +90,15 @@ async function main() {
 
   // Fetch and log all messages
   const messagesIterator = client.messages.list(thread.id);
+  console.log(`Messages:`);
 
   // Get the first message
   for await (const m of messagesIterator) {
     if (m.content.length > 0) {
       const agentMessage = m.content[0];
       if (isOutputOfType(agentMessage, "text")) {
-        console.log(`Text Message Content - ${agentMessage.text.value}`);
+        const textContent = agentMessage;
+        console.log(`Text Message Content - ${textContent.text.value}`);
       }
     }
     break; // Just process the first message

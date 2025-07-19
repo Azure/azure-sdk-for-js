@@ -6,15 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const { ConfidentialLedgerClient } = require("@azure/arm-confidentialledger");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates properties of Confidential Ledger
  *
  * @summary Updates properties of Confidential Ledger
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-09-19-preview/examples/ConfidentialLedger_Update.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Update.json
  */
 async function confidentialLedgerUpdate() {
   const subscriptionId =
@@ -56,7 +58,7 @@ async function confidentialLedgerUpdate() {
 }
 
 async function main() {
-  await confidentialLedgerUpdate();
+  confidentialLedgerUpdate();
 }
 
 main().catch(console.error);

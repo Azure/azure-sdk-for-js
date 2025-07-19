@@ -11,6 +11,7 @@ import type {
   RadiologyInsightsJobOutput,
 } from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
+  ClinicalDocumentTypeEnum,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -69,11 +70,9 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
   function displayCodes(codeableConcept: any): void {
     codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
-        if ("display" in coding && "system" in coding && "code" in coding) {
-          console.log(
-            "         Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
-          );
-        }
+        console.log(
+          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+        );
       }
     });
   }
@@ -101,8 +100,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
   const codingData = {
-    system: "http://www.ama-assn.org/go/cpt",
-    code: "70460",
+    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
+    code: "24727-0",
     display: "CT HEAD W CONTRAST IV",
   };
 
@@ -112,7 +111,7 @@ function createRequestBody(): CreateJobParameters {
 
   const patientInfo = {
     sex: "female",
-    birthDate: "1959-11-11T19:00:00+00:00",
+    birthDate: new Date("1959-11-11T19:00:00+00:00"),
   };
 
   const encounterData = {
@@ -155,14 +154,14 @@ function createRequestBody(): CreateJobParameters {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport",
+    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: "2021-05-31T16:00:00.000Z",
+    createdAt: new Date("2021-05-31T16:00:00.000Z"),
     orderedProceduresAsCsv: "CT HEAD W CONTRAST IV",
   };
 
@@ -185,9 +184,6 @@ function createRequestBody(): CreateJobParameters {
     "followupRecommendation",
     "followupCommunication",
     "radiologyProcedure",
-    "scoringAndAssessment",
-    "guidance",
-    "qualityMeasure",
   ];
 
   const followupRecommendationOptions = {

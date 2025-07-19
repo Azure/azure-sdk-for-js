@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import childProcess from "node:child_process";
+import * as childProcess from "child_process";
 
 /**
  * Easy to mock childProcess utils.

@@ -570,12 +570,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.metricsConfigurationName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -607,11 +602,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.metricsConfigurationName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -643,12 +634,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.metricsConfigurationName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

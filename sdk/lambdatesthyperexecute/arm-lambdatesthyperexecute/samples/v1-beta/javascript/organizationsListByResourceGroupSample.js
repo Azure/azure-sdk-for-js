@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list OrganizationResource resources by resource group
  *
  * @summary list OrganizationResource resources by resource group
- * x-ms-original-file: 2024-02-01/Organizations_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-02-01-preview/Organizations_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function organizationsListByResourceGroupMaximumSetGenGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function organizationsListByResourceGroupMaximumSetGenGeneratedByMaximumSe
  * This sample demonstrates how to list OrganizationResource resources by resource group
  *
  * @summary list OrganizationResource resources by resource group
- * x-ms-original-file: 2024-02-01/Organizations_ListByResourceGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2024-02-01-preview/Organizations_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function organizationsListByResourceGroupMaximumSetGenGeneratedByMaximumSetRuleGeneratedByMaximumSetRuleGeneratedByMinimumSetRule() {
   const credential = new DefaultAzureCredential();

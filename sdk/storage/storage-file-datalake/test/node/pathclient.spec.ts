@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { join } from "node:path";
-import fs from "node:fs";
+import * as fs from "node:fs";
 import type {
   AccessControlChangeCounters,
   AccessControlChanges,

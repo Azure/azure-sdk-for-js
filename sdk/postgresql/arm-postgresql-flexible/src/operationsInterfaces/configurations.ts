@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
   Configuration,
   ConfigurationsListByServerOptionalParams,
   ConfigurationsGetOptionalParams,
@@ -62,7 +62,10 @@ export interface Configurations {
     parameters: ConfigurationForUpdate,
     options?: ConfigurationsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<ConfigurationsUpdateResponse>, ConfigurationsUpdateResponse>
+    SimplePollerLike<
+      OperationState<ConfigurationsUpdateResponse>,
+      ConfigurationsUpdateResponse
+    >
   >;
   /**
    * Updates a configuration of a server.
@@ -94,7 +97,10 @@ export interface Configurations {
     parameters: Configuration,
     options?: ConfigurationsPutOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<ConfigurationsPutResponse>, ConfigurationsPutResponse>
+    SimplePollerLike<
+      OperationState<ConfigurationsPutResponse>,
+      ConfigurationsPutResponse
+    >
   >;
   /**
    * Updates a configuration of a server.

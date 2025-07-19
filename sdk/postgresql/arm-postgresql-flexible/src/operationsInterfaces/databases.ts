@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
   Database,
   DatabasesListByServerOptionalParams,
   DatabasesCreateOptionalParams,
@@ -46,7 +46,12 @@ export interface Databases {
     databaseName: string,
     parameters: Database,
     options?: DatabasesCreateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<DatabasesCreateResponse>, DatabasesCreateResponse>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DatabasesCreateResponse>,
+      DatabasesCreateResponse
+    >
+  >;
   /**
    * Creates a new database or updates an existing database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

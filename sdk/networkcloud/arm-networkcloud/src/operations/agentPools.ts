@@ -571,12 +571,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.kubernetesClusterName,
     Parameters.agentPoolName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -608,11 +603,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.kubernetesClusterName,
     Parameters.agentPoolName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -644,12 +635,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.kubernetesClusterName,
     Parameters.agentPoolName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

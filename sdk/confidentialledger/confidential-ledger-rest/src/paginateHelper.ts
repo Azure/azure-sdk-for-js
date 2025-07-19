@@ -189,9 +189,6 @@ export type PaginateReturn<TResult> = TResult extends
   | {
       body: { ledgerUsers?: infer TPage };
     }
-  | {
-      body: { functions?: infer TPage };
-    }
   ? GetArrayType<TPage>
   : Array<unknown>;
 
@@ -295,14 +292,7 @@ function getPaginationProperties(initialResponse: PathUncheckedResponse): {
   const nextLinkNames = new Set(["nextLink", "@nextLink"]);
 
   // Build a set with the passed custom set of itemNames
-  const itemNames = new Set([
-    "value",
-    "members",
-    "collections",
-    "entries",
-    "ledgerUsers",
-    "functions",
-  ]);
+  const itemNames = new Set(["value", "members", "collections", "entries", "ledgerUsers"]);
 
   let nextLinkName: string | undefined;
   let itemName: string | undefined;
