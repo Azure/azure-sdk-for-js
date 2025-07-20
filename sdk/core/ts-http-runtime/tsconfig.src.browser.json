@@ -1,0 +1,7 @@
+{
+  "extends": "../../../tsconfig.lib.json",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2017"],
+    "types": []
+  }
+}

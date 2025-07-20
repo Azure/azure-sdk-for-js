@@ -139,10 +139,10 @@ function getContentDisposition(descriptor: PartDescriptor): HeaderValue | undefi
   let filename: string | undefined = undefined;
   if (descriptor.filename) {
     filename = descriptor.filename;
-  } else if (typeof File !== "undefined" && descriptor.body instanceof File) {
-    const filenameFromFile = (descriptor.body as File).name;
-    if (filenameFromFile !== "") {
-      filename = filenameFromFile;
+  } else if (descriptor.body && typeof descriptor.body === "object" && "name" in descriptor.body) {
+    const filenameFromBody = descriptor.body.name;
+    if (typeof filenameFromBody === "string" && filenameFromBody !== "") {
+      filename = filenameFromBody;
     }
   }
 

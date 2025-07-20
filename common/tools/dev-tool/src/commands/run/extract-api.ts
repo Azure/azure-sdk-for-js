@@ -15,7 +15,7 @@ import { createTwoFilesPatch, parsePatch } from "diff";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import path from "node:path";
-import { readFile, writeFile, unlink, mkdir, rm } from "node:fs/promises";
+import { readFile, writeFile, unlink, mkdir, rm, stat } from "node:fs/promises";
 import { ProjectInfo, resolveProject } from "../../util/resolveProject";
 
 export const commandInfo = makeCommandInfo(
@@ -38,6 +38,7 @@ interface ExportEntry {
   isSubpath: boolean;
   runtime: string;
   baseName: string;
+  tsconfigPath: string;
   mainEntryPointFilePath: string;
   suppressForgottenExportErrors?: boolean;
 }
@@ -48,10 +49,20 @@ interface RuntimeApiFiles {
   };
 }
 
-function buildExportConfiguration(
+async function getTsconfigFile(projectPath: string, runtime: string): Promise<string> {
+  const tsconfigPath = path.join(projectPath, `tsconfig.src.${runtime}.json`);
+  try {
+    await stat(tsconfigPath);
+    return tsconfigPath;
+  } catch {
+    return path.join(projectPath, `tsconfig.src.json`);
+  }
+}
+
+async function buildExportConfiguration(
   packageJson: { exports: Record<string, Record<string, { types: string }>> },
   projectRoot: string,
-): ExportEntry[] | undefined {
+): Promise<ExportEntry[] | undefined> {
   const exports = packageJson.exports;
   if (!exports) return undefined;
 
@@ -70,6 +81,7 @@ function buildExportConfiguration(
       exportEntries.push({
         ...common,
         runtime,
+        tsconfigPath: await getTsconfigFile(projectRoot, runtime),
         baseName: baseName + runtime,
         mainEntryPointFilePath: path.resolve(projectRoot, value.types),
       });
@@ -113,7 +125,6 @@ function extractApi(
     configObjectFullPath,
     packageJsonFullPath,
   });
-
   const result = Extractor.invoke(config, {
     localBuild: true,
     messageCallback: customMessageCallback,
@@ -203,6 +214,9 @@ async function extractApiForEntry(
 
   const newConfig: IConfigFile = {
     ...baseConfig,
+    compiler: {
+      tsconfigFilePath: entry.tsconfigPath,
+    },
     dtsRollup: { enabled: false },
     docModel,
     apiReport,
@@ -252,7 +266,7 @@ export default leafCommand(commandInfo, async () => {
   const configPath = path.join(projectInfo.path, "api-extractor.json");
   const baseConfig = ExtractorConfig.loadFile(configPath);
 
-  const exports = buildExportConfiguration(pkgJson, projectInfo.path);
+  const exports = await buildExportConfiguration(pkgJson, projectInfo.path);
   if (
     !baseConfig.mainEntryPointFilePath ||
     (!exports && !baseConfig?.dtsRollup?.publicTrimmedFilePath)

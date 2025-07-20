@@ -8,9 +8,9 @@ import type {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces.js";
+} from "./interfacesReactNative.js";
+import { RestError } from "./restErrorReactNative.js";
 import { createHttpHeaders } from "./httpHeaders.js";
-import { RestError } from "./restError.js";
 import { isReadableStream } from "./util/typeGuards.js";
 
 /**
@@ -31,10 +31,6 @@ class XhrHttpClient implements HttpClient {
     }
 
     const xhr = new XMLHttpRequest();
-
-    if (request.proxySettings) {
-      throw new Error("HTTP proxy is not supported in browser environment");
-    }
 
     const abortSignal = request.abortSignal;
     if (abortSignal) {

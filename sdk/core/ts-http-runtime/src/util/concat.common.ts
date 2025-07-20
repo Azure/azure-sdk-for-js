@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isWebReadableStream } from "./typeGuards.js";
+import { isWebReadableStream } from "./typeGuardsCommon.js";
 
 /**
  * Drain the content of the given ReadableStream into a Blob.

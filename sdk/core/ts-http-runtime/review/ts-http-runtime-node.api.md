@@ -4,6 +4,10 @@
 
 ```ts
 
+import type { Blob as Blob_2 } from 'node:buffer';
+import type { Buffer as Buffer_2 } from 'node:buffer';
+import type { File as File_2 } from 'node:buffer';
+
 // @public
 export class AbortError extends Error {
     constructor(message?: string);
@@ -81,7 +85,7 @@ export interface BearerTokenCredential {
 
 // @public
 export interface BodyPart {
-    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob_2;
     headers: HttpHeaders;
 }
 
@@ -156,7 +160,7 @@ export type FormDataMap = {
 };
 
 // @public
-export type FormDataValue = string | Blob | File;
+export type FormDataValue = string | Blob_2 | File_2;
 
 // @public
 export interface FullOperationResponse extends PipelineResponse {
@@ -232,7 +236,7 @@ export function isRestError(e: unknown): e is RestError;
 // @public
 export interface KeyObject {
     passphrase?: string | undefined;
-    pem: string | Buffer;
+    pem: string | Buffer_2;
 }
 
 // @public
@@ -356,7 +360,6 @@ export interface PipelineRequest {
     authSchemes?: AuthScheme[];
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
-    enableBrowserStreams?: boolean;
     formData?: FormDataMap;
     headers: HttpHeaders;
     method: HttpMethods;
@@ -380,7 +383,6 @@ export interface PipelineRequestOptions {
     authSchemes?: AuthScheme[];
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
-    enableBrowserStreams?: boolean;
     formData?: FormDataMap;
     headers?: HttpHeaders;
     method?: HttpMethods;
@@ -393,14 +395,11 @@ export interface PipelineRequestOptions {
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
     url: string;
-    withCredentials?: boolean;
 }
 
 // @public
 export interface PipelineResponse {
-    blobBody?: Promise<Blob>;
     bodyAsText?: string | null;
-    browserStreamBody?: ReadableStream<Uint8Array>;
     headers: HttpHeaders;
     readableStreamBody?: NodeJS.ReadableStream;
     request: PipelineRequest;
@@ -424,7 +423,7 @@ export interface ProxySettings {
 
 // @public
 export interface PxfObject {
-    buf: string | Buffer;
+    buf: string | Buffer_2;
     passphrase?: string | undefined;
 }
 
@@ -445,7 +444,7 @@ export interface RedirectPolicyOptions {
 }
 
 // @public
-export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ReadableStream<Uint8Array> | (() => ReadableStream<Uint8Array>) | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStream) | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
 export type RequestParameters = {
@@ -518,11 +517,11 @@ export interface TelemetryOptions {
 
 // @public
 export interface TlsSettings {
-    ca?: string | Buffer | Array<string | Buffer> | undefined;
-    cert?: string | Buffer | Array<string | Buffer> | undefined;
-    key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+    ca?: string | Buffer_2 | Array<string | Buffer_2> | undefined;
+    cert?: string | Buffer_2 | Array<string | Buffer_2> | undefined;
+    key?: string | Buffer_2 | Array<Buffer_2 | KeyObject> | undefined;
     passphrase?: string | undefined;
-    pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
+    pfx?: string | Buffer_2 | Array<string | Buffer_2 | PxfObject> | undefined;
 }
 
 // @public

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Blob, Buffer, File } from "node:buffer";
 import type { AuthScheme } from "./auth/schemes.js";
 import type {
   HttpHeaders,
@@ -18,8 +17,8 @@ export {
   PipelineRetryOptions,
   RawHttpHeaders,
   RawHttpHeadersInput,
-  TelemetryOptions,
   TransferProgressEvent,
+  TelemetryOptions,
   RedirectPolicyOptions,
   UserAgentPolicyOptions,
 } from "./interfacesCommon.js";
@@ -47,12 +46,7 @@ export interface BodyPart {
   /**
    * The body of this part of the multipart request.
    */
-  body:
-    | ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream))
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | Uint8Array
-    | Blob;
+  body: (() => ReadableStream<Uint8Array>) | ReadableStream<Uint8Array> | Uint8Array | Blob;
 }
 
 /**
@@ -77,41 +71,14 @@ export interface MultipartRequestBody {
  * Types of bodies supported on the request.
  */
 export type RequestBodyType =
-  | NodeJS.ReadableStream
-  | (() => NodeJS.ReadableStream)
+  | ReadableStream<Uint8Array>
+  | (() => ReadableStream<Uint8Array>)
+  | Blob
   | ArrayBuffer
   | ArrayBufferView
   | FormData
   | string
   | null;
-
-/**
- * An interface compatible with NodeJS's `http.Agent`.
- * We want to avoid publicly re-exporting the actual interface,
- * since it might vary across runtime versions.
- */
-export interface Agent {
-  /**
-   * Destroy any sockets that are currently in use by the agent.
-   */
-  destroy(): void;
-  /**
-   * For agents with keepAlive enabled, this sets the maximum number of sockets that will be left open in the free state.
-   */
-  maxFreeSockets: number;
-  /**
-   * Determines how many concurrent sockets the agent can have open per origin.
-   */
-  maxSockets: number;
-  /**
-   * An object which contains queues of requests that have not yet been assigned to sockets.
-   */
-  requests: unknown;
-  /**
-   * An object which contains arrays of sockets currently in use by the agent.
-   */
-  sockets: unknown;
-}
 
 /**
  * Metadata about a request being made by the pipeline.
@@ -182,16 +149,6 @@ export interface PipelineRequest {
   streamResponseStatusCodes?: Set<number>;
 
   /**
-   * Proxy configuration.
-   */
-  proxySettings?: ProxySettings;
-
-  /**
-   * If the connection should not be reused.
-   */
-  disableKeepAlive?: boolean;
-
-  /**
    * Used to abort the request later.
    */
   abortSignal?: AbortSignal;
@@ -208,19 +165,19 @@ export interface PipelineRequest {
   allowInsecureConnection?: boolean;
 
   /**
-   * An option to provide a custom `http.Agent`/`https.Agent`.
+   * An option to enable browser Streams. If this option is set and a response is a stream
+   * the response will have a property `browserStream` instead of `blobBody` which will be undefined.
+   *
+   * Default value is false
    */
-  agent?: Agent;
-
-  /** Settings for configuring TLS authentication */
-  tlsSettings?: TlsSettings;
+  enableBrowserStreams?: boolean;
 
   /**
    * Additional options to set on the request. This provides a way to override
    * existing ones or provide request properties that are not declared.
    *
    * For possible valid properties, see
-   *   - NodeJS https.request options:  https://nodejs.org/api/http.html#httprequestoptions-callback
+   *   - Web RequestInit: https://developer.mozilla.org/en-US/docs/Web/API/RequestInit
    *
    * WARNING: Options specified here will override any properties of same names when request is sent by {@link HttpClient}.
    */
@@ -250,10 +207,14 @@ export interface PipelineResponse {
   bodyAsText?: string | null;
 
   /**
-   * The response body as a node.js Readable stream.
-   * Always undefined in the browser.
+   * The response body as a browser Blob.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  blobBody?: Promise<Blob>;
+
+  /**
+   * The response body as a browser ReadableStream.
+   */
+  browserStreamBody?: ReadableStream<Uint8Array>;
 }
 
 /**
@@ -270,160 +231,6 @@ export interface HttpClient {
    * The method that makes the request and returns a response.
    */
   sendRequest: SendRequest;
-}
-
-/**
- * Options to configure a proxy for outgoing requests.
- */
-export interface ProxySettings {
-  /**
-   * The proxy's host address.
-   * Must include the protocol (e.g., http:// or https://).
-   */
-  host: string;
-
-  /**
-   * The proxy host's port.
-   */
-  port: number;
-
-  /**
-   * The user name to authenticate with the proxy, if required.
-   */
-  username?: string;
-
-  /**
-   * The password to authenticate with the proxy, if required.
-   */
-  password?: string;
-}
-
-/**
- * Represents a certificate credential for authentication.
- */
-export interface CertificateCredential {
-  /**
-   * Optionally override the trusted CA certificates. Default is to trust
-   * the well-known CAs curated by Mozilla. Mozilla's CAs are completely
-   * replaced when CAs are explicitly specified using this option.
-   */
-  ca?: string | Buffer | Array<string | Buffer> | undefined;
-  /**
-   *  Cert chains in PEM format. One cert chain should be provided per
-   *  private key. Each cert chain should consist of the PEM formatted
-   *  certificate for a provided private key, followed by the PEM
-   *  formatted intermediate certificates (if any), in order, and not
-   *  including the root CA (the root CA must be pre-known to the peer,
-   *  see ca). When providing multiple cert chains, they do not have to
-   *  be in the same order as their private keys in key. If the
-   *  intermediate certificates are not provided, the peer will not be
-   *  able to validate the certificate, and the handshake will fail.
-   */
-  cert?: string | Buffer | Array<string | Buffer> | undefined;
-  /**
-   * Private keys in PEM format. PEM allows the option of private keys
-   * being encrypted. Encrypted keys will be decrypted with
-   * options.passphrase. Multiple keys using different algorithms can be
-   * provided either as an array of unencrypted key strings or buffers,
-   * or an array of objects in the form `{pem: <string|buffer>[,passphrase: <string>]}`.
-   * The object form can only occur in an array.object.passphrase is optional.
-   * Encrypted keys will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
-   */
-  key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
-  /**
-   * Shared passphrase used for a single private key and/or a PFX.
-   */
-  passphrase?: string | undefined;
-  /**
-   * PFX or PKCS12 encoded private key and certificate chain. pfx is an
-   * alternative to providing key and cert individually. PFX is usually
-   * encrypted, if it is, passphrase will be used to decrypt it. Multiple
-   * PFX can be provided either as an array of unencrypted PFX buffers,
-   * or an array of objects in the form `{buf: <string|buffer>[,passphrase: <string>]}`.
-   * The object form can only occur in an array.object.passphrase is optional.
-   * Encrypted PFX will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
-   */
-  pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
-}
-
-/**
- * Represents a certificate for TLS authentication.
- */
-export interface TlsSettings {
-  /**
-   * Optionally override the trusted CA certificates. Default is to trust
-   * the well-known CAs curated by Mozilla. Mozilla's CAs are completely
-   * replaced when CAs are explicitly specified using this option.
-   */
-  ca?: string | Buffer | Array<string | Buffer> | undefined;
-  /**
-   *  Cert chains in PEM format. One cert chain should be provided per
-   *  private key. Each cert chain should consist of the PEM formatted
-   *  certificate for a provided private key, followed by the PEM
-   *  formatted intermediate certificates (if any), in order, and not
-   *  including the root CA (the root CA must be pre-known to the peer,
-   *  see ca). When providing multiple cert chains, they do not have to
-   *  be in the same order as their private keys in key. If the
-   *  intermediate certificates are not provided, the peer will not be
-   *  able to validate the certificate, and the handshake will fail.
-   */
-  cert?: string | Buffer | Array<string | Buffer> | undefined;
-  /**
-   * Private keys in PEM format. PEM allows the option of private keys
-   * being encrypted. Encrypted keys will be decrypted with
-   * options.passphrase. Multiple keys using different algorithms can be
-   * provided either as an array of unencrypted key strings or buffers,
-   * or an array of objects in the form `{pem: <string|buffer>[,passphrase: <string>]}`.
-   * The object form can only occur in an array.object.passphrase is optional.
-   * Encrypted keys will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
-   */
-  key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
-  /**
-   * Shared passphrase used for a single private key and/or a PFX.
-   */
-  passphrase?: string | undefined;
-  /**
-   * PFX or PKCS12 encoded private key and certificate chain. pfx is an
-   * alternative to providing key and cert individually. PFX is usually
-   * encrypted, if it is, passphrase will be used to decrypt it. Multiple
-   * PFX can be provided either as an array of unencrypted PFX buffers,
-   * or an array of objects in the form `{buf: <string|buffer>[,passphrase: <string>]}`.
-   * The object form can only occur in an array.object.passphrase is optional.
-   * Encrypted PFX will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
-   */
-  pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
-}
-
-/**
- * An interface compatible with NodeJS's `tls.KeyObject`.
- * We want to avoid publicly re-exporting the actual interface,
- * since it might vary across runtime versions.
- */
-export interface KeyObject {
-  /**
-   * Private keys in PEM format.
-   */
-  pem: string | Buffer;
-  /**
-   * Optional passphrase.
-   */
-  passphrase?: string | undefined;
-}
-
-/**
- * An interface compatible with NodeJS's `tls.PxfObject`.
- * We want to avoid publicly re-exporting the actual interface,
- * since it might vary across runtime versions.
- */
-export interface PxfObject {
-  /**
-   * PFX or PKCS12 encoded private key and certificate chain.
-   */
-  buf: string | Buffer;
-  /**
-   * Optional passphrase.
-   */
-  passphrase?: string | undefined;
 }
 
 /**
@@ -454,6 +261,12 @@ export interface PipelineRequestOptions {
   timeout?: number;
 
   /**
+   * If credentials (cookies) should be sent along during an XHR.
+   * Defaults to false.
+   */
+  withCredentials?: boolean;
+
+  /**
    * A unique identifier for the request. Used for logging and tracing.
    */
   requestId?: string;
@@ -479,14 +292,13 @@ export interface PipelineRequestOptions {
   streamResponseStatusCodes?: Set<number>;
 
   /**
-   * Proxy configuration.
+   * An option to enable use of the Streams API. If this option is set and streaming is used
+   * (see `streamResponseStatusCodes`), the response will have a property `browserStream` instead of
+   * `blobBody` which will be undefined.
+   *
+   * Default value is false
    */
-  proxySettings?: ProxySettings;
-
-  /**
-   * If the connection should not be reused.
-   */
-  disableKeepAlive?: boolean;
+  enableBrowserStreams?: boolean;
 
   /**
    * Used to abort the request later.
@@ -519,7 +331,7 @@ export interface PipelineRequestOptions {
    * existing ones or provide request properties that are not declared.
    *
    * For possible valid properties, see
-   *   - NodeJS https.request options:  https://nodejs.org/api/http.html#httprequestoptions-callback
+   *   - Browser RequestInit: https://developer.mozilla.org/en-US/docs/Web/API/RequestInit
    *
    * WARNING: Options specified here will override any properties of same names when request is sent by {@link HttpClient}.
    */
@@ -535,17 +347,6 @@ export interface PipelineOptions {
    * Options that control how to retry failed requests.
    */
   retryOptions?: PipelineRetryOptions;
-
-  /**
-   * Options to configure a proxy for outgoing requests.
-   */
-  proxyOptions?: ProxySettings;
-
-  /** Options for configuring Agent instance for outgoing requests */
-  agent?: Agent;
-
-  /** Options for configuring TLS authentication */
-  tlsOptions?: TlsSettings;
 
   /**
    * Options for how redirect responses are handled.
