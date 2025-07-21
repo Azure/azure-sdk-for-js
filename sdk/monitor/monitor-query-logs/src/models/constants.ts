@@ -25,4 +25,4 @@ export const Durations = {
   thirtyMinutes: "PT30M",
   /** Alias for ISO8601 value 'PT5M' */
   fiveMinutes: "PT5M",
-};
+} as const;

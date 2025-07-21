@@ -6,11 +6,30 @@ import type { OperationOptions } from "@azure-rest/core-client";
 /** Optional parameters for batch query operations. */
 export interface LogsQueryBatchOptions extends OperationOptions {}
 
-// @public
+/**
+ * Options for querying logs.
+ */
 export interface LogsQueryOptions extends OperationOptions {
+  /**
+   * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter.
+   * These may consist of the following identifier formats:
+   * - Qualified workspace names
+   * - Workspace IDs
+   * - Azure resource IDs
+   */
   additionalWorkspaces?: string[];
+  /**
+   * Results will also include statistics about the query.
+   */
   includeQueryStatistics?: boolean;
+  /**
+   * Results will also include visualization information, in JSON format.
+   */
   includeVisualization?: boolean;
+  /**
+   * The maximum amount of time the server will spend processing the query.
+   * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
+   */
   serverTimeoutInSeconds?: number;
 }
 
