@@ -12,9 +12,6 @@
     "reportFolder": "<projectFolder>/review"
   },
   "newlineKind": "lf",
-  "compiler": {
-    "tsconfigFilePath": "<projectFolder>/tsconfig.src.json"
-  },
   "messages": {
     "tsdocMessageReporting": {
       "default": {
