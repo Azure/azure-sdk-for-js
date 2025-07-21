@@ -22,7 +22,8 @@ export interface RecordedClient<T> {
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://Sanitized.com/;accesskey=banana",
+  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING:
+    "endpoint=https://Sanitized.com/;accesskey=banana",
   COMMUNICATION_ENDPOINT: "https://Sanitized.com/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -32,12 +33,14 @@ const envSetupForPlayback: { [k: string]: string } = {
 };
 
 const sanitizerOptions: SanitizerOptions = {
-  connectionStringSanitizers: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ? [
-    {
-      actualConnString: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING,
-      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
-    },
-  ] : [],
+  connectionStringSanitizers: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
+    ? [
+        {
+          actualConnString: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING,
+          fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
+        },
+      ]
+    : [],
   headerSanitizers: [
     {
       key: "Operation-Location",
@@ -106,9 +109,9 @@ export async function createRecordedClient(
   const recorder = await createRecorder(context);
 
   // Use the fake connection string in playback mode, real one in live/record mode
-  const connectionString = isPlaybackMode() 
+  const connectionString = isPlaybackMode()
     ? envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"]
-    : env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "";
+    : (env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "");
 
   const client = new PhoneNumbersClient(
     connectionString,
