@@ -1,9 +1,10 @@
-# Azure Monitor Query client library for JavaScript
+# Azure Monitor Query Logs client library for JavaScript
 
-The Azure Monitor Query client library is used to execute read-only queries against [Azure Monitor][azure_monitor_overview]'s two data platforms:
+The Azure Monitor Query Logs client library is used to execute read-only queries against [Azure Monitor][azure_monitor_overview]'s Logs data platform:
 
 - [Logs](https://learn.microsoft.com/azure/azure-monitor/logs/data-platform-logs) - Collects and organizes log and performance data from monitored resources. Data from different sources such as platform logs from Azure services, log and performance data from virtual machines agents, and usage and performance data from apps can be consolidated into a single [Azure Log Analytics workspace](https://learn.microsoft.com/azure/azure-monitor/logs/data-platform-logs#log-analytics-and-workspaces). The various data types can be analyzed together using the [Kusto Query Language][kusto_query_language].
-- [Metrics](https://learn.microsoft.com/azure/azure-monitor/essentials/data-platform-metrics) - Collects numeric data from monitored resources into a time series database. Metrics are numerical values that are collected at regular intervals and describe some aspect of a system at a particular time. Metrics are lightweight and capable of supporting near real-time scenarios, making them useful for alerting and fast detection of issues.
+
+> **Note**: This package contains only the logs querying functionality split from the original `@azure/monitor-query` package. The original package is being retired. For migration guidance, see [MIGRATION.md](MIGRATION.md).
 
 **Resources:**
 
@@ -13,6 +14,7 @@ The Azure Monitor Query client library is used to execute read-only queries agai
 - [Service documentation][azure_monitor_overview]
 - [Samples][samples]
 - [Change log][changelog]
+- [Migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/MIGRATION.md)
 
 ## Getting started
 
@@ -30,35 +32,27 @@ For more information, see our [support policy](https://github.com/Azure/azure-sd
 - To query Logs, you need one of the following things:
   - An [Azure Log Analytics workspace][azure_monitor_create_using_portal]
   - An Azure resource of any kind (Storage Account, Key Vault, Cosmos DB, etc.)
-- To query Metrics, you need an Azure resource of any kind (Storage Account, Key Vault, Cosmos DB, etc.).
 
 ### Install the package
 
 Install the Azure Monitor Query client library for JavaScript with npm:
 
 ```bash
-npm install --save @azure/monitor-query
+npm install --save @azure/monitor-query-logs
 ```
 
 ### Create the client
 
-An authenticated client is required to query Logs or Metrics. To authenticate, the following example uses [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential) from the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package.
+An authenticated client is required to query Logs. To authenticate, the following example uses [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential) from the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package.
 
 ```ts snippet:ReadmeSampleCreateClient
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "@azure/monitor-query";
+import { LogsQueryClient } from "@azure/monitor-query-logs";
 
 const credential = new DefaultAzureCredential();
 
 // Create a LogsQueryClient
 const logsQueryClient = new LogsQueryClient(credential);
-
-// Create a MetricsQueryClient
-const metricsQueryClient = new MetricsQueryClient(credential);
-
-// Create a MetricsClient
-const endpoint = " https://<endpoint>.monitor.azure.com/";
-const metricsClient = new MetricsClient(endpoint, credential);
 ```
 
 #### Configure client for Azure sovereign cloud
@@ -67,7 +61,7 @@ By default, the library's clients are configured to use the Azure Public Cloud. 
 
 ```ts snippet:ReadmeSampleCreateClientSovereign
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "@azure/monitor-query";
+import { LogsQueryClient } from "@azure/monitor-query-logs";
 
 const credential = new DefaultAzureCredential();
 
@@ -76,42 +70,17 @@ const logsQueryClient: LogsQueryClient = new LogsQueryClient(credential, {
   endpoint: "https://api.loganalytics.azure.cn/v1",
   audience: "https://api.loganalytics.azure.cn/.default",
 });
-
-// Create a MetricsQueryClient
-const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential, {
-  endpoint: "https://management.chinacloudapi.cn",
-  audience: "https://monitor.azure.cn/.default",
-});
-
-// Create a MetricsClient
-const endpoint = " https://<endpoint>.monitor.azure.cn/";
-const metricsClient = new MetricsClient(endpoint, credential, {
-  audience: "https://monitor.azure.cn/.default",
-});
 ```
-
-**Note**: Currently, `MetricsQueryClient` uses the Azure Resource Manager (ARM) endpoint for querying metrics. You need the corresponding management endpoint for your cloud when using this client. This detail is subject to change in the future.
 
 ### Execute the query
 
-For examples of Logs and Metrics queries, see the [Examples](#examples) section.
+For examples of Logs queries, see the [Examples](#examples) section.
 
 ## Key concepts
 
 ### Logs query rate limits and throttling
 
 The Log Analytics service applies throttling when the request rate is too high. Limits, such as the maximum number of rows returned, are also applied on the Kusto queries. For more information, see [Query API](https://learn.microsoft.com/azure/azure-monitor/service-limits#la-query-api).
-
-### Metrics data structure
-
-Each set of metric values is a time series with the following characteristics:
-
-- The time the value was collected
-- The resource associated with the value
-- A namespace that acts like a category for the metric
-- A metric name
-- The value itself
-- Some metrics have multiple dimensions as described in multi-dimensional metrics. Custom metrics can have up to 10 dimensions.
 
 ## Examples
 
@@ -126,10 +95,6 @@ Each set of metric values is a time series with the following characteristics:
   - [Query multiple workspaces](#query-multiple-workspaces)
   - [Include statistics](#include-statistics)
   - [Include visualization](#include-visualization)
-- [Metrics query](#metrics-query)
-  - [Handle metrics query response](#handle-metrics-query-response)
-  - [Example of handling response](#example-of-handling-response)
-  - [Query metrics for multiple resources](#query-metrics-for-multiple-resources)
 
 ### Logs query
 
@@ -142,7 +107,7 @@ You can query logs by Log Analytics workspace ID or Azure resource ID. The resul
 To query by workspace ID, use the `LogsQueryClient.queryWorkspace` method:
 
 ```ts snippet:ReadmeSampleLogsQuery
-import { LogsQueryClient, Durations, LogsQueryResultStatus } from "@azure/monitor-query";
+import { LogsQueryClient, Durations, LogsQueryResultStatus } from "@azure/monitor-query-logs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const azureLogAnalyticsWorkspaceId = "<workspace_id>";
@@ -196,7 +161,7 @@ To find the resource ID:
 
 ```ts snippet:ReadmeSampleLogsQueryResource
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, Durations, LogsQueryResultStatus } from "@azure/monitor-query";
+import { LogsQueryClient, Durations, LogsQueryResultStatus } from "@azure/monitor-query-logs";
 
 const logsResourceId = "<the Resource Id for your logs resource>";
 
@@ -318,7 +283,7 @@ The following example demonstrates sending multiple queries at the same time usi
 
 ```ts snippet:ReadmeSampleLogsQueryBatch
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query";
+import { LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query-logs";
 
 const monitorWorkspaceId = "<workspace_id>";
 
@@ -445,7 +410,7 @@ LogsQueryError
 For example, the following code handles a batch logs query response:
 
 ```ts snippet:ReadmeSampleProcessBatchResult
-import { LogsQueryResultStatus } from "@azure/monitor-query";
+import { LogsQueryResultStatus } from "@azure/monitor-query-logs";
 
 async function processBatchResult(result, queriesBatch) {
   let i = 0;
@@ -498,7 +463,7 @@ Some logs queries take longer than 3 minutes to execute. The default server time
 
 ```ts snippet:ReadmeSampleLogsQueryTimeout
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, Durations } from "@azure/monitor-query";
+import { LogsQueryClient, Durations } from "@azure/monitor-query-logs";
 
 const azureLogAnalyticsWorkspaceId = "<workspace_id>";
 
@@ -537,7 +502,7 @@ For example, the following query executes in three workspaces:
 
 ```ts snippet:ReadmeSampleLogsQueryMultipleWorkspaces
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, Durations } from "@azure/monitor-query";
+import { LogsQueryClient, Durations } from "@azure/monitor-query-logs";
 
 const azureLogAnalyticsWorkspaceId = "<workspace_id>";
 
@@ -587,7 +552,7 @@ To get logs query execution statistics, such as CPU and memory consumption:
 The following example prints the query execution time:
 
 ```ts snippet:ReadmeSampleLogsQueryStatistics
-import { LogsQueryClient, Durations } from "@azure/monitor-query";
+import { LogsQueryClient, Durations } from "@azure/monitor-query-logs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const monitorWorkspaceId = "<workspace_id>";
@@ -633,7 +598,7 @@ To get visualization data for logs queries using the [render operator](https://l
 For example:
 
 ```ts snippet:ReadmeSampleLogsQueryVisualization
-import { LogsQueryClient, Durations } from "@azure/monitor-query";
+import { LogsQueryClient, Durations } from "@azure/monitor-query-logs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const monitorWorkspaceId = "<workspace_id>";
@@ -679,176 +644,9 @@ Because the structure of the `visualization` payload varies by query, a `Record<
 }
 ```
 
-### Metrics query
-
-The following example gets metrics for an [Azure Metrics Advisor](https://learn.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription.
-The resource URI must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
-
-To find the resource URI:
-
-1. Navigate to your resource's page in the Azure portal.
-2. From the **Overview** blade, select the **JSON View** link.
-3. In the resulting JSON, copy the value of the `id` property.
-
-```ts snippet:ReadmeSampleMetricsQuery
-import { DefaultAzureCredential } from "@azure/identity";
-import { MetricsQueryClient, Durations } from "@azure/monitor-query";
-
-const metricsResourceId = "<the Resource Id for your metrics resource>";
-
-const tokenCredential = new DefaultAzureCredential();
-const metricsQueryClient = new MetricsQueryClient(tokenCredential);
-
-const metricNames = [];
-const metricDefinitions = metricsQueryClient.listMetricDefinitions(metricsResourceId);
-for await (const { id, name } of metricDefinitions) {
-  console.log(` metricDefinitions - ${id}, ${name}`);
-  if (name) {
-    metricNames.push(name);
-  }
-}
-
-const [firstMetricName, secondMetricName] = metricNames;
-if (firstMetricName && secondMetricName) {
-  console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
-  const metricsResponse = await metricsQueryClient.queryResource(
-    metricsResourceId,
-    [firstMetricName, secondMetricName],
-    {
-      granularity: "PT1M",
-      timespan: { duration: Durations.fiveMinutes },
-    },
-  );
-
-  console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
-  );
-
-  const metrics = metricsResponse.metrics;
-  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
-  const metric = metricsResponse.getMetricByName(firstMetricName);
-  console.log(`Selected Metric: ${firstMetricName}`, JSON.stringify(metric, undefined, 2));
-} else {
-  console.error(`Metric names are not defined - ${firstMetricName} and ${secondMetricName}`);
-}
-```
-
-In the preceding sample, metric results in `metricsResponse` are ordered according to the order in which the user specifies the metric names in the `metricNames` array argument for the `queryResource` function. If the user specifies `[firstMetricName, secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
-
-#### Handle metrics query response
-
-The metrics `queryResource` function returns a `QueryMetricsResult` object. The `QueryMetricsResult` object contains properties such as a list of `Metric`-typed objects, `interval`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` contains `data` and `metadataValues` properties. In visual form, the object hierarchy of the response resembles the following structure:
-
-```
-QueryMetricsResult
-|---cost
-|---timespan (of type `QueryTimeInterval`)
-|---granularity
-|---namespace
-|---resourceRegion
-|---metrics (list of `Metric` objects)
-    |---id
-    |---type
-    |---name
-    |---unit
-    |---displayDescription
-    |---errorCode
-    |---timeseries (list of `TimeSeriesElement` objects)
-        |---metadataValues
-        |---data (list of data points represented by `MetricValue` objects)
-            |---timeStamp
-            |---average
-            |---minimum
-            |---maximum
-            |---total
-            |---count
-|---getMetricByName(metricName): Metric | undefined (convenience method)
-```
-
-#### Example of handling response
-
-```ts snippet:ReadmeSampleProcessMetricsResponse
-import { DefaultAzureCredential } from "@azure/identity";
-import { MetricsQueryClient, Durations } from "@azure/monitor-query";
-
-const metricsResourceId = "<the Resource Id for your metrics resource>";
-
-const tokenCredential = new DefaultAzureCredential();
-const metricsQueryClient = new MetricsQueryClient(tokenCredential);
-
-console.log(`Picking an example metric to query: MatchedEventCount`);
-
-const metricsResponse = await metricsQueryClient.queryResource(
-  metricsResourceId,
-  ["MatchedEventCount"],
-  {
-    timespan: {
-      duration: Durations.fiveMinutes,
-    },
-    granularity: "PT1M",
-    aggregations: ["Count"],
-  },
-);
-
-console.log(
-  `Query cost: ${metricsResponse.cost}, granularity: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
-);
-
-const metrics = metricsResponse.metrics;
-for (const metric of metrics) {
-  console.log(metric.name);
-  for (const timeseriesElement of metric.timeseries) {
-    for (const metricValue of timeseriesElement.data!) {
-      if (metricValue.count !== 0) {
-        console.log(`There are ${metricValue.count} matched events at ${metricValue.timeStamp}`);
-      }
-    }
-  }
-}
-```
-
-A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts).
-
-#### Query metrics for multiple resources
-
-To query metrics for multiple Azure resources in a single request, use the `MetricsClient.queryResources` method. This method:
-
-- Calls a different API than the `MetricsClient` methods.
-- Requires a regional endpoint when creating the client. For example, "https://westus3.metrics.monitor.azure.com".
-
-Each Azure resource must reside in:
-
-- The same region as the endpoint specified when creating the client.
-- The same Azure subscription.
-
-Furthermore:
-
-- The user must be authorized to read monitoring data at the Azure subscription level. For example, the [Monitoring Reader role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/monitor#monitoring-reader) on the subscription to be queried.
-- The metric namespace containing the metrics to be queried must be provided. For a list of metric namespaces, see [Supported metrics and log categories by resource type][metric_namespaces].
-
-```ts snippet:ReadmeSampleMetricsQueryMultipleResources
-import { DefaultAzureCredential } from "@azure/identity";
-import { MetricsClient } from "@azure/monitor-query";
-
-const resourceIds = [
-  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs",
-  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs2",
-];
-const metricsNamespace = "<YOUR_METRICS_NAMESPACE>";
-const metricNames = ["requests", "count"];
-const endpoint = " https://<endpoint>.monitor.azure.com/";
-
-const credential = new DefaultAzureCredential();
-const metricsClient = new MetricsClient(endpoint, credential);
-
-const result = await metricsClient.queryResources(resourceIds, metricNames, metricsNamespace);
-```
-
-For an inventory of metrics and dimensions available for each Azure resource type, see [Supported metrics with Azure Monitor](https://learn.microsoft.com/azure/azure-monitor/essentials/metrics-supported).
-
 ## Troubleshooting
 
-To diagnose various failure scenarios, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/TROUBLESHOOTING.md).
+To diagnose various failure scenarios, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/TROUBLESHOOTING.md).
 
 ## Next steps
 
@@ -861,7 +659,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 This module's tests are a mixture of live and unit tests, which require you to have an Azure Monitor instance. To execute the tests, you'll need to run:
 
 1. `rush update`
-2. `rush build -t @azure/monitor-query`
+2. `rush build -t @azure/monitor-query-logs`
 3. `cd into sdk/monitor/monitor-query`
 4. Copy the `sample.env` file to `.env`
 5. Open the `.env` file in an editor and fill in the values.
@@ -880,7 +678,7 @@ For more details, view our [tests](https://github.com/Azure/azure-sdk-for-js/blo
 [changelog]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/CHANGELOG.md
 [kusto_query_language]: https://learn.microsoft.com/azure/data-explorer/kusto/query/
 [metric_namespaces]: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/metrics-index#supported-metrics-and-log-categories-by-resource-type
-[msdocs_apiref]: https://learn.microsoft.com/javascript/api/@azure/monitor-query
-[package]: https://www.npmjs.com/package/@azure/monitor-query
+[msdocs_apiref]: https://learn.microsoft.com/javascript/api/@azure/monitor-query-logs
+[package]: https://www.npmjs.com/package/@azure/monitor-query-logs
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/samples
 [source]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/

@@ -6,8 +6,8 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type { LogsTable, LogsQueryOptions } from "@azure/monitor-query";
-import { Durations, LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query";
+import type { LogsTable, LogsQueryOptions } from "@azure/monitor-query-logs";
+import { Durations, LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query-logs";
 import "dotenv/config";
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
@@ -44,8 +44,7 @@ export async function main(): Promise<void> {
     result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
 
   console.log(
-    `Results for query '${kustoQuery}', execution time: ${
-      executionTime == null ? "unknown" : executionTime
+    `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime
     }`,
   );
 

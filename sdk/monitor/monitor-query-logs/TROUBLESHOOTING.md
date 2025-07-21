@@ -1,21 +1,18 @@
-# Troubleshooting Azure Monitor Query client library issues
+# Troubleshooting Azure Monitor Query Logs client library issues
 
-This troubleshooting guide contains instructions to diagnose frequently encountered issues while using the Azure Monitor Query client library for JavaScript.
+This troubleshooting guide contains instructions to diagnose frequently encountered issues while using the Azure Monitor Query Logs client library for JavaScript.
 
 ## Table of contents
 
 - [General troubleshooting](#general-troubleshooting)
   - [Enable client logging](#enable-client-logging)
-  - [Authentication issues with logs and metrics query requests](#authentication-errors)
+  - [Authentication issues with logs query requests](#authentication-errors)
 - [Logs query](#logs-query)
   - [Insufficient access error](#insufficient-access-error-for-logs-query)
   - [Invalid Kusto query](#invalid-kusto-query)
   - [Empty log query results](#empty-log-query-results)
   - [Server timeouts when executing logs query request](#server-timeouts-when-executing-logs-query-request)
   - [Partially successful logs query requests](#partially-successful-logs-query-requests)
-- [Metrics query](#metrics-query)
-  - [Authorization failed error](#authorization-failed-error-for-metrics-query)
-  - [Unsupported granularity](#unsupported-granularity-for-metrics-query)
 
 ## General troubleshooting
 
@@ -60,7 +57,7 @@ For detailed instructions on how to enable logs, see the [@azure/logger package 
 
 ### Authentication errors
 
-The Azure Monitor Query library supports Azure Active Directory authentication. Both `logsQueryClient` and `metricsQueryClient` have methods to set the credential. To provide a valid credential, you can use the `@azure/identity` dependency. For more details on getting started, see the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#create-the-client) of Azure Monitor Query library. You can also refer to the [Azure Identity documentation](hhttps://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) for more details on the various credential types supported in `@azure/identity`.
+The Azure Monitor Query Logs library supports Azure Active Directory authentication. The `logsQueryClient` has methods to set the credential. To provide a valid credential, you can use the `@azure/identity` dependency. For more details on getting started, see the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/README.md#create-the-client) of Azure Monitor Query Logs library. You can also refer to the [Azure Identity documentation](hhttps://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) for more details on the various credential types supported in `@azure/identity`.
 
 For more help on troubleshooting authentication errors, see the Azure Identity client library [troubleshooting guide](https://aka.ms/azsdk/js/identity/troubleshoot).
 
@@ -82,7 +79,7 @@ If you get an HTTP error with status code 403 (Forbidden), the provided credenti
       "accept": "application/json",
       "prefer": "REDACTED",
       "accept-encoding": "gzip,deflate",
-      "user-agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
+      "user-agent": "azsdk-js-monitor-query-logs/2.0.0 azsdk-js-monitor-log-query/2.0.0 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
       "x-ms-client-request-id": "56ee42f9-56f3-41ec-866c-bdfa7aa708a3",
       "authorization": "REDACTED",
       "content-length": "79"
@@ -127,7 +124,7 @@ If you get an HTTP error with status code 400 (Bad Request), you may have an err
       "accept": "application/json",
       "prefer": "REDACTED",
       "accept-encoding": "gzip,deflate",
-      "user-agent": "azsdk-js-monitor-query/1.0.0 azsdk-js-monitor-log-query/1.0.0 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
+      "user-agent": "azsdk-js-monitor-query-logs/2.0.0 azsdk-js-monitor-log-query/2.0.0 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
       "x-ms-client-request-id": "6b3ee80a-c21d-4ecf-ba62-59c6ab970c83",
       "authorization": "REDACTED",
       "content-length": "157"
@@ -193,7 +190,7 @@ You may see an error as follows:
       "accept": "application/json",
       "prefer": "REDACTED",
       "accept-encoding": "gzip,deflate",
-      "user-agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
+      "user-agent": "azsdk-js-monitor-query-logs/2.0.0 azsdk-js-monitor-log-query/2.0.0 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
       "x-ms-client-request-id": "b3269277-18d7-4971-9eb8-4a2259bc8576",
       "authorization": "REDACTED",
       "content-length": "76"
@@ -226,7 +223,7 @@ The following code shows a sample of setting the server timeout to 10 minutes. B
 
 ```ts snippet:TroubleShootingProcessServerTimeout
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, Durations } from "@azure/monitor-query";
+import { LogsQueryClient, Durations } from "@azure/monitor-query-logs";
 
 const monitorWorkspaceId = "<workspace_id>";
 const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
@@ -238,7 +235,7 @@ const result = await logsQueryClient.queryWorkspace(
   monitorWorkspaceId,
   kustoQuery,
   { duration: Durations.oneHour },
-  { serverTimeoutInSeconds: 600 },
+  { serverTimeoutInSeconds: 600 }
 );
 ```
 
@@ -249,7 +246,7 @@ By default, if the execution of a Kusto query resulted in a partially successful
 In the case of single query, there can be only two possibilities for the value of `status` field of `result` object: `Success` or `PartialFailure`. You can access the details of the partially successful results with the following code snippet:
 
 ```ts snippet:TroubleShootingProcessPartialResult
-import { LogsQueryClient, Durations, LogsQueryResultStatus } from "@azure/monitor-query";
+import { LogsQueryClient, Durations, LogsQueryResultStatus } from "@azure/monitor-query-logs";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const azureLogAnalyticsWorkspaceId = "<workspace_id>";
@@ -292,12 +289,12 @@ function processTables(tablesFromResult) {
 }
 ```
 
-For more details on the response hierarchy for single query, see [Handle logs query response](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#handle-logs-query-response).
+For more details on the response hierarchy for single query, see [Handle logs query response](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/README.md#handle-logs-query-response).
 
 In the case of multiple queries, there are three possibilities for the value of `status` field of `result` object: `Success`, `PartialFailure`, or `Failure`. You can access the details of the partially successful results by the following code snippet:
 
 ```ts snippet:TroubleShootingProcessBatchResult
-import { LogsQueryResultStatus } from "@azure/monitor-query";
+import { LogsQueryResultStatus } from "@azure/monitor-query-logs";
 
 async function processBatchResult(result, queriesBatch) {
   let i = 0;
@@ -305,16 +302,16 @@ async function processBatchResult(result, queriesBatch) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
     if (response.status === LogsQueryResultStatus.Success) {
       console.log(
-        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
       );
       processTables(response.tables);
     } else if (response.status === LogsQueryResultStatus.PartialFailure) {
       console.log(
-        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
       );
       processTables(response.partialTables);
       console.log(
-        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
       );
     } else {
       console.log(`Printing errors from query '${queriesBatch[i].query}'`);
@@ -340,93 +337,4 @@ function processTables(tablesFromResult) {
 }
 ```
 
-For more details on the response hierarchy for multiple queries, see [Handle logs batch query response](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#handle-logs-batch-query-response).
-
-## Metrics query
-
-### Authorization failed error for metrics query
-
-If you get an HTTP error with status code 403 (Forbidden), the provided credentials lack sufficient permissions to query the workspace.
-
-```json
-{
-  "name": "RestError",
-  "code": "AuthorizationFailed",
-  "statusCode": 403,
-  "request": {
-    "url": "https://management.azure.com//subscriptions/<subscription_id>/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights/metricDefinitions?api-version=2018-01-01",
-    "headers": {
-      "accept": "application/json",
-      "accept-encoding": "gzip,deflate",
-      "user-agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-metrics-definitions/1.0.1 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
-      "x-ms-client-request-id": "66dbf2ce-390c-4f9a-ae7f-a5ee3869ab8d",
-      "authorization": "REDACTED"
-    },
-    "method": "GET",
-    "timeout": 0,
-    "disableKeepAlive": false,
-    "streamResponseStatusCodes": {},
-    "withCredentials": false,
-    "requestId": "66dbf2ce-390c-4f9a-ae7f-a5ee3869ab8d",
-    "allowInsecureConnection": false,
-    "enableBrowserStreams": false
-  },
-  "details": {
-    "error": {
-      "code": "AuthorizationFailed",
-      "message": "The client '<client-id>' with object id '<object-id>' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
-    }
-  },
-  "message": "The client '<client-id>' with object id '<object-id>' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
-}
-```
-
-1. Check that the application or user making the request has sufficient permissions:
-   - You can refer to this document to [manage access to workspaces](https://learn.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
-2. If the user or application is granted sufficient privileges to query the workspace, make sure you're authenticating as that user/application. If you're authenticating using the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/identity/azure-identity/README.md#authenticating-with-defaultazurecredential), check the logs to verify that the credential used is the one you expected. To enable logging, see the [Enable client logging](#enable-client-logging) section.
-
-### Unsupported granularity for metrics query
-
-If you notice the following exception, this is due to an invalid time granularity in the metrics query request. Your query might look something like the following, where `MetricsQueryOptions().setGranularity()` is set to an unsupported duration.
-
-```json
-{
-  "name": "RestError",
-  "code": "BadRequest",
-  "statusCode": 400,
-  "request": {
-    "url": "https://management.azure.com//subscriptions/<subscription_id>/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights/metrics?timespan=REDACTED&interval=REDACTED&metricnames=REDACTED&api-version=2018-01-01",
-    "headers": {
-      "accept": "application/json",
-      "accept-encoding": "gzip,deflate",
-      "user-agent": "azsdk-js-monitor-query/1.0.0 azsdk-js-monitor-metrics/1.0.0 core-rest-pipeline/1.7.0 Node/v14.16.1 OS/(x64-Windows_NT-10.0.19044)",
-      "x-ms-client-request-id": "684a29a9-b01d-41e8-8ba1-98b49a6d6577",
-      "authorization": "REDACTED"
-    },
-    "method": "GET",
-    "timeout": 0,
-    "disableKeepAlive": false,
-    "streamResponseStatusCodes": {},
-    "withCredentials": false,
-    "requestId": "684a29a9-b01d-41e8-8ba1-98b49a6d6577",
-    "allowInsecureConnection": false,
-    "enableBrowserStreams": false
-  },
-  "details": {
-    "code": "BadRequest",
-    "message": "Invalid time grain duration: PT2M, supported ones are: PT1M,PT5M,PT15M,PT30M,PT1H,PT6H,PT12H,P1D,"
-  },
-  "message": "Invalid time grain duration: PT2M, supported ones are: PT1M,PT5M,PT15M,PT30M,PT1H,PT6H,PT12H,P1D,"
-}
-```
-
-As documented in the error message, the supported metrics query granularities are:
-
-- 1 minute
-- 5 minutes
-- 15 minutes
-- 30 minutes
-- 1 hour
-- 6 hours
-- 12 hours
-- 1 day
+For more details on the response hierarchy for multiple queries, see [Handle logs batch query response](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/README.md#handle-logs-batch-query-response).
