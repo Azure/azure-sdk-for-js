@@ -5,6 +5,7 @@ import type { AgentsContext as Client } from "../index.js";
 import type {
   _AgentsPagedResultVectorStoreFile,
   VectorStoreFileBatch,
+  VectorStoreFile,
 } from "../../models/models.js";
 import {
   vectorStoreDataSourceArraySerializer,
@@ -81,7 +82,7 @@ export function listVectorStoreFileBatchFiles(
   options: VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<VectorStoreFileBatch> {
+): PagedAsyncIterableIterator<VectorStoreFile> {
   return buildPagedAsyncIterator(
     context,
     () => _listVectorStoreFileBatchFilesSend(context, vectorStoreId, batchId, options),
