@@ -4,7 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters for batch query operations. */
-export interface LogsQueryBatchOptions extends OperationOptions { }
+export interface LogsQueryBatchOptions extends OperationOptions {}
 
 // @public
 export interface LogsQueryOptions extends OperationOptions {
@@ -24,7 +24,7 @@ export interface QueryLogsOptions extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ExecuteWithResourceIdOptionalParams extends QueryLogsOptions { }
+export interface ExecuteWithResourceIdOptionalParams extends QueryLogsOptions {}
 
 /** Optional parameters. */
-export interface ExecuteOptionalParams extends QueryLogsOptions { }
+export interface ExecuteOptionalParams extends QueryLogsOptions {}

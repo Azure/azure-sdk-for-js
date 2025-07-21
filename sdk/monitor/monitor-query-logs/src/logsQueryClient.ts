@@ -3,16 +3,11 @@
 
 import type { MonitorQueryLogsContext, LogsQueryClientOptions } from "./api/index.js";
 import { createMonitorQueryLogs } from "./api/index.js";
-import type {
-  QueryTimeInterval,
-} from "./models/models.js";
+import type { QueryTimeInterval } from "./models/models.js";
 import { convertQueryBatch } from "./models/models.js";
 import type { QueryBatch, LogsQueryBatchResult } from "./models/public.js";
 import type { QueryBody } from "./models/models.js";
-import type {
-  LogsQueryBatchOptions,
-  LogsQueryOptions,
-} from "./api/options.js";
+import type { LogsQueryBatchOptions, LogsQueryOptions } from "./api/options.js";
 import { batch as batchOperation, executeWithResourceId, execute } from "./api/operations.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
@@ -25,7 +20,10 @@ export { LogsQueryClientOptions } from "./api/monitorQueryLogsContext.js";
 /**
  * Converts LogsQueryOptions to internal option format
  */
-function convertToInternalOptions(options?: LogsQueryOptions): { prefer?: string; requestOptions: {} } {
+function convertToInternalOptions(options?: LogsQueryOptions): {
+  prefer?: string;
+  requestOptions: {};
+} {
   if (!options) {
     return { requestOptions: {} };
   }
@@ -100,7 +98,9 @@ export class LogsQueryClient {
         id: internalQuery.id,
         body: {
           query: internalQuery.query,
-          timespan: internalQuery.timespan ? convertTimespanToInterval(internalQuery.timespan) : undefined,
+          timespan: internalQuery.timespan
+            ? convertTimespanToInterval(internalQuery.timespan)
+            : undefined,
           workspaces: internalQuery.workspaces,
         },
         path: "/query" as const,

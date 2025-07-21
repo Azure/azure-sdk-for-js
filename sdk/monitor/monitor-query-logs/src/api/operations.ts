@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import type { MonitorQueryLogsContext as Client } from "./index.js";
-import type {
-  QueryBody,
-  BatchRequest,
-} from "../models/models.js";
+import type { QueryBody, BatchRequest } from "../models/models.js";
 import type { LogsQueryBatchResult } from "../models/public.js";
 import {
   queryBodySerializer,

@@ -14,7 +14,7 @@ describe("Model unit tests", () => {
           workspaceId: "the primary workspace id",
           timespan: { duration: Durations.twentyFourHours },
         },
-        "0"
+        "0",
       );
 
       assert.deepEqual(result, {
@@ -37,7 +37,7 @@ describe("Model unit tests", () => {
           serverTimeoutInSeconds: 100,
           additionalWorkspaces: ["additionalWorkspace", "resourceId1"],
         },
-        "1"
+        "1",
       );
 
       assert.deepEqual(result, {

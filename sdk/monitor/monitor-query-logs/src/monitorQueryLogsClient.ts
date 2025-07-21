@@ -3,10 +3,7 @@
 
 import type { MonitorQueryLogsContext, LogsQueryClientOptions } from "./api/index.js";
 import { createMonitorQueryLogs } from "./api/index.js";
-import type {
-  QueryBody,
-  BatchRequest,
-} from "./models/models.js";
+import type { QueryBody, BatchRequest } from "./models/models.js";
 import type { LogsQueryBatchResult } from "./models/public.js";
 import type {
   LogsQueryBatchOptions,

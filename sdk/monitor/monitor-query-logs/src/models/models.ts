@@ -11,7 +11,7 @@ import type {
   LogsQuerySuccessfulResult,
   LogsQueryPartialResult,
 } from "./public.js";
-import { LogsQueryResultStatus } from "./public.js";/** Converts public QueryBatch to internal InternalQueryBatch */
+import { LogsQueryResultStatus } from "./public.js"; /** Converts public QueryBatch to internal InternalQueryBatch */
 export function convertQueryBatch(query: QueryBatch, id: string): InternalQueryBatch {
   const headers: Record<string, string> = {};
 
@@ -47,20 +47,20 @@ export function convertQueryBatch(query: QueryBatch, id: string): InternalQueryB
  * */
 export type QueryTimeInterval =
   | {
-    startTime: Date;
-    endTime: Date;
-  }
+      startTime: Date;
+      endTime: Date;
+    }
   | {
-    startTime: Date;
-    duration: string;
-  }
+      startTime: Date;
+      duration: string;
+    }
   | {
-    duration: string;
-    endTime: Date;
-  }
+      duration: string;
+      endTime: Date;
+    }
   | {
-    duration: string;
-  };
+      duration: string;
+    };
 
 /**
  * The Analytics query. Learn more about the [Analytics query
@@ -86,8 +86,8 @@ export function queryBodySerializer(item: QueryBody): any {
     workspaces: !item["workspaces"]
       ? item["workspaces"]
       : item["workspaces"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -320,8 +320,8 @@ export function errorDetailDeserializer(item: {
     resources: !item["resources"]
       ? item["resources"]
       : item["resources"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     additionalProperties: item["additionalProperties"],
   };
 }
@@ -434,41 +434,45 @@ export function batchResponseDeserializer(item: { responses: any }): InternalBat
 }
 
 /** Converts InternalBatchResult to LogsQueryBatchResult */
-export function convertToLogsBatchResult(internalResult: InternalBatchResult): LogsQueryBatchResult {
+export function convertToLogsBatchResult(
+  internalResult: InternalBatchResult,
+): LogsQueryBatchResult {
   if (!internalResult.responses) {
     return [];
   }
 
-  return internalResult.responses.map((response): LogsQuerySuccessfulResult | LogsQueryPartialResult | LogsQueryError => {
-    // If the response has no body, it's an error
-    if (!response.body) {
-      const error: LogsQueryError = {
-        name: "LogsQueryError",
-        message: "Query failed with no response body",
-        code: response.status?.toString() || "Unknown",
-        status: LogsQueryResultStatus.Failure,
+  return internalResult.responses.map(
+    (response): LogsQuerySuccessfulResult | LogsQueryPartialResult | LogsQueryError => {
+      // If the response has no body, it's an error
+      if (!response.body) {
+        const error: LogsQueryError = {
+          name: "LogsQueryError",
+          message: "Query failed with no response body",
+          code: response.status?.toString() || "Unknown",
+          status: LogsQueryResultStatus.Failure,
+        };
+        return error;
+      }
+
+      // Convert BatchQueryResults to QueryResults format for converter
+      const queryResults: QueryResults = {
+        tables: response.body.tables || [],
+        statistics: response.body.statistics,
+        render: response.body.render,
+        error: response.body.error,
       };
-      return error;
-    }
 
-    // Convert BatchQueryResults to QueryResults format for converter
-    const queryResults: QueryResults = {
-      tables: response.body.tables || [],
-      statistics: response.body.statistics,
-      render: response.body.render,
-      error: response.body.error,
-    };
+      // Convert using the existing converter
+      const queryResult = convertToLogsQueryResult(queryResults);
 
-    // Convert using the existing converter
-    const queryResult = convertToLogsQueryResult(queryResults);
+      // If the converted result has an error status, create a LogsQueryError
+      if (queryResult.status === LogsQueryResultStatus.PartialFailure) {
+        return queryResult as LogsQueryPartialResult;
+      }
 
-    // If the converted result has an error status, create a LogsQueryError
-    if (queryResult.status === LogsQueryResultStatus.PartialFailure) {
-      return queryResult as LogsQueryPartialResult;
-    }
-
-    return queryResult as LogsQuerySuccessfulResult;
-  });
+      return queryResult as LogsQuerySuccessfulResult;
+    },
+  );
 }
 
 export function batchQueryResponseArrayDeserializer(result: Array<BatchQueryResponse>): any[] {
