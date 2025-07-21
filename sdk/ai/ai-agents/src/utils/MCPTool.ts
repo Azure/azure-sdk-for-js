@@ -30,7 +30,7 @@ export class MCPTool {
    * Get the MCP tool resource.
    * @returns The MCP tool resource
    */
-  get _resource(): MCPToolResource {
+  private get _resource(): MCPToolResource {
     return {
       serverLabel: this._serverLabel,
       headers: this._headers,
@@ -42,7 +42,7 @@ export class MCPTool {
    * Set the MCP tool definition.
    * @returns The MCP tool definition
    * */
-  get _definition(): MCPToolDefinition {
+  private get _definition(): MCPToolDefinition {
     return {
       type: "mcp",
       serverLabel: this._serverLabel,

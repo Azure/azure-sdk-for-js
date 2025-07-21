@@ -488,11 +488,9 @@ export class MCPTool {
     constructor(serverLabel: string, serverUrl: string, allowedTools?: string[]);
     get allowedTools(): string[];
     allowTool(toolName: string): void;
-    get _definition(): MCPToolDefinition;
     get definitions(): MCPToolDefinition[];
     disallowTool(toolName: string): void;
     get headers(): Record<string, string>;
-    get _resource(): MCPToolResource;
     get resources(): ToolResources;
     get serverLabel(): string;
     get serverUrl(): string;
