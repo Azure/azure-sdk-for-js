@@ -20,7 +20,7 @@ async function servicesListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.services.listByResourceGroup(groupName)) {
+  for await (const item of client.services.listByResourceGroup(groupName)) {
     resArray.push(item);
   }
   console.log(resArray);
