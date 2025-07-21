@@ -24,8 +24,7 @@ export interface EventMessage {
 }
 
 // @public
-export interface EventMessageStream extends ReadableStream<EventMessage>, AsyncDisposable, AsyncIterable<EventMessage> {
-}
+export type EventMessageStream = ReadableStream<EventMessage> & AsyncDisposable & AsyncIterable<EventMessage>;
 
 // @public
 export interface NodeJSReadableStream extends NodeJS.ReadableStream {
