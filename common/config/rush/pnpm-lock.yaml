@@ -3379,7 +3379,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-privatedns@file:projects/arm-privatedns.tgz':
-    resolution: {integrity: sha512-t3XBWdzNzT2HWREwblCBHHVIj6e2IQ1zz4VKAhx5kYJIMhwzEDFwmC9CtH3clL8rxe9S/Xt5B+NRb6jtPXQbuQ==, tarball: file:projects/arm-privatedns.tgz}
+    resolution: {integrity: sha512-9FedSuRO2807bRxqM3IMKoF7Z4yJu9NszCw17yf+rcNp6RUqrjJHXr73iKI6CpM7b+vkbEMcT2ESfewMpxN4OA==, tarball: file:projects/arm-privatedns.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-programmableconnectivity@file:projects/arm-programmableconnectivity.tgz':
@@ -4393,6 +4393,9 @@ packages:
 
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
+
+  '@types/node@18.19.120':
+    resolution: {integrity: sha512-WtCGHFXnVI8WHLxDAt5TbnCM4eSE+nI0QN2NJtwzcgMhht2eNz6V9evJrk+lwC8bCY8OWV5Ym8Jz7ZEyGnKnMA==}
 
   '@types/node@20.19.1':
     resolution: {integrity: sha512-jJD50LtlD2dodAEO653i3YF04NWak6jN3ky+Ri3Em3mGR39/glWiboM/IePaRbgwSfqM1TpGXfAg8ohn/4dTgA==}
@@ -7118,6 +7121,9 @@ packages:
 
   underscore@1.13.7:
     resolution: {integrity: sha512-GMXzWtsc57XAtguZgaQViUOzs0KTkk8ojr3/xAxXLITqf/3EMwxC0inyETfDFjH/Krbhuep0HNbbjI9i/q3F3g==}
+
+  undici-types@5.26.5:
+    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
@@ -12462,7 +12468,7 @@ snapshots:
   '@rush-temp/arm-dell-storage@file:projects/arm-dell-storage.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.2
-      '@types/node': 18.19.112
+      '@types/node': 18.19.120
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
@@ -12470,7 +12476,7 @@ snapshots:
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
-      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@18.19.112)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@18.19.120)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
@@ -16818,12 +16824,12 @@ snapshots:
 
   '@rush-temp/arm-privatedns@file:projects/arm-privatedns.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@azure/identity': 4.10.1
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
+      eslint: 9.29.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
@@ -24432,6 +24438,10 @@ snapshots:
     dependencies:
       '@types/node': 22.7.9
 
+  '@types/node@18.19.120':
+    dependencies:
+      undici-types: 5.26.5
+
   '@types/node@20.19.1':
     dependencies:
       undici-types: 6.21.0
@@ -27349,6 +27359,8 @@ snapshots:
 
   underscore@1.13.7: {}
 
+  undici-types@5.26.5: {}
+
   undici-types@6.19.8: {}
 
   undici-types@6.21.0: {}
@@ -27408,13 +27420,13 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite-node@3.2.4(@types/node@18.19.112)(tsx@4.20.3)(yaml@2.8.0):
+  vite-node@3.2.4(@types/node@18.19.120)(tsx@4.20.3)(yaml@2.8.0):
     dependencies:
       cac: 6.7.14
       debug: 4.4.1
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 6.3.5(@types/node@18.19.112)(tsx@4.20.3)(yaml@2.8.0)
+      vite: 6.3.5(@types/node@18.19.120)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -27492,7 +27504,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite@6.3.5(@types/node@18.19.112)(tsx@4.20.3)(yaml@2.8.0):
+  vite@6.3.5(@types/node@18.19.120)(tsx@4.20.3)(yaml@2.8.0):
     dependencies:
       esbuild: 0.25.5
       fdir: 6.4.6(picomatch@4.0.2)
@@ -27501,7 +27513,7 @@ snapshots:
       rollup: 4.44.0
       tinyglobby: 0.2.14
     optionalDependencies:
-      '@types/node': 18.19.112
+      '@types/node': 18.19.120
       fsevents: 2.3.3
       tsx: 4.20.3
       yaml: 2.8.0
@@ -27548,7 +27560,7 @@ snapshots:
       tsx: 4.20.3
       yaml: 2.8.0
 
-  vitest@3.2.4(@types/debug@4.1.12)(@types/node@18.19.112)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0):
+  vitest@3.2.4(@types/debug@4.1.12)(@types/node@18.19.120)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0):
     dependencies:
       '@types/chai': 5.2.2
       '@vitest/expect': 3.2.4
@@ -27570,12 +27582,12 @@ snapshots:
       tinyglobby: 0.2.14
       tinypool: 1.1.1
       tinyrainbow: 2.0.0
-      vite: 6.3.5(@types/node@18.19.112)(tsx@4.20.3)(yaml@2.8.0)
-      vite-node: 3.2.4(@types/node@18.19.112)(tsx@4.20.3)(yaml@2.8.0)
+      vite: 6.3.5(@types/node@18.19.120)(tsx@4.20.3)(yaml@2.8.0)
+      vite-node: 3.2.4(@types/node@18.19.120)(tsx@4.20.3)(yaml@2.8.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/debug': 4.1.12
-      '@types/node': 18.19.112
+      '@types/node': 18.19.120
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
     transitivePeerDependencies:
       - jiti
