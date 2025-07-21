@@ -4,6 +4,9 @@
 import type { PipelinePolicy, PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 
+// Global constant for the sanitized base URL used in test recordings
+const SANITIZED_BASE_URL = "https://Sanitized.com";
+
 /**
  * Policy to fix Operation-Location headers and URLs that get incorrectly sanitized during test playback.
  * This policy handles various Long Running Operation (LRO) scenarios across Azure Communication Services.
@@ -12,6 +15,16 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
   return {
     name: "OperationLocationFixPolicy",
     sendRequest: async (request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> => {
+      
+      // Extract API version from the current request URL to use consistently
+      const getApiVersion = (url: string): string => {
+        try {
+          const urlObj = new URL(url);
+          return urlObj.searchParams.get("api-version") || "2025-04-01";
+        } catch {
+          return "2025-04-01";
+        }
+      };
       
       // Fix broken request URLs before they're sent (only during playback)
       if (isPlaybackMode() && request.url) {
@@ -25,8 +38,7 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
           const queryParams = urlObj.searchParams.toString();
           
           // Common LRO result endpoints for Azure Communication Services
-          const baseUrl = "https://Sanitized.com";
-          fixedUrl = `${baseUrl}/availablePhoneNumbers/searchResults/00000000-0000-0000-0000-000000000000${queryParams ? `?${queryParams}` : ''}`;
+          fixedUrl = `${SANITIZED_BASE_URL}/availablePhoneNumbers/searchResults/00000000-0000-0000-0000-000000000000${queryParams ? `?${queryParams}` : ''}`;
           
           // eslint-disable-next-line no-param-reassign
           request.url = fixedUrl;
@@ -36,12 +48,11 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
         else if (originalUrl.includes("example.com")) {
           const urlObj = new URL(originalUrl);
           const queryParams = urlObj.searchParams.toString();
-          const baseUrl = "https://Sanitized.com";
           
           // Try to infer the correct path based on common patterns
           if (queryParams.includes("api-version")) {
             // Default to phoneNumbers operations path if we can't determine the specific operation
-            fixedUrl = `${baseUrl}/phoneNumbers/operations/search_00000000-0000-0000-0000-000000000000${queryParams ? `?${queryParams}` : ''}`;
+            fixedUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/search_00000000-0000-0000-0000-000000000000${queryParams ? `?${queryParams}` : ''}`;
           }
           
           // eslint-disable-next-line no-param-reassign
@@ -53,6 +64,7 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
       
       // Fix response headers (only during playback)
       if (isPlaybackMode() && response.headers) {
+        const apiVersion = request.url ? getApiVersion(request.url) : "2025-04-01";
         const operationLocation = response.headers.get("operation-location") || response.headers.get("Operation-Location");
         const operationId = response.headers.get("operation-id");
         const location = response.headers.get("location") || response.headers.get("Location");
@@ -60,7 +72,7 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
         // Fix Operation-Location header if it's broken
         if (operationLocation && 
             (operationLocation === "https://example.com" || 
-             operationLocation === "https://Sanitized.com" || 
+             operationLocation === SANITIZED_BASE_URL || 
              operationLocation.includes("example.com") ||
              operationLocation.endsWith("/Sanitized"))) {
           
@@ -68,22 +80,21 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
           
           if (operationId) {
             // Use the operation ID to construct the correct URL
-            const baseUrl = "https://Sanitized.com";
             
             // Determine operation type from operation ID pattern
             if (operationId.startsWith("search_")) {
-              fixedOperationUrl = `${baseUrl}/phoneNumbers/operations/${operationId}?api-version=2025-04-01`;
+              fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/${operationId}?api-version=${apiVersion}`;
             } else if (operationId.startsWith("purchase_")) {
-              fixedOperationUrl = `${baseUrl}/phoneNumbers/operations/${operationId}?api-version=2025-04-01`;
+              fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/${operationId}?api-version=${apiVersion}`;
             } else if (operationId.startsWith("release_")) {
-              fixedOperationUrl = `${baseUrl}/phoneNumbers/operations/${operationId}?api-version=2025-04-01`;
+              fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/${operationId}?api-version=${apiVersion}`;
             } else {
               // Generic fallback for any other operation type
-              fixedOperationUrl = `${baseUrl}/phoneNumbers/operations/${operationId}?api-version=2025-04-01`;
+              fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/${operationId}?api-version=${apiVersion}`;
             }
           } else {
             // Fallback if no operation ID is available
-            fixedOperationUrl = `https://Sanitized.com/phoneNumbers/operations/operation_00000000-0000-0000-0000-000000000000?api-version=2025-04-01`;
+            fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/operation_00000000-0000-0000-0000-000000000000?api-version=${apiVersion}`;
           }
           
           response.headers.set("Operation-Location", fixedOperationUrl);
@@ -101,10 +112,10 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
           
           if (operationId && operationId.startsWith("search_")) {
             const searchId = operationId.replace("search_", "");
-            fixedLocationUrl = `/availablePhoneNumbers/searchResults/${searchId}?api-version=2025-04-01`;
+            fixedLocationUrl = `/availablePhoneNumbers/searchResults/${searchId}?api-version=${apiVersion}`;
           } else {
             // Generic fallback
-            fixedLocationUrl = `/availablePhoneNumbers/searchResults/00000000-0000-0000-0000-000000000000?api-version=2025-04-01`;
+            fixedLocationUrl = `/availablePhoneNumbers/searchResults/00000000-0000-0000-0000-000000000000?api-version=${apiVersion}`;
           }
           
           response.headers.set("Location", fixedLocationUrl);
