@@ -7,12 +7,14 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -53,9 +53,8 @@
+@@ -52,10 +52,9 @@
+ import { StorageRetryOptions } from '@azure/storage-blob';
  import { StorageRetryPolicy } from '@azure/storage-blob';
  import { StorageRetryPolicyFactory } from '@azure/storage-blob';
  import { StorageRetryPolicyType } from '@azure/storage-blob';
- import { StorageSharedKeyCredential } from '@azure/storage-blob';
+-import { StorageSharedKeyCredential } from '@azure/storage-blob';
 -import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
++import type { StorageSharedKeyCredential as StorageSharedKeyCredential_2 } from '@azure/storage-blob';
  import type { TokenCredential } from '@azure/core-auth';
  import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
@@ -84,7 +86,17 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -400,52 +355,13 @@
+@@ -298,8 +253,9 @@
+ }
+ 
+ // @public
+ export class DataLakeFileClient extends DataLakePathClient {
++    // Warning: (ae-forgotten-export) The symbol "StorageSharedKeyCredential" needs to be exported by the entry point index.d.ts
+     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+     constructor(url: string, pipeline: Pipeline);
+     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
+     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
+@@ -400,52 +356,13 @@
  export interface DataLakeRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
  }
  
@@ -138,7 +150,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
-@@ -497,28 +413,13 @@
+@@ -497,28 +414,13 @@
  }
  
  // @public
@@ -168,7 +180,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public (undocumented)
  export interface FileAppendOptions extends CommonOptions {
-@@ -582,8 +483,9 @@
+@@ -582,8 +484,9 @@
  export type FileFlushResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
  // @public
@@ -178,7 +190,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -847,8 +749,9 @@
+@@ -847,8 +750,9 @@
  }
  
  // @public
@@ -188,7 +200,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public (undocumented)
-@@ -995,24 +898,8 @@
+@@ -995,24 +899,8 @@
  
  // @public
  export type FileSystemRenameResponse = ContainerRenameResponse;
@@ -213,7 +225,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface FileSystemSetAccessPolicyHeaders {
      // (undocumented)
      clientRequestId?: string;
-@@ -1083,17 +970,8 @@
+@@ -1083,17 +971,8 @@
  // @public (undocumented)
  export type FileUploadResponse = WithResponse<PathFlushDataHeaders, PathFlushDataHeaders>;
  
@@ -231,7 +243,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { HttpHeaders }
  
-@@ -1858,72 +1736,8 @@
+@@ -1858,72 +1737,8 @@
      // (undocumented)
      write: boolean;
  }
@@ -304,7 +316,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2028,12 +1842,8 @@
+@@ -2028,12 +1843,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }
