@@ -1,0 +1,178 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { NetworkClient } = require("@azure/arm-dns");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteAAAARecordset.json
+ */
+async function deleteAaaaRecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "AAAA");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteARecordset.json
+ */
+async function deleteARecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "A");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteCNAMERecordset.json
+ */
+async function deleteCnameRecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "CNAME");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteCaaRecordset.json
+ */
+async function deleteCAARecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "CAA");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteDSRecordset.json
+ */
+async function deleteDSRecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "DS");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteMXRecordset.json
+ */
+async function deleteMXRecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "MX");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteNAPTRRecordset.json
+ */
+async function deleteNaptrRecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "NAPTR");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteNSRecordset.json
+ */
+async function deleteNSRecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "NS");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeletePTRRecordset.json
+ */
+async function deletePTRRecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "0.0.127.in-addr.arpa", "1", "PTR");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteSRVRecordset.json
+ */
+async function deleteSRVRecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "SRV");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteTLSARecordset.json
+ */
+async function deleteTlsaRecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "TLSA");
+}
+
+/**
+ * This sample demonstrates how to deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ *
+ * @summary deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
+ * x-ms-original-file: 2023-07-01-preview/DeleteTXTRecordset.json
+ */
+async function deleteTXTRecordset() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new NetworkClient(credential, subscriptionId);
+  await client.recordSets.delete("rg1", "zone1", "record1", "TXT");
+}
+
+async function main() {
+  await deleteAaaaRecordset();
+  await deleteARecordset();
+  await deleteCnameRecordset();
+  await deleteCAARecordset();
+  await deleteDSRecordset();
+  await deleteMXRecordset();
+  await deleteNaptrRecordset();
+  await deleteNSRecordset();
+  await deletePTRRecordset();
+  await deleteSRVRecordset();
+  await deleteTlsaRecordset();
+  await deleteTXTRecordset();
+}
+
+main().catch(console.error);

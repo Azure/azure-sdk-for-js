@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AaaaRecord {
@@ -46,6 +49,11 @@ export interface CnameRecord {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -61,32 +69,6 @@ export interface Digest {
     value?: string;
 }
 
-// @public (undocumented)
-export class DnsManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DnsManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    dnsResourceReferenceOperations: DnsResourceReferenceOperations;
-    // (undocumented)
-    dnssecConfigs: DnssecConfigs;
-    // (undocumented)
-    recordSets: RecordSets;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    zones: Zones;
-}
-
-// @public
-export interface DnsManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
-
 // @public
 export interface DnsResourceReference {
     dnsResources?: SubResource[];
@@ -94,97 +76,74 @@ export interface DnsResourceReference {
 }
 
 // @public
-export interface DnsResourceReferenceGetByTargetResourcesOptionalParams extends coreClient.OperationOptions {
+export interface DnsResourceReferenceGetByTargetResourcesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DnsResourceReferenceGetByTargetResourcesResponse = DnsResourceReferenceResult;
-
-// @public
 export interface DnsResourceReferenceOperations {
-    getByTargetResources(parameters: DnsResourceReferenceRequest, options?: DnsResourceReferenceGetByTargetResourcesOptionalParams): Promise<DnsResourceReferenceGetByTargetResourcesResponse>;
+    getByTargetResources: (parameters: DnsResourceReferenceRequest, options?: DnsResourceReferenceGetByTargetResourcesOptionalParams) => Promise<DnsResourceReferenceResult>;
 }
 
 // @public
 export interface DnsResourceReferenceRequest {
+    properties?: DnsResourceReferenceRequestProperties;
+}
+
+// @public
+export interface DnsResourceReferenceRequestProperties {
     targetResources?: SubResource[];
 }
 
 // @public
 export interface DnsResourceReferenceResult {
+    properties?: DnsResourceReferenceResultProperties;
+}
+
+// @public
+export interface DnsResourceReferenceResultProperties {
     dnsResourceReferences?: DnsResourceReference[];
 }
 
 // @public
-export interface DnssecConfig {
+export interface DnssecConfig extends ProxyResource {
     etag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    readonly provisioningState?: string;
-    readonly signingKeys?: SigningKey[];
-    readonly systemData?: SystemData;
-    readonly type?: string;
+    readonly properties?: DnssecProperties;
 }
 
 // @public
-export interface DnssecConfigListResult {
-    readonly nextLink?: string;
-    value?: DnssecConfig[];
-}
-
-// @public
-export interface DnssecConfigs {
-    beginCreateOrUpdate(resourceGroupName: string, zoneName: string, options?: DnssecConfigsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DnssecConfigsCreateOrUpdateResponse>, DnssecConfigsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, zoneName: string, options?: DnssecConfigsCreateOrUpdateOptionalParams): Promise<DnssecConfigsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, zoneName: string, options?: DnssecConfigsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, zoneName: string, options?: DnssecConfigsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, zoneName: string, options?: DnssecConfigsGetOptionalParams): Promise<DnssecConfigsGetResponse>;
-    listByDnsZone(resourceGroupName: string, zoneName: string, options?: DnssecConfigsListByDnsZoneOptionalParams): PagedAsyncIterableIterator<DnssecConfig>;
-}
-
-// @public
-export interface DnssecConfigsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface DnssecConfigsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DnssecConfigsCreateOrUpdateResponse = DnssecConfig;
-
-// @public
-export interface DnssecConfigsDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface DnssecConfigsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DnssecConfigsDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DnssecConfigsGetOptionalParams extends coreClient.OperationOptions {
+export interface DnssecConfigsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DnssecConfigsGetResponse = DnssecConfig;
-
-// @public
-export interface DnssecConfigsListByDnsZoneNextOptionalParams extends coreClient.OperationOptions {
+export interface DnssecConfigsListByDnsZoneOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DnssecConfigsListByDnsZoneNextResponse = DnssecConfigListResult;
-
-// @public
-export interface DnssecConfigsListByDnsZoneOptionalParams extends coreClient.OperationOptions {
+export interface DnssecConfigsOperations {
+    createOrUpdate: (resourceGroupName: string, zoneName: string, options?: DnssecConfigsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DnssecConfig>, DnssecConfig>;
+    delete: (resourceGroupName: string, zoneName: string, options?: DnssecConfigsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, zoneName: string, options?: DnssecConfigsGetOptionalParams) => Promise<DnssecConfig>;
+    listByDnsZone: (resourceGroupName: string, zoneName: string, options?: DnssecConfigsListByDnsZoneOptionalParams) => PagedAsyncIterableIterator<DnssecConfig>;
 }
 
 // @public
-export type DnssecConfigsListByDnsZoneResponse = DnssecConfigListResult;
+export interface DnssecProperties {
+    readonly provisioningState?: string;
+    readonly signingKeys?: SigningKey[];
+}
 
 // @public
 export interface DsRecord {
@@ -194,14 +153,16 @@ export interface DsRecord {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownVersions {
+    V20230701Preview = "2023-07-01-preview"
 }
 
 // @public
@@ -220,9 +181,40 @@ export interface NaptrRecord {
     services?: string;
 }
 
+// @public (undocumented)
+export class NetworkClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: NetworkClientOptionalParams);
+    readonly dnsResourceReference: DnsResourceReferenceOperations;
+    readonly dnssecConfigs: DnssecConfigsOperations;
+    readonly pipeline: Pipeline;
+    readonly recordSets: RecordSetsOperations;
+    readonly zones: ZonesOperations;
+}
+
+// @public
+export interface NetworkClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+}
+
 // @public
 export interface NsRecord {
     nsdname?: string;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -231,20 +223,21 @@ export interface PtrRecord {
 }
 
 // @public
-export interface RecordSet {
+export interface RecordSet extends ProxyResource {
+    etag?: string;
+    properties?: RecordSetProperties;
+}
+
+// @public
+export interface RecordSetProperties {
     aaaaRecords?: AaaaRecord[];
     aRecords?: ARecord[];
     caaRecords?: CaaRecord[];
     cnameRecord?: CnameRecord;
     dsRecords?: DsRecord[];
-    etag?: string;
     readonly fqdn?: string;
-    readonly id?: string;
-    metadata?: {
-        [propertyName: string]: string;
-    };
+    metadata?: Record<string, string>;
     mxRecords?: MxRecord[];
-    readonly name?: string;
     naptrRecords?: NaptrRecord[];
     nsRecords?: NsRecord[];
     readonly provisioningState?: string;
@@ -256,106 +249,55 @@ export interface RecordSet {
     trafficManagementProfile?: SubResource;
     ttl?: number;
     txtRecords?: TxtRecord[];
-    readonly type?: string;
 }
 
 // @public
-export interface RecordSetListResult {
-    readonly nextLink?: string;
-    value?: RecordSet[];
-}
-
-// @public
-export interface RecordSets {
-    createOrUpdate(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: RecordType, parameters: RecordSet, options?: RecordSetsCreateOrUpdateOptionalParams): Promise<RecordSetsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: RecordType, options?: RecordSetsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: RecordType, options?: RecordSetsGetOptionalParams): Promise<RecordSetsGetResponse>;
-    listAllByDnsZone(resourceGroupName: string, zoneName: string, options?: RecordSetsListAllByDnsZoneOptionalParams): PagedAsyncIterableIterator<RecordSet>;
-    listByDnsZone(resourceGroupName: string, zoneName: string, options?: RecordSetsListByDnsZoneOptionalParams): PagedAsyncIterableIterator<RecordSet>;
-    listByType(resourceGroupName: string, zoneName: string, recordType: RecordType, options?: RecordSetsListByTypeOptionalParams): PagedAsyncIterableIterator<RecordSet>;
-    update(resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: RecordType, parameters: RecordSet, options?: RecordSetsUpdateOptionalParams): Promise<RecordSetsUpdateResponse>;
-}
-
-// @public
-export interface RecordSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
 }
 
 // @public
-export type RecordSetsCreateOrUpdateResponse = RecordSet;
-
-// @public
-export interface RecordSetsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export interface RecordSetsGetOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type RecordSetsGetResponse = RecordSet;
-
-// @public
-export interface RecordSetsListAllByDnsZoneNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecordSetsListAllByDnsZoneNextResponse = RecordSetListResult;
-
-// @public
-export interface RecordSetsListAllByDnsZoneOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsListAllByDnsZoneOptionalParams extends OperationOptions {
     recordSetNameSuffix?: string;
     top?: number;
 }
 
 // @public
-export type RecordSetsListAllByDnsZoneResponse = RecordSetListResult;
-
-// @public
-export interface RecordSetsListByDnsZoneNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecordSetsListByDnsZoneNextResponse = RecordSetListResult;
-
-// @public
-export interface RecordSetsListByDnsZoneOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsListByDnsZoneOptionalParams extends OperationOptions {
     recordsetnamesuffix?: string;
     top?: number;
 }
 
 // @public
-export type RecordSetsListByDnsZoneResponse = RecordSetListResult;
-
-// @public
-export interface RecordSetsListByTypeNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecordSetsListByTypeNextResponse = RecordSetListResult;
-
-// @public
-export interface RecordSetsListByTypeOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsListByTypeOptionalParams extends OperationOptions {
     recordsetnamesuffix?: string;
     top?: number;
 }
 
 // @public
-export type RecordSetsListByTypeResponse = RecordSetListResult;
+export interface RecordSetsOperations {
+    createOrUpdate: (resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: RecordType, parameters: RecordSet, options?: RecordSetsCreateOrUpdateOptionalParams) => Promise<RecordSet>;
+    delete: (resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: RecordType, options?: RecordSetsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: RecordType, options?: RecordSetsGetOptionalParams) => Promise<RecordSet>;
+    listAllByDnsZone: (resourceGroupName: string, zoneName: string, options?: RecordSetsListAllByDnsZoneOptionalParams) => PagedAsyncIterableIterator<RecordSet>;
+    listByDnsZone: (resourceGroupName: string, zoneName: string, options?: RecordSetsListByDnsZoneOptionalParams) => PagedAsyncIterableIterator<RecordSet>;
+    listByType: (resourceGroupName: string, zoneName: string, recordType: RecordType, options?: RecordSetsListByTypeOptionalParams) => PagedAsyncIterableIterator<RecordSet>;
+    update: (resourceGroupName: string, zoneName: string, relativeRecordSetName: string, recordType: RecordType, parameters: RecordSet, options?: RecordSetsUpdateOptionalParams) => Promise<RecordSet>;
+}
 
 // @public
-export interface RecordSetsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface RecordSetsUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
-}
-
-// @public
-export type RecordSetsUpdateResponse = RecordSet;
-
-// @public
-export interface RecordSetUpdateParameters {
-    recordSet?: RecordSet;
 }
 
 // @public
@@ -364,12 +306,19 @@ export type RecordType = "A" | "AAAA" | "CAA" | "CNAME" | "MX" | "NS" | "PTR" | 
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: NetworkClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -425,13 +374,24 @@ export interface TlsaRecord {
 }
 
 // @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface TxtRecord {
     value?: string[];
 }
 
 // @public
-export interface Zone extends Resource {
+export interface Zone extends TrackedResource {
     etag?: string;
+    properties?: ZoneProperties;
+}
+
+// @public
+export interface ZoneProperties {
     readonly maxNumberOfRecordSets?: number;
     readonly maxNumberOfRecordsPerRecordSet?: number;
     readonly nameServers?: string[];
@@ -439,101 +399,56 @@ export interface Zone extends Resource {
     registrationVirtualNetworks?: SubResource[];
     resolutionVirtualNetworks?: SubResource[];
     readonly signingKeys?: SigningKey[];
-    readonly systemData?: SystemData;
     zoneType?: ZoneType;
 }
 
 // @public
-export interface ZoneListResult {
-    readonly nextLink?: string;
-    value?: Zone[];
-}
-
-// @public
-export interface Zones {
-    beginDelete(resourceGroupName: string, zoneName: string, options?: ZonesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, zoneName: string, options?: ZonesDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, zoneName: string, parameters: Zone, options?: ZonesCreateOrUpdateOptionalParams): Promise<ZonesCreateOrUpdateResponse>;
-    get(resourceGroupName: string, zoneName: string, options?: ZonesGetOptionalParams): Promise<ZonesGetResponse>;
-    list(options?: ZonesListOptionalParams): PagedAsyncIterableIterator<Zone>;
-    listByResourceGroup(resourceGroupName: string, options?: ZonesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Zone>;
-    update(resourceGroupName: string, zoneName: string, parameters: ZoneUpdate, options?: ZonesUpdateOptionalParams): Promise<ZonesUpdateResponse>;
-}
-
-// @public
-export interface ZonesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ZonesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
     ifNoneMatch?: string;
 }
 
 // @public
-export type ZonesCreateOrUpdateResponse = Zone;
-
-// @public
-export interface ZonesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface ZonesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ZonesDeleteOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ZonesGetOptionalParams extends coreClient.OperationOptions {
+export interface ZonesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ZonesGetResponse = Zone;
-
-// @public
-export interface ZonesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ZonesListByResourceGroupNextResponse = ZoneListResult;
-
-// @public
-export interface ZonesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ZonesListByResourceGroupOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type ZonesListByResourceGroupResponse = ZoneListResult;
-
-// @public
-export interface ZonesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ZonesListNextResponse = ZoneListResult;
-
-// @public
-export interface ZonesListOptionalParams extends coreClient.OperationOptions {
+export interface ZonesListOptionalParams extends OperationOptions {
     top?: number;
 }
 
 // @public
-export type ZonesListResponse = ZoneListResult;
+export interface ZonesOperations {
+    createOrUpdate: (resourceGroupName: string, zoneName: string, parameters: Zone, options?: ZonesCreateOrUpdateOptionalParams) => Promise<Zone>;
+    delete: (resourceGroupName: string, zoneName: string, options?: ZonesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, zoneName: string, options?: ZonesGetOptionalParams) => Promise<Zone>;
+    list: (options?: ZonesListOptionalParams) => PagedAsyncIterableIterator<Zone>;
+    listByResourceGroup: (resourceGroupName: string, options?: ZonesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Zone>;
+    update: (resourceGroupName: string, zoneName: string, parameters: ZoneUpdate, options?: ZonesUpdateOptionalParams) => Promise<Zone>;
+}
 
 // @public
-export interface ZonesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ZonesUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
-
-// @public
-export type ZonesUpdateResponse = Zone;
 
 // @public
 export type ZoneType = "Public" | "Private";
 
 // @public
 export interface ZoneUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)
