@@ -21,33 +21,33 @@ import {
 import { createLroSpec } from "../lroImpl.js";
 import {
   DiskAccess,
-  DiskAccessesListByResourceGroupNextOptionalParams,
-  DiskAccessesListByResourceGroupOptionalParams,
-  DiskAccessesListByResourceGroupResponse,
   DiskAccessesListNextOptionalParams,
   DiskAccessesListOptionalParams,
   DiskAccessesListResponse,
+  DiskAccessesListByResourceGroupNextOptionalParams,
+  DiskAccessesListByResourceGroupOptionalParams,
+  DiskAccessesListByResourceGroupResponse,
   PrivateEndpointConnection,
   DiskAccessesListPrivateEndpointConnectionsNextOptionalParams,
   DiskAccessesListPrivateEndpointConnectionsOptionalParams,
   DiskAccessesListPrivateEndpointConnectionsResponse,
+  DiskAccessesGetOptionalParams,
+  DiskAccessesGetResponse,
   DiskAccessesCreateOrUpdateOptionalParams,
   DiskAccessesCreateOrUpdateResponse,
   DiskAccessUpdate,
   DiskAccessesUpdateOptionalParams,
   DiskAccessesUpdateResponse,
-  DiskAccessesGetOptionalParams,
-  DiskAccessesGetResponse,
   DiskAccessesDeleteOptionalParams,
-  DiskAccessesGetPrivateLinkResourcesOptionalParams,
-  DiskAccessesGetPrivateLinkResourcesResponse,
-  DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
-  DiskAccessesUpdateAPrivateEndpointConnectionResponse,
   DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
   DiskAccessesGetAPrivateEndpointConnectionResponse,
+  DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
+  DiskAccessesUpdateAPrivateEndpointConnectionResponse,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
-  DiskAccessesListByResourceGroupNextResponse,
+  DiskAccessesGetPrivateLinkResourcesOptionalParams,
+  DiskAccessesGetPrivateLinkResourcesResponse,
   DiskAccessesListNextResponse,
+  DiskAccessesListByResourceGroupNextResponse,
   DiskAccessesListPrivateEndpointConnectionsNextResponse,
 } from "../models/index.js";
 
@@ -65,8 +65,62 @@ export class DiskAccessesImpl implements DiskAccesses {
   }
 
   /**
+   * Lists all the disk access resources under a subscription.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: DiskAccessesListOptionalParams,
+  ): PagedAsyncIterableIterator<DiskAccess> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    options?: DiskAccessesListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DiskAccess[]> {
+    let result: DiskAccessesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: DiskAccessesListOptionalParams,
+  ): AsyncIterableIterator<DiskAccess> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Lists all the disk access resources under a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -134,62 +188,8 @@ export class DiskAccessesImpl implements DiskAccesses {
   }
 
   /**
-   * Lists all the disk access resources under a subscription.
-   * @param options The options parameters.
-   */
-  public list(
-    options?: DiskAccessesListOptionalParams,
-  ): PagedAsyncIterableIterator<DiskAccess> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    options?: DiskAccessesListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<DiskAccess[]> {
-    let result: DiskAccessesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: DiskAccessesListOptionalParams,
-  ): AsyncIterableIterator<DiskAccess> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * List information about private endpoint connections under a disk access resource
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -274,8 +274,52 @@ export class DiskAccessesImpl implements DiskAccesses {
   }
 
   /**
+   * Lists all the disk access resources under a subscription.
+   * @param options The options parameters.
+   */
+  private _list(
+    options?: DiskAccessesListOptionalParams,
+  ): Promise<DiskAccessesListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Lists all the disk access resources under a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: DiskAccessesListByResourceGroupOptionalParams,
+  ): Promise<DiskAccessesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Gets information about a disk access resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
+   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: DiskAccessesGetOptionalParams,
+  ): Promise<DiskAccessesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, diskAccessName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Creates or updates a disk access resource
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -342,6 +386,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -349,7 +394,7 @@ export class DiskAccessesImpl implements DiskAccesses {
 
   /**
    * Creates or updates a disk access resource
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -373,7 +418,7 @@ export class DiskAccessesImpl implements DiskAccesses {
 
   /**
    * Updates (patches) a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -440,6 +485,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -447,7 +493,7 @@ export class DiskAccessesImpl implements DiskAccesses {
 
   /**
    * Updates (patches) a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -470,27 +516,8 @@ export class DiskAccessesImpl implements DiskAccesses {
   }
 
   /**
-   * Gets information about a disk access resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
-   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9, _ and -. The maximum name length is 80 characters.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    diskAccessName: string,
-    options?: DiskAccessesGetOptionalParams,
-  ): Promise<DiskAccessesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, diskAccessName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Deletes a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -547,6 +574,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -554,7 +582,7 @@ export class DiskAccessesImpl implements DiskAccesses {
 
   /**
    * Deletes a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -574,53 +602,54 @@ export class DiskAccessesImpl implements DiskAccesses {
   }
 
   /**
-   * Lists all the disk access resources under a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: DiskAccessesListByResourceGroupOptionalParams,
-  ): Promise<DiskAccessesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all the disk access resources under a subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: DiskAccessesListOptionalParams,
-  ): Promise<DiskAccessesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Gets the private link resources possible under disk access resource
-   * @param resourceGroupName The name of the resource group.
+   * List information about private endpoint connections under a disk access resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param options The options parameters.
    */
-  getPrivateLinkResources(
+  private _listPrivateEndpointConnections(
     resourceGroupName: string,
     diskAccessName: string,
-    options?: DiskAccessesGetPrivateLinkResourcesOptionalParams,
-  ): Promise<DiskAccessesGetPrivateLinkResourcesResponse> {
+    options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams,
+  ): Promise<DiskAccessesListPrivateEndpointConnectionsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, diskAccessName, options },
-      getPrivateLinkResourcesOperationSpec,
+      listPrivateEndpointConnectionsOperationSpec,
+    );
+  }
+
+  /**
+   * Gets information about a private endpoint connection under a disk access resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
+   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param options The options parameters.
+   */
+  getAPrivateEndpointConnection(
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    options?: DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
+  ): Promise<DiskAccessesGetAPrivateEndpointConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        diskAccessName,
+        privateEndpointConnectionName,
+        options,
+      },
+      getAPrivateEndpointConnectionOperationSpec,
     );
   }
 
   /**
    * Approve or reject a private endpoint connection under disk access resource, this can't be used to
    * create a new private endpoint connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -696,6 +725,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -704,7 +734,7 @@ export class DiskAccessesImpl implements DiskAccesses {
   /**
    * Approve or reject a private endpoint connection under disk access resource, this can't be used to
    * create a new private endpoint connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -731,34 +761,8 @@ export class DiskAccessesImpl implements DiskAccesses {
   }
 
   /**
-   * Gets information about a private endpoint connection under a disk access resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
-   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9, _ and -. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param options The options parameters.
-   */
-  getAPrivateEndpointConnection(
-    resourceGroupName: string,
-    diskAccessName: string,
-    privateEndpointConnectionName: string,
-    options?: DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
-  ): Promise<DiskAccessesGetAPrivateEndpointConnectionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        diskAccessName,
-        privateEndpointConnectionName,
-        options,
-      },
-      getAPrivateEndpointConnectionOperationSpec,
-    );
-  }
-
-  /**
    * Deletes a private endpoint connection under a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -822,6 +826,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -829,7 +834,7 @@ export class DiskAccessesImpl implements DiskAccesses {
 
   /**
    * Deletes a private endpoint connection under a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -852,38 +857,21 @@ export class DiskAccessesImpl implements DiskAccesses {
   }
 
   /**
-   * List information about private endpoint connections under a disk access resource
-   * @param resourceGroupName The name of the resource group.
+   * Gets the private link resources possible under disk access resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
    * @param options The options parameters.
    */
-  private _listPrivateEndpointConnections(
+  getPrivateLinkResources(
     resourceGroupName: string,
     diskAccessName: string,
-    options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams,
-  ): Promise<DiskAccessesListPrivateEndpointConnectionsResponse> {
+    options?: DiskAccessesGetPrivateLinkResourcesOptionalParams,
+  ): Promise<DiskAccessesGetPrivateLinkResourcesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, diskAccessName, options },
-      listPrivateEndpointConnectionsOperationSpec,
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: DiskAccessesListByResourceGroupNextOptionalParams,
-  ): Promise<DiskAccessesListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
+      getPrivateLinkResourcesOperationSpec,
     );
   }
 
@@ -903,8 +891,25 @@ export class DiskAccessesImpl implements DiskAccesses {
   }
 
   /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: DiskAccessesListByResourceGroupNextOptionalParams,
+  ): Promise<DiskAccessesListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
+    );
+  }
+
+  /**
    * ListPrivateEndpointConnectionsNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -927,6 +932,63 @@ export class DiskAccessesImpl implements DiskAccesses {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskAccesses",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskAccessList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskAccessList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskAccess,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.diskAccessName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
   httpMethod: "PUT",
@@ -991,27 +1053,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskAccess,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.diskAccessName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
   httpMethod: "DELETE",
@@ -1034,48 +1075,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses",
+const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DiskAccessList,
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskAccesses",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskAccessList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateLinkResources",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
   },
   queryParameters: [Parameters.apiVersion1],
@@ -1084,6 +1092,28 @@ const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.diskAccessName,
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1122,28 +1152,6 @@ const updateAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec =
     mediaType: "json",
     serializer,
   };
-const getAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnection,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.diskAccessName,
-    Parameters.privateEndpointConnectionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec =
   {
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
@@ -1168,12 +1176,12 @@ const deleteAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec =
     headerParameters: [Parameters.accept],
     serializer,
   };
-const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections",
+const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privatelinkresources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -1185,26 +1193,6 @@ const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskAccessName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskAccessList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1222,8 +1210,28 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskAccessList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1242,8 +1250,8 @@ const listPrivateEndpointConnectionsNextOperationSpec: coreClient.OperationSpec 
     },
     urlParameters: [
       Parameters.$host,
-      Parameters.subscriptionId,
       Parameters.nextLink,
+      Parameters.subscriptionId,
       Parameters.resourceGroupName,
       Parameters.diskAccessName,
     ],
