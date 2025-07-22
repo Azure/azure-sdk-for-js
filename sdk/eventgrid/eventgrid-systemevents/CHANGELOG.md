@@ -1,10 +1,16 @@
 # Release History
 
+## 1.0.2 (Unreleased)
+
+### Bugs Fixed
+
+- Add types that are missing from public API surface.
+
 ## 1.0.1 (2025-06-27)
 
 ### Bugs Fixed
 
-- correct property name `resourceUri` in `ResourceAction*EventData`.
+- Correct property name `resourceUri` in `ResourceAction*EventData`.
 
 ## 1.0.0 (2025-06-26)
 
