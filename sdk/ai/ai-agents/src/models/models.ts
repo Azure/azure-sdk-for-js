@@ -2178,7 +2178,7 @@ export function threadRunDeserializer(item: any): ThreadRun {
     lastError: !item["last_error"] ? item["last_error"] : runErrorDeserializer(item["last_error"]),
     model: item["model"],
     instructions: item["instructions"],
-    tools: toolDefinitionUnionArrayDeserializer(item["tools"]),
+    tools: !item["tools"] ? [] : toolDefinitionUnionArrayDeserializer(item["tools"]),
     createdAt: new Date(item["created_at"] * 1000),
     expiresAt: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
     startedAt: !item["started_at"] ? item["started_at"] : new Date(item["started_at"] * 1000),
