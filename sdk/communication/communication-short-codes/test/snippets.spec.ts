@@ -82,6 +82,8 @@ describe("snippets", () => {
           optInAnswerFromUser: "JOIN",
           optInConfirmationMessageToUser:
             "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+          optOutAnswerToUser: "Reply STOP to unsubscribe.",
+          helpAnswerToUser: "Reply HELP for help. Msg&Data rates may apply.",
           directionality: "twoWay",
         },
         trafficDetails: {

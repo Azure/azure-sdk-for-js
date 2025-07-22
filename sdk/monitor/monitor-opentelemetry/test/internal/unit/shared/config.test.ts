@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as path from "node:path";
+import path from "node:path";
 
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
