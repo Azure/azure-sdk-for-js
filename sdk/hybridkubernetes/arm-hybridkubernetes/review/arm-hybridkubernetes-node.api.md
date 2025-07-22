@@ -4,11 +4,14 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AadProfile {
@@ -16,6 +19,9 @@ export interface AadProfile {
     enableAzureRbac?: boolean;
     tenantID?: string;
 }
+
+// @public
+export type ActionType = string;
 
 // @public
 export interface AgentError {
@@ -34,15 +40,11 @@ export interface ArcAgentProfile {
     systemComponents?: SystemComponent[];
 }
 
-// @public (undocumented)
+// @public
 export interface ArcAgentryConfigurations {
     feature?: string;
-    protectedSettings?: {
-        [propertyName: string]: string;
-    };
-    settings?: {
-        [propertyName: string]: string;
-    };
+    protectedSettings?: Record<string, string> | null;
+    settings?: Record<string, string> | null;
 }
 
 // @public
@@ -59,30 +61,21 @@ export interface ConnectedCluster extends TrackedResource {
     identity: ConnectedClusterIdentity;
     kind?: ConnectedClusterKind;
     properties: ConnectedClusterProperties;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface ConnectedClusterCreateOrReplaceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConnectedClusterCreateOrReplaceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConnectedClusterCreateOrReplaceResponse = ConnectedCluster;
-
-// @public
-export interface ConnectedClusterDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConnectedClusterDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ConnectedClusterGetOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedClusterGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ConnectedClusterGetResponse = ConnectedCluster;
 
 // @public
 export interface ConnectedClusterIdentity {
@@ -95,65 +88,32 @@ export interface ConnectedClusterIdentity {
 export type ConnectedClusterKind = string;
 
 // @public
-export interface ConnectedClusterList {
-    nextLink?: string;
-    value?: ConnectedCluster[];
+export interface ConnectedClusterListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConnectedClusterListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedClusterListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConnectedClusterListByResourceGroupNextResponse = ConnectedClusterList;
-
-// @public
-export interface ConnectedClusterListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedClusterListClusterUserCredentialOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ConnectedClusterListByResourceGroupResponse = ConnectedClusterList;
-
-// @public
-export interface ConnectedClusterListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConnectedClusterListBySubscriptionNextResponse = ConnectedClusterList;
-
-// @public
-export interface ConnectedClusterListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConnectedClusterListBySubscriptionResponse = ConnectedClusterList;
-
-// @public
-export interface ConnectedClusterListClusterUserCredentialOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConnectedClusterListClusterUserCredentialResponse = CredentialResults;
 
 // @public
 export interface ConnectedClusterOperations {
-    beginCreateOrReplace(resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams): Promise<SimplePollerLike<OperationState<ConnectedClusterCreateOrReplaceResponse>, ConnectedClusterCreateOrReplaceResponse>>;
-    beginCreateOrReplaceAndWait(resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams): Promise<ConnectedClusterCreateOrReplaceResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, clusterName: string, options?: ConnectedClusterGetOptionalParams): Promise<ConnectedClusterGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ConnectedClusterListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ConnectedCluster>;
-    listBySubscription(options?: ConnectedClusterListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ConnectedCluster>;
-    listClusterUserCredential(resourceGroupName: string, clusterName: string, properties: ListClusterUserCredentialProperties, options?: ConnectedClusterListClusterUserCredentialOptionalParams): Promise<ConnectedClusterListClusterUserCredentialResponse>;
-    update(resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClusterUpdateOptionalParams): Promise<ConnectedClusterUpdateResponse>;
+    createOrReplace: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClusterCreateOrReplaceOptionalParams) => PollerLike<OperationState<ConnectedCluster>, ConnectedCluster>;
+    delete: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, clusterName: string, options?: ConnectedClusterGetOptionalParams) => Promise<ConnectedCluster>;
+    listByResourceGroup: (resourceGroupName: string, options?: ConnectedClusterListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ConnectedCluster>;
+    listBySubscription: (options?: ConnectedClusterListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ConnectedCluster>;
+    listClusterUserCredential: (resourceGroupName: string, clusterName: string, properties: ListClusterUserCredentialProperties, options?: ConnectedClusterListClusterUserCredentialOptionalParams) => Promise<CredentialResults>;
+    update: (resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClusterUpdateOptionalParams) => Promise<ConnectedCluster>;
 }
 
 // @public
 export interface ConnectedClusterPatch {
     properties?: ConnectedClusterPatchProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -169,19 +129,17 @@ export interface ConnectedClusterProperties {
     agentPublicKeyCertificate: string;
     readonly agentVersion?: string;
     arcAgentProfile?: ArcAgentProfile;
-    arcAgentryConfigurations?: ArcAgentryConfigurations[];
+    arcAgentryConfigurations?: ArcAgentryConfigurations[] | null;
     azureHybridBenefit?: AzureHybridBenefit;
     readonly connectivityStatus?: ConnectivityStatus;
     distribution?: string;
     distributionVersion?: string;
-    gateway?: Gateway;
+    gateway?: Gateway | null;
     infrastructure?: string;
     readonly kubernetesVersion?: string;
     readonly lastConnectivityTime?: Date;
     readonly managedIdentityCertificateExpirationTime?: Date;
-    readonly miscellaneousProperties?: {
-        [propertyName: string]: string;
-    };
+    readonly miscellaneousProperties?: Record<string, string>;
     readonly offering?: string;
     oidcIssuerProfile?: OidcIssuerProfile;
     privateLinkScopeResourceId?: string;
@@ -193,37 +151,16 @@ export interface ConnectedClusterProperties {
 }
 
 // @public
-export interface ConnectedClusterUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConnectedClusterUpdateResponse = ConnectedCluster;
-
-// @public (undocumented)
-export class ConnectedKubernetesClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ConnectedKubernetesClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: ConnectedKubernetesClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    connectedClusterOperations: ConnectedClusterOperations;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId?: string;
-}
-
-// @public
-export interface ConnectedKubernetesClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
+export interface ConnectedClusterUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
 export type ConnectivityStatus = string;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -242,7 +179,7 @@ export interface CredentialResults {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -260,14 +197,11 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
-// @public (undocumented)
+// @public
 export interface Gateway {
     enabled?: boolean;
     resourceId?: string;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HybridConnectionConfig {
@@ -280,36 +214,55 @@ export interface HybridConnectionConfig {
 }
 
 // @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
 export enum KnownAuthenticationMethod {
+    // (undocumented)
     AAD = "AAD",
+    // (undocumented)
     Token = "Token"
 }
 
 // @public
 export enum KnownAutoUpgradeOptions {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownAzureHybridBenefit {
+    // (undocumented)
     False = "False",
+    // (undocumented)
     NotApplicable = "NotApplicable",
+    // (undocumented)
     True = "True"
 }
 
 // @public
 export enum KnownConnectedClusterKind {
+    // (undocumented)
     AWS = "AWS",
+    // (undocumented)
     ProvisionedCluster = "ProvisionedCluster"
 }
 
 // @public
 export enum KnownConnectivityStatus {
+    // (undocumented)
     AgentNotInstalled = "AgentNotInstalled",
+    // (undocumented)
     Connected = "Connected",
+    // (undocumented)
     Connecting = "Connecting",
+    // (undocumented)
     Expired = "Expired",
+    // (undocumented)
     Offline = "Offline"
 }
 
@@ -322,34 +275,57 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownLastModifiedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
 export enum KnownPrivateLinkState {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownProvisioningState {
+    // (undocumented)
     Accepted = "Accepted",
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Provisioning = "Provisioning",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
-export type LastModifiedByType = string;
+export enum KnownVersions {
+    V20241201Preview = "2024-12-01-preview"
+}
 
 // @public (undocumented)
+export class KubernetesClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: KubernetesClientOptionalParams);
+    readonly connectedCluster: ConnectedClusterOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface KubernetesClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface ListClusterUserCredentialProperties {
     authenticationMethod: AuthenticationMethod;
     clientProxy: boolean;
@@ -364,42 +340,44 @@ export interface OidcIssuerProfile {
 
 // @public
 export interface Operation {
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
 export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
-export interface OperationList {
-    nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsGetOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    get: (options?: OperationsGetOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsGetNextOptionalParams extends coreClient.OperationOptions {
+export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsGetNextResponse = OperationList;
-
-// @public
-export interface OperationsGetOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
-
-// @public
-export type OperationsGetResponse = OperationList;
 
 // @public
 export type PrivateLinkState = string;
@@ -411,11 +389,22 @@ export type ProvisioningState = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export type ResourceIdentityType = "None" | "SystemAssigned";
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KubernetesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface SecurityProfile {
@@ -442,15 +431,13 @@ export interface SystemData {
     createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: LastModifiedByType;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)
