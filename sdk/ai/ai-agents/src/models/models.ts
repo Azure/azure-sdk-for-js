@@ -1814,7 +1814,11 @@ export type MessageRole = "user" | "assistant";
 export type MessageInputContent = string | MessageInputContentBlockUnion[];
 
 export function messageInputContentSerializer(item: MessageInputContent): any {
-  return item;
+  if (typeof item === "string") {
+    return item;
+  }
+
+  return messageInputContentBlockUnionArraySerializer(item);
 }
 
 export function messageInputContentBlockUnionArraySerializer(
