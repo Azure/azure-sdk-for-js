@@ -1012,13 +1012,13 @@ describe("spanUtils.ts", () => {
           SpanKind.CLIENT,
           "parentSpanId",
         );
-        span.setAttributes(ATTR_HTTP_RESPONSE_STATUS_CODE, 404)
+        span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 })
         span.setStatus({
           code: SpanStatusCode.UNSET,
         });
         span.end();
         const envelope = readableSpanToEnvelope(span, "ikey");
-        assert.strictEqual(envelope.data!.baseData!.success, false)
+        assert.strictEqual(envelope.data!.baseData!.success, false);
       });
       it("Request Envelope should not override user set SpanStatus", () => {
         const span = new Span(
@@ -1029,13 +1029,13 @@ describe("spanUtils.ts", () => {
           SpanKind.CLIENT,
           "parentSpanId",
         );
-        span.setAttributes(ATTR_HTTP_RESPONSE_STATUS_CODE, 404)
+        span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 })
         span.setStatus({
           code: SpanStatusCode.OK,
         });
         span.end();
         const envelope = readableSpanToEnvelope(span, "ikey");
-        assert.strictEqual(envelope.data!.baseData!.success, true)
+        assert.strictEqual(envelope.data!.baseData!.success, true);
       });
     });
 
