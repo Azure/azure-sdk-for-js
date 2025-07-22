@@ -22,10 +22,13 @@ export interface AzureDeveloperDevCenterClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  { apiVersion = "2023-04-01", ...options }: AzureDeveloperDevCenterClientOptions = {},
+  {
+    apiVersion = "2025-07-01-preview",
+    ...options
+  }: AzureDeveloperDevCenterClientOptions = {},
 ): AzureDeveloperDevCenterClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.2`;
+  const userAgentInfo = `azsdk-js-@azure-rest/developer-devcenter/2.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -39,10 +42,16 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://devcenter.azure.com/.default"],
+      scopes: options.credentials?.scopes ?? [
+        "https://devcenter.azure.com/.default",
+      ],
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as AzureDeveloperDevCenterClient;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as AzureDeveloperDevCenterClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
