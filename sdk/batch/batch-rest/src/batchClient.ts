@@ -27,7 +27,7 @@ export default function createClient(
   { apiVersion = "2024-07-01.20.0", ...options }: BatchClientOptions = {},
 ): BatchClient {
   const endpointUrl = options.endpoint ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-batch-rest/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-batch-rest/1.0.0-beta.4`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
