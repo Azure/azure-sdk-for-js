@@ -3,10 +3,13 @@
 
 import type {
   ToolDefinitionUnion,
+  ToolResources,
   AgentsResponseFormatOption,
   ThreadMessageOptions,
   TruncationObject,
   AgentsToolChoiceOption,
+  ToolOutput,
+  ToolApproval,
   ListSortOrder,
   RunAdditionalFieldList,
 } from "../../models/models.js";
@@ -18,6 +21,10 @@ export interface RunsCancelRunOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface RunsSubmitToolOutputsToRunOptionalParams extends OperationOptions {
+  /** A list of tools for which the outputs are being submitted */
+  toolOutputs?: ToolOutput[];
+  /** A list of tool approvals allowing data to be sent to tools. */
+  toolApprovals?: ToolApproval[];
   /** If true, returns a stream of events that happen during the Run as SSE, terminating at `[DONE]`. */
   stream?: boolean | null;
 }
@@ -64,6 +71,8 @@ export interface RunsCreateRunOptionalParams extends OperationOptions, PollingOp
   additionalMessages?: ThreadMessageOptions[] | null;
   /** The overridden list of enabled tools that the agent should use to run the thread. */
   tools?: ToolDefinitionUnion[] | null;
+  /** The overridden enabled tool resources that the agent should use to run the thread. */
+  toolResources?: ToolResources | null;
   /**
    * If `true`, returns a stream of events that happen during the Run as server-sent events,
    * terminating when the Run enters a terminal state with a `data: [DONE]` message.
