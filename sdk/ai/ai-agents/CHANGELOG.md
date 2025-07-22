@@ -1,5 +1,18 @@
 # Release History
 
+## 1.1.0-beta.1 (2025-07-21)
+
+### Features Added
+
+- Add MCP tool
+- Add Deep Research tool
+- Add Deep Research sample
+- Add back agent tool `SharepointGroundingTool`, `BingCustomSearchTool`, `MicrosoftFabricTool`, `SharepointTool`
+
+### Breaking changes
+
+- The `DeepResearchDetails` type has been updated: the field `deepResearchBingGroundingConnections` has been renamed to `bingGroundingConnections` and the field `deepResearchModel` has been renamed to `model`.
+
 ## 1.0.0 (2025-06-29)
 
 - First stable release of Azure AI Agents client library

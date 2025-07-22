@@ -31,7 +31,7 @@ import {
   PermissionMode,
 } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { endpoint } from "../common/_testConfig.js";
+import { endpoint, skipTestForSignOff } from "../common/_testConfig.js";
 import {
   compareMetadata,
   MockKeyVaultEncryptionKeyResolver,
@@ -1410,7 +1410,7 @@ describe("ClientSideEncryption", () => {
     verifyExpectedDocResponse(testDoc1, response.result[0]);
   });
 
-  it("encryption change feed with allVersionsAndDeletes", async () => {
+  it.skipIf(skipTestForSignOff)("encryption change feed with allVersionsAndDeletes", async () => {
     const newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
@@ -2873,7 +2873,7 @@ describe("ClientSideEncryption", () => {
     verifyDiagnostics(replaceResponse.diagnostics, true, true, 14, 12);
   });
 
-  it("encryption delete all items in a partition key", async () => {
+  it.skipIf(skipTestForSignOff)("encryption delete all items in a partition key", async () => {
     const testDoc1 = new TestDoc((await testCreateItem(encryptionContainer, "pk1")).resource);
     const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer, "pk2")).resource);
     const testDoc3 = new TestDoc((await testCreateItem(encryptionContainer, "pk1")).resource);

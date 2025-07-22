@@ -27,6 +27,7 @@ Use the AI Agents client library to:
       - [File Search](#create-agent-with-file-search)
       - [Code interpreter](#create-agent-with-code-interpreter)
       - [Bing grounding](#create-agent-with-bing-grounding)
+      - [Deep research](#create-agent-with-deep-research)
       - [Azure AI Search](#create-agent-with-azure-ai-search)
       - [Function call](#create-agent-with-function-call)
     - [Create thread](#create-thread) with
@@ -143,6 +144,34 @@ const agent = await client.createAgent("gpt-4o", {
 console.log(`Created agent, agent ID: ${agent.id}`);
 ```
 
+#### Multiple Agents
+You can create multiple Agents with different tools and then connect them together.
+
+```ts snippet:MultiAgents
+import { ToolUtility } from "@azure/ai-agents";
+
+const connectedAgentName = "stock_price_bot";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const stockAgent = await client.createAgent(modelDeploymentName, {
+  name: "stock-price-agent",
+  instructions:
+    "Your job is to get the stock price of a company. If you don't know the realtime stock price, return the last known stock price.",
+});
+// Initialize Connected Agent tool with the agent id, name, and description
+const connectedAgentTool = ToolUtility.createConnectedAgentTool(
+  stockAgent.id,
+  connectedAgentName,
+  "Gets the stock price of a company",
+);
+// Create agent with the Connected Agent tool and process assistant run
+const agent = await client.createAgent(modelDeploymentName, {
+  name: "my-agent",
+  instructions: "You are a helpful assistant, and use the connected agent to get stock prices.",
+  tools: [connectedAgentTool.definition],
+});
+console.log(`Created agent, agent ID: ${agent.id}`);
+```
+
 #### Create Agent with File Search
 
 To perform file search by an Agent, we first need to upload a file, create a vector store, and associate the file to the vector store. Here is an example:
@@ -223,6 +252,80 @@ const agent = await client.createAgent("gpt-4o", {
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
 ```
+#### Create Agent with Deep Research
+
+To enable your Agent to do a detailed research of a topic, use the `DeepResearchTool` along with a connection to a Bing Grounding resource.
+This scenario requires you to specify two model deployments. One is the generic chat model that does arbitration, and is
+specified as usual when you call the `createAgent` method. The other is the Deep Research model, which is specified
+when you define the `DeepResearchTool`.
+
+Here is an example to integrate Deep ReSearch:
+
+```ts snippet:DeepResearch
+import { DeepResearchToolDefinition } from "@azure/ai-agents";
+
+const bingConnectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
+const deepResearchModelDeploymentName =
+  process.env["DEEP_RESEARCH_MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+// Create Deep Research tool definition
+const deepResearchTool: DeepResearchToolDefinition = {
+  type: "deep_research",
+  deepResearch: {
+    deepResearchModel: deepResearchModelDeploymentName,
+    deepResearchBingGroundingConnections: [
+      {
+        connectionId: bingConnectionId,
+      },
+    ],
+  },
+};
+// Create agent with the Deep Research tool
+const agent = await client.createAgent(modelDeploymentName, {
+  name: "my-agent",
+  instructions: "You are a helpful Agent that assists in researching scientific topics.",
+  tools: [deepResearchTool],
+});
+console.log(`Created agent, ID: ${agent.id}`);
+```
+
+#### Create Agent with MCP tool
+
+To enable your Agent to use the MCP tool, you can create an instance of the MCP tool and pass it to the agent during creation.
+Here is an example to integrate MCP tool:
+
+```ts snippet:MCPTool
+import { AgentsClient, ToolUtility } from "@azure/ai-agents";
+import { DefaultAzureCredential } from "@azure/identity";
+
+// Get MCP server configuration from environment variables
+const mcpServerUrl =
+  process.env["MCP_SERVER_URL"] || "https://gitmcp.io/Azure/azure-rest-api-specs";
+const mcpServerLabel = process.env["MCP_SERVER_LABEL"] || "github";
+// Create an Azure AI Client
+const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
+// Initialize agent MCP tool
+const mcpTool = ToolUtility.createMCPTool({
+  serverLabel: mcpServerLabel,
+  serverUrl: mcpServerUrl,
+  allowedTools: [], // Optional: specify allowed tools
+});
+// You can also add or remove allowed tools dynamically
+const searchApiCode = "search_azure_rest_api_code";
+mcpTool.allowTool(searchApiCode);
+console.log(`Allowed tools: ${mcpTool.allowedTools}`);
+// Create agent with MCP tool
+const agent = await client.createAgent(modelDeploymentName, {
+  name: "my-mcp-agent",
+  instructions:
+    "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
+  tools: mcpTool.definitions,
+});
+console.log(`Created agent, agent ID : ${agent.id}`);
+```
+
+
+
 
 #### Create Agent with Azure AI Search
 

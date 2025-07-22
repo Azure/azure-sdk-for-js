@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
+import { TraceFlags, trace } from "@opentelemetry/api";
 import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorSampleRate } from "./utils/constants/applicationinsights.js";
@@ -12,7 +13,7 @@ import { AzureMonitorSampleRate } from "./utils/constants/applicationinsights.js
  * @param samplingRatio - 0 to 1 value.
  */
 export class ApplicationInsightsSampler implements Sampler {
-  private readonly _sampleRate: number;
+  private _sampleRate: number;
   private readonly samplingRatio: number;
 
   /**
@@ -42,7 +43,6 @@ export class ApplicationInsightsSampler implements Sampler {
    * @returns a {@link SamplingResult}.
    */
   public shouldSample(
-    // @ts-expect-error unused argument
     context: Context,
     traceId: string,
     // @ts-expect-error unused argument
@@ -54,20 +54,39 @@ export class ApplicationInsightsSampler implements Sampler {
     links: Link[],
   ): SamplingResult {
     let isSampledIn = false;
-    if (this._sampleRate === 100) {
-      isSampledIn = true;
-    } else if (this._sampleRate === 0) {
-      isSampledIn = false;
-    } else {
-      isSampledIn = this._getSamplingHashCode(traceId) < this._sampleRate;
-    }
-    // Add sample rate as span attribute
     attributes = attributes || {};
 
+    // Try to get the parent sampling result first
+    const parentSpan = trace.getSpan(context);
+    const parentSpanContext = parentSpan?.spanContext();
+
+    if (
+      parentSpanContext &&
+      trace.isSpanContextValid(parentSpanContext) &&
+      !parentSpanContext.isRemote
+    ) {
+      // If the parent span is valid and not remote, we can use its sample rate
+      const parentSampleRate = Number((parentSpan as any).attributes?.[AzureMonitorSampleRate]);
+      if (!isNaN(parentSampleRate)) {
+        this._sampleRate = parentSampleRate;
+      }
+      isSampledIn = (parentSpanContext.traceFlags & TraceFlags.SAMPLED) === TraceFlags.SAMPLED;
+    } else {
+      // If no parent sampling result, we use the local sampling logic
+      if (this._sampleRate === 100) {
+        isSampledIn = true;
+      } else if (this._sampleRate === 0) {
+        isSampledIn = false;
+      } else {
+        isSampledIn = this._getSamplingHashCode(traceId) < this._sampleRate;
+      }
+    }
     // Only send the sample rate if it's not 100
     if (this._sampleRate !== 100) {
+      // Add sample rate as span attribute
       attributes[AzureMonitorSampleRate] = this._sampleRate;
     }
+
     return isSampledIn
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };
