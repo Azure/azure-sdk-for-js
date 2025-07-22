@@ -1,5 +1,11 @@
 # Release History
 
+## 1.6.1 (2025-07-23)
+
+### Other Changes
+
+- Include TeamsExtensionUserIdentifierModel and PhoneNumberIdentifierModel.
+
 ## 1.6.0 (2025-06-23)
 
 ### Features Added
