@@ -12,6 +12,9 @@ import { isPlaybackMode } from "@azure-tools/test-recorder";
 // Global constant for the sanitized base URL used in test recordings
 const SANITIZED_BASE_URL = "https://Sanitized.com";
 
+// Default API version for use in test recordings and URL fixes
+const DEFAULT_API_VERSION = "2025-04-01";
+
 /**
  * Policy to fix Operation-Location headers and URLs that get incorrectly sanitized during test playback.
  * This policy handles various Long Running Operation (LRO) scenarios across Azure Communication Services.
@@ -21,14 +24,14 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
     name: "OperationLocationFixPolicy",
     sendRequest: async (request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> => {
       // Extract API version from the current request URL to use consistently
-      const getApiVersion = (url: string): string => {
+      function getApiVersion(url: string): string {
         try {
           const urlObj = new URL(url);
-          return urlObj.searchParams.get("api-version") || "2025-04-01";
+          return urlObj.searchParams.get("api-version") || DEFAULT_API_VERSION;
         } catch {
-          return "2025-04-01";
+          return DEFAULT_API_VERSION;
         }
-      };
+      }
 
       // Fix broken request URLs before they're sent (only during playback)
       if (isPlaybackMode() && request.url) {
@@ -72,7 +75,7 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
 
       // Fix response headers (only during playback)
       if (isPlaybackMode() && response.headers) {
-        const apiVersion = request.url ? getApiVersion(request.url) : "2025-04-01";
+        const apiVersion = request.url ? getApiVersion(request.url) : DEFAULT_API_VERSION;
         const operationLocation =
           response.headers.get("operation-location") || response.headers.get("Operation-Location");
         const operationId = response.headers.get("operation-id");
@@ -89,19 +92,8 @@ export function createOperationLocationFixPolicy(): PipelinePolicy {
           let fixedOperationUrl: string;
 
           if (operationId) {
-            // Use the operation ID to construct the correct URL
-
             // Determine operation type from operation ID pattern
-            if (operationId.startsWith("search_")) {
-              fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/${operationId}?api-version=${apiVersion}`;
-            } else if (operationId.startsWith("purchase_")) {
-              fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/${operationId}?api-version=${apiVersion}`;
-            } else if (operationId.startsWith("release_")) {
-              fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/${operationId}?api-version=${apiVersion}`;
-            } else {
-              // Generic fallback for any other operation type
-              fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/${operationId}?api-version=${apiVersion}`;
-            }
+            fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/${operationId}?api-version=${apiVersion}`;
           } else {
             // Fallback if no operation ID is available
             fixedOperationUrl = `${SANITIZED_BASE_URL}/phoneNumbers/operations/operation_00000000-0000-0000-0000-000000000000?api-version=${apiVersion}`;
