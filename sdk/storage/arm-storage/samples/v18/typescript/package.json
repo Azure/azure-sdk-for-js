@@ -20,7 +20,8 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",

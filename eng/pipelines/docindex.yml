@@ -29,7 +29,7 @@ jobs:
     timeoutInMinutes: 10
     pool:
       name: $(LINUXPOOL)
-      demands: $(LinuxImageDemand)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
 
     steps:
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
@@ -58,7 +58,7 @@ jobs:
     timeoutInMinutes: 90
     pool:
       name: $(LINUXPOOL)
-      demands: $(LinuxImageDemand)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
 
     variables:
       DocRepoLocation: $(Pipeline.Workspace)/docs

@@ -2,16 +2,19 @@
 // Licensed under the MIT License.
 
 import type { ModelInfo } from "./types.js";
+import { APIVersion } from "./utils.js";
 
 // Models that do not support function call
 export const functionCallModelsToSkip = [
   { name: "gpt-35-turbo", version: "0301" },
   { name: "gpt-35-turbo-16k", version: "0613" },
   // functions is not supported in this model. For a list of supported models, refer to https://platform.openai.com/docs/guides/function-calling#models-supporting-function-calling.
+  { name: "o1" },
   { name: "o1-mini" },
   { name: "o1-preview" },
   { name: "gpt-4", version: "vision-preview" },
   { name: "o3", version: "2025-04-16" }, // errata ( 2025-04-24 mikhailsimin@ icm 619050903 )
+  { name: "o4-mini" },
 ];
 
 // Models that don't support 'system' role in messages
@@ -32,10 +35,13 @@ export const toolsModelsToSkip = [
 export const dataSourcesModelsToSkip = [
   { name: "gpt-35-turbo-0613" }, // Unsupported model
   { name: "gpt-4-32k" }, // Managed identity is not enabled
+  { name: "o1" },
   { name: "o1-preview" }, // o-series models are not supported with OYD.
   { name: "o1-mini" },
   { name: "gpt-4", version: "vision-preview" },
-  { name: "o3", version: "2025-04-16" }, // errata ( 2025-04-24 mikhailsimin@ icm 619050903 )
+  { name: "o3", version: "2025-04-16" }, // errata ( 2025-04-24 mikhailsimin@ icm 619050903 ),
+  { name: "o3-mini" },
+  { name: "o4-mini" },
 ];
 
 // TODO: Remove this when "completion_tokens" is consistently returned
@@ -65,4 +71,10 @@ export const visionModelsToSkip: ModelInfo[] = [
   { name: "o1-preview", version: "2024-09-12" },
   { name: "o1", version: "2024-12-17" },
   { name: "o3-mini", version: "2025-01-31" },
+];
+
+export const modelsNotSupportedInGA = [
+  { name: "o1", apiVersion: APIVersion.v2024_10_21 },
+  { name: "o3-mini", apiVersion: APIVersion.v2024_10_21 },
+  { name: "o4-mini" },
 ];

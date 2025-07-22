@@ -61,7 +61,7 @@
     "@azure/logger": "^1.1.4",
     "@azure/schema-registry": "^1.2.0",
     "avsc": "^5.5.1",
-    "lru-cache": "^10.4.3",
+    "lru-cache": "^11.1.0",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -90,7 +90,7 @@
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

@@ -26,15 +26,9 @@ import {
   MuteParticipantsRequest,
   CallConnectionMuteOptionalParams,
   CallConnectionMuteResponse,
-  UnmuteParticipantsRequest,
-  CallConnectionUnmuteOptionalParams,
-  CallConnectionUnmuteResponse,
   CancelAddParticipantRequest,
   CallConnectionCancelAddParticipantOptionalParams,
   CallConnectionCancelAddParticipantResponse,
-  MoveParticipantsRequest,
-  CallConnectionMoveParticipantsOptionalParams,
-  CallConnectionMoveParticipantsResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
 } from "../models/index.js";
@@ -93,7 +87,7 @@ export interface CallConnection {
   /**
    * Add a participant to the call.
    * @param callConnectionId The call connection Id
-   * @param addParticipantRequest The add participants request.
+   * @param addParticipantRequest The request payload for adding participant to the call.
    * @param options The options parameters.
    */
   addParticipant(
@@ -124,17 +118,6 @@ export interface CallConnection {
     options?: CallConnectionMuteOptionalParams,
   ): Promise<CallConnectionMuteResponse>;
   /**
-   * Unmute participants from the call using identifier.
-   * @param callConnectionId The call connection id.
-   * @param unmuteParticipantsRequest The participants to be unmuted from the call.
-   * @param options The options parameters.
-   */
-  unmute(
-    callConnectionId: string,
-    unmuteParticipantsRequest: UnmuteParticipantsRequest,
-    options?: CallConnectionUnmuteOptionalParams,
-  ): Promise<CallConnectionUnmuteResponse>;
-  /**
    * Cancel add participant operation.
    * @param callConnectionId The call connection Id
    * @param cancelAddParticipantRequest Cancellation request.
@@ -145,17 +128,6 @@ export interface CallConnection {
     cancelAddParticipantRequest: CancelAddParticipantRequest,
     options?: CallConnectionCancelAddParticipantOptionalParams,
   ): Promise<CallConnectionCancelAddParticipantResponse>;
-  /**
-   * Add a participant to the call.
-   * @param callConnectionId The call connection Id
-   * @param moveParticipantRequest The move participants request.
-   * @param options The options parameters.
-   */
-  moveParticipants(
-    callConnectionId: string,
-    moveParticipantRequest: MoveParticipantsRequest,
-    options?: CallConnectionMoveParticipantsOptionalParams,
-  ): Promise<CallConnectionMoveParticipantsResponse>;
   /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id
