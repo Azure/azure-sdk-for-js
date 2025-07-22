@@ -8,8 +8,6 @@ import {
   _createOrUpdateDeserialize,
 } from "./api/dedicatedHsm/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeCloudHsmClusterPrivateEndpointConnections } from "./api/cloudHsmClusterPrivateEndpointConnections/operations.js";
-import { _getDeserialize } from "./api/cloudHsmClusterRestoreStatus/operations.js";
-import { _getDeserialize as _getDeserializeCloudHsmClusterBackupStatus } from "./api/cloudHsmClusterBackupStatus/operations.js";
 import {
   _restoreDeserialize,
   _validateRestorePropertiesDeserialize,
@@ -102,19 +100,12 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}":
     {
       deserializer: _createOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/privateEndpointConnections/{peConnectionName}":
     {
       deserializer: _$deleteDeserializeCloudHsmClusterPrivateEndpointConnections,
       expectedStatuses: ["202", "204", "200"],
-    },
-  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/restoreOperationStatus/{jobId}":
-    { deserializer: _getDeserialize, expectedStatuses: ["200", "202"] },
-  "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/backupOperationStatus/{jobId}":
-    {
-      deserializer: _getDeserializeCloudHsmClusterBackupStatus,
-      expectedStatuses: ["200", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/restore":
     { deserializer: _restoreDeserialize, expectedStatuses: ["202", "200"] },
@@ -143,7 +134,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}":
     {
       deserializer: _createOrUpdateDeserializeCloudHsmClusters,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
 };
 

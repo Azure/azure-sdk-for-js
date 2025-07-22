@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 
 import { AzureDedicatedHSMResourceProviderContext as Client } from "../index.js";
-import { errorResponseDeserializer } from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  BackupResult,
+  backupResultDeserializer,
+} from "../../models/models.js";
 import { CloudHsmClusterBackupStatusGetOptionalParams } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -12,7 +15,6 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getSend(
   context: Client,
@@ -45,7 +47,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<BackupResult> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -53,11 +55,11 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<vo
     throw error;
   }
 
-  return;
+  return backupResultDeserializer(result.body);
 }
 
 /** Gets the backup operation status of the specified Cloud HSM Cluster */
-export function get(
+export async function get(
   context: Client,
   resourceGroupName: string,
   cloudHsmClusterName: string,
@@ -65,12 +67,7 @@ export function get(
   options: CloudHsmClusterBackupStatusGetOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _getDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _getSend(context, resourceGroupName, cloudHsmClusterName, jobId, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+): Promise<BackupResult | null> {
+  const result = await _getSend(context, resourceGroupName, cloudHsmClusterName, jobId, options);
+  return _getDeserialize(result);
 }

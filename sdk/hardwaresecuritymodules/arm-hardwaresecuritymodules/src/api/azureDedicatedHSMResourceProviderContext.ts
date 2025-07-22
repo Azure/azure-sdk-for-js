@@ -28,7 +28,7 @@ export function createAzureDedicatedHSMResourceProvider(
   subscriptionId: string,
   options: AzureDedicatedHSMResourceProviderOptionalParams = {},
 ): AzureDedicatedHSMResourceProviderContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl = options.endpoint ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-hardwaresecuritymodules/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions

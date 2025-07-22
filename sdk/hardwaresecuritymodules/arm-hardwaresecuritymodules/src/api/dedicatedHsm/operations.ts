@@ -359,7 +359,7 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DedicatedHsm> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = dedicatedHsmErrorDeserializer(result.body);
@@ -377,7 +377,7 @@ export function createOrUpdate(
   parameters: DedicatedHsm,
   options: DedicatedHsmCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DedicatedHsm>, DedicatedHsm> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

@@ -1,4 +1,4 @@
-# @azure/arm-hardwaresecuritymodules client library samples for JavaScript
+# @azure/arm-hardwaresecuritymodules client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-hardwaresecuritymodules in some common scenarios.
 
@@ -68,31 +68,31 @@ npx dev-tool run vendored cross-env  node cloudHsmClusterBackupStatusGetSample.j
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[cloudhsmclusterbackupstatusgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClusterBackupStatusGetSample.js
-[cloudhsmclusterprivateendpointconnectionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClusterPrivateEndpointConnectionsCreateSample.js
-[cloudhsmclusterprivateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClusterPrivateEndpointConnectionsDeleteSample.js
-[cloudhsmclusterprivateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClusterPrivateEndpointConnectionsGetSample.js
-[cloudhsmclusterprivatelinkresourceslistbycloudhsmclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClusterPrivateLinkResourcesListByCloudHsmClusterSample.js
-[cloudhsmclusterrestorestatusgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClusterRestoreStatusGetSample.js
-[cloudhsmclustersbackupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClustersBackupSample.js
-[cloudhsmclusterscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClustersCreateOrUpdateSample.js
-[cloudhsmclustersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClustersDeleteSample.js
-[cloudhsmclustersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClustersGetSample.js
-[cloudhsmclusterslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClustersListByResourceGroupSample.js
-[cloudhsmclusterslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClustersListBySubscriptionSample.js
-[cloudhsmclustersrestoresample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClustersRestoreSample.js
-[cloudhsmclustersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClustersUpdateSample.js
-[cloudhsmclustersvalidatebackuppropertiessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClustersValidateBackupPropertiesSample.js
-[cloudhsmclustersvalidaterestorepropertiessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/cloudHsmClustersValidateRestorePropertiesSample.js
-[dedicatedhsmcreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/dedicatedHsmCreateOrUpdateSample.js
-[dedicatedhsmdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/dedicatedHsmDeleteSample.js
-[dedicatedhsmgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/dedicatedHsmGetSample.js
-[dedicatedhsmlistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/dedicatedHsmListByResourceGroupSample.js
-[dedicatedhsmlistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/dedicatedHsmListBySubscriptionSample.js
-[dedicatedhsmlistoutboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/dedicatedHsmListOutboundNetworkDependenciesEndpointsSample.js
-[dedicatedhsmupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/dedicatedHsmUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/operationsListSample.js
-[privateendpointconnectionslistbycloudhsmclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v2/javascript/privateEndpointConnectionsListByCloudHsmClusterSample.js
+[cloudhsmclusterbackupstatusgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClusterBackupStatusGetSample.js
+[cloudhsmclusterprivateendpointconnectionscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClusterPrivateEndpointConnectionsCreateSample.js
+[cloudhsmclusterprivateendpointconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClusterPrivateEndpointConnectionsDeleteSample.js
+[cloudhsmclusterprivateendpointconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClusterPrivateEndpointConnectionsGetSample.js
+[cloudhsmclusterprivatelinkresourceslistbycloudhsmclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClusterPrivateLinkResourcesListByCloudHsmClusterSample.js
+[cloudhsmclusterrestorestatusgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClusterRestoreStatusGetSample.js
+[cloudhsmclustersbackupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClustersBackupSample.js
+[cloudhsmclusterscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClustersCreateOrUpdateSample.js
+[cloudhsmclustersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClustersDeleteSample.js
+[cloudhsmclustersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClustersGetSample.js
+[cloudhsmclusterslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClustersListByResourceGroupSample.js
+[cloudhsmclusterslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClustersListBySubscriptionSample.js
+[cloudhsmclustersrestoresample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClustersRestoreSample.js
+[cloudhsmclustersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClustersUpdateSample.js
+[cloudhsmclustersvalidatebackuppropertiessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClustersValidateBackupPropertiesSample.js
+[cloudhsmclustersvalidaterestorepropertiessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/cloudHsmClustersValidateRestorePropertiesSample.js
+[dedicatedhsmcreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/dedicatedHsmCreateOrUpdateSample.js
+[dedicatedhsmdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/dedicatedHsmDeleteSample.js
+[dedicatedhsmgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/dedicatedHsmGetSample.js
+[dedicatedhsmlistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/dedicatedHsmListByResourceGroupSample.js
+[dedicatedhsmlistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/dedicatedHsmListBySubscriptionSample.js
+[dedicatedhsmlistoutboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/dedicatedHsmListOutboundNetworkDependenciesEndpointsSample.js
+[dedicatedhsmupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/dedicatedHsmUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/operationsListSample.js
+[privateendpointconnectionslistbycloudhsmclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples/v3-beta/javascript/privateEndpointConnectionsListByCloudHsmClusterSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hardwaresecuritymodules?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/README.md

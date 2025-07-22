@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
+import { BackupResult } from "../../models/models.js";
 import { CloudHsmClusterBackupStatusGetOptionalParams } from "../../api/cloudHsmClusterBackupStatus/options.js";
 import { get } from "../../api/cloudHsmClusterBackupStatus/operations.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudHsmClusterBackupStatus operations. */
 export interface CloudHsmClusterBackupStatusOperations {
@@ -14,7 +14,7 @@ export interface CloudHsmClusterBackupStatusOperations {
     cloudHsmClusterName: string,
     jobId: string,
     options?: CloudHsmClusterBackupStatusGetOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => Promise<BackupResult | null>;
 }
 
 function _getCloudHsmClusterBackupStatus(context: AzureDedicatedHSMResourceProviderContext) {

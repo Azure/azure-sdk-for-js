@@ -89,12 +89,11 @@ export interface CloudHsmCluster extends TrackedResource {
 
 // @public
 export interface CloudHsmClusterBackupStatusGetOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
 export interface CloudHsmClusterBackupStatusOperations {
-    get: (resourceGroupName: string, cloudHsmClusterName: string, jobId: string, options?: CloudHsmClusterBackupStatusGetOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, cloudHsmClusterName: string, jobId: string, options?: CloudHsmClusterBackupStatusGetOptionalParams) => Promise<BackupResult | null>;
 }
 
 // @public
@@ -145,12 +144,11 @@ export interface CloudHsmClusterProperties {
 
 // @public
 export interface CloudHsmClusterRestoreStatusGetOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
 export interface CloudHsmClusterRestoreStatusOperations {
-    get: (resourceGroupName: string, cloudHsmClusterName: string, jobId: string, options?: CloudHsmClusterRestoreStatusGetOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, cloudHsmClusterName: string, jobId: string, options?: CloudHsmClusterRestoreStatusGetOptionalParams) => Promise<RestoreResult | null>;
 }
 
 // @public

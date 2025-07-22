@@ -6,16 +6,13 @@
 
 import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
 
 // @public
 export interface CloudHsmClusterRestoreStatusGetOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
-export function get(context: AzureDedicatedHSMResourceProviderContext, resourceGroupName: string, cloudHsmClusterName: string, jobId: string, options?: CloudHsmClusterRestoreStatusGetOptionalParams): PollerLike<OperationState<void>, void>;
+export function get(context: AzureDedicatedHSMResourceProviderContext, resourceGroupName: string, cloudHsmClusterName: string, jobId: string, options?: CloudHsmClusterRestoreStatusGetOptionalParams): Promise<RestoreResult | null>;
 
 // (No @packageDocumentation comment for this package)
 

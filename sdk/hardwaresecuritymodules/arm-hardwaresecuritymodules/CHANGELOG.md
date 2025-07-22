@@ -1,4 +1,12 @@
 # Release History
+
+## 3.0.0-beta.1 (2025-07-22)
+Compared with version 2.0.0
+
+### Breaking Changes
+  - Interface CloudHsmClusterBackupStatusGetOptionalParams no longer has parameter updateIntervalInMs
+  - Interface CloudHsmClusterRestoreStatusGetOptionalParams no longer has parameter updateIntervalInMs
+
     
 ## 2.0.0 (2025-07-04)
     
