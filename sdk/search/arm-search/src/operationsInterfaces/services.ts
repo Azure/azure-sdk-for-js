@@ -66,10 +66,7 @@ export interface Services {
     service: SearchService,
     options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServicesCreateOrUpdateResponse>,
-      ServicesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>
   >;
   /**
    * Creates or updates a search service in the given resource group. If the search service already
@@ -155,12 +152,7 @@ export interface Services {
     resourceGroupName: string,
     searchServiceName: string,
     options?: ServicesUpgradeOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ServicesUpgradeResponse>,
-      ServicesUpgradeResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ServicesUpgradeResponse>, ServicesUpgradeResponse>>;
   /**
    * Upgrades the Azure AI Search service to the latest version available.
    * @param resourceGroupName The name of the resource group within the current subscription. You can

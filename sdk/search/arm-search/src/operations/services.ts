@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SearchManagementClient } from "../searchManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   SearchService,
@@ -78,11 +74,7 @@ export class ServicesImpl implements Services {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -102,11 +94,7 @@ export class ServicesImpl implements Services {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -118,10 +106,7 @@ export class ServicesImpl implements Services {
     resourceGroupName: string,
     options?: ServicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SearchService> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -200,10 +185,7 @@ export class ServicesImpl implements Services {
     service: SearchService,
     options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServicesCreateOrUpdateResponse>,
-      ServicesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -215,8 +197,7 @@ export class ServicesImpl implements Services {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -369,10 +350,7 @@ export class ServicesImpl implements Services {
   private _listBySubscription(
     options?: ServicesListBySubscriptionOptionalParams,
   ): Promise<ServicesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -387,10 +365,7 @@ export class ServicesImpl implements Services {
     name: string,
     options?: ServicesCheckNameAvailabilityOptionalParams,
   ): Promise<ServicesCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { name, options },
-      checkNameAvailabilityOperationSpec,
-    );
+    return this.client.sendOperationRequest({ name, options }, checkNameAvailabilityOperationSpec);
   }
 
   /**
@@ -405,12 +380,7 @@ export class ServicesImpl implements Services {
     resourceGroupName: string,
     searchServiceName: string,
     options?: ServicesUpgradeOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ServicesUpgradeResponse>,
-      ServicesUpgradeResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ServicesUpgradeResponse>, ServicesUpgradeResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -421,8 +391,7 @@ export class ServicesImpl implements Services {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -479,11 +448,7 @@ export class ServicesImpl implements Services {
     searchServiceName: string,
     options?: ServicesUpgradeOptionalParams,
   ): Promise<ServicesUpgradeResponse> {
-    const poller = await this.beginUpgrade(
-      resourceGroupName,
-      searchServiceName,
-      options,
-    );
+    const poller = await this.beginUpgrade(resourceGroupName, searchServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -551,11 +516,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.searchServiceName1,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.clientRequestId,
-    Parameters.contentType,
-  ],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -578,11 +539,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.searchServiceName1,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.clientRequestId,
-    Parameters.contentType,
-  ],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -640,11 +597,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
   serializer,
 };
@@ -681,11 +634,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.clientRequestId,
-    Parameters.contentType,
-  ],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -750,11 +699,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
   serializer,
 };
