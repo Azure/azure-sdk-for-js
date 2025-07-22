@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { describe, it, assert } from "vitest";
 import { binarySearchOnPartitionKeyRanges, hashPartitionKey } from "../../../src/utils/hashing/hash.js";
 import { isKeyInRange } from "../../../src/utils/batch.js";

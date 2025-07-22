@@ -46,26 +46,23 @@ export class PartitionKeyRangeFailoverInfo {
     isReadOnlyRequest: boolean,
     currentTimeInMilliseconds: number,
   ): Promise<void> {
-    try {
-      const { lastRequestFailureTime } = this.snapshotPartitionFailoverTimestamps();
 
-      if (
-        currentTimeInMilliseconds - lastRequestFailureTime >
-        Constants.ConsecutiveFailureCountResetIntervalInMS
-      ) {
-        this.consecutiveReadRequestFailureCount = 0;
-        this.consecutiveWriteRequestFailureCount = 0;
-      }
+    const { lastRequestFailureTime } = this.snapshotPartitionFailoverTimestamps();
 
-      if (isReadOnlyRequest) {
-        this.consecutiveReadRequestFailureCount++;
-      } else {
-        this.consecutiveWriteRequestFailureCount++;
-      }
-      this.lastRequestFailureTime = currentTimeInMilliseconds;
-    } catch (error) {
-      throw error;
+    if (
+      currentTimeInMilliseconds - lastRequestFailureTime >
+      Constants.ConsecutiveFailureCountResetIntervalInMS
+    ) {
+      this.consecutiveReadRequestFailureCount = 0;
+      this.consecutiveWriteRequestFailureCount = 0;
     }
+
+    if (isReadOnlyRequest) {
+      this.consecutiveReadRequestFailureCount++;
+    } else {
+      this.consecutiveWriteRequestFailureCount++;
+    }
+    this.lastRequestFailureTime = currentTimeInMilliseconds;
   }
 
   /**
@@ -98,29 +95,25 @@ export class PartitionKeyRangeFailoverInfo {
       return true;
     }
 
-    try {
-      for (const endpoint of endPoints) {
-        if (this.currentEndPoint === endpoint) {
-          continue;
-        }
-
-        if (this.failedEndPoints.includes(endpoint)) {
-          continue;
-        }
-
-        this.failedEndPoints.push(failedEndPoint);
-        this.currentEndPoint = endpoint;
-        return true;
+    for (const endpoint of endPoints) {
+      if (this.currentEndPoint === endpoint) {
+        continue;
       }
 
-      diagnosticNode.addData({
-        partitionKeyRangeFailoverInfo: `PartitionKeyRangeId: ${partitionKeyRangeId}, failedLocations: ${this.failedEndPoints}, newLocation: ${this.currentEndPoint}`,
-      });
+      if (this.failedEndPoints.includes(endpoint)) {
+        continue;
+      }
 
-      return false;
-    } catch (err) {
-      throw err;
+      this.failedEndPoints.push(failedEndPoint);
+      this.currentEndPoint = endpoint;
+      return true;
     }
+
+    diagnosticNode.addData({
+      partitionKeyRangeFailoverInfo: `PartitionKeyRangeId: ${partitionKeyRangeId}, failedLocations: ${this.failedEndPoints}, newLocation: ${this.currentEndPoint}`,
+    });
+
+    return false;
   }
 
   /** Returns the current endpoint being used for partition key range operations.*/
