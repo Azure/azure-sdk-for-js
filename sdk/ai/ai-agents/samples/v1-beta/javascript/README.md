@@ -25,7 +25,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [agentsImageInputWithBase64.js][agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service. |
 | [agentsImageInputWithFile.js][agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.            |
 | [agentsImageInputWithUrl.js][agentsimageinputwithurl]                         | This sample demonstrates how to use basic agent operations using image url input for the Azure Agents service.             |
-| [agentsMcp.js][agentsmcp]                                                     | demonstrates how to use agent operations with the MCP tool.                                                                |
+| [agentsMCPs.js][agentsmcps]                                                   | demonstrates how to use agent operations with the MCP tool.                                                                |
 | [agentsSharepoint.js][agentssharepoint]                                       | demonstrates how to use agent operations with the Sharepoint tool.                                                         |
 | [agentsWithFunctionTool.js][agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                        |
 | [agentsWithOpenApi.js][agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                             |
@@ -96,7 +96,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [agentsimageinputwithbase64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsImageInputWithBase64.js
 [agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsImageInputWithFile.js
 [agentsimageinputwithurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsImageInputWithUrl.js
-[agentsmcp]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsMcp.js
+[agentsmcps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsMCPs.js
 [agentssharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsSharepoint.js
 [agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsWithFunctionTool.js
 [agentswithopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-agents/samples/v1-beta/javascript/agentsWithOpenApi.js
