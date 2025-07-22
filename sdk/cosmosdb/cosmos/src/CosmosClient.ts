@@ -178,7 +178,7 @@ export class CosmosClient {
       globalEndpointManager,
       clientConfig,
     );
-    
+
     if (
       optionsOrConnectionString.connectionPolicy?.enableEndpointDiscovery &&
       optionsOrConnectionString.connectionPolicy?.enableBackgroundEndpointRefreshing
@@ -194,7 +194,8 @@ export class CosmosClient {
     this.offers = new Offers(this, this.clientContext);
   }
 
-  private initializeClientContext(optionsOrConnectionString: CosmosClientOptions,
+  private initializeClientContext(
+    optionsOrConnectionString: CosmosClientOptions,
     globalEndpointManager: GlobalEndpointManager,
     clientConfig: ClientConfigDiagnostic,
   ): ClientContext {

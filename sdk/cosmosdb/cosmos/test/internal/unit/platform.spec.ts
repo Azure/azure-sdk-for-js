@@ -44,7 +44,7 @@ describe("getUserAgent", () => {
       },
     };
     const userAgent = getUserAgent(options);
-    assert(userAgent.includes(" F3")); 
+    assert(userAgent.includes(" F3"));
   });
 
   it("should correctly handle only partition failover feature flag", () => {
@@ -74,7 +74,7 @@ describe("getUserAgent", () => {
   });
 
   it("should handle missing or undefined userAgentSuffix gracefully", () => {
-    const options: CosmosClientOptions = {}; 
+    const options: CosmosClientOptions = {};
     const userAgent = getUserAgent(options);
     assert(!userAgent.includes("undefined"));
   });

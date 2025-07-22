@@ -2,12 +2,15 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { binarySearchOnPartitionKeyRanges, hashPartitionKey } from "../../../src/utils/hashing/hash.js";
+import {
+  binarySearchOnPartitionKeyRanges,
+  hashPartitionKey,
+} from "../../../src/utils/hashing/hash.js";
 import { isKeyInRange } from "../../../src/utils/batch.js";
 import { PartitionKeyDefinition, PartitionKeyRange } from "../../../src/index.js";
 import { PartitionKeyKind } from "../../../dist/esm/index.js";
 
-const partitionKeyDefinition : PartitionKeyDefinition = {
+const partitionKeyDefinition: PartitionKeyDefinition = {
   paths: ["/name"],
   kind: PartitionKeyKind.MultiHash,
   version: 2,
@@ -63,13 +66,13 @@ describe("PartitionKeyRange Binary Search Test", () => {
 
       const binarySearchResult = binarySearchOnPartitionKeyRanges(partitionKeyRanges, hashedKey);
       const findResult = partitionKeyRanges.find((range) =>
-        isKeyInRange(range.minInclusive, range.maxExclusive, hashedKey)
+        isKeyInRange(range.minInclusive, range.maxExclusive, hashedKey),
       )?.id;
 
       assert.equal(
         binarySearchResult,
         findResult,
-        `Mismatch for key '${pkValue}': binarySearch=${binarySearchResult}, find=${findResult}`
+        `Mismatch for key '${pkValue}': binarySearch=${binarySearchResult}, find=${findResult}`,
       );
     }
   });

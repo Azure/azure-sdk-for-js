@@ -402,8 +402,7 @@ export class GlobalPartitionEndpointManager {
       const partitionFailover = this.partitionKeyRangeToLocationForReadAndWrite.get(pkRange);
       if (!partitionFailover) continue;
 
-      const { firstRequestFailureTime } =
-        partitionFailover.snapshotPartitionFailoverTimestamps();
+      const { firstRequestFailureTime } = partitionFailover.snapshotPartitionFailoverTimestamps();
       const now = new Date();
 
       if (
