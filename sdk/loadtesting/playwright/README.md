@@ -6,25 +6,25 @@ Ready to get started? Jump into our [quickstart guide](#get-started)!
 
 
 ## Useful Links
-- [Quickstart: Run end-to-end tests at scale](https://aka.ms/mpt/quickstart)
-- [Quickstart: Set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/mpt/ci)
-- [Explore features and benefits](https://aka.ms/mpt/about)
-- [Documentation](https://aka.ms/mpt/docs) 
-- [Pricing](https://aka.ms/mpt/pricing)
-- [Share feedback](https://aka.ms/mpt/feedback)
+- [Quickstart: Run end-to-end tests at scale](https://aka.ms/pww/docs/quickstart)
+- [Quickstart: Set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/pww/docs/ci)
+- [Explore features and benefits](https://aka.ms/pww/docs/about)
+- [Documentation](https://aka.ms/pww/docs/docs) 
+- [Pricing](https://aka.ms/pww/docs/pricing)
+- [Share feedback](https://aka.ms/pww/docs/feedback)
 
 ## Get Started
 Follow these steps to run your existing Playwright test suite with the service.
 
 ### Prerequisites
 
-- An Azure account with an active subscription. If you don't have an Azure subscription, [create a free account](https://aka.ms/mpt/create-azure-subscription) before you begin.
+- An Azure account with an active subscription. If you don't have an Azure subscription, [create a free account](https://aka.ms/pww/docs/create-azure-subscription) before you begin.
 - Your Azure account must be assigned the [Owner](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#owner), [Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#contributor), or one of the [classic administrator roles](https://learn.microsoft.com/azure/role-based-access-control/rbac-and-directory-admin-roles#classic-subscription-administrator-roles).
 - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) must be installed in the machine from where you are running Playwright tests. 
 
 ### Create a Workspace
 
-1. Sign in to the [Playwright portal](https://aka.ms/mpt/portal) with your Azure account.
+1. Sign in to the [Playwright portal](https://aka.ms/pww/docs/portal) with your Azure account.
 
 1. Create the Workspace.
 
@@ -57,7 +57,7 @@ The service configuration serves to:
 
 ### Obtain region endpoint
 
-1. In the [Playwright portal](https://aka.ms/mpt/portal), copy the command under **Add region endpoint in your set up**.
+1. In the [Playwright portal](https://aka.ms/pww/docs/portal), copy the command under **Add region endpoint in your set up**.
 
     ![Set workspace endpoint](https://github.com/microsoft/playwright-testing-service/assets/12104064/d81ca629-2b23-4d34-8b70-67b6f7061a83)
 
@@ -103,13 +103,13 @@ az login
 
 You can generate an access token from your Azure Playwright workspace and use it in your setup. However, we strongly recommend Microsoft Entra ID for authentication due to its enhanced security. Access tokens, while convenient, function like long-lived passwords and are more susceptible to being compromised.
 
-1. To use access token based authentication, [Enable access-token based authentication](https://aka.ms/mpt/authentication)
+1. To use access token based authentication, [Enable access-token based authentication](https://aka.ms/pww/docs/authentication)
 
-2. [Set up authentication using access tokens](https://aka.ms/mpt/access-token)
+2. [Set up authentication using access tokens](https://aka.ms/pww/docs/access-token)
 
-> We strongly recommend using Microsoft Entra ID for authentication to the service. If you are using access tokens, see [How to Manage Access Tokens](https://aka.ms/mpt/access-token)
+> We strongly recommend using Microsoft Entra ID for authentication to the service. If you are using access tokens, see [How to Manage Access Tokens](https://aka.ms/pww/docs/access-token)
 
-*NOTE:* To use Azure Playwright in CI pipelines, you need to configure authentication with the service from pipeline, see [set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/mpt/ci)
+*NOTE:* To use Azure Playwright in CI pipelines, you need to configure authentication with the service from pipeline, see [set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/pww/docs/ci)
 
 ### Run the tests
 
@@ -121,11 +121,11 @@ npx playwright test --config=playwright.service.config.ts --workers=20
 
 ## Next steps
 
-- Run tests in a [CI/CD pipeline.](https://aka.ms/mpt/configure-pipeline)
+- Run tests in a [CI/CD pipeline.](https://aka.ms/pww/docs/configure-pipeline)
 
-- Learn how to [manage access](https://aka.ms/mpt/manage-access) to the created workspace.
+- Learn how to [manage access](https://aka.ms/pww/docs/manage-access) to the created workspace.
 
-- Experiment with different number of workers to [determine the optimal configuration of your test suite](https://aka.ms/mpt/parallelism).
+- Experiment with different number of workers to [determine the optimal configuration of your test suite](https://aka.ms/pww/docs/parallelism).
 
 ## Contributing
 
