@@ -161,6 +161,11 @@ export class CosmosClient {
       optionsOrConnectionString.connectionPolicy.enablePartitionLevelFailover ||
       optionsOrConnectionString.connectionPolicy.enablePartitionLevelCircuitBreaker
     ) {
+      if (!optionsOrConnectionString.connectionPolicy.enableEndpointDiscovery) {
+        throw new Error(
+          "enableEndpointDiscovery must be set to true to use partition level failover or circuit breaker.",
+        );
+      }
       this.globalPartitionEndpointManager = new GlobalPartitionEndpointManager(
         optionsOrConnectionString,
         globalEndpointManager,
