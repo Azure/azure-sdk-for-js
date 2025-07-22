@@ -112,6 +112,13 @@ export const CommunicationIdentifierModel: coreClient.CompositeMapper = {
           className: "MicrosoftTeamsAppIdentifierModel",
         },
       },
+      teamsExtensionUser: {
+        serializedName: "teamsExtensionUser",
+        type: {
+          name: "Composite",
+          className: "TeamsExtensionUserIdentifierModel",
+        },
+      },
     },
   },
 };
@@ -140,6 +147,18 @@ export const PhoneNumberIdentifierModel: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         required: true,
+        type: {
+          name: "String",
+        },
+      },
+      isAnonymous: {
+        serializedName: "isAnonymous",
+        type: {
+          name: "Boolean",
+        },
+      },
+      assertedId: {
+        serializedName: "assertedId",
         type: {
           name: "String",
         },
@@ -183,6 +202,42 @@ export const MicrosoftTeamsAppIdentifierModel: coreClient.CompositeMapper = {
     modelProperties: {
       appId: {
         serializedName: "appId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      cloud: {
+        serializedName: "cloud",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TeamsExtensionUserIdentifierModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TeamsExtensionUserIdentifierModel",
+    modelProperties: {
+      userId: {
+        serializedName: "userId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceId: {
+        serializedName: "resourceId",
         required: true,
         type: {
           name: "String",
