@@ -3,6 +3,7 @@
 
 import type {
   HttpClient,
+  PipelineOptions,
   PipelineRequest,
   PipelineResponse,
   RawHttpHeaders,
@@ -11,7 +12,6 @@ import type {
   RawHttpHeadersInput,
 } from "../interfaces.js";
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
-import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
 import type { AuthScheme } from "../auth/schemes.js";
 import type { ClientCredential } from "../auth/credentials.js";

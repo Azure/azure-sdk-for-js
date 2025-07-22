@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNodeLike } from "@azure/core-util";
+import type { File } from "node:buffer";
 
 function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
   return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");
@@ -162,19 +162,15 @@ export function createFile(
   name: string,
   options: CreateFileOptions = {},
 ): File {
-  if (isNodeLike) {
-    return {
-      ...unimplementedMethods,
-      type: options.type ?? "",
-      lastModified: options.lastModified ?? new Date().getTime(),
-      webkitRelativePath: options.webkitRelativePath ?? "",
-      size: content.byteLength,
-      name,
-      arrayBuffer: async () => content.buffer,
-      stream: () => new Blob([content]).stream(),
-      [rawContent]: () => content,
-    } as File & RawContent;
-  } else {
-    return new File([content], name, options);
-  }
+  return {
+    ...unimplementedMethods,
+    type: options.type ?? "",
+    lastModified: options.lastModified ?? new Date().getTime(),
+    webkitRelativePath: options.webkitRelativePath ?? "",
+    size: content.byteLength,
+    name,
+    arrayBuffer: async () => content.buffer,
+    stream: () => new Blob([content]).stream(),
+    [rawContent]: () => content,
+  } as File & RawContent;
 }

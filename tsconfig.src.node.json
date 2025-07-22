@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "composite": true,
+    "noEmit": true
+  },
+  "include": ["${configDir}/src"],
+  "exclude": ["${configDir}/src/**/*-{browser,react-native}.mts"]
+}

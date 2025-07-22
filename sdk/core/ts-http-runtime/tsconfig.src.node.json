@@ -1,0 +1,9 @@
+{
+  "extends": "../../../tsconfig.src.node.json",
+  "exclude": [
+    "src/**/*-browser.mts",
+    "src/**/*-react-native.mts",
+    "src/xhrHttpClient.ts",
+    "src/fetchHttpClient.ts"
+  ]
+}
