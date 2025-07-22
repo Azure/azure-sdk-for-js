@@ -38,10 +38,10 @@ export function _deleteThreadSend(
   options: ThreadsDeleteThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}{?api%2Dversion}",
+    "/threads/{threadId}{?api-version}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,10 +85,10 @@ export function _updateThreadSend(
   options: ThreadsUpdateThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}{?api%2Dversion}",
+    "/threads/{threadId}{?api-version}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,10 +139,10 @@ export function _getThreadSend(
   options: ThreadsGetThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}{?api%2Dversion}",
+    "/threads/{threadId}{?api-version}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -183,9 +183,9 @@ export function _listThreadsSend(
   options: ThreadsListThreadsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads{?api%2Dversion,limit,order,after,before}",
+    "/threads{?api-version,limit,order,after,before}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -236,9 +236,9 @@ export function _createThreadSend(
   options: ThreadsCreateThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads{?api%2Dversion}",
+    "/threads{?api-version}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

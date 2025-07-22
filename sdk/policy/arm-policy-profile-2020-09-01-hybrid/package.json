@@ -82,7 +82,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/policy/arm-policy-profile-2020-09-01-hybrid",
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
