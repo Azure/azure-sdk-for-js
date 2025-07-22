@@ -208,7 +208,7 @@ export class CosmosClient {
       ),
       this.globalPartitionEndpointManager,
     );
-    clientContext.partitionKeyDefinitionCache = new PartitionKeyRangeCache(clientContext);
+    clientContext.partitionKeyRangeCache = new PartitionKeyRangeCache(clientContext);
     return clientContext;
   }
 
