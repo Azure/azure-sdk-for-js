@@ -1,5 +1,12 @@
 # Release History
 
+## 1.1.0-beta.1 (2025-07-23)
+
+### Bugs Fixed
+
+- Fixed issue with `messages.create` method type error when upload image file.
+- Fixed issue with `runs.create` method deserialization of stream event data.
+
 ## 1.1.0-beta.1 (2025-07-21)
 
 ### Features Added
