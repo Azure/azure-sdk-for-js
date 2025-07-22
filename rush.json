@@ -2449,6 +2449,11 @@
       "packageName": "@azure/arm-resourcesdeployments",
       "projectFolder": "sdk/resources/arm-resourcesdeployments",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/azure-appconfiguration",
+      "projectFolder": "sdk/appconfiguration/azure-appconfiguration-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
