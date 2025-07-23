@@ -17,7 +17,7 @@ import { AzureMonitorSampleRate } from "../utils/constants/applicationinsights.j
  * @param input - The input string to hash (usually a trace ID)
  * @returns A number between 0 and 100 representing the hash-based sampling score
  */
-function getSamplingHashCode(input: string): number {
+export function getSamplingHashCode(input: string): number {
   const csharpMin = -2147483648;
   const csharpMax = 2147483647;
   let hash = 5381;
@@ -52,7 +52,12 @@ export function roundDownToNearest(samplingPercentage: number): number {
   return 100.0 / Math.ceil(itemCount);
 }
 
-export function shouldSample(samplePercentage: number, context: Context, traceId: string, attributes: Attributes): boolean {
+export function shouldSample(
+  samplePercentage: number,
+  context: Context,
+  traceId: string,
+  attributes: Attributes,
+): boolean {
   let sampleRate = samplePercentage;
   let isSampled = undefined;
 
@@ -71,8 +76,7 @@ export function shouldSample(samplePercentage: number, context: Context, traceId
     ) {
       if ((parentSpanContext.traceFlags & TraceFlags.SAMPLED) === TraceFlags.SAMPLED) {
         isSampled = true;
-      }
-      else if ((parentSpanContext.traceFlags & TraceFlags.NONE) === TraceFlags.NONE) {
+      } else if ((parentSpanContext.traceFlags & TraceFlags.NONE) === TraceFlags.NONE) {
         isSampled = false;
       }
       // If the parent span is valid and not remote, we can use its sample rate
@@ -93,8 +97,7 @@ export function shouldSample(samplePercentage: number, context: Context, traceId
   if (isSampled === undefined) {
     const samplingHashCode = getSamplingHashCode(traceId);
     return samplingHashCode < sampleRate;
-  }
-  else {
+  } else {
     return isSampled;
   }
 }
