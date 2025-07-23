@@ -8,26 +8,28 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Operations } from "../operationsInterfaces/index.js";
+import { SolutionsDiscoverability } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient.js";
 import {
-  Operation,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse,
+  DataManagerForAgricultureSolution,
+  SolutionsDiscoverabilityListNextOptionalParams,
+  SolutionsDiscoverabilityListOptionalParams,
+  SolutionsDiscoverabilityListResponse,
+  SolutionsDiscoverabilityGetOptionalParams,
+  SolutionsDiscoverabilityGetResponse,
+  SolutionsDiscoverabilityListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing SolutionsDiscoverability operations. */
+export class SolutionsDiscoverabilityImpl implements SolutionsDiscoverability {
   private readonly client: AgriFoodMgmtClient;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class SolutionsDiscoverability class.
    * @param client Reference to the service client
    */
   constructor(client: AgriFoodMgmtClient) {
@@ -35,12 +37,12 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists the available operations of Microsoft.AgFoodPlatform resource provider.
+   * Get list of Data Manager For Agriculture solutions.
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Operation> {
+    options?: SolutionsDiscoverabilityListOptionalParams,
+  ): PagedAsyncIterableIterator<DataManagerForAgricultureSolution> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -59,10 +61,10 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams,
+    options?: SolutionsDiscoverabilityListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Operation[]> {
-    let result: OperationsListResponse;
+  ): AsyncIterableIterator<DataManagerForAgricultureSolution[]> {
+    let result: SolutionsDiscoverabilityListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(options);
@@ -81,21 +83,36 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams,
-  ): AsyncIterableIterator<Operation> {
+    options?: SolutionsDiscoverabilityListOptionalParams,
+  ): AsyncIterableIterator<DataManagerForAgricultureSolution> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists the available operations of Microsoft.AgFoodPlatform resource provider.
+   * Get list of Data Manager For Agriculture solutions.
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
+    options?: SolutionsDiscoverabilityListOptionalParams,
+  ): Promise<SolutionsDiscoverabilityListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Get Data Manager For Agriculture solution by id.
+   * @param dataManagerForAgricultureSolutionId dataManagerForAgricultureSolutionId to be queried.
+   * @param options The options parameters.
+   */
+  get(
+    dataManagerForAgricultureSolutionId: string,
+    options?: SolutionsDiscoverabilityGetOptionalParams,
+  ): Promise<SolutionsDiscoverabilityGetResponse> {
+    return this.client.sendOperationRequest(
+      { dataManagerForAgricultureSolutionId, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -105,8 +122,8 @@ export class OperationsImpl implements Operations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationsListNextOptionalParams,
-  ): Promise<OperationsListNextResponse> {
+    options?: SolutionsDiscoverabilityListNextOptionalParams,
+  ): Promise<SolutionsDiscoverabilityListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec,
@@ -117,18 +134,42 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AgFoodPlatform/operations",
+  path: "/providers/Microsoft.AgFoodPlatform/farmBeatsSolutionDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult,
+      bodyMapper: Mappers.DataManagerForAgricultureSolutionListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.maxPageSize,
+    Parameters.farmBeatsSolutionIds,
+    Parameters.farmBeatsSolutionNames,
+  ],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.AgFoodPlatform/farmBeatsSolutionDefinitions/{dataManagerForAgricultureSolutionId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataManagerForAgricultureSolution,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.dataManagerForAgricultureSolutionId,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -137,7 +178,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult,
+      bodyMapper: Mappers.DataManagerForAgricultureSolutionListResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
