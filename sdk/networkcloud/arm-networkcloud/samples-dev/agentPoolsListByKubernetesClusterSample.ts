@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a list of agent pools for the provided Kubernetes cluster.
  *
  * @summary Get a list of agent pools for the provided Kubernetes cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/AgentPools_ListByKubernetesCluster.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/AgentPools_ListByKubernetesCluster.json
  */
 async function listAgentPoolsOfTheKubernetesCluster(): Promise<void> {
   const subscriptionId =

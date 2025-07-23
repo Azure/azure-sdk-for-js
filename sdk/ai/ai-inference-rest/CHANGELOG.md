@@ -1,12 +1,23 @@
 # Release History
 
+## 1.0.0-beta.7 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Updated to OpenTelemetry v2 packages.
+
 ## 1.0.0-beta.6 (2025-03-18)
 
 ### Features Added
 
 - Add "developer" chat role, and ChatRequestDeveloperMessage interface.
 - Added audio input (data and url) to chat completions, with samples.
-
 
 ### Bugs Fixed
 

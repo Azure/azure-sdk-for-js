@@ -9,6 +9,12 @@ param location string = resourceGroup().location
 @description('The client OID to grant access to test resources.')
 param testApplicationOid string
 
+@description('The client OID to grant access to test resources.')
+param testApplicationId string
+
+@description('The tenant ID to grant access to test resources.')
+param tenantId string
+
 @minLength(5)
 @maxLength(50)
 @description('Provide a globally unique name of the Azure Container Registry')
@@ -288,7 +294,7 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
       {
         name: 'agentpool'
         count: 1
-        vmSize: 'Standard_D2s_v3'
+        vmSize: 'Standard_D2s_v5'
         osDiskSizeGB: 128
         osDiskType: 'Managed'
         kubeletDiskType: 'OS'
@@ -333,3 +339,6 @@ output IdentityAksClusterName string = kubernetesCluster.name
 output IdentityAksPodName string = 'javascript-test-app'
 output IdentityAcrName string = acrResource.name
 output IdentityAcrLoginServer string = acrResource.properties.loginServer
+output IdentityTenantID string = tenantId
+output IdentityClientID string = testApplicationId
+output IdentityFunctionsCustomHandlerPort string = '80'

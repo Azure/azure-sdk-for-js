@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NetworkCloud } = require("@azure/arm-networkcloud");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
@@ -16,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration.
  *
  * @summary Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Clusters_ScanRuntime.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_ScanRuntime.json
  */
 async function executeARuntimeProtectionScanOnTheCluster() {
   const subscriptionId =

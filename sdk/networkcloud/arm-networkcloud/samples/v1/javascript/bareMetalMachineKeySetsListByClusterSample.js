@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get a list of bare metal machine key sets for the provided cluster.
  *
  * @summary Get a list of bare metal machine key sets for the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BareMetalMachineKeySets_ListByCluster.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BareMetalMachineKeySets_ListByCluster.json
  */
 async function listBareMetalMachineKeySetsOfTheCluster() {
   const subscriptionId =

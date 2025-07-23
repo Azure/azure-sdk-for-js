@@ -8,7 +8,7 @@ import { createClientsAndDeployments } from "../../utils/createClients.js";
 import { APIVersion } from "../../utils/utils.js";
 
 describe("Assistants", () => {
-  matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
+  matrix([[APIVersion.v2025_04_01_preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let client: OpenAI;
 
@@ -27,17 +27,19 @@ describe("Assistants", () => {
             file,
             purpose: "assistants",
           });
-          assert.isNotNull(uploadedFile.id);
-          assert.equal(uploadedFile.filename, filename);
-          assert.equal(uploadedFile.bytes, file.size);
+          try {
+            assert.isNotNull(uploadedFile.id);
+            assert.equal(uploadedFile.filename, filename);
+            assert.equal(uploadedFile.bytes, file.size);
 
-          const fileList = await client.files.list({ limit: 5 });
-          assert.isNotEmpty(fileList.data);
-          assert.isNotNull(fileList.data[0].id);
-
-          const fileDeleted = await client.files.del(uploadedFile.id);
-          assert.isTrue(fileDeleted.deleted);
-          assert.equal(fileDeleted.id, uploadedFile.id);
+            const fileList = await client.files.list({ limit: 5 });
+            assert.isNotEmpty(fileList.data);
+            assert.isNotNull(fileList.data[0].id);
+          } finally {
+            const fileDeleted = await client.files.delete(uploadedFile.id);
+            assert.isTrue(fileDeleted.deleted);
+            assert.equal(fileDeleted.id, uploadedFile.id);
+          }
         });
       });
     });

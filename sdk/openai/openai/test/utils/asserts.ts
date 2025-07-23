@@ -42,7 +42,7 @@ import type {
   ParsedChatCompletionMessage,
   ParsedChoice,
   ParsedFunctionToolCall,
-} from "openai/resources/beta/chat/completions.mjs";
+} from "openai/resources/chat/completions.mjs";
 import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import type { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
 import type { Metadata } from "./types.js";
@@ -409,7 +409,7 @@ export function assertImagesWithURLs(image: ImagesResponse, height: number, widt
   assert.isNotNull(image);
   assert.isNumber(image.created);
   assert.isArray(image.data);
-  image.data.forEach((img) => {
+  image.data!.forEach((img) => {
     ifDefined(img.revised_prompt, assert.isString);
     assert.isUndefined(img.b64_json);
     ifDefined(img.url, async (url) => {
@@ -426,7 +426,7 @@ export function assertImagesWithJSON(image: ImagesResponse, height: number, widt
   assert.isNotNull(image);
   assert.isNumber(image.created);
   assert.isArray(image.data);
-  image.data.forEach((img) => {
+  image.data!.forEach((img) => {
     ifDefined(img.revised_prompt, assert.isString);
     assert.isUndefined(img.url);
     ifDefined(img.b64_json, async (data) => {

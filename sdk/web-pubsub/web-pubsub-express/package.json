@@ -5,27 +5,19 @@
   "sdk-type": "client",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:browser": "echo \"Browser is not supported.\" && exit 0",
-    "build:node": "dev-tool run build-package",
     "build:samples": "echo Obsolete.",
-    "build:test": "dev-tool run build-package",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "echo \"Browser is not supported.\" && exit 0",
-    "integration-test:node": "dev-tool run test:vitest --no-test-proxy --esm",
-    "lint": "eslint package.json api-extractor.json README.md src test",
-    "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo \"Browser is not supported.\" && exit 0",
-    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo \"Browser is not supported.\" && exit 0",
-    "unit-test:node": "dev-tool run test:vitest",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --no-test-proxy --esm",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -44,7 +36,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express/README.md",
   "sideEffects": false,
@@ -59,7 +51,7 @@
     "@types/express": "^4.17.21",
     "@types/express-serve-static-core": "^4.19.5",
     "@types/jsonwebtoken": "^9.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
@@ -76,7 +68,7 @@
     ]
   },
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

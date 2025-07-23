@@ -1,15 +1,122 @@
 # Release History
-
-## 21.4.1 (Unreleased)
-
+    
+## 21.6.0-beta.1 (2025-05-14)
+Compared with version 21.5.0
+    
 ### Features Added
 
-### Breaking Changes
+  - Added operation group Buckets
+  - Added operation group NetAppResourceQuotaLimitsAccount
+  - Added operation Volumes.beginListQuotaReport
+  - Added operation Volumes.beginListQuotaReportAndWait
+  - Added operation Volumes.beginSplitCloneFromParent
+  - Added operation Volumes.beginSplitCloneFromParentAndWait
+  - Added Interface Bucket
+  - Added Interface BucketCredentialsExpiry
+  - Added Interface BucketGenerateCredentials
+  - Added Interface BucketList
+  - Added Interface BucketPatch
+  - Added Interface BucketsCreateOrUpdateHeaders
+  - Added Interface BucketsCreateOrUpdateOptionalParams
+  - Added Interface BucketsDeleteHeaders
+  - Added Interface BucketsDeleteOptionalParams
+  - Added Interface BucketServerPatchProperties
+  - Added Interface BucketServerProperties
+  - Added Interface BucketsGenerateCredentialsOptionalParams
+  - Added Interface BucketsGetOptionalParams
+  - Added Interface BucketsListNextOptionalParams
+  - Added Interface BucketsListOptionalParams
+  - Added Interface BucketsUpdateHeaders
+  - Added Interface BucketsUpdateOptionalParams
+  - Added Interface CifsUser
+  - Added Interface FileSystemUser
+  - Added Interface LdapConfiguration
+  - Added Interface ListQuotaReportResponse
+  - Added Interface NetAppResourceQuotaLimitsAccountGetOptionalParams
+  - Added Interface NetAppResourceQuotaLimitsAccountListNextOptionalParams
+  - Added Interface NetAppResourceQuotaLimitsAccountListOptionalParams
+  - Added Interface NfsUser
+  - Added Interface QuotaItem
+  - Added Interface QuotaItemList
+  - Added Interface QuotaReport
+  - Added Interface VolumesListQuotaReportHeaders
+  - Added Interface VolumesListQuotaReportOptionalParams
+  - Added Interface VolumesSplitCloneFromParentHeaders
+  - Added Interface VolumesSplitCloneFromParentOptionalParams
+  - Added Type Alias AcceptGrowCapacityPoolForShortTermCloneSplit
+  - Added Type Alias BucketsCreateOrUpdateResponse
+  - Added Type Alias BucketsDeleteResponse
+  - Added Type Alias BucketsGenerateCredentialsResponse
+  - Added Type Alias BucketsGetResponse
+  - Added Type Alias BucketsListNextResponse
+  - Added Type Alias BucketsListResponse
+  - Added Type Alias BucketsUpdateResponse
+  - Added Type Alias CredentialsStatus
+  - Added Type Alias ExternalReplicationSetupStatus
+  - Added Type Alias LdapServerType
+  - Added Type Alias NetappProvisioningState
+  - Added Type Alias NetAppResourceQuotaLimitsAccountGetResponse
+  - Added Type Alias NetAppResourceQuotaLimitsAccountListNextResponse
+  - Added Type Alias NetAppResourceQuotaLimitsAccountListResponse
+  - Added Type Alias VolumeLanguage
+  - Added Type Alias VolumesListQuotaReportResponse
+  - Added Type Alias VolumesSplitCloneFromParentResponse
+  - Interface CapacityPool has a new optional parameter customThroughputMibps
+  - Interface CapacityPoolPatch has a new optional parameter customThroughputMibps
+  - Interface NetAppAccount has a new optional parameter ldapConfiguration
+  - Interface NetAppAccountPatch has a new optional parameter ldapConfiguration
+  - Interface ReplicationObject has a new optional parameter externalReplicationSetupInfo
+  - Interface ReplicationObject has a new optional parameter externalReplicationSetupStatus
+  - Interface Volume has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface Volume has a new optional parameter inheritedSizeInBytes
+  - Interface Volume has a new optional parameter language
+  - Interface Volume has a new optional parameter ldapServerType
+  - Interface VolumeGroupVolumeProperties has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface VolumeGroupVolumeProperties has a new optional parameter inheritedSizeInBytes
+  - Interface VolumeGroupVolumeProperties has a new optional parameter language
+  - Interface VolumeGroupVolumeProperties has a new optional parameter ldapServerType
+  - Added Enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit
+  - Added Enum KnownCredentialsStatus
+  - Added Enum KnownExternalReplicationSetupStatus
+  - Added Enum KnownLdapServerType
+  - Added Enum KnownNetappProvisioningState
+  - Added Enum KnownVolumeLanguage
+  - Enum KnownServiceLevel has a new value Flexible
+    
+    
+## 21.5.0 (2025-04-18)
+    
+### Features Added
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group NetAppResourceUsages
+  - Added Interface DestinationReplication
+  - Added Interface NetAppResourceUsagesGetOptionalParams
+  - Added Interface NetAppResourceUsagesListNextOptionalParams
+  - Added Interface NetAppResourceUsagesListOptionalParams
+  - Added Interface OperationsListNextOptionalParams
+  - Added Interface UsageName
+  - Added Interface UsageResult
+  - Added Interface UsagesListResult
+  - Added Type Alias MultiAdStatus
+  - Added Type Alias NetAppResourceUsagesGetResponse
+  - Added Type Alias NetAppResourceUsagesListNextResponse
+  - Added Type Alias NetAppResourceUsagesListResponse
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias ReplicationType
+  - Interface Backup has a new optional parameter completionDate
+  - Interface Backup has a new optional parameter isLargeVolume
+  - Interface Backup has a new optional parameter snapshotCreationDate
+  - Interface EncryptionIdentity has a new optional parameter federatedClientId
+  - Interface NetAppAccount has a new optional parameter multiAdStatus
+  - Interface NetAppAccount has a new optional parameter nfsV4IDDomain
+  - Interface NetAppAccountPatch has a new optional parameter multiAdStatus
+  - Interface NetAppAccountPatch has a new optional parameter nfsV4IDDomain
+  - Interface OperationListResult has a new optional parameter nextLink
+  - Interface ReplicationObject has a new optional parameter destinationReplications
+  - Added Enum KnownMultiAdStatus
+  - Added Enum KnownReplicationType
+    
+    
 ## 21.4.0 (2025-02-17)
     
 ### Features Added

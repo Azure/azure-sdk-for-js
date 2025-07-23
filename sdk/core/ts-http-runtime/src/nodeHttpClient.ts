@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as http from "node:http";
-import * as https from "node:https";
-import * as zlib from "node:zlib";
+import http from "node:http";
+import https from "node:https";
+import zlib from "node:zlib";
 import { Transform } from "node:stream";
 import { AbortError } from "./abort-controller/AbortError.js";
 import type {
@@ -231,6 +231,7 @@ class NodeHttpClient implements HttpClient {
       port: url.port,
       method: request.method,
       headers: request.headers.toJSON({ preserveCase: true }),
+      ...request.requestOverrides,
     };
 
     return new Promise<http.IncomingMessage>((resolve, reject) => {

@@ -16,7 +16,7 @@ require("dotenv/config");
  * This sample demonstrates how to List all private endpoint connections in a container registry.
  *
  * @summary List all private endpoint connections in a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/PrivateEndpointConnectionList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/PrivateEndpointConnectionList.json
  */
 async function privateEndpointConnectionList() {
   const subscriptionId =
@@ -26,7 +26,10 @@ async function privateEndpointConnectionList() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(resourceGroupName, registryName)) {
+  for await (const item of client.privateEndpointConnections.list(
+    resourceGroupName,
+    registryName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);

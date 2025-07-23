@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as os from "node:os";
+import os from "node:os";
 import type {
   Histogram,
   Meter,
@@ -22,7 +22,7 @@ import { getLogData, isExceptionData } from "./quickpulse/utils.js";
 import type { ExceptionData, TraceData } from "./quickpulse/types.js";
 import type { LogRecord } from "@opentelemetry/sdk-logs";
 import { Logger } from "../shared/logging/logger.js";
-import * as process from "node:process";
+import process from "node:process";
 
 /**
  * Azure Monitor PerformanceCounter Metrics
@@ -32,7 +32,6 @@ export class PerformanceCounterMetrics {
   private collectionInterval = 60000; // 60 seconds
   private meterProvider: MeterProvider;
   private azureExporter: AzureMonitorMetricExporter;
-  private metricReader: PeriodicExportingMetricReader;
   private meter: Meter;
   private requestDurationHistogram: Histogram;
   private requestRateGauge: ObservableGauge;
@@ -85,10 +84,6 @@ export class PerformanceCounterMetrics {
       executionInterval: this.intervalExecutionTime,
     };
 
-    const meterProviderConfig: MeterProviderOptions = {
-      resource: this.internalConfig.resource,
-    };
-    this.meterProvider = new MeterProvider(meterProviderConfig);
     this.azureExporter = new AzureMonitorMetricExporter(
       this.internalConfig.azureMonitorExporterOptions,
     );
@@ -96,8 +91,11 @@ export class PerformanceCounterMetrics {
       exporter: this.azureExporter,
       exportIntervalMillis: options?.collectionInterval || this.collectionInterval,
     };
-    this.metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-    this.meterProvider.addMetricReader(this.metricReader);
+    const meterProviderConfig: MeterProviderOptions = {
+      readers: [new PeriodicExportingMetricReader(metricReaderOptions)],
+      resource: this.internalConfig.resource,
+    };
+    this.meterProvider = new MeterProvider(meterProviderConfig);
     this.meter = this.meterProvider.getMeter("AzureMonitorPerformanceCountersMeter");
 
     this.lastRequestRate = { count: 0, time: 0, executionInterval: 0 };
@@ -130,7 +128,7 @@ export class PerformanceCounterMetrics {
       },
     );
     this.processTimeGauge = this.meter.createObservableGauge(
-      PerformanceCounterMetricNames.PROCESS_TIME,
+      PerformanceCounterMetricNames.PROCESS_TIME_STANDARD,
       {
         description: "Process CPU usage as a percentage",
         valueType: ValueType.DOUBLE,
@@ -336,7 +334,12 @@ export class PerformanceCounterMetrics {
       this.lastAppCpuUsage = appCpuUsage;
       this.lastHrtime = hrtime;
       const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
-      const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+      let value = 0;
+      if (appCpuPercent !== undefined) {
+        value = appCpuPercent;
+      } else {
+        value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+      }
       observableResult.observe(value);
     }
     this.lastCpusProcess = cpus;
@@ -371,7 +374,12 @@ export class PerformanceCounterMetrics {
         this.lastAppCpuUsage = appCpuUsage;
         this.lastHrtime = hrtime;
         const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpusProcess);
-        const value = appCpuPercent || (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+        let value = 0;
+        if (appCpuPercent !== undefined) {
+          value = appCpuPercent;
+        } else {
+          value = (cpuTotals.totalUser / cpuTotals.combinedTotal) * 100;
+        }
         observableResult.observe(value);
       }
       this.lastCpusProcess = cpus;

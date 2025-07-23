@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { afterEach, assert, beforeAll, afterAll, describe, it, vi, MockInstance } from "vitest";
+import type { MockInstance } from "vitest";
+import { afterEach, assert, beforeAll, afterAll, describe, it, vi } from "vitest";
 import { SpanKind } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import { PerformanceCounterMetrics } from "../../../../src/metrics/performanceCounters.js";
@@ -8,7 +9,7 @@ import {
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_INSTANCE_ID,
 } from "@opentelemetry/semantic-conventions";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import type { Histogram } from "@opentelemetry/sdk-metrics";
 import { InternalConfig } from "../../../../src/shared/config.js";
 
@@ -43,7 +44,7 @@ describe("PerformanceCounterMetricsHandler", () => {
     await autoCollect.shutdown();
   });
 
-  const resource = new Resource({});
+  const resource = resourceFromAttributes({});
   resource.attributes[SEMRESATTRS_SERVICE_NAME] = "testcloudRoleName";
   resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
   const serverSpan: any = {
@@ -104,13 +105,19 @@ describe("PerformanceCounterMetricsHandler", () => {
           (metrics[4].dataPoints[0].value as number) <= 100,
         `Wrong Processor Time value: ${metrics[4].dataPoints[0].value as number}`,
       );
-      assert.deepStrictEqual(metrics[5].descriptor.name, "Process_Time");
+      assert.deepStrictEqual(metrics[5].descriptor.name, "Process_Time_Standard");
       assert.ok(
         (metrics[5].dataPoints[0].value as number) >= 0 &&
           (metrics[5].dataPoints[0].value as number) <= 100,
         `Wrong Process Time value: ${metrics[5].dataPoints[0].value as number}`,
       );
       assert.deepStrictEqual(metrics[6].descriptor.name, "Process_Time_Normalized");
+      assert.ok(
+        (metrics[6].dataPoints[0].value as number) >= 0 &&
+          (metrics[6].dataPoints[0].value as number) <= 100,
+        `Wrong Process Time Normalized value: ${metrics[6].dataPoints[0].value as number}`,
+      );
+      assert.ok(!Number.isNaN(metrics[6].dataPoints[0].value), "Value should not be NaN");
       assert.deepStrictEqual(metrics[7].descriptor.name, "Exception_Rate");
     });
   });

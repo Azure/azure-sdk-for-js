@@ -6,12 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type {
-  ConsolePatchParameters,
-  ConsolesUpdateOptionalParams} from "@azure/arm-networkcloud";
 import {
+  ConsolePatchParameters,
+  ConsolesUpdateOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +18,7 @@ import "dotenv/config";
  * This sample demonstrates how to Patch the properties of the provided virtual machine console, or update the tags associated with the virtual machine console. Properties and tag updates can be done independently.
  *
  * @summary Patch the properties of the provided virtual machine console, or update the tags associated with the virtual machine console. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Consoles_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Consoles_Patch.json
  */
 async function patchVirtualMachineConsole(): Promise<void> {
   const subscriptionId =

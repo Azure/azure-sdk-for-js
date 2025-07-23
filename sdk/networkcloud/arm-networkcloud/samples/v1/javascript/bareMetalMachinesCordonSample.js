@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Cordon the provided bare metal machine's Kubernetes node.
  *
  * @summary Cordon the provided bare metal machine's Kubernetes node.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BareMetalMachines_Cordon.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BareMetalMachines_Cordon.json
  */
 async function cordonBareMetalMachine() {
   const subscriptionId =

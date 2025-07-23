@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Replace the provided bare metal machine.
  *
  * @summary Replace the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BareMetalMachines_Replace.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BareMetalMachines_Replace.json
  */
 async function replaceBareMetalMachine() {
   const subscriptionId =
@@ -22,7 +22,10 @@ async function replaceBareMetalMachine() {
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const bareMetalMachineName = "bareMetalMachineName";
   const bareMetalMachineReplaceParameters = {
-    bmcCredentials: { password: "{password}", username: "bmcuser" },
+    bmcCredentials: {
+      password: "https://keyvaultname.vault.azure.net/secrets/secretName",
+      username: "bmcuser",
+    },
     bmcMacAddress: "00:00:4f:00:57:ad",
     bootMacAddress: "00:00:4e:00:58:af",
     machineName: "name",

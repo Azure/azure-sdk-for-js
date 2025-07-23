@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { CosmosClient } = require("@azure/cosmos");
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";

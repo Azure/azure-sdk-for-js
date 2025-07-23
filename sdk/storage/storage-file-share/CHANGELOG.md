@@ -1,6 +1,17 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
+
+## 12.28.0 (2025-07-22)
+
+### Features Added
+
+- Includes all features released in 12.28.0-beta.1.
+
+## 12.28.0-beta.1 (2025-05-20)
+
+### Features Added
+
+- Added support for service version 2025-07-05.
+- Added the `ShareFileClient.createSymbolicLink()`, and `.getSymbolicLink()` APIs.
 
 ## 12.27.0 (2025-03-18)
 

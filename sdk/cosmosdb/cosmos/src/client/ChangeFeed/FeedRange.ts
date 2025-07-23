@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ErrorResponse } from "../../request";
+import { ErrorResponse } from "../../request/index.js";
 
 /**
  * Specifies a feed range for the changefeed.

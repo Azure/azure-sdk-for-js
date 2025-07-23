@@ -10,7 +10,7 @@ import { resolveRoot } from "../util/resolveProject";
 /**
  * Expected value for engines field
  */
-const LTS_ENGINES = ">=18.0.0";
+const LTS_ENGINES = ">=20.0.0";
 
 export const license = packageJsonCheck({
   description: 'License field in package.json must be set to "MIT"',

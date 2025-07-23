@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import MessageClient, { isUnexpected } from "../src/index.js";
+import MessageClient, { InteractiveMessage, isUnexpected } from "../src/index.js";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -125,6 +125,160 @@ describe("snippets", () => {
         to: ["<to-phone-number-1>"],
         kind: "image",
         mediaUri: "https://<your-media-image-file>",
+      },
+    });
+    // @ts-preserve-whitespace
+    if (!isUnexpected(result)) {
+      result.body.receipts.forEach((receipt) => {
+        console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+      });
+    }
+  });
+
+  it("ReadmeSampleSendButtonActionInteractiveMessage", async () => {
+    const endpoint = "https://<resource-name>.communication.azure.com";
+    const credential = new DefaultAzureCredential();
+    const client = MessageClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const interactiveMessage: InteractiveMessage = {
+      body: {
+        kind: "text",
+        text: "Do you want to proceed?",
+      },
+      action: {
+        kind: "whatsAppButtonAction",
+        content: {
+          kind: "buttonSet",
+          buttons: [
+            {
+              id: "yes",
+              title: "Yes",
+            },
+            {
+              id: "no",
+              title: "No",
+            },
+          ],
+        },
+      },
+    };
+    // @ts-preserve-whitespace
+    const result = await client.path("/messages/notifications:send").post({
+      contentType: "application/json",
+      body: {
+        channelRegistrationId: "<Channel_Registration_Id>",
+        to: ["<to-phone-number-1>"],
+        kind: "interactive",
+        interactiveMessage: interactiveMessage,
+      },
+    });
+    // @ts-preserve-whitespace
+    if (!isUnexpected(result)) {
+      result.body.receipts.forEach((receipt) => {
+        console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+      });
+    }
+  });
+
+  it("ReadmeSampleSendListActionInteractiveMessage", async () => {
+    const endpoint = "https://<resource-name>.communication.azure.com";
+    const credential = new DefaultAzureCredential();
+    const client = MessageClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const interactiveMessage: InteractiveMessage = {
+      body: {
+        kind: "text",
+        text: "Which shipping option do you want?",
+      },
+      action: {
+        kind: "whatsAppListAction",
+        content: {
+          kind: "group",
+          title: "Shipping Options",
+          groups: [
+            {
+              title: "Express Delivery",
+              items: [
+                {
+                  id: "priority_mail_express",
+                  title: "Priority Mail Express",
+                  description: "Delivered on same day!",
+                },
+                {
+                  id: "priority_mail",
+                  title: "Priority Mail",
+                  description: "Delivered in 1-2 days",
+                },
+              ],
+            },
+            {
+              title: "Normal Delivery",
+              items: [
+                {
+                  id: "usps_ground_advantage",
+                  title: "USPS Ground Advantage",
+                  description: "Delivered in 2-5 days",
+                },
+                {
+                  id: "usps_mail",
+                  title: "Normal Mail",
+                  description: "Delivered in 5-8 days",
+                },
+              ],
+            },
+          ],
+        },
+      },
+    };
+    // @ts-preserve-whitespace
+    const result = await client.path("/messages/notifications:send").post({
+      contentType: "application/json",
+      body: {
+        channelRegistrationId: "<Channel_Registration_Id>",
+        to: ["<to-phone-number-1>"],
+        kind: "interactive",
+        interactiveMessage: interactiveMessage,
+      },
+    });
+    // @ts-preserve-whitespace
+    if (!isUnexpected(result)) {
+      result.body.receipts.forEach((receipt) => {
+        console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+      });
+    }
+  });
+
+  it("ReadmeSampleSendUrlActionInteractiveMessage", async () => {
+    const endpoint = "https://<resource-name>.communication.azure.com";
+    const credential = new DefaultAzureCredential();
+    const client = MessageClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const interactiveMessage: InteractiveMessage = {
+      body: {
+        kind: "text",
+        text: "Find more detail in the link.",
+      },
+      action: {
+        kind: "whatsAppUrlAction",
+        content: {
+          kind: "url",
+          title: "link",
+          url: "https://<your-url-link>",
+        },
+      },
+      footer: {
+        kind: "text",
+        text: "This is a footer message",
+      },
+    };
+    // @ts-preserve-whitespace
+    const result = await client.path("/messages/notifications:send").post({
+      contentType: "application/json",
+      body: {
+        channelRegistrationId: "<Channel_Registration_Id>",
+        to: ["<to-phone-number-1>"],
+        kind: "interactive",
+        interactiveMessage: interactiveMessage,
       },
     });
     // @ts-preserve-whitespace

@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Create a new cluster manager or update properties of the cluster manager if it exists.
  *
  * @summary Create a new cluster manager or update properties of the cluster manager if it exists.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/ClusterManagers_Create.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/ClusterManagers_Create.json
  */
 async function createOrUpdateClusterManager() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function createOrUpdateClusterManager() {
  * This sample demonstrates how to Create a new cluster manager or update properties of the cluster manager if it exists.
  *
  * @summary Create a new cluster manager or update properties of the cluster manager if it exists.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/ClusterManagers_Create_Uami.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/ClusterManagers_Create_Uami.json
  */
 async function createOrUpdateClusterManagerWithUserAssignedIdentity() {
   const subscriptionId =

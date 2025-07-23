@@ -54,30 +54,43 @@ describe("getDirectionMappedPackages", () => {
   describe("test commands", () => {
     it("should use the reduced dependency matrix plus --only when testing a core package", () => {
       const changed = ["@azure/core-client"];
-      const mapped = getDirectionMappedPackages(changed, "unit-test", ["core"]);
+      const mapped = getDirectionMappedPackages(changed, "test", ["core"]);
       const expected = reducedDependencyTestMatrix["core"].map((p) => ["--only", p]);
       expected.unshift(["--only", "@azure/core-client"]);
 
       assert.deepStrictEqual(mapped, expected);
     });
 
-    it("it uses --impacted-by when testing a normal package", () => {
+    it("it uses --only for a normal package", () => {
       const changed = ["@azure/app-configuration"];
-      const mapped = getDirectionMappedPackages(changed, "unit-test", ["appconfiguration"]);
+      const mapped = getDirectionMappedPackages(changed, "test", ["appconfiguration"]);
 
-      assert.deepStrictEqual(mapped, [["--impacted-by", "@azure/app-configuration"]]);
+      assert.deepStrictEqual(mapped, [["--only", "@azure/app-configuration"]]);
     });
 
     it("should use --only when testing two or more service dirs", () => {
-      const changed = ["@azure/app-configuration", "@azure/storage-blob"];
-      const mapped = getDirectionMappedPackages(changed, "unit-test", [
-        "appconfiguration",
-        "storage",
-      ]);
+      const packages = ["@azure/app-configuration", "@azure/storage-blob"];
+      const mapped = getDirectionMappedPackages(packages, "test", ["appconfiguration", "storage"]);
 
       assert.deepStrictEqual(mapped, [
         ["--only", "@azure/app-configuration"],
         ["--only", "@azure/storage-blob"],
+      ]);
+    });
+
+    it("should use --impacted-by for changed package", () => {
+      const packages = ["@azure/app-configuration", "@azure/storage-blob"];
+      const mapped = getDirectionMappedPackages(packages, "test", ["appconfiguration", "storage"], {
+        changedPackages: new Set(["@azure/storage-blob"]),
+        diff: {
+          changedFiles: [], // not used
+          changedServices: [], // not used
+        },
+      });
+
+      assert.deepStrictEqual(mapped, [
+        ["--only", "@azure/app-configuration"],
+        ["--impacted-by", "@azure/storage-blob"],
       ]);
     });
   });

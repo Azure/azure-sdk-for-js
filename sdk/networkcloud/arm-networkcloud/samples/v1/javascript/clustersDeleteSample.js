@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Delete the provided cluster.
  *
  * @summary Delete the provided cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/Clusters_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_Delete.json
  */
 async function deleteCluster() {
   const subscriptionId =

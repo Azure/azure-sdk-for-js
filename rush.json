@@ -1,8 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */
-{
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -15,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.146.0",
+  "rushVersion": "5.154.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -24,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "9.15.0",
+  "pnpmVersion": "10.12.1",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -35,7 +34,7 @@
    * Specify a SemVer range to ensure developers use a NodeJS version that is appropriate
    * for your repo.
    */
-  "nodeSupportedVersionRange": ">=18.0.0",
+  "nodeSupportedVersionRange": ">=20.0.0",
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
    * spend six months in a stabilization period before the first Long Term Support (LTS) version.
@@ -556,7 +555,9 @@
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
       // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
-      "decoupledLocalDependencies": ["@azure/identity"]
+      "decoupledLocalDependencies": [
+        "@azure/identity"
+      ]
     },
     {
       "packageName": "@azure/eventgrid",
@@ -596,7 +597,9 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
+      "decoupledLocalDependencies": [
+        "@azure/keyvault-keys"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -717,6 +720,9 @@
     {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
+      "cyclicDependencyProjects": [
+        "@azure/storage-file-share"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -820,13 +826,13 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tools/test-utils",
-      "projectFolder": "sdk/test-utils/test-utils",
+      "packageName": "@azure-tools/test-utils-vitest",
+      "projectFolder": "sdk/test-utils/test-utils-vitest",
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tools/test-utils-vitest",
-      "projectFolder": "sdk/test-utils/test-utils-vitest",
+      "packageName": "@azure-tools/mcp-server",
+      "projectFolder": "common/tools/mcp-server",
       "versionPolicyName": "utility"
     },
     {
@@ -905,11 +911,6 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixed-reality-authentication",
-      "projectFolder": "sdk/mixedreality/mixed-reality-authentication",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/web-pubsub",
       "projectFolder": "sdk/web-pubsub/web-pubsub",
       "versionPolicyName": "client"
@@ -963,11 +964,6 @@
       "packageName": "@azure-tests/perf-schema-registry-avro",
       "projectFolder": "sdk/schemaregistry/schema-registry-avro-perf-tests",
       "versionPolicyName": "test"
-    },
-    {
-      "packageName": "@azure/mixed-reality-remote-rendering",
-      "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
-      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/arm-network",
@@ -1135,11 +1131,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-appplatform",
-      "projectFolder": "sdk/appplatform/arm-appplatform",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-containerservice",
       "projectFolder": "sdk/containerservice/arm-containerservice",
       "versionPolicyName": "management"
@@ -1152,11 +1143,6 @@
     {
       "packageName": "@azure/arm-operations",
       "projectFolder": "sdk/operationsmanagement/arm-operations",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-mediaservices",
-      "projectFolder": "sdk/mediaservices/arm-mediaservices",
       "versionPolicyName": "management"
     },
     {
@@ -1547,11 +1533,6 @@
     {
       "packageName": "@azure/arm-migrate",
       "projectFolder": "sdk/migrate/arm-migrate",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-mixedreality",
-      "projectFolder": "sdk/mixedreality/arm-mixedreality",
       "versionPolicyName": "management"
     },
     {
@@ -1960,6 +1941,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/create-playwright",
+      "projectFolder": "sdk/loadtesting/create-playwright",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/playwright",
+      "projectFolder": "sdk/loadtesting/playwright",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-elasticsan",
       "projectFolder": "sdk/elasticsans/arm-elasticsan",
       "versionPolicyName": "management"
@@ -2211,7 +2202,7 @@
     },
     {
       "packageName": "@azure-rest/health-deidentification",
-      "projectFolder": "sdk/healthdataaiservices/azure-health-deidentification",
+      "projectFolder": "sdk/healthdataaiservices/health-deidentification-rest",
       "versionPolicyName": "client"
     },
     {
@@ -2325,6 +2316,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-agents",
+      "projectFolder": "sdk/ai/ai-agents",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-impactreporting",
       "projectFolder": "sdk/impactreporting/arm-impactreporting",
       "versionPolicyName": "management"
@@ -2352,6 +2348,106 @@
     {
       "packageName": "@azure/arm-weightsandbiases",
       "projectFolder": "sdk/liftrweightsandbiases/arm-weightsandbiases",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-lambdatesthyperexecute",
+      "projectFolder": "sdk/lambdatesthyperexecute/arm-lambdatesthyperexecute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dependencymap",
+      "projectFolder": "sdk/dependencymap/arm-dependencymap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-programmableconnectivity",
+      "projectFolder": "sdk/programmableconnectivity/arm-programmableconnectivity",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-portalservicescopilot",
+      "projectFolder": "sdk/portalservices/arm-portalservicescopilot",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/arm-onlineexperimentation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-carbonoptimization",
+      "projectFolder": "sdk/carbonoptimization/arm-carbonoptimization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dell-storage",
+      "projectFolder": "sdk/dell/arm-dell-storage",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mongodbatlas",
+      "projectFolder": "sdk/mongodbatlas/arm-mongodbatlas",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-purestorageblock",
+      "projectFolder": "sdk/purestorageblock/arm-purestorageblock",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sitemanager",
+      "projectFolder": "sdk/sitemanager/arm-sitemanager",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/onlineexperimentation",
+      "projectFolder": "sdk/onlineexperimentation/onlineexperimentation-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-planetarycomputer",
+      "projectFolder": "sdk/planetarycomputer/arm-planetarycomputer",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration-extensions",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensions",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration-fluxconfigurations",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration-extensiontypes",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration-privatelinkscopes",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration-privatelinkscopes",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cloudhealth",
+      "projectFolder": "sdk/cloudhealth/arm-cloudhealth",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-playwright",
+      "projectFolder": "sdk/playwright/arm-playwright",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcesbicep",
+      "projectFolder": "sdk/resources/arm-resourcesbicep",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcesdeployments",
+      "projectFolder": "sdk/resources/arm-resourcesdeployments",
       "versionPolicyName": "management"
     }
   ]

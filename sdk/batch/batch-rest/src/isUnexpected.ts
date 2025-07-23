@@ -63,6 +63,16 @@ import type {
   ListJobPreparationAndReleaseTaskStatusDefaultResponse,
   GetJobTaskCounts200Response,
   GetJobTaskCountsDefaultResponse,
+  CreateCertificate201Response,
+  CreateCertificateDefaultResponse,
+  ListCertificates200Response,
+  ListCertificatesDefaultResponse,
+  CancelCertificateDeletion204Response,
+  CancelCertificateDeletionDefaultResponse,
+  DeleteCertificate202Response,
+  DeleteCertificateDefaultResponse,
+  GetCertificate200Response,
+  GetCertificateDefaultResponse,
   JobScheduleExists200Response,
   JobScheduleExists404Response,
   JobScheduleExistsDefaultResponse,
@@ -181,6 +191,14 @@ const responseMap: Record<string, string[]> = {
   "GET /jobschedules/{jobScheduleId}/jobs": ["200"],
   "GET /jobs/{jobId}/jobpreparationandreleasetaskstatus": ["200"],
   "GET /jobs/{jobId}/taskcounts": ["200"],
+  "POST /certificates": ["201"],
+  "GET /certificates": ["200"],
+  "POST /certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})/canceldelete":
+    ["204"],
+  "DELETE /certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})": [
+    "202",
+  ],
+  "GET /certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})": ["200"],
   "HEAD /jobschedules/{jobScheduleId}": ["200", "404"],
   "DELETE /jobschedules/{jobScheduleId}": ["202"],
   "GET /jobschedules/{jobScheduleId}": ["200"],
@@ -317,6 +335,21 @@ export function isUnexpected(
 export function isUnexpected(
   response: GetJobTaskCounts200Response | GetJobTaskCountsDefaultResponse,
 ): response is GetJobTaskCountsDefaultResponse;
+export function isUnexpected(
+  response: CreateCertificate201Response | CreateCertificateDefaultResponse,
+): response is CreateCertificateDefaultResponse;
+export function isUnexpected(
+  response: ListCertificates200Response | ListCertificatesDefaultResponse,
+): response is ListCertificatesDefaultResponse;
+export function isUnexpected(
+  response: CancelCertificateDeletion204Response | CancelCertificateDeletionDefaultResponse,
+): response is CancelCertificateDeletionDefaultResponse;
+export function isUnexpected(
+  response: DeleteCertificate202Response | DeleteCertificateDefaultResponse,
+): response is DeleteCertificateDefaultResponse;
+export function isUnexpected(
+  response: GetCertificate200Response | GetCertificateDefaultResponse,
+): response is GetCertificateDefaultResponse;
 export function isUnexpected(
   response:
     | JobScheduleExists200Response
@@ -509,6 +542,16 @@ export function isUnexpected(
     | ListJobPreparationAndReleaseTaskStatusDefaultResponse
     | GetJobTaskCounts200Response
     | GetJobTaskCountsDefaultResponse
+    | CreateCertificate201Response
+    | CreateCertificateDefaultResponse
+    | ListCertificates200Response
+    | ListCertificatesDefaultResponse
+    | CancelCertificateDeletion204Response
+    | CancelCertificateDeletionDefaultResponse
+    | DeleteCertificate202Response
+    | DeleteCertificateDefaultResponse
+    | GetCertificate200Response
+    | GetCertificateDefaultResponse
     | JobScheduleExists200Response
     | JobScheduleExists404Response
     | JobScheduleExistsDefaultResponse
@@ -625,6 +668,11 @@ export function isUnexpected(
   | ListJobsFromScheduleDefaultResponse
   | ListJobPreparationAndReleaseTaskStatusDefaultResponse
   | GetJobTaskCountsDefaultResponse
+  | CreateCertificateDefaultResponse
+  | ListCertificatesDefaultResponse
+  | CancelCertificateDeletionDefaultResponse
+  | DeleteCertificateDefaultResponse
+  | GetCertificateDefaultResponse
   | JobScheduleExistsDefaultResponse
   | DeleteJobScheduleDefaultResponse
   | GetJobScheduleDefaultResponse

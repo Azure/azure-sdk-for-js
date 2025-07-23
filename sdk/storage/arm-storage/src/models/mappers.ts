@@ -5279,6 +5279,7 @@ export const StorageTaskAssignmentProperties: coreClient.CompositeMapper = {
             "Succeeded",
             "ValidateSubscriptionQuotaBegin",
             "ValidateSubscriptionQuotaEnd",
+            "Accepted",
             "Deleting",
             "Canceled",
             "Failed",
@@ -5396,8 +5397,6 @@ export const TriggerParameters: coreClient.CompositeMapper = {
         },
       },
       intervalUnit: {
-        defaultValue: "Days",
-        isConstant: true,
         serializedName: "intervalUnit",
         type: {
           name: "String",
@@ -5609,6 +5608,7 @@ export const StorageTaskAssignmentUpdateProperties: coreClient.CompositeMapper =
               "Succeeded",
               "ValidateSubscriptionQuotaBegin",
               "ValidateSubscriptionQuotaEnd",
+              "Accepted",
               "Deleting",
               "Canceled",
               "Failed",
@@ -5694,8 +5694,6 @@ export const TriggerParametersUpdate: coreClient.CompositeMapper = {
         },
       },
       intervalUnit: {
-        defaultValue: "Days",
-        isConstant: true,
         serializedName: "intervalUnit",
         type: {
           name: "String",
@@ -7184,6 +7182,7 @@ export const StorageAccount: coreClient.CompositeMapper = {
             "Succeeded",
             "ValidateSubscriptionQuotaBegin",
             "ValidateSubscriptionQuotaEnd",
+            "Accepted",
             "Deleting",
             "Canceled",
             "Failed",

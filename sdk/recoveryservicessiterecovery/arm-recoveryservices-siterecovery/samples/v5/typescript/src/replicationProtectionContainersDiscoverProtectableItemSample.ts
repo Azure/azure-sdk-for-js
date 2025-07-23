@@ -19,15 +19,15 @@ import "dotenv/config";
  * This sample demonstrates how to The operation to a add a protectable item to a protection container(Add physical server).
  *
  * @summary The operation to a add a protectable item to a protection container(Add physical server).
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_DiscoverProtectableItem.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectionContainers_DiscoverProtectableItem.json
  */
 async function addsAProtectableItemToTheReplicationProtectionContainer(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "7c943c1b-5122-4097-90c8-861411bdd574";
-  const resourceName = "MadhaviVault";
   const resourceGroupName =
     process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "MadhaviVRG";
+  const resourceName = "MadhaviVault";
   const fabricName = "V2A-W2K12-660";
   const protectionContainerName = "cloud_7328549c-5c37-4459-a3c2-e35f9ef6893c";
   const discoverProtectableItemRequest: DiscoverProtectableItemRequest = {
@@ -41,8 +41,8 @@ async function addsAProtectableItemToTheReplicationProtectionContainer(): Promis
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result =
     await client.replicationProtectionContainers.beginDiscoverProtectableItemAndWait(
-      resourceName,
       resourceGroupName,
+      resourceName,
       fabricName,
       protectionContainerName,
       discoverProtectableItemRequest,
@@ -51,7 +51,7 @@ async function addsAProtectableItemToTheReplicationProtectionContainer(): Promis
 }
 
 async function main(): Promise<void> {
-  addsAProtectableItemToTheReplicationProtectionContainer();
+  await addsAProtectableItemToTheReplicationProtectionContainer();
 }
 
 main().catch(console.error);

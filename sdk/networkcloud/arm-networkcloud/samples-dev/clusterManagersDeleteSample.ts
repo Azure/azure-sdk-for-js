@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the provided cluster manager.
  *
  * @summary Delete the provided cluster manager.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/ClusterManagers_Delete.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/ClusterManagers_Delete.json
  */
 async function deleteClusterManager(): Promise<void> {
   const subscriptionId =

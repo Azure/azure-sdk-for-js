@@ -6,12 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import type {
-  StorageApplianceEnableRemoteVendorManagementParameters,
-  StorageAppliancesEnableRemoteVendorManagementOptionalParams} from "@azure/arm-networkcloud";
 import {
+  StorageApplianceEnableRemoteVendorManagementParameters,
+  StorageAppliancesEnableRemoteVendorManagementOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +18,7 @@ import "dotenv/config";
  * This sample demonstrates how to Enable remote vendor management of the provided storage appliance.
  *
  * @summary Enable remote vendor management of the provided storage appliance.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/StorageAppliances_EnableRemoteVendorManagement.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/StorageAppliances_EnableRemoteVendorManagement.json
  */
 async function turnOnRemoteVendorManagementForStorageAppliance(): Promise<void> {
   const subscriptionId =

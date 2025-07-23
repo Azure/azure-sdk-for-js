@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the Elastic San
  *
  * @summary Gets the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_Get_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function privateEndpointConnectionsGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to Gets the specified private endpoint connection associated with the Elastic San
  *
  * @summary Gets the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateEndpointConnections_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/PrivateEndpointConnections_Get_MinimumSet_Gen.json
  */
 async function privateEndpointConnectionsGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
@@ -59,8 +59,8 @@ async function privateEndpointConnectionsGetMinimumSetGen(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionsGetMaximumSetGen();
-  privateEndpointConnectionsGetMinimumSetGen();
+  await privateEndpointConnectionsGetMaximumSetGen();
+  await privateEndpointConnectionsGetMinimumSetGen();
 }
 
 main().catch(console.error);

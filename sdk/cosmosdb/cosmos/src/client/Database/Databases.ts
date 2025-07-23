@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
-import type { CosmosClient } from "../../CosmosClient";
-import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
-import { mergeHeaders } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions } from "../../request";
-import type { Resource } from "../Resource";
-import { Database } from "./Database";
-import type { DatabaseDefinition } from "./DatabaseDefinition";
-import type { DatabaseRequest } from "./DatabaseRequest";
-import { DatabaseResponse } from "./DatabaseResponse";
-import { validateOffer } from "../../utils/offers";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import type { EncryptionManager } from "../../encryption/EncryptionManager";
+
+import type { ClientContext } from "../../ClientContext.js";
+import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common/index.js";
+import type { CosmosClient } from "../../CosmosClient.js";
+import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { mergeHeaders } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import { Database } from "./Database.js";
+import type { DatabaseDefinition } from "./DatabaseDefinition.js";
+import type { DatabaseRequest } from "./DatabaseRequest.js";
+import { DatabaseResponse } from "./DatabaseResponse.js";
+import { validateOffer } from "../../utils/offers.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import type { EncryptionManager } from "../../encryption/EncryptionManager.js";
 
 /**
  * Operations for creating new databases, and reading/querying all databases

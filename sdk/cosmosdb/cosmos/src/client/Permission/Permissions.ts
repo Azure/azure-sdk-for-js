@@ -1,18 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import type { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import type { FeedOptions, RequestOptions } from "../../request";
-import type { Resource } from "../Resource";
-import type { User } from "../User";
-import { Permission } from "./Permission";
-import type { PermissionBody } from "./PermissionBody";
-import type { PermissionDefinition } from "./PermissionDefinition";
-import { PermissionResponse } from "./PermissionResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import {
+  getIdFromLink,
+  getPathFromLink,
+  isResourceValid,
+  ResourceType,
+} from "../../common/index.js";
+import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
+import { QueryIterator } from "../../queryIterator.js";
+import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import type { Resource } from "../Resource.js";
+import type { User } from "../User/index.js";
+import { Permission } from "./Permission.js";
+import type { PermissionBody } from "./PermissionBody.js";
+import type { PermissionDefinition } from "./PermissionDefinition.js";
+import { PermissionResponse } from "./PermissionResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
 
 /**
  * Use to create, replace, query, and read all Permissions.
@@ -29,11 +34,6 @@ export class Permissions {
     private readonly clientContext: ClientContext,
   ) {}
 
-  /**
-   * Query all permissions.
-   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   */
-  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Query all permissions.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
@@ -55,6 +55,11 @@ export class Permissions {
    *   .permissions.query(querySpec)
    *   .fetchAll();
    * ```
+   */
+  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Query all permissions.
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {

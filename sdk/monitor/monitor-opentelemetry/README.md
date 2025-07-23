@@ -44,10 +44,10 @@ useAzureMonitor(options);
 ## Configuration
 
 ```ts snippet:ReadmeSampleConfiguration
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
-const resource = new Resource({ testAttribute: "testValue" });
+const resource = resourceFromAttributes({ testAttribute: "testValue" });
 const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterOptions: {
     // Offline storage
@@ -81,8 +81,6 @@ const options: AzureMonitorOpenTelemetryOptions = {
   resource: resource,
   logRecordProcessors: [],
   spanProcessors: [],
-  enableTraceBasedSamplingForLogs: false,
-  enablePerformanceCounters: true,
 };
 useAzureMonitor(options);
 ```
@@ -203,11 +201,11 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 ### Distributed Tracing
 
 - [HTTP/HTTPS](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-instrumentation-http)
-- [MongoDB](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-mongodb)
-- [MySQL](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-mysql)
-- [Postgres](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-pg)
-- [Redis](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-redis)
-- [Redis-4](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-redis-4)
+- [MongoDB](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-mongodb)
+- [MySQL](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-mysql)
+- [Postgres](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-pg)
+- [Redis](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-redis)
+- [Redis-4](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-redis-4)
 - [Azure SDK](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/instrumentation/opentelemetry-instrumentation-azure-sdk)
 
 ### Metrics
@@ -216,11 +214,11 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 
 ### Logs
 
-- [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-bunyan)
+- [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-bunyan)
 
-- [Winston](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-winston)
+- [Winston](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages/instrumentation-winston)
 
-Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
+Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/packages) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
 
 ```ts snippet:ReadmeSampleCustomInstrumentation
 import { useAzureMonitor } from "@azure/monitor-opentelemetry";
@@ -253,7 +251,6 @@ Further information on usage of the browser SDK loader can be found [here](https
 You might set the Cloud Role Name and the Cloud Role Instance via [OpenTelemetry Resource](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/sdk.md#resource-sdk) attributes.
 
 ```ts snippet:ReadmeSampleSetRoleNameAndInstance
-import { Resource } from "@opentelemetry/resources";
 import {
   ATTR_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -391,10 +388,7 @@ You might use the following ways to filter out telemetry before it leaves your a
     ```ts snippet:ReadmeSampleExcludeUrl
     import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
     import { IncomingMessage, RequestOptions } from "node:http";
-    import {
-      AzureMonitorOpenTelemetryOptions,
-      useAzureMonitor,
-    } from "@azure/monitor-opentelemetry";
+    import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
     const httpInstrumentationConfig: HttpInstrumentationConfig = {
       enabled: true,
@@ -427,25 +421,25 @@ You might use the following ways to filter out telemetry before it leaves your a
     Use the add [custom property example](#add-a-custom-property-to-a-trace), but replace the following lines of code:
 
       ```ts snippet:ReadmeSampleCustomProcessor
-        import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
-        import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
+      import { SpanProcessor, ReadableSpan } from "@opentelemetry/sdk-trace-base";
+      import { Span, Context, SpanKind, TraceFlags } from "@opentelemetry/api";
 
-        class SpanEnrichingProcessor implements SpanProcessor {
-          async forceFlush(): Promise<void> {
-            // Force flush code here
-          }
-          onStart(_span: Span, _parentContext: Context): void {
-            // Normal code here
-          }
-          async shutdown(): Promise<void> {
-            // Shutdown code here
-          }
-          onEnd(span: ReadableSpan): void {
-            if (span.kind === SpanKind.INTERNAL) {
-              span.spanContext().traceFlags = TraceFlags.NONE;
-            }
+      class SpanEnrichingProcessor implements SpanProcessor {
+        async forceFlush(): Promise<void> {
+          // Force flush code here
+        }
+        onStart(_span: Span, _parentContext: Context): void {
+          // Normal code here
+        }
+        async shutdown(): Promise<void> {
+          // Shutdown code here
+        }
+        onEnd(span: ReadableSpan): void {
+          if (span.kind === SpanKind.INTERNAL) {
+            span.spanContext().traceFlags = TraceFlags.NONE;
           }
         }
+      }
       ```
 
 ## Custom telemetry

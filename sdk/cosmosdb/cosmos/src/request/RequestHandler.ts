@@ -3,23 +3,23 @@
 
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { createPipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { prepareURL } from "../common";
-import { Constants } from "../common/constants";
-import { executePlugins, PluginOn } from "../plugins/Plugin";
-import * as RetryUtility from "../retry/retryUtility";
-import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
-import { ErrorResponse } from "./ErrorResponse";
-import { bodyFromData } from "./request";
-import type { RequestContext } from "./RequestContext";
-import type { Response as CosmosResponse } from "./Response";
-import { TimeoutError } from "./TimeoutError";
-import { getCachedDefaultHttpClient } from "../utils/cachedClient";
+import { isReadRequest, prepareURL } from "../common/index.js";
+import { Constants, ResourceType } from "../common/constants.js";
+import { executePlugins, PluginOn } from "../plugins/Plugin.js";
+import * as RetryUtility from "../retry/retryUtility.js";
+import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent.js";
+import { ErrorResponse } from "./ErrorResponse.js";
+import { bodyFromData } from "./request.js";
+import type { RequestContext } from "./RequestContext.js";
+import type { Response as CosmosResponse } from "./Response.js";
+import { TimeoutError } from "./TimeoutError.js";
+import { getCachedDefaultHttpClient } from "../utils/cachedClient.js";
 import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import { addDignosticChild } from "../utils/diagnostics";
-import { getCurrentTimestampInMs } from "../utils/time";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import { addDiagnosticChild } from "../utils/diagnostics.js";
+import { getCurrentTimestampInMs } from "../utils/time.js";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
@@ -57,9 +57,25 @@ async function httpRequest(
     }
   }
 
+  let requestTimeout = requestContext.connectionPolicy.requestTimeout;
+  // If the request is a read request and partition level failover or circuit breaker is enabled,
+  // set a shorter timeout to allow for quicker failover in case of partition unavailability.
+  // This is to ensure that read requests can quickly failover to another partition if the current one is unavailable.
+  if (
+    (requestContext.connectionPolicy.enablePartitionLevelFailover ||
+      requestContext.connectionPolicy.enablePartitionLevelCircuitBreaker) &&
+    requestContext.partitionKeyRangeId &&
+    requestContext.resourceType === ResourceType.item &&
+    isReadRequest(requestContext.operationType)
+  ) {
+    requestTimeout = Math.min(
+      requestContext.connectionPolicy.requestTimeout,
+      Constants.RequestTimeoutForReadsInMs,
+    );
+  }
   const timeout = setTimeout(() => {
     controller.abort();
-  }, requestContext.connectionPolicy.requestTimeout);
+  }, requestTimeout);
 
   let response: PipelineResponse;
 
@@ -99,7 +115,6 @@ async function httpRequest(
         clearTimeout(timeout);
         throw error;
       }
-      // If the user didn't cancel, it must be an abort we called due to timeout
       throw new TimeoutError(
         `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`,
       );
@@ -186,7 +201,7 @@ async function request<T>(
     }
   }
 
-  return addDignosticChild(
+  return addDiagnosticChild(
     async (childNode: DiagnosticNodeInternal) => {
       return RetryUtility.execute({
         diagnosticNode: childNode,

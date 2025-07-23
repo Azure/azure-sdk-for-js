@@ -1636,9 +1636,9 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
+/** The Storage Account ManagementPolicies Rules. See more details in: https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview. */
 export interface ManagementPolicySchema {
-  /** The Storage Account ManagementPolicies Rules. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
+  /** The Storage Account ManagementPolicies Rules. See more details in: https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview. */
   rules: ManagementPolicyRule[];
 }
 
@@ -2184,10 +2184,10 @@ export interface TriggerParameters {
   /** Run interval of task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
   interval?: number;
   /** Run interval unit of task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
-  intervalUnit?: "Days";
+  intervalUnit?: IntervalUnit;
   /** When to end task execution. This is a required field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
   endBy?: Date;
-  /** When to start task execution. This is an optional field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule' */
+  /** When to start task execution. This is a required field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule' */
   startOn?: Date;
 }
 
@@ -2210,32 +2210,32 @@ export interface StorageTaskReportProperties {
    */
   readonly storageAccountId?: string;
   /**
-   * Start time of the run instance. Filter options such as startTime gt '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for DateTime properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * Start time of the run instance. Filter options such as startTime gt '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for DateTime properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly startTime?: string;
   /**
-   * End time of the run instance. Filter options such as startTime gt '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for DateTime properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * End time of the run instance. Filter options such as startTime gt '2023-06-26T20:51:24.4494016Z' and other comparison operators can be used as described for DateTime properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly finishTime?: string;
   /**
-   * Total number of objects that meet the condition as defined in the storage task assignment execution context. Filter options such as objectsTargetedCount gt 50 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * Total number of objects that meet the condition as defined in the storage task assignment execution context. Filter options such as objectsTargetedCount gt 50 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly objectsTargetedCount?: string;
   /**
-   * Total number of objects that meet the storage tasks condition and were operated upon. Filter options such as objectsOperatedOnCount ge 100 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * Total number of objects that meet the storage tasks condition and were operated upon. Filter options such as objectsOperatedOnCount ge 100 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly objectsOperatedOnCount?: string;
   /**
-   * Total number of objects where task operation failed when was attempted. Filter options such as objectFailedCount eq 0 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * Total number of objects where task operation failed when was attempted. Filter options such as objectFailedCount eq 0 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly objectFailedCount?: string;
   /**
-   * Total number of objects where task operation succeeded when was attempted.Filter options such as objectsSucceededCount gt 150 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
+   * Total number of objects where task operation succeeded when was attempted.Filter options such as objectsSucceededCount gt 150 and other comparison operators can be used as described for Numerical properties in https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#supported-comparison-operators
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly objectsSucceededCount?: string;
@@ -2324,7 +2324,7 @@ export interface TriggerParametersUpdate {
   /** Run interval of task execution. This is a mutable field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
   interval?: number;
   /** Run interval unit of task execution. This is a mutable field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
-  intervalUnit?: "Days";
+  intervalUnit?: IntervalUnit;
   /** When to end task execution. This is a mutable field when ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when ExecutionTrigger.properties.type is 'RunOnce' */
   endBy?: Date;
   /** When to start task execution. This is a mutable field when ExecutionTrigger.properties.type is 'RunOnce'; this property should not be present when ExecutionTrigger.properties.type is 'OnSchedule' */
@@ -2477,7 +2477,7 @@ export interface ManagementPolicy extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTime?: Date;
-  /** The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
+  /** The Storage Account ManagementPolicy, in JSON format. See more details in: https://learn.microsoft.com/azure/storage/blobs/lifecycle-management-overview. */
   policy?: ManagementPolicySchema;
 }
 
@@ -4664,6 +4664,21 @@ export enum KnownNspAccessRuleDirection {
  */
 export type NspAccessRuleDirection = string;
 
+/** Known values of {@link IntervalUnit} that the service accepts. */
+export enum KnownIntervalUnit {
+  /** Days */
+  Days = "Days",
+}
+
+/**
+ * Defines values for IntervalUnit. \
+ * {@link KnownIntervalUnit} can be used interchangeably with IntervalUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Days**
+ */
+export type IntervalUnit = string;
+
 /** Known values of {@link RunStatusEnum} that the service accepts. */
 export enum KnownRunStatusEnum {
   /** InProgress */
@@ -4716,6 +4731,7 @@ export type ProvisioningState =
   | "Succeeded"
   | "ValidateSubscriptionQuotaBegin"
   | "ValidateSubscriptionQuotaEnd"
+  | "Accepted"
   | "Deleting"
   | "Canceled"
   | "Failed";
@@ -5620,7 +5636,7 @@ export type StorageTaskAssignmentsListNextResponse = StorageTaskAssignmentsList;
 /** Optional parameters. */
 export interface StorageTaskAssignmentsInstancesReportListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. When specified, it can be used to query using reporting properties. See [Constructing Filter Strings](https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#constructing-filter-strings) for details. */
+  /** Optional. When specified, it can be used to query using reporting properties. See [Constructing Filter Strings](https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#constructing-filter-strings) for details. */
   filter?: string;
   /** Optional, specifies the maximum number of storage task assignment instances to be included in the list response. */
   maxpagesize?: number;
@@ -5641,7 +5657,7 @@ export type StorageTaskAssignmentsInstancesReportListNextResponse =
 /** Optional parameters. */
 export interface StorageTaskAssignmentInstancesReportListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. When specified, it can be used to query using reporting properties. See [Constructing Filter Strings](https://learn.microsoft.com/en-us/rest/api/storageservices/querying-tables-and-entities#constructing-filter-strings) for details. */
+  /** Optional. When specified, it can be used to query using reporting properties. See [Constructing Filter Strings](https://learn.microsoft.com/rest/api/storageservices/querying-tables-and-entities#constructing-filter-strings) for details. */
   filter?: string;
   /** Optional, specifies the maximum number of storage task assignment instances to be included in the list response. */
   maxpagesize?: number;

@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  BmcKeySetPatchParameters,
-  BmcKeySetsUpdateOptionalParams} from "@azure/arm-networkcloud";
 import {
+  BmcKeySetPatchParameters,
+  BmcKeySetsUpdateOptionalParams,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -19,7 +18,7 @@ import "dotenv/config";
  * This sample demonstrates how to Patch properties of baseboard management controller key set for the provided cluster, or update the tags associated with it. Properties and tag updates can be done independently.
  *
  * @summary Patch properties of baseboard management controller key set for the provided cluster, or update the tags associated with it. Properties and tag updates can be done independently.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BmcKeySets_Patch.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BmcKeySets_Patch.json
  */
 async function patchBaseboardManagementControllerKeySetOfCluster(): Promise<void> {
   const subscriptionId =

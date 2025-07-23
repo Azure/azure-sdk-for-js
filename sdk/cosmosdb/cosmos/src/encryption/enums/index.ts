@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { EncryptionType } from "./EncryptionType";
-export { EncryptionAlgorithm } from "./EncryptionAlgorithm";
-export { EncryptionKeyResolverName } from "./EncryptionKeyResolverName";
-export { KeyEncryptionAlgorithm } from "./KeyEncryptionAlgorithm";
+export { EncryptionType } from "./EncryptionType.js";
+export { EncryptionAlgorithm } from "./EncryptionAlgorithm.js";
+export { EncryptionKeyResolverName } from "./EncryptionKeyResolverName.js";
+export { KeyEncryptionAlgorithm } from "./KeyEncryptionAlgorithm.js";

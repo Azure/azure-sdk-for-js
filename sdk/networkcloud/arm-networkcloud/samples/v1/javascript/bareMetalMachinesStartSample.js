@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Start the provided bare metal machine.
  *
  * @summary Start the provided bare metal machine.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2024-07-01/examples/BareMetalMachines_Start.json
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BareMetalMachines_Start.json
  */
 async function startBareMetalMachine() {
   const subscriptionId =

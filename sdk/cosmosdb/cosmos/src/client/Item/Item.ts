@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ClientContext } from "../../ClientContext";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext.js";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import {
   Constants,
   copyObject,
@@ -11,20 +11,20 @@ import {
   isItemResourceValid,
   ResourceType,
   StatusCodes,
-} from "../../common";
-import type { PartitionKey, PartitionKeyInternal } from "../../documents";
-import { convertToInternalPartitionKey } from "../../documents";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-import type { RequestOptions, Response } from "../../request";
-import { ErrorResponse } from "../../request";
-import type { PatchRequestBody } from "../../utils/patch";
-import { PatchOperationType } from "../../utils/patch";
-import type { Container } from "../Container";
-import type { Resource } from "../Resource";
-import type { ItemDefinition } from "./ItemDefinition";
-import { ItemResponse } from "./ItemResponse";
-import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import { setPartitionKeyIfUndefined } from "../../extractPartitionKey";
+} from "../../common/index.js";
+import type { PartitionKey, PartitionKeyInternal } from "../../documents/index.js";
+import { convertToInternalPartitionKey } from "../../documents/index.js";
+import type { RequestOptions, Response } from "../../request/index.js";
+import { ErrorResponse } from "../../request/index.js";
+import type { PatchRequestBody } from "../../utils/patch.js";
+import { PatchOperationType } from "../../utils/patch.js";
+import type { Container } from "../Container/index.js";
+import type { Resource } from "../Resource.js";
+import type { ItemDefinition } from "./ItemDefinition.js";
+import { ItemResponse } from "./ItemResponse.js";
+import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics.js";
+import { setPartitionKeyIfUndefined } from "../../extractPartitionKey.js";
+import { computePartitionKeyRangeId } from "../ClientUtils.js";
 
 /**
  * Used to perform operations on a specific item.
@@ -86,7 +86,7 @@ export class Item {
    *   id: string;
    * }
    *
-   * const { resource: item } = await container.item("id").read<TodoItem>();
+   * const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
    * ```
    */
   public async read<T extends ItemDefinition = any>(
@@ -127,6 +127,16 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.clientContext.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
+
         response = await this.clientContext.read<T>({
           path,
           resourceType: ResourceType.item,
@@ -134,6 +144,7 @@ export class Item {
           options,
           partitionKey: partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -173,7 +184,25 @@ export class Item {
    *
    * @param body - The definition to replace the existing {@link Item}'s definition with.
    * @param options - Additional options for the request
+   * @example
+   * ```ts snippet:ItemReplaceItemDefinition
+   * import { CosmosClient, ItemDefinition } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const item: ItemDefinition = {
+   *   id: "id",
+   *   title: "new_title",
+   * };
+   *
+   * const { resource: replacedItem } = await container.item("id").replace(item);
+   * ```
    */
+
   public replace(
     body: ItemDefinition,
     options?: RequestOptions,
@@ -206,7 +235,7 @@ export class Item {
    *   id: string;
    * }
    *
-   * const { resource: item } = await container.item("id").read<TodoItem>();
+   * const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
    *
    * item.done = true;
    * const { resource: replacedItem } = await container.item("id").replace<TodoItem>(item);
@@ -267,6 +296,16 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.clientContext.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
+
         response = await this.clientContext.replace<T>({
           body,
           path,
@@ -275,6 +314,7 @@ export class Item {
           options,
           partitionKey: partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -339,7 +379,7 @@ export class Item {
    *   id: string;
    * }
    *
-   * const { resource: item } = await container.item("id").read<TodoItem>();
+   * const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
    *
    * await container.item("id").delete<TodoItem>();
    * ```
@@ -382,6 +422,16 @@ export class Item {
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
 
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.clientContext.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
+
         response = await this.clientContext.delete<T>({
           path,
           resourceType: ResourceType.item,
@@ -389,6 +439,7 @@ export class Item {
           options,
           partitionKey: partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -433,7 +484,7 @@ export class Item {
    *
    * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
    *
-   * const { resource: item } = await container.item("id").read<TodoItem>();
+   * const { resource: item } = await container.item("id", "<pkValue>").read<TodoItem>();
    *
    * const { resource: patchedItem } = await container.item("id").patch<TodoItem>([
    *   {
@@ -510,6 +561,17 @@ export class Item {
         }
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
+
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.clientContext.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
+
         response = await this.clientContext.patch<T>({
           body,
           path,
@@ -518,6 +580,7 @@ export class Item {
           options,
           partitionKey: partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {

@@ -28,6 +28,7 @@ import {
   SEMATTRS_DB_OPERATION,
   SEMATTRS_DB_STATEMENT,
   SEMATTRS_DB_SYSTEM,
+  SEMATTRS_ENDUSER_ID,
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_STACKTRACE,
   SEMATTRS_EXCEPTION_TYPE,
@@ -105,9 +106,11 @@ export enum OTelPerformanceCounterNames {
   PRIVATE_BYTES = "Private_Bytes",
   AVAILABLE_BYTES = "Available_Bytes",
   PROCESSOR_TIME = "Processor_Time",
-  PROCESS_TIME = "Process_Time",
+  PROCESS_TIME_STANDARD = "Process_Time_Standard",
   REQUEST_RATE = "Request_Rate",
   REQUEST_DURATION = "Request_Execution_Time",
+  PROCESS_TIME_NORMALIZED = "Process_Time_Normalized",
+  EXCEPTION_RATE = "Exception_Rate",
 }
 
 /**
@@ -118,9 +121,11 @@ export enum BreezePerformanceCounterNames {
   PRIVATE_BYTES = "\\Process(??APP_WIN32_PROC??)\\Private Bytes",
   AVAILABLE_BYTES = "\\Memory\\Available Bytes",
   PROCESSOR_TIME = "\\Processor(_Total)\\% Processor Time",
-  PROCESS_TIME = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
+  PROCESS_TIME_STANDARD = "\\Process(??APP_WIN32_PROC??)\\% Processor Time",
   REQUEST_RATE = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Requests/Sec",
   REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
+  PROCESS_TIME_NORMALIZED = "\\Process(??APP_WIN32_PROC??)\\% Processor Time Normalized",
+  EXCEPTION_RATE = "\\.NET CLR Exceptions(??APP_CLR_PROC??)\\# of Exceps Thrown / sec",
 }
 
 /**
@@ -166,8 +171,17 @@ export const legacySemanticValues = [
   SEMATTRS_NET_HOST_PORT,
   SEMATTRS_NET_PEER_PORT,
   SEMATTRS_HTTP_CLIENT_IP,
+  SEMATTRS_ENDUSER_ID,
   "http.status_text",
 ];
+
+/**
+ * Experimental OpenTelemetry semantic convention values
+ * @internal
+ */
+export enum experimentalOpenTelemetryValues {
+  SYNTHETIC_TYPE = "user_agent.synthetic.type",
+}
 
 /**
  * HTTP semantic convention values
@@ -196,6 +210,7 @@ export const httpSemanticValues = [
   ATTR_EXCEPTION_TYPE,
   ATTR_EXCEPTION_MESSAGE,
   ATTR_EXCEPTION_STACKTRACE,
+  experimentalOpenTelemetryValues.SYNTHETIC_TYPE,
 ];
 
 /**
