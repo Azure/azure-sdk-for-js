@@ -6,84 +6,83 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
-  PrivateEndpointConnectionsListByResourceOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   PrivateEndpointConnectionsCreateOrUpdateResponse,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsListByResourceOptionalParams,
+  PrivateEndpointConnectionsListByResourceResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnections. */
 export interface PrivateEndpointConnections {
   /**
-   * Get list of Private endpoint connections.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param options The options parameters.
-   */
-  listByResource(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    options?: PrivateEndpointConnectionsListByResourceOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-  /**
    * Approves or Rejects a Private endpoint connection request.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param privateEndpointConnectionName Private endpoint connection name.
-   * @param body Request object.
+   * @param request Request object.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     privateEndpointConnectionName: string,
-    body: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    request: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Get Private endpoint connection object.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param privateEndpointConnectionName Private endpoint connection name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Delete Private endpoint connection request.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param privateEndpointConnectionName Private endpoint connection name.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Private endpoint connection request.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param privateEndpointConnectionName Private endpoint connection name.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Get list of Private endpoint connections.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
+   * @param options The options parameters.
+   */
+  listByResource(
+    resourceGroupName: string,
+    dataManagerForAgricultureResourceName: string,
+    options?: PrivateEndpointConnectionsListByResourceOptionalParams,
+  ): Promise<PrivateEndpointConnectionsListByResourceResponse>;
 }
