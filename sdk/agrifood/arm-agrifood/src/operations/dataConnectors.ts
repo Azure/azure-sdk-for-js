@@ -8,31 +8,31 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Extensions } from "../operationsInterfaces/index.js";
+import { DataConnectors } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient.js";
 import {
-  Extension,
-  ExtensionsListByDataManagerForAgricultureNextOptionalParams,
-  ExtensionsListByDataManagerForAgricultureOptionalParams,
-  ExtensionsListByDataManagerForAgricultureResponse,
-  ExtensionsCreateOrUpdateOptionalParams,
-  ExtensionsCreateOrUpdateResponse,
-  ExtensionsGetOptionalParams,
-  ExtensionsGetResponse,
-  ExtensionsDeleteOptionalParams,
-  ExtensionsListByDataManagerForAgricultureNextResponse,
+  DataConnector,
+  DataConnectorsListNextOptionalParams,
+  DataConnectorsListOptionalParams,
+  DataConnectorsListResponse,
+  DataConnectorsGetOptionalParams,
+  DataConnectorsGetResponse,
+  DataConnectorsCreateOrUpdateOptionalParams,
+  DataConnectorsCreateOrUpdateResponse,
+  DataConnectorsDeleteOptionalParams,
+  DataConnectorsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Extensions operations. */
-export class ExtensionsImpl implements Extensions {
+/** Class containing DataConnectors operations. */
+export class DataConnectorsImpl implements DataConnectors {
   private readonly client: AgriFoodMgmtClient;
 
   /**
-   * Initialize a new instance of the class Extensions class.
+   * Initialize a new instance of the class DataConnectors class.
    * @param client Reference to the service client
    */
   constructor(client: AgriFoodMgmtClient) {
@@ -40,17 +40,17 @@ export class ExtensionsImpl implements Extensions {
   }
 
   /**
-   * Get installed extensions details.
+   * Lists the Data Connector Credentials for MADMA instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param options The options parameters.
    */
-  public listByDataManagerForAgriculture(
+  public list(
     resourceGroupName: string,
     dataManagerForAgricultureResourceName: string,
-    options?: ExtensionsListByDataManagerForAgricultureOptionalParams,
-  ): PagedAsyncIterableIterator<Extension> {
-    const iter = this.listByDataManagerForAgriculturePagingAll(
+    options?: DataConnectorsListOptionalParams,
+  ): PagedAsyncIterableIterator<DataConnector> {
+    const iter = this.listPagingAll(
       resourceGroupName,
       dataManagerForAgricultureResourceName,
       options,
@@ -66,7 +66,7 @@ export class ExtensionsImpl implements Extensions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByDataManagerForAgriculturePagingPage(
+        return this.listPagingPage(
           resourceGroupName,
           dataManagerForAgricultureResourceName,
           options,
@@ -76,16 +76,16 @@ export class ExtensionsImpl implements Extensions {
     };
   }
 
-  private async *listByDataManagerForAgriculturePagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     dataManagerForAgricultureResourceName: string,
-    options?: ExtensionsListByDataManagerForAgricultureOptionalParams,
+    options?: DataConnectorsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Extension[]> {
-    let result: ExtensionsListByDataManagerForAgricultureResponse;
+  ): AsyncIterableIterator<DataConnector[]> {
+    let result: DataConnectorsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDataManagerForAgriculture(
+      result = await this._list(
         resourceGroupName,
         dataManagerForAgricultureResourceName,
         options,
@@ -96,7 +96,7 @@ export class ExtensionsImpl implements Extensions {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByDataManagerForAgricultureNext(
+      result = await this._listNext(
         resourceGroupName,
         dataManagerForAgricultureResourceName,
         continuationToken,
@@ -109,12 +109,12 @@ export class ExtensionsImpl implements Extensions {
     }
   }
 
-  private async *listByDataManagerForAgriculturePagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     dataManagerForAgricultureResourceName: string,
-    options?: ExtensionsListByDataManagerForAgricultureOptionalParams,
-  ): AsyncIterableIterator<Extension> {
-    for await (const page of this.listByDataManagerForAgriculturePagingPage(
+    options?: DataConnectorsListOptionalParams,
+  ): AsyncIterableIterator<DataConnector> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
       dataManagerForAgricultureResourceName,
       options,
@@ -124,49 +124,23 @@ export class ExtensionsImpl implements Extensions {
   }
 
   /**
-   * Install or Update extension. Additional Api Properties are merged patch and if the extension is
-   * updated to a new version then the obsolete entries will be auto deleted from Additional Api
-   * Properties.
+   * Get specific Data Connector resource by DataConnectorName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
-   * @param extensionId Id of extension resource.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    dataManagerForAgricultureResourceName: string,
-    extensionId: string,
-    options?: ExtensionsCreateOrUpdateOptionalParams,
-  ): Promise<ExtensionsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        dataManagerForAgricultureResourceName,
-        extensionId,
-        options,
-      },
-      createOrUpdateOperationSpec,
-    );
-  }
-
-  /**
-   * Get installed extension details by extension id.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
-   * @param extensionId Id of extension resource.
+   * @param dataConnectorName Connector name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     dataManagerForAgricultureResourceName: string,
-    extensionId: string,
-    options?: ExtensionsGetOptionalParams,
-  ): Promise<ExtensionsGetResponse> {
+    dataConnectorName: string,
+    options?: DataConnectorsGetOptionalParams,
+  ): Promise<DataConnectorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         dataManagerForAgricultureResourceName,
-        extensionId,
+        dataConnectorName,
         options,
       },
       getOperationSpec,
@@ -174,23 +148,50 @@ export class ExtensionsImpl implements Extensions {
   }
 
   /**
-   * Uninstall extension.
+   * Create or update Data Connector For MADMA resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
-   * @param extensionId Id of extension resource.
+   * @param dataConnectorName Connector name.
+   * @param body Body must be valid DataConnector request.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    dataManagerForAgricultureResourceName: string,
+    dataConnectorName: string,
+    body: DataConnector,
+    options?: DataConnectorsCreateOrUpdateOptionalParams,
+  ): Promise<DataConnectorsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        dataManagerForAgricultureResourceName,
+        dataConnectorName,
+        body,
+        options,
+      },
+      createOrUpdateOperationSpec,
+    );
+  }
+
+  /**
+   * Delete a Data Connectors with given dataConnector name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
+   * @param dataConnectorName Connector name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     dataManagerForAgricultureResourceName: string,
-    extensionId: string,
-    options?: ExtensionsDeleteOptionalParams,
+    dataConnectorName: string,
+    options?: DataConnectorsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         dataManagerForAgricultureResourceName,
-        extensionId,
+        dataConnectorName,
         options,
       },
       deleteOperationSpec,
@@ -198,36 +199,35 @@ export class ExtensionsImpl implements Extensions {
   }
 
   /**
-   * Get installed extensions details.
+   * Lists the Data Connector Credentials for MADMA instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param options The options parameters.
    */
-  private _listByDataManagerForAgriculture(
+  private _list(
     resourceGroupName: string,
     dataManagerForAgricultureResourceName: string,
-    options?: ExtensionsListByDataManagerForAgricultureOptionalParams,
-  ): Promise<ExtensionsListByDataManagerForAgricultureResponse> {
+    options?: DataConnectorsListOptionalParams,
+  ): Promise<DataConnectorsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataManagerForAgricultureResourceName, options },
-      listByDataManagerForAgricultureOperationSpec,
+      listOperationSpec,
     );
   }
 
   /**
-   * ListByDataManagerForAgricultureNext
+   * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListByDataManagerForAgriculture method.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByDataManagerForAgricultureNext(
+  private _listNext(
     resourceGroupName: string,
     dataManagerForAgricultureResourceName: string,
     nextLink: string,
-    options?: ExtensionsListByDataManagerForAgricultureNextOptionalParams,
-  ): Promise<ExtensionsListByDataManagerForAgricultureNextResponse> {
+    options?: DataConnectorsListNextOptionalParams,
+  ): Promise<DataConnectorsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -235,65 +235,71 @@ export class ExtensionsImpl implements Extensions {
         nextLink,
         options,
       },
-      listByDataManagerForAgricultureNextOperationSpec,
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/extensions/{extensionId}",
-  httpMethod: "PUT",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/dataConnectors/{dataConnectorName}",
+  httpMethod: "GET",
   responses: {
-    201: {
-      bodyMapper: Mappers.Extension,
+    200: {
+      bodyMapper: Mappers.DataConnector,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.requestBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dataManagerForAgricultureResourceName,
-    Parameters.extensionId,
+    Parameters.dataConnectorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/dataConnectors/{dataConnectorName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataConnector,
+    },
+    201: {
+      bodyMapper: Mappers.DataConnector,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.dataManagerForAgricultureResourceName,
+    Parameters.dataConnectorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/extensions/{extensionId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Extension,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.dataManagerForAgricultureResourceName,
-    Parameters.extensionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/extensions/{extensionId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/dataConnectors/{dataConnectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
+    400: {
+      isError: true,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -304,17 +310,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dataManagerForAgricultureResourceName,
-    Parameters.extensionId,
+    Parameters.dataConnectorName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByDataManagerForAgricultureOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/extensions",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/dataConnectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExtensionListResponse,
+      bodyMapper: Mappers.DataConnectorListResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -324,8 +330,6 @@ const listByDataManagerForAgricultureOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion,
     Parameters.maxPageSize,
     Parameters.skipToken,
-    Parameters.extensionCategories,
-    Parameters.extensionIds,
   ],
   urlParameters: [
     Parameters.$host,
@@ -336,25 +340,24 @@ const listByDataManagerForAgricultureOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByDataManagerForAgricultureNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ExtensionListResponse,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataConnectorListResponse,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.dataManagerForAgricultureResourceName,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.dataManagerForAgricultureResourceName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

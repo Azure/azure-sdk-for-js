@@ -6,10 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./checkNameAvailability.js";
+export * from "./dataConnectors.js";
+export * from "./dataManagerForAgricultureExtensions.js";
+export * from "./dataManagerForAgricultureResources.js";
+export * from "./operationResults.js";
 export * from "./extensions.js";
-export * from "./farmBeatsExtensions.js";
-export * from "./farmBeatsModels.js";
-export * from "./locations.js";
 export * from "./operations.js";
 export * from "./privateEndpointConnections.js";
 export * from "./privateLinkResources.js";
+export * from "./solutions.js";
+export * from "./solutionsDiscoverability.js";
