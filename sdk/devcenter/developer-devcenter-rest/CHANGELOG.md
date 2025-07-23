@@ -1,14 +1,880 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 2.0.0-beta.1 (2025-07-23)
+Compared with version 1.0.1
 
 ### Features Added
+  - Added operation in Routes for path: "/projects/{projectName}/approvals"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/abilities"
+  - Added operation in Routes for path: "/projects/{projectName}/pools/{poolName}:align"
+  - Added operation in Routes for path: "/projects/{projectName}/schedules"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:approve"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:align"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:repair"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:setActiveHours"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/customizationGroups"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/customizationGroups/{customizationGroupName}"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/customizationGroups/{customizationGroupName}/logs/{customizationTaskId}"
+  - Added operation in Routes for path: "/projects/{projectName}/customizationTasks"
+  - Added operation in Routes for path: "/projects/{projectName}/catalogs/{catalogName}/customizationTasks/{taskName}"
+  - Added operation in Routes for path: "/projects/{projectName}/customizationTasks:validateGroup"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/operations"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/operations/{operationId}"
+  - Added operation in Routes for path: "/projects/{projectName}/imageBuildLogs/{imageBuildLogId}"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/snapshots"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/snapshots/{snapshotId}"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:restoreSnapshot"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:captureSnapshot"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/addons"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/addons/{addOnName}"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/addons/{addOnName}:enable"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/addons/{addOnName}:disable"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/environments/{environmentName}/outputs"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/environments/{environmentName}/operations"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/environments/{environmentName}/operations/{operationId}"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/environments/{environmentName}/operations/{operationId}/logs"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/environments/{environmentName}/actions"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/environments/{environmentName}/actions/{actionName}"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/environments/{environmentName}/actions/{actionName}:skip"
+  - Added operation in Routes for path: "/projects/{projectName}/users/{userId}/environments/{environmentName}/actions/{actionName}:delay"
+  - Added operation in Routes for path: "/projects/{projectName}/environmentTypes/{environmentTypeName}"
+  - Added operation in Routes for path: "/projects/{projectName}/environmentTypes/{environmentTypeName}/users/{userId}/abilities"
+  - Added Interface ActiveHoursConfiguration
+  - Added Interface ActiveHoursConfigurationOutput
+  - Added Interface ApprovalOutput
+  - Added Interface CustomizationGroup
+  - Added Interface CustomizationGroupOutput
+  - Added Interface CustomizationTask
+  - Added Interface CustomizationTaskDefinitionOutput
+  - Added Interface CustomizationTaskDefinitionParameterOutput
+  - Added Interface CustomizationTaskList
+  - Added Interface CustomizationTaskListValidationErrorOutput
+  - Added Interface CustomizationTaskListValidationOperationResultOutput
+  - Added Interface CustomizationTaskListValidationResultOutput
+  - Added Interface CustomizationTaskOutput
+  - Added Interface DevBoxAddOnOutputParent
+  - Added Interface DevBoxAddOnParent
+  - Added Interface DevBoxAlignOperationOutput
+  - Added Interface DevBoxCaptureSnapshotOperationOutput
+  - Added Interface DevBoxesAlignDevBox
+  - Added Interface DevBoxesAlignDevBox202Headers
+  - Added Interface DevBoxesAlignDevBox202Response
+  - Added Interface DevBoxesAlignDevBoxBodyParam
+  - Added Interface DevBoxesAlignDevBoxDefaultHeaders
+  - Added Interface DevBoxesAlignDevBoxDefaultResponse
+  - Added Interface DevBoxesAlignDevBoxLogicalResponse
+  - Added Interface DevBoxesAlignPool
+  - Added Interface DevBoxesAlignPool202Headers
+  - Added Interface DevBoxesAlignPool202Response
+  - Added Interface DevBoxesAlignPoolBodyParam
+  - Added Interface DevBoxesAlignPoolDefaultHeaders
+  - Added Interface DevBoxesAlignPoolDefaultResponse
+  - Added Interface DevBoxesAlignPoolLogicalResponse
+  - Added Interface DevBoxesApproveDevBox
+  - Added Interface DevBoxesApproveDevBox202Headers
+  - Added Interface DevBoxesApproveDevBox202Response
+  - Added Interface DevBoxesApproveDevBoxDefaultHeaders
+  - Added Interface DevBoxesApproveDevBoxDefaultResponse
+  - Added Interface DevBoxesApproveDevBoxLogicalResponse
+  - Added Interface DevBoxesCaptureSnapshot
+  - Added Interface DevBoxesCaptureSnapshot202Headers
+  - Added Interface DevBoxesCaptureSnapshot202Response
+  - Added Interface DevBoxesCaptureSnapshotDefaultHeaders
+  - Added Interface DevBoxesCaptureSnapshotDefaultResponse
+  - Added Interface DevBoxesCaptureSnapshotLogicalResponse
+  - Added Interface DevBoxesCreateCustomizationGroup200Response
+  - Added Interface DevBoxesCreateCustomizationGroupBodyParam
+  - Added Interface DevBoxesCreateCustomizationGroupDefaultHeaders
+  - Added Interface DevBoxesCreateCustomizationGroupDefaultResponse
+  - Added Interface DevBoxesCreateDevBox200Response
+  - Added Interface DevBoxesCreateDevBox201Headers
+  - Added Interface DevBoxesCreateDevBox201Response
+  - Added Interface DevBoxesCreateDevBoxBodyParam
+  - Added Interface DevBoxesCreateDevBoxDefaultHeaders
+  - Added Interface DevBoxesCreateDevBoxDefaultResponse
+  - Added Interface DevBoxesCreateDevBoxLogicalResponse
+  - Added Interface DevBoxesCreateOrReplaceDevBoxAddOn200Response
+  - Added Interface DevBoxesCreateOrReplaceDevBoxAddOn201Headers
+  - Added Interface DevBoxesCreateOrReplaceDevBoxAddOn201Response
+  - Added Interface DevBoxesCreateOrReplaceDevBoxAddOnBodyParam
+  - Added Interface DevBoxesCreateOrReplaceDevBoxAddOnDefaultHeaders
+  - Added Interface DevBoxesCreateOrReplaceDevBoxAddOnDefaultResponse
+  - Added Interface DevBoxesCreateOrReplaceDevBoxAddOnLogicalResponse
+  - Added Interface DevBoxesDelayAction
+  - Added Interface DevBoxesDelayAction200Response
+  - Added Interface DevBoxesDelayActionDefaultHeaders
+  - Added Interface DevBoxesDelayActionDefaultResponse
+  - Added Interface DevBoxesDelayActionQueryParam
+  - Added Interface DevBoxesDelayActionQueryParamProperties
+  - Added Interface DevBoxesDelayActions
+  - Added Interface DevBoxesDelayActions200Response
+  - Added Interface DevBoxesDelayActionsDefaultHeaders
+  - Added Interface DevBoxesDelayActionsDefaultResponse
+  - Added Interface DevBoxesDelayActionsQueryParam
+  - Added Interface DevBoxesDelayActionsQueryParamProperties
+  - Added Interface DevBoxesDeleteDevBox202Headers
+  - Added Interface DevBoxesDeleteDevBox202Response
+  - Added Interface DevBoxesDeleteDevBox204Response
+  - Added Interface DevBoxesDeleteDevBoxAddOn202Headers
+  - Added Interface DevBoxesDeleteDevBoxAddOn202Response
+  - Added Interface DevBoxesDeleteDevBoxAddOn204Response
+  - Added Interface DevBoxesDeleteDevBoxAddOnDefaultHeaders
+  - Added Interface DevBoxesDeleteDevBoxAddOnDefaultResponse
+  - Added Interface DevBoxesDeleteDevBoxAddOnLogicalResponse
+  - Added Interface DevBoxesDeleteDevBoxDefaultHeaders
+  - Added Interface DevBoxesDeleteDevBoxDefaultResponse
+  - Added Interface DevBoxesDeleteDevBoxLogicalResponse
+  - Added Interface DevBoxesDisableDevBoxAddOn
+  - Added Interface DevBoxesDisableDevBoxAddOn202Headers
+  - Added Interface DevBoxesDisableDevBoxAddOn202Response
+  - Added Interface DevBoxesDisableDevBoxAddOnDefaultHeaders
+  - Added Interface DevBoxesDisableDevBoxAddOnDefaultResponse
+  - Added Interface DevBoxesDisableDevBoxAddOnLogicalResponse
+  - Added Interface DevBoxesEnableDevBoxAddOn
+  - Added Interface DevBoxesEnableDevBoxAddOn202Headers
+  - Added Interface DevBoxesEnableDevBoxAddOn202Response
+  - Added Interface DevBoxesEnableDevBoxAddOnDefaultHeaders
+  - Added Interface DevBoxesEnableDevBoxAddOnDefaultResponse
+  - Added Interface DevBoxesEnableDevBoxAddOnLogicalResponse
+  - Added Interface DevBoxesGetAction
+  - Added Interface DevBoxesGetAction200Response
+  - Added Interface DevBoxesGetActionDefaultHeaders
+  - Added Interface DevBoxesGetActionDefaultResponse
+  - Added Interface DevBoxesGetCustomizationGroup
+  - Added Interface DevBoxesGetCustomizationGroup200Response
+  - Added Interface DevBoxesGetCustomizationGroupDefaultHeaders
+  - Added Interface DevBoxesGetCustomizationGroupDefaultResponse
+  - Added Interface DevBoxesGetCustomizationTaskDefinitions
+  - Added Interface DevBoxesGetCustomizationTaskDefinitions200Response
+  - Added Interface DevBoxesGetCustomizationTaskDefinitionsDefaultHeaders
+  - Added Interface DevBoxesGetCustomizationTaskDefinitionsDefaultResponse
+  - Added Interface DevBoxesGetCustomizationTaskLog
+  - Added Interface DevBoxesGetCustomizationTaskLog200Headers
+  - Added Interface DevBoxesGetCustomizationTaskLog200Response
+  - Added Interface DevBoxesGetCustomizationTaskLogDefaultHeaders
+  - Added Interface DevBoxesGetCustomizationTaskLogDefaultResponse
+  - Added Interface DevBoxesGetDevBoxAddon
+  - Added Interface DevBoxesGetDevBoxAddon200Response
+  - Added Interface DevBoxesGetDevBoxAddonDefaultHeaders
+  - Added Interface DevBoxesGetDevBoxAddonDefaultResponse
+  - Added Interface DevBoxesGetDevBoxByUser
+  - Added Interface DevBoxesGetDevBoxByUser200Response
+  - Added Interface DevBoxesGetDevBoxByUserDefaultHeaders
+  - Added Interface DevBoxesGetDevBoxByUserDefaultResponse
+  - Added Interface DevBoxesGetImagingTaskLog
+  - Added Interface DevBoxesGetImagingTaskLog200Headers
+  - Added Interface DevBoxesGetImagingTaskLog200Response
+  - Added Interface DevBoxesGetImagingTaskLogDefaultHeaders
+  - Added Interface DevBoxesGetImagingTaskLogDefaultResponse
+  - Added Interface DevBoxesGetOperation
+  - Added Interface DevBoxesGetOperation200Response
+  - Added Interface DevBoxesGetOperationDefaultHeaders
+  - Added Interface DevBoxesGetOperationDefaultResponse
+  - Added Interface DevBoxesGetPool
+  - Added Interface DevBoxesGetPool200Response
+  - Added Interface DevBoxesGetPoolDefaultHeaders
+  - Added Interface DevBoxesGetPoolDefaultResponse
+  - Added Interface DevBoxesGetRemoteConnection
+  - Added Interface DevBoxesGetRemoteConnection200Response
+  - Added Interface DevBoxesGetRemoteConnectionDefaultHeaders
+  - Added Interface DevBoxesGetRemoteConnectionDefaultResponse
+  - Added Interface DevBoxesGetScheduleByPool
+  - Added Interface DevBoxesGetScheduleByPool200Response
+  - Added Interface DevBoxesGetScheduleByPoolDefaultHeaders
+  - Added Interface DevBoxesGetScheduleByPoolDefaultResponse
+  - Added Interface DevBoxesGetSnapshot
+  - Added Interface DevBoxesGetSnapshot200Response
+  - Added Interface DevBoxesGetSnapshotDefaultHeaders
+  - Added Interface DevBoxesGetSnapshotDefaultResponse
+  - Added Interface DevBoxesListActions
+  - Added Interface DevBoxesListActions200Response
+  - Added Interface DevBoxesListActionsDefaultHeaders
+  - Added Interface DevBoxesListActionsDefaultResponse
+  - Added Interface DevBoxesListAllDevBoxes
+  - Added Interface DevBoxesListAllDevBoxes200Response
+  - Added Interface DevBoxesListAllDevBoxesByUser
+  - Added Interface DevBoxesListAllDevBoxesByUser200Response
+  - Added Interface DevBoxesListAllDevBoxesByUserDefaultHeaders
+  - Added Interface DevBoxesListAllDevBoxesByUserDefaultResponse
+  - Added Interface DevBoxesListAllDevBoxesDefaultHeaders
+  - Added Interface DevBoxesListAllDevBoxesDefaultResponse
+  - Added Interface DevBoxesListCustomizationGroups
+  - Added Interface DevBoxesListCustomizationGroups200Response
+  - Added Interface DevBoxesListCustomizationGroupsDefaultHeaders
+  - Added Interface DevBoxesListCustomizationGroupsDefaultResponse
+  - Added Interface DevBoxesListCustomizationGroupsQueryParam
+  - Added Interface DevBoxesListCustomizationGroupsQueryParamProperties
+  - Added Interface DevBoxesListCustomizationTaskDefinitionsByProject
+  - Added Interface DevBoxesListCustomizationTaskDefinitionsByProject200Response
+  - Added Interface DevBoxesListCustomizationTaskDefinitionsByProjectDefaultHeaders
+  - Added Interface DevBoxesListCustomizationTaskDefinitionsByProjectDefaultResponse
+  - Added Interface DevBoxesListDevBoxAddons
+  - Added Interface DevBoxesListDevBoxAddons200Response
+  - Added Interface DevBoxesListDevBoxAddonsDefaultHeaders
+  - Added Interface DevBoxesListDevBoxAddonsDefaultResponse
+  - Added Interface DevBoxesListDevBoxesByUser
+  - Added Interface DevBoxesListDevBoxesByUser200Response
+  - Added Interface DevBoxesListDevBoxesByUserDefaultHeaders
+  - Added Interface DevBoxesListDevBoxesByUserDefaultResponse
+  - Added Interface DevBoxesListOperations
+  - Added Interface DevBoxesListOperations200Response
+  - Added Interface DevBoxesListOperationsDefaultHeaders
+  - Added Interface DevBoxesListOperationsDefaultResponse
+  - Added Interface DevBoxesListPools
+  - Added Interface DevBoxesListPools200Response
+  - Added Interface DevBoxesListPoolsDefaultHeaders
+  - Added Interface DevBoxesListPoolsDefaultResponse
+  - Added Interface DevBoxesListSchedulesByPool
+  - Added Interface DevBoxesListSchedulesByPool200Response
+  - Added Interface DevBoxesListSchedulesByPoolDefaultHeaders
+  - Added Interface DevBoxesListSchedulesByPoolDefaultResponse
+  - Added Interface DevBoxesListSchedulesByProject
+  - Added Interface DevBoxesListSchedulesByProject200Response
+  - Added Interface DevBoxesListSchedulesByProjectDefaultHeaders
+  - Added Interface DevBoxesListSchedulesByProjectDefaultResponse
+  - Added Interface DevBoxesListSnapshots
+  - Added Interface DevBoxesListSnapshots200Response
+  - Added Interface DevBoxesListSnapshotsDefaultHeaders
+  - Added Interface DevBoxesListSnapshotsDefaultResponse
+  - Added Interface DevBoxesRepairDevBox
+  - Added Interface DevBoxesRepairDevBox202Headers
+  - Added Interface DevBoxesRepairDevBox202Response
+  - Added Interface DevBoxesRepairDevBoxDefaultHeaders
+  - Added Interface DevBoxesRepairDevBoxDefaultResponse
+  - Added Interface DevBoxesRepairDevBoxLogicalResponse
+  - Added Interface DevBoxesRestartDevBox
+  - Added Interface DevBoxesRestartDevBox202Headers
+  - Added Interface DevBoxesRestartDevBox202Response
+  - Added Interface DevBoxesRestartDevBoxDefaultHeaders
+  - Added Interface DevBoxesRestartDevBoxDefaultResponse
+  - Added Interface DevBoxesRestartDevBoxLogicalResponse
+  - Added Interface DevBoxesRestoreSnapshot
+  - Added Interface DevBoxesRestoreSnapshot202Headers
+  - Added Interface DevBoxesRestoreSnapshot202Response
+  - Added Interface DevBoxesRestoreSnapshotDefaultHeaders
+  - Added Interface DevBoxesRestoreSnapshotDefaultResponse
+  - Added Interface DevBoxesRestoreSnapshotLogicalResponse
+  - Added Interface DevBoxesRestoreSnapshotQueryParam
+  - Added Interface DevBoxesRestoreSnapshotQueryParamProperties
+  - Added Interface DevBoxesSetActiveHours
+  - Added Interface DevBoxesSetActiveHours200Response
+  - Added Interface DevBoxesSetActiveHoursBodyParam
+  - Added Interface DevBoxesSetActiveHoursDefaultHeaders
+  - Added Interface DevBoxesSetActiveHoursDefaultResponse
+  - Added Interface DevBoxesSkipAction
+  - Added Interface DevBoxesSkipAction204Response
+  - Added Interface DevBoxesSkipActionDefaultHeaders
+  - Added Interface DevBoxesSkipActionDefaultResponse
+  - Added Interface DevBoxesStartDevBox
+  - Added Interface DevBoxesStartDevBox202Headers
+  - Added Interface DevBoxesStartDevBox202Response
+  - Added Interface DevBoxesStartDevBoxDefaultHeaders
+  - Added Interface DevBoxesStartDevBoxDefaultResponse
+  - Added Interface DevBoxesStartDevBoxLogicalResponse
+  - Added Interface DevBoxesStopDevBox
+  - Added Interface DevBoxesStopDevBox202Headers
+  - Added Interface DevBoxesStopDevBox202Response
+  - Added Interface DevBoxesStopDevBoxDefaultHeaders
+  - Added Interface DevBoxesStopDevBoxDefaultResponse
+  - Added Interface DevBoxesStopDevBoxLogicalResponse
+  - Added Interface DevBoxesStopDevBoxQueryParam
+  - Added Interface DevBoxesStopDevBoxQueryParamProperties
+  - Added Interface DevBoxesValidateCustomizationTasksAction
+  - Added Interface DevBoxesValidateCustomizationTasksAction202Headers
+  - Added Interface DevBoxesValidateCustomizationTasksAction202Response
+  - Added Interface DevBoxesValidateCustomizationTasksActionBodyParam
+  - Added Interface DevBoxesValidateCustomizationTasksActionDefaultHeaders
+  - Added Interface DevBoxesValidateCustomizationTasksActionDefaultResponse
+  - Added Interface DevBoxesValidateCustomizationTasksActionLogicalResponse
+  - Added Interface DevBoxOperationOutputParent
+  - Added Interface DevBoxRepairOperationOutput
+  - Added Interface DevBoxRepairOperationResultOutput
+  - Added Interface DevBoxRestartOperationOutput
+  - Added Interface DevBoxRestoreSnapshotOperationOutput
+  - Added Interface DevBoxSnapshotOutput
+  - Added Interface DevBoxStartOperationOutput
+  - Added Interface DevBoxStopOperationOutput
+  - Added Interface DevBoxTunnel
+  - Added Interface DevBoxTunnelOutput
+  - Added Interface DevCenterGetProject
+  - Added Interface DevCenterGetProject200Response
+  - Added Interface DevCenterGetProjectAbilities
+  - Added Interface DevCenterGetProjectAbilities200Response
+  - Added Interface DevCenterGetProjectAbilitiesDefaultHeaders
+  - Added Interface DevCenterGetProjectAbilitiesDefaultResponse
+  - Added Interface DevCenterGetProjectDefaultHeaders
+  - Added Interface DevCenterGetProjectDefaultResponse
+  - Added Interface DevCenterListApprovals
+  - Added Interface DevCenterListApprovals200Response
+  - Added Interface DevCenterListApprovalsDefaultHeaders
+  - Added Interface DevCenterListApprovalsDefaultResponse
+  - Added Interface DevCenterListApprovalsQueryParam
+  - Added Interface DevCenterListApprovalsQueryParamProperties
+  - Added Interface DevCenterListApprovalsSelectQueryParam
+  - Added Interface DevCenterListProjects
+  - Added Interface DevCenterListProjects200Response
+  - Added Interface DevCenterListProjectsDefaultHeaders
+  - Added Interface DevCenterListProjectsDefaultResponse
+  - Added Interface EnvironmentActionOutput
+  - Added Interface EnvironmentDeleteOperationOutput
+  - Added Interface EnvironmentDeployOperationOutput
+  - Added Interface EnvironmentNextActionOutput
+  - Added Interface EnvironmentOperationOutputParent
+  - Added Interface EnvironmentOutputOutput
+  - Added Interface EnvironmentOutputsOutput
+  - Added Interface EnvironmentPatchProperties
+  - Added Interface EnvironmentsCreateOrReplaceEnvironment201Headers
+  - Added Interface EnvironmentsCreateOrReplaceEnvironment201Response
+  - Added Interface EnvironmentsCreateOrReplaceEnvironmentBodyParam
+  - Added Interface EnvironmentsCreateOrReplaceEnvironmentDefaultHeaders
+  - Added Interface EnvironmentsCreateOrReplaceEnvironmentDefaultResponse
+  - Added Interface EnvironmentsCreateOrReplaceEnvironmentLogicalResponse
+  - Added Interface EnvironmentsDelayAction
+  - Added Interface EnvironmentsDelayAction200Response
+  - Added Interface EnvironmentsDelayActionDefaultHeaders
+  - Added Interface EnvironmentsDelayActionDefaultResponse
+  - Added Interface EnvironmentsDelayActionQueryParam
+  - Added Interface EnvironmentsDelayActionQueryParamProperties
+  - Added Interface EnvironmentsDeleteEnvironment202Headers
+  - Added Interface EnvironmentsDeleteEnvironment202Response
+  - Added Interface EnvironmentsDeleteEnvironment204Response
+  - Added Interface EnvironmentsDeleteEnvironmentDefaultHeaders
+  - Added Interface EnvironmentsDeleteEnvironmentDefaultResponse
+  - Added Interface EnvironmentsDeleteEnvironmentLogicalResponse
+  - Added Interface EnvironmentsDeleteEnvironmentQueryParam
+  - Added Interface EnvironmentsDeleteEnvironmentQueryParamProperties
+  - Added Interface EnvironmentsGetAction
+  - Added Interface EnvironmentsGetAction200Response
+  - Added Interface EnvironmentsGetActionDefaultHeaders
+  - Added Interface EnvironmentsGetActionDefaultResponse
+  - Added Interface EnvironmentsGetCatalog
+  - Added Interface EnvironmentsGetCatalog200Response
+  - Added Interface EnvironmentsGetCatalogDefaultHeaders
+  - Added Interface EnvironmentsGetCatalogDefaultResponse
+  - Added Interface EnvironmentsGetEnvironmentByUser
+  - Added Interface EnvironmentsGetEnvironmentByUser200Response
+  - Added Interface EnvironmentsGetEnvironmentByUserDefaultHeaders
+  - Added Interface EnvironmentsGetEnvironmentByUserDefaultResponse
+  - Added Interface EnvironmentsGetEnvironmentDefinition
+  - Added Interface EnvironmentsGetEnvironmentDefinition200Response
+  - Added Interface EnvironmentsGetEnvironmentDefinitionDefaultHeaders
+  - Added Interface EnvironmentsGetEnvironmentDefinitionDefaultResponse
+  - Added Interface EnvironmentsGetEnvironmentTypeAbilities
+  - Added Interface EnvironmentsGetEnvironmentTypeAbilities200Response
+  - Added Interface EnvironmentsGetEnvironmentTypeAbilitiesDefaultHeaders
+  - Added Interface EnvironmentsGetEnvironmentTypeAbilitiesDefaultResponse
+  - Added Interface EnvironmentsGetEnvironmentTypeAbilitiesQueryParam
+  - Added Interface EnvironmentsGetEnvironmentTypeAbilitiesQueryParamProperties
+  - Added Interface EnvironmentsGetEnvironmentTypes
+  - Added Interface EnvironmentsGetEnvironmentTypes200Response
+  - Added Interface EnvironmentsGetEnvironmentTypesDefaultHeaders
+  - Added Interface EnvironmentsGetEnvironmentTypesDefaultResponse
+  - Added Interface EnvironmentsGetLogsByOperation
+  - Added Interface EnvironmentsGetLogsByOperation200Headers
+  - Added Interface EnvironmentsGetLogsByOperation200Response
+  - Added Interface EnvironmentsGetLogsByOperationDefaultHeaders
+  - Added Interface EnvironmentsGetLogsByOperationDefaultResponse
+  - Added Interface EnvironmentsGetOperation
+  - Added Interface EnvironmentsGetOperation200Response
+  - Added Interface EnvironmentsGetOperationDefaultHeaders
+  - Added Interface EnvironmentsGetOperationDefaultResponse
+  - Added Interface EnvironmentsGetOutputs
+  - Added Interface EnvironmentsGetOutputs200Response
+  - Added Interface EnvironmentsGetOutputsDefaultHeaders
+  - Added Interface EnvironmentsGetOutputsDefaultResponse
+  - Added Interface EnvironmentsListActions
+  - Added Interface EnvironmentsListActions200Response
+  - Added Interface EnvironmentsListActionsDefaultHeaders
+  - Added Interface EnvironmentsListActionsDefaultResponse
+  - Added Interface EnvironmentsListCatalogsByProject
+  - Added Interface EnvironmentsListCatalogsByProject200Response
+  - Added Interface EnvironmentsListCatalogsByProjectDefaultHeaders
+  - Added Interface EnvironmentsListCatalogsByProjectDefaultResponse
+  - Added Interface EnvironmentsListEnvironmentDefinitionsByCatalog
+  - Added Interface EnvironmentsListEnvironmentDefinitionsByCatalog200Response
+  - Added Interface EnvironmentsListEnvironmentDefinitionsByCatalogDefaultHeaders
+  - Added Interface EnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse
+  - Added Interface EnvironmentsListEnvironmentDefinitionsByProject
+  - Added Interface EnvironmentsListEnvironmentDefinitionsByProject200Response
+  - Added Interface EnvironmentsListEnvironmentDefinitionsByProjectDefaultHeaders
+  - Added Interface EnvironmentsListEnvironmentDefinitionsByProjectDefaultResponse
+  - Added Interface EnvironmentsListEnvironments
+  - Added Interface EnvironmentsListEnvironments200Response
+  - Added Interface EnvironmentsListEnvironmentsByUser
+  - Added Interface EnvironmentsListEnvironmentsByUser200Response
+  - Added Interface EnvironmentsListEnvironmentsByUserDefaultHeaders
+  - Added Interface EnvironmentsListEnvironmentsByUserDefaultResponse
+  - Added Interface EnvironmentsListEnvironmentsDefaultHeaders
+  - Added Interface EnvironmentsListEnvironmentsDefaultResponse
+  - Added Interface EnvironmentsListEnvironmentTypes
+  - Added Interface EnvironmentsListEnvironmentTypes200Response
+  - Added Interface EnvironmentsListEnvironmentTypesDefaultHeaders
+  - Added Interface EnvironmentsListEnvironmentTypesDefaultResponse
+  - Added Interface EnvironmentsListOperations
+  - Added Interface EnvironmentsListOperations200Response
+  - Added Interface EnvironmentsListOperationsDefaultHeaders
+  - Added Interface EnvironmentsListOperationsDefaultResponse
+  - Added Interface EnvironmentsPatchEnvironment200Response
+  - Added Interface EnvironmentsPatchEnvironmentBodyParam
+  - Added Interface EnvironmentsPatchEnvironmentDefaultHeaders
+  - Added Interface EnvironmentsPatchEnvironmentDefaultResponse
+  - Added Interface EnvironmentsPatchEnvironmentMediaTypesParam
+  - Added Interface EnvironmentsSkipAction
+  - Added Interface EnvironmentsSkipAction204Response
+  - Added Interface EnvironmentsSkipActionDefaultHeaders
+  - Added Interface EnvironmentsSkipActionDefaultResponse
+  - Added Interface EnvironmentTypeAbilitiesOutput
+  - Added Interface OperationStatusesGet
+  - Added Interface OperationStatusesGet200Response
+  - Added Interface OperationStatusesGetDefaultHeaders
+  - Added Interface OperationStatusesGetDefaultResponse
+  - Added Interface PagedApprovalOutput
+  - Added Interface PagedCustomizationGroupOutput
+  - Added Interface PagedCustomizationTaskDefinitionOutput
+  - Added Interface PagedDevBoxAddOnOutput
+  - Added Interface PagedDevBoxOperationOutput
+  - Added Interface PagedDevBoxSnapshotOutput
+  - Added Interface PagedEnvironmentActionOutput
+  - Added Interface PagedEnvironmentOperationOutput
+  - Added Interface PoolActiveHoursConfigurationOutput
+  - Added Interface PoolAlignBody
+  - Added Interface ProjectAbilitiesOutput
+  - Added Interface StopOnNoConnectConfigurationOutput
+  - Added Interface UserActiveHoursConfiguration
+  - Interface DevBoxOutput has a new optional parameter activeHoursConfiguration
+  - Interface DevBoxOutput has a new optional parameter lastConnectedTime
+  - Interface DevBoxOutput has a new optional parameter singleSignOnStatus
+  - Interface Environment has a new optional parameter expirationDate
+  - Interface EnvironmentOutput has a new optional parameter expirationDate
+  - Interface EnvironmentTypeOutput has a new optional parameter displayName
+  - Interface PoolOutput has a new optional parameter activeHoursConfiguration
+  - Interface PoolOutput has a new optional parameter displayName
+  - Interface PoolOutput has a new optional parameter singleSignOnStatus
+  - Interface PoolOutput has a new optional parameter stopOnNoConnect
+  - Interface ProjectOutput has a new optional parameter displayName
+  - Interface RemoteConnectionOutput has a new optional parameter cloudPcConnectionUrl
+  - Added Type Alias AutoStartEnableStatus
+  - Added Type Alias AutoStartEnableStatusOutput
+  - Added Type Alias CustomizationGroupStatus
+  - Added Type Alias CustomizationGroupStatusOutput
+  - Added Type Alias CustomizationTaskDefinitionParameterTypeOutput
+  - Added Type Alias CustomizationTaskExecutionAccount
+  - Added Type Alias CustomizationTaskExecutionAccountOutput
+  - Added Type Alias CustomizationTaskListValidationStatusOutput
+  - Added Type Alias CustomizationTaskStatus
+  - Added Type Alias CustomizationTaskStatusOutput
+  - Added Type Alias DayOfWeek
+  - Added Type Alias DayOfWeekOutput
+  - Added Type Alias DevBoxActionSourceTypeOutput
+  - Added Type Alias DevBoxAddOn
+  - Added Type Alias DevBoxAddOnKind
+  - Added Type Alias DevBoxAddOnKindOutput
+  - Added Type Alias DevBoxAddOnOutput
+  - Added Type Alias DevBoxesAlignDevBoxParameters
+  - Added Type Alias DevBoxesAlignPoolParameters
+  - Added Type Alias DevBoxesApproveDevBoxParameters
+  - Added Type Alias DevBoxesCaptureSnapshotParameters
+  - Added Type Alias DevBoxesCreateCustomizationGroupParameters
+  - Added Type Alias DevBoxesCreateDevBoxParameters
+  - Added Type Alias DevBoxesCreateOrReplaceDevBoxAddOnParameters
+  - Added Type Alias DevBoxesDelayActionParameters
+  - Added Type Alias DevBoxesDelayActionsParameters
+  - Added Type Alias DevBoxesDeleteDevBoxAddOnParameters
+  - Added Type Alias DevBoxesDeleteDevBoxParameters
+  - Added Type Alias DevBoxesDisableDevBoxAddOnParameters
+  - Added Type Alias DevBoxesEnableDevBoxAddOnParameters
+  - Added Type Alias DevBoxesGetActionParameters
+  - Added Type Alias DevBoxesGetCustomizationGroupParameters
+  - Added Type Alias DevBoxesGetCustomizationTaskDefinitionsParameters
+  - Added Type Alias DevBoxesGetCustomizationTaskLogParameters
+  - Added Type Alias DevBoxesGetDevBoxAddonParameters
+  - Added Type Alias DevBoxesGetDevBoxByUserParameters
+  - Added Type Alias DevBoxesGetImagingTaskLogParameters
+  - Added Type Alias DevBoxesGetOperationParameters
+  - Added Type Alias DevBoxesGetPoolParameters
+  - Added Type Alias DevBoxesGetRemoteConnectionParameters
+  - Added Type Alias DevBoxesGetScheduleByPoolParameters
+  - Added Type Alias DevBoxesGetSnapshotParameters
+  - Added Type Alias DevBoxesListActionsParameters
+  - Added Type Alias DevBoxesListAllDevBoxesByUserParameters
+  - Added Type Alias DevBoxesListAllDevBoxesParameters
+  - Added Type Alias DevBoxesListCustomizationGroupsParameters
+  - Added Type Alias DevBoxesListCustomizationTaskDefinitionsByProjectParameters
+  - Added Type Alias DevBoxesListDevBoxAddonsParameters
+  - Added Type Alias DevBoxesListDevBoxesByUserParameters
+  - Added Type Alias DevBoxesListOperationsParameters
+  - Added Type Alias DevBoxesListPoolsParameters
+  - Added Type Alias DevBoxesListSchedulesByPoolParameters
+  - Added Type Alias DevBoxesListSchedulesByProjectParameters
+  - Added Type Alias DevBoxesListSnapshotsParameters
+  - Added Type Alias DevBoxesRepairDevBoxParameters
+  - Added Type Alias DevBoxesRestartDevBoxParameters
+  - Added Type Alias DevBoxesRestoreSnapshotParameters
+  - Added Type Alias DevBoxesSetActiveHoursParameters
+  - Added Type Alias DevBoxesSkipActionParameters
+  - Added Type Alias DevBoxesStartDevBoxParameters
+  - Added Type Alias DevBoxesStopDevBoxParameters
+  - Added Type Alias DevBoxesValidateCustomizationTasksActionParameters
+  - Added Type Alias DevBoxOperationKindOutput
+  - Added Type Alias DevBoxOperationOutput
+  - Added Type Alias DevBoxRepairOutcomeOutput
+  - Added Type Alias DevBoxTunnelStatus
+  - Added Type Alias DevBoxTunnelStatusOutput
+  - Added Type Alias DevCenterGetProjectAbilitiesParameters
+  - Added Type Alias DevCenterGetProjectParameters
+  - Added Type Alias DevCenterListApprovalsParameters
+  - Added Type Alias DevCenterListProjectsParameters
+  - Added Type Alias EnvironmentActionTypeOutput
+  - Added Type Alias EnvironmentOperationKindOutput
+  - Added Type Alias EnvironmentOperationOutput
+  - Added Type Alias EnvironmentOutputTypeOutput
+  - Added Type Alias EnvironmentPatchPropertiesResourceMergeAndPatch
+  - Added Type Alias EnvironmentsCreateOrReplaceEnvironmentParameters
+  - Added Type Alias EnvironmentsDelayActionParameters
+  - Added Type Alias EnvironmentsDeleteEnvironmentParameters
+  - Added Type Alias EnvironmentsGetActionParameters
+  - Added Type Alias EnvironmentsGetCatalogParameters
+  - Added Type Alias EnvironmentsGetEnvironmentByUserParameters
+  - Added Type Alias EnvironmentsGetEnvironmentDefinitionParameters
+  - Added Type Alias EnvironmentsGetEnvironmentTypeAbilitiesParameters
+  - Added Type Alias EnvironmentsGetEnvironmentTypesParameters
+  - Added Type Alias EnvironmentsGetLogsByOperationParameters
+  - Added Type Alias EnvironmentsGetOperationParameters
+  - Added Type Alias EnvironmentsGetOutputsParameters
+  - Added Type Alias EnvironmentsListActionsParameters
+  - Added Type Alias EnvironmentsListCatalogsByProjectParameters
+  - Added Type Alias EnvironmentsListEnvironmentDefinitionsByCatalogParameters
+  - Added Type Alias EnvironmentsListEnvironmentDefinitionsByProjectParameters
+  - Added Type Alias EnvironmentsListEnvironmentsByUserParameters
+  - Added Type Alias EnvironmentsListEnvironmentsParameters
+  - Added Type Alias EnvironmentsListEnvironmentTypesParameters
+  - Added Type Alias EnvironmentsListOperationsParameters
+  - Added Type Alias EnvironmentsPatchEnvironmentParameters
+  - Added Type Alias EnvironmentsSkipActionParameters
+  - Added Type Alias EnvironmentTypeAbilityAsAdminOutput
+  - Added Type Alias EnvironmentTypeAbilityAsDeveloperOutput
+  - Added Type Alias KeepAwakeEnableStatus
+  - Added Type Alias KeepAwakeEnableStatusOutput
+  - Added Type Alias ListCustomizationGroupsIncludeProperty
+  - Added Type Alias OperationStatusesGetParameters
+  - Added Type Alias PoolAlignTarget
+  - Added Type Alias ProjectAbilityAsAdminOutput
+  - Added Type Alias ProjectAbilityAsDeveloperOutput
+  - Added Type Alias ProvisioningState
+  - Added Type Alias ProvisioningStateOutput
+  - Added Type Alias ScheduleSourceTypeOutput
+  - Added Type Alias SingleSignOnStatus
+  - Added Type Alias SingleSignOnStatusOutput
+  - Added Type Alias SnapshotTypeOutput
+  - Added Type Alias StopOnNoConnectEnableStatusOutput
+  - Added function overload "export function isUnexpected(response: DevCenterListProjects200Response | DevCenterListProjectsDefaultResponse): response is DevCenterListProjectsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevCenterGetProject200Response | DevCenterGetProjectDefaultResponse): response is DevCenterGetProjectDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevCenterListApprovals200Response | DevCenterListApprovalsDefaultResponse): response is DevCenterListApprovalsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevCenterGetProjectAbilities200Response | DevCenterGetProjectAbilitiesDefaultResponse): response is DevCenterGetProjectAbilitiesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: OperationStatusesGet200Response | OperationStatusesGetDefaultResponse): response is OperationStatusesGetDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListPools200Response | DevBoxesListPoolsDefaultResponse): response is DevBoxesListPoolsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetPool200Response | DevBoxesGetPoolDefaultResponse): response is DevBoxesGetPoolDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesAlignPool202Response | DevBoxesAlignPoolLogicalResponse | DevBoxesAlignPoolDefaultResponse): response is DevBoxesAlignPoolDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListAllDevBoxes200Response | DevBoxesListAllDevBoxesDefaultResponse): response is DevBoxesListAllDevBoxesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListAllDevBoxesByUser200Response | DevBoxesListAllDevBoxesByUserDefaultResponse): response is DevBoxesListAllDevBoxesByUserDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListSchedulesByPool200Response | DevBoxesListSchedulesByPoolDefaultResponse): response is DevBoxesListSchedulesByPoolDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetScheduleByPool200Response | DevBoxesGetScheduleByPoolDefaultResponse): response is DevBoxesGetScheduleByPoolDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListSchedulesByProject200Response | DevBoxesListSchedulesByProjectDefaultResponse): response is DevBoxesListSchedulesByProjectDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListDevBoxesByUser200Response | DevBoxesListDevBoxesByUserDefaultResponse): response is DevBoxesListDevBoxesByUserDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetDevBoxByUser200Response | DevBoxesGetDevBoxByUserDefaultResponse): response is DevBoxesGetDevBoxByUserDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesCreateDevBox200Response | DevBoxesCreateDevBox201Response | DevBoxesCreateDevBoxLogicalResponse | DevBoxesCreateDevBoxDefaultResponse): response is DevBoxesCreateDevBoxDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesDeleteDevBox202Response | DevBoxesDeleteDevBox204Response | DevBoxesDeleteDevBoxLogicalResponse | DevBoxesDeleteDevBoxDefaultResponse): response is DevBoxesDeleteDevBoxDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesApproveDevBox202Response | DevBoxesApproveDevBoxLogicalResponse | DevBoxesApproveDevBoxDefaultResponse): response is DevBoxesApproveDevBoxDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesStartDevBox202Response | DevBoxesStartDevBoxLogicalResponse | DevBoxesStartDevBoxDefaultResponse): response is DevBoxesStartDevBoxDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesStopDevBox202Response | DevBoxesStopDevBoxLogicalResponse | DevBoxesStopDevBoxDefaultResponse): response is DevBoxesStopDevBoxDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesRestartDevBox202Response | DevBoxesRestartDevBoxLogicalResponse | DevBoxesRestartDevBoxDefaultResponse): response is DevBoxesRestartDevBoxDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesAlignDevBox202Response | DevBoxesAlignDevBoxLogicalResponse | DevBoxesAlignDevBoxDefaultResponse): response is DevBoxesAlignDevBoxDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesRepairDevBox202Response | DevBoxesRepairDevBoxLogicalResponse | DevBoxesRepairDevBoxDefaultResponse): response is DevBoxesRepairDevBoxDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesSetActiveHours200Response | DevBoxesSetActiveHoursDefaultResponse): response is DevBoxesSetActiveHoursDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListCustomizationGroups200Response | DevBoxesListCustomizationGroupsDefaultResponse): response is DevBoxesListCustomizationGroupsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetCustomizationGroup200Response | DevBoxesGetCustomizationGroupDefaultResponse): response is DevBoxesGetCustomizationGroupDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesCreateCustomizationGroup200Response | DevBoxesCreateCustomizationGroupDefaultResponse): response is DevBoxesCreateCustomizationGroupDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetCustomizationTaskLog200Response | DevBoxesGetCustomizationTaskLogDefaultResponse): response is DevBoxesGetCustomizationTaskLogDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListCustomizationTaskDefinitionsByProject200Response | DevBoxesListCustomizationTaskDefinitionsByProjectDefaultResponse): response is DevBoxesListCustomizationTaskDefinitionsByProjectDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetCustomizationTaskDefinitions200Response | DevBoxesGetCustomizationTaskDefinitionsDefaultResponse): response is DevBoxesGetCustomizationTaskDefinitionsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesValidateCustomizationTasksAction202Response | DevBoxesValidateCustomizationTasksActionLogicalResponse | DevBoxesValidateCustomizationTasksActionDefaultResponse): response is DevBoxesValidateCustomizationTasksActionDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetRemoteConnection200Response | DevBoxesGetRemoteConnectionDefaultResponse): response is DevBoxesGetRemoteConnectionDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListActions200Response | DevBoxesListActionsDefaultResponse): response is DevBoxesListActionsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetAction200Response | DevBoxesGetActionDefaultResponse): response is DevBoxesGetActionDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesSkipAction204Response | DevBoxesSkipActionDefaultResponse): response is DevBoxesSkipActionDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesDelayAction200Response | DevBoxesDelayActionDefaultResponse): response is DevBoxesDelayActionDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesDelayActions200Response | DevBoxesDelayActionsDefaultResponse): response is DevBoxesDelayActionsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListOperations200Response | DevBoxesListOperationsDefaultResponse): response is DevBoxesListOperationsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetOperation200Response | DevBoxesGetOperationDefaultResponse): response is DevBoxesGetOperationDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetImagingTaskLog200Response | DevBoxesGetImagingTaskLogDefaultResponse): response is DevBoxesGetImagingTaskLogDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListSnapshots200Response | DevBoxesListSnapshotsDefaultResponse): response is DevBoxesListSnapshotsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetSnapshot200Response | DevBoxesGetSnapshotDefaultResponse): response is DevBoxesGetSnapshotDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesRestoreSnapshot202Response | DevBoxesRestoreSnapshotLogicalResponse | DevBoxesRestoreSnapshotDefaultResponse): response is DevBoxesRestoreSnapshotDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesCaptureSnapshot202Response | DevBoxesCaptureSnapshotLogicalResponse | DevBoxesCaptureSnapshotDefaultResponse): response is DevBoxesCaptureSnapshotDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesListDevBoxAddons200Response | DevBoxesListDevBoxAddonsDefaultResponse): response is DevBoxesListDevBoxAddonsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesGetDevBoxAddon200Response | DevBoxesGetDevBoxAddonDefaultResponse): response is DevBoxesGetDevBoxAddonDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesCreateOrReplaceDevBoxAddOn200Response | DevBoxesCreateOrReplaceDevBoxAddOn201Response | DevBoxesCreateOrReplaceDevBoxAddOnLogicalResponse | DevBoxesCreateOrReplaceDevBoxAddOnDefaultResponse): response is DevBoxesCreateOrReplaceDevBoxAddOnDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesDeleteDevBoxAddOn202Response | DevBoxesDeleteDevBoxAddOn204Response | DevBoxesDeleteDevBoxAddOnLogicalResponse | DevBoxesDeleteDevBoxAddOnDefaultResponse): response is DevBoxesDeleteDevBoxAddOnDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesEnableDevBoxAddOn202Response | DevBoxesEnableDevBoxAddOnLogicalResponse | DevBoxesEnableDevBoxAddOnDefaultResponse): response is DevBoxesEnableDevBoxAddOnDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DevBoxesDisableDevBoxAddOn202Response | DevBoxesDisableDevBoxAddOnLogicalResponse | DevBoxesDisableDevBoxAddOnDefaultResponse): response is DevBoxesDisableDevBoxAddOnDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsListEnvironments200Response | EnvironmentsListEnvironmentsDefaultResponse): response is EnvironmentsListEnvironmentsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsListEnvironmentsByUser200Response | EnvironmentsListEnvironmentsByUserDefaultResponse): response is EnvironmentsListEnvironmentsByUserDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsGetEnvironmentByUser200Response | EnvironmentsGetEnvironmentByUserDefaultResponse): response is EnvironmentsGetEnvironmentByUserDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsCreateOrReplaceEnvironment201Response | EnvironmentsCreateOrReplaceEnvironmentLogicalResponse | EnvironmentsCreateOrReplaceEnvironmentDefaultResponse): response is EnvironmentsCreateOrReplaceEnvironmentDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsPatchEnvironment200Response | EnvironmentsPatchEnvironmentDefaultResponse): response is EnvironmentsPatchEnvironmentDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsDeleteEnvironment202Response | EnvironmentsDeleteEnvironment204Response | EnvironmentsDeleteEnvironmentLogicalResponse | EnvironmentsDeleteEnvironmentDefaultResponse): response is EnvironmentsDeleteEnvironmentDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsGetOutputs200Response | EnvironmentsGetOutputsDefaultResponse): response is EnvironmentsGetOutputsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsListOperations200Response | EnvironmentsListOperationsDefaultResponse): response is EnvironmentsListOperationsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsGetOperation200Response | EnvironmentsGetOperationDefaultResponse): response is EnvironmentsGetOperationDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsGetLogsByOperation200Response | EnvironmentsGetLogsByOperationDefaultResponse): response is EnvironmentsGetLogsByOperationDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsListActions200Response | EnvironmentsListActionsDefaultResponse): response is EnvironmentsListActionsDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsGetAction200Response | EnvironmentsGetActionDefaultResponse): response is EnvironmentsGetActionDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsSkipAction204Response | EnvironmentsSkipActionDefaultResponse): response is EnvironmentsSkipActionDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsDelayAction200Response | EnvironmentsDelayActionDefaultResponse): response is EnvironmentsDelayActionDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsListCatalogsByProject200Response | EnvironmentsListCatalogsByProjectDefaultResponse): response is EnvironmentsListCatalogsByProjectDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsGetCatalog200Response | EnvironmentsGetCatalogDefaultResponse): response is EnvironmentsGetCatalogDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsListEnvironmentDefinitionsByProject200Response | EnvironmentsListEnvironmentDefinitionsByProjectDefaultResponse): response is EnvironmentsListEnvironmentDefinitionsByProjectDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsListEnvironmentDefinitionsByCatalog200Response | EnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse): response is EnvironmentsListEnvironmentDefinitionsByCatalogDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsGetEnvironmentDefinition200Response | EnvironmentsGetEnvironmentDefinitionDefaultResponse): response is EnvironmentsGetEnvironmentDefinitionDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsListEnvironmentTypes200Response | EnvironmentsListEnvironmentTypesDefaultResponse): response is EnvironmentsListEnvironmentTypesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsGetEnvironmentTypes200Response | EnvironmentsGetEnvironmentTypesDefaultResponse): response is EnvironmentsGetEnvironmentTypesDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: EnvironmentsGetEnvironmentTypeAbilities200Response | EnvironmentsGetEnvironmentTypeAbilitiesDefaultResponse): response is EnvironmentsGetEnvironmentTypeAbilitiesDefaultResponse;"
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Removed Interface CreateDevBox200Response
+  - Removed Interface CreateDevBox201Headers
+  - Removed Interface CreateDevBox201Response
+  - Removed Interface CreateDevBoxBodyParam
+  - Removed Interface CreateDevBoxDefaultHeaders
+  - Removed Interface CreateDevBoxDefaultResponse
+  - Removed Interface CreateDevBoxLogicalResponse
+  - Removed Interface CreateOrReplaceEnvironment201Headers
+  - Removed Interface CreateOrReplaceEnvironment201Response
+  - Removed Interface CreateOrReplaceEnvironmentBodyParam
+  - Removed Interface CreateOrReplaceEnvironmentDefaultHeaders
+  - Removed Interface CreateOrReplaceEnvironmentDefaultResponse
+  - Removed Interface CreateOrReplaceEnvironmentLogicalResponse
+  - Removed Interface DelayAction
+  - Removed Interface DelayAction200Response
+  - Removed Interface DelayActionDefaultHeaders
+  - Removed Interface DelayActionDefaultResponse
+  - Removed Interface DelayActionQueryParam
+  - Removed Interface DelayActionQueryParamProperties
+  - Removed Interface DelayActions
+  - Removed Interface DelayActions200Response
+  - Removed Interface DelayActionsDefaultHeaders
+  - Removed Interface DelayActionsDefaultResponse
+  - Removed Interface DelayActionsQueryParam
+  - Removed Interface DelayActionsQueryParamProperties
+  - Removed Interface DeleteDevBox202Headers
+  - Removed Interface DeleteDevBox202Response
+  - Removed Interface DeleteDevBox204Response
+  - Removed Interface DeleteDevBoxDefaultHeaders
+  - Removed Interface DeleteDevBoxDefaultResponse
+  - Removed Interface DeleteDevBoxLogicalResponse
+  - Removed Interface DeleteEnvironment202Headers
+  - Removed Interface DeleteEnvironment202Response
+  - Removed Interface DeleteEnvironment204Response
+  - Removed Interface DeleteEnvironmentDefaultHeaders
+  - Removed Interface DeleteEnvironmentDefaultResponse
+  - Removed Interface DeleteEnvironmentLogicalResponse
+  - Removed Interface Get
+  - Removed Interface Get200Response
+  - Removed Interface GetAction
+  - Removed Interface GetAction200Response
+  - Removed Interface GetActionDefaultHeaders
+  - Removed Interface GetActionDefaultResponse
+  - Removed Interface GetCatalog
+  - Removed Interface GetCatalog200Response
+  - Removed Interface GetCatalogDefaultHeaders
+  - Removed Interface GetCatalogDefaultResponse
+  - Removed Interface GetDefaultHeaders
+  - Removed Interface GetDefaultResponse
+  - Removed Interface GetDevBoxByUser
+  - Removed Interface GetDevBoxByUser200Response
+  - Removed Interface GetDevBoxByUserDefaultHeaders
+  - Removed Interface GetDevBoxByUserDefaultResponse
+  - Removed Interface GetEnvironmentByUser
+  - Removed Interface GetEnvironmentByUser200Response
+  - Removed Interface GetEnvironmentByUserDefaultHeaders
+  - Removed Interface GetEnvironmentByUserDefaultResponse
+  - Removed Interface GetEnvironmentDefinition
+  - Removed Interface GetEnvironmentDefinition200Response
+  - Removed Interface GetEnvironmentDefinitionDefaultHeaders
+  - Removed Interface GetEnvironmentDefinitionDefaultResponse
+  - Removed Interface GetPool
+  - Removed Interface GetPool200Response
+  - Removed Interface GetPoolDefaultHeaders
+  - Removed Interface GetPoolDefaultResponse
+  - Removed Interface GetProject
+  - Removed Interface GetProject200Response
+  - Removed Interface GetProjectDefaultHeaders
+  - Removed Interface GetProjectDefaultResponse
+  - Removed Interface GetRemoteConnection
+  - Removed Interface GetRemoteConnection200Response
+  - Removed Interface GetRemoteConnectionDefaultHeaders
+  - Removed Interface GetRemoteConnectionDefaultResponse
+  - Removed Interface GetScheduleByPool
+  - Removed Interface GetScheduleByPool200Response
+  - Removed Interface GetScheduleByPoolDefaultHeaders
+  - Removed Interface GetScheduleByPoolDefaultResponse
+  - Removed Interface ListActions
+  - Removed Interface ListActions200Response
+  - Removed Interface ListActionsDefaultHeaders
+  - Removed Interface ListActionsDefaultResponse
+  - Removed Interface ListAllDevBoxes
+  - Removed Interface ListAllDevBoxes200Response
+  - Removed Interface ListAllDevBoxesByUser
+  - Removed Interface ListAllDevBoxesByUser200Response
+  - Removed Interface ListAllDevBoxesByUserDefaultHeaders
+  - Removed Interface ListAllDevBoxesByUserDefaultResponse
+  - Removed Interface ListAllDevBoxesDefaultHeaders
+  - Removed Interface ListAllDevBoxesDefaultResponse
+  - Removed Interface ListCatalogsByProject
+  - Removed Interface ListCatalogsByProject200Response
+  - Removed Interface ListCatalogsByProjectDefaultHeaders
+  - Removed Interface ListCatalogsByProjectDefaultResponse
+  - Removed Interface ListDevBoxesByUser
+  - Removed Interface ListDevBoxesByUser200Response
+  - Removed Interface ListDevBoxesByUserDefaultHeaders
+  - Removed Interface ListDevBoxesByUserDefaultResponse
+  - Removed Interface ListEnvironmentDefinitionsByCatalog
+  - Removed Interface ListEnvironmentDefinitionsByCatalog200Response
+  - Removed Interface ListEnvironmentDefinitionsByCatalogDefaultHeaders
+  - Removed Interface ListEnvironmentDefinitionsByCatalogDefaultResponse
+  - Removed Interface ListEnvironmentDefinitionsByProject
+  - Removed Interface ListEnvironmentDefinitionsByProject200Response
+  - Removed Interface ListEnvironmentDefinitionsByProjectDefaultHeaders
+  - Removed Interface ListEnvironmentDefinitionsByProjectDefaultResponse
+  - Removed Interface ListEnvironments
+  - Removed Interface ListEnvironments200Response
+  - Removed Interface ListEnvironmentsByUser
+  - Removed Interface ListEnvironmentsByUser200Response
+  - Removed Interface ListEnvironmentsByUserDefaultHeaders
+  - Removed Interface ListEnvironmentsByUserDefaultResponse
+  - Removed Interface ListEnvironmentsDefaultHeaders
+  - Removed Interface ListEnvironmentsDefaultResponse
+  - Removed Interface ListEnvironmentTypes
+  - Removed Interface ListEnvironmentTypes200Response
+  - Removed Interface ListEnvironmentTypesDefaultHeaders
+  - Removed Interface ListEnvironmentTypesDefaultResponse
+  - Removed Interface ListPools
+  - Removed Interface ListPools200Response
+  - Removed Interface ListPoolsDefaultHeaders
+  - Removed Interface ListPoolsDefaultResponse
+  - Removed Interface ListProjects
+  - Removed Interface ListProjects200Response
+  - Removed Interface ListProjectsDefaultHeaders
+  - Removed Interface ListProjectsDefaultResponse
+  - Removed Interface ListSchedulesByPool
+  - Removed Interface ListSchedulesByPool200Response
+  - Removed Interface ListSchedulesByPoolDefaultHeaders
+  - Removed Interface ListSchedulesByPoolDefaultResponse
+  - Removed Interface RestartDevBox
+  - Removed Interface RestartDevBox202Headers
+  - Removed Interface RestartDevBox202Response
+  - Removed Interface RestartDevBoxDefaultHeaders
+  - Removed Interface RestartDevBoxDefaultResponse
+  - Removed Interface RestartDevBoxLogicalResponse
+  - Removed Interface SkipAction
+  - Removed Interface SkipAction204Response
+  - Removed Interface SkipActionDefaultHeaders
+  - Removed Interface SkipActionDefaultResponse
+  - Removed Interface StartDevBox
+  - Removed Interface StartDevBox202Headers
+  - Removed Interface StartDevBox202Response
+  - Removed Interface StartDevBoxDefaultHeaders
+  - Removed Interface StartDevBoxDefaultResponse
+  - Removed Interface StartDevBoxLogicalResponse
+  - Removed Interface StopDevBox
+  - Removed Interface StopDevBox202Headers
+  - Removed Interface StopDevBox202Response
+  - Removed Interface StopDevBoxDefaultHeaders
+  - Removed Interface StopDevBoxDefaultResponse
+  - Removed Interface StopDevBoxLogicalResponse
+  - Removed Interface StopDevBoxQueryParam
+  - Removed Interface StopDevBoxQueryParamProperties
+  - Interface CatalogOutput has a new required parameter uri
+  - Interface DevBoxActionDelayResultOutput has a new required parameter uri
+  - Interface DevBoxActionOutput has a new required parameter sourceType
+  - Interface DevBoxActionOutput has a new required parameter sourceUri
+  - Interface DevBoxActionOutput has a new required parameter uri
+  - Interface DevBoxOutput has a new required parameter uri
+  - Interface EnvironmentDefinitionOutput has a new required parameter uri
+  - Interface EnvironmentOutput has a new required parameter uri
+  - Interface EnvironmentTypeOutput has a new required parameter uri
+  - Interface PoolOutput has a new required parameter uri
+  - Interface ProjectOutput has a new required parameter uri
+  - Interface ScheduleOutput has a new required parameter sourceType
+  - Interface ScheduleOutput has a new required parameter sourceUri
+  - Interface ScheduleOutput has a new required parameter uri
+  - Interface DevBox no longer has parameter localAdministrator
+  - Removed Type Alias CreateDevBoxParameters
+  - Removed Type Alias CreateOrReplaceEnvironmentParameters
+  - Removed Type Alias DelayActionParameters
+  - Removed Type Alias DelayActionsParameters
+  - Removed Type Alias DeleteDevBoxParameters
+  - Removed Type Alias DeleteEnvironmentParameters
+  - Removed Type Alias GetActionParameters
+  - Removed Type Alias GetCatalogParameters
+  - Removed Type Alias GetDevBoxByUserParameters
+  - Removed Type Alias GetEnvironmentByUserParameters
+  - Removed Type Alias GetEnvironmentDefinitionParameters
+  - Removed Type Alias GetParameters
+  - Removed Type Alias GetPoolParameters
+  - Removed Type Alias GetProjectParameters
+  - Removed Type Alias GetRemoteConnectionParameters
+  - Removed Type Alias GetScheduleByPoolParameters
+  - Removed Type Alias ListActionsParameters
+  - Removed Type Alias ListAllDevBoxesByUserParameters
+  - Removed Type Alias ListAllDevBoxesParameters
+  - Removed Type Alias ListCatalogsByProjectParameters
+  - Removed Type Alias ListDevBoxesByUserParameters
+  - Removed Type Alias ListEnvironmentDefinitionsByCatalogParameters
+  - Removed Type Alias ListEnvironmentDefinitionsByProjectParameters
+  - Removed Type Alias ListEnvironmentsByUserParameters
+  - Removed Type Alias ListEnvironmentsParameters
+  - Removed Type Alias ListEnvironmentTypesParameters
+  - Removed Type Alias ListPoolsParameters
+  - Removed Type Alias ListProjectsParameters
+  - Removed Type Alias ListSchedulesByPoolParameters
+  - Removed Type Alias RestartDevBoxParameters
+  - Removed Type Alias SkipActionParameters
+  - Removed Type Alias StartDevBoxParameters
+  - Removed Type Alias StopDevBoxParameters
+  - Removed function overload "export function isUnexpected(response: ListProjects200Response | ListProjectsDefaultResponse): response is ListProjectsDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetProject200Response | GetProjectDefaultResponse): response is GetProjectDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: Get200Response | GetDefaultResponse): response is GetDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListPools200Response | ListPoolsDefaultResponse): response is ListPoolsDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetPool200Response | GetPoolDefaultResponse): response is GetPoolDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse): response is ListAllDevBoxesDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse): response is ListAllDevBoxesByUserDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListSchedulesByPool200Response | ListSchedulesByPoolDefaultResponse): response is ListSchedulesByPoolDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetScheduleByPool200Response | GetScheduleByPoolDefaultResponse): response is GetScheduleByPoolDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListDevBoxesByUser200Response | ListDevBoxesByUserDefaultResponse): response is ListDevBoxesByUserDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetDevBoxByUser200Response | GetDevBoxByUserDefaultResponse): response is GetDevBoxByUserDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: CreateDevBox200Response | CreateDevBox201Response | CreateDevBoxLogicalResponse | CreateDevBoxDefaultResponse): response is CreateDevBoxDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: DeleteDevBox202Response | DeleteDevBox204Response | DeleteDevBoxLogicalResponse | DeleteDevBoxDefaultResponse): response is DeleteDevBoxDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: StartDevBox202Response | StartDevBoxLogicalResponse | StartDevBoxDefaultResponse): response is StartDevBoxDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: StopDevBox202Response | StopDevBoxLogicalResponse | StopDevBoxDefaultResponse): response is StopDevBoxDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: RestartDevBox202Response | RestartDevBoxLogicalResponse | RestartDevBoxDefaultResponse): response is RestartDevBoxDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetRemoteConnection200Response | GetRemoteConnectionDefaultResponse): response is GetRemoteConnectionDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListActions200Response | ListActionsDefaultResponse): response is ListActionsDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetAction200Response | GetActionDefaultResponse): response is GetActionDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: SkipAction204Response | SkipActionDefaultResponse): response is SkipActionDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: DelayAction200Response | DelayActionDefaultResponse): response is DelayActionDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: DelayActions200Response | DelayActionsDefaultResponse): response is DelayActionsDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListEnvironments200Response | ListEnvironmentsDefaultResponse): response is ListEnvironmentsDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListEnvironmentsByUser200Response | ListEnvironmentsByUserDefaultResponse): response is ListEnvironmentsByUserDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetEnvironmentByUser200Response | GetEnvironmentByUserDefaultResponse): response is GetEnvironmentByUserDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: CreateOrReplaceEnvironment201Response | CreateOrReplaceEnvironmentLogicalResponse | CreateOrReplaceEnvironmentDefaultResponse): response is CreateOrReplaceEnvironmentDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: DeleteEnvironment202Response | DeleteEnvironment204Response | DeleteEnvironmentLogicalResponse | DeleteEnvironmentDefaultResponse): response is DeleteEnvironmentDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListCatalogsByProject200Response | ListCatalogsByProjectDefaultResponse): response is ListCatalogsByProjectDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetCatalog200Response | GetCatalogDefaultResponse): response is GetCatalogDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListEnvironmentDefinitionsByProject200Response | ListEnvironmentDefinitionsByProjectDefaultResponse): response is ListEnvironmentDefinitionsByProjectDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListEnvironmentDefinitionsByCatalog200Response | ListEnvironmentDefinitionsByCatalogDefaultResponse): response is ListEnvironmentDefinitionsByCatalogDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: GetEnvironmentDefinition200Response | GetEnvironmentDefinitionDefaultResponse): response is GetEnvironmentDefinitionDefaultResponse;"
+  - Removed function overload "export function isUnexpected(response: ListEnvironmentTypes200Response | ListEnvironmentTypesDefaultResponse): response is ListEnvironmentTypesDefaultResponse;"
 
 ## 1.0.1 (2025-02-10)
 
