@@ -4,7 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { TracerConfig } from "@opentelemetry/sdk-trace-base";
-import { BasicTracerProvider, Span } from "@opentelemetry/sdk-trace-base";
+import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
 import type { SpanOptions } from "@opentelemetry/api";
 import {
   SpanKind,
@@ -983,37 +983,34 @@ describe("spanUtils.ts", () => {
         );
       });
       it("Request Envelope success value should be set to false if HTTP > 400 with SpanStatus to UNSET", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
-        );
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+
         span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 });
         span.setStatus({
           code: SpanStatusCode.UNSET,
         });
         span.end();
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const readableSpan = spanToReadableSpan(span);
+
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assert.strictEqual(envelope.data!.baseData!.success, false);
       });
       it("Request Envelope should not override user set SpanStatus", () => {
-        const span = new Span(
-          tracer,
-          ROOT_CONTEXT,
-          "parent span",
-          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.SERVER,
-          "parentSpanId",
-        );
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+
         span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 });
         span.setStatus({
           code: SpanStatusCode.OK,
         });
         span.end();
-        const envelope = readableSpanToEnvelope(span, "ikey");
+        const readableSpan = spanToReadableSpan(span);
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
         assert.strictEqual(envelope.data!.baseData!.success, true);
       });
     });
