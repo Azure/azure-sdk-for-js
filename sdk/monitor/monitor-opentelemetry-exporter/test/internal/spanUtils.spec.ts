@@ -4,7 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { TracerConfig } from "@opentelemetry/sdk-trace-base";
-import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
+import { BasicTracerProvider, Span } from "@opentelemetry/sdk-trace-base";
 import type { SpanOptions } from "@opentelemetry/api";
 import {
   SpanKind,
@@ -991,7 +991,7 @@ describe("spanUtils.ts", () => {
           SpanKind.SERVER,
           "parentSpanId",
         );
-        span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 })
+        span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 });
         span.setStatus({
           code: SpanStatusCode.UNSET,
         });
@@ -1008,7 +1008,7 @@ describe("spanUtils.ts", () => {
           SpanKind.SERVER,
           "parentSpanId",
         );
-        span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 })
+        span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 });
         span.setStatus({
           code: SpanStatusCode.OK,
         });
