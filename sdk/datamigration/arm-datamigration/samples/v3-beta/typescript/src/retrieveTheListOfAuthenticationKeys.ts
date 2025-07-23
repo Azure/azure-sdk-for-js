@@ -22,7 +22,7 @@ async function retrieveTheListOfAuthenticationKeys(): Promise<void> {
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const result = await client.sqlMigrationServices.listAuthKeys(
     resourceGroupName,
-    sqlMigrationServiceName
+    sqlMigrationServiceName,
   );
   console.log(result);
 }
