@@ -1009,7 +1009,7 @@ describe("spanUtils.ts", () => {
           ROOT_CONTEXT,
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
+          SpanKind.SERVER,
           "parentSpanId",
         );
         span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 })
@@ -1026,7 +1026,7 @@ describe("spanUtils.ts", () => {
           ROOT_CONTEXT,
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-          SpanKind.CLIENT,
+          SpanKind.SERVER,
           "parentSpanId",
         );
         span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 })
