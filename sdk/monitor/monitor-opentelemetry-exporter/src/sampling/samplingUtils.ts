@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Attributes, Context} from "@opentelemetry/api";
+import type { Attributes, Context } from "@opentelemetry/api";
 import { trace, TraceFlags } from "@opentelemetry/api";
 import { AzureMonitorSampleRate } from "../utils/constants/applicationinsights.js";
 
@@ -17,7 +17,7 @@ import { AzureMonitorSampleRate } from "../utils/constants/applicationinsights.j
  * @param input - The input string to hash (usually a trace ID)
  * @returns A number between 0 and 100 representing the hash-based sampling score
  */
-export function getSamplingHashCode(input: string): number {
+function getSamplingHashCode(input: string): number {
   const csharpMin = -2147483648;
   const csharpMax = 2147483647;
   let hash = 5381;

@@ -24,22 +24,22 @@ export class RateLimitedSampler implements Sampler {
   private readonly targetSpansPerNanosecondLimit: number;
   private state: RateLimitedSamplerState;
   private readonly roundToNearest: boolean;
-  private readonly requestsPerSecond: number;
+  private readonly tracesPerSecond: number;
 
   /**
    * Initializes a new instance of the RateLimitedSampler class.
-   * @param requestsPerSecond - The maximum number of spans to sample per second.
-   * @throws Error if requestsPerSecond is negative.
+   * @param tracesPerSecond - The maximum number of traces to sample per second.
+   * @throws Error if tracesPerSecond is negative.
    */
-  constructor(requestsPerSecond: number) {
-    this.requestsPerSecond = requestsPerSecond;
-    if (this.requestsPerSecond < 0.0) {
-      throw new Error("Limit for sampled spans per second must be nonnegative");
+  constructor(tracesPerSecond: number) {
+    this.tracesPerSecond = tracesPerSecond;
+    if (this.tracesPerSecond < 0.0) {
+      throw new Error("Limit for sampled traces per second must be nonnegative");
     }
     const adaptationTimeSeconds = 0.1;
     this.nanoTimeSupplier = () => Number(process.hrtime.bigint());
     this.inverseAdaptationTimeNanos = 1e-9 / adaptationTimeSeconds;
-    this.targetSpansPerNanosecondLimit = 1e-9 * this.requestsPerSecond;
+    this.targetSpansPerNanosecondLimit = 1e-9 * this.tracesPerSecond;
     const now = this.nanoTimeSupplier();
     this.state = {
       effectiveWindowCount: 0,
@@ -134,6 +134,6 @@ export class RateLimitedSampler implements Sampler {
    * Return Sampler description
    */
   public toString(): string {
-    return `RateLimitedSampler{${this.requestsPerSecond}}`;
+    return `RateLimitedSampler{${this.tracesPerSecond}}`;
   }
 }
