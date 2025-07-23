@@ -158,27 +158,22 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** Represents a mongo cluster resource. */
 export interface MongoCluster extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: MongoClusterProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
 }
 
 export function mongoClusterSerializer(item: MongoCluster): any {
@@ -188,6 +183,9 @@ export function mongoClusterSerializer(item: MongoCluster): any {
     properties: !item["properties"]
       ? item["properties"]
       : mongoClusterPropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
@@ -204,6 +202,9 @@ export function mongoClusterDeserializer(item: any): MongoCluster {
     properties: !item["properties"]
       ? item["properties"]
       : mongoClusterPropertiesDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -249,6 +250,8 @@ export interface MongoClusterProperties {
   readonly infrastructureVersion?: string;
   /** The authentication configuration for the cluster. */
   authConfig?: AuthConfigProperties;
+  /** The encryption configuration for the cluster. Depends on identity being configured. */
+  encryption?: EncryptionProperties;
 }
 
 export function mongoClusterPropertiesSerializer(item: MongoClusterProperties): any {
@@ -281,6 +284,9 @@ export function mongoClusterPropertiesSerializer(item: MongoClusterProperties): 
     authConfig: !item["authConfig"]
       ? item["authConfig"]
       : authConfigPropertiesSerializer(item["authConfig"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionPropertiesSerializer(item["encryption"]),
   };
 }
 
@@ -326,6 +332,9 @@ export function mongoClusterPropertiesDeserializer(item: any): MongoClusterPrope
     authConfig: !item["authConfig"]
       ? item["authConfig"]
       : authConfigPropertiesDeserializer(item["authConfig"]),
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : encryptionPropertiesDeserializer(item["encryption"]),
   };
 }
 
@@ -963,6 +972,164 @@ export enum KnownAuthenticationMode {
  */
 export type AuthenticationMode = string;
 
+/** The encryption configuration for the mongo cluster. */
+export interface EncryptionProperties {
+  /** Customer managed key encryption settings. */
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryptionProperties;
+}
+
+export function encryptionPropertiesSerializer(item: EncryptionProperties): any {
+  return {
+    customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
+      ? item["customerManagedKeyEncryption"]
+      : customerManagedKeyEncryptionPropertiesSerializer(item["customerManagedKeyEncryption"]),
+  };
+}
+
+export function encryptionPropertiesDeserializer(item: any): EncryptionProperties {
+  return {
+    customerManagedKeyEncryption: !item["customerManagedKeyEncryption"]
+      ? item["customerManagedKeyEncryption"]
+      : customerManagedKeyEncryptionPropertiesDeserializer(item["customerManagedKeyEncryption"]),
+  };
+}
+
+/** Customer managed key encryption settings. */
+export interface CustomerManagedKeyEncryptionProperties {
+  /** The identity used to access the key encryption key. */
+  keyEncryptionKeyIdentity: KeyEncryptionKeyIdentity;
+  /** The URI of the key vault key used for encryption. */
+  keyEncryptionKeyUrl: string;
+}
+
+export function customerManagedKeyEncryptionPropertiesSerializer(
+  item: CustomerManagedKeyEncryptionProperties,
+): any {
+  return {
+    keyEncryptionKeyIdentity: keyEncryptionKeyIdentitySerializer(item["keyEncryptionKeyIdentity"]),
+    keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
+  };
+}
+
+export function customerManagedKeyEncryptionPropertiesDeserializer(
+  item: any,
+): CustomerManagedKeyEncryptionProperties {
+  return {
+    keyEncryptionKeyIdentity: keyEncryptionKeyIdentityDeserializer(
+      item["keyEncryptionKeyIdentity"],
+    ),
+    keyEncryptionKeyUrl: item["keyEncryptionKeyUrl"],
+  };
+}
+
+/** The identity used for key encryption key. */
+export interface KeyEncryptionKeyIdentity {
+  /** The type of identity. Only 'UserAssignedIdentity' is supported. */
+  identityType: KeyEncryptionKeyIdentityType;
+  /** The user assigned identity resource id. */
+  userAssignedIdentityResourceId: string;
+}
+
+export function keyEncryptionKeyIdentitySerializer(item: KeyEncryptionKeyIdentity): any {
+  return {
+    identityType: item["identityType"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+  };
+}
+
+export function keyEncryptionKeyIdentityDeserializer(item: any): KeyEncryptionKeyIdentity {
+  return {
+    identityType: item["identityType"],
+    userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
+  };
+}
+
+/** The type of identity for key encryption key. */
+export enum KnownKeyEncryptionKeyIdentityType {
+  /** User assigned identity. */
+  UserAssignedIdentity = "UserAssignedIdentity",
+}
+
+/**
+ * The type of identity for key encryption key. \
+ * {@link KnownKeyEncryptionKeyIdentityType} can be used interchangeably with KeyEncryptionKeyIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **UserAssignedIdentity**: User assigned identity.
+ */
+export type KeyEncryptionKeyIdentityType = string;
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+}
+
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return {
+    type: item["type"],
+    userAssignedIdentities: item["userAssignedIdentities"],
+  };
+}
+
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: item["userAssignedIdentities"],
+  };
+}
+
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** System assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
+ */
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
+  return item;
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1070,6 +1237,8 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
 
 /** The type used for update operations of the MongoCluster. */
 export interface MongoClusterUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The resource-specific properties for this resource. */
@@ -1078,6 +1247,9 @@ export interface MongoClusterUpdate {
 
 export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): any {
   return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
@@ -1774,8 +1946,8 @@ export function databaseRoleDeserializer(item: any): DatabaseRole {
 
 /** Built-in database role that can be assigned to a user. */
 export enum KnownUserRole {
-  /** Datbase owner role permissions on the target scope. */
-  DatabaseOwner = "dbOwner",
+  /** Root role permissions on the target scope. */
+  Root = "root",
 }
 
 /**
@@ -1783,7 +1955,7 @@ export enum KnownUserRole {
  * {@link KnownUserRole} can be used interchangeably with UserRole,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **dbOwner**: Datbase owner role permissions on the target scope.
+ * **root**: Root role permissions on the target scope.
  */
 export type UserRole = string;
 
@@ -1826,4 +1998,6 @@ export enum KnownVersions {
   V20241001Preview = "2024-10-01-preview",
   /** Azure Cosmos DB for Mongo vCore clusters api version 2025-04-01-preview. */
   V20250401Preview = "2025-04-01-preview",
+  /** Azure Cosmos DB for Mongo vCore clusters api version 2025-07-01-preview. */
+  V20250701Preview = "2025-07-01-preview",
 }
