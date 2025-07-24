@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AgentPool, ContainerServiceClient } from "@azure/arm-containerservice";
+import type { AgentPool} from "@azure/arm-containerservice";
+import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -14,9 +15,45 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsAssociate_CRG.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_Snapshot.json
  */
-async function associateAgentPoolWithCapacityReservationGroup(): Promise<void> {
+async function createAgentPoolUsingAnAgentPoolSnapshot(): Promise<void> {
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+  const resourceName = "clustername1";
+  const agentPoolName = "agentpool1";
+  const parameters: AgentPool = {
+    count: 3,
+    creationData: {
+      sourceResourceId:
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1",
+    },
+    enableFips: true,
+    orchestratorVersion: "",
+    osType: "Linux",
+    vmSize: "Standard_DS2_v2",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.agentPools.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    resourceName,
+    agentPoolName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
+ *
+ * @summary Creates or updates an agent pool in the specified managed cluster.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_CRG.json
+ */
+async function createAgentPoolWithCapacityReservationGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,75 +84,7 @@ async function associateAgentPoolWithCapacityReservationGroup(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_Snapshot.json
- */
-async function createAgentPoolUsingAnAgentPoolSnapshot(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
-    count: 3,
-    creationData: {
-      sourceResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1",
-    },
-    enableFips: true,
-    orchestratorVersion: "",
-    osType: "Linux",
-    vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
- *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_EnableCustomCATrust.json
- */
-async function createAgentPoolWithCustomCaTrustEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
-    count: 3,
-    enableCustomCATrust: true,
-    orchestratorVersion: "",
-    osType: "Linux",
-    vmSize: "Standard_DS2_v2",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
- *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_DedicatedHostGroup.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_DedicatedHostGroup.json
  */
 async function createAgentPoolWithDedicatedHostGroup(): Promise<void> {
   const subscriptionId =
@@ -148,7 +117,7 @@ async function createAgentPoolWithDedicatedHostGroup(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_EnableEncryptionAtHost.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_EnableEncryptionAtHost.json
  */
 async function createAgentPoolWithEncryptionAtHostEnabled(): Promise<void> {
   const subscriptionId =
@@ -180,7 +149,7 @@ async function createAgentPoolWithEncryptionAtHostEnabled(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_Ephemeral.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_Ephemeral.json
  */
 async function createAgentPoolWithEphemeralOSDisk(): Promise<void> {
   const subscriptionId =
@@ -213,7 +182,7 @@ async function createAgentPoolWithEphemeralOSDisk(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_EnableFIPS.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_EnableFIPS.json
  */
 async function createAgentPoolWithFipsEnabledOS(): Promise<void> {
   const subscriptionId =
@@ -245,7 +214,7 @@ async function createAgentPoolWithFipsEnabledOS(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_GPUMIG.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_GPUMIG.json
  */
 async function createAgentPoolWithGpumig(): Promise<void> {
   const subscriptionId =
@@ -298,7 +267,7 @@ async function createAgentPoolWithGpumig(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_WasmWasi.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_WasmWasi.json
  */
 async function createAgentPoolWithKrustletAndTheWasiRuntime(): Promise<void> {
   const subscriptionId =
@@ -332,7 +301,7 @@ async function createAgentPoolWithKrustletAndTheWasiRuntime(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_CustomNodeConfig.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_CustomNodeConfig.json
  */
 async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void> {
   const subscriptionId =
@@ -384,7 +353,7 @@ async function createAgentPoolWithKubeletConfigAndLinuxOSConfig(): Promise<void>
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_MessageOfTheDay.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_MessageOfTheDay.json
  */
 async function createAgentPoolWithMessageOfTheDay(): Promise<void> {
   const subscriptionId =
@@ -418,7 +387,7 @@ async function createAgentPoolWithMessageOfTheDay(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_OSSKU.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_OSSKU.json
  */
 async function createAgentPoolWithOssku(): Promise<void> {
   const subscriptionId =
@@ -471,7 +440,7 @@ async function createAgentPoolWithOssku(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_PPG.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_PPG.json
  */
 async function createAgentPoolWithPpg(): Promise<void> {
   const subscriptionId =
@@ -504,7 +473,7 @@ async function createAgentPoolWithPpg(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_EnableUltraSSD.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_EnableUltraSSD.json
  */
 async function createAgentPoolWithUltraSsdEnabled(): Promise<void> {
   const subscriptionId =
@@ -536,7 +505,7 @@ async function createAgentPoolWithUltraSsdEnabled(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_TypeVirtualMachines.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_TypeVirtualMachines.json
  */
 async function createAgentPoolWithVirtualMachinesPoolType(): Promise<void> {
   const subscriptionId =
@@ -577,45 +546,7 @@ async function createAgentPoolWithVirtualMachinesPoolType(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_TypeVirtualMachines_Autoscale.json
- */
-async function createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled(): Promise<void> {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
-  const resourceName = "clustername1";
-  const agentPoolName = "agentpool1";
-  const parameters: AgentPool = {
-    typePropertiesType: "VirtualMachines",
-    nodeLabels: { key1: "val1" },
-    nodeTaints: ["Key1=Value1:NoSchedule"],
-    orchestratorVersion: "1.29.0",
-    osType: "Linux",
-    tags: { name1: "val1" },
-    virtualMachinesProfile: {
-      scale: {
-        autoscale: { maxCount: 5, minCount: 1, size: "Standard_D2_v2" },
-      },
-    },
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPools.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    agentPoolName,
-    parameters,
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
- *
- * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_WindowsOSSKU.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_WindowsOSSKU.json
  */
 async function createAgentPoolWithWindowsOssku(): Promise<void> {
   const subscriptionId =
@@ -647,7 +578,7 @@ async function createAgentPoolWithWindowsOssku(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_Spot.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_Spot.json
  */
 async function createSpotAgentPool(): Promise<void> {
   const subscriptionId =
@@ -683,7 +614,7 @@ async function createSpotAgentPool(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_WindowsDisableOutboundNAT.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_WindowsDisableOutboundNAT.json
  */
 async function createWindowsAgentPoolWithDisablingOutboundNat(): Promise<void> {
   const subscriptionId =
@@ -716,7 +647,7 @@ async function createWindowsAgentPoolWithDisablingOutboundNat(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPoolsCreate_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPoolsCreate_Update.json
  */
 async function createOrUpdateAgentPool(): Promise<void> {
   const subscriptionId =
@@ -753,7 +684,7 @@ async function createOrUpdateAgentPool(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPools_Start.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPools_Start.json
  */
 async function startAgentPool(): Promise<void> {
   const subscriptionId =
@@ -779,7 +710,7 @@ async function startAgentPool(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPools_Stop.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPools_Stop.json
  */
 async function stopAgentPool(): Promise<void> {
   const subscriptionId =
@@ -805,7 +736,7 @@ async function stopAgentPool(): Promise<void> {
  * This sample demonstrates how to Creates or updates an agent pool in the specified managed cluster.
  *
  * @summary Creates or updates an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/AgentPools_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/AgentPools_Update.json
  */
 async function updateAgentPool(): Promise<void> {
   const subscriptionId =
@@ -839,9 +770,8 @@ async function updateAgentPool(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await associateAgentPoolWithCapacityReservationGroup();
   await createAgentPoolUsingAnAgentPoolSnapshot();
-  await createAgentPoolWithCustomCaTrustEnabled();
+  await createAgentPoolWithCapacityReservationGroup();
   await createAgentPoolWithDedicatedHostGroup();
   await createAgentPoolWithEncryptionAtHostEnabled();
   await createAgentPoolWithEphemeralOSDisk();
@@ -854,7 +784,6 @@ async function main(): Promise<void> {
   await createAgentPoolWithPpg();
   await createAgentPoolWithUltraSsdEnabled();
   await createAgentPoolWithVirtualMachinesPoolType();
-  await createAgentPoolWithVirtualMachinesPoolTypeWithAutoscalingEnabled();
   await createAgentPoolWithWindowsOssku();
   await createSpotAgentPool();
   await createWindowsAgentPoolWithDisablingOutboundNat();
