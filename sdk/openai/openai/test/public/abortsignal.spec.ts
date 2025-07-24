@@ -28,7 +28,7 @@ describe.concurrent.each(APIMatrix)("AbortSignal [%s]", (apiVersion: APIVersion)
             stream: true,
           };
 
-          const events = client.beta.chat.completions.stream(params);
+          const events = client.chat.completions.stream(params);
 
           for await (const event of events) {
             assert.isDefined(event);

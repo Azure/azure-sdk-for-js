@@ -29,7 +29,7 @@ describe("CIInfoProvider", () => {
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
-    expect(ciInfo.provider).to.equal(CI_PROVIDERS.GITHUB);
+    expect(ciInfo.providerName).to.equal(CI_PROVIDERS.GITHUB);
     expect(ciInfo.branch).to.equal("main");
     expect(ciInfo.author).to.equal("testAuthor");
     expect(ciInfo.commitId).to.equal("sampleSha");
@@ -41,7 +41,7 @@ describe("CIInfoProvider", () => {
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
-    expect(ciInfo.provider).to.equal(CI_PROVIDERS.GITHUB);
+    expect(ciInfo.providerName).to.equal(CI_PROVIDERS.GITHUB);
     expect(ciInfo.branch).toBeNull();
     expect(ciInfo.author).toBeNull();
     expect(ciInfo.commitId).toBeNull();
@@ -68,7 +68,7 @@ describe("CIInfoProvider", () => {
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
-    expect(ciInfo.provider).to.equal(CI_PROVIDERS.ADO);
+    expect(ciInfo.providerName).to.equal(CI_PROVIDERS.ADO);
     expect(ciInfo.branch).to.equal("refs/head/main");
     expect(ciInfo.author).to.equal("testAuthor");
     expect(ciInfo.commitId).to.equal("commitSha123");
@@ -96,7 +96,7 @@ describe("CIInfoProvider", () => {
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
-    expect(ciInfo.provider).to.equal(CI_PROVIDERS.ADO);
+    expect(ciInfo.providerName).to.equal(CI_PROVIDERS.ADO);
     expect(ciInfo.branch).to.equal("refs/head/main");
     expect(ciInfo.author).to.equal("testAuthor");
     expect(ciInfo.commitId).to.equal("commitSha123");
@@ -111,7 +111,7 @@ describe("CIInfoProvider", () => {
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
-    expect(ciInfo.provider).to.equal(CI_PROVIDERS.ADO);
+    expect(ciInfo.providerName).to.equal(CI_PROVIDERS.ADO);
     expect(ciInfo.branch).toBeNull();
     expect(ciInfo.author).toBeNull();
     expect(ciInfo.commitId).toBeNull();
@@ -130,7 +130,7 @@ describe("CIInfoProvider", () => {
 
     const ciInfo = CIInfoProvider.getCIInfo();
 
-    expect(ciInfo.provider).to.equal(CI_PROVIDERS.DEFAULT);
+    expect(ciInfo.providerName).to.equal(CI_PROVIDERS.DEFAULT);
     expect(ciInfo.branch).to.equal("defaultBranch");
     expect(ciInfo.author).to.equal("defaultAuthor");
     expect(ciInfo.commitId).to.equal("defaultCommit");
@@ -140,7 +140,7 @@ describe("CIInfoProvider", () => {
   it("should return default CIInfo with null fields when no supported CI environment is detected", () => {
     const ciInfo = CIInfoProvider.getCIInfo();
 
-    expect(ciInfo.provider).to.equal(CI_PROVIDERS.DEFAULT);
+    expect(ciInfo.providerName).to.equal(CI_PROVIDERS.DEFAULT);
     expect(ciInfo.branch).toBeNull();
     expect(ciInfo.author).toBeNull();
     expect(ciInfo.commitId).toBeNull();
