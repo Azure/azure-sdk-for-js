@@ -1,8 +1,9 @@
 # Release History
 
-## 1.5.0-beta.1 (2025-07-22)
+## 1.5.0-beta.2 (2025-08-01)
 
 ### Features Added
+
 - Adds support for mobile number types
   - mobile numbers are location associated phone numbers with SMS capabilities
 - API version `2025-06-01` is the default.
@@ -18,6 +19,7 @@
 ## 1.4.0-beta.1 (2025-05-21)
 
 ### Features Added
+
 - Adds support for the Browse Available Phone Numbers and Reservations APIs
   - This adds an alternate way to search and purchase phone numbers that allows customers to select which phone numbers they want to reserve and purchase.
 - Adds support for automated purchases of phone numbers from countries requiring a Do Not Resell agreement.
