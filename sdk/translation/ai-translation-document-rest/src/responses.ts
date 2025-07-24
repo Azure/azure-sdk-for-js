@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import type {
@@ -11,6 +12,12 @@ import type {
 } from "./outputModels.js";
 
 export interface DocumentTranslate200Headers {
+  /** Specifies consumption (the number of characters for which the user will be charged) for the translation job request */
+  "x-metered-usage": number;
+  /** Specifies the number of successful image translations within a document translation job */
+  "total-image-scans-succeeded": number;
+  /** Specifies the number of failed image translations within a document translation job */
+  "total-image-scans-failed": number;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
   /** response content type */

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type {
   DocumentTranslateParameters,
   StartTranslationParameters,
@@ -34,7 +35,9 @@ export interface DocumentTranslate {
   /** Use this API to submit a single translation request to the Document Translation Service. */
   post(
     options: DocumentTranslateParameters,
-  ): StreamableMethod<DocumentTranslate200Response | DocumentTranslateDefaultResponse>;
+  ): StreamableMethod<
+    DocumentTranslate200Response | DocumentTranslateDefaultResponse
+  >;
 }
 
 export interface StartTranslation {
@@ -61,7 +64,9 @@ export interface StartTranslation {
    */
   post(
     options: StartTranslationParameters,
-  ): StreamableMethod<StartTranslation202Response | StartTranslationDefaultResponse>;
+  ): StreamableMethod<
+    StartTranslation202Response | StartTranslationDefaultResponse
+  >;
   /**
    * Returns a list of batch requests submitted and the status for each
    * request.
@@ -118,7 +123,9 @@ export interface StartTranslation {
    */
   get(
     options?: GetTranslationsStatusParameters,
-  ): StreamableMethod<GetTranslationsStatus200Response | GetTranslationsStatusDefaultResponse>;
+  ): StreamableMethod<
+    GetTranslationsStatus200Response | GetTranslationsStatusDefaultResponse
+  >;
 }
 
 export interface GetDocumentStatus {
@@ -128,7 +135,9 @@ export interface GetDocumentStatus {
    */
   get(
     options?: GetDocumentStatusParameters,
-  ): StreamableMethod<GetDocumentStatus200Response | GetDocumentStatusDefaultResponse>;
+  ): StreamableMethod<
+    GetDocumentStatus200Response | GetDocumentStatusDefaultResponse
+  >;
 }
 
 export interface GetTranslationStatus {
@@ -140,7 +149,9 @@ export interface GetTranslationStatus {
    */
   get(
     options?: GetTranslationStatusParameters,
-  ): StreamableMethod<GetTranslationStatus200Response | GetTranslationStatusDefaultResponse>;
+  ): StreamableMethod<
+    GetTranslationStatus200Response | GetTranslationStatusDefaultResponse
+  >;
   /**
    * Cancel a currently processing or queued translation.
    * A translation will not be
@@ -153,7 +164,9 @@ export interface GetTranslationStatus {
    */
   delete(
     options?: CancelTranslationParameters,
-  ): StreamableMethod<CancelTranslation200Response | CancelTranslationDefaultResponse>;
+  ): StreamableMethod<
+    CancelTranslation200Response | CancelTranslationDefaultResponse
+  >;
 }
 
 export interface GetDocumentsStatus {
@@ -207,7 +220,9 @@ export interface GetDocumentsStatus {
    */
   get(
     options?: GetDocumentsStatusParameters,
-  ): StreamableMethod<GetDocumentsStatus200Response | GetDocumentsStatusDefaultResponse>;
+  ): StreamableMethod<
+    GetDocumentsStatus200Response | GetDocumentsStatusDefaultResponse
+  >;
 }
 
 export interface GetSupportedFormats {
@@ -219,7 +234,9 @@ export interface GetSupportedFormats {
    */
   get(
     options?: GetSupportedFormatsParameters,
-  ): StreamableMethod<GetSupportedFormats200Response | GetSupportedFormatsDefaultResponse>;
+  ): StreamableMethod<
+    GetSupportedFormats200Response | GetSupportedFormatsDefaultResponse
+  >;
 }
 
 export interface Routes {
