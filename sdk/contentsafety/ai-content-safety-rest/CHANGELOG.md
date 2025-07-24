@@ -1,14 +1,38 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 2.0.0-beta.1 (2025-07-24)
+Compared with version 1.0.1
 
 ### Features Added
+  - Added operation in Routes for path: "/text:shieldPrompt"
+  - Added operation in Routes for path: "/text:detectProtectedMaterial"
+  - Added Interface DetectTextProtectedMaterial
+  - Added Interface DetectTextProtectedMaterial200Response
+  - Added Interface DetectTextProtectedMaterialBodyParam
+  - Added Interface DetectTextProtectedMaterialDefaultHeaders
+  - Added Interface DetectTextProtectedMaterialDefaultResponse
+  - Added Interface DetectTextProtectedMaterialOptions
+  - Added Interface DetectTextProtectedMaterialResultOutput
+  - Added Interface DocumentInjectionAnalysisResultOutput
+  - Added Interface ImageData
+  - Added Interface ShieldPrompt
+  - Added Interface ShieldPrompt200Response
+  - Added Interface ShieldPromptBodyParam
+  - Added Interface ShieldPromptDefaultHeaders
+  - Added Interface ShieldPromptDefaultResponse
+  - Added Interface ShieldPromptOptions
+  - Added Interface ShieldPromptResultOutput
+  - Added Interface TextProtectedMaterialAnalysisResultOutput
+  - Added Interface UserPromptInjectionAnalysisResultOutput
+  - Interface TextBlocklistItem has a new optional parameter isRegex
+  - Interface TextBlocklistItemOutput has a new optional parameter isRegex
+  - Added Type Alias DetectTextProtectedMaterialParameters
+  - Added Type Alias ShieldPromptParameters
+  - Added function overload "export function isUnexpected(response: ShieldPrompt200Response | ShieldPromptDefaultResponse): response is ShieldPromptDefaultResponse;"
+  - Added function overload "export function isUnexpected(response: DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse): response is DetectTextProtectedMaterialDefaultResponse;"
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Removed Interface ImageData_2
 
 ## 1.0.1 (2025-02-10)
 
