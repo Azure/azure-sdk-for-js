@@ -1,4 +1,4 @@
-# @azure/arm-carbonoptimization client library samples for JavaScript (Beta)
+# @azure/arm-carbonoptimization client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-carbonoptimization in some common scenarios.
 
@@ -46,9 +46,9 @@ npx dev-tool run vendored cross-env  node carbonServiceQueryCarbonEmissionDataAv
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[carbonservicequerycarbonemissiondataavailabledaterangesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1-beta/javascript/carbonServiceQueryCarbonEmissionDataAvailableDateRangeSample.js
-[carbonservicequerycarbonemissionreportssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1-beta/javascript/carbonServiceQueryCarbonEmissionReportsSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1-beta/javascript/operationsListSample.js
+[carbonservicequerycarbonemissiondataavailabledaterangesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1/javascript/carbonServiceQueryCarbonEmissionDataAvailableDateRangeSample.js
+[carbonservicequerycarbonemissionreportssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1/javascript/carbonServiceQueryCarbonEmissionReportsSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/carbonoptimization/arm-carbonoptimization/samples/v1/javascript/operationsListSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-carbonoptimization?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/carbonoptimization/arm-carbonoptimization/README.md

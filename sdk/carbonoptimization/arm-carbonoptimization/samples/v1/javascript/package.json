@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/arm-carbonoptimization-js-beta",
+  "name": "@azure-samples/arm-carbonoptimization-js",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-carbonoptimization client library samples for JavaScript (Beta)",
+  "description": "@azure/arm-carbonoptimization client library samples for JavaScript",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -26,8 +26,8 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/carbonoptimization/arm-carbonoptimization",
   "dependencies": {
-    "@azure/arm-carbonoptimization": "next",
+    "@azure/arm-carbonoptimization": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.9.1"
+    "@azure/identity": "^4.9.0"
   }
 }
