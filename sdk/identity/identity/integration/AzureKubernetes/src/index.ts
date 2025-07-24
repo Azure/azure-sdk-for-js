@@ -91,6 +91,6 @@ function requireEnvVar(name: string): string {
 // Get the port from environment variable or default to 8080
 const port = process.env.IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT || 8080;
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server listening on port ${port}`);
 });
