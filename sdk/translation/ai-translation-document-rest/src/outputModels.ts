@@ -11,7 +11,7 @@ export interface TranslationsStatusOutput {
 
 /** Translation job status response */
 export interface TranslationStatusOutput {
-  /** Id of the operation. */
+  /** Id of the translation operation. */
   id: string;
   /** Operation created date time */
   createdDateTimeUtc: string;
@@ -108,6 +108,10 @@ export interface StatusSummaryOutput {
   cancelled: number;
   /** Total characters charged by the API */
   totalCharacterCharged: number;
+  /** Total image scans charged by the API */
+  totalImageScansSucceeded?: number;
+  /** Total image scans failed */
+  totalImageScansFailed?: number;
 }
 
 /** Document Status Response */
@@ -139,6 +143,10 @@ export interface DocumentStatusOutput {
   id: string;
   /** Character charged by the API */
   characterCharged?: number;
+  /** Total image scans charged by the API */
+  totalImageScansSucceeded?: number;
+  /** Total image scans failed */
+  totalImageScansFailed?: number;
 }
 
 /** Documents Status Response */
@@ -167,11 +175,17 @@ export interface FileFormatOutput {
   defaultVersion?: string;
   /** Supported Version */
   versions?: string[];
-  /** Supported Type for this format */
-  type?: string;
+  /**
+   * Supported Type for this format
+   *
+   * Possible values: "document", "glossary"
+   */
+  type?: FileFormatTypeOutput;
 }
 
 /** Alias for StatusOutput */
 export type StatusOutput = string;
 /** Alias for TranslationErrorCodeOutput */
 export type TranslationErrorCodeOutput = string;
+/** Alias for FileFormatTypeOutput */
+export type FileFormatTypeOutput = string;

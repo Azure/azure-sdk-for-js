@@ -1,32 +1,32 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
-    - main
-    - hotfix/*
-    - release/*
-    - restapi*
+      - main
+      - hotfix/*
+      - release/*
+      - restapi*
   paths:
     include:
-    - sdk/translation/ci.yml
-    - sdk/translation/ai-translation-text-rest/
-    - sdk/translation/ai-translation-document-rest/
-
+      - sdk/translation/ci.yml
+      - sdk/translation/ai-translation-text-rest/
+      - sdk/translation/ai-translation-document-rest/
 pr:
   branches:
     include:
-    - main
-    - feature/*
-    - hotfix/*
-    - release/*
-    - restapi*
+      - main
+      - feature/*
+      - hotfix/*
+      - release/*
+      - restapi*
+    exclude:
+      - feature/v4
   paths:
     include:
-    - sdk/translation/ci.yml
-    - sdk/translation/ai-translation-text-rest/
-    - sdk/translation/ai-translation-document-rest/
-
+      - sdk/translation/ci.yml
+      - sdk/translation/ai-translation-text-rest/
+      - sdk/translation/ai-translation-document-rest/
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

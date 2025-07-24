@@ -13,13 +13,17 @@ import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface BatchOptions {
+    translateTextWithinImage?: boolean;
+}
 
 // @public
 export interface BatchRequest {
@@ -82,6 +86,8 @@ export interface DocumentStatusOutput {
     sourcePath: string;
     status: StatusOutput;
     to: string;
+    totalImageScansFailed?: number;
+    totalImageScansSucceeded?: number;
 }
 
 // @public (undocumented)
@@ -92,6 +98,9 @@ export interface DocumentTranslate {
 // @public (undocumented)
 export interface DocumentTranslate200Headers {
     "content-type": "application/octet-stream";
+    "total-image-scans-failed": number;
+    "total-image-scans-succeeded": number;
+    "x-metered-usage": number;
     "x-ms-client-request-id"?: string;
 }
 
@@ -182,6 +191,7 @@ export interface DocumentTranslateQueryParamProperties {
     category?: string;
     sourceLanguage?: string;
     targetLanguage: string;
+    translateTextWithinImage?: boolean;
 }
 
 // @public (undocumented)
@@ -200,12 +210,15 @@ export interface FileFormatOutput {
     defaultVersion?: string;
     fileExtensions: string[];
     format: string;
-    type?: string;
+    type?: FileFormatTypeOutput;
     versions?: string[];
 }
 
 // @public
 export type FileFormatType = string;
+
+// @public
+export type FileFormatTypeOutput = string;
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -238,6 +251,20 @@ export interface GetDocumentsStatusDefaultResponse extends HttpResponse {
     status: string;
 }
 
+// @public
+export interface GetDocumentsStatusIdsQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface GetDocumentsStatusOrderbyQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
 // @public (undocumented)
 export type GetDocumentsStatusParameters = GetDocumentsStatusQueryParam & RequestParameters;
 
@@ -251,12 +278,19 @@ export interface GetDocumentsStatusQueryParam {
 export interface GetDocumentsStatusQueryParamProperties {
     createdDateTimeUtcEnd?: Date | string;
     createdDateTimeUtcStart?: Date | string;
-    ids?: string[];
+    ids?: string[] | GetDocumentsStatusIdsQueryParam;
     maxpagesize?: number;
-    orderby?: string[];
+    orderby?: string[] | GetDocumentsStatusOrderbyQueryParam;
     skip?: number;
-    statuses?: string[];
+    statuses?: string[] | GetDocumentsStatusStatusesQueryParam;
     top?: number;
+}
+
+// @public
+export interface GetDocumentsStatusStatusesQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -294,7 +328,7 @@ export type GetDocumentStatusParameters = RequestParameters;
 export function getLongRunningPoller<TResult extends StartTranslationLogicalResponse | StartTranslationDefaultResponse>(client: Client, initialResponse: StartTranslation202Response | StartTranslationDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -364,6 +398,20 @@ export interface GetTranslationsStatusDefaultResponse extends HttpResponse {
     status: string;
 }
 
+// @public
+export interface GetTranslationsStatusIdsQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
+// @public
+export interface GetTranslationsStatusOrderbyQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
+}
+
 // @public (undocumented)
 export type GetTranslationsStatusParameters = GetTranslationsStatusQueryParam & RequestParameters;
 
@@ -377,12 +425,19 @@ export interface GetTranslationsStatusQueryParam {
 export interface GetTranslationsStatusQueryParamProperties {
     createdDateTimeUtcEnd?: Date | string;
     createdDateTimeUtcStart?: Date | string;
-    ids?: string[];
+    ids?: string[] | GetTranslationsStatusIdsQueryParam;
     maxpagesize?: number;
-    orderby?: string[];
+    orderby?: string[] | GetTranslationsStatusOrderbyQueryParam;
     skip?: number;
-    statuses?: string[];
+    statuses?: string[] | GetTranslationsStatusStatusesQueryParam;
     top?: number;
+}
+
+// @public
+export interface GetTranslationsStatusStatusesQueryParam {
+    explode: false;
+    style: "form";
+    value: string[];
 }
 
 // @public (undocumented)
@@ -456,6 +511,18 @@ export function isUnexpected(response: GetDocumentsStatus200Response | GetDocume
 
 // @public (undocumented)
 export function isUnexpected(response: GetSupportedFormats200Response | GetSupportedFormatsDefaultResponse): response is GetSupportedFormatsDefaultResponse;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -554,6 +621,7 @@ export interface StartTranslationDefaultResponse extends HttpResponse {
 // @public
 export interface StartTranslationDetails {
     inputs: Array<BatchRequest>;
+    options?: BatchOptions;
 }
 
 // @public
@@ -577,6 +645,8 @@ export interface StatusSummaryOutput {
     success: number;
     total: number;
     totalCharacterCharged: number;
+    totalImageScansFailed?: number;
+    totalImageScansSucceeded?: number;
 }
 
 // @public

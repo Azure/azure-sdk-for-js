@@ -3,14 +3,24 @@
 
 export interface DocumentTranslateContentDocumentPartDescriptor {
   name: "document";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   filename?: string;
   contentType?: string;
 }
 
 export interface DocumentTranslateContentGlossaryPartDescriptor {
   name: "glossary";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   filename?: string;
   contentType?: string;
 }
@@ -19,6 +29,8 @@ export interface DocumentTranslateContentGlossaryPartDescriptor {
 export interface StartTranslationDetails {
   /** The input list of documents or folders containing documents */
   inputs: Array<BatchRequest>;
+  /** The batch operation options */
+  options?: BatchOptions;
 }
 
 /** Definition for the input batch translation request */
@@ -110,6 +122,12 @@ export interface Glossary {
    * Possible values: "AzureBlob"
    */
   storageSource?: StorageSource;
+}
+
+/** Translation batch request options */
+export interface BatchOptions {
+  /** Translation text within an image option */
+  translateTextWithinImage?: boolean;
 }
 
 /** Document Translate Request Content */

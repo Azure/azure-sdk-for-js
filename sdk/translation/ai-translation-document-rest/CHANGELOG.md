@@ -1,5 +1,36 @@
 # Release History
 
+## 2.0.0-beta.1 (2025-07-24)
+Compared with version 1.0.0
+
+### Features Added
+  - Added Interface BatchOptions
+  - Added Interface GetDocumentsStatusIdsQueryParam
+  - Added Interface GetDocumentsStatusOrderbyQueryParam
+  - Added Interface GetDocumentsStatusStatusesQueryParam
+  - Added Interface GetTranslationsStatusIdsQueryParam
+  - Added Interface GetTranslationsStatusOrderbyQueryParam
+  - Added Interface GetTranslationsStatusStatusesQueryParam
+  - Added Interface PageSettings
+  - Interface DocumentStatusOutput has a new optional parameter totalImageScansFailed
+  - Interface DocumentStatusOutput has a new optional parameter totalImageScansSucceeded
+  - Interface DocumentTranslateQueryParamProperties has a new optional parameter translateTextWithinImage
+  - Interface StartTranslationDetails has a new optional parameter options
+  - Interface StatusSummaryOutput has a new optional parameter totalImageScansFailed
+  - Interface StatusSummaryOutput has a new optional parameter totalImageScansSucceeded
+  - Added Type Alias FileFormatTypeOutput
+
+### Breaking Changes
+  - Interface DocumentTranslate200Headers has a new required parameter total-image-scans-failed
+  - Interface DocumentTranslate200Headers has a new required parameter total-image-scans-succeeded
+  - Interface DocumentTranslate200Headers has a new required parameter x-metered-usage
+  - Type of parameter ids of interface GetDocumentsStatusQueryParamProperties is changed from string[] to string[] | GetDocumentsStatusIdsQueryParam
+  - Type of parameter orderby of interface GetDocumentsStatusQueryParamProperties is changed from string[] to string[] | GetDocumentsStatusOrderbyQueryParam
+  - Type of parameter statuses of interface GetDocumentsStatusQueryParamProperties is changed from string[] to string[] | GetDocumentsStatusStatusesQueryParam
+  - Type of parameter ids of interface GetTranslationsStatusQueryParamProperties is changed from string[] to string[] | GetTranslationsStatusIdsQueryParam
+  - Type of parameter orderby of interface GetTranslationsStatusQueryParamProperties is changed from string[] to string[] | GetTranslationsStatusOrderbyQueryParam
+  - Type of parameter statuses of interface GetTranslationsStatusQueryParamProperties is changed from string[] to string[] | GetTranslationsStatusStatusesQueryParam
+
 ## 1.0.0 (2024-11-15)
 
 ### Other Changes
