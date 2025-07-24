@@ -8,42 +8,46 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { FarmBeatsModels } from "../operationsInterfaces/index.js";
+import { DataManagerForAgricultureResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
 import {
-  FarmBeats,
-  FarmBeatsModelsListBySubscriptionNextOptionalParams,
-  FarmBeatsModelsListBySubscriptionOptionalParams,
-  FarmBeatsModelsListBySubscriptionResponse,
-  FarmBeatsModelsListByResourceGroupNextOptionalParams,
-  FarmBeatsModelsListByResourceGroupOptionalParams,
-  FarmBeatsModelsListByResourceGroupResponse,
-  FarmBeatsModelsGetOptionalParams,
-  FarmBeatsModelsGetResponse,
-  FarmBeatsModelsCreateOrUpdateOptionalParams,
-  FarmBeatsModelsCreateOrUpdateResponse,
-  FarmBeatsUpdateRequestModel,
-  FarmBeatsModelsUpdateOptionalParams,
-  FarmBeatsModelsUpdateResponse,
-  FarmBeatsModelsDeleteOptionalParams,
-  FarmBeatsModelsGetOperationResultOptionalParams,
-  FarmBeatsModelsGetOperationResultResponse,
-  FarmBeatsModelsListBySubscriptionNextResponse,
-  FarmBeatsModelsListByResourceGroupNextResponse
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import {
+  DataManagerForAgriculture,
+  DataManagerForAgricultureResourcesListBySubscriptionNextOptionalParams,
+  DataManagerForAgricultureResourcesListBySubscriptionOptionalParams,
+  DataManagerForAgricultureResourcesListBySubscriptionResponse,
+  DataManagerForAgricultureResourcesListByResourceGroupNextOptionalParams,
+  DataManagerForAgricultureResourcesListByResourceGroupOptionalParams,
+  DataManagerForAgricultureResourcesListByResourceGroupResponse,
+  DataManagerForAgricultureResourcesGetOptionalParams,
+  DataManagerForAgricultureResourcesGetResponse,
+  DataManagerForAgricultureResourcesCreateOrUpdateOptionalParams,
+  DataManagerForAgricultureResourcesCreateOrUpdateResponse,
+  DataManagerForAgricultureUpdateRequestModel,
+  DataManagerForAgricultureResourcesUpdateOptionalParams,
+  DataManagerForAgricultureResourcesUpdateResponse,
+  DataManagerForAgricultureResourcesDeleteOptionalParams,
+  DataManagerForAgricultureResourcesListBySubscriptionNextResponse,
+  DataManagerForAgricultureResourcesListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing FarmBeatsModels operations. */
-export class FarmBeatsModelsImpl implements FarmBeatsModels {
+/** Class containing DataManagerForAgricultureResources operations. */
+export class DataManagerForAgricultureResourcesImpl
+  implements DataManagerForAgricultureResources
+{
   private readonly client: AgriFoodMgmtClient;
 
   /**
-   * Initialize a new instance of the class FarmBeatsModels class.
+   * Initialize a new instance of the class DataManagerForAgricultureResources class.
    * @param client Reference to the service client
    */
   constructor(client: AgriFoodMgmtClient) {
@@ -51,12 +55,12 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
   }
 
   /**
-   * Lists the FarmBeats instances for a subscription.
+   * Lists the DataManagerForAgriculture instances for a subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: FarmBeatsModelsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<FarmBeats> {
+    options?: DataManagerForAgricultureResourcesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<DataManagerForAgriculture> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -70,15 +74,15 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: FarmBeatsModelsListBySubscriptionOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<FarmBeats[]> {
-    let result: FarmBeatsModelsListBySubscriptionResponse;
+    options?: DataManagerForAgricultureResourcesListBySubscriptionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DataManagerForAgriculture[]> {
+    let result: DataManagerForAgricultureResourcesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -97,22 +101,22 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: FarmBeatsModelsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<FarmBeats> {
+    options?: DataManagerForAgricultureResourcesListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<DataManagerForAgriculture> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists the FarmBeats instances for a resource group.
+   * Lists the DataManagerForAgriculture instances for a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: FarmBeatsModelsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<FarmBeats> {
+    options?: DataManagerForAgricultureResourcesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<DataManagerForAgriculture> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -128,18 +132,18 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: FarmBeatsModelsListByResourceGroupOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<FarmBeats[]> {
-    let result: FarmBeatsModelsListByResourceGroupResponse;
+    options?: DataManagerForAgricultureResourcesListByResourceGroupOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DataManagerForAgriculture[]> {
+    let result: DataManagerForAgricultureResourcesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -152,7 +156,7 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -163,87 +167,91 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: FarmBeatsModelsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<FarmBeats> {
+    options?: DataManagerForAgricultureResourcesListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<DataManagerForAgriculture> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Get FarmBeats resource.
+   * Get DataManagerForAgriculture resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
-    options?: FarmBeatsModelsGetOptionalParams
-  ): Promise<FarmBeatsModelsGetResponse> {
+    dataManagerForAgricultureResourceName: string,
+    options?: DataManagerForAgricultureResourcesGetOptionalParams,
+  ): Promise<DataManagerForAgricultureResourcesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, options },
-      getOperationSpec
+      { resourceGroupName, dataManagerForAgricultureResourceName, options },
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or update FarmBeats resource.
+   * Create or update Data Manager For Agriculture resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param body FarmBeats resource create or update request object.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
+   * @param request Data Manager For Agriculture resource create or update request object.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
-    body: FarmBeats,
-    options?: FarmBeatsModelsCreateOrUpdateOptionalParams
-  ): Promise<FarmBeatsModelsCreateOrUpdateResponse> {
+    dataManagerForAgricultureResourceName: string,
+    request: DataManagerForAgriculture,
+    options?: DataManagerForAgricultureResourcesCreateOrUpdateOptionalParams,
+  ): Promise<DataManagerForAgricultureResourcesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, body, options },
-      createOrUpdateOperationSpec
+      {
+        resourceGroupName,
+        dataManagerForAgricultureResourceName,
+        request,
+        options,
+      },
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Update a FarmBeats resource.
+   * Update a Data Manager For Agriculture resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param body Request object.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
+   * @param request Request object.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
-    body: FarmBeatsUpdateRequestModel,
-    options?: FarmBeatsModelsUpdateOptionalParams
+    dataManagerForAgricultureResourceName: string,
+    request: DataManagerForAgricultureUpdateRequestModel,
+    options?: DataManagerForAgricultureResourcesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<FarmBeatsModelsUpdateResponse>,
-      FarmBeatsModelsUpdateResponse
+    SimplePollerLike<
+      OperationState<DataManagerForAgricultureResourcesUpdateResponse>,
+      DataManagerForAgricultureResourcesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<FarmBeatsModelsUpdateResponse> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<DataManagerForAgricultureResourcesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -252,8 +260,8 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -261,108 +269,97 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, farmBeatsResourceName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        dataManagerForAgricultureResourceName,
+        request,
+        options,
+      },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DataManagerForAgricultureResourcesUpdateResponse,
+      OperationState<DataManagerForAgricultureResourcesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update a FarmBeats resource.
+   * Update a Data Manager For Agriculture resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param body Request object.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
+   * @param request Request object.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
-    body: FarmBeatsUpdateRequestModel,
-    options?: FarmBeatsModelsUpdateOptionalParams
-  ): Promise<FarmBeatsModelsUpdateResponse> {
+    dataManagerForAgricultureResourceName: string,
+    request: DataManagerForAgricultureUpdateRequestModel,
+    options?: DataManagerForAgricultureResourcesUpdateOptionalParams,
+  ): Promise<DataManagerForAgricultureResourcesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      farmBeatsResourceName,
-      body,
-      options
+      dataManagerForAgricultureResourceName,
+      request,
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a FarmBeats resource.
+   * Delete a Data Manager For Agriculture resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
-    options?: FarmBeatsModelsDeleteOptionalParams
+    dataManagerForAgricultureResourceName: string,
+    options?: DataManagerForAgricultureResourcesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, options },
-      deleteOperationSpec
+      { resourceGroupName, dataManagerForAgricultureResourceName, options },
+      deleteOperationSpec,
     );
   }
 
   /**
-   * Lists the FarmBeats instances for a subscription.
+   * Lists the DataManagerForAgriculture instances for a subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: FarmBeatsModelsListBySubscriptionOptionalParams
-  ): Promise<FarmBeatsModelsListBySubscriptionResponse> {
+    options?: DataManagerForAgricultureResourcesListBySubscriptionOptionalParams,
+  ): Promise<DataManagerForAgricultureResourcesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
-   * Lists the FarmBeats instances for a resource group.
+   * Lists the DataManagerForAgriculture instances for a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: FarmBeatsModelsListByResourceGroupOptionalParams
-  ): Promise<FarmBeatsModelsListByResourceGroupResponse> {
+    options?: DataManagerForAgricultureResourcesListByResourceGroupOptionalParams,
+  ): Promise<DataManagerForAgricultureResourcesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Get operationResults for a FarmBeats resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param operationResultsId The operation results id.
-   * @param options The options parameters.
-   */
-  getOperationResult(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    operationResultsId: string,
-    options?: FarmBeatsModelsGetOperationResultOptionalParams
-  ): Promise<FarmBeatsModelsGetOperationResultResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, operationResultsId, options },
-      getOperationResultOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -373,11 +370,11 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: FarmBeatsModelsListBySubscriptionNextOptionalParams
-  ): Promise<FarmBeatsModelsListBySubscriptionNextResponse> {
+    options?: DataManagerForAgricultureResourcesListBySubscriptionNextOptionalParams,
+  ): Promise<DataManagerForAgricultureResourcesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -390,11 +387,11 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: FarmBeatsModelsListByResourceGroupNextOptionalParams
-  ): Promise<FarmBeatsModelsListByResourceGroupNextResponse> {
+    options?: DataManagerForAgricultureResourcesListByResourceGroupNextOptionalParams,
+  ): Promise<DataManagerForAgricultureResourcesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -402,223 +399,184 @@ export class FarmBeatsModelsImpl implements FarmBeatsModels {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeats
+      bodyMapper: Mappers.DataManagerForAgriculture,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName
+    Parameters.dataManagerForAgricultureResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeats
+      bodyMapper: Mappers.DataManagerForAgriculture,
     },
     201: {
-      bodyMapper: Mappers.FarmBeats
+      bodyMapper: Mappers.DataManagerForAgriculture,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName
+    Parameters.dataManagerForAgricultureResourceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeats
+      bodyMapper: Mappers.DataManagerForAgriculture,
     },
     201: {
-      bodyMapper: Mappers.FarmBeats
+      bodyMapper: Mappers.DataManagerForAgriculture,
     },
     202: {
-      bodyMapper: Mappers.FarmBeats
+      bodyMapper: Mappers.DataManagerForAgriculture,
     },
     204: {
-      bodyMapper: Mappers.FarmBeats
+      bodyMapper: Mappers.DataManagerForAgriculture,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName
+    Parameters.dataManagerForAgricultureResourceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName
+    Parameters.dataManagerForAgricultureResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AgFoodPlatform/farmBeats",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AgFoodPlatform/farmBeats",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeatsListResponse
+      bodyMapper: Mappers.DataManagerForAgricultureListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxPageSize,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeatsListResponse
+      bodyMapper: Mappers.DataManagerForAgricultureListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxPageSize,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationResultOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/operationResults/{operationResultsId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ArmAsyncOperation
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName,
-    Parameters.operationResultsId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeatsListResponse
+      bodyMapper: Mappers.DataManagerForAgricultureListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FarmBeatsListResponse
+      bodyMapper: Mappers.DataManagerForAgricultureListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
