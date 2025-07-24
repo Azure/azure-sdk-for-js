@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Contains extra metadata on the revision, including supported revisions, cluster compatibility and available upgrades
  *
  * @summary Contains extra metadata on the revision, including supported revisions, cluster compatibility and available upgrades
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-03-02-preview/examples/ManagedClustersGet_MeshRevisionProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/ManagedClustersGet_MeshRevisionProfile.json
  */
 async function getAMeshRevisionProfileForAMeshMode() {
   const subscriptionId =

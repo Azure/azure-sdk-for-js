@@ -11,10 +11,8 @@
  * @summary The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance. This method executes a command on a running task.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Tasks_Command.json
  */
-import {
-  MigrateSyncCompleteCommandProperties,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { MigrateSyncCompleteCommandProperties } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function tasksCommand(): Promise<void> {
@@ -25,7 +23,7 @@ async function tasksCommand(): Promise<void> {
   const taskName = "DmsSdkTask";
   const parameters: MigrateSyncCompleteCommandProperties = {
     commandType: "Migrate.Sync.Complete.Database",
-    input: { databaseName: "TestDatabase" }
+    input: { databaseName: "TestDatabase" },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
@@ -34,7 +32,7 @@ async function tasksCommand(): Promise<void> {
     serviceName,
     projectName,
     taskName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

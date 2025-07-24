@@ -65,6 +65,7 @@ steps:
 
   - pwsh: |
       node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
+      $env:FORCE_COLOR = "1"
       node eng/tools/rush-runner/index.js lint "$(ChangedServices)" -p max --verbose
     displayName: "Build ESLint Plugin and Lint Libraries"
 
@@ -89,33 +90,5 @@ steps:
     # builds should be sufficient.
     condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
     displayName: "Component Detection"
-
-    # Unlink node_modules folders to significantly improve performance of subsequent tasks
-    # which need to walk the directory tree (and are hardcoded to follow symlinks).
-  - script: |
-      node eng/tools/rush-runner/index.js unlink
-    displayName: "Unlink dependencies"
-
-    # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
-    # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
-  - task: CopyFiles@2
-    inputs:
-      sourceFolder: sdk
-      contents: "**/**/*lintReport.html"
-      targetFolder: $(Build.ArtifactStagingDirectory)
-      flattenFolders: true
-    displayName: "Copy lint reports"
-
-  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
-    parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'reports'
-      SbomEnabled: false
-
-  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
-    parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'package-diffs'
-      SbomEnabled: false
 
   - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml

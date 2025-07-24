@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  MaintenanceConfiguration} from "@azure/arm-containerservice";
 import {
+  MaintenanceConfiguration,
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary Creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-03-02-preview/examples/MaintenanceConfigurationsCreate_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/MaintenanceConfigurationsCreate_Update.json
  */
 async function createOrUpdateMaintenanceConfiguration(): Promise<void> {
   const subscriptionId =
@@ -52,7 +51,7 @@ async function createOrUpdateMaintenanceConfiguration(): Promise<void> {
  * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary Creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-03-02-preview/examples/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
  */
 async function createOrUpdateMaintenanceConfigurationWithMaintenanceWindow(): Promise<void> {
   const subscriptionId =

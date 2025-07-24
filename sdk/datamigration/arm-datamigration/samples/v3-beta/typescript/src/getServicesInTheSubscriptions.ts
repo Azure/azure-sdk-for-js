@@ -20,7 +20,7 @@ async function getServicesInTheSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlMigrationServices.listBySubscription()) {
+  for await (const item of client.sqlMigrationServices.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

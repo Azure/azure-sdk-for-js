@@ -522,7 +522,7 @@ export interface ScaleProfile {
   /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
   manual?: ManualScaleProfile[];
   /** Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. */
-  autoscale?: Record<string, unknown>;
+  autoscale?: AutoScaleProfile;
 }
 
 /** Specifications on number of machines. */
@@ -531,6 +531,16 @@ export interface ManualScaleProfile {
   size?: string;
   /** Number of nodes. */
   count?: number;
+}
+
+/** Specifications on auto-scaling. */
+export interface AutoScaleProfile {
+  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
+  size?: string;
+  /** The minimum number of nodes of the specified sizes. */
+  minCount?: number;
+  /** The maximum number of nodes of the specified sizes. */
+  maxCount?: number;
 }
 
 /** Current status on a group of nodes of the same vm size. */
@@ -909,6 +919,12 @@ export interface AdvancedNetworkingSecurity {
   enabled?: boolean;
   /** This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true. */
   advancedNetworkPolicies?: AdvancedNetworkPolicies;
+  /** Encryption configuration for Cilium-based clusters. Once enabled all traffic between Cilium managed pods will be encrypted when it leaves the node boundary. */
+  transitEncryption?: AdvancedNetworkingSecurityTransitEncryption;
+}
+
+/** Encryption configuration for Cilium-based clusters. Once enabled all traffic between Cilium managed pods will be encrypted when it leaves the node boundary. */
+export interface AdvancedNetworkingSecurityTransitEncryption {
   /** This can be enabled only on Cilium-based clusters. If not specified, the default value is None. */
   type?: TransitEncryptionType;
 }
@@ -1296,21 +1312,6 @@ export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs
   enabled?: boolean;
   /** The Open Telemetry host port for Open Telemetry logs and traces. If not specified, the default port is 28331. */
   port?: number;
-}
-
-/** The Safeguards profile. */
-export interface SafeguardsProfile {
-  /**
-   * List of namespaces specified by AKS to be excluded from Safeguards
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemExcludedNamespaces?: string[];
-  /** The version of constraints to use */
-  version?: string;
-  /** The Safeguards level to be used. By default, Safeguards is enabled for all namespaces except those that AKS excludes via systemExcludedNamespaces */
-  level: Level;
-  /** List of namespaces excluded from Safeguards checks */
-  excludedNamespaces?: string[];
 }
 
 /** Service mesh profile for a managed cluster. */
@@ -1851,25 +1852,66 @@ export interface MachineListResult {
 
 /** The properties of the machine */
 export interface MachineProperties {
-  /**
-   * network properties of the machine
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly network?: MachineNetworkProperties;
+  /** The network properties of the machine */
+  network?: MachineNetworkProperties;
   /**
    * Arm resource id of the machine. It can be used to GET underlying VM Instance
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceId?: string;
+  /** The hardware and GPU settings of the machine. */
+  hardware?: MachineHardwareProfile;
+  /** The operating system and disk used by the machine. */
+  operatingSystem?: MachineOSProfile;
+  /** The Kubernetes configurations used by the machine. */
+  kubernetes?: MachineKubernetesProfile;
+  /** Machine only allows 'System' and 'User' mode. */
+  mode?: AgentPoolMode;
+  /** The security settings of the machine. */
+  security?: AgentPoolSecurityProfile;
+  /** The priority for the machine. If not specified, the default is 'Regular'. */
+  priority?: ScaleSetPriority;
+  /**
+   * The version of node image.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeImageVersion?: string;
+  /**
+   * The current deployment or provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The tags to be persisted on the machine. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+  /**
+   * Contains read-only information about the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: MachineStatus;
 }
 
-/** network properties of the machine */
+/** The network properties of the machine */
 export interface MachineNetworkProperties {
   /**
    * IPv4, IPv6 addresses of the machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddresses?: MachineIpAddress[];
+  /** If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
+  vnetSubnetID?: string;
+  /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
+  podSubnetID?: string;
+  /** Some scenarios may require the machine to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. The default is false. */
+  enableNodePublicIP?: boolean;
+  /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
+  nodePublicIPPrefixID?: string;
+  /** IPTags of instance-level public IPs. */
+  nodePublicIPTags?: IPTag[];
 }
 
 /** The machine IP address details. */
@@ -1884,6 +1926,103 @@ export interface MachineIpAddress {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ip?: string;
+}
+
+/** The hardware and GPU settings of the machine. */
+export interface MachineHardwareProfile {
+  /** VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
+  vmSize?: string;
+  /** GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. */
+  gpuInstanceProfile?: GPUInstanceProfile;
+  /** The GPU settings of the machine. */
+  gpuProfile?: GPUProfile;
+}
+
+/** The operating system and disk used by the machine. */
+export interface MachineOSProfile {
+  /** The operating system type. The default is Linux. */
+  osType?: OSType;
+  /** Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated. */
+  osSKU?: Ossku;
+  /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
+  osDiskSizeGB?: number;
+  /** The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
+  osDiskType?: OSDiskType;
+  /** Whether to use a FIPS-enabled OS. */
+  enableFips?: boolean;
+  /** The Linux machine's specific profile. */
+  linuxProfile?: MachineOSProfileLinuxProfile;
+  /** The Windows machine's specific profile. */
+  windowsProfile?: AgentPoolWindowsProfile;
+}
+
+/** The Linux machine's specific profile. */
+export interface MachineOSProfileLinuxProfile {
+  /** The OS configuration of Linux machine. */
+  linuxOSConfig?: LinuxOSConfig;
+  /** A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
+  messageOfTheDay?: string;
+}
+
+/** The Kubernetes configurations used by the machine. */
+export interface MachineKubernetesProfile {
+  /** The node labels on the machine. */
+  nodeLabels?: { [propertyName: string]: string };
+  /** Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. */
+  orchestratorVersion?: string;
+  /**
+   * If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentOrchestratorVersion?: string;
+  /** Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. */
+  kubeletDiskType?: KubeletDiskType;
+  /** The Kubelet configuration on the machine. */
+  kubeletConfig?: KubeletConfig;
+  /** These taints will not be reconciled by AKS and can be removed with a kubectl call. These taints allow for required configuration to run before the node is ready to accept workloads, for example 'key1=value1:NoSchedule' that then can be removed with `kubectl taint nodes node1 key1=value1:NoSchedule-` */
+  nodeInitializationTaints?: string[];
+  /** The taints added to new node during machine create. For example, key=value:NoSchedule. */
+  nodeTaints?: string[];
+  /** The maximum number of pods that can run on a node. */
+  maxPods?: number;
+  /**
+   * The node name in the Kubernetes cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeName?: string;
+  /** Determines the type of workload a node can run. */
+  workloadRuntime?: WorkloadRuntime;
+  /** Configuration for using artifact streaming on AKS. */
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
+}
+
+/** Contains read-only information about the machine. */
+export interface MachineStatus {
+  /**
+   * Preserves the detailed info of failure. If there was no error, this field is omitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: CloudErrorBody;
+  /**
+   * Specifies the time at which the machine was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationTimestamp?: Date;
+  /**
+   * Indicates whether a machine has deviated from its expected state due to changes in managed cluster properties, requiring corrective action.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly driftAction?: DriftAction;
+  /**
+   * Provides detailed information on why the machine has drifted. This field is omitted if the machine is up to date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly driftReason?: string;
+  /**
+   * Indicates the current state of the underlying virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmState?: VmState;
 }
 
 /** The list of available versions for an agent pool. */
@@ -2345,16 +2484,6 @@ export interface RebalanceLoadBalancersRequestBody {
   loadBalancerNames?: string[];
 }
 
-/** Specifications on auto-scaling. */
-export interface AutoScaleProfile {
-  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
-  size?: string;
-  /** The minimum number of nodes of the specified sizes. */
-  minCount?: number;
-  /** The maximum number of nodes of the specified sizes. */
-  maxCount?: number;
-}
-
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile
   extends ManagedClusterAgentPoolProfileProperties {
@@ -2567,13 +2696,12 @@ export interface AgentPool extends SubResource {
   localDNSProfile?: LocalDNSProfile;
 }
 
-/** A machine. Contains details about the underlying virtual machine. A machine may be visible here but not in kubectl get nodes; if so it may be because the machine has not been registered with the Kubernetes API Server yet. */
+/** A machine provides detailed information about its configuration and status. A machine may be visible here but not in kubectl get nodes; if so, it may be because the machine has not been registered with the Kubernetes API Server yet. */
 export interface Machine extends SubResource {
-  /**
-   * The properties of the machine
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly properties?: MachineProperties;
+  /** The Availability zone in which machine is located. */
+  zones?: string[];
+  /** The properties of the machine */
+  properties?: MachineProperties;
 }
 
 /** Mesh upgrade profile properties for a major.minor release. */
@@ -2695,8 +2823,6 @@ export interface ManagedCluster extends TrackedResource {
   workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
   /** Prometheus addon profile for the container service cluster */
   azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
-  /** The Safeguards profile holds all the safeguards information for a given cluster */
-  safeguardsProfile?: SafeguardsProfile;
   /** Service mesh profile for a managed cluster. */
   serviceMeshProfile?: ServiceMeshProfile;
   /**
@@ -3067,7 +3193,7 @@ export type WorkloadRuntime = string;
 
 /** Known values of {@link PodIPAllocationMode} that the service accepts. */
 export enum KnownPodIPAllocationMode {
-  /** Each pod gets a single IP address assigned. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode */
+  /** Each node gets allocated with a non-contiguous list of IP addresses assignable to pods. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode */
   DynamicIndividual = "DynamicIndividual",
   /** Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger */
   StaticBlock = "StaticBlock",
@@ -3078,7 +3204,7 @@ export enum KnownPodIPAllocationMode {
  * {@link KnownPodIPAllocationMode} can be used interchangeably with PodIPAllocationMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **DynamicIndividual**: Each pod gets a single IP address assigned. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode \
+ * **DynamicIndividual**: Each node gets allocated with a non-contiguous list of IP addresses assignable to pods. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode \
  * **StaticBlock**: Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger
  */
 export type PodIPAllocationMode = string;
@@ -3187,6 +3313,10 @@ export enum KnownAgentPoolMode {
   User = "User",
   /** Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\//aka.ms\/aks\/static-egress-gateway. */
   Gateway = "Gateway",
+  /** ManagedSystem is a system pool managed by AKS. The pool scales dynamically according to cluster usage, and has additional automated monitoring and healing capabilities. There can only be one ManagedSystem pool, and it is recommended to delete all other system pools for the best experience. */
+  ManagedSystem = "ManagedSystem",
+  /** Machines agent pools are dedicated to hosting machines. Only limited operations, such as creation and deletion, are allowed at the pool level. Please use the machine APIs to manage the full machine lifecycle. */
+  Machines = "Machines",
 }
 
 /**
@@ -3196,7 +3326,9 @@ export enum KnownAgentPoolMode {
  * ### Known values supported by the service
  * **System**: System agent pools are primarily for hosting critical system pods such as CoreDNS and metrics-server. System agent pools osType must be Linux. System agent pools VM SKU must have at least 2vCPUs and 4GB of memory. \
  * **User**: User agent pools are primarily for hosting your application pods. \
- * **Gateway**: Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\/\/aka.ms\/aks\/static-egress-gateway.
+ * **Gateway**: Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\/\/aka.ms\/aks\/static-egress-gateway. \
+ * **ManagedSystem**: ManagedSystem is a system pool managed by AKS. The pool scales dynamically according to cluster usage, and has additional automated monitoring and healing capabilities. There can only be one ManagedSystem pool, and it is recommended to delete all other system pools for the best experience. \
+ * **Machines**: Machines agent pools are dedicated to hosting machines. Only limited operations, such as creation and deletion, are allowed at the pool level. Please use the machine APIs to manage the full machine lifecycle.
  */
 export type AgentPoolMode = string;
 
@@ -4016,27 +4148,6 @@ export enum KnownAddonAutoscaling {
  */
 export type AddonAutoscaling = string;
 
-/** Known values of {@link Level} that the service accepts. */
-export enum KnownLevel {
-  /** Off */
-  Off = "Off",
-  /** Warning */
-  Warning = "Warning",
-  /** Enforcement */
-  Enforcement = "Enforcement",
-}
-
-/**
- * Defines values for Level. \
- * {@link KnownLevel} can be used interchangeably with Level,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Off** \
- * **Warning** \
- * **Enforcement**
- */
-export type Level = string;
-
 /** Known values of {@link ServiceMeshMode} that the service accepts. */
 export enum KnownServiceMeshMode {
   /** Istio deployed as an AKS addon. */
@@ -4336,6 +4447,42 @@ export enum KnownDeletePolicy {
  * **Delete**: Delete both the ARM resource and the Kubernetes namespace together.
  */
 export type DeletePolicy = string;
+
+/** Known values of {@link DriftAction} that the service accepts. */
+export enum KnownDriftAction {
+  /** The machine is up to date. */
+  Synced = "Synced",
+  /** The machine has drifted and needs to be deleted and recreated. */
+  Recreate = "Recreate",
+}
+
+/**
+ * Defines values for DriftAction. \
+ * {@link KnownDriftAction} can be used interchangeably with DriftAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Synced**: The machine is up to date. \
+ * **Recreate**: The machine has drifted and needs to be deleted and recreated.
+ */
+export type DriftAction = string;
+
+/** Known values of {@link VmState} that the service accepts. */
+export enum KnownVmState {
+  /** The virtual machine is currently running. */
+  Running = "Running",
+  /** The virtual machine has been deleted by the user or due to spot eviction. */
+  Deleted = "Deleted",
+}
+
+/**
+ * Defines values for VmState. \
+ * {@link KnownVmState} can be used interchangeably with VmState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Running**: The virtual machine is currently running. \
+ * **Deleted**: The virtual machine has been deleted by the user or due to spot eviction.
+ */
+export type VmState = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
@@ -5094,6 +5241,22 @@ export interface MachinesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type MachinesGetResponse = Machine;
+
+/** Optional parameters. */
+export interface MachinesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type MachinesCreateOrUpdateResponse = Machine;
 
 /** Optional parameters. */
 export interface MachinesListNextOptionalParams

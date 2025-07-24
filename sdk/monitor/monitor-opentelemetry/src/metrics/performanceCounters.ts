@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as os from "node:os";
+import os from "node:os";
 import type {
   Histogram,
   Meter,
@@ -22,7 +22,7 @@ import { getLogData, isExceptionData } from "./quickpulse/utils.js";
 import type { ExceptionData, TraceData } from "./quickpulse/types.js";
 import type { LogRecord } from "@opentelemetry/sdk-logs";
 import { Logger } from "../shared/logging/logger.js";
-import * as process from "node:process";
+import process from "node:process";
 
 /**
  * Azure Monitor PerformanceCounter Metrics

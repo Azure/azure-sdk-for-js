@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  PrivateEndpointConnection} from "@azure/arm-containerservice";
 import {
+  PrivateEndpointConnection,
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a private endpoint connection.
  *
  * @summary Updates a private endpoint connection.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-03-02-preview/examples/PrivateEndpointConnectionsUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/PrivateEndpointConnectionsUpdate.json
  */
 async function updatePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =

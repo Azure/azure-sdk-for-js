@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists managed cluster snapshots in the specified subscription and resource group.
  *
  * @summary Lists managed cluster snapshots in the specified subscription and resource group.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-03-02-preview/examples/ManagedClusterSnapshotsListByResourceGroup.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/ManagedClusterSnapshotsListByResourceGroup.json
  */
 async function listManagedClusterSnapshotsByResourceGroup(): Promise<void> {
   const subscriptionId =

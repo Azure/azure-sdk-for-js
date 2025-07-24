@@ -44,7 +44,7 @@ async function main() {
     },
     {
       type: "image_url",
-      image_url: {
+      imageUrl: {
         url: imageUrl,
         detail: "high",
       },
@@ -82,11 +82,9 @@ async function main() {
   }
 
   const messagesIterator = client.messages.list(thread.id);
-  const allMessages = [];
   for await (const m of messagesIterator) {
-    allMessages.push(m);
+    console.log(`Role: ${m.role}, Content: ${m.content}`);
   }
-  console.log("Messages:", allMessages);
 }
 
 main().catch((error) => {

@@ -30,7 +30,7 @@ import type {
   Contacts as CoreContacts,
   JsonWebKeyType as CertificateKeyType,
   ErrorModel,
-} from "./generated/models/index.js";
+} from "./generated/src/models/index.js";
 import { parseKeyVaultCertificateIdentifier } from "./identifier.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 

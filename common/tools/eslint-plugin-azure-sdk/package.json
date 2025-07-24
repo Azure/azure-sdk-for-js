@@ -116,7 +116,7 @@
     "playwright": "^1.49.1",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
-    "tshy": "^2.0.0",
+    "tshy": "^3.0.0",
     "vitest": "^3.0.9"
   },
   "tshy": {

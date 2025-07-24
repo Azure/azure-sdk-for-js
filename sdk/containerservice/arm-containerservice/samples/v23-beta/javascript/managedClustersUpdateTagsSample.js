@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Updates tags on a managed cluster.
  *
  * @summary Updates tags on a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-03-02-preview/examples/ManagedClustersUpdateTags.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/ManagedClustersUpdateTags.json
  */
 async function updateManagedClusterTags() {
   const subscriptionId =

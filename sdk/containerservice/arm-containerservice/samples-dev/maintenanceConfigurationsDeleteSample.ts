@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a maintenance configuration.
  *
  * @summary Deletes a maintenance configuration.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-03-02-preview/examples/MaintenanceConfigurationsDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/MaintenanceConfigurationsDelete.json
  */
 async function deleteMaintenanceConfiguration(): Promise<void> {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function deleteMaintenanceConfiguration(): Promise<void> {
  * This sample demonstrates how to Deletes a maintenance configuration.
  *
  * @summary Deletes a maintenance configuration.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-03-02-preview/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
  */
 async function deleteMaintenanceConfigurationForNodeOSUpgrade(): Promise<void> {
   const subscriptionId =

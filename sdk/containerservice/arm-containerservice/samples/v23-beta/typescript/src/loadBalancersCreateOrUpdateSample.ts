@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  LoadBalancer} from "@azure/arm-containerservice";
 import {
+  LoadBalancer,
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates or updates a load balancer in the specified managed cluster.
  *
  * @summary Creates or updates a load balancer in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-03-02-preview/examples/LoadBalancers_Create_Or_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/LoadBalancers_Create_Or_Update.json
  */
 async function createOrUpdateALoadBalancer(): Promise<void> {
   const subscriptionId =

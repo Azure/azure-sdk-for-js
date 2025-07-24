@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Gets a managed cluster.
  *
  * @summary Gets a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-03-02-preview/examples/ManagedClustersGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-04-02-preview/examples/ManagedClustersGet.json
  */
 async function getManagedCluster() {
   const subscriptionId =
