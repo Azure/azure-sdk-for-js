@@ -41,6 +41,20 @@ export interface AnalyzeTextOptions {
   outputType?: AnalyzeTextOutputType;
 }
 
+/** The request of analyzing potential direct or indirect injection attacks. */
+export interface ShieldPromptOptions {
+  /** The user prompt to be analyzed, which may contain direct injection attacks. */
+  userPrompt?: string;
+  /** The documents to be analyzed, which may contain direct or indirect injection attacks. */
+  documents?: string[];
+}
+
+/** The request of detecting potential protected material present in the given text. */
+export interface DetectTextProtectedMaterialOptions {
+  /** The text to be analyzed, which may contain protected material. The characters will be counted in Unicode code points. */
+  text: string;
+}
+
 /** Text Blocklist. */
 export interface TextBlocklist {
   /** Text blocklist name. */
@@ -61,6 +75,8 @@ export interface TextBlocklistItem {
   description?: string;
   /** BlocklistItem content. The length is counted using Unicode code point. */
   text: string;
+  /** An optional properties indicating whether this item is to be matched as a regular expression. */
+  isRegex?: boolean;
 }
 
 /** The request to remove blocklistItems from a text blocklist. */
