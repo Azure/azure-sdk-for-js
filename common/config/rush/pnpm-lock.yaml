@@ -81,7 +81,7 @@ importers:
         version: file:projects/arm-agricultureplatform.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-agrifood':
         specifier: file:./projects/arm-agrifood.tgz
-        version: file:projects/arm-agrifood.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+        version: file:projects/arm-agrifood.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-analysisservices':
         specifier: file:./projects/arm-analysisservices.tgz
         version: file:projects/arm-analysisservices.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
@@ -2591,7 +2591,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-agrifood@file:projects/arm-agrifood.tgz':
-    resolution: {integrity: sha512-I4UOfUaN8h2aS+zly9Pkgi5Z6lU2ve9Z+zCO27H6qWITnVP1Tnt9IRPQosb/SPAne9oTeH5hGfkWdiiPkXMskg==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-BqUHlr4VmtMPJcVCu3y9km9YbyLrPZ7j6clra08TRVxzCTNDu66Hr15FH3l+mSv3eZh9fI0aazh9tu8VCx+NmQ==, tarball: file:projects/arm-agrifood.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-analysisservices@file:projects/arm-analysisservices.tgz':
@@ -9847,26 +9847,30 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-agrifood@file:projects/arm-agrifood.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)':
+  '@rush-temp/arm-agrifood@file:projects/arm-agrifood.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.10.1
       '@types/node': 20.19.1
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.5.0
+      playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
-      - '@vitest/browser'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
       - msw
+      - safaridriver
       - sass
       - sass-embedded
       - stylus
@@ -9874,6 +9878,9 @@ snapshots:
       - supports-color
       - terser
       - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
       - yaml
 
   '@rush-temp/arm-analysisservices@file:projects/arm-analysisservices.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)':

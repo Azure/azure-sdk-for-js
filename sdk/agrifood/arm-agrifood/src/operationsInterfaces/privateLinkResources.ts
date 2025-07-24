@@ -6,39 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  PrivateLinkResource,
   PrivateLinkResourcesListByResourceOptionalParams,
+  PrivateLinkResourcesListByResourceResponse,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
+  PrivateLinkResourcesGetResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
   /**
    * Get list of Private link resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param options The options parameters.
    */
   listByResource(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
-    options?: PrivateLinkResourcesListByResourceOptionalParams
-  ): PagedAsyncIterableIterator<PrivateLinkResource>;
+    dataManagerForAgricultureResourceName: string,
+    options?: PrivateLinkResourcesListByResourceOptionalParams,
+  ): Promise<PrivateLinkResourcesListByResourceResponse>;
   /**
    * Get Private link resource object.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param subResourceName Sub resource name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     subResourceName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse>;
 }
