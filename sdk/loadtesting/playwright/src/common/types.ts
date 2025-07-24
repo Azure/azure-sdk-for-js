@@ -78,15 +78,6 @@ export type PlaywrightServiceAdditionalOptions = {
   /**
    * @public
    *
-   * Run id for the test run.
-   *
-   * @defaultValue `current datetime as ISO string`
-   */
-  runId?: string;
-
-  /**
-   * @public
-   *
    * Maximum time in milliseconds to wait for the connection to be established.
    *
    * @defaultValue `30000`

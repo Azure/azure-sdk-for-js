@@ -90,6 +90,8 @@ describe("getServiceConfig", () => {
   it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0", async () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
     vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, "1.49.0");
+    const mockRunId = "mocked-run-id-12345";
+    vi.spyOn(utils, "getAndSetRunId").mockReturnValue(mockRunId);
     const { getServiceConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
@@ -120,6 +122,8 @@ describe("getServiceConfig", () => {
   it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0 and input global files are string", async () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
     vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, "1.49.0");
+    const mockRunId = "mocked-run-id-12345";
+    vi.spyOn(utils, "getAndSetRunId").mockReturnValue(mockRunId);
     const { getServiceConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
@@ -153,6 +157,8 @@ describe("getServiceConfig", () => {
   it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0 and input global files are list", async () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
     vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, "1.49.0");
+    const mockRunId = "mocked-run-id-12345";
+    vi.spyOn(utils, "getAndSetRunId").mockReturnValue(mockRunId);
     const { getServiceConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
@@ -238,16 +244,17 @@ describe("getServiceConfig", () => {
 
   it("should set service config options as passed", async () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+    const mockRunId = "mocked-run-id-12345";
+    vi.spyOn(utils, "getAndSetRunId").mockReturnValue(mockRunId);
     const { getServiceConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     localGetServiceConfig(samplePlaywrightConfigInput, {
       os: ServiceOS.WINDOWS,
-      runId: "1234",
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
-    expect(playwrightServiceConfig.runId).to.equal("1234");
+    expect(playwrightServiceConfig.runId).to.equal("mocked-run-id-12345");
   });
 
   it("should set service global setup and teardown for entra authentication", async () => {
@@ -338,6 +345,8 @@ describe("getServiceConfig", () => {
 
   it("should return service config with service connect options", async () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
+    const mockRunId = "mocked-run-id-12345";
+    vi.spyOn(utils, "getAndSetRunId").mockReturnValue(mockRunId);
     const { getServiceConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
@@ -416,13 +425,14 @@ describe("getConnectOptions", () => {
 
   it("should set service connect options with passed values", async () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+    const mockRunId = "mocked-run-id-12345";
+    vi.spyOn(utils, "getAndSetRunId").mockReturnValue(mockRunId);
     const { getConnectOptions } = await import("../../src/core/playwrightService.js");
     await getConnectOptions({
-      runId: "1234",
       os: ServiceOS.WINDOWS,
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    expect(playwrightServiceConfig.runId).to.equal("1234");
+    expect(playwrightServiceConfig.runId).to.equal("mocked-run-id-12345");
     expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
   });
 
@@ -431,6 +441,8 @@ describe("getConnectOptions", () => {
     const mockVersion = "1.0.0";
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     vi.spyOn(require("../../package.json"), "version", "get").mockReturnValue(mockVersion);
+    const mockRunId = "mocked-run-id-12345";
+    vi.spyOn(utils, "getAndSetRunId").mockReturnValue(mockRunId);
     const connectOptions = await getConnectOptions({});
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(connectOptions).to.deep.equal({

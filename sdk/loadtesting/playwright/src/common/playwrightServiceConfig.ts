@@ -14,7 +14,6 @@ import { state } from "./state.js";
 
 class PlaywrightServiceConfig {
   public serviceOs: OsType;
-  public runId: string;
   public timeout: number;
   public slowMo: number;
   public exposeNetwork: string;
@@ -26,12 +25,16 @@ class PlaywrightServiceConfig {
     this.serviceOs = (process.env[InternalEnvironmentVariables.MPT_SERVICE_OS] ||
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS) as OsType;
     this.runName = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] || "";
-    this.runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] || "";
     this.timeout = DefaultConnectOptionsConstants.DEFAULT_TIMEOUT;
     this.slowMo = DefaultConnectOptionsConstants.DEFAULT_SLOW_MO;
     this.exposeNetwork = DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK;
     this.apiVersion =
       process.env[InternalEnvironmentVariables.MPT_API_VERSION] || Constants.LatestAPIVersion;
+  }
+
+  // Generate and set run ID
+  public get runId(): string {
+    return getAndSetRunId();
   }
 
   public static get instance(): PlaywrightServiceConfig {
@@ -65,14 +68,6 @@ class PlaywrightServiceConfig {
         process.env[InternalEnvironmentVariables.MPT_API_VERSION] = options.apiVersion;
       }
       this.apiVersion = options.apiVersion;
-    }
-    if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]) {
-      if (options?.runId) {
-        this.runId = options.runId;
-        process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = this.runId;
-      } else {
-        this.runId = getAndSetRunId();
-      }
     }
     if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] && options?.runName) {
       this.runName = options.runName;

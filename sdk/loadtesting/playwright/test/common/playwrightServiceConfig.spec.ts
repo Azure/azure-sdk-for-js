@@ -7,7 +7,6 @@ import {
   InternalEnvironmentVariables,
 } from "../../src/common/constants.js";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
-import { getAndSetRunId } from "../../src/utils/utils.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("PlaywrightServiceConfig", () => {
@@ -21,13 +20,20 @@ describe("PlaywrightServiceConfig", () => {
   });
 
   it("should set service config object with default values", () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     const playwrightServiceConfig = new PlaywrightServiceConfig();
 
     expect(playwrightServiceConfig.serviceOs).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS,
     );
     expect(playwrightServiceConfig.runName).to.equal("");
-    expect(playwrightServiceConfig.runId).to.equal("");
+
+    const firstRunId = playwrightServiceConfig.runId;
+    expect(firstRunId).to.be.a("string");
+    expect(firstRunId.length).to.be.greaterThan(0);
+
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(firstRunId);
+
     expect(playwrightServiceConfig.timeout).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_TIMEOUT,
     );
@@ -36,7 +42,6 @@ describe("PlaywrightServiceConfig", () => {
     expect(playwrightServiceConfig.exposeNetwork).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK,
     );
-    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).toBeUndefined();
 
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_OS];
@@ -51,7 +56,14 @@ describe("PlaywrightServiceConfig", () => {
     const playwrightServiceConfig = new PlaywrightServiceConfig();
 
     expect(playwrightServiceConfig.serviceOs).to.equal("windows");
-    expect(playwrightServiceConfig.runId).to.equal("runId");
+
+    const currentRunId = playwrightServiceConfig.runId;
+    expect(currentRunId).to.be.a("string");
+    expect(currentRunId.length).to.be.greaterThan(0);
+    expect(currentRunId).to.not.equal("runId");
+
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(currentRunId);
+
     expect(playwrightServiceConfig.runName).to.equal("runName");
     expect(playwrightServiceConfig.apiVersion).to.equal("api-version");
 
@@ -62,10 +74,11 @@ describe("PlaywrightServiceConfig", () => {
   });
 
   it("should set service config object with values from options", () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     playwrightServiceConfig.setOptions({
       os: "windows",
-      runId: "runId",
       runName: "runName",
       slowMo: 100,
       timeout: 200,
@@ -74,13 +87,19 @@ describe("PlaywrightServiceConfig", () => {
     });
 
     expect(playwrightServiceConfig.serviceOs).to.equal("windows");
-    expect(playwrightServiceConfig.runId).to.equal("runId");
+
+    const currentRunId = playwrightServiceConfig.runId;
+    expect(currentRunId).to.be.a("string");
+    expect(currentRunId.length).to.be.greaterThan(0);
+
     expect(playwrightServiceConfig.runName).to.equal("runName");
     expect(playwrightServiceConfig.slowMo).to.equal(100);
     expect(playwrightServiceConfig.timeout).to.equal(200);
     expect(playwrightServiceConfig.exposeNetwork).to.equal("localhost");
     expect(playwrightServiceConfig.apiVersion).to.equal("sample");
-    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal("runId");
+
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(currentRunId);
+
     expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_OS]).to.equal("windows");
     expect(process.env[InternalEnvironmentVariables.MPT_API_VERSION]).to.equal("sample");
 
@@ -91,13 +110,19 @@ describe("PlaywrightServiceConfig", () => {
   });
 
   it("should not set service config object with options if not provided", () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     playwrightServiceConfig.setOptions();
 
     expect(playwrightServiceConfig.serviceOs).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS,
     );
-    expect(playwrightServiceConfig.runId).toBeDefined();
+
+    const currentRunId = playwrightServiceConfig.runId;
+    expect(currentRunId).to.be.a("string");
+    expect(currentRunId.length).to.be.greaterThan(0);
+
     expect(playwrightServiceConfig.runName).to.equal("");
     expect(playwrightServiceConfig.timeout).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_TIMEOUT,
@@ -107,9 +132,8 @@ describe("PlaywrightServiceConfig", () => {
       DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK,
     );
     expect(playwrightServiceConfig.apiVersion).to.equal(Constants.LatestAPIVersion);
-    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(
-      playwrightServiceConfig.runId,
-    );
+
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(currentRunId);
 
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_OS];
@@ -138,36 +162,37 @@ describe("PlaywrightServiceConfig", () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_OS];
   });
-  it("should set runId from options if provided and environment variable is not set", () => {
+  it("should generate runId automatically when environment variable is not set", () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    playwrightServiceConfig.setOptions({
-      runId: "custom-run-id",
-    });
-    expect(playwrightServiceConfig.runId).to.equal("custom-run-id");
-    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal("custom-run-id");
+
+    const currentRunId = playwrightServiceConfig.runId;
+    expect(currentRunId).to.be.a("string");
+    expect(currentRunId.length).to.be.greaterThan(0);
+
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(currentRunId);
+
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
-  it("should generate runId if not provided in options and environment variable is not set", () => {
-    const runId = getAndSetRunId();
-    const playwrightServiceConfig = new PlaywrightServiceConfig();
-    playwrightServiceConfig.setOptions({
-      runId: runId,
-    });
-    expect(playwrightServiceConfig.runId).to.be.a("string");
-    expect(playwrightServiceConfig.runId).to.equal(runId);
-    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(runId);
-    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
-  });
-  it("should use runId from environment variable if already set", () => {
+
+  it("should always generate a new runId regardless of environment variables", () => {
     process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = "existing-run-id";
+
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    playwrightServiceConfig.setOptions({
-      runId: "option-run-id",
-    });
-    expect(playwrightServiceConfig.runId).to.equal("existing-run-id");
-    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(
-      "existing-run-id",
-    );
+
+    const firstRunId = playwrightServiceConfig.runId;
+    expect(firstRunId).to.be.a("string");
+    expect(firstRunId).to.not.equal("existing-run-id");
+
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(firstRunId);
+
+    const secondRunId = playwrightServiceConfig.runId;
+    expect(secondRunId).to.be.a("string");
+    expect(secondRunId).to.not.equal(firstRunId);
+
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(secondRunId);
+
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
 });
