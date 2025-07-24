@@ -518,7 +518,7 @@ describe("snippets", function () {
       },
       {
         type: "image_file",
-        image_file: {
+        imageFile: {
           file_id: imageFile.id,
           detail: "high",
         },
@@ -542,7 +542,7 @@ describe("snippets", function () {
       },
       {
         type: "image_url",
-        image_url: {
+        imageUrl: {
           url: imageUrl,
           detail: "high",
         },
@@ -582,7 +582,7 @@ describe("snippets", function () {
       },
       {
         type: "image_url",
-        image_url: {
+        imageUrl: {
           url: imageDataUrl,
           detail: "high",
         },

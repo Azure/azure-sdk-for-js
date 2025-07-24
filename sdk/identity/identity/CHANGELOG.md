@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed deprecation warnings in `AzureCliCredential` and `AzureDeveloperCliCredential`. [#34878](https://github.com/Azure/azure-sdk-for-js/pull/34878)
+
 ### Other Changes
 
 ## 4.11.0-beta.1 (2025-07-17)

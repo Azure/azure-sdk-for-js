@@ -44,7 +44,7 @@ async function main() {
     },
     {
       type: "image_url",
-      image_url: {
+      imageUrl: {
         url: imageUrl,
         detail: "high",
       },
