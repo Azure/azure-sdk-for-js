@@ -10,10 +10,10 @@ import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-// const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
 
 export async function main(): Promise<void> {
-  const project = new AIProjectClient("https://foundymzk7.services.ai.azure.com/api/projects/projectmzk7", new DefaultAzureCredential());
+  const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
 
   // get connection string for application insights
   const connectionString = await project.telemetry.getConnectionString();
