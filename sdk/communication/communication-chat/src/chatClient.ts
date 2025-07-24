@@ -64,7 +64,7 @@ export interface PollingOptions {
   adaptivePolling?: boolean;
   /**
    * The interval in seconds for fast polling mode.
-   * Must be between 10 and 600 seconds.
+   * Must be between 1 and 600 seconds.
    * Default is 5 seconds.
    */
   fast?: number;
@@ -343,7 +343,7 @@ export class ChatClient {
     // 2. If options has values, use custom polling values
     const { threadsIds, pollingOptions } = options;
     if (threadsIds !== undefined && threadsIds.length > 0 && threadsIds.length <= 10 && pollingOptions?.enabled === true) {
-      logger.info("Chat threads provided");
+      console.info("Chat threads provided");
       // Fetch all chat threads to validate the provided thread IDs
       for (const threadId of threadsIds) {
         try {
@@ -357,6 +357,7 @@ export class ChatClient {
       if (this.threadsWithPolling.size === 0) {
         logger.warning("No matching chat threads found for the provided threadsIds. Polling will not be started.");
         return;
+
       }
       // Check and configure polling options
       if (pollingOptions !== undefined) {
@@ -366,7 +367,7 @@ export class ChatClient {
           pollingOptions.intervalInSec <= 600) {
           this.pollingMode.set("default", pollingOptions.intervalInSec * 1000);
         } else {
-          logger.warning("Invalid polling interval for Default mode. Using default value of 20 seconds.");
+          logger.info("Using default value of 20 seconds.");
         }
         if (pollingOptions.adaptivePolling !== undefined && pollingOptions.adaptivePolling === true) {
           if (
@@ -376,7 +377,7 @@ export class ChatClient {
           ) {
             this.pollingMode.set("slow", pollingOptions.slow * 1000);
           } else {
-            logger.warning("Invalid polling interval for Slow mode. Using default value of 60 seconds.");
+            logger.info("Using default value of 60 seconds.");
           }
           if (
             pollingOptions.fast !== undefined &&
@@ -385,9 +386,7 @@ export class ChatClient {
           ) {
             this.pollingMode.set("fast", pollingOptions.fast * 1000);
           } else {
-            logger.warning(
-              "Invalid polling interval for Fast mode. Using default value of 5 seconds.",
-            );
+            logger.info("Using default value of 5 seconds.");
           }
         }
       }
@@ -395,6 +394,7 @@ export class ChatClient {
       logger.warning(
         "No valid ThreadsIds provided or enabled has not been set as true in polling options. Polling will not be started.");
       return;
+
     }
 
     // Enable adaptive polling if specified
@@ -650,39 +650,31 @@ export class ChatClient {
     });
 
     this.signalingClient.on("chatMessageReceived", (payload) => {
-      // this.emitter.emit("chatMessageReceived", payload);
-      /**
-       * Simulate a 50% chance of emitting the event.
-       */
-      if (Math.random() < 0.5) {
-        this.emitter.emit("chatMessageReceived", payload);
-        if (this.isPollingEnable) {
-          this.lastTimeRTNWorked = new Date();
-          if (this.adaptivePolling && this.currentPollingMode !== "default") {
-            // Interrupt current polling and switch to Default mode
-            if (this.pollingTimeOutHandle !== null) {
-              clearTimeout(this.pollingTimeOutHandle);
-              this.pollingTimeOutHandle = null;
-              this.isPollingRunning = false; // Reset polling running state
-            }
-            this.pollingTimeOutInterruption = true;
-            this.updatePollingMode("default");
-            // Schedule a new poll with Default interval
-            this.pollingTimeOutHandle = setTimeout(
-              () => this.startPolling(),
-              this.pollingMode.get("default") ?? 20000,
-            );
-            console.log(
-              "Polling interrupted and rescheduled with Default interval due to chatMessageReceived.",
-            );
+      this.emitter.emit("chatMessageReceived", payload);
+      if (this.isPollingEnable) {
+        this.lastTimeRTNWorked = new Date();
+        if (this.adaptivePolling && this.currentPollingMode !== "default") {
+          // Interrupt current polling and switch to Default mode
+          if (this.pollingTimeOutHandle !== null) {
+            clearTimeout(this.pollingTimeOutHandle);
+            this.pollingTimeOutHandle = null;
+            this.isPollingRunning = false; // Reset polling running state
           }
-          if (this.threadsWithPolling.has(payload.threadId)) {
-            this.messagesDetected.push([payload.id, payload.threadId]);
-            console.log("Message Stored:", payload.id);
-          }
+          this.pollingTimeOutInterruption = true;
+          this.updatePollingMode("default");
+          // Schedule a new poll with Default interval
+          this.pollingTimeOutHandle = setTimeout(
+            () => this.startPolling(),
+            this.pollingMode.get("default") ?? 20000,
+          );
+          console.log(
+            "Polling interrupted and rescheduled with Default interval due to chatMessageReceived.",
+          );
         }
-      } else {
-        console.log("Message Not Emitted:", payload.id);
+        if (this.threadsWithPolling.has(payload.threadId)) {
+          this.messagesDetected.push([payload.id, payload.threadId]);
+          console.log("Message Stored:", payload.id);
+        }
       }
     });
 
@@ -752,10 +744,14 @@ export class ChatClient {
               startTime = this.pollingTimestamp ?? startTime;
             }
             this.pollingTimeOutInterruption = false; // Reset the interruption flag after using it
+            const timestamp = Date.now();
             const messages = chatThread.listMessages({ startTime: startTime });
             const messagesArray = [];
             for await (const message of messages) {
-              messagesArray.push(message);
+              if (message.createdOn.getTime() < timestamp) {
+                // If the message is older than the start time, skip it.
+                messagesArray.push(message);
+              }
             }
             for (let i = messagesArray.length - 1; i >= 0; i--) {
               const message = messagesArray[i];
@@ -819,6 +815,10 @@ export class ChatClient {
       if (this.isPollingEnable) {
         this.messagesDetected = []; // Clear the messagesDetected array after each poll
         const pollingInterval = this.pollingMode.get(this.currentPollingMode) ?? 20000;
+        logger.info(
+          "Schedule Polling with frequency:",
+          pollingInterval / 1000 + " seconds",
+        );
         logger.info(
           "Schedule Polling with frequency:",
           pollingInterval / 1000 + " seconds",
