@@ -6,8 +6,8 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type { LogsTable, LogsQueryOptions } from "@azure/monitor-query";
-import { Durations, LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query";
+import type { LogsTable, LogsQueryOptions } from "@azure/monitor-query-logs";
+import { Durations, LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query-logs";
 import "dotenv/config";
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 const additionalWorkspaces1 = process.env.ADDITIONAL_WORKSPACES_1 || "workspace1";

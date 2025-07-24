@@ -2,41 +2,44 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to run a query against a Log Analytics workspace, using an Azure resource ID.
+ * @summary Demonstrates how to run a query against a Log Analytics workspace
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import type { LogsTable, LogsQueryOptions } from "@azure/monitor-query";
-import { Durations, LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query";
+import type { LogsTable, LogsQueryOptions } from "@azure/monitor-query-logs";
+import { Durations, LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query-logs";
 import "dotenv/config";
-const logsResourceId = process.env.LOGS_RESOURCE_ID;
+const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
 export async function main(): Promise<void> {
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
-  if (!logsResourceId) {
-    throw new Error("LOGS_RESOURCE_ID must be set in the environment for this sample");
+  if (!monitorWorkspaceId) {
+    throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
   }
 
-  const kustoQuery = `MyTable_CL | summarize count()`;
+  const kustoQuery =
+    "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
   console.log(`Running '${kustoQuery}' over the last One Hour`);
   const queryLogsOptions: LogsQueryOptions = {
     // explicitly control the amount of time the server can spend processing the query.
     serverTimeoutInSeconds: 600, // sets the timeout to 10 minutes
     // optionally enable returning additional statistics about the query's execution.
-    // (by default, this is off)
+    // (by default this is off)
     includeQueryStatistics: true,
   };
 
-  const result = await logsQueryClient.queryResource(
-    logsResourceId,
+  const result = await logsQueryClient.queryWorkspace(
+    monitorWorkspaceId,
     kustoQuery,
-    { duration: Durations.sevenDays },
+    // The timespan is an ISO8601 formatted time (or interval). Some common aliases
+    // are available (like OneDay, OneHour, FoutyEightHours, etc..) but any properly formatted ISO8601
+    // value is valid.
+    { duration: Durations.oneHour },
     queryLogsOptions,
   );
-
   const executionTime =
     result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
 

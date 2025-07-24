@@ -5,13 +5,12 @@
  * @summary Demonstrates how to run a query against a Log Analytics workspace
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import type { LogsTable, LogsQueryOptions } from "@azure/monitor-query";
-import { Durations, LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query";
-import "dotenv/config";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { Durations, LogsQueryClient, LogsQueryResultStatus } = require("@azure/monitor-query-logs");
+require("dotenv/config");
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
-export async function main(): Promise<void> {
+async function main() {
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
@@ -23,7 +22,7 @@ export async function main(): Promise<void> {
     "AppEvents | project TimeGenerated, Name, AppRoleInstance | order by TimeGenerated asc | limit 10";
 
   console.log(`Running '${kustoQuery}' over the last One Hour`);
-  const queryLogsOptions: LogsQueryOptions = {
+  const queryLogsOptions = {
     // explicitly control the amount of time the server can spend processing the query.
     serverTimeoutInSeconds: 600, // sets the timeout to 10 minutes
     // optionally enable returning additional statistics about the query's execution.
@@ -41,16 +40,14 @@ export async function main(): Promise<void> {
     queryLogsOptions,
   );
   const executionTime =
-    result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
+    result.statistics && result.statistics.query && result.statistics.query.executionTime;
 
   console.log(
-    `Results for query '${kustoQuery}', execution time: ${
-      executionTime == null ? "unknown" : executionTime
-    }`,
+    `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
   );
 
   if (result.status === LogsQueryResultStatus.Success) {
-    const tablesFromResult: LogsTable[] = result.tables;
+    const tablesFromResult = result.tables;
 
     if (tablesFromResult.length === 0) {
       console.log(`No results for query '${kustoQuery}'`);
@@ -67,7 +64,7 @@ export async function main(): Promise<void> {
   }
 }
 
-async function processTables(tablesFromResult: LogsTable[]): Promise<void> {
+async function processTables(tablesFromResult) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
@@ -85,3 +82,5 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
   process.exit(1);
 });
+
+module.exports = { main };

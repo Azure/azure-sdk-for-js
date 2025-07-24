@@ -6,7 +6,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { LogsQueryClient, LogsQueryResultStatus } = require("@azure/monitor-query");
+const { LogsQueryClient, LogsQueryResultStatus } = require("@azure/monitor-query-logs");
 require("dotenv/config");
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
