@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Locations } from "../operationsInterfaces/index.js";
+import { CheckNameAvailability } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient.js";
 import {
   CheckNameAvailabilityRequest,
-  LocationsCheckNameAvailabilityOptionalParams,
-  LocationsCheckNameAvailabilityResponse
+  CheckNameAvailabilityCheckNameAvailabilityOptionalParams,
+  CheckNameAvailabilityCheckNameAvailabilityResponse,
 } from "../models/index.js";
 
-/** Class containing Locations operations. */
-export class LocationsImpl implements Locations {
+/** Class containing CheckNameAvailability operations. */
+export class CheckNameAvailabilityImpl implements CheckNameAvailability {
   private readonly client: AgriFoodMgmtClient;
 
   /**
-   * Initialize a new instance of the class Locations class.
+   * Initialize a new instance of the class CheckNameAvailability class.
    * @param client Reference to the service client
    */
   constructor(client: AgriFoodMgmtClient) {
@@ -31,16 +31,16 @@ export class LocationsImpl implements Locations {
 
   /**
    * Checks the name availability of the resource with requested resource name.
-   * @param body NameAvailabilityRequest object.
+   * @param nameAvailabilityRequest NameAvailabilityRequest object.
    * @param options The options parameters.
    */
   checkNameAvailability(
-    body: CheckNameAvailabilityRequest,
-    options?: LocationsCheckNameAvailabilityOptionalParams
-  ): Promise<LocationsCheckNameAvailabilityResponse> {
+    nameAvailabilityRequest: CheckNameAvailabilityRequest,
+    options?: CheckNameAvailabilityCheckNameAvailabilityOptionalParams,
+  ): Promise<CheckNameAvailabilityCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { body, options },
-      checkNameAvailabilityOperationSpec
+      { nameAvailabilityRequest, options },
+      checkNameAvailabilityOperationSpec,
     );
   }
 }
@@ -48,21 +48,20 @@ export class LocationsImpl implements Locations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AgFoodPlatform/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AgFoodPlatform/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
+      bodyMapper: Mappers.CheckNameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.nameAvailabilityRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

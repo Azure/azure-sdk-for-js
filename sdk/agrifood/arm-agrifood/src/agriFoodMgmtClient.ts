@@ -11,50 +11,72 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  CheckNameAvailabilityImpl,
+  DataConnectorsImpl,
+  DataManagerForAgricultureExtensionsImpl,
+  DataManagerForAgricultureResourcesImpl,
+  OperationResultsImpl,
   ExtensionsImpl,
-  FarmBeatsExtensionsImpl,
-  FarmBeatsModelsImpl,
-  LocationsImpl,
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  SolutionsImpl,
+  SolutionsDiscoverabilityImpl,
 } from "./operations/index.js";
 import {
+  CheckNameAvailability,
+  DataConnectors,
+  DataManagerForAgricultureExtensions,
+  DataManagerForAgricultureResources,
+  OperationResults,
   Extensions,
-  FarmBeatsExtensions,
-  FarmBeatsModels,
-  Locations,
   Operations,
   PrivateEndpointConnections,
-  PrivateLinkResources
+  PrivateLinkResources,
+  Solutions,
+  SolutionsDiscoverability,
 } from "./operationsInterfaces/index.js";
 import { AgriFoodMgmtClientOptionalParams } from "./models/index.js";
 
 export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
    * Initializes a new instance of the AgriFoodMgmtClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AgriFoodMgmtClientOptionalParams
+    options?: AgriFoodMgmtClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: AgriFoodMgmtClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: AgriFoodMgmtClientOptionalParams | string,
+    options?: AgriFoodMgmtClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -63,7 +85,7 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     }
     const defaults: AgriFoodMgmtClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-agrifood/1.0.0-beta.6`;
@@ -76,20 +98,21 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -99,7 +122,7 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -109,9 +132,9 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -119,14 +142,20 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-01-preview";
+    this.apiVersion = options.apiVersion || "2023-06-01-preview";
+    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.dataConnectors = new DataConnectorsImpl(this);
+    this.dataManagerForAgricultureExtensions =
+      new DataManagerForAgricultureExtensionsImpl(this);
+    this.dataManagerForAgricultureResources =
+      new DataManagerForAgricultureResourcesImpl(this);
+    this.operationResults = new OperationResultsImpl(this);
     this.extensions = new ExtensionsImpl(this);
-    this.farmBeatsExtensions = new FarmBeatsExtensionsImpl(this);
-    this.farmBeatsModels = new FarmBeatsModelsImpl(this);
-    this.locations = new LocationsImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.solutions = new SolutionsImpl(this);
+    this.solutionsDiscoverability = new SolutionsDiscoverabilityImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -139,7 +168,7 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -153,16 +182,20 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  checkNameAvailability: CheckNameAvailability;
+  dataConnectors: DataConnectors;
+  dataManagerForAgricultureExtensions: DataManagerForAgricultureExtensions;
+  dataManagerForAgricultureResources: DataManagerForAgricultureResources;
+  operationResults: OperationResults;
   extensions: Extensions;
-  farmBeatsExtensions: FarmBeatsExtensions;
-  farmBeatsModels: FarmBeatsModels;
-  locations: Locations;
   operations: Operations;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  solutions: Solutions;
+  solutionsDiscoverability: SolutionsDiscoverability;
 }

@@ -8,68 +8,68 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  Extension,
-  ExtensionsListByDataManagerForAgricultureOptionalParams,
-  ExtensionsCreateOrUpdateOptionalParams,
-  ExtensionsCreateOrUpdateResponse,
-  ExtensionsGetOptionalParams,
-  ExtensionsGetResponse,
-  ExtensionsDeleteOptionalParams,
+  DataConnector,
+  DataConnectorsListOptionalParams,
+  DataConnectorsGetOptionalParams,
+  DataConnectorsGetResponse,
+  DataConnectorsCreateOrUpdateOptionalParams,
+  DataConnectorsCreateOrUpdateResponse,
+  DataConnectorsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Extensions. */
-export interface Extensions {
+/** Interface representing a DataConnectors. */
+export interface DataConnectors {
   /**
-   * Get installed extensions details.
+   * Lists the Data Connector Credentials for MADMA instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param options The options parameters.
    */
-  listByDataManagerForAgriculture(
+  list(
     resourceGroupName: string,
     dataManagerForAgricultureResourceName: string,
-    options?: ExtensionsListByDataManagerForAgricultureOptionalParams,
-  ): PagedAsyncIterableIterator<Extension>;
+    options?: DataConnectorsListOptionalParams,
+  ): PagedAsyncIterableIterator<DataConnector>;
   /**
-   * Install or Update extension. Additional Api Properties are merged patch and if the extension is
-   * updated to a new version then the obsolete entries will be auto deleted from Additional Api
-   * Properties.
+   * Get specific Data Connector resource by DataConnectorName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
-   * @param extensionId Id of extension resource.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    dataManagerForAgricultureResourceName: string,
-    extensionId: string,
-    options?: ExtensionsCreateOrUpdateOptionalParams,
-  ): Promise<ExtensionsCreateOrUpdateResponse>;
-  /**
-   * Get installed extension details by extension id.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
-   * @param extensionId Id of extension resource.
+   * @param dataConnectorName Connector name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     dataManagerForAgricultureResourceName: string,
-    extensionId: string,
-    options?: ExtensionsGetOptionalParams,
-  ): Promise<ExtensionsGetResponse>;
+    dataConnectorName: string,
+    options?: DataConnectorsGetOptionalParams,
+  ): Promise<DataConnectorsGetResponse>;
   /**
-   * Uninstall extension.
+   * Create or update Data Connector For MADMA resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
-   * @param extensionId Id of extension resource.
+   * @param dataConnectorName Connector name.
+   * @param body Body must be valid DataConnector request.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    dataManagerForAgricultureResourceName: string,
+    dataConnectorName: string,
+    body: DataConnector,
+    options?: DataConnectorsCreateOrUpdateOptionalParams,
+  ): Promise<DataConnectorsCreateOrUpdateResponse>;
+  /**
+   * Delete a Data Connectors with given dataConnector name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
+   * @param dataConnectorName Connector name.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     dataManagerForAgricultureResourceName: string,
-    extensionId: string,
-    options?: ExtensionsDeleteOptionalParams,
+    dataConnectorName: string,
+    options?: DataConnectorsDeleteOptionalParams,
   ): Promise<void>;
 }

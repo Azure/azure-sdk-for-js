@@ -1,8 +1,9 @@
 {
-  "commit": "3eb2a407e29fa9c79cf537722384b12b9753d59e",
+  "commit": "c390ed63b637013896fd0ce447721d1a2df3b974",
   "readme": "specification/agrifood/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.8.4 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\agrifood\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-rc.3.20221108.1 --generate-sample=true",
+  "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-js ../azure-rest-api-specs/specification/agrifood/resource-manager/readme.md --tag=package-preview-2023-06 --use=@autorest/typescript@^6.0.12",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.4.2",
-  "use": "@autorest/typescript@6.0.0-rc.3.20221108.1"
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.13.2",
+  "tag": "package-preview-2023-06",
+  "use": "@autorest/typescript@^6.0.12"
 }
