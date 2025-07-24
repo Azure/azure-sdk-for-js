@@ -96,6 +96,16 @@ export interface GetReservationOptions extends OperationOptions {
 }
 
 // @public
+export interface GetSipDomainsOptions extends OperationOptions {
+}
+
+// @public
+export type HealthStatusReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
+
+// @public
+export type IpAddressVersion = "ipv4" | "ipv6";
+
+// @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
 }
 
@@ -129,6 +139,10 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 
 // @public
 export interface ListReservationOptions extends OperationOptions {
+}
+
+// @public
+export interface ListSipDomainsOptions extends OperationOptions {
 }
 
 // @public
