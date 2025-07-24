@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes the specified managed HSM Pool.
  *
  * @summary Deletes the specified managed HSM Pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_Delete.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_Delete.json
  */
 async function deleteAManagedHsmPool(): Promise<void> {
   const subscriptionId =
@@ -29,13 +29,13 @@ async function deleteAManagedHsmPool(): Promise<void> {
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const result = await client.managedHsms.beginDeleteAndWait(
     resourceGroupName,
-    name
+    name,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  deleteAManagedHsmPool();
+  await deleteAManagedHsmPool();
 }
 
 main().catch(console.error);

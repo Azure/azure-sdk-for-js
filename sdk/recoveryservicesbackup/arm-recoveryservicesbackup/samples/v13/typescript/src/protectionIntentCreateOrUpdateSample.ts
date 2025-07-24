@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create Intent for Enabling backup of an item. This is a synchronous operation.
  *
  * @summary Create Intent for Enabling backup of an item. This is a synchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionIntent_CreateOrUpdate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ProtectionIntent_CreateOrUpdate.json
  */
 async function createOrUpdateAzureVMProtectionIntent(): Promise<void> {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function createOrUpdateAzureVMProtectionIntent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAzureVMProtectionIntent();
+  await createOrUpdateAzureVMProtectionIntent();
 }
 
 main().catch(console.error);

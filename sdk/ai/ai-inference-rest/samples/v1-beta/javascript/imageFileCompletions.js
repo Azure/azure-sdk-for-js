@@ -10,20 +10,19 @@
 const ModelClient = require("@azure-rest/ai-inference").default,
   { isUnexpected } = require("@azure-rest/ai-inference");
 const { DefaultAzureCredential } = require("@azure/identity");
-const fs = require("fs");
+const { createRestError } = require("@azure-rest/core-client");
+const fs = require("node:fs");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+require("dotenv/config");
 const { AzureKeyCredential } = require("@azure/core-auth");
-dotenv.config();
-
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
 
 const imageFilePath = "sample1.png";
-const imageFormat = "png"; //"jpeg", "png", etc.
+const imageFormat = "png"; // "jpeg", "png", etc.
 
 async function main() {
   console.log("== Image File Completions Sample ==");
@@ -55,7 +54,7 @@ async function main() {
   });
 
   if (isUnexpected(response)) {
-    throw response.body.error;
+    throw createRestError(response);
   }
 
   console.log(response.body.choices[0].message.content);
@@ -64,14 +63,14 @@ async function main() {
 /**
  * Get the data URL of an image file.
  * @param {string} imageFile - The path to the image file.
- * @param {string} imageFormat - The format of the image file. For example: "jpeg", "png".
+ * @param {string} imageFormatType - The format of the image file. For example: "jpeg", "png".
  * @returns {string} The data URL of the image.
  */
-function getImageDataUrl(imageFile, imageFormat) {
+function getImageDataUrl(imageFile, imageFormatType) {
   try {
     const imageBuffer = fs.readFileSync(imageFile);
     const imageBase64 = imageBuffer.toString("base64");
-    return `data:image/${imageFormat};base64,${imageBase64}`;
+    return `data:image/${imageFormatType};base64,${imageBase64}`;
   } catch (error) {
     console.error(`Could not read '${imageFile}'.`);
     console.error("Set the correct path to the image file before running this sample.");

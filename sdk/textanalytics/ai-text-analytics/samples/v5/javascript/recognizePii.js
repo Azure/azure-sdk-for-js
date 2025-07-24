@@ -11,24 +11,19 @@
  * @summary detects personally-identifiable information
  */
 
-const {
-  TextAnalyticsClient,
-  AzureKeyCredential,
-  PiiEntityDomain,
-} = require("@azure/ai-text-analytics");
-const { assert } = require("console");
+const { TextAnalyticsClient, PiiEntityDomain } = require("@azure/ai-text-analytics");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   console.log(`Running recognizePii sample`);
 
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+  const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<endpoint>";
 
-  const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalyticsClient(endpoint, new DefaultAzureCredential());
 
   const textOnePii = "My phone number is 555-5555";
   const textNoPHI = "His EU passport number is X65097105";
@@ -38,7 +33,7 @@ async function main() {
 
   if (!result.error) {
     console.log(
-      `The redacted text is "${result.redactedText}" and found the following PII entities`
+      `The redacted text is "${result.redactedText}" and found the following PII entities`,
     );
     for (const entity of result.entities) {
       console.log(`\t- "${entity.text}" of type ${entity.category}`);
@@ -51,7 +46,6 @@ async function main() {
   });
   if (!resultWithPHI.error) {
     console.log(`Also there is nothing to redact: "${resultWithPHI.redactedText}"`);
-    assert(resultWithPHI.entities.length === 0, "did not expect any entities but got some");
   }
 
   console.log(`But there are other PII entities in that text:`);
@@ -66,11 +60,10 @@ async function main() {
   });
   if (!resultWithSSNPII.error) {
     console.log(
-      `You can choose to get SSN entities only, or any other PII category or a combination of them. For example, in this text: "${textMultiplePIIs}", this is the SSN number:`
+      `You can choose to get SSN entities only, or any other PII category or a combination of them. For example, in this text: "${textMultiplePIIs}", this is the SSN number:`,
     );
     for (const entity of resultWithSSNPII.entities) {
       console.log(`\t- "${entity.text}"`);
-      assert(entity.category === "USSocialSecurityNumber");
     }
   }
 }

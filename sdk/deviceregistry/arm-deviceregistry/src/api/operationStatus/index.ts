@@ -5,7 +5,11 @@ import {
   DeviceRegistryManagementContext as Client,
   OperationStatusGetOptionalParams,
 } from "../index.js";
-import { OperationStatusResult, operationStatusResultDeserializer } from "../../models/models.js";
+import {
+  errorResponseDeserializer,
+  OperationStatusResult,
+  operationStatusResultDeserializer,
+} from "../../models/models.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -15,7 +19,6 @@ import {
 
 export function _operationStatusGetSend(
   context: Client,
-  subscriptionId: string,
   location: string,
   operationId: string,
   options: OperationStatusGetOptionalParams = { requestOptions: {} },
@@ -23,11 +26,18 @@ export function _operationStatusGetSend(
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.DeviceRegistry/locations/{location}/operationStatuses/{operationId}",
-      subscriptionId,
+      context.subscriptionId,
       location,
       operationId,
     )
-    .get({ ...operationOptionsToRequestParameters(options) });
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
 export async function _operationStatusGetDeserialize(
@@ -35,7 +45,9 @@ export async function _operationStatusGetDeserialize(
 ): Promise<OperationStatusResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
   }
 
   return operationStatusResultDeserializer(result.body);
@@ -44,17 +56,10 @@ export async function _operationStatusGetDeserialize(
 /** Returns the current status of an async operation. */
 export async function operationStatusGet(
   context: Client,
-  subscriptionId: string,
   location: string,
   operationId: string,
   options: OperationStatusGetOptionalParams = { requestOptions: {} },
 ): Promise<OperationStatusResult> {
-  const result = await _operationStatusGetSend(
-    context,
-    subscriptionId,
-    location,
-    operationId,
-    options,
-  );
+  const result = await _operationStatusGetSend(context, location, operationId, options);
   return _operationStatusGetDeserialize(result);
 }

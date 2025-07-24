@@ -3,8 +3,8 @@
 
 // @ts-check
 
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 
 import { getBaseDir } from "./env.js";
 
@@ -18,19 +18,16 @@ export const reducedDependencyTestMatrix = {
     "@azure/template",
   ],
   "test-utils": [
-    "@azure-tests/perf-storage-blob",
     "@azure/arm-eventgrid",
     "@azure/ai-text-analytics",
     "@azure/identity",
     "@azure/template",
   ],
   identity: [
-    "@azure-tests/perf-storage-blob",
     "@azure/ai-text-analytics",
     "@azure/arm-resources",
     "@azure/identity-cache-persistence",
     "@azure/identity-vscode",
-    "@azure/storage-blob",
     "@azure/template",
   ],
 };
@@ -57,7 +54,6 @@ export const restrictedToPackages = [
   "@azure-tools/test-perf",
   "@azure-tools/test-recorder",
   "@azure-tools/test-credential",
-  "@azure-tools/test-utils",
   "@azure-tools/test-utils-vitest",
 ];
 
@@ -67,10 +63,10 @@ export const restrictedToPackages = [
  * If the targeted package is one of the restricted packages with a ton of dependents, we only want to run that package
  * and not all of its dependents.
  * @param {string[]} packageNames - An array of strings containing the packages names to run the action on.
- * @param {string} action - The action being performed ("build", "build:test", "build:samples", "unit-test:node", "unit-test:browser"
+ * @param {string} action - The action being performed ("build", "build:samples", "test:node", "test:browser"
  * @param {string[]} serviceDirs - An array of strings containing the serviceDirs affected
- */
-export const getDirectionMappedPackages = (packageNames, action, serviceDirs) => {
+ * @param {{changedPackages: Set<string>, diff: { changedFiles: string[], changedServices: string[] }} | undefined} [changedInfo=undefined] - information about changed packages and  */
+export function getDirectionMappedPackages(packageNames, action, serviceDirs, changedInfo) {
   const mappedPackages = [];
 
   let fullPackageNames = packageNames.slice();
@@ -111,13 +107,19 @@ export const getDirectionMappedPackages = (packageNames, action, serviceDirs) =>
     }
   } else {
     // we are in a test task of some kind
-    const rushCommandFlag = isReducedTestScopeEnabled ? "--only" : "--impacted-by";
-
-    mappedPackages.push(...fullPackageNames.map((p) => [rushCommandFlag, p]));
+    mappedPackages.push(
+      ...fullPackageNames.map((p) => {
+        if (!restrictedToPackages.includes(p) && changedInfo?.changedPackages.has(p)) {
+          return ["--impacted-by", p];
+        } else {
+          return ["--only", p];
+        }
+      }),
+    );
   }
 
   return mappedPackages;
-};
+}
 
 /**
  * Returns an array of full paths to package.json files under a directory

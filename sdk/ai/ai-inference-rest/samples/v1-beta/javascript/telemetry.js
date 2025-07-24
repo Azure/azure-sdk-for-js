@@ -16,11 +16,9 @@ const {
   SimpleSpanProcessor,
 } = require("@opentelemetry/sdk-trace-node");
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
-const dotenv = require("dotenv");
+require("dotenv/config");
 const { AzureKeyCredential } = require("@azure/core-auth");
-
-dotenv.config();
-
+const { createRestError } = require("@azure-rest/core-client");
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
@@ -63,14 +61,14 @@ async function main() {
         },
         tracingOptions: { tracingContext: context.active() },
       })
-      .then((response) => {
+      .then((res) => {
         span.end();
-        return response;
+        return res;
       });
   });
 
   if (isUnexpected(response)) {
-    throw response.body.error;
+    throw createRestError(response);
   }
 
   for (const choice of response.body.choices) {

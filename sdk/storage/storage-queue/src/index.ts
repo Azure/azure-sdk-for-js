@@ -3,18 +3,30 @@
 
 import { RestError } from "@azure/core-rest-pipeline";
 
-export * from "./AccountSASPermissions";
-export * from "./AccountSASResourceTypes";
-export * from "./AccountSASServices";
+export * from "./AccountSASPermissions.js";
+export * from "./AccountSASResourceTypes.js";
+export * from "./AccountSASServices.js";
 export {
   AccountSASSignatureValues,
   generateAccountSASQueryParameters,
-} from "./AccountSASSignatureValues";
-export * from "../../storage-blob/src/credentials/AnonymousCredential";
-export * from "../../storage-blob/src/credentials/Credential";
-export * from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-export { SasIPRange } from "./SasIPRange";
-export { BaseRequestPolicy } from "../../storage-blob/src/policies/RequestPolicy";
+} from "./AccountSASSignatureValues.js";
+export { SasIPRange } from "./SasIPRange.js";
+
+export {
+  AnonymousCredential,
+  Credential,
+  StorageSharedKeyCredential,
+  BaseRequestPolicy,
+  AnonymousCredentialPolicy,
+  CredentialPolicy,
+  StorageRetryOptions,
+  StorageRetryPolicyType,
+  StorageRetryPolicy,
+  StorageRetryPolicyFactory,
+  StorageSharedKeyCredentialPolicy,
+  StorageBrowserPolicyFactory,
+} from "@azure/storage-common";
+
 export {
   Pipeline,
   PipelineLike,
@@ -32,29 +44,25 @@ export {
   IHttpClient,
   StorageOAuthScopes,
   ServiceClientOptions,
-} from "./Pipeline";
-export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy";
-export * from "../../storage-blob/src/policies/CredentialPolicy";
-export * from "../../storage-blob/src/StorageRetryPolicyFactory";
-export * from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicy";
-export * from "../../storage-blob/src/StorageBrowserPolicyFactory";
-export { Metadata, StorageQueueAudience, getQueueServiceAccountAudience } from "./models";
-export * from "./QueueClient";
-export * from "./QueueSASPermissions";
+} from "./Pipeline.js";
+
+export { Metadata, StorageQueueAudience, getQueueServiceAccountAudience } from "./models.js";
+export * from "./QueueClient.js";
+export * from "./QueueSASPermissions.js";
 export {
   QueueSASSignatureValues,
   generateQueueSASQueryParameters,
-} from "./QueueSASSignatureValues";
-export * from "./QueueServiceClient";
-export * from "./SASQueryParameters";
-export { CommonOptions, ListQueuesIncludeType } from "./StorageClient";
-export * from "./generatedModels";
+} from "./QueueSASSignatureValues.js";
+export * from "./QueueServiceClient.js";
+export * from "./SASQueryParameters.js";
+export { CommonOptions, ListQueuesIncludeType } from "./StorageClient.js";
+export * from "./generatedModels.js";
 export {
   WithResponse,
   ResponseLike,
   ResponseWithBody,
   ResponseWithHeaders,
   HttpResponse,
-} from "./utils/utils.common";
+} from "./utils/utils.common.js";
 export { RestError };
-export { logger } from "./log";
+export { logger } from "./log.js";

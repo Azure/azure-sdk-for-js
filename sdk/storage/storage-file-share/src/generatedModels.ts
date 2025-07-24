@@ -11,6 +11,7 @@ import type {
   FileAbortCopyHeaders,
   FileDeleteHeaders,
   FileGetRangeListHeaders,
+  FileGetSymbolicLinkHeaders,
   FileListHandlesHeaders,
   FileProperty,
   FileRenameHeaders,
@@ -22,7 +23,6 @@ import type {
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-  NfsFileType,
   ServiceGetPropertiesHeaders,
   ServiceSetPropertiesHeaders,
   ShareCreateHeaders,
@@ -38,11 +38,14 @@ import type {
   ShareSetAccessPolicyHeaders,
   ShareSetMetadataHeaders,
   ShareStats,
-} from "./generated/src/models";
-
-import type { ShareSetPropertiesHeaders } from "./generated/src/models";
-import { FileDownloadResponse, FileSetHttpHeadersHeaders, NfsFileMode } from "./models";
-import type { WithResponse } from "./utils/utils.common";
+  ShareSetPropertiesHeaders,
+} from "./generated/src/models/index.js";
+import type {
+  FileDownloadResponse,
+  FilePosixProperties,
+  FileSetHttpHeadersHeaders,
+} from "./models.js";
+import type { WithResponse } from "./utils/utils.common.js";
 
 /** Defines headers for Directory_create operation. */
 export interface DirectoryCreateHeaders {
@@ -72,14 +75,8 @@ export interface DirectoryCreateHeaders {
   fileId?: string;
   /** The parent fileId of the directory. */
   fileParentId?: string;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -120,14 +117,8 @@ export interface DirectoryGetPropertiesHeaders {
   fileId?: string;
   /** The parent fileId of the directory. */
   fileParentId?: string;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -186,12 +177,8 @@ export interface DirectorySetPropertiesHeaders {
   fileId?: string;
   /** The parent fileId of the directory. */
   fileParentId?: string;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -233,14 +220,8 @@ export interface FileCreateHeaders {
   fileId?: string;
   /** The parent fileId of the file. */
   fileParentId?: string;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -275,22 +256,54 @@ export interface FileCreateHardLinkHeaders {
   fileParentId?: string;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
-  /** NFS only. The link count of the file or directory. */
-  linkCount?: number;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
 }
 
 /** Contains response data for the create hard link operation. */
 export type FileCreateHardLinkResponse = WithResponse<
   FileCreateHardLinkHeaders,
   FileCreateHardLinkHeaders
+>;
+
+/** Defines headers for File_createSymbolicLink operation. */
+export interface FileCreateSymbolicLinkHeaders {
+  /** The ETag contains a value which represents the version of the file, in quotes. */
+  etag?: string;
+  /** Returns the date and time the share was last modified. Any operation that modifies the directory or its properties updates the last modified time. Operations on files do not affect the last modified time of the directory. */
+  lastModified?: Date;
+  /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
+  requestId?: string;
+  /** Indicates the version of the File service used to execute the request. */
+  version?: string;
+  /** A UTC date/time value generated by the service that indicates the time at which the response was initiated. */
+  date?: Date;
+  /** Creation time for the file. */
+  fileCreationTime?: Date;
+  /** Last write time for the file. */
+  fileLastWriteTime?: Date;
+  /** Change time for the file. */
+  fileChangeTime?: Date;
+  /** The fileId of the file. */
+  fileId?: string;
+  /** The parent fileId of the directory. */
+  fileParentId?: string;
+  /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
+  clientRequestId?: string;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
+}
+
+/** Contains response data for the create hard link operation. */
+export type FileCreateSymbolicLinkResponse = WithResponse<
+  FileCreateSymbolicLinkHeaders,
+  FileCreateSymbolicLinkHeaders
+>;
+
+/** Contains response data for the create hard link operation. */
+export type FileGetSymbolicLinkResponse = WithResponse<
+  FileGetSymbolicLinkHeaders,
+  FileGetSymbolicLinkHeaders
 >;
 
 /** Defines headers for File_getProperties operation. */
@@ -357,16 +370,8 @@ export interface FileGetPropertiesHeaders {
   leaseState?: LeaseStateType;
   /** The current lease status of the file. */
   leaseStatus?: LeaseStatusType;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. The link count of the file or directory. */
-  linkCount?: number;
-  /** NFS only. Type of the file or directory. */
-  nfsFileType?: NfsFileType;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -520,14 +525,8 @@ export interface FileDownloadHeaders {
   leaseState?: LeaseStateType;
   /** The current lease status of the file. */
   leaseStatus?: LeaseStatusType;
-  /** NFS only. The mode of the file or directory. */
-  fileMode?: NfsFileMode;
-  /** NFS only. The owner of the file or directory. */
-  owner?: string;
-  /** NFS only. The owning group of the file or directory. */
-  group?: string;
-  /** NFS only. The link count of the file or directory. */
-  linkCount?: number;
+  /** Properties of NFS files. */
+  posixProperties?: FilePosixProperties;
   /** Error Code */
   errorCode?: string;
 }
@@ -596,6 +595,7 @@ export {
   DirectorySetMetadataHeaders,
   FileAbortCopyHeaders,
   FileDeleteHeaders,
+  FileGetSymbolicLinkHeaders,
   FilePermissionFormat,
   FileProperty,
   FileListHandlesHeaders,
@@ -641,12 +641,12 @@ export {
   ClearRange,
   ShareAccessTier,
   ShareRootSquash,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 
 export {
   FileDownloadResponse as RawFileDownloadResponse,
   FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders,
-} from "./models";
+} from "./models.js";
 /** Known values of {@link ShareTokenIntent} that the service accepts. */
 export enum KnownShareTokenIntent {
   Backup = "backup",

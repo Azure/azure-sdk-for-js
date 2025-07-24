@@ -48,5 +48,17 @@ matrix([[true, false]], async (useAad) => {
         }
       },
     );
+
+    it("can list available mobile localities", { timeout: 60000 }, async () => {
+      const responseLocalities = [];
+      const options: ListLocalitiesOptions = {
+        phoneNumberType: "mobile",
+      };
+
+      for await (const locality of client.listAvailableLocalities("IE", options)) {
+        responseLocalities.push(locality);
+      }
+      assert.isNotEmpty(responseLocalities);
+    });
   });
 });

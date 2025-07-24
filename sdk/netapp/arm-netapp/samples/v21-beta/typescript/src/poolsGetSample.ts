@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,12 +14,12 @@ import "dotenv/config";
  * This sample demonstrates how to Get details of the specified capacity pool
  *
  * @summary Get details of the specified capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Pools_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/Pools_Get.json
  */
 async function poolsGet(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const poolName = "pool1";
@@ -39,12 +37,12 @@ async function poolsGet(): Promise<void> {
  * This sample demonstrates how to Get details of the specified capacity pool
  *
  * @summary Get details of the specified capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Pools_Get_CustomThroughput.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/Pools_Get_CustomThroughput.json
  */
 async function poolsGetCustomThroughput(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
-    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const poolName = "customPool1";
@@ -59,8 +57,8 @@ async function poolsGetCustomThroughput(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  poolsGet();
-  poolsGetCustomThroughput();
+  await poolsGet();
+  await poolsGetCustomThroughput();
 }
 
 main().catch(console.error);

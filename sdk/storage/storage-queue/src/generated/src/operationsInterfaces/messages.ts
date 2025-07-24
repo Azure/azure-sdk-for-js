@@ -16,7 +16,7 @@ import {
   MessagesEnqueueResponse,
   MessagesPeekOptionalParams,
   MessagesPeekResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Messages. */
 export interface Messages {

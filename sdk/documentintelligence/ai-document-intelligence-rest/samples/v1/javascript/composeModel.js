@@ -13,13 +13,13 @@
 
 const DocumentIntelligence = require("@azure-rest/ai-document-intelligence").default,
   { getLongRunningPoller, isUnexpected } = require("@azure-rest/ai-document-intelligence");
-
-require("dotenv").config();
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+    new DefaultAzureCredential(),
   );
 
   // This object will hold the SAS-encoded URLs to containers that hold

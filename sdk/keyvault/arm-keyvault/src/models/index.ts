@@ -23,9 +23,9 @@ export interface KeyProperties {
   /** The type of the key. For valid values, see JsonWebKeyType. */
   kty?: JsonWebKeyType;
   keyOps?: JsonWebKeyOperation[];
-  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
+  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
   keySize?: number;
-  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. */
+  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
   curveName?: JsonWebKeyCurveName;
   /**
    * The URI to retrieve the current version of the key.
@@ -184,9 +184,9 @@ export interface ManagedHsmKeyProperties {
   /** The type of the key. For valid values, see JsonWebKeyType. */
   kty?: JsonWebKeyType;
   keyOps?: JsonWebKeyOperation[];
-  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
+  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
   keySize?: number;
-  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. */
+  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
   curveName?: JsonWebKeyCurveName;
   /**
    * The URI to retrieve the current version of the key.
@@ -1213,9 +1213,9 @@ export interface Key extends Resource {
   /** The type of the key. For valid values, see JsonWebKeyType. */
   kty?: JsonWebKeyType;
   keyOps?: JsonWebKeyOperation[];
-  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
+  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
   keySize?: number;
-  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. */
+  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
   curveName?: JsonWebKeyCurveName;
   /**
    * The URI to retrieve the current version of the key.
@@ -1274,9 +1274,9 @@ export interface ManagedHsmKey extends ProxyResourceWithoutSystemData {
   /** The type of the key. For valid values, see JsonWebKeyType. */
   kty?: JsonWebKeyType;
   keyOps?: JsonWebKeyOperation[];
-  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
+  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. Default for RSA and RSA-HSM keys is 2048. Exception made for bring your own key (BYOK), key exchange keys default to 4096. */
   keySize?: number;
-  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. */
+  /** The elliptic curve name. For valid values, see JsonWebKeyCurveName. Default for EC and EC-HSM keys is P-256 */
   curveName?: JsonWebKeyCurveName;
   /**
    * The URI to retrieve the current version of the key.
@@ -1394,7 +1394,7 @@ export enum KnownDeletionRecoveryLevel {
   /** Recoverable */
   Recoverable = "Recoverable",
   /** RecoverableProtectedSubscription */
-  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription"
+  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
 }
 
 /**
@@ -1418,7 +1418,7 @@ export enum KnownJsonWebKeyType {
   /** RSA */
   RSA = "RSA",
   /** RSAHSM */
-  RSAHSM = "RSA-HSM"
+  RSAHSM = "RSA-HSM",
 }
 
 /**
@@ -1450,7 +1450,7 @@ export enum KnownJsonWebKeyOperation {
   /** Import */
   Import = "import",
   /** Release */
-  Release = "release"
+  Release = "release",
 }
 
 /**
@@ -1478,7 +1478,7 @@ export enum KnownJsonWebKeyCurveName {
   /** P521 */
   P521 = "P-521",
   /** P256K */
-  P256K = "P-256K"
+  P256K = "P-256K",
 }
 
 /**
@@ -1496,7 +1496,7 @@ export type JsonWebKeyCurveName = string;
 /** Known values of {@link SkuFamily} that the service accepts. */
 export enum KnownSkuFamily {
   /** A */
-  A = "A"
+  A = "A",
 }
 
 /**
@@ -1551,7 +1551,7 @@ export enum KnownKeyPermissions {
   /** Getrotationpolicy */
   Getrotationpolicy = "getrotationpolicy",
   /** Setrotationpolicy */
-  Setrotationpolicy = "setrotationpolicy"
+  Setrotationpolicy = "setrotationpolicy",
 }
 
 /**
@@ -1602,7 +1602,7 @@ export enum KnownSecretPermissions {
   /** Recover */
   Recover = "recover",
   /** Purge */
-  Purge = "purge"
+  Purge = "purge",
 }
 
 /**
@@ -1657,7 +1657,7 @@ export enum KnownCertificatePermissions {
   /** Backup */
   Backup = "backup",
   /** Restore */
-  Restore = "restore"
+  Restore = "restore",
 }
 
 /**
@@ -1716,7 +1716,7 @@ export enum KnownStoragePermissions {
   /** Getsas */
   Getsas = "getsas",
   /** Deletesas */
-  Deletesas = "deletesas"
+  Deletesas = "deletesas",
 }
 
 /**
@@ -1747,7 +1747,7 @@ export enum KnownNetworkRuleBypassOptions {
   /** AzureServices */
   AzureServices = "AzureServices",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1765,7 +1765,7 @@ export enum KnownNetworkRuleAction {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -1783,7 +1783,7 @@ export enum KnownVaultProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** RegisteringDns */
-  RegisteringDns = "RegisteringDns"
+  RegisteringDns = "RegisteringDns",
 }
 
 /**
@@ -1805,7 +1805,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1823,7 +1823,7 @@ export type PrivateEndpointServiceConnectionStatus = string;
 /** Known values of {@link ActionsRequired} that the service accepts. */
 export enum KnownActionsRequired {
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -1848,7 +1848,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -1874,7 +1874,7 @@ export enum KnownIdentityType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1906,7 +1906,7 @@ export enum KnownProvisioningState {
   /** The managed HSM pool is waiting for a security domain restore action. */
   SecurityDomainRestore = "SecurityDomainRestore",
   /** The managed HSM pool is being restored from full HSM backup. */
-  Restoring = "Restoring"
+  Restoring = "Restoring",
 }
 
 /**
@@ -1938,7 +1938,7 @@ export enum KnownGeoReplicationRegionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Cleanup */
-  Cleanup = "Cleanup"
+  Cleanup = "Cleanup",
 }
 
 /**
@@ -1960,7 +1960,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1982,7 +1982,7 @@ export enum KnownActivationStatus {
   /** An unknown error occurred while activating managed hsm. */
   Unknown = "Unknown",
   /** Failed to activate managed hsm. */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -2000,7 +2000,9 @@ export type ActivationStatus = string;
 /** Known values of {@link ManagedHsmSkuFamily} that the service accepts. */
 export enum KnownManagedHsmSkuFamily {
   /** B */
-  B = "B"
+  B = "B",
+  /** C */
+  C = "C",
 }
 
 /**
@@ -2008,7 +2010,8 @@ export enum KnownManagedHsmSkuFamily {
  * {@link KnownManagedHsmSkuFamily} can be used interchangeably with ManagedHsmSkuFamily,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **B**
+ * **B** \
+ * **C**
  */
 export type ManagedHsmSkuFamily = string;
 
@@ -2021,7 +2024,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -2046,7 +2049,12 @@ export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
 /** Defines values for Reason. */
 export type Reason = "AccountNameInvalid" | "AlreadyExists";
 /** Defines values for ManagedHsmSkuName. */
-export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32" | "Custom_B6";
+export type ManagedHsmSkuName =
+  | "Standard_B1"
+  | "Custom_B32"
+  | "Custom_B6"
+  | "Custom_C42"
+  | "Custom_C10";
 
 /** Optional parameters. */
 export interface KeysCreateIfNotExistOptionalParams
@@ -2279,8 +2287,8 @@ export interface PrivateEndpointConnectionsPutOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
-export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnectionsPutHeaders &
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsPutResponse =
+  PrivateEndpointConnectionsPutHeaders & PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -2292,28 +2300,32 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsDeleteResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResource operation. */
-export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByResourceResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
-export type PrivateEndpointConnectionsListByResourceNextResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByResourceNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByVaultOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVault operation. */
-export type PrivateLinkResourcesListByVaultResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByVaultResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface ManagedHsmsCreateOrUpdateOptionalParams
@@ -2406,7 +2418,8 @@ export interface ManagedHsmsCheckMhsmNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkMhsmNameAvailability operation. */
-export type ManagedHsmsCheckMhsmNameAvailabilityResponse = CheckMhsmNameAvailabilityResult;
+export type ManagedHsmsCheckMhsmNameAvailabilityResponse =
+  CheckMhsmNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface ManagedHsmsListByResourceGroupNextOptionalParams
@@ -2434,22 +2447,24 @@ export interface MhsmPrivateEndpointConnectionsListByResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResource operation. */
-export type MhsmPrivateEndpointConnectionsListByResourceResponse = MhsmPrivateEndpointConnectionsListResult;
+export type MhsmPrivateEndpointConnectionsListByResourceResponse =
+  MhsmPrivateEndpointConnectionsListResult;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type MhsmPrivateEndpointConnectionsGetResponse = MhsmPrivateEndpointConnection;
+export type MhsmPrivateEndpointConnectionsGetResponse =
+  MhsmPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsPutOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
-export type MhsmPrivateEndpointConnectionsPutResponse = MhsmPrivateEndpointConnectionsPutHeaders &
-  MhsmPrivateEndpointConnection;
+export type MhsmPrivateEndpointConnectionsPutResponse =
+  MhsmPrivateEndpointConnectionsPutHeaders & MhsmPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsDeleteOptionalParams
@@ -2461,21 +2476,24 @@ export interface MhsmPrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type MhsmPrivateEndpointConnectionsDeleteResponse = MhsmPrivateEndpointConnection;
+export type MhsmPrivateEndpointConnectionsDeleteResponse =
+  MhsmPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsListByResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
-export type MhsmPrivateEndpointConnectionsListByResourceNextResponse = MhsmPrivateEndpointConnectionsListResult;
+export type MhsmPrivateEndpointConnectionsListByResourceNextResponse =
+  MhsmPrivateEndpointConnectionsListResult;
 
 /** Optional parameters. */
 export interface MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByMhsmResource operation. */
-export type MhsmPrivateLinkResourcesListByMhsmResourceResponse = MhsmPrivateLinkResourceListResult;
+export type MhsmPrivateLinkResourcesListByMhsmResourceResponse =
+  MhsmPrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface MhsmRegionsListByResourceOptionalParams

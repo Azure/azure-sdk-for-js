@@ -18,7 +18,7 @@ import {
   ScopeMapsDeleteOptionalParams,
   ScopeMapUpdateParameters,
   ScopeMapsUpdateOptionalParams,
-  ScopeMapsUpdateResponse
+  ScopeMapsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ScopeMaps {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: ScopeMapsListOptionalParams
+    options?: ScopeMapsListOptionalParams,
   ): PagedAsyncIterableIterator<ScopeMap>;
   /**
    * Gets the properties of the specified scope map.
@@ -46,7 +46,7 @@ export interface ScopeMaps {
     resourceGroupName: string,
     registryName: string,
     scopeMapName: string,
-    options?: ScopeMapsGetOptionalParams
+    options?: ScopeMapsGetOptionalParams,
   ): Promise<ScopeMapsGetResponse>;
   /**
    * Creates a scope map for a container registry with the specified parameters.
@@ -61,7 +61,7 @@ export interface ScopeMaps {
     registryName: string,
     scopeMapName: string,
     scopeMapCreateParameters: ScopeMap,
-    options?: ScopeMapsCreateOptionalParams
+    options?: ScopeMapsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ScopeMapsCreateResponse>,
@@ -81,7 +81,7 @@ export interface ScopeMaps {
     registryName: string,
     scopeMapName: string,
     scopeMapCreateParameters: ScopeMap,
-    options?: ScopeMapsCreateOptionalParams
+    options?: ScopeMapsCreateOptionalParams,
   ): Promise<ScopeMapsCreateResponse>;
   /**
    * Deletes a scope map from a container registry.
@@ -94,7 +94,7 @@ export interface ScopeMaps {
     resourceGroupName: string,
     registryName: string,
     scopeMapName: string,
-    options?: ScopeMapsDeleteOptionalParams
+    options?: ScopeMapsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a scope map from a container registry.
@@ -107,7 +107,7 @@ export interface ScopeMaps {
     resourceGroupName: string,
     registryName: string,
     scopeMapName: string,
-    options?: ScopeMapsDeleteOptionalParams
+    options?: ScopeMapsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a scope map with the specified parameters.
@@ -122,7 +122,7 @@ export interface ScopeMaps {
     registryName: string,
     scopeMapName: string,
     scopeMapUpdateParameters: ScopeMapUpdateParameters,
-    options?: ScopeMapsUpdateOptionalParams
+    options?: ScopeMapsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ScopeMapsUpdateResponse>,
@@ -142,6 +142,6 @@ export interface ScopeMaps {
     registryName: string,
     scopeMapName: string,
     scopeMapUpdateParameters: ScopeMapUpdateParameters,
-    options?: ScopeMapsUpdateOptionalParams
+    options?: ScopeMapsUpdateOptionalParams,
   ): Promise<ScopeMapsUpdateResponse>;
 }

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the versions of the specified key in the specified managed HSM.
  *
  * @summary Lists the versions of the specified key in the specified managed HSM.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/managedHsmListKeyVersions.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/managedHsmListKeyVersions.json
  */
 async function listKeyVersionsInTheManagedHsm(): Promise<void> {
   const subscriptionId =
@@ -29,10 +29,10 @@ async function listKeyVersionsInTheManagedHsm(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KeyVaultManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedHsmKeys.listVersions(
+  for await (const item of client.managedHsmKeys.listVersions(
     resourceGroupName,
     name,
-    keyName
+    keyName,
   )) {
     resArray.push(item);
   }
@@ -40,7 +40,7 @@ async function listKeyVersionsInTheManagedHsm(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listKeyVersionsInTheManagedHsm();
+  await listKeyVersionsInTheManagedHsm();
 }
 
 main().catch(console.error);

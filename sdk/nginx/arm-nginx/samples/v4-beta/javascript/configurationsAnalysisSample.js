@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NginxManagementClient } = require("@azure/arm-nginx");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Analyze an NGINX configuration without applying it to the NGINXaaS deployment
  *
  * @summary Analyze an NGINX configuration without applying it to the NGINXaaS deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Configurations_Analysis.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_Analysis.json
  */
 async function configurationsAnalysis() {
   const subscriptionId =
@@ -24,27 +22,18 @@ async function configurationsAnalysis() {
   const resourceGroupName = process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
   const configurationName = "default";
-  const body = {
-    config: {
-      files: [{ content: "ABCDEF==", virtualPath: "/etc/nginx/nginx.conf" }],
-      package: { data: undefined },
-      rootFile: "/etc/nginx/nginx.conf",
-    },
-  };
-  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const result = await client.configurations.analysis(
     resourceGroupName,
     deploymentName,
     configurationName,
-    options,
   );
   console.log(result);
 }
 
 async function main() {
-  configurationsAnalysis();
+  await configurationsAnalysis();
 }
 
 main().catch(console.error);

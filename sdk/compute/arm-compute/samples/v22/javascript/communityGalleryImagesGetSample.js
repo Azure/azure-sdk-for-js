@@ -34,7 +34,7 @@ async function getACommunityGalleryImage() {
 }
 
 async function main() {
-  getACommunityGalleryImage();
+  await getACommunityGalleryImage();
 }
 
 main().catch(console.error);

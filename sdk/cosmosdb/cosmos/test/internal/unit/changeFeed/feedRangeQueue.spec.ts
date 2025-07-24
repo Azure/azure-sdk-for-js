@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import assert from "assert";
-import { FeedRangeQueue } from "../../../../src/client/ChangeFeed/FeedRangeQueue";
-import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange";
+import { FeedRangeQueue } from "../../../../src/client/ChangeFeed/FeedRangeQueue.js";
+import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange.js";
+import { describe, it, assert } from "vitest";
 
 const feedRanges = [
   {
@@ -22,9 +22,9 @@ const feedRanges = [
     continuation: "30",
   },
 ];
-describe("test feedRangeQueue", function () {
+describe("test feedRangeQueue", () => {
   const feedRangeQueue = new FeedRangeQueue();
-  it("enqueue element", function () {
+  it("enqueue element", () => {
     assert.equal(feedRangeQueue.isEmpty(), true);
     const newChangeFeedRange = new ChangeFeedRange(
       feedRanges[0].minInclusive,
@@ -36,13 +36,13 @@ describe("test feedRangeQueue", function () {
     assert.equal(feedRangeQueue.peek(), newChangeFeedRange);
   });
 
-  it("dequeue element", function () {
+  it("dequeue element", () => {
     assert.equal(feedRangeQueue.isEmpty(), false);
     feedRangeQueue.dequeue();
     assert.equal(feedRangeQueue.isEmpty(), true);
   });
 
-  it("move first element to the end", function () {
+  it("move first element to the end", () => {
     const firstElement = new ChangeFeedRange(
       feedRanges[0].minInclusive,
       feedRanges[0].maxExclusive,
@@ -72,7 +72,7 @@ describe("test feedRangeQueue", function () {
     assert.equal(feedRangeQueue.peek(), firstElement);
   });
 
-  it("modify first element", function () {
+  it("modify first element", () => {
     const newFirstElement = new ChangeFeedRange(
       feedRanges[0].minInclusive,
       feedRanges[0].maxExclusive,
@@ -82,7 +82,7 @@ describe("test feedRangeQueue", function () {
     assert.equal(feedRangeQueue.peek(), newFirstElement);
   });
 
-  it("return snapshot", function () {
+  it("return snapshot", () => {
     const snapshot = feedRangeQueue.returnSnapshot();
     assert.equal(snapshot.length, 3);
   });

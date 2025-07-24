@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns the properties for the specified encryption scope.
  *
  * @summary Returns the properties for the specified encryption scope.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetEncryptionScope.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetEncryptionScope.json
  */
 async function storageAccountGetEncryptionScope() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -34,7 +32,7 @@ async function storageAccountGetEncryptionScope() {
 }
 
 async function main() {
-  storageAccountGetEncryptionScope();
+  await storageAccountGetEncryptionScope();
 }
 
 main().catch(console.error);

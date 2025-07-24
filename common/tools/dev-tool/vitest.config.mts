@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
+import { AzureSDKReporter } from "../../../vitest.shared.config.js";
 
 export default defineConfig({
   test: {
-    reporters: ["verbose", "junit"],
+    reporters: [new AzureSDKReporter(), "junit"],
     outputFile: {
       junit: "test-results.xml",
     },

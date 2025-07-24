@@ -1,15 +1,17 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 1.2.0 (2025-05-13)
+
+### Features Added
+- Added a new API `WebPubSubGroup.listConnections` to list connections in a group.
+
+## 1.1.4 (2025-02-26)
 
 ### Features Added
 - Added support to generate client access URL and token for `socketio` client protocol.
 
-### Breaking Changes
-
 ### Bugs Fixed
-
-### Other Changes
+- Fix issue with mismatched DTO for client protocol when calling generate client access URI API, causing the response to be incorrect.
 
 ## 1.1.3 (2024-08-09)
 

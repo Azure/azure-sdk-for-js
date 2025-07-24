@@ -1,6 +1,6 @@
 # Release History
 
-## 2.1.4 (Unreleased)
+## 2.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.3.0 (2025-07-10)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=20.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 2.2.0 (2025-04-07)
+
+### Features Added
+
+- `createSseStream` now supports NodeJS streams as input.
 
 ## 2.1.3 (2024-08-13)
 

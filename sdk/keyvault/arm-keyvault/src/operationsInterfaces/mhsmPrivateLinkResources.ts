@@ -8,7 +8,7 @@
 
 import {
   MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams,
-  MhsmPrivateLinkResourcesListByMhsmResourceResponse
+  MhsmPrivateLinkResourcesListByMhsmResourceResponse,
 } from "../models/index.js";
 
 /** Interface representing a MhsmPrivateLinkResources. */
@@ -22,6 +22,6 @@ export interface MhsmPrivateLinkResources {
   listByMhsmResource(
     resourceGroupName: string,
     name: string,
-    options?: MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams
+    options?: MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams,
   ): Promise<MhsmPrivateLinkResourcesListByMhsmResourceResponse>;
 }

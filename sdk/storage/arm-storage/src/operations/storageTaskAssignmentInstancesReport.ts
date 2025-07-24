@@ -204,7 +204,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.maxpagesize2,
+    Parameters.maxpagesize1,
   ],
   urlParameters: [
     Parameters.$host,

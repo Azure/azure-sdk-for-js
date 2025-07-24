@@ -1,15 +1,77 @@
 # Release History
+    
+## 18.6.0 (2025-07-16)
+    
+### Features Added
+  - Added Type Alias IntervalUnit
+  - Added Type Alias KeyType
+  - Added Type Alias Permissions
+  - Added Enum KnownIntervalUnit
+  - Operation StorageTaskAssignments.beginCreate has a new signature
+  - Operation StorageTaskAssignments.beginCreateAndWait has a new signature
+  - Operation StorageTaskAssignments.beginUpdate has a new signature
+  - Operation StorageTaskAssignments.beginUpdateAndWait has a new signature
+  - Operation StorageTaskAssignments.get has a new signature
+  - Type of parameter intervalUnit of interface TriggerParameters is changed from "Days" to IntervalUnit
+  - Type of parameter intervalUnit of interface TriggerParametersUpdate is changed from "Days" to IntervalUnit
+  - Removed Type Alias KeyType_2
+  - Removed Type Alias Permissions_2
 
-## 18.3.1 (Unreleased)
+    
+## 18.5.0 (2025-04-18)
 
 ### Features Added
 
-### Breaking Changes
+  - Type ProvisioningState has a new value Accepted
 
-### Bugs Fixed
+## 18.4.0 (2025-02-27)
+    
+### Features Added
 
-### Other Changes
-
+  - Added operation FileServices.getServiceUsage
+  - Added operation FileServices.listServiceUsages
+  - Added Interface AccountLimits
+  - Added Interface AccountUsage
+  - Added Interface AccountUsageElements
+  - Added Interface BurstingConstants
+  - Added Interface FileServicesGetServiceUsageOptionalParams
+  - Added Interface FileServicesListServiceUsagesNextOptionalParams
+  - Added Interface FileServicesListServiceUsagesOptionalParams
+  - Added Interface FileServiceUsage
+  - Added Interface FileServiceUsageProperties
+  - Added Interface FileServiceUsages
+  - Added Interface FileShareLimits
+  - Added Interface FileSharePropertiesFileSharePaidBursting
+  - Added Interface FileShareRecommendations
+  - Added Interface ObjectReplicationPolicyPropertiesMetrics
+  - Added Type Alias FileServicesGetServiceUsageResponse
+  - Added Type Alias FileServicesListServiceUsagesNextResponse
+  - Added Type Alias FileServicesListServiceUsagesResponse
+  - Interface FileShare has a new optional parameter fileSharePaidBursting
+  - Interface FileShare has a new optional parameter includedBurstIops
+  - Interface FileShare has a new optional parameter maxBurstCreditsForIops
+  - Interface FileShare has a new optional parameter nextAllowedProvisionedBandwidthDowngradeTime
+  - Interface FileShare has a new optional parameter nextAllowedProvisionedIopsDowngradeTime
+  - Interface FileShare has a new optional parameter nextAllowedQuotaDowngradeTime
+  - Interface FileShare has a new optional parameter provisionedBandwidthMibps
+  - Interface FileShare has a new optional parameter provisionedIops
+  - Interface FileShareItem has a new optional parameter fileSharePaidBursting
+  - Interface FileShareItem has a new optional parameter includedBurstIops
+  - Interface FileShareItem has a new optional parameter maxBurstCreditsForIops
+  - Interface FileShareItem has a new optional parameter nextAllowedProvisionedBandwidthDowngradeTime
+  - Interface FileShareItem has a new optional parameter nextAllowedProvisionedIopsDowngradeTime
+  - Interface FileShareItem has a new optional parameter nextAllowedQuotaDowngradeTime
+  - Interface FileShareItem has a new optional parameter provisionedBandwidthMibps
+  - Interface FileShareItem has a new optional parameter provisionedIops
+  - Interface ObjectReplicationPolicy has a new optional parameter metrics
+  - Enum KnownSkuName has a new value PremiumV2LRS
+  - Enum KnownSkuName has a new value PremiumV2ZRS
+  - Enum KnownSkuName has a new value StandardV2GRS
+  - Enum KnownSkuName has a new value StandardV2Gzrs
+  - Enum KnownSkuName has a new value StandardV2LRS
+  - Enum KnownSkuName has a new value StandardV2ZRS
+    
+    
 ## 18.3.0 (2024-06-27)
     
 ### Features Added

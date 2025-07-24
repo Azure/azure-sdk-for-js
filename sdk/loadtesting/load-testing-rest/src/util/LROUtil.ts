@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
-import type { TestRunOutput } from "../outputModels.js";
+import type { TestRunOutput, TestProfileRunOutput } from "../outputModels.js";
 
 const REJECTED_ERR = new AbortError("The polling was aborted.");
 
@@ -45,6 +46,18 @@ export function isTestRunInProgress(testRunOutput: TestRunOutput): boolean {
     case "EXECUTED":
     case "DEPROVISIONING":
     case "DEPROVISIONED":
+    case "CANCELLING":
+      return true;
+    default:
+      return false;
+  }
+}
+
+export function isTestProfileRunInProgress(testProfileRunOutput: TestProfileRunOutput): boolean {
+  switch (testProfileRunOutput.status) {
+    case "ACCEPTED":
+    case "NOTSTARTED":
+    case "EXECUTING":
     case "CANCELLING":
       return true;
     default:

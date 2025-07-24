@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to List all the private endpoint connections associated with the storage account.
  *
  * @summary List all the private endpoint connections associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountListPrivateEndpointConnections.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountListPrivateEndpointConnections.json
  */
 async function storageAccountListPrivateEndpointConnections(): Promise<void> {
   const subscriptionId =
@@ -26,7 +24,7 @@ async function storageAccountListPrivateEndpointConnections(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.list(
+  for await (const item of client.privateEndpointConnections.list(
     resourceGroupName,
     accountName,
   )) {
@@ -36,7 +34,7 @@ async function storageAccountListPrivateEndpointConnections(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageAccountListPrivateEndpointConnections();
+  await storageAccountListPrivateEndpointConnections();
 }
 
 main().catch(console.error);

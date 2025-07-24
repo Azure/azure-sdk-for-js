@@ -26,7 +26,7 @@ async function listGalleryImageVersionsInAGalleryImageDefinition() {
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.galleryImageVersions.listByGalleryImage(
+  for await (const item of client.galleryImageVersions.listByGalleryImage(
     resourceGroupName,
     galleryName,
     galleryImageName,
@@ -37,7 +37,7 @@ async function listGalleryImageVersionsInAGalleryImageDefinition() {
 }
 
 async function main() {
-  listGalleryImageVersionsInAGalleryImageDefinition();
+  await listGalleryImageVersionsInAGalleryImageDefinition();
 }
 
 main().catch(console.error);

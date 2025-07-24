@@ -6,7 +6,7 @@ Microsoft Azure Quota Resource Provider. This Swagger is for Azure Group Quota u
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-quota) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-quota) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-quota?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-quota) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -48,7 +48,7 @@ You will also need to **register a new AAD application and grant access to Azure
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
-
+ 
 ```ts snippet:ReadmeSampleCreateClient_Node
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -56,9 +56,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new AzureQuotaExtensionAPI(new DefaultAzureCredential(), subscriptionId);
 ```
-
+ 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
-
+ 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { AzureQuotaExtensionAPI } from "@azure/arm-quota";

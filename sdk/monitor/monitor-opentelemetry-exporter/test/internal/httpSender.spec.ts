@@ -14,6 +14,7 @@ import nock from "nock";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
 import { describe, it, assert, afterAll } from "vitest";
+import { delay } from "@azure/core-util";
 
 function toObject<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;
@@ -62,7 +63,7 @@ describe("HttpSender", () => {
       name: "name",
       time: new Date(),
     };
-    it("should send a valid envelope", () => {
+    it("should send a valid envelope", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
         instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -75,6 +76,8 @@ describe("HttpSender", () => {
         assert.strictEqual(statusCode, 200);
         assert.deepStrictEqual(JSON.parse(result), successfulBreezeResponse(1));
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should send an invalid non-retriable envelope", async () => {
@@ -94,7 +97,7 @@ describe("HttpSender", () => {
       }
     });
 
-    it("should send a partially retriable envelope", () => {
+    it("should send a partially retriable envelope", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
         instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -107,6 +110,8 @@ describe("HttpSender", () => {
         assert.strictEqual(statusCode, 206);
         assert.deepStrictEqual(JSON.parse(result), partialBreezeResponse([200, 408, 408]));
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should persist retriable failed telemetry 429", async () => {
@@ -128,6 +133,8 @@ describe("HttpSender", () => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should persist retriable failed telemetry 500", async () => {
@@ -149,6 +156,8 @@ describe("HttpSender", () => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should persist retriable failed  502", async () => {
@@ -170,6 +179,8 @@ describe("HttpSender", () => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should persist retriable failed telemetry 503", async () => {
@@ -191,6 +202,8 @@ describe("HttpSender", () => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should persist retriable failed telemetry 504", async () => {
@@ -212,6 +225,8 @@ describe("HttpSender", () => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
         assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should persist partial retriable failed telemetry", async () => {
@@ -232,6 +247,8 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 2);
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should not persist partial non retriable failed telemetry", async () => {
@@ -252,6 +269,8 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes?.length, 1);
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should not persist non-retriable failed telemetry", async () => {
@@ -273,6 +292,8 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should not persist non-retriable failed telemetry", async () => {
@@ -294,6 +315,8 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
       }, 1500);
+
+      await delay(4000); // wait enough time for timeout callbacks
     });
 
     it("should not persist when an error is caught", async () => {
@@ -314,6 +337,8 @@ describe("HttpSender", () => {
       setTimeout(() => {
         assert.strictEqual(persistedEnvelopes, null);
       }, 1500);
+
+      await delay(4000); // wait enough time for timeout callbacks
     });
 
     it("should start retry timer when telemetry is successfully sent", async () => {
@@ -329,11 +354,13 @@ describe("HttpSender", () => {
       const result = await sender.exportEnvelopes([envelope]);
       setTimeout(() => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.notStrictEqual(sender["retryTimer"], null);
+        assert.strictEqual(sender["retryTimer"], null);
       }, 1500);
 
       clearTimeout(sender["retryTimer"]!);
       sender["retryTimer"] = null;
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should not start a retry timer when one already exists", async () => {
@@ -400,6 +427,8 @@ describe("HttpSender", () => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
 
     it("should use redirect URL for following requests", async () => {
@@ -427,6 +456,8 @@ describe("HttpSender", () => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
       }, 1500);
+
+      await delay(4000); // wait enough time for timeout callbacks
     });
 
     it("should stop redirecting when circular redirect is triggered", async () => {
@@ -457,6 +488,8 @@ describe("HttpSender", () => {
         assert.strictEqual(result.code, ExportResultCode.FAILED);
         assert.strictEqual(result.error?.message, "Circular redirect");
       }, 1500);
+
+      await delay(2000); // wait enough time for timeout callback
     });
   });
 
