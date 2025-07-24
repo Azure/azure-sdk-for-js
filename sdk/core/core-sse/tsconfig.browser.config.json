@@ -1,3 +1,20 @@
 {
-  "extends": ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"]
+  "extends": "../../../tsconfig.nonlib.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "types": [],
+    "paths": {
+      "@azure/core-sse": ["./dist/browser/index.d.ts"],
+      "@azure/core-sse/*": ["./dist/browser/*"],
+      "internal/*": ["./dist/browser/*"]
+    },
+    "outDir": "${configDir}/dist-test/browser",
+    "noEmit": false
+  },
+  "include": ["${configDir}/test"],
+  "exclude": [
+    "${configDir}/test/stress",
+    "${configDir}/test/snippets.spec.ts",
+    "${configDir}/test/**/node"
+  ]
 }

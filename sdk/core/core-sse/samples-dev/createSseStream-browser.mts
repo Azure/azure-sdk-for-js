@@ -4,7 +4,6 @@
 /**
  * @summary Demonstrates streaming events from Wikimedia’s recent change endpoint.
  */
-import { type ReadableStream, TransformStream } from "node:stream/web";
 import { createSseStream, type EventMessage } from "@azure/core-sse";
 import {
   createRestError,
@@ -91,7 +90,7 @@ function isUnexpected(body: HttpResponse): boolean {
 async function getStream(
   res: StreamableMethod<PathUncheckedResponse>,
 ): Promise<ReadableStream<EventMessage>> {
-  const response = await res.asNodeStream();
+  const response = await res.asBrowserStream();
   if (!response.body) {
     throw new Error(`Received a response with status code ${response.status} and without a body`);
   }
@@ -113,12 +112,16 @@ async function getStream(
 /**
  * Helper function to convert either a NodeJS stream or a browser stream to a string.
  */
-async function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
+async function streamToString(stream: ReadableStream<Uint8Array>): Promise<string> {
   let result = "";
-  stream.setEncoding("utf8");
-  for await (const chunk of stream) {
-    result += chunk;
+  const reader = stream.getReader();
+  const decoder = new TextDecoder("utf8");
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    result += decoder.decode(value, { stream: true });
   }
+  reader.releaseLock();
   return result;
 }
 

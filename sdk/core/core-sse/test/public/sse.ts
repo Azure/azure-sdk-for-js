@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventMessage } from "../../src/index.js";
+import type { EventMessage } from "@azure/core-sse";
 import {
   assertAsyncIterable,
   genChunks,
