@@ -1,9 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Durations, LogsQueryClient, LogsQueryResultStatus } from "../src/index.js";
+import { Durations, LogsQueryClient, LogsQueryResultStatus, LogsTable } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { describe, it } from "vitest";
+
+function processTables(tablesFromResult: LogsTable[]) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
+  }
+}
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", async () => {
@@ -46,20 +60,6 @@ describe("snippets", () => {
       if (result.partialTables.length > 0) {
         console.log(`This query has also returned partial data in the following table(s) - `);
         processTables(result.partialTables);
-      }
-    }
-    // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
       }
     }
   });
@@ -110,20 +110,6 @@ describe("snippets", () => {
       if (result.partialTables.length > 0) {
         console.log(`This query has also returned partial data in the following table(s) - `);
         processTables(result.partialTables);
-      }
-    }
-    // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
       }
     }
   });
@@ -188,62 +174,6 @@ describe("snippets", () => {
       }
       // next query
       i++;
-    }
-    // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
-      }
-    }
-  });
-
-  it("ReadmeSampleProcessBatchResult", async () => {
-    async function processBatchResult(result, queriesBatch) {
-      let i = 0;
-      for (const response of result) {
-        console.log(`Results for query with query: ${queriesBatch[i]}`);
-        if (response.status === LogsQueryResultStatus.Success) {
-          console.log(
-            `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
-          );
-          processTables(response.tables);
-        } else if (response.status === LogsQueryResultStatus.PartialFailure) {
-          console.log(
-            `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
-          );
-          processTables(response.partialTables);
-          console.log(
-            ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
-          );
-        } else {
-          console.log(`Printing errors from query '${queriesBatch[i].query}'`);
-          console.log(` Query had errors:${response.message} with code ${response.code}`);
-        }
-        // next query
-        i++;
-      }
-    }
-    // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
-      }
     }
   });
 
@@ -375,62 +305,6 @@ describe("snippets", () => {
       if (result.partialTables.length > 0) {
         console.log(`This query has also returned partial data in the following table(s) - `);
         processTables(result.partialTables);
-      }
-    }
-    // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
-      }
-    }
-  });
-
-  it("TroubleShootingProcessBatchResult", async () => {
-    async function processBatchResult(result, queriesBatch) {
-      let i = 0;
-      for (const response of result) {
-        console.log(`Results for query with query: ${queriesBatch[i]}`);
-        if (response.status === LogsQueryResultStatus.Success) {
-          console.log(
-            `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
-          );
-          processTables(response.tables);
-        } else if (response.status === LogsQueryResultStatus.PartialFailure) {
-          console.log(
-            `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
-          );
-          processTables(response.partialTables);
-          console.log(
-            ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
-          );
-        } else {
-          console.log(`Printing errors from query '${queriesBatch[i].query}'`);
-          console.log(` Query had errors:${response.message} with code ${response.code}`);
-        }
-        // next query
-        i++;
-      }
-    }
-    // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
       }
     }
   });
