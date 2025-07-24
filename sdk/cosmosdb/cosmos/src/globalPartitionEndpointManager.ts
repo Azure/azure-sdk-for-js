@@ -118,7 +118,7 @@ export class GlobalPartitionEndpointManager {
           this.partitionKeyRangeToLocationForReadAndWrite.get(partitionKeyRangeId);
 
         const canCircuitBreakerTriggerPartitionFailOver =
-          await partitionFailOver.canCircuitBreakerTriggerPartitionFailOver(
+          partitionFailOver.canCircuitBreakerTriggerPartitionFailOver(
             isReadRequest(requestContext.operationType),
           );
         if (canCircuitBreakerTriggerPartitionFailOver) {
@@ -402,8 +402,7 @@ export class GlobalPartitionEndpointManager {
       const partitionFailover = this.partitionKeyRangeToLocationForReadAndWrite.get(pkRange);
       if (!partitionFailover) continue;
 
-      const { firstRequestFailureTime } =
-        await partitionFailover.snapshotPartitionFailoverTimestamps();
+      const { firstRequestFailureTime } = partitionFailover.snapshotPartitionFailoverTimestamps();
       const now = new Date();
 
       if (
