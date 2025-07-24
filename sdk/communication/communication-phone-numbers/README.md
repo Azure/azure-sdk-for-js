@@ -477,7 +477,9 @@ const client = new SipRoutingClient("<endpoint-from-resource>", credential);
 
 const trunk = await client.getTrunk("sbc.one.domain.com");
 if (trunk) {
-  console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}, ${trunk.enabled}, ${trunk.directTransfer}, ${trunk.ipAddressVersion}, ${trunk.privacyHeader}`);
+  console.log(
+    `Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}, ${trunk.enabled}, ${trunk.directTransfer}, ${trunk.ipAddressVersion}, ${trunk.privacyHeader}`,
+  );
 } else {
   console.log("Trunk not found");
 }
@@ -524,7 +526,6 @@ const routes = [
   { name: "route2", numberPattern: "^.987.*" },
   { name: "route3", numberPattern: "^.*" },
 ];
-
 const matchedRoutes = await client.getRoutesForNumber("+123456789", routes);
 ```
 
