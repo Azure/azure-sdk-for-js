@@ -589,12 +589,4 @@ describe("snippets", () => {
       }
     }
   });
-
-  it("DotEnvSample", async () => {
-    config({ path: ".env" });
-  });
-
-  it("SetLogLevel", async () => {
-    setLogLevel("info");
-  });
 });

@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
-import type { Versions } from "../models/models.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
 export interface MonitorQueryLogsContext extends Client {
   /** The service API version. */
-  apiVersion: Versions;
+  apiVersion: string;
 }
 
 /** Optional parameters for the client. */

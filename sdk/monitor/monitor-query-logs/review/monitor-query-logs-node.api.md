@@ -51,16 +51,16 @@ export type ColumnDataType = "bool" | "datetime" | "dynamic" | "int" | "long" | 
 
 // @public
 export const Durations: {
-    sevenDays: string;
-    threeDays: string;
-    twoDays: string;
-    oneDay: string;
-    oneHour: string;
-    fourHours: string;
-    twentyFourHours: string;
-    fortyEightHours: string;
-    thirtyMinutes: string;
-    fiveMinutes: string;
+    readonly sevenDays: "P7D";
+    readonly threeDays: "P3D";
+    readonly twoDays: "P2D";
+    readonly oneDay: "P1D";
+    readonly oneHour: "PT1H";
+    readonly fourHours: "PT4H";
+    readonly twentyFourHours: "PT24H";
+    readonly fortyEightHours: "PT48H";
+    readonly thirtyMinutes: "PT30M";
+    readonly fiveMinutes: "PT5M";
 };
 
 // @public
@@ -138,15 +138,11 @@ export interface LogsQueryError extends Error {
     status: LogsQueryResultStatus.Failure;
 }
 
-// @public (undocumented)
+// @public
 export interface LogsQueryOptions extends OperationOptions {
-    // (undocumented)
     additionalWorkspaces?: string[];
-    // (undocumented)
     includeQueryStatistics?: boolean;
-    // (undocumented)
     includeVisualization?: boolean;
-    // (undocumented)
     serverTimeoutInSeconds?: number;
 }
 
@@ -227,9 +223,6 @@ export interface Table {
     name: string;
     rows: any[][];
 }
-
-// @public
-export type Versions = "v1";
 
 // (No @packageDocumentation comment for this package)
 

@@ -532,6 +532,3 @@ export function batchQueryResultsDeserializer(item: {
     error: !item["error"] ? item["error"] : errorInfoDeserializer(item["error"]),
   };
 }
-
-/** Service API versions */
-export type Versions = "v1";

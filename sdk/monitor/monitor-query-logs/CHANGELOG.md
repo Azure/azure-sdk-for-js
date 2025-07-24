@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2025-07-23)
+## 2.0.0 (2025-07-24)
 
 ### Features Added
 
@@ -9,9 +9,3 @@
 - Provides `LogsQueryClient` for querying Azure Monitor Logs using KQL (Kusto Query Language)
 - Supports querying Azure Log Analytics workspaces and resource-centric queries
 - Includes batch query capabilities for multiple queries
-
-### Breaking Changes
-
-- This is a new package split from `@azure/monitor-query`
-- Users migrating from `@azure/monitor-query` should update their import statements
-- See [MIGRATION.md](MIGRATION.md) for detailed migration guidance

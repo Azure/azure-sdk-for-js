@@ -13,7 +13,6 @@ export {
   BatchQueryRequest,
   BatchQueryResponse,
   BatchQueryResults,
-  Versions,
   QueryTimeInterval,
 } from "./models.js";
 export {

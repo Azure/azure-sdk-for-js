@@ -4,7 +4,9 @@ The Azure Monitor Query Logs client library is used to execute read-only queries
 
 - [Logs](https://learn.microsoft.com/azure/azure-monitor/logs/data-platform-logs) - Collects and organizes log and performance data from monitored resources. Data from different sources such as platform logs from Azure services, log and performance data from virtual machines agents, and usage and performance data from apps can be consolidated into a single [Azure Log Analytics workspace](https://learn.microsoft.com/azure/azure-monitor/logs/data-platform-logs#log-analytics-and-workspaces). The various data types can be analyzed together using the [Kusto Query Language][kusto_query_language].
 
-> **Note**: This package contains only the logs querying functionality split from the original `@azure/monitor-query` package. The original package is being retired. For migration guidance, see [MIGRATION.md](MIGRATION.md).
+#### Migrating from @azure/monitor-query advisory ⚠️
+
+Checkout the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/MIGRATION.md) for detailed instructions on how to update your application code from the original `@azure/monitor-query` package to the `@azure/monitor-query-logs` library.
 
 **Resources:**
 
@@ -14,7 +16,6 @@ The Azure Monitor Query Logs client library is used to execute read-only queries
 - [Service documentation][azure_monitor_overview]
 - [Samples][samples]
 - [Change log][changelog]
-- [Migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/MIGRATION.md)
 
 ## Getting started
 
@@ -183,13 +184,15 @@ const result = await logsQueryClient.queryResource(
   logsResourceId,
   kustoQuery,
   { duration: Durations.sevenDays },
-  queryLogsOptions,
+  queryLogsOptions
 );
 
 const executionTime = (result as any)?.statistics?.query?.executionTime;
 
 console.log(
-  `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
+  `Results for query '${kustoQuery}', execution time: ${
+    executionTime == null ? "unknown" : executionTime
+  }`
 );
 
 if (result.status === LogsQueryResultStatus.Success) {
@@ -327,16 +330,16 @@ for (const response of result) {
   console.log(`Results for query with query: ${queriesBatch[i]}`);
   if (response.status === LogsQueryResultStatus.Success) {
     console.log(
-      `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+      `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
     );
     processTables(response.tables);
   } else if (response.status === LogsQueryResultStatus.PartialFailure) {
     console.log(
-      `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+      `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
     );
     processTables(response.partialTables);
     console.log(
-      ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
+      ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
     );
   } else {
     console.log(`Printing errors from query '${queriesBatch[i].query}'`);
@@ -418,16 +421,16 @@ async function processBatchResult(result, queriesBatch) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
     if (response.status === LogsQueryResultStatus.Success) {
       console.log(
-        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
       );
       processTables(response.tables);
     } else if (response.status === LogsQueryResultStatus.PartialFailure) {
       console.log(
-        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
       );
       processTables(response.partialTables);
       console.log(
-        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
       );
     } else {
       console.log(`Printing errors from query '${queriesBatch[i].query}'`);
@@ -482,7 +485,7 @@ const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kqlQuery,
   { duration: Durations.twentyFourHours },
-  queryLogsOptions,
+  queryLogsOptions
 );
 
 const status = result.status;
@@ -520,7 +523,7 @@ const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kqlQuery,
   { duration: Durations.twentyFourHours },
-  queryLogsOptions,
+  queryLogsOptions
 );
 
 const status = result.status;
@@ -565,13 +568,15 @@ const result = await logsQueryClient.queryWorkspace(
   { duration: Durations.oneDay },
   {
     includeQueryStatistics: true,
-  },
+  }
 );
 
 const executionTime = (result as any)?.statistics?.query?.executionTime;
 
 console.log(
-  `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
+  `Results for query '${kustoQuery}', execution time: ${
+    executionTime == null ? "unknown" : executionTime
+  }`
 );
 ```
 
@@ -614,7 +619,7 @@ const result = await logsQueryClient.queryWorkspace(
   { duration: Durations.oneDay },
   {
     includeVisualization: true,
-  },
+  }
 );
 
 console.log("visualization result:", result.visualization);
