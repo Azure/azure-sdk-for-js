@@ -2449,6 +2449,11 @@
       "packageName": "@azure/arm-resourcesdeployments",
       "projectFolder": "sdk/resources/arm-resourcesdeployments",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/azure-widget-analytics",
+      "projectFolder": "sdk/widgetanalytics/widget-analytics-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
