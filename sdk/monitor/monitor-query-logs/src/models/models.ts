@@ -11,7 +11,9 @@ import type {
   LogsQuerySuccessfulResult,
   LogsQueryPartialResult,
 } from "./public.js";
-import { LogsQueryResultStatus } from "./public.js"; /** Converts public QueryBatch to internal InternalQueryBatch */
+import { LogsQueryResultStatus } from "./public.js";
+
+/** Converts public QueryBatch to internal InternalQueryBatch */
 export function convertQueryBatch(query: QueryBatch, id: string): InternalQueryBatch {
   const headers: Record<string, string> = {};
 
@@ -117,7 +119,6 @@ export function queryResultsDeserializer(item: {
   };
 }
 
-/** Converts QueryResults to LogsQueryResult */
 /**
  * Converts a table from the API response to LogsTable format with proper type conversion
  */
