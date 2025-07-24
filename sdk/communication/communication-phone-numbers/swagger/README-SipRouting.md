@@ -7,14 +7,14 @@
 ```yaml
 package-name: "@azure/communication-phone-numbers"
 description: Azure Communication SIP Configuration Service
-package-version: 1.5.0-beta.1
+package-version: 1.5.0-beta.2
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 source-code-folder-path: src/siprouting
 clear-output-folder: false
-tag: package-2023-03
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/communication/data-plane/SipRouting/readme.md
+tag: package-2024-11-15-preview
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/8056e0ba6bbe2f00ad0aca066236871ae5e04c23/specification/communication/data-plane/SipRouting/readme.md
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
@@ -24,6 +24,7 @@ azure-arm: false
 title: Sip Routing Client
 v3: true
 module-kind: esm
+skip-enum-validation: true
 ```
 
 ### Directive renaming "Trunk" model to "SipTrunk"
@@ -66,6 +67,16 @@ directive:
       $["x-nullable"] = true;
 ```
 
+### Directive changing "DomainPatch" as nullable
+
+```yaml
+directive:
+  - from: swagger-document
+    where: "$.definitions.DomainPatch"
+    transform: >
+      $["x-nullable"] = true;
+```
+
 ### Directive for resolving default error type as "CommunicationErrorResponse"
 
 ```yaml
@@ -81,4 +92,74 @@ directive:
       }
     }
     $.responses = newResponses;
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions[*].properties[*]["x-ms-enum"]
+  transform: >
+    if ($.modelAsString) {
+      $.modelAsString = false
+    }
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions[*].["x-ms-enum"]
+  transform: >
+    if ($.modelAsString) {
+      $.modelAsString = false
+    }
+```
+
+### Directive renaming "Domain" model to "SipDomain"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: "$.definitions.Domain"
+    transform: >
+      $["x-ms-client-name"] = "SipDomain";
+```
+
+### Directive renaming Health to TrunkHealth
+
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.Health"
+      transform: >
+          $["x-ms-client-name"] = "TrunkHealth";
+```
+
+### Directive renaming Tls to TlsHealth
+
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.Tls"
+      transform: >
+          $["x-ms-client-name"] = "TlsHealth";
+```
+
+### Directive renaming Ping to PingHealth
+
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.Ping"
+      transform: >
+          $["x-ms-client-name"] = "PingHealth";
+```
+
+### Directive renaming "inactiveStatusReason" enum to "HealthStatusReason"
+
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.OverallHealth"
+      transform: >
+          $.properties.reason["x-ms-enum"].name = "healthStatusReason";
 ```
