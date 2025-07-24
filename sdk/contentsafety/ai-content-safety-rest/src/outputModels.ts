@@ -49,6 +49,38 @@ export interface TextCategoriesAnalysisOutput {
   severity?: number;
 }
 
+/** The combined analysis results of potential direct or indirect injection attacks. */
+export interface ShieldPromptResultOutput {
+  /** Direct injection attacks analysis result for the given user prompt. */
+  userPromptAnalysis?: UserPromptInjectionAnalysisResultOutput;
+  /** Direct and indirect injection attacks analysis result for the given documents. */
+  documentsAnalysis?: Array<DocumentInjectionAnalysisResultOutput>;
+}
+
+/** The individual analysis result of potential injection attacks in the given user prompt. */
+export interface UserPromptInjectionAnalysisResultOutput {
+  /** Whether a potential injection attack is detected or not. */
+  attackDetected: boolean;
+}
+
+/** The individual analysis result of potential injection attacks in the given documents. */
+export interface DocumentInjectionAnalysisResultOutput {
+  /** Whether a potential injection attack is detected or not. */
+  attackDetected: boolean;
+}
+
+/** The combined detection results of potential protected material. */
+export interface DetectTextProtectedMaterialResultOutput {
+  /** Analysis result for the given text. */
+  protectedMaterialAnalysis: TextProtectedMaterialAnalysisResultOutput;
+}
+
+/** The individual detection result of potential protected material. */
+export interface TextProtectedMaterialAnalysisResultOutput {
+  /** Whether potential protected material is detected or not. */
+  detected: boolean;
+}
+
 /** Text Blocklist. */
 export interface TextBlocklistOutput {
   /** Text blocklist name. */
@@ -73,6 +105,8 @@ export interface TextBlocklistItemOutput {
   description?: string;
   /** BlocklistItem content. The length is counted using Unicode code point. */
   text: string;
+  /** An optional properties indicating whether this item is to be matched as a regular expression. */
+  isRegex?: boolean;
 }
 
 /** The response of adding blocklistItems to the text blocklist. */
