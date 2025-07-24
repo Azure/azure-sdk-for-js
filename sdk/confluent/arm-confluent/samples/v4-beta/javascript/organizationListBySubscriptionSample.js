@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ConfluentManagementClient } = require("@azure/arm-confluent");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to list all organizations under the specified subscription.
+ *
+ * @summary list all organizations under the specified subscription.
+ * x-ms-original-file: 2024-07-01/Organization_ListBySubscription.json
+ */
+async function organizationListBySubscription() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ConfluentManagementClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.organization.listBySubscription()) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await organizationListBySubscription();
+}
+
+main().catch(console.error);

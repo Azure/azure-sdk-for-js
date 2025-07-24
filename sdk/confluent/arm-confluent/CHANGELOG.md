@@ -1,15 +1,199 @@
 # Release History
 
-## 3.1.1 (Unreleased)
+## 4.0.0-beta.1 (2025-07-24)
+Compared with version 3.1.0
 
 ### Features Added
+  - Added operation group ClusterOperations
+  - Added operation group ConnectorOperations
+  - Added operation group EnvironmentOperations
+  - Added operation group OrganizationOperations
+  - Added operation group TopicsOperations
+  - Added Interface APIKeyProperties
+  - Added Interface AzureBlobStorageSinkConnectorServiceInfo
+  - Added Interface AzureBlobStorageSourceConnectorServiceInfo
+  - Added Interface AzureCosmosDBSinkConnectorServiceInfo
+  - Added Interface AzureCosmosDBSourceConnectorServiceInfo
+  - Added Interface AzureSynapseAnalyticsSinkConnectorServiceInfo
+  - Added Interface ClusterCreateOrUpdateOptionalParams
+  - Added Interface ClusterDeleteOptionalParams
+  - Added Interface ClusterProperties
+  - Added Interface ConfluentAgreementProperties
+  - Added Interface ConnectorCreateOrUpdateOptionalParams
+  - Added Interface ConnectorDeleteOptionalParams
+  - Added Interface ConnectorGetOptionalParams
+  - Added Interface ConnectorInfoBase
+  - Added Interface ConnectorListOptionalParams
+  - Added Interface ConnectorResource
+  - Added Interface ConnectorResourceProperties
+  - Added Interface ConnectorServiceTypeInfoBase
+  - Added Interface EnvironmentCreateOrUpdateOptionalParams
+  - Added Interface EnvironmentDeleteOptionalParams
+  - Added Interface EnvironmentProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface KafkaAzureBlobStorageSinkConnectorInfo
+  - Added Interface KafkaAzureBlobStorageSourceConnectorInfo
+  - Added Interface KafkaAzureCosmosDBSinkConnectorInfo
+  - Added Interface KafkaAzureCosmosDBSourceConnectorInfo
+  - Added Interface KafkaAzureSynapseAnalyticsSinkConnectorInfo
+  - Added Interface OrganizationCreateApiKeyOptionalParams
+  - Added Interface OrganizationResourceProperties
+  - Added Interface PageSettings
+  - Added Interface PartnerInfoBase
+  - Added Interface ProxyResource
+  - Added Interface RegionProperties
+  - Added Interface Resource
+  - Added Interface SchemaRegistryClusterProperties
+  - Added Interface StreamGovernanceConfig
+  - Added Interface TopicMetadataEntity
+  - Added Interface TopicProperties
+  - Added Interface TopicRecord
+  - Added Interface TopicsCreateOptionalParams
+  - Added Interface TopicsDeleteOptionalParams
+  - Added Interface TopicsGetOptionalParams
+  - Added Interface TopicsInputConfig
+  - Added Interface TopicsListOptionalParams
+  - Added Interface TopicsRelatedLink
+  - Added Interface TrackedResource
+  - Interface APIKeyRecord has a new optional parameter properties
+  - Interface ConfluentAgreementResource has a new optional parameter properties
+  - Interface ConfluentManagementClientOptionalParams has a new optional parameter cloudSetting
+  - Interface RegionRecord has a new optional parameter properties
+  - Interface SCClusterRecord has a new optional parameter properties
+  - Interface SCClusterRecord has a new optional parameter systemData
+  - Interface SCClusterRecord has a new optional parameter type
+  - Interface SCClusterSpecEntity has a new optional parameter package
+  - Interface SCEnvironmentRecord has a new optional parameter properties
+  - Interface SCEnvironmentRecord has a new optional parameter systemData
+  - Interface SCEnvironmentRecord has a new optional parameter type
+  - Interface SchemaRegistryClusterRecord has a new optional parameter properties
+  - Added Type Alias AuthType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ConnectorClass
+  - Added Type Alias ConnectorServiceType
+  - Added Type Alias ConnectorServiceTypeInfoBaseUnion
+  - Added Type Alias ConnectorStatus
+  - Added Type Alias ConnectorType
+  - Added Type Alias DataFormatType
+  - Added Type Alias Package
+  - Added Type Alias PartnerConnectorType
+  - Added Type Alias PartnerInfoBaseUnion
+  - Added Enum AzureClouds
+  - Added Enum KnownAuthType
+  - Added Enum KnownConnectorClass
+  - Added Enum KnownConnectorServiceType
+  - Added Enum KnownConnectorStatus
+  - Added Enum KnownConnectorType
+  - Added Enum KnownDataFormatType
+  - Added Enum KnownPackage
+  - Added Enum KnownPartnerConnectorType
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation OrganizationOperations.beginCreate
+  - Removed operation OrganizationOperations.beginCreateAndWait
+  - Removed operation OrganizationOperations.beginDelete
+  - Removed operation OrganizationOperations.beginDeleteAndWait
+  - Removed operation OrganizationOperations.createAPIKey
+  - Removed operation OrganizationOperations.deleteClusterAPIKey
+  - Removed operation OrganizationOperations.get
+  - Removed operation OrganizationOperations.getClusterAPIKey
+  - Removed operation OrganizationOperations.getClusterById
+  - Removed operation OrganizationOperations.getEnvironmentById
+  - Removed operation OrganizationOperations.getSchemaRegistryClusterById
+  - Removed operation OrganizationOperations.listByResourceGroup
+  - Removed operation OrganizationOperations.listBySubscription
+  - Removed operation OrganizationOperations.listClusters
+  - Removed operation OrganizationOperations.listEnvironments
+  - Removed operation OrganizationOperations.listRegions
+  - Removed operation OrganizationOperations.listSchemaRegistryClusters
+  - Removed operation OrganizationOperations.update
+  - Operation Validations.validateOrganization has a new signature
+  - Operation Validations.validateOrganizationV2 has a new signature
+  - Class ConfluentManagementClient has a new signature
+  - Class ConfluentManagementClient no longer has parameter $host
+  - Class ConfluentManagementClient no longer has parameter apiVersion
+  - Class ConfluentManagementClient no longer has parameter subscriptionId
+  - Removed Interface ConfluentAgreementResourceListResponse
+  - Removed Interface GetEnvironmentsResponse
+  - Removed Interface ListClustersSuccessResponse
+  - Removed Interface ListSchemaRegistryClustersResponse
+  - Removed Interface OperationListResult
+  - Removed Interface OrganizationCreateAPIKeyOptionalParams
+  - Removed Interface OrganizationResourceListResult
+  - Removed Interface SCConfluentListMetadata
+  - Interface OrganizationResource has a new required parameter properties
+  - Interface APIKeyRecord no longer has parameter metadata
+  - Interface APIKeyRecord no longer has parameter spec
+  - Interface ConfluentAgreementResource no longer has parameter accepted
+  - Interface ConfluentAgreementResource no longer has parameter licenseTextLink
+  - Interface ConfluentAgreementResource no longer has parameter plan
+  - Interface ConfluentAgreementResource no longer has parameter privacyPolicyLink
+  - Interface ConfluentAgreementResource no longer has parameter product
+  - Interface ConfluentAgreementResource no longer has parameter publisher
+  - Interface ConfluentAgreementResource no longer has parameter retrieveDatetime
+  - Interface ConfluentAgreementResource no longer has parameter signature
+  - Interface ConfluentManagementClientOptionalParams no longer has parameter $host
+  - Interface ConfluentManagementClientOptionalParams no longer has parameter endpoint
+  - Interface OrganizationCreateOptionalParams no longer has parameter resumeFrom
+  - Interface OrganizationDeleteOptionalParams no longer has parameter resumeFrom
+  - Interface OrganizationResource no longer has parameter createdTime
+  - Interface OrganizationResource no longer has parameter linkOrganization
+  - Interface OrganizationResource no longer has parameter offerDetail
+  - Interface OrganizationResource no longer has parameter organizationId
+  - Interface OrganizationResource no longer has parameter provisioningState
+  - Interface OrganizationResource no longer has parameter ssoUrl
+  - Interface OrganizationResource no longer has parameter userDetail
+  - Interface RegionRecord no longer has parameter metadata
+  - Interface RegionRecord no longer has parameter spec
+  - Interface SCClusterRecord no longer has parameter metadata
+  - Interface SCClusterRecord no longer has parameter spec
+  - Interface SCClusterRecord no longer has parameter status
+  - Interface SCEnvironmentRecord no longer has parameter metadata
+  - Interface SchemaRegistryClusterRecord no longer has parameter metadata
+  - Interface SchemaRegistryClusterRecord no longer has parameter spec
+  - Interface SchemaRegistryClusterRecord no longer has parameter status
+  - Parameter location of interface OrganizationResource is now required
+  - Removed Type Alias AccessCreateRoleBindingResponse
+  - Removed Type Alias AccessInviteUserResponse
+  - Removed Type Alias AccessListClustersResponse
+  - Removed Type Alias AccessListEnvironmentsResponse
+  - Removed Type Alias AccessListInvitationsResponse
+  - Removed Type Alias AccessListRoleBindingNameListResponse
+  - Removed Type Alias AccessListRoleBindingsResponse
+  - Removed Type Alias AccessListServiceAccountsResponse
+  - Removed Type Alias AccessListUsersResponse
+  - Removed Type Alias MarketplaceAgreementsCreateResponse
+  - Removed Type Alias MarketplaceAgreementsListNextResponse
+  - Removed Type Alias MarketplaceAgreementsListResponse
+  - Removed Type Alias OrganizationCreateAPIKeyResponse
+  - Removed Type Alias OrganizationCreateResponse
+  - Removed Type Alias OrganizationGetClusterAPIKeyResponse
+  - Removed Type Alias OrganizationGetClusterByIdResponse
+  - Removed Type Alias OrganizationGetEnvironmentByIdResponse
+  - Removed Type Alias OrganizationGetResponse
+  - Removed Type Alias OrganizationGetSchemaRegistryClusterByIdResponse
+  - Removed Type Alias OrganizationListByResourceGroupNextResponse
+  - Removed Type Alias OrganizationListByResourceGroupResponse
+  - Removed Type Alias OrganizationListBySubscriptionNextResponse
+  - Removed Type Alias OrganizationListBySubscriptionResponse
+  - Removed Type Alias OrganizationListClustersNextResponse
+  - Removed Type Alias OrganizationListClustersResponse
+  - Removed Type Alias OrganizationListEnvironmentsNextResponse
+  - Removed Type Alias OrganizationListEnvironmentsResponse
+  - Removed Type Alias OrganizationListRegionsResponse
+  - Removed Type Alias OrganizationListSchemaRegistryClustersNextResponse
+  - Removed Type Alias OrganizationListSchemaRegistryClustersResponse
+  - Removed Type Alias OrganizationOperationsListNextResponse
+  - Removed Type Alias OrganizationOperationsListResponse
+  - Removed Type Alias OrganizationUpdateResponse
+  - Removed Type Alias ValidationsValidateOrganizationResponse
+  - Removed Type Alias ValidationsValidateOrganizationV2Response
+  - Removed function getContinuationToken
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 3.1.0 (2024-03-13)
     
 ### Features Added
