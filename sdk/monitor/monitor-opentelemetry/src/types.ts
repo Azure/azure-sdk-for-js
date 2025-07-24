@@ -22,6 +22,8 @@ export interface AzureMonitorOpenTelemetryOptions {
   enableStandardMetrics?: boolean;
   /** Enable log sampling based on trace (Default true) */
   enableTraceBasedSamplingForLogs?: boolean;
+  /** Enable Performance Counter feature */
+  enablePerformanceCounters?: boolean;
   /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4) */
   instrumentationOptions?: InstrumentationOptions;
   /** Application Insights Web Instrumentation options (enabled, connectionString, src, config)*/
@@ -67,6 +69,8 @@ export interface StatsbeatFeatures {
   distro?: boolean;
   liveMetrics?: boolean;
   shim?: boolean;
+  customerStatsbeat?: boolean;
+  multiIkey?: boolean;
 }
 
 /**
@@ -80,6 +84,8 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["distro", 8],
   ["liveMetrics", 16],
   ["shim", 32],
+  ["customerStatsbeat", 64],
+  ["multiIkey", 128],
 ]);
 
 /**
@@ -145,10 +151,11 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.8.1";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.11.1";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
+export const APPLICATION_INSIGHTS_SHIM_VERSION = "APPLICATION_INSIGHTS_SHIM_VERSION";
 
 export enum AttachTypePrefix {
   INTEGRATED_AUTO = "i",
@@ -178,6 +185,13 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.moni
  */
 export const AzureMonitorSampleRate = "microsoft.sample_rate";
 
+/**
+ * Enables the preview version of customer-facing Statsbeat.
+ * @internal
+ */
+export declare const APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW =
+  "APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW";
+
 export enum StatsbeatFeature {
   NONE = 0,
   DISK_RETRY = 1,
@@ -186,6 +200,8 @@ export enum StatsbeatFeature {
   DISTRO = 8,
   LIVE_METRICS = 16,
   SHIM = 32,
+  CUSTOMER_STATSBEAT = 64,
+  MULTI_IKEY = 128,
 }
 
 export enum StatsbeatInstrumentation {

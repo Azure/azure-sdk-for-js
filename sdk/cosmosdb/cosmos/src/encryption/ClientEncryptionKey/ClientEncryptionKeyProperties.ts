@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionKeyWrapMetadata } from "../EncryptionKeyWrapMetadata";
+import type { EncryptionKeyWrapMetadata } from "../EncryptionKeyWrapMetadata.js";
 
 /**
  * Details of a client encryption key for use with the Azure Cosmos DB service.
@@ -18,7 +18,7 @@ export interface ClientEncryptionKeyProperties {
   /**
    * Wrapped (encrypted) form of the client encryption key.
    */
-  wrappedDataEncryptionKey: Buffer;
+  wrappedDataEncryptionKey: Uint8Array;
   /**
    * Metadata used to wrap/unwrap client encryption key using customer managed key.
    */

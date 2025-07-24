@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the specified Azure key vault.
  *
  * @summary Gets the specified Azure key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/getVault.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/getVault.json
  */
 async function retrieveAVault(): Promise<void> {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function retrieveAVault(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  retrieveAVault();
+  await retrieveAVault();
 }
 
 main().catch(console.error);

@@ -1,6 +1,6 @@
 # Release History
 
-## 3.1.1 (Unreleased)
+## 3.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,23 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.3.0 (2025-07-10)
+
+### Other Changes
+
+- Update `engines` to `"node": ">=20.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
+## 3.2.0 (2025-04-07)
+
+### Features Added
+
+- Supports a `baseUrl` option that can be used to rewrite the polling URL to use that base URL instead. This makes sure that polling works for operations that live behind proxies or API gateways.
+- Added `skipFinalGet` option to skip the final GET request when polling is complete, optimizing scenarios where the final resource state is not needed. [#33286](https://github.com/Azure/azure-sdk-for-js/pull/33286)
+
+### Other Changes
+
+- Logs the status in the polling response before it is being transformed.
 
 ## 3.1.0 (2024-09-12)
 

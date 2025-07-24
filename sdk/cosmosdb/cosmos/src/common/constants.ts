@@ -61,6 +61,7 @@ export const Constants = {
     Location: "Location",
     Referer: "referer",
     A_IM: "A-IM",
+    PreferReturnMinimal: "return=minimal",
 
     // Query
     Query: "x-ms-documentdb-query",
@@ -182,8 +183,9 @@ export const Constants = {
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
 
-    // Priority Based throttling header
+    // Throughput related headers
     PriorityLevel: "x-ms-cosmos-priority-level",
+    ThroughputBucket: "x-ms-cosmos-throughput-bucket",
 
     // Encryption Headers
     IsClientEncryptedHeader: "x-ms-cosmos-is-client-encrypted",
@@ -196,13 +198,15 @@ export const Constants = {
   ThrottledRequestMaxWaitTimeInSeconds: 30,
   ThrottledRequestFixedRetryIntervalInMs: 0,
 
-  // HttpHeaders Values
-  PREFER_RETURN_MINIMAL: "return=minimal",
-
   // GlobalDB related constants
   WritableLocations: "writableLocations",
   ReadableLocations: "readableLocations",
   LocationUnavailableExpirationTimeInMs: 5 * 60 * 1000, // 5 minutes
+  StalePartitionUnavailabilityRefreshIntervalInMs: 1 * 60 * 1000, // 1 minute
+  AllowedPartitionUnavailabilityDurationInMs: 5 * 60 * 1000, // 5 minutes
+  ReadRequestFailureCountThreshold: 10,
+  WriteRequestFailureCountThreshold: 5,
+  ConsecutiveFailureCountResetIntervalInMS: 1000 * 60 * 1, // 1 minute
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
@@ -219,13 +223,15 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.2.1",
+  SDKVersion: "4.5.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
 
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,
+  MaxBulkOperationsCount: 100,
+  BulkMaxDegreeOfConcurrency: 20,
 
   // Encryption
   Encryption: {
@@ -291,10 +297,12 @@ export const Constants = {
   // Changefeed AllVersionsAndDeletesMode formatting version
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
-  // Default TTL for encryption caches in hours
-  DefaultEncryptionCacheTimeToLiveInHours: 2,
+  // Default TTL for encryption caches is 2 hrs (7200 sec)
+  DefaultEncryptionCacheTimeToLiveInSeconds: 7200,
   // Timeout to clear encryption related cache
   EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
+
+  RequestTimeoutForReadsInMs: 2000, // 2 seconds
 };
 
 /**
@@ -525,8 +533,26 @@ export enum QueryFeature {
   ListAndSetAggregate = "ListAndSetAggregate",
   CountIf = "CountIf",
   HybridSearch = "HybridSearch",
+  WeightedRankFusion = "WeightedRankFusion",
+  HybridSearchSkipOrderByRewrite = "HybridSearchSkipOrderByRewrite",
 }
 
 export enum SDKSupportedCapabilities {
   PartitionMerge = 1,
+}
+
+/**
+ * @hidden
+ */
+export enum PartitionAvailablilityStatus {
+  Available,
+  Unavailable,
+}
+
+/**
+ * @hidden
+ */
+export enum UserAgentFeatureFlags {
+  PerPartitionAutomaticFailover = 1,
+  PerPartitionCircuitBreaker = 2,
 }

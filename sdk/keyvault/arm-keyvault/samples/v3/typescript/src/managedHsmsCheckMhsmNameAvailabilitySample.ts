@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckMhsmNameAvailabilityParameters,
-  KeyVaultManagementClient
+  KeyVaultManagementClient,
 } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Checks that the managed hsm name is valid and is not already in use.
  *
  * @summary Checks that the managed hsm name is valid and is not already in use.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_checkMhsmNameAvailability.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_checkMhsmNameAvailability.json
  */
 async function validateAManagedHsmName(): Promise<void> {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function validateAManagedHsmName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  validateAManagedHsmName();
+  await validateAManagedHsmName();
 }
 
 main().catch(console.error);

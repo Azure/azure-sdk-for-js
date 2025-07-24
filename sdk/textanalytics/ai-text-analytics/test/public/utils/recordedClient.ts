@@ -2,21 +2,14 @@
 // Licensed under the MIT License.
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
-import { Recorder, assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
-
+import { Recorder } from "@azure-tools/test-recorder";
 import type { TextAnalyticsClientOptions } from "../../../src/index.js";
 import { AzureKeyCredential, TextAnalyticsClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-
-const envSetupForPlayback: { [k: string]: string } = {
-  LANGUAGE_API_KEY: "api_key",
-  // Second API key
-  LANGUAGE_API_KEY_ALT: "api_key_alt",
-  ENDPOINT: "https://endpoint",
-};
+import { getEndpoint, getKey, isLiveMode, isLocalAuthDisabled } from "../../utils/injectables.js";
 
 const recorderStartOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+  envSetupForPlayback: {},
   removeCentralSanitizers: [
     "AZSDK2015",
     "AZSDK2021",
@@ -33,18 +26,17 @@ export function createClient(options: {
   authMethod: AuthMethod;
   recorder?: Recorder;
   clientOptions?: TextAnalyticsClientOptions;
-}): TextAnalyticsClient {
+}): TextAnalyticsClient | undefined {
   const { authMethod, recorder, clientOptions = {} } = options;
-  const endpoint = env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/";
+  const endpoint = getEndpoint();
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
     case "APIKey": {
-      return new TextAnalyticsClient(
-        endpoint,
-        new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
-        updatedOptions,
-      );
+      if (isLocalAuthDisabled() && isLiveMode()) {
+        return undefined;
+      }
+      return new TextAnalyticsClient(endpoint, new AzureKeyCredential(getKey()), updatedOptions);
     }
     case "AAD": {
       return new TextAnalyticsClient(endpoint, createTestCredential(), updatedOptions);

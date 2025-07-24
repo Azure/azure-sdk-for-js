@@ -19,17 +19,17 @@ import {
 export interface MigrationRecoveryPoints {
   /**
    * Gets the recovery points for a migration item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric unique name.
    * @param protectionContainerName Protection container name.
    * @param migrationItemName Migration item name.
    * @param options The options parameters.
    */
   listByReplicationMigrationItems(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
@@ -37,9 +37,9 @@ export interface MigrationRecoveryPoints {
   ): PagedAsyncIterableIterator<MigrationRecoveryPoint>;
   /**
    * Gets a recovery point for a migration item.
-   * @param resourceName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    *                          present.
+   * @param resourceName The name of the recovery services vault.
    * @param fabricName Fabric unique name.
    * @param protectionContainerName Protection container name.
    * @param migrationItemName Migration item name.
@@ -47,8 +47,8 @@ export interface MigrationRecoveryPoints {
    * @param options The options parameters.
    */
   get(
-    resourceName: string,
     resourceGroupName: string,
+    resourceName: string,
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,

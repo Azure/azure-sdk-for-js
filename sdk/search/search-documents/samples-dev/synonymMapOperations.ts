@@ -29,7 +29,7 @@ async function getAndUpdateSynonymMap(
   console.log(`Get And Update SynonymMap Operation`);
   const sm: SynonymMap = await client.getSynonymMap(synonymMapName);
   console.log(`Update synonyms Synonym Map my-synonymmap`);
-  await sm.synonyms.push("Florida, Fld. => FL");
+  sm.synonyms.push("Florida, Fld. => FL");
   await client.createOrUpdateSynonymMap(sm);
 }
 

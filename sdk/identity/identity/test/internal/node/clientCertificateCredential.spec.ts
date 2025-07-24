@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as path from "node:path";
+import path from "node:path";
 
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
@@ -156,6 +156,16 @@ describe("ClientCertificateCredential (internal)", function () {
         false,
       );
       assert.isUndefined(result.x5c);
+    });
+
+    it("returns thumbprint SHA-256", async function () {
+      const result = await parseCertificate(
+        {
+          certificatePath,
+        },
+        false,
+      );
+      assert.isNotEmpty(result.thumbprintSha256);
     });
   });
 });

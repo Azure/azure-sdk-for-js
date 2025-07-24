@@ -46,7 +46,7 @@ describe("Compute test", () => {
   let interface_name: string;
   let virtual_machine_name: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
@@ -54,8 +54,8 @@ describe("Compute test", () => {
     const credential = createTestCredential();
     client = new ComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2euap";
-    resourceGroupName = "czwjstest";
+    location = "eastus2";
+    resourceGroupName = "myjstest";
     availabilitySetName = "availabilitySets123";
     network_name = "networknamexx1";
     subnet_name = "subnetnamexx1";
@@ -63,12 +63,12 @@ describe("Compute test", () => {
     virtual_machine_name = "virtualmachinex1";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   //network_client.virtualNetworks.createOrUpdate
-  async function createVirtualNetwork() {
+  async function createVirtualNetwork(): Promise<void> {
     const parameter: VirtualNetwork = {
       location: location,
       addressSpace: {
@@ -99,7 +99,7 @@ describe("Compute test", () => {
     group_name: any,
     location: any,
     nic_name: any
-  ) {
+  ): Promise<void> {
     const parameter: NetworkInterface = {
       location: location,
       ipConfigurations: [

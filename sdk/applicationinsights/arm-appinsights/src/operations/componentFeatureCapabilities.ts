@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters.js";
 import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient.js";
 import {
   ComponentFeatureCapabilitiesGetOptionalParams,
-  ComponentFeatureCapabilitiesGetResponse
+  ComponentFeatureCapabilitiesGetResponse,
 } from "../models/index.js";
 
 /** Class containing ComponentFeatureCapabilities operations. */
 export class ComponentFeatureCapabilitiesImpl
-  implements ComponentFeatureCapabilities {
+  implements ComponentFeatureCapabilities
+{
   private readonly client: ApplicationInsightsManagementClient;
 
   /**
@@ -38,11 +39,11 @@ export class ComponentFeatureCapabilitiesImpl
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentFeatureCapabilitiesGetOptionalParams
+    options?: ComponentFeatureCapabilitiesGetOptionalParams,
   ): Promise<ComponentFeatureCapabilitiesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -50,21 +51,20 @@ export class ComponentFeatureCapabilitiesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/featurecapabilities",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/featurecapabilities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentFeatureCapabilities
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentFeatureCapabilities,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomBytes } from "crypto";
-import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryptionKey";
-import type { KeyEncryptionKey } from "../KeyEncryptionKey";
-import { Constants } from "../../common";
+import { randomBytes } from "node:crypto";
+import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryptionKey.js";
+import type { KeyEncryptionKey } from "../KeyEncryptionKey.js";
+import { Constants } from "../../common/index.js";
+import { startBackgroundTask } from "../../utils/time.js";
 
 /**
  * The cache used to store the protected data encryption key.
@@ -37,7 +38,7 @@ export class ProtectedDataEncryptionKeyCache {
   }
 
   private async clearCacheOnTtlExpiry(): Promise<void> {
-    this.cacheRefresher = setInterval(() => {
+    this.cacheRefresher = startBackgroundTask(async () => {
       const now = new Date();
       for (const key of this.cache.keys()) {
         if (now.getTime() - this.cache.get(key)[0].getTime() > this.cacheTimeToLive) {
@@ -77,25 +78,27 @@ export class ProtectedDataEncryptionKeyCache {
   public async getOrCreate(
     name: string,
     keyEncryptionKey: KeyEncryptionKey,
-    encryptedValue?: Buffer,
+    encryptedValue?: Uint8Array,
     forceRefresh?: boolean,
   ): Promise<ProtectedDataEncryptionKey> {
+    const encryptedValueBuffer = encryptedValue ? Buffer.from(encryptedValue) : undefined;
     if (this.cacheTimeToLive === 0 || forceRefresh) {
-      return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
+      return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValueBuffer);
     }
-    if (encryptedValue) {
+
+    if (encryptedValueBuffer) {
       const key = JSON.stringify([
         name,
         keyEncryptionKey.name,
         keyEncryptionKey.path,
-        encryptedValue.toString("hex"),
+        encryptedValueBuffer.toString("hex"),
       ]);
       const protectedDataEncryptionKey = this.get(key);
       if (protectedDataEncryptionKey) {
         return protectedDataEncryptionKey;
       }
     }
-    return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
+    return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValueBuffer);
   }
 
   private generateColumnEncryptionKey(): Buffer {

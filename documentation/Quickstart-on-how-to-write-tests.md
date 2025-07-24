@@ -52,7 +52,7 @@ To be able to leverage the asset-sync workflow
 
 # How to run test
 
-This section describes how to run the SDK tests. If you want to run the tests of a specific project, go to that project's folder and execute `rushx test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `rushx test:node` and `rushx test:browser`. Let's take `purview-catalog-rest` as an example.
+This section describes how to run the SDK tests. If you want to run the tests of a specific project, go to that project's folder and execute `rushx test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `rushx test:node` and `rushx test:browser`. Let's take `purview-scanning-rest` as an example.
 
 If you have no concepts of `recording`, `playback` or [TEST_MODE](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#test_mode) we'll highly recommand you to read this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#key-concepts). We'll touch upon these concepts in below content.
 
@@ -71,7 +71,7 @@ _Note: the structure of the `test` folder has slight differences between high-le
 ```
 sdk/
 ├─ purview/
-│  ├─ purview-catalog-rest/
+│  ├─ purview-scanning-rest/
 │  │  ├─ src/
 │  │  │  ├─ ...
 │  │  ├─ recordings/
@@ -90,14 +90,14 @@ Before running tests, it's advised to update the dependencises and build our pro
 
 ```Shell
 > rush update
-> rush build -t @azure-rest/purview-catalog
+> rush build -t @azure-rest/purview-scanning
 ```
 
 Then, we could go to the project folder to run the tests. By default, if you don't specify `TEST_MODE`, it will run previously recorded tests.
 
 ```Shell
-> cd sdk/purview/purview-catalog-rest
-sdk/purview/purview-catalog-rest> rushx test
+> cd sdk/purview/purview-scanning-rest
+sdk/purview/purview-scanning-rest> rushx test
 ```
 
 If you are the first time to run tests you may fail with below message because there is no any recordings found.
@@ -124,7 +124,7 @@ To record or update our recordings, we need to set the environment variable `TES
 > rushx test
 ```
 
-This time we could get following similar logs. Go to the folder `purview-catalog-rest/recordings` to view recording files.
+This time we could get following similar logs. Go to the folder `purview-scanning-rest/recordings` to view recording files.
 
 ```
 [test-info] ===TEST_MODE="record"===
@@ -302,14 +302,14 @@ API key authentication would hit the service's endpoint directly so these traffi
 
 At the code structure [section](#code-structure), we described we'll generate sample file for you. If you are the first time to write test cases, you could grow up your own based on them.
 
-This simple test creates a resource and checks that the service handles it correctly in the project `purview-catalog-rest`. Below are the steps:
+This simple test creates a resource and checks that the service handles it correctly in the project `purview-scanning-rest`. Below are the steps:
 
 - Step 1: Create your test file and add one test case with resource creation, here we have purview catalog glossary test file `glossary.spec.ts` and one case named `Should create a glossary`. Or rename the `sampleTest.spec.ts` file and its case `sample test`.
 - Step 2: Add the utility method `createClient` in `public/utils/recordedClient.ts` to share the `PurviewCatalogClient` creation.
-  - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md#aad-and-the-new-noopcredential) for more details.
+  - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#azure-toolstest-credential-package-and-the-noopcredential) for more details.
   - Wrap the `option` with test options by calling `recorder.configureClientOptions(options)`.
 - Step 3: In `glossary.spec.ts` file, call `createClient` to prepare the client and call `client.path("/atlas/v2/glossary").post()` to create our glossary resource under our case `Should create a glossary`.
-- Step 4[Optional]: Specify environment variables that would be faked in the recordings in map `envSetupForPlayback` under the file `public/utils/recordedClient.ts`.
+- Step 4: Specify environment variables that would be faked in the recordings in map `envSetupForPlayback` under the file `public/utils/recordedClient.ts`.
 - Step 5: In `glossary.spec.ts` file, add necessary assertions in your test case.
 - Step 6: Run and record your test cases.
 
@@ -412,7 +412,7 @@ Next, we'll take the package `@azure/arm-monitor` as an example to guide you how
 - Step 2: Add declarations for common variables e.g monitor client, its diagnostic name and subscription id.
 - Step 3: Create the monitor client in `beforeEach` and call `client.diagnosticSettings.createOrUpdate` in test case.
   - Read the `subscriptionId` from `env`.
-  - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md#aad-and-the-new-noopcredential) for more details.
+  - Call `createTestCredential` to init your credential and refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#azure-toolstest-credential-package-and-the-noopcredential) for more details.
   - Wrap the `option` with test options by calling `recorder.configureClientOptions(options)`.
 - Step 4[Optional]: Specify environment variables that would be faked in the recordings in map `envSetupForPlayback`.
 - Step 5: Add necessary assertions in your test case.

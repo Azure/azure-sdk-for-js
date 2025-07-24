@@ -9,17 +9,14 @@
 
 import {AzureKeyCredential} from "@azure/core-auth";
 
-import * as dotenv from "dotenv";
-import * as fs from 'fs';
+import "dotenv/config";
+import * as fs from 'node:fs';
 import ClinicalMatchingRestClient, {
   CreateJobParameters,
   getLongRunningPoller,
   isUnexpected,
   TrialMatcherResultOutput
-} from "../src";
-
-dotenv.config();
-
+} from "../src/index.js";
 // You will need to set this environment variables or edit the following values
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
@@ -139,7 +136,7 @@ function createRequestBody(): CreateJobParameters {
   };
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new AzureKeyCredential(apiKey);
   const client = ClinicalMatchingRestClient(endpoint, credential);
 

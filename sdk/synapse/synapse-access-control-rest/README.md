@@ -23,23 +23,20 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ## Examples
 
-```ts
-import AccessControl, { paginate } from "@azure-rest/synapse-access-control";
+```ts snippet:ReadmeSampleCreateClient_Node
+import AccessControl, { isUnexpected, paginate } from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential } from "@azure/identity";
 
-export async function main(): Promise<void> {
-  const client = AccessControl("<endpoint>", new DefaultAzureCredential());
-  const initialResponse = await client.path("/roleAssignments").get();
+const client = AccessControl("<endpoint>", new DefaultAzureCredential());
 
-  if (initialResponse.status !== "200") {
-    throw initialResponse.body.error;
-  }
+const initialResponse = await client.path("/roleAssignments").get();
+if (isUnexpected(initialResponse)) {
+  throw initialResponse.body.error;
+}
 
-  const assignments = paginate(client, initialResponse);
-
-  for await (const assignment of assignments) {
-    console.log(assignment.id);
-  }
+const assignments = paginate(client, initialResponse);
+for await (const assignment of assignments) {
+  console.log(`Role Assignment ID: ${assignment.id}`);
 }
 ```
 
@@ -51,7 +48,7 @@ export async function main(): Promise<void> {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -64,8 +61,6 @@ In the future, you'll find additional code samples here.
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-
 
 [synapse_product_documentation]: https://learn.microsoft.com/rest/api/synapse/data-plane/role-assignments/create-role-assignment
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md

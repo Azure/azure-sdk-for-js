@@ -3,72 +3,37 @@
 
 import type { CallConnection } from "../callConnection.js";
 import type { CallConnectionProperties, CallParticipant } from "./models.js";
-import type { RecordingState } from "../generated/src/index.js";
-import type {
-  AddParticipantEventResult,
-  AnswerCallEventResult,
-  CancelAllMediaOperationsEventResult,
-  CreateCallEventResult,
-  PlayEventResult,
-  RemoveParticipantEventResult,
-  SendDtmfEventResult,
-  StartRecognizingEventResult,
-  TransferCallToParticipantEventResult,
-  CancelAddParticipantEventResult,
-  ConnectCallEventResult,
-} from "../eventprocessor/eventResponses.js";
-import type { AbortSignalLike } from "@azure/abort-controller";
+import type { RecordingState, RecordingKind } from "../generated/src/index.js";
+
+/**
+ * The interface used as parent of [action]CallResult
+ */
+export interface CallResult {
+  /*
+   * The callConnectionProperties
+   */
+  callConnectionProperties: CallConnectionProperties;
+
+  /*
+   * The callConnection
+   */
+  callConnection: CallConnection;
+}
 
 /**
  * CreateCall result
  */
-export interface CreateCallResult {
-  /** The callConnectionProperties */
-  callConnectionProperties: CallConnectionProperties;
-
-  /** The callConnection */
-  callConnection: CallConnection;
-
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<CreateCallEventResult>;
-}
+export type CreateCallResult = CallResult;
 
 /**
  * AnswerCall result
  */
-export interface AnswerCallResult {
-  /** The callConnectionProperties */
-  callConnectionProperties: CallConnectionProperties;
-
-  /** The callConnection */
-  callConnection: CallConnection;
-
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<AnswerCallEventResult>;
-}
+export type AnswerCallResult = CallResult;
 
 /**
  * ConnectCall result
  */
-export interface ConnectCallResult {
-  /** The callConnectionProperties */
-  callConnectionProperties: CallConnectionProperties;
-
-  /** The callConnection */
-  callConnection: CallConnection;
-
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<ConnectCallEventResult>;
-}
+export type ConnectCallResult = CallResult;
 
 /** The response payload for getting participants of the call. */
 export interface ListParticipantsResult {
@@ -86,33 +51,18 @@ export interface AddParticipantResult {
   participant?: CallParticipant;
   /** The operation context provided by client. */
   operationContext?: string;
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<AddParticipantEventResult>;
 }
 
 /** The response payload for transferring the call. */
 export interface TransferCallResult {
   /** The operation context provided by client. */
   operationContext?: string;
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<TransferCallToParticipantEventResult>;
 }
 
 /** The response payload for removing participants from the call. */
 export interface RemoveParticipantResult {
   /** The operation context provided by client. */
   operationContext?: string;
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<RemoveParticipantEventResult>;
 }
 
 /** The response payload for muting participant from the call. */
@@ -124,46 +74,14 @@ export interface MuteParticipantResult {
 /** The response payload for starting a call recording or getting call recording state. */
 export interface RecordingStateResult {
   recordingId: string;
-  recordingKind: string;
+  recordingKind: RecordingKind;
   recordingState: RecordingState;
-}
-
-/** The response payload for starting a call recording or getting call recording state. */
-export interface CancelAllMediaOperationsResult {
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<CancelAllMediaOperationsEventResult>;
-}
-
-/** The response from play. */
-export interface PlayResult {
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<PlayEventResult>;
 }
 
 /** The response payload for sending DTMF tones. */
 export interface SendDtmfTonesResult {
   /** The operation context provided by client. */
   operationContext?: string;
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<SendDtmfEventResult>;
-}
-
-/** The response from recognizing. */
-export interface StartRecognizingResult {
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<StartRecognizingEventResult>;
 }
 
 /** The response payload for cancelling add participant request. */
@@ -172,9 +90,4 @@ export interface CancelAddParticipantOperationResult {
   invitationId?: string;
   /** The operation context provided by client. */
   operationContext?: string;
-  /** Waiting for event processor to process the event */
-  waitForEventProcessor(
-    abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
-  ): Promise<CancelAddParticipantEventResult>;
 }

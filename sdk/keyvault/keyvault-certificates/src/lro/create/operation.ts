@@ -11,10 +11,10 @@ import type {
   GetPlainCertificateOperationOptions,
   CancelCertificateOperationOptions,
 } from "../../certificatesModels.js";
-import type { CertificateOperation } from "../../generated/models/index.js";
+import type { CertificateOperation } from "../../generated/src/models/index.js";
 import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";
 import { KeyVaultCertificatePollOperation } from "../keyVaultCertificatePoller.js";
-import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import type { KeyVaultClient } from "../../generated/src/keyVaultClient.js";
 import {
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle,
@@ -84,6 +84,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
             certificatePolicy: corePolicy,
             certificateAttributes,
             tags: updatedOptions.tags,
+            preserveCertOrder: updatedOptions.preserveCertificateOrder,
           },
           updatedOptions,
         );

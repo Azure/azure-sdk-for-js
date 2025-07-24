@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   StorageAccountsGetPropertiesOptionalParams,
   StorageManagementClient,
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetAsyncSkuConversionStatus.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetAsyncSkuConversionStatus.json
  */
 async function storageAccountGetAsyncSkuConversionStatus(): Promise<void> {
   const subscriptionId =
@@ -39,7 +37,7 @@ async function storageAccountGetAsyncSkuConversionStatus(): Promise<void> {
  * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetProperties.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetProperties.json
  */
 async function storageAccountGetProperties(): Promise<void> {
   const subscriptionId =
@@ -59,7 +57,7 @@ async function storageAccountGetProperties(): Promise<void> {
  * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetPropertiesCMKEnabled.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetPropertiesCMKEnabled.json
  */
 async function storageAccountGetPropertiesCmkEnabled(): Promise<void> {
   const subscriptionId =
@@ -79,7 +77,7 @@ async function storageAccountGetPropertiesCmkEnabled(): Promise<void> {
  * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetPropertiesCMKVersionExpirationTime.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetPropertiesCMKVersionExpirationTime.json
  */
 async function storageAccountGetPropertiesCmkVersionExpirationTime(): Promise<void> {
   const subscriptionId =
@@ -99,7 +97,7 @@ async function storageAccountGetPropertiesCmkVersionExpirationTime(): Promise<vo
  * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetPropertiesGeoReplicationStatscanFailoverFalse.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetPropertiesGeoReplicationStatscanFailoverFalse.json
  */
 async function storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse(): Promise<void> {
   const subscriptionId =
@@ -122,7 +120,7 @@ async function storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse():
  * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  *
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetPropertiesGeoReplicationStatscanFailoverTrue.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountGetPropertiesGeoReplicationStatscanFailoverTrue.json
  */
 async function storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue(): Promise<void> {
   const subscriptionId =
@@ -142,12 +140,12 @@ async function storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue(): 
 }
 
 async function main(): Promise<void> {
-  storageAccountGetAsyncSkuConversionStatus();
-  storageAccountGetProperties();
-  storageAccountGetPropertiesCmkEnabled();
-  storageAccountGetPropertiesCmkVersionExpirationTime();
-  storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse();
-  storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue();
+  await storageAccountGetAsyncSkuConversionStatus();
+  await storageAccountGetProperties();
+  await storageAccountGetPropertiesCmkEnabled();
+  await storageAccountGetPropertiesCmkVersionExpirationTime();
+  await storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse();
+  await storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue();
 }
 
 main().catch(console.error);

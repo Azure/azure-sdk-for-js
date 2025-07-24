@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KeyVaultManagementClient } = require("@azure/arm-keyvault");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Checks that the managed hsm name is valid and is not already in use.
  *
  * @summary Checks that the managed hsm name is valid and is not already in use.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_checkMhsmNameAvailability.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_checkMhsmNameAvailability.json
  */
 async function validateAManagedHsmName() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function validateAManagedHsmName() {
 }
 
 async function main() {
-  validateAManagedHsmName();
+  await validateAManagedHsmName();
 }
 
 main().catch(console.error);

@@ -18,12 +18,13 @@ import {
   ProactiveDetectionConfigurationsGetResponse,
   ApplicationInsightsComponentProactiveDetectionConfiguration,
   ProactiveDetectionConfigurationsUpdateOptionalParams,
-  ProactiveDetectionConfigurationsUpdateResponse
+  ProactiveDetectionConfigurationsUpdateResponse,
 } from "../models/index.js";
 
 /** Class containing ProactiveDetectionConfigurations operations. */
 export class ProactiveDetectionConfigurationsImpl
-  implements ProactiveDetectionConfigurations {
+  implements ProactiveDetectionConfigurations
+{
   private readonly client: ApplicationInsightsManagementClient;
 
   /**
@@ -43,11 +44,11 @@ export class ProactiveDetectionConfigurationsImpl
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: ProactiveDetectionConfigurationsListOptionalParams
+    options?: ProactiveDetectionConfigurationsListOptionalParams,
   ): Promise<ProactiveDetectionConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -63,11 +64,11 @@ export class ProactiveDetectionConfigurationsImpl
     resourceGroupName: string,
     resourceName: string,
     configurationId: string,
-    options?: ProactiveDetectionConfigurationsGetOptionalParams
+    options?: ProactiveDetectionConfigurationsGetOptionalParams,
   ): Promise<ProactiveDetectionConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, configurationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -86,7 +87,7 @@ export class ProactiveDetectionConfigurationsImpl
     resourceName: string,
     configurationId: string,
     proactiveDetectionProperties: ApplicationInsightsComponentProactiveDetectionConfiguration,
-    options?: ProactiveDetectionConfigurationsUpdateOptionalParams
+    options?: ProactiveDetectionConfigurationsUpdateOptionalParams,
   ): Promise<ProactiveDetectionConfigurationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -94,9 +95,9 @@ export class ProactiveDetectionConfigurationsImpl
         resourceName,
         configurationId,
         proactiveDetectionProperties,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -104,8 +105,7 @@ export class ProactiveDetectionConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ProactiveDetectionConfigs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ProactiveDetectionConfigs",
   httpMethod: "GET",
   responses: {
     200: {
@@ -116,64 +116,62 @@ const listOperationSpec: coreClient.OperationSpec = {
             type: {
               name: "Composite",
               className:
-                "ApplicationInsightsComponentProactiveDetectionConfiguration"
-            }
-          }
-        }
-      }
-    }
+                "ApplicationInsightsComponentProactiveDetectionConfiguration",
+            },
+          },
+        },
+      },
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ProactiveDetectionConfigs/{ConfigurationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ProactiveDetectionConfigs/{ConfigurationId}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper:
-        Mappers.ApplicationInsightsComponentProactiveDetectionConfiguration
-    }
+        Mappers.ApplicationInsightsComponentProactiveDetectionConfiguration,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configurationId
+    Parameters.configurationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ProactiveDetectionConfigs/{ConfigurationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/ProactiveDetectionConfigs/{ConfigurationId}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper:
-        Mappers.ApplicationInsightsComponentProactiveDetectionConfiguration
-    }
+        Mappers.ApplicationInsightsComponentProactiveDetectionConfiguration,
+    },
   },
   requestBody: Parameters.proactiveDetectionProperties,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.configurationId
+    Parameters.configurationId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

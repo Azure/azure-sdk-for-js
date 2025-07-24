@@ -19,7 +19,7 @@ async function organizationsGetMaximumSet() {
 }
 
 async function main() {
-  organizationsGetMaximumSet();
+  await organizationsGetMaximumSet();
 }
 
 main().catch(console.error);

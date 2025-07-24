@@ -9,14 +9,14 @@
  * @summary creates a poller using the serialized state of another
  */
 
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-language-text");
+const { TextAnalysisClient } = require("@azure/ai-language-text");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
-const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
+const endpoint = process.env["LANGUAGE_ENDPOINT"] || "<cognitive language service endpoint>";
 
 const documents = [
   "Patient does not suffer from high blood pressure.",
@@ -26,7 +26,7 @@ const documents = [
 async function main() {
   console.log("== Rehydrated Polling Sample ==");
 
-  const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
 
   const poller = await client.beginAnalyzeBatch(
     [
@@ -44,12 +44,12 @@ async function main() {
       },
     ],
     documents,
-    "en"
+    "en",
   );
 
   poller.onProgress(() => {
     console.log(
-      `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`
+      `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
     );
   });
 

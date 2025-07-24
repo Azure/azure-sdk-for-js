@@ -8,6 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ArchivesImpl,
@@ -28,7 +33,7 @@ import {
   AgentPoolsImpl,
   RunsImpl,
   TaskRunsImpl,
-  TasksImpl
+  TasksImpl,
 } from "./operations/index.js";
 import {
   Archives,
@@ -49,12 +54,13 @@ import {
   AgentPools,
   Runs,
   TaskRuns,
-  Tasks
+  Tasks,
 } from "./operationsInterfaces/index.js";
 import { ContainerRegistryManagementClientOptionalParams } from "./models/index.js";
 
 export class ContainerRegistryManagementClient extends coreClient.ServiceClient {
   $host: string;
+  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -66,7 +72,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ContainerRegistryManagementClientOptionalParams
+    options?: ContainerRegistryManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -81,10 +87,10 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     }
     const defaults: ContainerRegistryManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerregistry/11.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-containerregistry/11.0.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -94,20 +100,21 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -117,7 +124,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -127,9 +134,9 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -137,6 +144,7 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2025-03-01-preview";
     this.archives = new ArchivesImpl(this);
     this.archiveVersions = new ArchiveVersionsImpl(this);
     this.cacheRules = new CacheRulesImpl(this);
@@ -156,6 +164,35 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     this.runs = new RunsImpl(this);
     this.taskRuns = new TaskRunsImpl(this);
     this.tasks = new TasksImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      },
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   archives: Archives;

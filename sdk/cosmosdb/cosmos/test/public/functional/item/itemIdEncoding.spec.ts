@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import assert from "assert";
-import type { Suite } from "mocha";
-import type { Container, CosmosClient } from "../../../../src";
+
+import type { Container, CosmosClient } from "../../../../src/index.js";
+import { skipTestForSignOff } from "../../common/_testConfig.js";
 import {
   getTestContainer,
   removeAllDatabases,
   getDefaultClient,
   getDefaultComputeGatewayClient,
-} from "../../common/TestHelpers";
+} from "../../common/TestHelpers.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
 interface ItemPayload {
   id?: string;
@@ -35,7 +36,7 @@ const createPayload = function (id: string): ItemPayload {
 const executeTestCase = async function (
   scenario: TestScenario,
   useComputeGateway: boolean = false,
-) {
+): Promise<void> {
   const client: CosmosClient = useComputeGateway
     ? getDefaultComputeGatewayClient()
     : getDefaultClient();
@@ -115,17 +116,16 @@ const executeTestCase = async function (
   }
 };
 
-const executeTestCaseOnComputeGateway = async function (scenario: TestScenario) {
+const executeTestCaseOnComputeGateway = async function (scenario: TestScenario): Promise<void> {
   return executeTestCase(scenario, true);
 };
 
-describe("Id encoding", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function () {
+describe("Id encoding", { timeout: 10000 }, () => {
+  beforeEach(async () => {
     await removeAllDatabases();
   });
 
-  it("RGW_plainVanillaId", async function () {
+  it("RGW_plainVanillaId", async () => {
     const scenario: TestScenario = {
       name: "RGW_PlainVanillaId",
       id: "Test",
@@ -138,20 +138,24 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_plainVanillaId", async function () {
-    const scenario: TestScenario = {
-      name: "CGW_PlainVanillaId",
-      id: "Test",
-      expectedCreateStatusCode: 201,
-      expectedReadStatusCode: 200,
-      expectedReplaceStatusCode: 200,
-      expectedDeleteStatusCode: 204,
-    };
+  it.skipIf(skipTestForSignOff)(
+    "CGW_plainVanillaId",
+    async () => {
+      const scenario: TestScenario = {
+        name: "CGW_PlainVanillaId",
+        id: "Test",
+        expectedCreateStatusCode: 201,
+        expectedReadStatusCode: 200,
+        expectedReplaceStatusCode: 200,
+        expectedDeleteStatusCode: 204,
+      };
 
-    await executeTestCaseOnComputeGateway(scenario);
-  });
+      await executeTestCaseOnComputeGateway(scenario);
+    },
+    15000,
+  );
 
-  it("RGW_ContainerIdWithUnicode鱀", async function () {
+  it("RGW_ContainerIdWithUnicode鱀", async () => {
     const scenario: TestScenario = {
       name: "RGW_ContainerIdWithUnicode鱀",
       id: "Test",
@@ -164,7 +168,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_ContainerIdWithUnicode鱀", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_ContainerIdWithUnicode鱀", async () => {
     const scenario: TestScenario = {
       name: "CGW_ContainerIdWithUnicode鱀",
       id: "Test",
@@ -177,7 +181,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithWhitespaces", async function () {
+  it("RGW_idWithWhitespaces", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithWhitespaces",
       id: "This is a test",
@@ -190,7 +194,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithWhitespaces", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithWhitespaces", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithWhitespaces",
       id: "This is a test",
@@ -203,7 +207,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idStartingWithWhitespace", async function () {
+  it("RGW_idStartingWithWhitespace", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdStartingWithWhitespace",
       id: " Test",
@@ -216,7 +220,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idStartingWithWhitespace", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idStartingWithWhitespace", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdStartingWithWhitespace",
       id: " Test",
@@ -229,7 +233,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idStartingWithWhitespaces", async function () {
+  it("RGW_idStartingWithWhitespaces", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdStartingWithWhitespaces",
       id: "   Test",
@@ -242,7 +246,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idStartingWithWhitespaces", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idStartingWithWhitespaces", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdStartingWithWhitespaces",
       id: "   Test",
@@ -255,7 +259,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idEndingWithWhitespace", async function () {
+  it("RGW_idEndingWithWhitespace", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdEndingWithWhitespace",
       id: "Test ",
@@ -268,7 +272,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idEndingWithWhitespace", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idEndingWithWhitespace", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdEndingWithWhitespace",
       id: "Test ",
@@ -281,7 +285,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idEndingWithWhitespaces", async function () {
+  it("RGW_idEndingWithWhitespaces", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdEndingWithWhitespaces",
       id: "Test   ",
@@ -294,7 +298,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idEndingWithWhitespaces", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idEndingWithWhitespaces", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdEndingWithWhitespaces",
       id: "Test   ",
@@ -307,7 +311,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithUnicodeCharacters", async function () {
+  it("RGW_idWithUnicodeCharacters", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithUnicodeCharacters",
       id: "WithUnicode鱀",
@@ -320,7 +324,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithUnicodeCharacters", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithUnicodeCharacters", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithUnicodeCharacters",
       id: "WithUnicode鱀",
@@ -333,7 +337,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithAllowedSpecialCharacters", async function () {
+  it("RGW_idWithAllowedSpecialCharacters", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithAllowedSpecialCharacters",
       id: "WithAllowedSpecial,=.:~+-@()^${}[]!_Chars",
@@ -346,7 +350,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithAllowedSpecialCharacters", async function () {
+  it("CGW_idWithAllowedSpecialCharacters", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithAllowedSpecialCharacters",
       id: "WithAllowedSpecial,=.:~+-@()^${}[]!_Chars",
@@ -359,7 +363,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithBase64EncodedIdCharacters", async function () {
+  it("RGW_idWithBase64EncodedIdCharacters", async () => {
     const base64EncodedId =
       "BQE1D3PdG4N4bzU9TKaCIM3qc0TVcZ2/Y3jnsRfwdHC1ombkX3F1dot/SG0/UTq9AbgdX3" +
       "kOWoP6qL6lJqWeKgV3zwWWPZO/t5X0ehJzv9LGkWld07LID2rhWhGT6huBM6Q=";
@@ -377,7 +381,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithBase64EncodedIdCharacters", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithBase64EncodedIdCharacters", async () => {
     const base64EncodedId =
       "BQE1D3PdG4N4bzU9TKaCIM3qc0TVcZ2/Y3jnsRfwdHC1ombkX3F1dot/SG0/UTq9AbgdX3" +
       "kOWoP6qL6lJqWeKgV3zwWWPZO/t5X0ehJzv9LGkWld07LID2rhWhGT6huBM6Q=";
@@ -395,7 +399,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idEndingWithPercentEncodedWhitespace", async function () {
+  it("RGW_idEndingWithPercentEncodedWhitespace", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdEndingWithPercentEncodedWhitespace",
       id: "IdEndingWithPercentEncodedWhitespace%20",
@@ -408,7 +412,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idEndingWithPercentEncodedWhitespace", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idEndingWithPercentEncodedWhitespace", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdEndingWithPercentEncodedWhitespace",
       id: "IdEndingWithPercentEncodedWhitespace%20",
@@ -421,7 +425,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithPercentEncodedSpecialChar", async function () {
+  it("RGW_idWithPercentEncodedSpecialChar", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithPercentEncodedSpecialChar",
       id: "WithPercentEncodedSpecialChar%E9%B1%80",
@@ -434,7 +438,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithPercentEncodedSpecialChar", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithPercentEncodedSpecialChar", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithPercentEncodedSpecialChar",
       id: "WithPercentEncodedSpecialChar%E9%B1%80",
@@ -447,7 +451,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithDisallowedCharQuestionMark", async function () {
+  it("RGW_idWithDisallowedCharQuestionMark", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithDisallowedCharQuestionMark",
       id: "Disallowed?Chars",
@@ -460,7 +464,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithDisallowedCharQuestionMark", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithDisallowedCharQuestionMark", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithDisallowedCharQuestionMark",
       id: "Disallowed?Chars",
@@ -473,7 +477,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithDisallowedCharForwardSlash", async function () {
+  it("RGW_idWithDisallowedCharForwardSlash", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithDisallowedCharForwardSlash",
       id: "Disallowed/Chars",
@@ -484,7 +488,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithDisallowedCharForwardSlash", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithDisallowedCharForwardSlash", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithDisallowedCharForwardSlash",
       id: "Disallowed/Chars",
@@ -495,7 +499,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithDisallowedCharBackSlash", async function () {
+  it("RGW_idWithDisallowedCharBackSlash", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithDisallowedCharBackSlash",
       id: "Disallowed\\Chars",
@@ -506,7 +510,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithDisallowedCharBackSlash", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithDisallowedCharBackSlash", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithDisallowedCharBackSlash",
       id: "Disallowed\\Chars",
@@ -517,7 +521,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithDisallowedCharPoundSign", async function () {
+  it("RGW_idWithDisallowedCharPoundSign", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithDisallowedCharPoundSign",
       id: "Disallowed#Chars",
@@ -528,7 +532,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithDisallowedCharPoundSign", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithDisallowedCharPoundSign", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithDisallowedCharPoundSign",
       id: "Disallowed#Chars",
@@ -539,7 +543,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithCarriageReturn", async function () {
+  it("RGW_idWithCarriageReturn", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithCarriageReturn",
       id: "With\rCarriageReturn",
@@ -552,7 +556,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithCarriageReturn", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithCarriageReturn", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithCarriageReturn",
       id: "With\rCarriageReturn",
@@ -565,7 +569,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithTab", async function () {
+  it("RGW_idWithTab", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithTab",
       id: "With\tTab",
@@ -578,7 +582,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithTab", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithTab", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithTab",
       id: "With\tTab",
@@ -591,7 +595,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCaseOnComputeGateway(scenario);
   });
 
-  it("RGW_idWithLineFeed", async function () {
+  it("RGW_idWithLineFeed", async () => {
     const scenario: TestScenario = {
       name: "RGW_IdWithLineFeed",
       id: "With\nLineFeed",
@@ -604,7 +608,7 @@ describe("Id encoding", function (this: Suite) {
     await executeTestCase(scenario);
   });
 
-  it("CGW_idWithLineFeed", async function () {
+  it.skipIf(skipTestForSignOff)("CGW_idWithLineFeed", async () => {
     const scenario: TestScenario = {
       name: "CGW_IdWithLineFeed",
       id: "With\nLineFeed",

@@ -1,0 +1,8 @@
+{
+  "extends": "../../../tsconfig.samples.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-programmableconnectivity": ["./dist/esm"]
+    }
+  }
+}

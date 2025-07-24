@@ -15,6 +15,12 @@ import type {
 } from "./models.js";
 
 import type {
+  AcsCallEndedEventData,
+  AcsCallStartedEventData,
+  AcsCallParticipantAddedEventData,
+  AcsCallParticipantRemovedEventData,
+  AcsChatAzureBotCommandReceivedInThreadEventData,
+  AcsChatTypingIndicatorReceivedInThreadEventData,
   AcsChatMessageDeletedEventData,
   AcsChatMessageDeletedInThreadEventData,
   AcsChatMessageEditedEventData,
@@ -38,6 +44,10 @@ import type {
   ApiManagementApiReleaseDeletedEventData,
   ApiManagementApiReleaseUpdatedEventData,
   ApiManagementApiUpdatedEventData,
+  ApiManagementCircuitBreakerClosedEventData,
+  ApiManagementCircuitBreakerOpenedEventData,
+  ApiManagementGatewayTokenExpiredEventData,
+  ApiManagementGatewayTokenNearExpiryEventData,
   ApiManagementProductCreatedEventData,
   ApiManagementProductDeletedEventData,
   ApiManagementProductUpdatedEventData,
@@ -54,6 +64,7 @@ import type {
   ContainerRegistryImageDeletedEventData,
   ContainerRegistryImagePushedEventData,
   ContainerServiceNewKubernetesVersionAvailableEventData,
+  EdgeSolutionVersionPublishedEventData,
   EventHubCaptureFileCreatedEventData,
   HealthcareDicomImageCreatedEventData,
   HealthcareDicomImageDeletedEventData,
@@ -223,6 +234,10 @@ export interface SystemEventNameToEventData {
   "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIUpdated" event. */
   "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.CircuitBreaker.Closed" event. */
+  "Microsoft.ApiManagement.CircuitBreaker.Closed": ApiManagementCircuitBreakerClosedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.CircuitBreaker.Opened" event. */
+  "Microsoft.ApiManagement.CircuitBreaker.Opened": ApiManagementCircuitBreakerOpenedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIDeleted" event. */
   "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIReleaseCreated" event. */
@@ -231,6 +246,20 @@ export interface SystemEventNameToEventData {
   "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
   /** An interface for the event data of a "Microsoft.ApiManagement.APIReleaseDeleted" event. */
   "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayTokenExpired" event. */
+  "Microsoft.ApiManagement.GatewayTokenExpired": ApiManagementGatewayTokenExpiredEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.GatewayTokenNearExpiry" event. */
+  "Microsoft.ApiManagement.GatewayTokenNearExpiry": ApiManagementGatewayTokenNearExpiryEventData;
+  /** An interface for the event data of a "Microsoft.Communication.CallEnded" event. */
+  "Microsoft.Communication.CallEnded": AcsCallEndedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.CallParticipantAdded" event. */
+  "Microsoft.Communication.CallParticipantAdded": AcsCallParticipantAddedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.CallParticipantRemoved" event. */
+  "Microsoft.Communication.CallParticipantRemoved": AcsCallParticipantRemovedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.CallStarted" event. */
+  "Microsoft.Communication.CallStarted": AcsCallStartedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatAzureBotCommandReceivedInThread" event. */
+  "Microsoft.Communication.ChatAzureBotCommandReceivedInThread": AcsChatAzureBotCommandReceivedInThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceived" event. */
   "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceivedInThread" event. */
@@ -247,6 +276,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadWithUserDeleted" event. */
   "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatTypingIndicatorReceivedInThread" event. */
+  "Microsoft.Communication.ChatTypingIndicatorReceivedInThread": AcsChatTypingIndicatorReceivedInThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser" event. */
   "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadParticipantAdded" event. */
@@ -342,7 +373,7 @@ export interface SystemEventNameToEventData {
   /** An interface for the event data of a "Microsoft.Maps.GeofenceResult" event. */
   "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
   /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateChanged" event. */
-  "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+  "Microsoft.PolicyInsights.PolicyStateChanged": PolicyInsightsPolicyStateChangedEventData;
   /** An interface for the event data of a " Microsoft.PolicyInsights.PolicyStateCreated" event. */
   "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
   /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateDeleted" event. */
@@ -465,6 +496,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.ContainerService.NodePoolRollingSucceeded": ContainerServiceNodePoolRollingSucceededEventData;
   /** An interface for the event data of a "Microsoft.ContainerService.NodePoolRollingFailed" event. */
   "Microsoft.ContainerService.NodePoolRollingFailed": ContainerServiceNodePoolRollingFailedEventData;
+  /** An interface for the event data of a "Microsoft.Edge.SolutionVersionPublished" event. */
+  "Microsoft.Edge.SolutionVersionPublished": EdgeSolutionVersionPublishedEventData;
   /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientCreatedOrUpdated" event. */
   "Microsoft.EventGrid.MQTTClientCreatedOrUpdated": EventGridMqttClientCreatedOrUpdatedEventData;
   /** An interface for the event data of a "Microsoft.EventGrid.MQTTClientDeleted" event. */

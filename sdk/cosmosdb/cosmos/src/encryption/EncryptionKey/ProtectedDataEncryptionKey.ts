@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataEncryptionKey } from "./DataEncryptionKey";
-import type { KeyEncryptionKey } from "../KeyEncryptionKey";
+import { DataEncryptionKey } from "./DataEncryptionKey.js";
+import type { KeyEncryptionKey } from "../KeyEncryptionKey.js";
 
 /**
  * A wrapper class around `DataEncryptionKey` that stores it in a protected form.

@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-// import assert from "assert";
-import { DocumentProducer, FetchResult, SqlQuerySpec } from "../../../src/queryExecutionContext";
-import { MockedClientContext } from "../../public/common/MockClientContext";
-import { ClientContext, PartitionKeyRange } from "../../../src";
-import assert from "assert";
 
-describe("Test DocumentProducer", function () {
+import type { SqlQuerySpec } from "../../../src/queryExecutionContext/index.js";
+import { DocumentProducer, FetchResult } from "../../../src/queryExecutionContext/index.js";
+import { MockedClientContext } from "../../public/common/MockClientContext.js";
+import type { ClientContext, PartitionKeyRange } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
+
+describe("Test DocumentProducer", () => {
   const mockedClientContext: ClientContext = new MockedClientContext({}) as any;
   const sqlQuerySpec: SqlQuerySpec = { query: "SELECT c.id from c" };
   const pkRange: PartitionKeyRange = {
@@ -19,7 +20,7 @@ describe("Test DocumentProducer", function () {
     parents: [],
   };
 
-  it("fetchBufferedItems should return all items in buffer", async function () {
+  it("fetchBufferedItems should return all items in buffer", async () => {
     const documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
@@ -45,7 +46,7 @@ describe("Test DocumentProducer", function () {
     assert.strictEqual(item.result, undefined);
   });
 
-  it("fetchNextItem should return first item", async function () {
+  it("fetchNextItem should return first item", async () => {
     const documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
@@ -73,7 +74,7 @@ describe("Test DocumentProducer", function () {
     assert.strictEqual(item.result, undefined);
   });
 
-  it("peak item should return first item", async function () {
+  it("peak item should return first item", async () => {
     const documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",

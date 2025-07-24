@@ -1,14 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MetadataLookUpType } from "../CosmosDiagnostics";
-import type { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
-import type { ClientContext } from "../ClientContext";
-import { getIdFromLink } from "../common/helper";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { withMetadataDiagnostics } from "../utils/diagnostics";
-import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
-import type { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
-import type { QueryRange } from "./QueryRange";
+import { MetadataLookUpType } from "../CosmosDiagnostics.js";
+import type { PartitionKeyRange } from "../client/Container/PartitionKeyRange.js";
+import type { ClientContext } from "../ClientContext.js";
+import { getIdFromLink } from "../common/helper.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { withMetadataDiagnostics } from "../utils/diagnostics.js";
+import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory.js";
+import type { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap.js";
+import type { QueryRange } from "./QueryRange.js";
+import type { PartitionKeyDefinition } from "../documents/PartitionKeyDefinition.js";
+import type { PartitionKeyInternal } from "../documents/PartitionKeyInternal.js";
+import { hashPartitionKey, binarySearchOnPartitionKeyRanges } from "../utils/hashing/hash.js";
 
 /** @hidden */
 export class PartitionKeyRangeCache {
@@ -67,5 +70,27 @@ export class PartitionKeyRangeCache {
       MetadataLookUpType.PartitionKeyRangeLookUp,
     );
     return createCompleteRoutingMap(resources.map((r) => [r, true]));
+  }
+
+  /**
+   * Given a partition key, returns the partition key range id
+   * @internal
+   */
+  public async getPartitionKeyRangeIdFromPartitionKey(
+    collectionLink: string,
+    partitionKey: PartitionKeyInternal,
+    partitionKeyDefinition: PartitionKeyDefinition,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<string | undefined> {
+    const hashedPartitionKey = hashPartitionKey(partitionKey, partitionKeyDefinition);
+    const partitionKeyRanges = (
+      await this.onCollectionRoutingMap(collectionLink, diagnosticNode)
+    ).getOrderedParitionKeyRanges();
+
+    const partitionKeyRangeId = binarySearchOnPartitionKeyRanges(
+      partitionKeyRanges,
+      hashedPartitionKey,
+    );
+    return partitionKeyRangeId;
   }
 }

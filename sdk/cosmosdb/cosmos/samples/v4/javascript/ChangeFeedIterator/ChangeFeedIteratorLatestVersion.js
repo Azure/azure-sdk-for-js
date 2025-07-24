@@ -5,9 +5,8 @@
  * @summary Demonstrates using a ChangeFeed in LatestVersion mode for entire container, a partition key, and an epk range
  */
 
-require("dotenv").config();
-
-const { finish, handleError, logSampleHeader, logStep } = require("../Shared/handleError");
+require("dotenv/config");
+const { finish, handleError, logSampleHeader, logStep } = require("../Shared/handleError.js");
 const {
   CosmosClient,
   PartitionKeyDefinitionVersion,
@@ -91,7 +90,7 @@ async function ingestData(container, initialize, end) {
 }
 
 async function iterateChangeFeedFromBeginning(container, options) {
-  let iterator = container.items.getChangeFeedIterator(options);
+  const iterator = container.items.getChangeFeedIterator(options);
   console.log("fetch changes from beginning");
   return iterateChangeFeed(iterator);
 }

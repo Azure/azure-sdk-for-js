@@ -9,7 +9,7 @@ import type {
   KeyBundle,
   KeyItem,
   LifetimeActions,
-} from "./generated/models/index.js";
+} from "./generated/src/models/index.js";
 import { parseKeyVaultKeyIdentifier } from "./identifier.js";
 import type {
   DeletedKey,
@@ -19,7 +19,7 @@ import type {
   KeyRotationPolicyProperties,
   KeyVaultKey,
 } from "./keysModels.js";
-import type { PagedAsyncIterableIterator, PageSettings } from "./generated/index.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "./generated/src/index.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
@@ -35,7 +35,6 @@ export function getKeyFromKeyBundle(
   const parsedId = parseKeyVaultKeyIdentifier(keyBundle.key!.kid!);
 
   const attributes: KeyAttributes = keyBundle.attributes || {};
-  delete keyBundle.attributes;
 
   const resultObject: KeyVaultKey | DeletedKey = {
     key: keyBundle.key,
@@ -70,6 +69,10 @@ export function getKeyFromKeyBundle(
     (resultObject as any).properties.recoveryId = deletedKeyBundle.recoveryId;
     (resultObject as any).properties.scheduledPurgeDate = deletedKeyBundle.scheduledPurgeDate;
     (resultObject as any).properties.deletedOn = deletedKeyBundle.deletedDate;
+  }
+
+  if (attributes.attestation) {
+    resultObject.properties.attestation = attributes.attestation;
   }
 
   return resultObject;

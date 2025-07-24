@@ -668,7 +668,7 @@ export interface SearchResultValueOutput {
   /** The description of the asset. */
   description?: string;
   /** The endorsement of the asset. */
-  endorsement?: string;
+  endorsement?: string[];
   /** The owner of the record. */
   owner?: string;
   /** The classifications of the record. */
@@ -776,7 +776,7 @@ export interface SuggestResultValueOutput {
   /** The description of the asset. */
   description?: string;
   /** The endorsement of the asset. */
-  endorsement?: string;
+  endorsement?: string[];
   /** The owner of the record. */
   owner?: string;
   /** The classifications of the record. */

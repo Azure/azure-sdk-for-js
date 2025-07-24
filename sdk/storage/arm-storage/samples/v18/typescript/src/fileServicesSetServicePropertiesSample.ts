@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   FileServiceProperties,
   StorageManagementClient,
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileServicesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileServicesPut.json
  */
 async function putFileServices(): Promise<void> {
   const subscriptionId =
@@ -78,7 +76,7 @@ async function putFileServices(): Promise<void> {
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileServicesPut_EnableSMBMultichannel.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileServicesPut_EnableSMBMultichannel.json
  */
 async function putFileServicesEnableSmbMultichannel(): Promise<void> {
   const subscriptionId =
@@ -102,7 +100,7 @@ async function putFileServicesEnableSmbMultichannel(): Promise<void> {
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileServicesPut_EnableSecureSmbFeatures.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileServicesPut_EnableSecureSmbFeatures.json
  */
 async function putFileServicesEnableSecureSmbFeatures(): Promise<void> {
   const subscriptionId =
@@ -130,9 +128,9 @@ async function putFileServicesEnableSecureSmbFeatures(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  putFileServices();
-  putFileServicesEnableSmbMultichannel();
-  putFileServicesEnableSecureSmbFeatures();
+  await putFileServices();
+  await putFileServicesEnableSmbMultichannel();
+  await putFileServicesEnableSecureSmbFeatures();
 }
 
 main().catch(console.error);
