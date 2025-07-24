@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Migration Guide: From @azure/monitor-query to @azure/monitor-query-logs
 
 This guide helps you migrate from the `@azure/monitor-query` package to the new `@azure/monitor-query-logs` package, which contains only the logs querying functionality.

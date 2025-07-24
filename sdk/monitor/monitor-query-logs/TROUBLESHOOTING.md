@@ -235,7 +235,7 @@ const result = await logsQueryClient.queryWorkspace(
   monitorWorkspaceId,
   kustoQuery,
   { duration: Durations.oneHour },
-  { serverTimeoutInSeconds: 600 }
+  { serverTimeoutInSeconds: 600 },
 );
 ```
 
@@ -273,20 +273,6 @@ if (result.status === LogsQueryResultStatus.Success) {
     processTables(result.partialTables);
   }
 }
-
-function processTables(tablesFromResult) {
-  for (const table of tablesFromResult) {
-    const columnHeaderString = table.columnDescriptors
-      .map((column) => `${column.name}(${column.type}) `)
-      .join("| ");
-    console.log("| " + columnHeaderString);
-
-    for (const row of table.rows) {
-      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-      console.log("| " + columnValuesString);
-    }
-  }
-}
 ```
 
 For more details on the response hierarchy for single query, see [Handle logs query response](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/README.md#handle-logs-query-response).
@@ -302,16 +288,16 @@ async function processBatchResult(result, queriesBatch) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
     if (response.status === LogsQueryResultStatus.Success) {
       console.log(
-        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.tables);
     } else if (response.status === LogsQueryResultStatus.PartialFailure) {
       console.log(
-        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.partialTables);
       console.log(
-        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
       );
     } else {
       console.log(`Printing errors from query '${queriesBatch[i].query}'`);
@@ -321,14 +307,12 @@ async function processBatchResult(result, queriesBatch) {
     i++;
   }
 }
-
 function processTables(tablesFromResult) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);
-
     for (const row of table.rows) {
       const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
       console.log("| " + columnValuesString);

@@ -135,19 +135,6 @@ if (result.status === LogsQueryResultStatus.Success) {
     processTables(result.partialTables);
   }
 }
-
-function processTables(tablesFromResult) {
-  for (const table of tablesFromResult) {
-    const columnHeaderString = table.columnDescriptors
-      .map((column) => `${column.name}(${column.type}) `)
-      .join("| ");
-    console.log("| " + columnHeaderString);
-    for (const row of table.rows) {
-      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-      console.log("| " + columnValuesString);
-    }
-  }
-}
 ```
 
 #### Resource-centric logs query
@@ -184,15 +171,13 @@ const result = await logsQueryClient.queryResource(
   logsResourceId,
   kustoQuery,
   { duration: Durations.sevenDays },
-  queryLogsOptions
+  queryLogsOptions,
 );
 
 const executionTime = (result as any)?.statistics?.query?.executionTime;
 
 console.log(
-  `Results for query '${kustoQuery}', execution time: ${
-    executionTime == null ? "unknown" : executionTime
-  }`
+  `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
 );
 
 if (result.status === LogsQueryResultStatus.Success) {
@@ -209,20 +194,6 @@ if (result.status === LogsQueryResultStatus.Success) {
   if (result.partialTables.length > 0) {
     console.log(`This query has also returned partial data in the following table(s) - `);
     processTables(result.partialTables);
-  }
-}
-
-function processTables(tablesFromResult) {
-  for (const table of tablesFromResult) {
-    const columnHeaderString = table.columnDescriptors
-      .map((column) => `${column.name}(${column.type}) `)
-      .join("| ");
-    console.log("| " + columnHeaderString);
-
-    for (const row of table.rows) {
-      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-      console.log("| " + columnValuesString);
-    }
   }
 }
 ```
@@ -269,7 +240,6 @@ function processTables(tablesFromResult) {
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);
-
     for (const row of table.rows) {
       const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
       console.log("| " + columnValuesString);
@@ -330,16 +300,16 @@ for (const response of result) {
   console.log(`Results for query with query: ${queriesBatch[i]}`);
   if (response.status === LogsQueryResultStatus.Success) {
     console.log(
-      `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
     );
     processTables(response.tables);
   } else if (response.status === LogsQueryResultStatus.PartialFailure) {
     console.log(
-      `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+      `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
     );
     processTables(response.partialTables);
     console.log(
-      ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+      ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
     );
   } else {
     console.log(`Printing errors from query '${queriesBatch[i].query}'`);
@@ -347,20 +317,6 @@ for (const response of result) {
   }
   // next query
   i++;
-}
-
-function processTables(tablesFromResult) {
-  for (const table of tablesFromResult) {
-    const columnHeaderString = table.columnDescriptors
-      .map((column) => `${column.name}(${column.type}) `)
-      .join("| ");
-    console.log("| " + columnHeaderString);
-
-    for (const row of table.rows) {
-      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-      console.log("| " + columnValuesString);
-    }
-  }
 }
 ```
 
@@ -421,16 +377,16 @@ async function processBatchResult(result, queriesBatch) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
     if (response.status === LogsQueryResultStatus.Success) {
       console.log(
-        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.tables);
     } else if (response.status === LogsQueryResultStatus.PartialFailure) {
       console.log(
-        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.partialTables);
       console.log(
-        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
       );
     } else {
       console.log(`Printing errors from query '${queriesBatch[i].query}'`);
@@ -440,14 +396,12 @@ async function processBatchResult(result, queriesBatch) {
     i++;
   }
 }
-
 function processTables(tablesFromResult) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);
-
     for (const row of table.rows) {
       const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
       console.log("| " + columnValuesString);
@@ -485,7 +439,7 @@ const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kqlQuery,
   { duration: Durations.twentyFourHours },
-  queryLogsOptions
+  queryLogsOptions,
 );
 
 const status = result.status;
@@ -523,7 +477,7 @@ const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
   kqlQuery,
   { duration: Durations.twentyFourHours },
-  queryLogsOptions
+  queryLogsOptions,
 );
 
 const status = result.status;
@@ -568,15 +522,13 @@ const result = await logsQueryClient.queryWorkspace(
   { duration: Durations.oneDay },
   {
     includeQueryStatistics: true,
-  }
+  },
 );
 
 const executionTime = (result as any)?.statistics?.query?.executionTime;
 
 console.log(
-  `Results for query '${kustoQuery}', execution time: ${
-    executionTime == null ? "unknown" : executionTime
-  }`
+  `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
 );
 ```
 
@@ -619,7 +571,7 @@ const result = await logsQueryClient.queryWorkspace(
   { duration: Durations.oneDay },
   {
     includeVisualization: true,
-  }
+  },
 );
 
 console.log("visualization result:", result.visualization);

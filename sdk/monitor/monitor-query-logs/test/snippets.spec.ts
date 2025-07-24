@@ -4,6 +4,8 @@
 import { Durations, LogsQueryClient, LogsQueryResultStatus, LogsTable } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { describe, it } from "vitest";
+import { config } from "dotenv";
+import { setLogLevel } from "@azure/logger";
 
 function processTables(tablesFromResult: LogsTable[]) {
   for (const table of tablesFromResult) {
@@ -35,6 +37,64 @@ describe("snippets", () => {
       endpoint: "https://api.loganalytics.azure.cn/v1",
       audience: "https://api.loganalytics.azure.cn/.default",
     });
+  });
+
+  it("ReadmeSampleProcessTables", async () => {
+    function processTables(tablesFromResult) {
+      for (const table of tablesFromResult) {
+        const columnHeaderString = table.columnDescriptors
+          .map((column) => `${column.name}(${column.type}) `)
+          .join("| ");
+        console.log("| " + columnHeaderString);
+
+        for (const row of table.rows) {
+          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+          console.log("| " + columnValuesString);
+        }
+      }
+    }
+  });
+
+  it("ReadmeSampleProcessBatchResult", async () => {
+    async function processBatchResult(result, queriesBatch) {
+      let i = 0;
+      for (const response of result) {
+        console.log(`Results for query with query: ${queriesBatch[i]}`);
+        if (response.status === LogsQueryResultStatus.Success) {
+          console.log(
+            `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+          );
+          processTables(response.tables);
+        } else if (response.status === LogsQueryResultStatus.PartialFailure) {
+          console.log(
+            `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+          );
+          processTables(response.partialTables);
+          console.log(
+            ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
+          );
+        } else {
+          console.log(`Printing errors from query '${queriesBatch[i].query}'`);
+          console.log(` Query had errors:${response.message} with code ${response.code}`);
+        }
+        // next query
+        i++;
+      }
+    }
+
+    function processTables(tablesFromResult) {
+      for (const table of tablesFromResult) {
+        const columnHeaderString = table.columnDescriptors
+          .map((column) => `${column.name}(${column.type}) `)
+          .join("| ");
+        console.log("| " + columnHeaderString);
+
+        for (const row of table.rows) {
+          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+          console.log("| " + columnValuesString);
+        }
+      }
+    }
   });
 
   it("ReadmeSampleLogsQuery", async () => {
@@ -305,6 +365,83 @@ describe("snippets", () => {
       if (result.partialTables.length > 0) {
         console.log(`This query has also returned partial data in the following table(s) - `);
         processTables(result.partialTables);
+      }
+    }
+  });
+
+  it("TroubleShootingProcessPartialResult", async () => {
+    const azureLogAnalyticsWorkspaceId = "<workspace_id>";
+    const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
+    // @ts-preserve-whitespace
+    const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
+    const result = await logsQueryClient.queryWorkspace(azureLogAnalyticsWorkspaceId, kustoQuery, {
+      duration: Durations.twentyFourHours,
+    });
+    // @ts-preserve-whitespace
+    if (result.status === LogsQueryResultStatus.Success) {
+      const tablesFromResult = result.tables;
+      // @ts-preserve-whitespace
+      if (tablesFromResult.length === 0) {
+        console.log(`No results for query '${kustoQuery}'`);
+        return;
+      }
+      console.log(`This query has returned table(s) - `);
+      processTables(tablesFromResult);
+    } else {
+      console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+      if (result.partialTables.length > 0) {
+        console.log(`This query has also returned partial data in the following table(s) - `);
+        processTables(result.partialTables);
+      }
+    }
+  });
+
+  it("DotEnvSample", async () => {
+    config({ path: ".env" });
+  });
+
+  it("SetLogLevel", async () => {
+    setLogLevel("info");
+  });
+
+  it("TroubleShootingProcessBatchResult", async () => {
+    async function processBatchResult(result, queriesBatch) {
+      let i = 0;
+      for (const response of result) {
+        console.log(`Results for query with query: ${queriesBatch[i]}`);
+        if (response.status === LogsQueryResultStatus.Success) {
+          console.log(
+            `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+          );
+          processTables(response.tables);
+        } else if (response.status === LogsQueryResultStatus.PartialFailure) {
+          console.log(
+            `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+          );
+          processTables(response.partialTables);
+          console.log(
+            ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
+          );
+        } else {
+          console.log(`Printing errors from query '${queriesBatch[i].query}'`);
+          console.log(` Query had errors:${response.message} with code ${response.code}`);
+        }
+        // next query
+        i++;
+      }
+    }
+
+    function processTables(tablesFromResult) {
+      for (const table of tablesFromResult) {
+        const columnHeaderString = table.columnDescriptors
+          .map((column) => `${column.name}(${column.type}) `)
+          .join("| ");
+        console.log("| " + columnHeaderString);
+
+        for (const row of table.rows) {
+          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+          console.log("| " + columnValuesString);
+        }
       }
     }
   });
