@@ -96,9 +96,15 @@ describe("PlaywrightServiceApiCall", () => {
 
     it("should call exitWithFailureMessage when API returns non-200 status", async () => {
       // Arrange
+      const errorMessage = "The displayName should be 1-200 characters long";
       const mockResponse = {
         status: 400,
-        bodyAsText: JSON.stringify({ error: "Bad Request" }),
+        bodyAsText: JSON.stringify({
+          error: {
+            code: 400,
+            message: errorMessage,
+          },
+        }),
       };
       mockState.callAPI.mockResolvedValue(mockResponse);
 
@@ -112,9 +118,10 @@ describe("PlaywrightServiceApiCall", () => {
         "Exit with failure message",
       );
 
-      // Verify exitWithFailureMessage was called with the correct message
+      // Verify exitWithFailureMessage was called with the correct message and error details
       expect(mockState.exitWithFailureMessage).toHaveBeenCalledWith(
         ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN,
+        errorMessage,
       );
     });
 

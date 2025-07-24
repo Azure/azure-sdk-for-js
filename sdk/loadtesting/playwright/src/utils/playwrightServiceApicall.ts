@@ -42,7 +42,20 @@ export class PlaywrightServiceApiCall {
       correlationId,
     );
     if (response.status !== 200) {
-      exitWithFailureMessage(ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN);
+      let errorMessage = ``;
+
+      if (response.bodyAsText) {
+        try {
+          const errorResponse = JSON.parse(response.bodyAsText);
+          if (errorResponse.error && errorResponse.error.message) {
+            errorMessage = errorResponse.error.message;
+          }
+        } catch (e) {
+          errorMessage = response.bodyAsText;
+        }
+      }
+
+      exitWithFailureMessage(ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN, errorMessage);
     }
     return response.bodyAsText ? JSON.parse(response.bodyAsText) : {};
   }
