@@ -6,21 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { PrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AgriFoodMgmtClient } from "../agriFoodMgmtClient.js";
 import {
-  PrivateLinkResource,
   PrivateLinkResourcesListByResourceOptionalParams,
   PrivateLinkResourcesListByResourceResponse,
   PrivateLinkResourcesGetOptionalParams,
-  PrivateLinkResourcesGetResponse
+  PrivateLinkResourcesGetResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResources operations. */
 export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private readonly client: AgriFoodMgmtClient;
@@ -36,102 +33,41 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   /**
    * Get list of Private link resources.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param options The options parameters.
    */
-  public listByResource(
+  listByResource(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
-    options?: PrivateLinkResourcesListByResourceOptionalParams
-  ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listByResourcePagingAll(
-      resourceGroupName,
-      farmBeatsResourceName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourcePagingPage(
-          resourceGroupName,
-          farmBeatsResourceName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByResourcePagingPage(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     options?: PrivateLinkResourcesListByResourceOptionalParams,
-    _settings?: PageSettings
-  ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result: PrivateLinkResourcesListByResourceResponse;
-    result = await this._listByResource(
-      resourceGroupName,
-      farmBeatsResourceName,
-      options
-    );
-    yield result.value || [];
-  }
-
-  private async *listByResourcePagingAll(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    options?: PrivateLinkResourcesListByResourceOptionalParams
-  ): AsyncIterableIterator<PrivateLinkResource> {
-    for await (const page of this.listByResourcePagingPage(
-      resourceGroupName,
-      farmBeatsResourceName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Get list of Private link resources.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param options The options parameters.
-   */
-  private _listByResource(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    options?: PrivateLinkResourcesListByResourceOptionalParams
   ): Promise<PrivateLinkResourcesListByResourceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, options },
-      listByResourceOperationSpec
+      { resourceGroupName, dataManagerForAgricultureResourceName, options },
+      listByResourceOperationSpec,
     );
   }
 
   /**
    * Get Private link resource object.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param dataManagerForAgricultureResourceName DataManagerForAgriculture resource name.
    * @param subResourceName Sub resource name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
+    dataManagerForAgricultureResourceName: string,
     subResourceName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, subResourceName, options },
-      getOperationSpec
+      {
+        resourceGroupName,
+        dataManagerForAgricultureResourceName,
+        subResourceName,
+        options,
+      },
+      getOperationSpec,
     );
   }
 }
@@ -139,51 +75,49 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName
+    Parameters.dataManagerForAgricultureResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/privateLinkResources/{subResourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{dataManagerForAgricultureResourceName}/privateLinkResources/{subResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResource
+      bodyMapper: Mappers.PrivateLinkResource,
     },
     404: {
       bodyMapper: Mappers.ErrorResponse,
-      isError: true
+      isError: true,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName,
-    Parameters.subResourceName
+    Parameters.dataManagerForAgricultureResourceName,
+    Parameters.subResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
