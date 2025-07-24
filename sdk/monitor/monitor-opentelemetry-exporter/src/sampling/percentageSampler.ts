@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
-import { TraceFlags, trace } from "@opentelemetry/api";
 import type { Sampler, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
-import { AzureMonitorSampleRate } from "./utils/constants/applicationinsights.js";
+import { shouldSample } from "./samplingUtils.js";
 
 /**
  * ApplicationInsightsSampler is responsible for the following:
@@ -53,41 +52,7 @@ export class ApplicationInsightsSampler implements Sampler {
     // @ts-expect-error unused argument
     links: Link[],
   ): SamplingResult {
-    let isSampledIn = false;
-    attributes = attributes || {};
-
-    // Try to get the parent sampling result first
-    const parentSpan = trace.getSpan(context);
-    const parentSpanContext = parentSpan?.spanContext();
-
-    if (
-      parentSpanContext &&
-      trace.isSpanContextValid(parentSpanContext) &&
-      !parentSpanContext.isRemote
-    ) {
-      // If the parent span is valid and not remote, we can use its sample rate
-      const parentSampleRate = Number((parentSpan as any).attributes?.[AzureMonitorSampleRate]);
-      if (!isNaN(parentSampleRate)) {
-        this._sampleRate = parentSampleRate;
-      }
-      isSampledIn = (parentSpanContext.traceFlags & TraceFlags.SAMPLED) === TraceFlags.SAMPLED;
-    } else {
-      // If no parent sampling result, we use the local sampling logic
-      if (this._sampleRate === 100) {
-        isSampledIn = true;
-      } else if (this._sampleRate === 0) {
-        isSampledIn = false;
-      } else {
-        isSampledIn = this._getSamplingHashCode(traceId) < this._sampleRate;
-      }
-    }
-    // Only send the sample rate if it's not 100
-    if (this._sampleRate !== 100) {
-      // Add sample rate as span attribute
-      attributes[AzureMonitorSampleRate] = this._sampleRate;
-    }
-
-    return isSampledIn
+    return shouldSample(this._sampleRate, context, traceId, attributes)
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };
   }
@@ -97,27 +62,5 @@ export class ApplicationInsightsSampler implements Sampler {
    */
   public toString(): string {
     return `ApplicationInsightsSampler{${this.samplingRatio}}`;
-  }
-
-  private _getSamplingHashCode(input: string): number {
-    const csharpMin = -2147483648;
-    const csharpMax = 2147483647;
-    let hash = 5381;
-
-    if (!input) {
-      return 0;
-    }
-
-    while (input.length < 8) {
-      input = input + input;
-    }
-
-    for (let i = 0; i < input.length; i++) {
-      // JS doesn't respond to integer overflow by wrapping around. Simulate it with bitwise operators ( | 0)
-      hash = ((((hash << 5) + hash) | 0) + input.charCodeAt(i)) | 0;
-    }
-
-    hash = hash <= csharpMin ? csharpMax : Math.abs(hash);
-    return (hash / csharpMax) * 100;
   }
 }
