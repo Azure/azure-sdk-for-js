@@ -85,7 +85,6 @@
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "tshy": {
-    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -98,7 +97,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources/arm-resources",
   "//sampleConfiguration": {

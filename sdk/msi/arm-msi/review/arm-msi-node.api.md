@@ -85,6 +85,7 @@ export function getContinuationToken(page: unknown): string | undefined;
 // @public
 export interface Identity extends TrackedResource {
     readonly clientId?: string;
+    isolationScope?: IsolationScope;
     readonly principalId?: string;
     readonly tenantId?: string;
 }
@@ -92,6 +93,7 @@ export interface Identity extends TrackedResource {
 // @public
 export interface IdentityUpdate extends Resource {
     readonly clientId?: string;
+    isolationScope?: IsolationScope;
     location?: string;
     readonly principalId?: string;
     tags?: {
@@ -101,6 +103,9 @@ export interface IdentityUpdate extends Resource {
 }
 
 // @public
+export type IsolationScope = string;
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -108,11 +113,18 @@ export enum KnownCreatedByType {
     User = "User"
 }
 
+// @public
+export enum KnownIsolationScope {
+    None = "None",
+    Regional = "Regional"
+}
+
 // @public (undocumented)
 export class ManagedServiceIdentityClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagedServiceIdentityClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ManagedServiceIdentityClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -120,7 +132,7 @@ export class ManagedServiceIdentityClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     systemAssignedIdentities: SystemAssignedIdentities;
     // (undocumented)

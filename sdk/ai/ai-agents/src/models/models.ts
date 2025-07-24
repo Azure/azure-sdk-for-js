@@ -9,7 +9,7 @@ import type { FileContents } from "../static-helpers/multipartHelpers.js";
 /** An abstract representation of an input tool definition that an agent can use. */
 export interface ToolDefinition {
   /** The object type. */
-  /** The discriminator possible values: code_interpreter, file_search, function, bing_grounding, fabric_dataagent, sharepoint_grounding, azure_ai_search, openapi, bing_custom_search, connected_agent, deep_research, azure_function */
+  /** The discriminator possible values: code_interpreter, file_search, function, bing_grounding, fabric_dataagent, sharepoint_grounding, azure_ai_search, openapi, bing_custom_search, connected_agent, deep_research, mcp, azure_function */
   type: string;
 }
 
@@ -29,10 +29,14 @@ export type ToolDefinitionUnion =
   | FileSearchToolDefinition
   | FunctionToolDefinition
   | BingGroundingToolDefinition
+  | MicrosoftFabricToolDefinition
+  | SharepointToolDefinition
   | AzureAISearchToolDefinition
   | OpenApiToolDefinition
+  | BingCustomSearchToolDefinition
   | ConnectedAgentToolDefinition
   | DeepResearchToolDefinition
+  | MCPToolDefinition
   | AzureFunctionToolDefinition
   | ToolDefinition;
 
@@ -50,17 +54,29 @@ export function toolDefinitionUnionSerializer(item: ToolDefinitionUnion): any {
     case "bing_grounding":
       return bingGroundingToolDefinitionSerializer(item as BingGroundingToolDefinition);
 
+    case "fabric_dataagent":
+      return microsoftFabricToolDefinitionSerializer(item as MicrosoftFabricToolDefinition);
+
+    case "sharepoint_grounding":
+      return sharepointToolDefinitionSerializer(item as SharepointToolDefinition);
+
     case "azure_ai_search":
       return azureAISearchToolDefinitionSerializer(item as AzureAISearchToolDefinition);
 
     case "openapi":
       return openApiToolDefinitionSerializer(item as OpenApiToolDefinition);
 
+    case "bing_custom_search":
+      return bingCustomSearchToolDefinitionSerializer(item as BingCustomSearchToolDefinition);
+
     case "connected_agent":
       return connectedAgentToolDefinitionSerializer(item as ConnectedAgentToolDefinition);
 
     case "deep_research":
       return deepResearchToolDefinitionSerializer(item as DeepResearchToolDefinition);
+
+    case "mcp":
+      return mcpToolDefinitionSerializer(item as MCPToolDefinition);
 
     case "azure_function":
       return azureFunctionToolDefinitionSerializer(item as AzureFunctionToolDefinition);
@@ -84,17 +100,29 @@ export function toolDefinitionUnionDeserializer(item: any): ToolDefinitionUnion 
     case "bing_grounding":
       return bingGroundingToolDefinitionDeserializer(item as BingGroundingToolDefinition);
 
+    case "fabric_dataagent":
+      return microsoftFabricToolDefinitionDeserializer(item as MicrosoftFabricToolDefinition);
+
+    case "sharepoint_grounding":
+      return sharepointToolDefinitionDeserializer(item as SharepointToolDefinition);
+
     case "azure_ai_search":
       return azureAISearchToolDefinitionDeserializer(item as AzureAISearchToolDefinition);
 
     case "openapi":
       return openApiToolDefinitionDeserializer(item as OpenApiToolDefinition);
 
+    case "bing_custom_search":
+      return bingCustomSearchToolDefinitionDeserializer(item as BingCustomSearchToolDefinition);
+
     case "connected_agent":
       return connectedAgentToolDefinitionDeserializer(item as ConnectedAgentToolDefinition);
 
     case "deep_research":
       return deepResearchToolDefinitionDeserializer(item as DeepResearchToolDefinition);
+
+    case "mcp":
+      return mcpToolDefinitionDeserializer(item as MCPToolDefinition);
 
     case "azure_function":
       return azureFunctionToolDefinitionDeserializer(item as AzureFunctionToolDefinition);
@@ -313,7 +341,7 @@ export function bingGroundingSearchConfigurationArraySerializer(
 }
 
 export function bingGroundingSearchConfigurationArrayDeserializer(
-  result: Array<BingGroundingSearchConfiguration> | undefined,
+  result: Array<BingGroundingSearchConfiguration>,
 ): any[] {
   // Handle the case where result might be undefined
   if (!result) {
@@ -934,24 +962,24 @@ export function deepResearchToolDefinitionDeserializer(item: any): DeepResearchT
 /** The details of the Deep Research tool. */
 export interface DeepResearchDetails {
   /** The deep research model deployment name. */
-  deepResearchModel: string;
+  model: string;
   /** The array containing Bing grounding connection IDs to enhance deep research capabilities. */
-  deepResearchBingGroundingConnections: DeepResearchBingGroundingConnection[];
+  bingGroundingConnections: DeepResearchBingGroundingConnection[];
 }
 
 export function deepResearchDetailsSerializer(item: DeepResearchDetails): any {
   return {
-    deep_research_model: item["deepResearchModel"],
+    deep_research_model: item["model"],
     bing_grounding_connections: deepResearchBingGroundingConnectionArraySerializer(
-      item["deepResearchBingGroundingConnections"],
+      item["bingGroundingConnections"],
     ),
   };
 }
 
 export function deepResearchDetailsDeserializer(item: any): DeepResearchDetails {
   return {
-    deepResearchModel: item["deep_research_model"],
-    deepResearchBingGroundingConnections: deepResearchBingGroundingConnectionArrayDeserializer(
+    model: item["deep_research_model"],
+    bingGroundingConnections: deepResearchBingGroundingConnectionArrayDeserializer(
       item["bing_grounding_connections"],
     ),
   };
@@ -990,6 +1018,44 @@ export function deepResearchBingGroundingConnectionDeserializer(
 ): DeepResearchBingGroundingConnection {
   return {
     connectionId: item["connection_id"],
+  };
+}
+
+/** The input definition information for a MCP tool which defines a MCP server endpoint */
+export interface MCPToolDefinition extends ToolDefinition {
+  /** The object type, which is always 'mcp'. */
+  type: "mcp";
+  /** The label for the MCP server */
+  serverLabel: string;
+  /** The endpoint for the MCP server */
+  serverUrl: string;
+  /** List of allowed tools for MCP server */
+  allowedTools?: string[];
+}
+
+export function mcpToolDefinitionSerializer(item: MCPToolDefinition): any {
+  return {
+    type: item["type"],
+    server_label: item["serverLabel"],
+    server_url: item["serverUrl"],
+    allowed_tools: !item["allowedTools"]
+      ? item["allowedTools"]
+      : item["allowedTools"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function mcpToolDefinitionDeserializer(item: any): MCPToolDefinition {
+  return {
+    type: item["type"],
+    serverLabel: item["server_label"],
+    serverUrl: item["server_url"],
+    allowedTools: !item["allowed_tools"]
+      ? item["allowed_tools"]
+      : item["allowed_tools"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -1097,6 +1163,8 @@ export interface ToolResources {
   fileSearch?: FileSearchToolResource;
   /** Resources to be used by the `azure_ai_search` tool consisting of index IDs and names. */
   azureAISearch?: AzureAISearchToolResource;
+  /** Resources to be used by the `mcp` tool consisting of a server label and headers. */
+  mcp?: MCPToolResource[];
 }
 
 export function toolResourcesSerializer(item: ToolResources): any {
@@ -1110,6 +1178,7 @@ export function toolResourcesSerializer(item: ToolResources): any {
     azure_ai_search: !item["azureAISearch"]
       ? item["azureAISearch"]
       : azureAISearchToolResourceSerializer(item["azureAISearch"]),
+    mcp: !item["mcp"] ? item["mcp"] : mcpToolResourceArraySerializer(item["mcp"]),
   };
 }
 
@@ -1124,6 +1193,7 @@ export function toolResourcesDeserializer(item: any): ToolResources {
     azureAISearch: !item["azure_ai_search"]
       ? item["azure_ai_search"]
       : azureAISearchToolResourceDeserializer(item["azure_ai_search"]),
+    mcp: !item["mcp"] ? item["mcp"] : mcpToolResourceArrayDeserializer(item["mcp"]),
   };
 }
 
@@ -1393,6 +1463,44 @@ export type AzureAISearchQueryType =
   | "vector"
   | "vector_simple_hybrid"
   | "vector_semantic_hybrid";
+
+export function mcpToolResourceArraySerializer(result: Array<MCPToolResource>): any[] {
+  return result.map((item) => {
+    return mcpToolResourceSerializer(item);
+  });
+}
+
+export function mcpToolResourceArrayDeserializer(result: Array<MCPToolResource>): any[] {
+  return result.map((item) => {
+    return mcpToolResourceDeserializer(item);
+  });
+}
+
+/** A set of resources that are used by the `mcp` tool. */
+export interface MCPToolResource {
+  /** The label for the MCP server */
+  serverLabel: string;
+  /** The headers for the MCP server updates */
+  headers: Record<string, string>;
+  /** Does MCP server require approval */
+  requireApproval?: "never" | "always";
+}
+
+export function mcpToolResourceSerializer(item: MCPToolResource): any {
+  return {
+    server_label: item["serverLabel"],
+    headers: item["headers"],
+    require_approval: item["requireApproval"],
+  };
+}
+
+export function mcpToolResourceDeserializer(item: any): MCPToolResource {
+  return {
+    serverLabel: item["server_label"],
+    headers: item["headers"],
+    requireApproval: item["require_approval"],
+  };
+}
 
 /**
  * An object describing the expected output of the model. If `json_object` only `function` type `tools` are allowed to be passed to the Run.
@@ -1706,7 +1814,11 @@ export type MessageRole = "user" | "assistant";
 export type MessageInputContent = string | MessageInputContentBlockUnion[];
 
 export function messageInputContentSerializer(item: MessageInputContent): any {
-  return item;
+  if (typeof item === "string") {
+    return item;
+  }
+
+  return messageInputContentBlockUnionArraySerializer(item);
 }
 
 export function messageInputContentBlockUnionArraySerializer(
@@ -1955,10 +2067,13 @@ export type AgentsNamedToolChoiceType =
   | "code_interpreter"
   | "file_search"
   | "bing_grounding"
+  | "fabric_dataagent"
+  | "sharepoint_grounding"
   | "azure_ai_search"
   | "bing_custom_search"
   | "connected_agent"
-  | "deep_research";
+  | "deep_research"
+  | "mcp";
 
 /** The function name that will be used, if using the `function` tool */
 export interface FunctionName {
@@ -2063,7 +2178,7 @@ export function threadRunDeserializer(item: any): ThreadRun {
     lastError: !item["last_error"] ? item["last_error"] : runErrorDeserializer(item["last_error"]),
     model: item["model"],
     instructions: item["instructions"],
-    tools: toolDefinitionUnionArrayDeserializer(item["tools"]),
+    tools: !item["tools"] ? [] : toolDefinitionUnionArrayDeserializer(item["tools"]),
     createdAt: new Date(item["created_at"] * 1000),
     expiresAt: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
     startedAt: !item["started_at"] ? item["started_at"] : new Date(item["started_at"] * 1000),
@@ -2113,7 +2228,7 @@ export type RunStatus =
 /** An abstract representation of a required action for an agent thread run to continue. */
 export interface RequiredAction {
   /** The object type. */
-  /** The discriminator possible values: submit_tool_outputs */
+  /** The discriminator possible values: submit_tool_outputs, submit_tool_approval */
   type: string;
 }
 
@@ -2124,12 +2239,18 @@ export function requiredActionDeserializer(item: any): RequiredAction {
 }
 
 /** Alias for RequiredActionUnion */
-export type RequiredActionUnion = SubmitToolOutputsAction | RequiredAction;
+export type RequiredActionUnion =
+  | SubmitToolOutputsAction
+  | SubmitToolApprovalAction
+  | RequiredAction;
 
 export function requiredActionUnionDeserializer(item: any): RequiredActionUnion {
   switch (item.type) {
     case "submit_tool_outputs":
       return submitToolOutputsActionDeserializer(item as SubmitToolOutputsAction);
+
+    case "submit_tool_approval":
+      return submitToolApprovalActionDeserializer(item as SubmitToolApprovalAction);
 
     default:
       return requiredActionDeserializer(item);
@@ -2174,7 +2295,7 @@ export function requiredToolCallUnionArrayDeserializer(
 /** An abstract representation of a tool invocation needed by the model to continue a run. */
 export interface RequiredToolCall {
   /** The object type for the required tool call. */
-  /** The discriminator possible values: function */
+  /** The discriminator possible values: function, mcp */
   type: string;
   /** The ID of the tool call. This ID must be referenced when submitting tool outputs. */
   id: string;
@@ -2188,12 +2309,18 @@ export function requiredToolCallDeserializer(item: any): RequiredToolCall {
 }
 
 /** Alias for RequiredToolCallUnion */
-export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredToolCall;
+export type RequiredToolCallUnion =
+  | RequiredFunctionToolCall
+  | RequiredMcpToolCall
+  | RequiredToolCall;
 
 export function requiredToolCallUnionDeserializer(item: any): RequiredToolCallUnion {
   switch (item.type) {
     case "function":
       return requiredFunctionToolCallDeserializer(item as RequiredFunctionToolCall);
+
+    case "mcp":
+      return requiredMcpToolCallDeserializer(item as RequiredMcpToolCall);
 
     default:
       return requiredToolCallDeserializer(item);
@@ -2230,6 +2357,55 @@ export function requiredFunctionToolCallDetailsDeserializer(
   return {
     name: item["name"],
     arguments: item["arguments"],
+  };
+}
+
+/** A representation of a requested call to a MCP tool, needed by the model to continue evaluation of a run. */
+export interface RequiredMcpToolCall extends RequiredToolCall {
+  /** The object type of the required tool call. Always 'mcp' for MCP tools. */
+  type: "mcp";
+  /** The arguments to use when invoking the mcp tool, as provided by the model. Arguments are presented as a JSON document that should be validated and parsed for evaluation. */
+  arguments: string;
+  /** The name of the function used on the MCP server. */
+  name: string;
+  /** The label of the MCP server. */
+  serverLabel: string;
+}
+
+export function requiredMcpToolCallDeserializer(item: any): RequiredMcpToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    arguments: item["arguments"],
+    name: item["name"],
+    serverLabel: item["server_label"],
+  };
+}
+
+/** The details for required tool call approval that must be submitted for an agent thread run to continue. */
+export interface SubmitToolApprovalAction extends RequiredAction {
+  /** The object type, which is always 'submit_tool_approval'. */
+  type: "submit_tool_approval";
+  /** The details describing tools that should be approved to continue run. */
+  submitToolApproval: SubmitToolApprovalDetails;
+}
+
+export function submitToolApprovalActionDeserializer(item: any): SubmitToolApprovalAction {
+  return {
+    type: item["type"],
+    submitToolApproval: submitToolApprovalDetailsDeserializer(item["submit_tool_approval"]),
+  };
+}
+
+/** The details describing tools that should be approved. */
+export interface SubmitToolApprovalDetails {
+  /** The list of tool calls that must be approved for the agent thread run to continue. */
+  toolCalls: RequiredToolCallUnion[];
+}
+
+export function submitToolApprovalDetailsDeserializer(item: any): SubmitToolApprovalDetails {
+  return {
+    toolCalls: requiredToolCallUnionArrayDeserializer(item["tool_calls"]),
   };
 }
 
@@ -2761,9 +2937,33 @@ export function toolOutputSerializer(item: ToolOutput): any {
   return { tool_call_id: item["toolCallId"], output: item["output"] };
 }
 
+/** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
+export interface ToolApproval {
+  /** The ID of the tool call being resolved, as provided in the tool calls of a required action from a run. */
+  toolCallId: string;
+  /** The approval boolean value to be submitted. */
+  approve: boolean;
+  /** Headers to be attached to the approval. */
+  headers?: Record<string, string>;
+}
+
+export function toolApprovalSerializer(item: ToolApproval): any {
+  return {
+    tool_call_id: item["toolCallId"],
+    approve: item["approve"],
+    headers: item["headers"],
+  };
+}
+
 export function toolOutputArraySerializer(result: Array<ToolOutput>): any[] {
   return result.map((item) => {
     return toolOutputSerializer(item);
+  });
+}
+
+export function toolApprovalArraySerializer(result: Array<ToolApproval>): any[] {
+  return result.map((item) => {
+    return toolApprovalSerializer(item);
   });
 }
 
@@ -2922,7 +3122,7 @@ export function runStepToolCallUnionArrayDeserializer(result: Array<RunStepToolC
 /** An abstract representation of a detailed tool call as recorded within a run step for an existing run. */
 export interface RunStepToolCall {
   /** The object type. */
-  /** The discriminator possible values: code_interpreter, file_search, bing_grounding, azure_ai_search, sharepoint_grounding, fabric_dataagent, bing_custom_search, function, openapi, deep_research */
+  /** The discriminator possible values: code_interpreter, file_search, bing_grounding, azure_ai_search, mcp, sharepoint_grounding, fabric_dataagent, bing_custom_search, function, openapi, deep_research */
   type: string;
   /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
   id: string;
@@ -2941,6 +3141,10 @@ export type RunStepToolCallUnion =
   | RunStepFileSearchToolCall
   | RunStepBingGroundingToolCall
   | RunStepAzureAISearchToolCall
+  | RunStepMcpToolCall
+  | RunStepSharepointToolCall
+  | RunStepMicrosoftFabricToolCall
+  | RunStepBingCustomSearchToolCall
   | RunStepFunctionToolCall
   | RunStepOpenAPIToolCall
   | RunStepDeepResearchToolCall
@@ -2959,6 +3163,18 @@ export function runStepToolCallUnionDeserializer(item: any): RunStepToolCallUnio
 
     case "azure_ai_search":
       return runStepAzureAISearchToolCallDeserializer(item as RunStepAzureAISearchToolCall);
+
+    case "mcp":
+      return runStepMcpToolCallDeserializer(item as RunStepMcpToolCall);
+
+    case "sharepoint_grounding":
+      return runStepSharepointToolCallDeserializer(item as RunStepSharepointToolCall);
+
+    case "fabric_dataagent":
+      return runStepMicrosoftFabricToolCallDeserializer(item as RunStepMicrosoftFabricToolCall);
+
+    case "bing_custom_search":
+      return runStepBingCustomSearchToolCallDeserializer(item as RunStepBingCustomSearchToolCall);
 
     case "function":
       return runStepFunctionToolCallDeserializer(item as RunStepFunctionToolCall);
@@ -3237,6 +3453,95 @@ export function runStepAzureAISearchToolCallDeserializer(item: any): RunStepAzur
     type: item["type"],
     id: item["id"],
     azureAISearch: item["azure_ai_search"],
+  };
+}
+
+/**
+ * A record of a call to a MCP tool, issued by the model in evaluation of a defined tool, that represents
+ * executed MCP actions.
+ */
+export interface RunStepMcpToolCall extends RunStepToolCall {
+  /** The object type, which is always 'mcp'. */
+  type: "mcp";
+  /** Arguments to the MCP tool call, as provided by the model. Arguments are presented as a JSON document that should be validated and parsed for evaluation. */
+  arguments: string;
+  /** Name of the function used on the MCP server. */
+  name: string;
+  /** Output of the MCP tool call. */
+  output: string;
+  /** The label for the MCP server */
+  serverLabel?: string;
+}
+
+export function runStepMcpToolCallDeserializer(item: any): RunStepMcpToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    arguments: item["arguments"],
+    name: item["name"],
+    output: item["output"],
+    serverLabel: item["server_label"],
+  };
+}
+
+/**
+ * A record of a call to a SharePoint tool, issued by the model in evaluation of a defined tool, that represents
+ * executed SharePoint actions.
+ */
+export interface RunStepSharepointToolCall extends RunStepToolCall {
+  /** The object type, which is always 'sharepoint_grounding'. */
+  type: "sharepoint_grounding";
+  /** Reserved for future use. */
+  sharePoint: Record<string, string>;
+}
+
+export function runStepSharepointToolCallDeserializer(item: any): RunStepSharepointToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    sharePoint: item["sharepoint_grounding"],
+  };
+}
+
+/**
+ * A record of a call to a Microsoft Fabric tool, issued by the model in evaluation of a defined tool, that represents
+ * executed Microsoft Fabric operations.
+ */
+export interface RunStepMicrosoftFabricToolCall extends RunStepToolCall {
+  /** The object type, which is always 'fabric_dataagent'. */
+  type: "fabric_dataagent";
+  /** Reserved for future use. */
+  microsoftFabric: Record<string, string>;
+}
+
+export function runStepMicrosoftFabricToolCallDeserializer(
+  item: any,
+): RunStepMicrosoftFabricToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    microsoftFabric: item["fabric_dataagent"],
+  };
+}
+
+/**
+ * A record of a call to a bing custom search tool, issued by the model in evaluation of a defined tool, that represents
+ * executed search with bing custom search.
+ */
+export interface RunStepBingCustomSearchToolCall extends RunStepToolCall {
+  /** The object type, which is always 'bing_custom_search'. */
+  type: "bing_custom_search";
+  /** Reserved for future use. */
+  bingCustomSearch: Record<string, string>;
+}
+
+export function runStepBingCustomSearchToolCallDeserializer(
+  item: any,
+): RunStepBingCustomSearchToolCall {
+  return {
+    type: item["type"],
+    id: item["id"],
+    bingCustomSearch: item["bing_custom_search"],
   };
 }
 

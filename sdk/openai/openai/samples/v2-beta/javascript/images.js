@@ -32,7 +32,7 @@ async function main() {
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const results = await client.images.generate({ prompt, model: "", n, size });
 
-  for (const image of results.data) {
+  for (const image of results.data ?? []) {
     console.log(`Image generation result URL: ${image.url}`);
   }
 }

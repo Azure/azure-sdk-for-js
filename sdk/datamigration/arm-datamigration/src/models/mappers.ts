@@ -8,601 +8,213 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const SystemData: coreClient.CompositeMapper = {
+export const MongoConnectionInformation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SystemData",
+    className: "MongoConnectionInformation",
     modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
+      host: {
+        serializedName: "host",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      createdByType: {
-        serializedName: "createdByType",
+      port: {
+        serializedName: "port",
         type: {
-          name: "String"
-        }
+          name: "Number",
+        },
       },
-      createdAt: {
-        serializedName: "createdAt",
+      userName: {
+        serializedName: "userName",
         type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const MigrationStatusDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrationStatusDetails",
-    modelProperties: {
-      migrationState: {
-        serializedName: "migrationState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      fullBackupSetInfo: {
-        serializedName: "fullBackupSetInfo",
-        type: {
-          name: "Composite",
-          className: "SqlBackupSetInfo"
-        }
-      },
-      lastRestoredBackupSetInfo: {
-        serializedName: "lastRestoredBackupSetInfo",
-        type: {
-          name: "Composite",
-          className: "SqlBackupSetInfo"
-        }
-      },
-      activeBackupSets: {
-        serializedName: "activeBackupSets",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SqlBackupSetInfo"
-            }
-          }
-        }
-      },
-      invalidFiles: {
-        serializedName: "invalidFiles",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      blobContainerName: {
-        serializedName: "blobContainerName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isFullBackupRestored: {
-        serializedName: "isFullBackupRestored",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      restoreBlockingReason: {
-        serializedName: "restoreBlockingReason",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      completeRestoreErrorMessage: {
-        serializedName: "completeRestoreErrorMessage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      fileUploadBlockingErrors: {
-        serializedName: "fileUploadBlockingErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      currentRestoringFilename: {
-        serializedName: "currentRestoringFilename",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      lastRestoredFilename: {
-        serializedName: "lastRestoredFilename",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      pendingLogBackupsCount: {
-        serializedName: "pendingLogBackupsCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const SqlBackupSetInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SqlBackupSetInfo",
-    modelProperties: {
-      backupSetId: {
-        serializedName: "backupSetId",
-        readOnly: true,
-        type: {
-          name: "Uuid"
-        }
-      },
-      firstLSN: {
-        serializedName: "firstLSN",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      lastLSN: {
-        serializedName: "lastLSN",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      backupType: {
-        serializedName: "backupType",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      listOfBackupFiles: {
-        serializedName: "listOfBackupFiles",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SqlBackupFileInfo"
-            }
-          }
-        }
-      },
-      backupStartDate: {
-        serializedName: "backupStartDate",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      backupFinishDate: {
-        serializedName: "backupFinishDate",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      isBackupRestored: {
-        serializedName: "isBackupRestored",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      hasBackupChecksums: {
-        serializedName: "hasBackupChecksums",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      familyCount: {
-        serializedName: "familyCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      ignoreReasons: {
-        serializedName: "ignoreReasons",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const SqlBackupFileInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SqlBackupFileInfo",
-    modelProperties: {
-      fileName: {
-        serializedName: "fileName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      totalSize: {
-        serializedName: "totalSize",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      dataRead: {
-        serializedName: "dataRead",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      dataWritten: {
-        serializedName: "dataWritten",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      copyThroughput: {
-        serializedName: "copyThroughput",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      copyDuration: {
-        serializedName: "copyDuration",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      familySequenceNumber: {
-        serializedName: "familySequenceNumber",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const BackupConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupConfiguration",
-    modelProperties: {
-      sourceLocation: {
-        serializedName: "sourceLocation",
-        type: {
-          name: "Composite",
-          className: "SourceLocation"
-        }
-      },
-      targetLocation: {
-        serializedName: "targetLocation",
-        type: {
-          name: "Composite",
-          className: "TargetLocation"
-        }
-      }
-    }
-  }
-};
-
-export const SourceLocation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SourceLocation",
-    modelProperties: {
-      fileShare: {
-        serializedName: "fileShare",
-        type: {
-          name: "Composite",
-          className: "SqlFileShare"
-        }
-      },
-      azureBlob: {
-        serializedName: "azureBlob",
-        type: {
-          name: "Composite",
-          className: "AzureBlob"
-        }
-      }
-    }
-  }
-};
-
-export const SqlFileShare: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SqlFileShare",
-    modelProperties: {
-      path: {
-        serializedName: "path",
-        type: {
-          name: "String"
-        }
-      },
-      username: {
-        serializedName: "username",
-        type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       password: {
         serializedName: "password",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      useSsl: {
+        serializedName: "useSsl",
+        type: {
+          name: "Boolean",
+        },
+      },
+      connectionString: {
+        serializedName: "connectionString",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const AzureBlob: coreClient.CompositeMapper = {
+export const MongoMigrationCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AzureBlob",
+    className: "MongoMigrationCollection",
     modelProperties: {
-      storageAccountResourceId: {
-        serializedName: "storageAccountResourceId",
+      sourceDatabase: {
+        serializedName: "sourceDatabase",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      accountKey: {
-        serializedName: "accountKey",
+      sourceCollection: {
+        serializedName: "sourceCollection",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      blobContainerName: {
-        serializedName: "blobContainerName",
+      targetDatabase: {
+        serializedName: "targetDatabase",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      targetCollection: {
+        serializedName: "targetCollection",
+        type: {
+          name: "String",
+        },
+      },
+      migrationProgressDetails: {
+        serializedName: "migrationProgressDetails",
+        type: {
+          name: "Composite",
+          className: "MongoMigrationProgressDetails",
+        },
+      },
+    },
+  },
 };
 
-export const TargetLocation: coreClient.CompositeMapper = {
+export const MongoMigrationProgressDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TargetLocation",
+    className: "MongoMigrationProgressDetails",
     modelProperties: {
-      storageAccountResourceId: {
-        serializedName: "storageAccountResourceId",
+      migrationStatus: {
+        serializedName: "migrationStatus",
+        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      accountKey: {
-        serializedName: "accountKey",
+      migrationError: {
+        serializedName: "migrationError",
+        readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      sourceDocumentCount: {
+        serializedName: "sourceDocumentCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      processedDocumentCount: {
+        serializedName: "processedDocumentCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      durationInSeconds: {
+        serializedName: "durationInSeconds",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
-export const OfflineConfiguration: coreClient.CompositeMapper = {
+export const DatabaseMigrationBaseProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OfflineConfiguration",
-    modelProperties: {
-      offline: {
-        serializedName: "offline",
-        type: {
-          name: "Boolean"
-        }
-      },
-      lastBackupName: {
-        serializedName: "lastBackupName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatabaseMigrationProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatabaseMigrationProperties",
-    uberParent: "DatabaseMigrationProperties",
+    className: "DatabaseMigrationBaseProperties",
+    uberParent: "DatabaseMigrationBaseProperties",
     polymorphicDiscriminator: {
       serializedName: "kind",
-      clientName: "kind"
+      clientName: "kind",
     },
     modelProperties: {
       kind: {
         serializedName: "kind",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       scope: {
         serializedName: "scope",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       migrationStatus: {
         serializedName: "migrationStatus",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       startedOn: {
         serializedName: "startedOn",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endedOn: {
         serializedName: "endedOn",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
-      },
-      sourceSqlConnection: {
-        serializedName: "sourceSqlConnection",
-        type: {
-          name: "Composite",
-          className: "SqlConnectionInformation"
-        }
-      },
-      sourceDatabaseName: {
-        serializedName: "sourceDatabaseName",
-        type: {
-          name: "String"
-        }
+          name: "DateTime",
+        },
       },
       migrationService: {
         serializedName: "migrationService",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       migrationOperationId: {
         serializedName: "migrationOperationId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       migrationFailureError: {
         serializedName: "migrationFailureError",
         type: {
           name: "Composite",
-          className: "ErrorInfo"
-        }
-      }
-    }
-  }
-};
-
-export const SqlConnectionInformation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SqlConnectionInformation",
-    modelProperties: {
-      dataSource: {
-        serializedName: "dataSource",
-        type: {
-          name: "String"
-        }
+          className: "ErrorInfo",
+        },
       },
-      authentication: {
-        serializedName: "authentication",
+      provisioningError: {
+        serializedName: "provisioningError",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      userName: {
-        serializedName: "userName",
-        type: {
-          name: "String"
-        }
-      },
-      password: {
-        serializedName: "password",
-        type: {
-          name: "String"
-        }
-      },
-      encryptConnection: {
-        serializedName: "encryptConnection",
-        type: {
-          name: "Boolean"
-        }
-      },
-      trustServerCertificate: {
-        serializedName: "trustServerCertificate",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const ErrorInfo: coreClient.CompositeMapper = {
@@ -614,48 +226,496 @@ export const ErrorInfo: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const ProxyResource: coreClient.CompositeMapper = {
+export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ProxyResource",
+    className: "Resource",
     modelProperties: {
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const DatabaseMigrationCosmosDbMongoListResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DatabaseMigrationCosmosDbMongoListResult",
+      modelProperties: {
+        value: {
+          serializedName: "value",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "DatabaseMigrationCosmosDbMongo",
+              },
+            },
+          },
+        },
+        nextLink: {
+          serializedName: "nextLink",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const SqlDbMigrationStatusDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlDbMigrationStatusDetails",
+    modelProperties: {
+      migrationState: {
+        serializedName: "migrationState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      sqlDataCopyErrors: {
+        serializedName: "sqlDataCopyErrors",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      listOfCopyProgressDetails: {
+        serializedName: "listOfCopyProgressDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CopyProgressDetails",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const CopyProgressDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CopyProgressDetails",
+    modelProperties: {
+      tableName: {
+        serializedName: "tableName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      parallelCopyType: {
+        serializedName: "parallelCopyType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      usedParallelCopies: {
+        serializedName: "usedParallelCopies",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      dataRead: {
+        serializedName: "dataRead",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      dataWritten: {
+        serializedName: "dataWritten",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      rowsRead: {
+        serializedName: "rowsRead",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      rowsCopied: {
+        serializedName: "rowsCopied",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      copyStart: {
+        serializedName: "copyStart",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      copyThroughput: {
+        serializedName: "copyThroughput",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      copyDuration: {
+        serializedName: "copyDuration",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const SqlConnectionInformation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlConnectionInformation",
+    modelProperties: {
+      dataSource: {
+        serializedName: "dataSource",
+        type: {
+          name: "String",
+        },
+      },
+      authentication: {
+        serializedName: "authentication",
+        type: {
+          name: "String",
+        },
+      },
+      userName: {
+        serializedName: "userName",
+        type: {
+          name: "String",
+        },
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "String",
+        },
+      },
+      encryptConnection: {
+        serializedName: "encryptConnection",
+        type: {
+          name: "Boolean",
+        },
+      },
+      trustServerCertificate: {
+        serializedName: "trustServerCertificate",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const SqlDbOfflineConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlDbOfflineConfiguration",
+    modelProperties: {
+      offline: {
+        serializedName: "offline",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const ProxyResourceAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResourceAutoGenerated",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemDataAutoGenerated",
+        },
+      },
+    },
+  },
+};
+
+export const SystemDataAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemDataAutoGenerated",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const MigrationOperationInput: coreClient.CompositeMapper = {
@@ -666,11 +726,514 @@ export const MigrationOperationInput: coreClient.CompositeMapper = {
       migrationOperationId: {
         serializedName: "migrationOperationId",
         type: {
-          name: "Uuid"
-        }
-      }
-    }
-  }
+          name: "Uuid",
+        },
+      },
+    },
+  },
+};
+
+export const MigrationStatusDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigrationStatusDetails",
+    modelProperties: {
+      migrationState: {
+        serializedName: "migrationState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      fullBackupSetInfo: {
+        serializedName: "fullBackupSetInfo",
+        type: {
+          name: "Composite",
+          className: "SqlBackupSetInfo",
+        },
+      },
+      lastRestoredBackupSetInfo: {
+        serializedName: "lastRestoredBackupSetInfo",
+        type: {
+          name: "Composite",
+          className: "SqlBackupSetInfo",
+        },
+      },
+      activeBackupSets: {
+        serializedName: "activeBackupSets",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SqlBackupSetInfo",
+            },
+          },
+        },
+      },
+      invalidFiles: {
+        serializedName: "invalidFiles",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      blobContainerName: {
+        serializedName: "blobContainerName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      isFullBackupRestored: {
+        serializedName: "isFullBackupRestored",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      restoreBlockingReason: {
+        serializedName: "restoreBlockingReason",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      completeRestoreErrorMessage: {
+        serializedName: "completeRestoreErrorMessage",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      fileUploadBlockingErrors: {
+        serializedName: "fileUploadBlockingErrors",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      currentRestoringFilename: {
+        serializedName: "currentRestoringFilename",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastRestoredFilename: {
+        serializedName: "lastRestoredFilename",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      pendingLogBackupsCount: {
+        serializedName: "pendingLogBackupsCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const SqlBackupSetInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlBackupSetInfo",
+    modelProperties: {
+      backupSetId: {
+        serializedName: "backupSetId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      firstLSN: {
+        serializedName: "firstLSN",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      lastLSN: {
+        serializedName: "lastLSN",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      backupType: {
+        serializedName: "backupType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      listOfBackupFiles: {
+        serializedName: "listOfBackupFiles",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SqlBackupFileInfo",
+            },
+          },
+        },
+      },
+      backupStartDate: {
+        serializedName: "backupStartDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      backupFinishDate: {
+        serializedName: "backupFinishDate",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      isBackupRestored: {
+        serializedName: "isBackupRestored",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      hasBackupChecksums: {
+        serializedName: "hasBackupChecksums",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      familyCount: {
+        serializedName: "familyCount",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      ignoreReasons: {
+        serializedName: "ignoreReasons",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const SqlBackupFileInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlBackupFileInfo",
+    modelProperties: {
+      fileName: {
+        serializedName: "fileName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      totalSize: {
+        serializedName: "totalSize",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      dataRead: {
+        serializedName: "dataRead",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      dataWritten: {
+        serializedName: "dataWritten",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      copyThroughput: {
+        serializedName: "copyThroughput",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      copyDuration: {
+        serializedName: "copyDuration",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      familySequenceNumber: {
+        serializedName: "familySequenceNumber",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const BackupConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupConfiguration",
+    modelProperties: {
+      sourceLocation: {
+        serializedName: "sourceLocation",
+        type: {
+          name: "Composite",
+          className: "SourceLocation",
+        },
+      },
+      targetLocation: {
+        serializedName: "targetLocation",
+        type: {
+          name: "Composite",
+          className: "TargetLocation",
+        },
+      },
+    },
+  },
+};
+
+export const SourceLocation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SourceLocation",
+    modelProperties: {
+      fileShare: {
+        serializedName: "fileShare",
+        type: {
+          name: "Composite",
+          className: "SqlFileShare",
+        },
+      },
+      azureBlob: {
+        serializedName: "azureBlob",
+        type: {
+          name: "Composite",
+          className: "AzureBlob",
+        },
+      },
+      fileStorageType: {
+        serializedName: "fileStorageType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SqlFileShare: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SqlFileShare",
+    modelProperties: {
+      path: {
+        serializedName: "path",
+        type: {
+          name: "String",
+        },
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "String",
+        },
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureBlob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBlob",
+    modelProperties: {
+      authType: {
+        serializedName: "authType",
+        type: {
+          name: "Enum",
+          allowedValues: ["AccountKey", "ManagedIdentity"],
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity",
+        },
+      },
+      storageAccountResourceId: {
+        serializedName: "storageAccountResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      accountKey: {
+        serializedName: "accountKey",
+        type: {
+          name: "String",
+        },
+      },
+      blobContainerName: {
+        serializedName: "blobContainerName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid",
+        },
+      },
+    },
+  },
+};
+
+export const TargetLocation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TargetLocation",
+    modelProperties: {
+      storageAccountResourceId: {
+        serializedName: "storageAccountResourceId",
+        type: {
+          name: "String",
+        },
+      },
+      accountKey: {
+        serializedName: "accountKey",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const OfflineConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OfflineConfiguration",
+    modelProperties: {
+      offline: {
+        serializedName: "offline",
+        type: {
+          name: "Boolean",
+        },
+      },
+      lastBackupName: {
+        serializedName: "lastBackupName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationListResult: coreClient.CompositeMapper = {
@@ -686,20 +1249,20 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "OperationsDefinition"
-            }
-          }
-        }
+              className: "OperationsDefinition",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationsDefinition: coreClient.CompositeMapper = {
@@ -711,28 +1274,28 @@ export const OperationsDefinition: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationsDisplayDefinition"
-        }
+          className: "OperationsDisplayDefinition",
+        },
       },
       origin: {
         serializedName: "origin",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
@@ -740,12 +1303,12 @@ export const OperationsDefinition: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Dictionary", value: { type: { name: "any" } } },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const OperationsDisplayDefinition: coreClient.CompositeMapper = {
@@ -757,82 +1320,156 @@ export const OperationsDisplayDefinition: coreClient.CompositeMapper = {
         serializedName: "provider",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const TrackedResource: coreClient.CompositeMapper = {
+export const MigrationServiceUpdate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TrackedResource",
+    className: "MigrationServiceUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const MigrationServiceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigrationServiceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MigrationService",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DatabaseMigrationBaseListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatabaseMigrationBaseListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatabaseMigrationBase",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TrackedResourceAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedResourceAutoGenerated",
     modelProperties: {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemDataAutoGenerated",
+        },
+      },
+    },
+  },
 };
 
 export const SqlMigrationServiceUpdate: coreClient.CompositeMapper = {
@@ -844,11 +1481,11 @@ export const SqlMigrationServiceUpdate: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const SqlMigrationListResult: coreClient.CompositeMapper = {
@@ -864,20 +1501,20 @@ export const SqlMigrationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SqlMigrationService"
-            }
-          }
-        }
+              className: "SqlMigrationService",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AuthenticationKeys: coreClient.CompositeMapper = {
@@ -888,17 +1525,17 @@ export const AuthenticationKeys: coreClient.CompositeMapper = {
       authKey1: {
         serializedName: "authKey1",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       authKey2: {
         serializedName: "authKey2",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const RegenAuthKeys: coreClient.CompositeMapper = {
@@ -909,23 +1546,23 @@ export const RegenAuthKeys: coreClient.CompositeMapper = {
       keyName: {
         serializedName: "keyName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       authKey1: {
         serializedName: "authKey1",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       authKey2: {
         serializedName: "authKey2",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeleteNode: coreClient.CompositeMapper = {
@@ -936,17 +1573,17 @@ export const DeleteNode: coreClient.CompositeMapper = {
       nodeName: {
         serializedName: "nodeName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       integrationRuntimeName: {
         serializedName: "integrationRuntimeName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DatabaseMigrationListResult: coreClient.CompositeMapper = {
@@ -962,20 +1599,20 @@ export const DatabaseMigrationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DatabaseMigration"
-            }
-          }
-        }
+              className: "DatabaseMigration",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const IntegrationRuntimeMonitoringData: coreClient.CompositeMapper = {
@@ -987,8 +1624,8 @@ export const IntegrationRuntimeMonitoringData: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       nodes: {
         serializedName: "nodes",
@@ -998,13 +1635,13 @@ export const IntegrationRuntimeMonitoringData: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NodeMonitoringData"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "NodeMonitoringData",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const NodeMonitoringData: coreClient.CompositeMapper = {
@@ -1018,68 +1655,68 @@ export const NodeMonitoringData: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
-          }
-        }
+            type: { name: "Dictionary", value: { type: { name: "any" } } },
+          },
+        },
       },
       nodeName: {
         serializedName: "nodeName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       availableMemoryInMB: {
         serializedName: "availableMemoryInMB",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       cpuUtilization: {
         serializedName: "cpuUtilization",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       concurrentJobsLimit: {
         serializedName: "concurrentJobsLimit",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       concurrentJobsRunning: {
         serializedName: "concurrentJobsRunning",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       maxConcurrentJobs: {
         serializedName: "maxConcurrentJobs",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sentBytes: {
         serializedName: "sentBytes",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       receivedBytes: {
         serializedName: "receivedBytes",
         readOnly: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceSkusResult: coreClient.CompositeMapper = {
@@ -1095,19 +1732,19 @@ export const ResourceSkusResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceSku"
-            }
-          }
-        }
+              className: "ResourceSku",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceSku: coreClient.CompositeMapper = {
@@ -1119,50 +1756,50 @@ export const ResourceSku: coreClient.CompositeMapper = {
         serializedName: "resourceType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tier: {
         serializedName: "tier",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       size: {
         serializedName: "size",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       family: {
         serializedName: "family",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       kind: {
         serializedName: "kind",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       capacity: {
         serializedName: "capacity",
         type: {
           name: "Composite",
-          className: "ResourceSkuCapacity"
-        }
+          className: "ResourceSkuCapacity",
+        },
       },
       locations: {
         serializedName: "locations",
@@ -1171,10 +1808,10 @@ export const ResourceSku: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       apiVersions: {
         serializedName: "apiVersions",
@@ -1183,10 +1820,10 @@ export const ResourceSku: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       costs: {
         serializedName: "costs",
@@ -1196,10 +1833,10 @@ export const ResourceSku: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceSkuCosts"
-            }
-          }
-        }
+              className: "ResourceSkuCosts",
+            },
+          },
+        },
       },
       capabilities: {
         serializedName: "capabilities",
@@ -1209,10 +1846,10 @@ export const ResourceSku: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceSkuCapabilities"
-            }
-          }
-        }
+              className: "ResourceSkuCapabilities",
+            },
+          },
+        },
       },
       restrictions: {
         serializedName: "restrictions",
@@ -1222,13 +1859,13 @@ export const ResourceSku: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ResourceSkuRestrictions"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ResourceSkuRestrictions",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ResourceSkuCapacity: coreClient.CompositeMapper = {
@@ -1240,32 +1877,32 @@ export const ResourceSkuCapacity: coreClient.CompositeMapper = {
         serializedName: "minimum",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       maximum: {
         serializedName: "maximum",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       default: {
         serializedName: "default",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       scaleType: {
         serializedName: "scaleType",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceSkuCosts: coreClient.CompositeMapper = {
@@ -1277,25 +1914,25 @@ export const ResourceSkuCosts: coreClient.CompositeMapper = {
         serializedName: "meterID",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       quantity: {
         serializedName: "quantity",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       extendedUnit: {
         serializedName: "extendedUnit",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceSkuCapabilities: coreClient.CompositeMapper = {
@@ -1307,18 +1944,18 @@ export const ResourceSkuCapabilities: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceSkuRestrictions: coreClient.CompositeMapper = {
@@ -1330,8 +1967,8 @@ export const ResourceSkuRestrictions: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       values: {
         serializedName: "values",
@@ -1340,20 +1977,20 @@ export const ResourceSkuRestrictions: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       reasonCode: {
         serializedName: "reasonCode",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ApiError: coreClient.CompositeMapper = {
@@ -1365,18 +2002,18 @@ export const ApiError: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ODataError"
-        }
+          className: "ODataError",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemDataAutoGenerated",
+        },
+      },
+    },
+  },
 };
 
 export const ODataError: coreClient.CompositeMapper = {
@@ -1387,14 +2024,14 @@ export const ODataError: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -1403,13 +2040,13 @@ export const ODataError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ODataError"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ODataError",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ServiceSku: coreClient.CompositeMapper = {
@@ -1420,35 +2057,35 @@ export const ServiceSku: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tier: {
         serializedName: "tier",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       family: {
         serializedName: "family",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       size: {
         serializedName: "size",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       capacity: {
         serializedName: "capacity",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const DataMigrationServiceStatusResponse: coreClient.CompositeMapper = {
@@ -1459,20 +2096,27 @@ export const DataMigrationServiceStatusResponse: coreClient.CompositeMapper = {
       agentVersion: {
         serializedName: "agentVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      agentConfiguration: {
+        serializedName: "agentConfiguration",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       vmSize: {
         serializedName: "vmSize",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       supportedTaskTypes: {
         serializedName: "supportedTaskTypes",
@@ -1480,13 +2124,13 @@ export const DataMigrationServiceStatusResponse: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ServiceSkuList: coreClient.CompositeMapper = {
@@ -1501,19 +2145,19 @@ export const ServiceSkuList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AvailableServiceSku"
-            }
-          }
-        }
+              className: "AvailableServiceSku",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AvailableServiceSku: coreClient.CompositeMapper = {
@@ -1524,25 +2168,25 @@ export const AvailableServiceSku: coreClient.CompositeMapper = {
       resourceType: {
         serializedName: "resourceType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "AvailableServiceSkuSku"
-        }
+          className: "AvailableServiceSkuSku",
+        },
       },
       capacity: {
         serializedName: "capacity",
         type: {
           name: "Composite",
-          className: "AvailableServiceSkuCapacity"
-        }
-      }
-    }
-  }
+          className: "AvailableServiceSkuCapacity",
+        },
+      },
+    },
+  },
 };
 
 export const AvailableServiceSkuSku: coreClient.CompositeMapper = {
@@ -1553,29 +2197,29 @@ export const AvailableServiceSkuSku: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       family: {
         serializedName: "family",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       size: {
         serializedName: "size",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tier: {
         serializedName: "tier",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AvailableServiceSkuCapacity: coreClient.CompositeMapper = {
@@ -1586,29 +2230,29 @@ export const AvailableServiceSkuCapacity: coreClient.CompositeMapper = {
       minimum: {
         serializedName: "minimum",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       maximum: {
         serializedName: "maximum",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       default: {
         serializedName: "default",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       scaleType: {
         serializedName: "scaleType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TaskList: coreClient.CompositeMapper = {
@@ -1623,19 +2267,19 @@ export const TaskList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ProjectTask"
-            }
-          }
-        }
+              className: "ProjectTask",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProjectTaskProperties: coreClient.CompositeMapper = {
@@ -1645,15 +2289,15 @@ export const ProjectTaskProperties: coreClient.CompositeMapper = {
     uberParent: "ProjectTaskProperties",
     polymorphicDiscriminator: {
       serializedName: "taskType",
-      clientName: "taskType"
+      clientName: "taskType",
     },
     modelProperties: {
       taskType: {
         serializedName: "taskType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errors: {
         serializedName: "errors",
@@ -1663,17 +2307,17 @@ export const ProjectTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ODataError"
-            }
-          }
-        }
+              className: "ODataError",
+            },
+          },
+        },
       },
       state: {
         serializedName: "state",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       commands: {
         serializedName: "commands",
@@ -1683,20 +2327,20 @@ export const ProjectTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CommandProperties"
-            }
-          }
-        }
+              className: "CommandProperties",
+            },
+          },
+        },
       },
       clientData: {
         serializedName: "clientData",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const CommandProperties: coreClient.CompositeMapper = {
@@ -1706,15 +2350,15 @@ export const CommandProperties: coreClient.CompositeMapper = {
     uberParent: "CommandProperties",
     polymorphicDiscriminator: {
       serializedName: "commandType",
-      clientName: "commandType"
+      clientName: "commandType",
     },
     modelProperties: {
       commandType: {
         serializedName: "commandType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errors: {
         serializedName: "errors",
@@ -1724,50 +2368,50 @@ export const CommandProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ODataError"
-            }
-          }
-        }
+              className: "ODataError",
+            },
+          },
+        },
       },
       state: {
         serializedName: "state",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const Resource: coreClient.CompositeMapper = {
+export const ResourceAutoGenerated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "ResourceAutoGenerated",
     modelProperties: {
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const NameAvailabilityRequest: coreClient.CompositeMapper = {
@@ -1778,17 +2422,17 @@ export const NameAvailabilityRequest: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const NameAvailabilityResponse: coreClient.CompositeMapper = {
@@ -1799,23 +2443,23 @@ export const NameAvailabilityResponse: coreClient.CompositeMapper = {
       nameAvailable: {
         serializedName: "nameAvailable",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       reason: {
         serializedName: "reason",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DataMigrationServiceList: coreClient.CompositeMapper = {
@@ -1830,19 +2474,19 @@ export const DataMigrationServiceList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DataMigrationService"
-            }
-          }
-        }
+              className: "DataMigrationService",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProjectList: coreClient.CompositeMapper = {
@@ -1857,19 +2501,52 @@ export const ProjectList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Project"
-            }
-          }
-        }
+              className: "Project",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AzureActiveDirectoryApp: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureActiveDirectoryApp",
+    modelProperties: {
+      applicationId: {
+        serializedName: "applicationId",
+        type: {
+          name: "String",
+        },
+      },
+      appKey: {
+        serializedName: "appKey",
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String",
+        },
+      },
+      ignoreAzurePermissions: {
+        serializedName: "ignoreAzurePermissions",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectionInfo: coreClient.CompositeMapper = {
@@ -1879,30 +2556,30 @@ export const ConnectionInfo: coreClient.CompositeMapper = {
     uberParent: "ConnectionInfo",
     polymorphicDiscriminator: {
       serializedName: "type",
-      clientName: "type"
+      clientName: "type",
     },
     modelProperties: {
       type: {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       userName: {
         serializedName: "userName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       password: {
         serializedName: "password",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DatabaseInfo: coreClient.CompositeMapper = {
@@ -1914,11 +2591,11 @@ export const DatabaseInfo: coreClient.CompositeMapper = {
         serializedName: "sourceDatabaseName",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaList: coreClient.CompositeMapper = {
@@ -1933,19 +2610,19 @@ export const QuotaList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Quota"
-            }
-          }
-        }
+              className: "Quota",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Quota: coreClient.CompositeMapper = {
@@ -1956,36 +2633,36 @@ export const Quota: coreClient.CompositeMapper = {
       currentValue: {
         serializedName: "currentValue",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       limit: {
         serializedName: "limit",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         type: {
           name: "Composite",
-          className: "QuotaName"
-        }
+          className: "QuotaName",
+        },
       },
       unit: {
         serializedName: "unit",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaName: coreClient.CompositeMapper = {
@@ -1996,17 +2673,17 @@ export const QuotaName: coreClient.CompositeMapper = {
       localizedValue: {
         serializedName: "localizedValue",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const FileList: coreClient.CompositeMapper = {
@@ -2021,19 +2698,19 @@ export const FileList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ProjectFile"
-            }
-          }
-        }
+              className: "ProjectFile",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProjectFileProperties: coreClient.CompositeMapper = {
@@ -2044,37 +2721,37 @@ export const ProjectFileProperties: coreClient.CompositeMapper = {
       extension: {
         serializedName: "extension",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       filePath: {
         serializedName: "filePath",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModified: {
         serializedName: "lastModified",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       mediaType: {
         serializedName: "mediaType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       size: {
         serializedName: "size",
         readOnly: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const FileStorageInfo: coreClient.CompositeMapper = {
@@ -2085,18 +2762,18 @@ export const FileStorageInfo: coreClient.CompositeMapper = {
       uri: {
         serializedName: "uri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       headers: {
         serializedName: "headers",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSyncCompleteCommandInput: coreClient.CompositeMapper = {
@@ -2108,17 +2785,17 @@ export const MigrateSyncCompleteCommandInput: coreClient.CompositeMapper = {
         serializedName: "databaseName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       commitTimeStamp: {
         serializedName: "commitTimeStamp",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSyncCompleteCommandOutput: coreClient.CompositeMapper = {
@@ -2130,8 +2807,8 @@ export const MigrateSyncCompleteCommandOutput: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errors: {
         serializedName: "errors",
@@ -2141,13 +2818,13 @@ export const MigrateSyncCompleteCommandOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ReportableException: coreClient.CompositeMapper = {
@@ -2158,41 +2835,41 @@ export const ReportableException: coreClient.CompositeMapper = {
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       actionableMessage: {
         serializedName: "actionableMessage",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       filePath: {
         serializedName: "filePath",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lineNumber: {
         serializedName: "lineNumber",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       hResult: {
         serializedName: "hResult",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       stackTrace: {
         serializedName: "stackTrace",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateMISyncCompleteCommandInput: coreClient.CompositeMapper = {
@@ -2204,11 +2881,11 @@ export const MigrateMISyncCompleteCommandInput: coreClient.CompositeMapper = {
         serializedName: "sourceDatabaseName",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateMISyncCompleteCommandOutput: coreClient.CompositeMapper = {
@@ -2223,43 +2900,13 @@ export const MigrateMISyncCompleteCommandOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const AzureActiveDirectoryApp: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureActiveDirectoryApp",
-    modelProperties: {
-      applicationId: {
-        serializedName: "applicationId",
-        required: true,
-        type: {
-          name: "String"
-        }
+              className: "ReportableException",
+            },
+          },
+        },
       },
-      appKey: {
-        serializedName: "appKey",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const BackupSetInfo: coreClient.CompositeMapper = {
@@ -2270,32 +2917,32 @@ export const BackupSetInfo: coreClient.CompositeMapper = {
       backupSetId: {
         serializedName: "backupSetId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       firstLsn: {
         serializedName: "firstLsn",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastLsn: {
         serializedName: "lastLsn",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastModifiedTime: {
         serializedName: "lastModifiedTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       backupType: {
         serializedName: "backupType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       listOfBackupFiles: {
         serializedName: "listOfBackupFiles",
@@ -2304,37 +2951,37 @@ export const BackupSetInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BackupFileInfo"
-            }
-          }
-        }
+              className: "BackupFileInfo",
+            },
+          },
+        },
       },
       databaseName: {
         serializedName: "databaseName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       backupStartDate: {
         serializedName: "backupStartDate",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       backupFinishedDate: {
         serializedName: "backupFinishedDate",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       isBackupRestored: {
         serializedName: "isBackupRestored",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const BackupFileInfo: coreClient.CompositeMapper = {
@@ -2345,23 +2992,23 @@ export const BackupFileInfo: coreClient.CompositeMapper = {
       fileLocation: {
         serializedName: "fileLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       familySequenceNumber: {
         serializedName: "familySequenceNumber",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OrphanedUserInfo: coreClient.CompositeMapper = {
@@ -2372,17 +3019,17 @@ export const OrphanedUserInfo: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databaseName: {
         serializedName: "databaseName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToSourceMySqlTaskInput: coreClient.CompositeMapper = {
@@ -2394,14 +3041,14 @@ export const ConnectToSourceMySqlTaskInput: coreClient.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          className: "MySqlConnectionInfo"
-        }
+          className: "MySqlConnectionInfo",
+        },
       },
       targetPlatform: {
         serializedName: "targetPlatform",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       checkPermissionsGroup: {
         serializedName: "checkPermissionsGroup",
@@ -2411,19 +3058,20 @@ export const ConnectToSourceMySqlTaskInput: coreClient.CompositeMapper = {
             "Default",
             "MigrationFromSqlServerToAzureDB",
             "MigrationFromSqlServerToAzureMI",
-            "MigrationFromMySQLToAzureDBForMySQL"
-          ]
-        }
+            "MigrationFromMySQLToAzureDBForMySQL",
+            "MigrationFromSqlServerToAzureVM",
+          ],
+        },
       },
       isOfflineMigration: {
         defaultValue: false,
         serializedName: "isOfflineMigration",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToSourceSqlServerTaskInput: coreClient.CompositeMapper = {
@@ -2435,8 +3083,8 @@ export const ConnectToSourceSqlServerTaskInput: coreClient.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+          className: "SqlConnectionInfo",
+        },
       },
       checkPermissionsGroup: {
         serializedName: "checkPermissionsGroup",
@@ -2446,47 +3094,54 @@ export const ConnectToSourceSqlServerTaskInput: coreClient.CompositeMapper = {
             "Default",
             "MigrationFromSqlServerToAzureDB",
             "MigrationFromSqlServerToAzureMI",
-            "MigrationFromMySQLToAzureDBForMySQL"
-          ]
-        }
+            "MigrationFromMySQLToAzureDBForMySQL",
+            "MigrationFromSqlServerToAzureVM",
+          ],
+        },
       },
       collectDatabases: {
         defaultValue: true,
         serializedName: "collectDatabases",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       collectLogins: {
         defaultValue: false,
         serializedName: "collectLogins",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       collectAgentJobs: {
         defaultValue: false,
         serializedName: "collectAgentJobs",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       collectTdeCertificateInfo: {
         defaultValue: false,
         serializedName: "collectTdeCertificateInfo",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       validateSsisCatalogOnly: {
         defaultValue: false,
         serializedName: "validateSsisCatalogOnly",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+      encryptedKeyForSecureFields: {
+        serializedName: "encryptedKeyForSecureFields",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToSourceSqlServerTaskOutput: coreClient.CompositeMapper = {
@@ -2496,25 +3151,25 @@ export const ConnectToSourceSqlServerTaskOutput: coreClient.CompositeMapper = {
     uberParent: "ConnectToSourceSqlServerTaskOutput",
     polymorphicDiscriminator: {
       serializedName: "resultType",
-      clientName: "resultType"
+      clientName: "resultType",
     },
     modelProperties: {
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resultType: {
         serializedName: "resultType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DatabaseFileInfo: coreClient.CompositeMapper = {
@@ -2525,47 +3180,47 @@ export const DatabaseFileInfo: coreClient.CompositeMapper = {
       databaseName: {
         serializedName: "databaseName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       logicalName: {
         serializedName: "logicalName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       physicalFullName: {
         serializedName: "physicalFullName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       restoreFullName: {
         serializedName: "restoreFullName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       fileType: {
         serializedName: "fileType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sizeMB: {
         serializedName: "sizeMB",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const MigrationEligibilityInfo: coreClient.CompositeMapper = {
@@ -2577,8 +3232,8 @@ export const MigrationEligibilityInfo: coreClient.CompositeMapper = {
         serializedName: "isEligibleForMigration",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       validationMessages: {
         serializedName: "validationMessages",
@@ -2587,170 +3242,174 @@ export const MigrationEligibilityInfo: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const ConnectToSourcePostgreSqlSyncTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectToSourcePostgreSqlSyncTaskInput",
-    modelProperties: {
-      sourceConnectionInfo: {
-        serializedName: "sourceConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "PostgreSqlConnectionInfo"
-        }
-      }
-    }
-  }
-};
+export const ConnectToSourcePostgreSqlSyncTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConnectToSourcePostgreSqlSyncTaskInput",
+      modelProperties: {
+        sourceConnectionInfo: {
+          serializedName: "sourceConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "PostgreSqlConnectionInfo",
+          },
+        },
+      },
+    },
+  };
 
-export const ConnectToSourcePostgreSqlSyncTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectToSourcePostgreSqlSyncTaskOutput",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ConnectToSourcePostgreSqlSyncTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConnectToSourcePostgreSqlSyncTaskOutput",
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databases: {
+          serializedName: "databases",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        sourceServerBrandVersion: {
+          serializedName: "sourceServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        validationErrors: {
+          serializedName: "validationErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databases: {
-        serializedName: "databases",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      sourceServerBrandVersion: {
-        serializedName: "sourceServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      validationErrors: {
-        serializedName: "validationErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToTargetAzureDbForMySqlTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetAzureDbForMySqlTaskInput",
-    modelProperties: {
-      sourceConnectionInfo: {
-        serializedName: "sourceConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "MySqlConnectionInfo"
-        }
+export const ConnectToTargetAzureDbForMySqlTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetAzureDbForMySqlTaskInput",
+      modelProperties: {
+        sourceConnectionInfo: {
+          serializedName: "sourceConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "MySqlConnectionInfo",
+          },
+        },
+        targetConnectionInfo: {
+          serializedName: "targetConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "MySqlConnectionInfo",
+          },
+        },
+        isOfflineMigration: {
+          defaultValue: false,
+          serializedName: "isOfflineMigration",
+          type: {
+            name: "Boolean",
+          },
+        },
       },
-      targetConnectionInfo: {
-        serializedName: "targetConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "MySqlConnectionInfo"
-        }
-      },
-      isOfflineMigration: {
-        defaultValue: false,
-        serializedName: "isOfflineMigration",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToTargetAzureDbForMySqlTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetAzureDbForMySqlTaskOutput",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ConnectToTargetAzureDbForMySqlTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetAzureDbForMySqlTaskOutput",
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        serverVersion: {
+          serializedName: "serverVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databases: {
+          serializedName: "databases",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        targetServerBrandVersion: {
+          serializedName: "targetServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        validationErrors: {
+          serializedName: "validationErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      serverVersion: {
-        serializedName: "serverVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databases: {
-        serializedName: "databases",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      targetServerBrandVersion: {
-        serializedName: "targetServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      validationErrors: {
-        serializedName: "validationErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const ConnectToTargetSqlDbTaskInput: coreClient.CompositeMapper = {
   type: {
@@ -2761,11 +3420,17 @@ export const ConnectToTargetSqlDbTaskInput: coreClient.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
-      }
-    }
-  }
+          className: "SqlConnectionInfo",
+        },
+      },
+      queryObjectCounts: {
+        serializedName: "queryObjectCounts",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToTargetSqlDbTaskOutput: coreClient.CompositeMapper = {
@@ -2777,32 +3442,32 @@ export const ConnectToTargetSqlDbTaskOutput: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databases: {
         serializedName: "databases",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetServerVersion: {
         serializedName: "targetServerVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetServerBrandVersion: {
         serializedName: "targetServerBrandVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToTargetSqlMISyncTaskInput: coreClient.CompositeMapper = {
@@ -2814,18 +3479,18 @@ export const ConnectToTargetSqlMISyncTaskInput: coreClient.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          className: "MiSqlConnectionInfo"
-        }
+          className: "MiSqlConnectionInfo",
+        },
       },
       azureApp: {
         serializedName: "azureApp",
         type: {
           name: "Composite",
-          className: "AzureActiveDirectoryApp"
-        }
-      }
-    }
-  }
+          className: "AzureActiveDirectoryApp",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToTargetSqlMISyncTaskOutput: coreClient.CompositeMapper = {
@@ -2837,15 +3502,15 @@ export const ConnectToTargetSqlMISyncTaskOutput: coreClient.CompositeMapper = {
         serializedName: "targetServerVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetServerBrandVersion: {
         serializedName: "targetServerBrandVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -2855,13 +3520,13 @@ export const ConnectToTargetSqlMISyncTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToTargetSqlMITaskInput: coreClient.CompositeMapper = {
@@ -2873,32 +3538,32 @@ export const ConnectToTargetSqlMITaskInput: coreClient.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+          className: "SqlConnectionInfo",
+        },
       },
       collectLogins: {
         defaultValue: true,
         serializedName: "collectLogins",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       collectAgentJobs: {
         defaultValue: true,
         serializedName: "collectAgentJobs",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       validateSsisCatalogOnly: {
         defaultValue: false,
         serializedName: "validateSsisCatalogOnly",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToTargetSqlMITaskOutput: coreClient.CompositeMapper = {
@@ -2910,22 +3575,22 @@ export const ConnectToTargetSqlMITaskOutput: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetServerVersion: {
         serializedName: "targetServerVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetServerBrandVersion: {
         serializedName: "targetServerBrandVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       logins: {
         serializedName: "logins",
@@ -2934,10 +3599,10 @@ export const ConnectToTargetSqlMITaskOutput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       agentJobs: {
         serializedName: "agentJobs",
@@ -2946,10 +3611,10 @@ export const ConnectToTargetSqlMITaskOutput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -2959,13 +3624,13 @@ export const ConnectToTargetSqlMITaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToTargetSqlDbSyncTaskInput: coreClient.CompositeMapper = {
@@ -2977,97 +3642,99 @@ export const ConnectToTargetSqlDbSyncTaskInput: coreClient.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+          className: "SqlConnectionInfo",
+        },
       },
       targetConnectionInfo: {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
-      }
-    }
-  }
+          className: "SqlConnectionInfo",
+        },
+      },
+    },
+  },
 };
 
-export const ConnectToTargetAzureDbForPostgreSqlSyncTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskInput",
-    modelProperties: {
-      sourceConnectionInfo: {
-        serializedName: "sourceConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "PostgreSqlConnectionInfo"
-        }
+export const ConnectToTargetAzureDbForPostgreSqlSyncTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskInput",
+      modelProperties: {
+        sourceConnectionInfo: {
+          serializedName: "sourceConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "PostgreSqlConnectionInfo",
+          },
+        },
+        targetConnectionInfo: {
+          serializedName: "targetConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "PostgreSqlConnectionInfo",
+          },
+        },
       },
-      targetConnectionInfo: {
-        serializedName: "targetConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "PostgreSqlConnectionInfo"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput",
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databases: {
+          serializedName: "databases",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        targetServerBrandVersion: {
+          serializedName: "targetServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        validationErrors: {
+          serializedName: "validationErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databases: {
-        serializedName: "databases",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      targetServerBrandVersion: {
-        serializedName: "targetServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      validationErrors: {
-        serializedName: "validationErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const GetUserTablesMySqlTaskInput: coreClient.CompositeMapper = {
   type: {
@@ -3078,8 +3745,8 @@ export const GetUserTablesMySqlTaskInput: coreClient.CompositeMapper = {
         serializedName: "connectionInfo",
         type: {
           name: "Composite",
-          className: "MySqlConnectionInfo"
-        }
+          className: "MySqlConnectionInfo",
+        },
       },
       selectedDatabases: {
         serializedName: "selectedDatabases",
@@ -3088,13 +3755,13 @@ export const GetUserTablesMySqlTaskInput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const GetUserTablesMySqlTaskOutput: coreClient.CompositeMapper = {
@@ -3106,15 +3773,15 @@ export const GetUserTablesMySqlTaskOutput: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databasesToTables: {
         serializedName: "databasesToTables",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -3124,13 +3791,13 @@ export const GetUserTablesMySqlTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const DatabaseTable: coreClient.CompositeMapper = {
@@ -3142,18 +3809,18 @@ export const DatabaseTable: coreClient.CompositeMapper = {
         serializedName: "hasRows",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GetTdeCertificatesSqlTaskInput: coreClient.CompositeMapper = {
@@ -3165,15 +3832,15 @@ export const GetTdeCertificatesSqlTaskInput: coreClient.CompositeMapper = {
         serializedName: "connectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+          className: "SqlConnectionInfo",
+        },
       },
       backupFileShare: {
         serializedName: "backupFileShare",
         type: {
           name: "Composite",
-          className: "FileShare"
-        }
+          className: "FileShare",
+        },
       },
       selectedCertificates: {
         serializedName: "selectedCertificates",
@@ -3183,13 +3850,13 @@ export const GetTdeCertificatesSqlTaskInput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SelectedCertificateInput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SelectedCertificateInput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const FileShare: coreClient.CompositeMapper = {
@@ -3200,24 +3867,24 @@ export const FileShare: coreClient.CompositeMapper = {
       userName: {
         serializedName: "userName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       password: {
         serializedName: "password",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       path: {
         serializedName: "path",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SelectedCertificateInput: coreClient.CompositeMapper = {
@@ -3229,18 +3896,18 @@ export const SelectedCertificateInput: coreClient.CompositeMapper = {
         serializedName: "certificateName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       password: {
         serializedName: "password",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GetTdeCertificatesSqlTaskOutput: coreClient.CompositeMapper = {
@@ -3252,8 +3919,8 @@ export const GetTdeCertificatesSqlTaskOutput: coreClient.CompositeMapper = {
         serializedName: "base64EncodedCertificates",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -3263,13 +3930,13 @@ export const GetTdeCertificatesSqlTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const GetUserTablesSqlSyncTaskInput: coreClient.CompositeMapper = {
@@ -3281,15 +3948,15 @@ export const GetUserTablesSqlSyncTaskInput: coreClient.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+          className: "SqlConnectionInfo",
+        },
       },
       targetConnectionInfo: {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+          className: "SqlConnectionInfo",
+        },
       },
       selectedSourceDatabases: {
         serializedName: "selectedSourceDatabases",
@@ -3298,10 +3965,10 @@ export const GetUserTablesSqlSyncTaskInput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       selectedTargetDatabases: {
         serializedName: "selectedTargetDatabases",
@@ -3310,13 +3977,13 @@ export const GetUserTablesSqlSyncTaskInput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const GetUserTablesSqlSyncTaskOutput: coreClient.CompositeMapper = {
@@ -3328,22 +3995,22 @@ export const GetUserTablesSqlSyncTaskOutput: coreClient.CompositeMapper = {
         serializedName: "databasesToSourceTables",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databasesToTargetTables: {
         serializedName: "databasesToTargetTables",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tableValidationErrors: {
         serializedName: "tableValidationErrors",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -3353,13 +4020,13 @@ export const GetUserTablesSqlSyncTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const GetUserTablesSqlTaskInput: coreClient.CompositeMapper = {
@@ -3371,8 +4038,8 @@ export const GetUserTablesSqlTaskInput: coreClient.CompositeMapper = {
         serializedName: "connectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+          className: "SqlConnectionInfo",
+        },
       },
       selectedDatabases: {
         serializedName: "selectedDatabases",
@@ -3381,13 +4048,19 @@ export const GetUserTablesSqlTaskInput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+      encryptedKeyForSecureFields: {
+        serializedName: "encryptedKeyForSecureFields",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GetUserTablesSqlTaskOutput: coreClient.CompositeMapper = {
@@ -3399,15 +4072,15 @@ export const GetUserTablesSqlTaskOutput: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databasesToTables: {
         serializedName: "databasesToTables",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -3417,48 +4090,49 @@ export const GetUserTablesSqlTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const MigrateSchemaSqlServerSqlDbDatabaseInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateSchemaSqlServerSqlDbDatabaseInput",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
+export const MigrateSchemaSqlServerSqlDbDatabaseInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateSchemaSqlServerSqlDbDatabaseInput",
+      modelProperties: {
+        name: {
+          serializedName: "name",
+          type: {
+            name: "String",
+          },
+        },
+        id: {
+          serializedName: "id",
+          type: {
+            name: "String",
+          },
+        },
+        targetDatabaseName: {
+          serializedName: "targetDatabaseName",
+          type: {
+            name: "String",
+          },
+        },
+        schemaSetting: {
+          serializedName: "schemaSetting",
+          type: {
+            name: "Composite",
+            className: "SchemaMigrationSetting",
+          },
+        },
       },
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      targetDatabaseName: {
-        serializedName: "targetDatabaseName",
-        type: {
-          name: "String"
-        }
-      },
-      schemaSetting: {
-        serializedName: "schemaSetting",
-        type: {
-          name: "Composite",
-          className: "SchemaMigrationSetting"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const SchemaMigrationSetting: coreClient.CompositeMapper = {
   type: {
@@ -3468,23 +4142,23 @@ export const SchemaMigrationSetting: coreClient.CompositeMapper = {
       schemaOption: {
         serializedName: "schemaOption",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       fileId: {
         serializedName: "fileId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       fileName: {
         serializedName: "fileName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SqlMigrationTaskInput: coreClient.CompositeMapper = {
@@ -3496,160 +4170,164 @@ export const SqlMigrationTaskInput: coreClient.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+          className: "SqlConnectionInfo",
+        },
       },
       targetConnectionInfo: {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
-      }
-    }
-  }
-};
-
-export const MigrateSchemaSqlServerSqlDbTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateSchemaSqlServerSqlDbTaskOutput",
-    uberParent: "MigrateSchemaSqlServerSqlDbTaskOutput",
-    polymorphicDiscriminator: {
-      serializedName: "resultType",
-      clientName: "resultType"
+          className: "SqlConnectionInfo",
+        },
+      },
     },
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resultType: {
+  },
+};
+
+export const MigrateSchemaSqlServerSqlDbTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateSchemaSqlServerSqlDbTaskOutput",
+      uberParent: "MigrateSchemaSqlServerSqlDbTaskOutput",
+      polymorphicDiscriminator: {
         serializedName: "resultType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MigrateMySqlAzureDbForMySqlSyncTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlSyncTaskInput",
-    modelProperties: {
-      sourceConnectionInfo: {
-        serializedName: "sourceConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "MySqlConnectionInfo"
-        }
+        clientName: "resultType",
       },
-      targetConnectionInfo: {
-        serializedName: "targetConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "MySqlConnectionInfo"
-        }
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        resultType: {
+          serializedName: "resultType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      selectedDatabases: {
-        serializedName: "selectedDatabases",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateMySqlAzureDbForMySqlSyncDatabaseInput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MigrateMySqlAzureDbForMySqlSyncDatabaseInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlSyncDatabaseInput",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      targetDatabaseName: {
-        serializedName: "targetDatabaseName",
-        type: {
-          name: "String"
-        }
-      },
-      migrationSetting: {
-        serializedName: "migrationSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      sourceSetting: {
-        serializedName: "sourceSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      targetSetting: {
-        serializedName: "targetSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      tableMap: {
-        serializedName: "tableMap",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const MigrateMySqlAzureDbForMySqlSyncTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
-    uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
-    polymorphicDiscriminator: {
-      serializedName: "resultType",
-      clientName: "resultType"
     },
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+  };
+
+export const MigrateMySqlAzureDbForMySqlSyncTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlSyncTaskInput",
+      modelProperties: {
+        sourceConnectionInfo: {
+          serializedName: "sourceConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "MySqlConnectionInfo",
+          },
+        },
+        targetConnectionInfo: {
+          serializedName: "targetConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "MySqlConnectionInfo",
+          },
+        },
+        selectedDatabases: {
+          serializedName: "selectedDatabases",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateMySqlAzureDbForMySqlSyncDatabaseInput",
+              },
+            },
+          },
+        },
       },
-      resultType: {
+    },
+  };
+
+export const MigrateMySqlAzureDbForMySqlSyncDatabaseInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlSyncDatabaseInput",
+      modelProperties: {
+        name: {
+          serializedName: "name",
+          type: {
+            name: "String",
+          },
+        },
+        targetDatabaseName: {
+          serializedName: "targetDatabaseName",
+          type: {
+            name: "String",
+          },
+        },
+        migrationSetting: {
+          serializedName: "migrationSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        sourceSetting: {
+          serializedName: "sourceSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        targetSetting: {
+          serializedName: "targetSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        tableMap: {
+          serializedName: "tableMap",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+      },
+    },
+  };
+
+export const MigrateMySqlAzureDbForMySqlSyncTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
+      uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
+      polymorphicDiscriminator: {
         serializedName: "resultType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+        clientName: "resultType",
+      },
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        resultType: {
+          serializedName: "resultType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const SyncMigrationDatabaseErrorEvent: coreClient.CompositeMapper = {
   type: {
@@ -3660,228 +4338,247 @@ export const SyncMigrationDatabaseErrorEvent: coreClient.CompositeMapper = {
         serializedName: "timestampString",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       eventTypeString: {
         serializedName: "eventTypeString",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       eventText: {
         serializedName: "eventText",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput",
-    modelProperties: {
-      selectedDatabases: {
-        serializedName: "selectedDatabases",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className:
-                "MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput"
-            }
-          }
-        }
+          name: "String",
+        },
       },
-      targetConnectionInfo: {
-        serializedName: "targetConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "PostgreSqlConnectionInfo"
-        }
-      },
-      sourceConnectionInfo: {
-        serializedName: "sourceConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "PostgreSqlConnectionInfo"
-        }
-      },
-      encryptedKeyForSecureFields: {
-        serializedName: "encryptedKeyForSecureFields",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      targetDatabaseName: {
-        serializedName: "targetDatabaseName",
-        type: {
-          name: "String"
-        }
-      },
-      migrationSetting: {
-        serializedName: "migrationSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      sourceSetting: {
-        serializedName: "sourceSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      targetSetting: {
-        serializedName: "targetSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      selectedTables: {
-        serializedName: "selectedTables",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className:
-                "MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
-    uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
-    polymorphicDiscriminator: {
-      serializedName: "resultType",
-      clientName: "resultType"
     },
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resultType: {
-        serializedName: "resultType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+  },
 };
 
-export const MigrateSqlServerSqlDbSyncDatabaseInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbSyncDatabaseInput",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
+export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput",
+      modelProperties: {
+        selectedDatabases: {
+          serializedName: "selectedDatabases",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput",
+              },
+            },
+          },
+        },
+        targetConnectionInfo: {
+          serializedName: "targetConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "PostgreSqlConnectionInfo",
+          },
+        },
+        sourceConnectionInfo: {
+          serializedName: "sourceConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "PostgreSqlConnectionInfo",
+          },
+        },
+        encryptedKeyForSecureFields: {
+          serializedName: "encryptedKeyForSecureFields",
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
       },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
+    },
+  };
+
+export const MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput",
+      modelProperties: {
+        name: {
+          serializedName: "name",
+          type: {
+            name: "String",
+          },
+        },
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetDatabaseName: {
+          serializedName: "targetDatabaseName",
+          type: {
+            name: "String",
+          },
+        },
+        migrationSetting: {
+          serializedName: "migrationSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "any" } },
+          },
+        },
+        sourceSetting: {
+          serializedName: "sourceSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        targetSetting: {
+          serializedName: "targetSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        selectedTables: {
+          serializedName: "selectedTables",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput",
+              },
+            },
+          },
+        },
       },
-      targetDatabaseName: {
-        serializedName: "targetDatabaseName",
-        type: {
-          name: "String"
-        }
+    },
+  };
+
+export const MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput",
+      modelProperties: {
+        name: {
+          serializedName: "name",
+          type: {
+            name: "String",
+          },
+        },
       },
-      schemaName: {
-        serializedName: "schemaName",
-        type: {
-          name: "String"
-        }
+    },
+  };
+
+export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
+      uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator: {
+        serializedName: "resultType",
+        clientName: "resultType",
       },
-      tableMap: {
-        serializedName: "tableMap",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        resultType: {
+          serializedName: "resultType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      migrationSetting: {
-        serializedName: "migrationSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+    },
+  };
+
+export const MigrateSqlServerSqlDbSyncDatabaseInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbSyncDatabaseInput",
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          type: {
+            name: "String",
+          },
+        },
+        name: {
+          serializedName: "name",
+          type: {
+            name: "String",
+          },
+        },
+        targetDatabaseName: {
+          serializedName: "targetDatabaseName",
+          type: {
+            name: "String",
+          },
+        },
+        schemaName: {
+          serializedName: "schemaName",
+          type: {
+            name: "String",
+          },
+        },
+        tableMap: {
+          serializedName: "tableMap",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        migrationSetting: {
+          serializedName: "migrationSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        sourceSetting: {
+          serializedName: "sourceSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        targetSetting: {
+          serializedName: "targetSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
       },
-      sourceSetting: {
-        serializedName: "sourceSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      targetSetting: {
-        serializedName: "targetSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const MigrationValidationOptions: coreClient.CompositeMapper = {
   type: {
@@ -3891,23 +4588,23 @@ export const MigrationValidationOptions: coreClient.CompositeMapper = {
       enableSchemaValidation: {
         serializedName: "enableSchemaValidation",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       enableDataIntegrityValidation: {
         serializedName: "enableDataIntegrityValidation",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       enableQueryAnalysisValidation: {
         serializedName: "enableQueryAnalysisValidation",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerSqlDbSyncTaskOutput: coreClient.CompositeMapper = {
@@ -3917,25 +4614,25 @@ export const MigrateSqlServerSqlDbSyncTaskOutput: coreClient.CompositeMapper = {
     uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
     polymorphicDiscriminator: {
       serializedName: "resultType",
-      clientName: "resultType"
+      clientName: "resultType",
     },
     modelProperties: {
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resultType: {
         serializedName: "resultType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerSqlDbDatabaseInput: coreClient.CompositeMapper = {
@@ -3946,43 +4643,43 @@ export const MigrateSqlServerSqlDbDatabaseInput: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetDatabaseName: {
         serializedName: "targetDatabaseName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       makeSourceDbReadOnly: {
         serializedName: "makeSourceDbReadOnly",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       tableMap: {
         serializedName: "tableMap",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       schemaSetting: {
         serializedName: "schemaSetting",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
+          value: { type: { name: "any" } },
+        },
       },
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerSqlDbTaskOutput: coreClient.CompositeMapper = {
@@ -3992,25 +4689,25 @@ export const MigrateSqlServerSqlDbTaskOutput: coreClient.CompositeMapper = {
     uberParent: "MigrateSqlServerSqlDbTaskOutput",
     polymorphicDiscriminator: {
       serializedName: "resultType",
-      clientName: "resultType"
+      clientName: "resultType",
     },
     modelProperties: {
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resultType: {
         serializedName: "resultType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrationValidationResult: coreClient.CompositeMapper = {
@@ -4022,15 +4719,15 @@ export const MigrationValidationResult: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       migrationId: {
         serializedName: "migrationId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       summaryResults: {
         serializedName: "summaryResults",
@@ -4039,79 +4736,80 @@ export const MigrationValidationResult: coreClient.CompositeMapper = {
           value: {
             type: {
               name: "Composite",
-              className: "MigrationValidationDatabaseSummaryResult"
-            }
-          }
-        }
+              className: "MigrationValidationDatabaseSummaryResult",
+            },
+          },
+        },
       },
       status: {
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const MigrationValidationDatabaseSummaryResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrationValidationDatabaseSummaryResult",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrationValidationDatabaseSummaryResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrationValidationDatabaseSummaryResult",
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        migrationId: {
+          serializedName: "migrationId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceDatabaseName: {
+          serializedName: "sourceDatabaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetDatabaseName: {
+          serializedName: "targetDatabaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        status: {
+          serializedName: "status",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      migrationId: {
-        serializedName: "migrationId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceDatabaseName: {
-        serializedName: "sourceDatabaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetDatabaseName: {
-        serializedName: "targetDatabaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      status: {
-        serializedName: "status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const MigrationReportResult: coreClient.CompositeMapper = {
   type: {
@@ -4121,17 +4819,17 @@ export const MigrationReportResult: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       reportUrl: {
         serializedName: "reportUrl",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DataItemMigrationSummaryResult: coreClient.CompositeMapper = {
@@ -4143,147 +4841,148 @@ export const DataItemMigrationSummaryResult: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       startedOn: {
         serializedName: "startedOn",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endedOn: {
         serializedName: "endedOn",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       state: {
         serializedName: "state",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       statusMessage: {
         serializedName: "statusMessage",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       itemsCount: {
         serializedName: "itemsCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       itemsCompletedCount: {
         serializedName: "itemsCompletedCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       errorPrefix: {
         serializedName: "errorPrefix",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resultPrefix: {
         serializedName: "resultPrefix",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const MigrationValidationDatabaseLevelResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrationValidationDatabaseLevelResult",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrationValidationDatabaseLevelResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrationValidationDatabaseLevelResult",
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        migrationId: {
+          serializedName: "migrationId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceDatabaseName: {
+          serializedName: "sourceDatabaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetDatabaseName: {
+          serializedName: "targetDatabaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        dataIntegrityValidationResult: {
+          serializedName: "dataIntegrityValidationResult",
+          type: {
+            name: "Composite",
+            className: "DataIntegrityValidationResult",
+          },
+        },
+        schemaValidationResult: {
+          serializedName: "schemaValidationResult",
+          type: {
+            name: "Composite",
+            className: "SchemaComparisonValidationResult",
+          },
+        },
+        queryAnalysisValidationResult: {
+          serializedName: "queryAnalysisValidationResult",
+          type: {
+            name: "Composite",
+            className: "QueryAnalysisValidationResult",
+          },
+        },
+        status: {
+          serializedName: "status",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      migrationId: {
-        serializedName: "migrationId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceDatabaseName: {
-        serializedName: "sourceDatabaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetDatabaseName: {
-        serializedName: "targetDatabaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      dataIntegrityValidationResult: {
-        serializedName: "dataIntegrityValidationResult",
-        type: {
-          name: "Composite",
-          className: "DataIntegrityValidationResult"
-        }
-      },
-      schemaValidationResult: {
-        serializedName: "schemaValidationResult",
-        type: {
-          name: "Composite",
-          className: "SchemaComparisonValidationResult"
-        }
-      },
-      queryAnalysisValidationResult: {
-        serializedName: "queryAnalysisValidationResult",
-        type: {
-          name: "Composite",
-          className: "QueryAnalysisValidationResult"
-        }
-      },
-      status: {
-        serializedName: "status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const DataIntegrityValidationResult: coreClient.CompositeMapper = {
   type: {
@@ -4294,18 +4993,18 @@ export const DataIntegrityValidationResult: coreClient.CompositeMapper = {
         serializedName: "failedObjects",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
         type: {
           name: "Composite",
-          className: "ValidationError"
-        }
-      }
-    }
-  }
+          className: "ValidationError",
+        },
+      },
+    },
+  },
 };
 
 export const ValidationError: coreClient.CompositeMapper = {
@@ -4316,17 +5015,17 @@ export const ValidationError: coreClient.CompositeMapper = {
       text: {
         serializedName: "text",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       severity: {
         serializedName: "severity",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SchemaComparisonValidationResult: coreClient.CompositeMapper = {
@@ -4338,60 +5037,61 @@ export const SchemaComparisonValidationResult: coreClient.CompositeMapper = {
         serializedName: "schemaDifferences",
         type: {
           name: "Composite",
-          className: "SchemaComparisonValidationResultType"
-        }
+          className: "SchemaComparisonValidationResultType",
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
         type: {
           name: "Composite",
-          className: "ValidationError"
-        }
+          className: "ValidationError",
+        },
       },
       sourceDatabaseObjectCount: {
         serializedName: "sourceDatabaseObjectCount",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Number" } }
-        }
+          value: { type: { name: "Number" } },
+        },
       },
       targetDatabaseObjectCount: {
         serializedName: "targetDatabaseObjectCount",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Number" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "Number" } },
+        },
+      },
+    },
+  },
 };
 
-export const SchemaComparisonValidationResultType: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SchemaComparisonValidationResultType",
-    modelProperties: {
-      objectName: {
-        serializedName: "objectName",
-        type: {
-          name: "String"
-        }
+export const SchemaComparisonValidationResultType: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "SchemaComparisonValidationResultType",
+      modelProperties: {
+        objectName: {
+          serializedName: "objectName",
+          type: {
+            name: "String",
+          },
+        },
+        objectType: {
+          serializedName: "objectType",
+          type: {
+            name: "String",
+          },
+        },
+        updateAction: {
+          serializedName: "updateAction",
+          type: {
+            name: "String",
+          },
+        },
       },
-      objectType: {
-        serializedName: "objectType",
-        type: {
-          name: "String"
-        }
-      },
-      updateAction: {
-        serializedName: "updateAction",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const QueryAnalysisValidationResult: coreClient.CompositeMapper = {
   type: {
@@ -4402,18 +5102,18 @@ export const QueryAnalysisValidationResult: coreClient.CompositeMapper = {
         serializedName: "queryResults",
         type: {
           name: "Composite",
-          className: "QueryExecutionResult"
-        }
+          className: "QueryExecutionResult",
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
         type: {
           name: "Composite",
-          className: "ValidationError"
-        }
-      }
-    }
-  }
+          className: "ValidationError",
+        },
+      },
+    },
+  },
 };
 
 export const QueryExecutionResult: coreClient.CompositeMapper = {
@@ -4424,31 +5124,31 @@ export const QueryExecutionResult: coreClient.CompositeMapper = {
       queryText: {
         serializedName: "queryText",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       statementsInBatch: {
         serializedName: "statementsInBatch",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sourceResult: {
         serializedName: "sourceResult",
         type: {
           name: "Composite",
-          className: "ExecutionStatistics"
-        }
+          className: "ExecutionStatistics",
+        },
       },
       targetResult: {
         serializedName: "targetResult",
         type: {
           name: "Composite",
-          className: "ExecutionStatistics"
-        }
-      }
-    }
-  }
+          className: "ExecutionStatistics",
+        },
+      },
+    },
+  },
 };
 
 export const ExecutionStatistics: coreClient.CompositeMapper = {
@@ -4459,33 +5159,33 @@ export const ExecutionStatistics: coreClient.CompositeMapper = {
       executionCount: {
         serializedName: "executionCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       cpuTimeMs: {
         serializedName: "cpuTimeMs",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       elapsedTimeMs: {
         serializedName: "elapsedTimeMs",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       waitStats: {
         serializedName: "waitStats",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Composite", className: "WaitStatistics" } }
-        }
+          value: { type: { name: "Composite", className: "WaitStatistics" } },
+        },
       },
       hasErrors: {
         serializedName: "hasErrors",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       sqlErrors: {
         serializedName: "sqlErrors",
@@ -4493,13 +5193,13 @@ export const ExecutionStatistics: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const WaitStatistics: coreClient.CompositeMapper = {
@@ -4510,24 +5210,24 @@ export const WaitStatistics: coreClient.CompositeMapper = {
       waitType: {
         serializedName: "waitType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       waitTimeMs: {
         defaultValue: 0,
         serializedName: "waitTimeMs",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       waitCount: {
         serializedName: "waitCount",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const SqlServerSqlMISyncTaskInput: coreClient.CompositeMapper = {
@@ -4543,48 +5243,48 @@ export const SqlServerSqlMISyncTaskInput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MigrateSqlServerSqlMIDatabaseInput"
-            }
-          }
-        }
+              className: "MigrateSqlServerSqlMIDatabaseInput",
+            },
+          },
+        },
       },
       backupFileShare: {
         serializedName: "backupFileShare",
         type: {
           name: "Composite",
-          className: "FileShare"
-        }
+          className: "FileShare",
+        },
       },
       storageResourceId: {
         serializedName: "storageResourceId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceConnectionInfo: {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+          className: "SqlConnectionInfo",
+        },
       },
       targetConnectionInfo: {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          className: "MiSqlConnectionInfo"
-        }
+          className: "MiSqlConnectionInfo",
+        },
       },
       azureApp: {
         serializedName: "azureApp",
         type: {
           name: "Composite",
-          className: "AzureActiveDirectoryApp"
-        }
-      }
-    }
-  }
+          className: "AzureActiveDirectoryApp",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerSqlMIDatabaseInput: coreClient.CompositeMapper = {
@@ -4596,22 +5296,22 @@ export const MigrateSqlServerSqlMIDatabaseInput: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       restoreDatabaseName: {
         serializedName: "restoreDatabaseName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       backupFileShare: {
         serializedName: "backupFileShare",
         type: {
           name: "Composite",
-          className: "FileShare"
-        }
+          className: "FileShare",
+        },
       },
       backupFilePaths: {
         serializedName: "backupFilePaths",
@@ -4619,19 +5319,19 @@ export const MigrateSqlServerSqlMIDatabaseInput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerSqlMISyncTaskOutput: coreClient.CompositeMapper = {
@@ -4641,25 +5341,25 @@ export const MigrateSqlServerSqlMISyncTaskOutput: coreClient.CompositeMapper = {
     uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
     polymorphicDiscriminator: {
       serializedName: "resultType",
-      clientName: "resultType"
+      clientName: "resultType",
     },
     modelProperties: {
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resultType: {
         serializedName: "resultType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const BlobShare: coreClient.CompositeMapper = {
@@ -4669,13 +5369,12 @@ export const BlobShare: coreClient.CompositeMapper = {
     modelProperties: {
       sasUri: {
         serializedName: "sasUri",
-        required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerSqlMITaskOutput: coreClient.CompositeMapper = {
@@ -4685,25 +5384,25 @@ export const MigrateSqlServerSqlMITaskOutput: coreClient.CompositeMapper = {
     uberParent: "MigrateSqlServerSqlMITaskOutput",
     polymorphicDiscriminator: {
       serializedName: "resultType",
-      clientName: "resultType"
+      clientName: "resultType",
     },
     modelProperties: {
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resultType: {
         serializedName: "resultType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SsisMigrationInfo: coreClient.CompositeMapper = {
@@ -4714,23 +5413,23 @@ export const SsisMigrationInfo: coreClient.CompositeMapper = {
       ssisStoreType: {
         serializedName: "ssisStoreType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       projectOverwriteOption: {
         serializedName: "projectOverwriteOption",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       environmentOverwriteOption: {
         serializedName: "environmentOverwriteOption",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSsisTaskOutput: coreClient.CompositeMapper = {
@@ -4740,25 +5439,25 @@ export const MigrateSsisTaskOutput: coreClient.CompositeMapper = {
     uberParent: "MigrateSsisTaskOutput",
     polymorphicDiscriminator: {
       serializedName: "resultType",
-      clientName: "resultType"
+      clientName: "resultType",
     },
     modelProperties: {
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resultType: {
         serializedName: "resultType",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbCommandInput: coreClient.CompositeMapper = {
@@ -4769,11 +5468,11 @@ export const MongoDbCommandInput: coreClient.CompositeMapper = {
       objectName: {
         serializedName: "objectName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbClusterInfo: coreClient.CompositeMapper = {
@@ -4789,34 +5488,34 @@ export const MongoDbClusterInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MongoDbDatabaseInfo"
-            }
-          }
-        }
+              className: "MongoDbDatabaseInfo",
+            },
+          },
+        },
       },
       supportsSharding: {
         serializedName: "supportsSharding",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       type: {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       version: {
         serializedName: "version",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbShardKeyInfo: coreClient.CompositeMapper = {
@@ -4832,20 +5531,20 @@ export const MongoDbShardKeyInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MongoDbShardKeyField"
-            }
-          }
-        }
+              className: "MongoDbShardKeyField",
+            },
+          },
+        },
       },
       isUnique: {
         serializedName: "isUnique",
         required: true,
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbShardKeyField: coreClient.CompositeMapper = {
@@ -4857,18 +5556,18 @@ export const MongoDbShardKeyField: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       order: {
         serializedName: "order",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbObjectInfo: coreClient.CompositeMapper = {
@@ -4880,39 +5579,39 @@ export const MongoDbObjectInfo: coreClient.CompositeMapper = {
         serializedName: "averageDocumentSize",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       dataSize: {
         serializedName: "dataSize",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       documentCount: {
         serializedName: "documentCount",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       qualifiedName: {
         serializedName: "qualifiedName",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbProgress: coreClient.CompositeMapper = {
@@ -4922,106 +5621,106 @@ export const MongoDbProgress: coreClient.CompositeMapper = {
     uberParent: "MongoDbProgress",
     polymorphicDiscriminator: {
       serializedName: "resultType",
-      clientName: "resultType"
+      clientName: "resultType",
     },
     modelProperties: {
       bytesCopied: {
         serializedName: "bytesCopied",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       documentsCopied: {
         serializedName: "documentsCopied",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       elapsedTime: {
         serializedName: "elapsedTime",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errors: {
         serializedName: "errors",
         required: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "Composite", className: "MongoDbError" } }
-        }
+          value: { type: { name: "Composite", className: "MongoDbError" } },
+        },
       },
       eventsPending: {
         serializedName: "eventsPending",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       eventsReplayed: {
         serializedName: "eventsReplayed",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       lastEventTime: {
         serializedName: "lastEventTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       lastReplayTime: {
         serializedName: "lastReplayTime",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       qualifiedName: {
         serializedName: "qualifiedName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resultType: {
         serializedName: "resultType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       state: {
         serializedName: "state",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       totalBytes: {
         serializedName: "totalBytes",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       totalDocuments: {
         serializedName: "totalDocuments",
         required: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbError: coreClient.CompositeMapper = {
@@ -5032,29 +5731,29 @@ export const MongoDbError: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       count: {
         serializedName: "count",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbCollectionSettings: coreClient.CompositeMapper = {
@@ -5065,24 +5764,24 @@ export const MongoDbCollectionSettings: coreClient.CompositeMapper = {
       canDelete: {
         serializedName: "canDelete",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       shardKey: {
         serializedName: "shardKey",
         type: {
           name: "Composite",
-          className: "MongoDbShardKeySetting"
-        }
+          className: "MongoDbShardKeySetting",
+        },
       },
       targetRUs: {
         serializedName: "targetRUs",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbShardKeySetting: coreClient.CompositeMapper = {
@@ -5098,20 +5797,19 @@ export const MongoDbShardKeySetting: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MongoDbShardKeyField"
-            }
-          }
-        }
+              className: "MongoDbShardKeyField",
+            },
+          },
+        },
       },
       isUnique: {
         serializedName: "isUnique",
-        required: true,
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbDatabaseSettings: coreClient.CompositeMapper = {
@@ -5125,18 +5823,18 @@ export const MongoDbDatabaseSettings: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "MongoDbCollectionSettings" }
-          }
-        }
+            type: { name: "Composite", className: "MongoDbCollectionSettings" },
+          },
+        },
       },
       targetRUs: {
         serializedName: "targetRUs",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbMigrationSettings: coreClient.CompositeMapper = {
@@ -5147,8 +5845,8 @@ export const MongoDbMigrationSettings: coreClient.CompositeMapper = {
       boostRUs: {
         serializedName: "boostRUs",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       databases: {
         serializedName: "databases",
@@ -5156,39 +5854,39 @@ export const MongoDbMigrationSettings: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "MongoDbDatabaseSettings" }
-          }
-        }
+            type: { name: "Composite", className: "MongoDbDatabaseSettings" },
+          },
+        },
       },
       replication: {
         serializedName: "replication",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       source: {
         serializedName: "source",
         type: {
           name: "Composite",
-          className: "MongoDbConnectionInfo"
-        }
+          className: "MongoDbConnectionInfo",
+        },
       },
       target: {
         serializedName: "target",
         type: {
           name: "Composite",
-          className: "MongoDbConnectionInfo"
-        }
+          className: "MongoDbConnectionInfo",
+        },
       },
       throttling: {
         serializedName: "throttling",
         type: {
           name: "Composite",
-          className: "MongoDbThrottlingSettings"
-        }
-      }
-    }
-  }
+          className: "MongoDbThrottlingSettings",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbThrottlingSettings: coreClient.CompositeMapper = {
@@ -5199,23 +5897,23 @@ export const MongoDbThrottlingSettings: coreClient.CompositeMapper = {
       minFreeCpu: {
         serializedName: "minFreeCpu",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       minFreeMemoryMb: {
         serializedName: "minFreeMemoryMb",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       maxParallelism: {
         serializedName: "maxParallelism",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToSourceOracleSyncTaskInput: coreClient.CompositeMapper = {
@@ -5227,11 +5925,11 @@ export const ConnectToSourceOracleSyncTaskInput: coreClient.CompositeMapper = {
         serializedName: "sourceConnectionInfo",
         type: {
           name: "Composite",
-          className: "OracleConnectionInfo"
-        }
-      }
-    }
-  }
+          className: "OracleConnectionInfo",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToSourceOracleSyncTaskOutput: coreClient.CompositeMapper = {
@@ -5243,8 +5941,8 @@ export const ConnectToSourceOracleSyncTaskOutput: coreClient.CompositeMapper = {
         serializedName: "sourceServerVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databases: {
         serializedName: "databases",
@@ -5253,17 +5951,17 @@ export const ConnectToSourceOracleSyncTaskOutput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       sourceServerBrandVersion: {
         serializedName: "sourceServerBrandVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -5273,118 +5971,121 @@ export const ConnectToSourceOracleSyncTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput",
-    modelProperties: {
-      targetConnectionInfo: {
-        serializedName: "targetConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "PostgreSqlConnectionInfo"
-        }
-      }
-    }
-  }
-};
+export const ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput",
+      modelProperties: {
+        targetConnectionInfo: {
+          serializedName: "targetConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "PostgreSqlConnectionInfo",
+          },
+        },
+      },
+    },
+  };
 
-export const ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput",
-    modelProperties: {
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput",
+      modelProperties: {
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databases: {
+          serializedName: "databases",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        targetServerBrandVersion: {
+          serializedName: "targetServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        validationErrors: {
+          serializedName: "validationErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+        databaseSchemaMap: {
+          serializedName: "databaseSchemaMap",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem",
+              },
+            },
+          },
+        },
       },
-      databases: {
-        serializedName: "databases",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      targetServerBrandVersion: {
-        serializedName: "targetServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      validationErrors: {
-        serializedName: "validationErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      },
-      databaseSchemaMap: {
-        serializedName: "databaseSchemaMap",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className:
-                "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem",
-    modelProperties: {
-      database: {
-        serializedName: "database",
-        type: {
-          name: "String"
-        }
+export const ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className:
+        "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem",
+      modelProperties: {
+        database: {
+          serializedName: "database",
+          type: {
+            name: "String",
+          },
+        },
+        schemas: {
+          serializedName: "schemas",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
       },
-      schemas: {
-        serializedName: "schemas",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const GetUserTablesOracleTaskInput: coreClient.CompositeMapper = {
   type: {
@@ -5395,8 +6096,8 @@ export const GetUserTablesOracleTaskInput: coreClient.CompositeMapper = {
         serializedName: "connectionInfo",
         type: {
           name: "Composite",
-          className: "OracleConnectionInfo"
-        }
+          className: "OracleConnectionInfo",
+        },
       },
       selectedSchemas: {
         serializedName: "selectedSchemas",
@@ -5405,13 +6106,13 @@ export const GetUserTablesOracleTaskInput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const GetUserTablesOracleTaskOutput: coreClient.CompositeMapper = {
@@ -5423,8 +6124,8 @@ export const GetUserTablesOracleTaskOutput: coreClient.CompositeMapper = {
         serializedName: "schemaName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tables: {
         serializedName: "tables",
@@ -5434,10 +6135,10 @@ export const GetUserTablesOracleTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DatabaseTable"
-            }
-          }
-        }
+              className: "DatabaseTable",
+            },
+          },
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -5447,13 +6148,13 @@ export const GetUserTablesOracleTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const GetUserTablesPostgreSqlTaskInput: coreClient.CompositeMapper = {
@@ -5465,8 +6166,8 @@ export const GetUserTablesPostgreSqlTaskInput: coreClient.CompositeMapper = {
         serializedName: "connectionInfo",
         type: {
           name: "Composite",
-          className: "PostgreSqlConnectionInfo"
-        }
+          className: "PostgreSqlConnectionInfo",
+        },
       },
       selectedDatabases: {
         serializedName: "selectedDatabases",
@@ -5475,13 +6176,13 @@ export const GetUserTablesPostgreSqlTaskInput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const GetUserTablesPostgreSqlTaskOutput: coreClient.CompositeMapper = {
@@ -5493,8 +6194,8 @@ export const GetUserTablesPostgreSqlTaskOutput: coreClient.CompositeMapper = {
         serializedName: "databaseName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tables: {
         serializedName: "tables",
@@ -5504,10 +6205,10 @@ export const GetUserTablesPostgreSqlTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DatabaseTable"
-            }
-          }
-        }
+              className: "DatabaseTable",
+            },
+          },
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -5517,161 +6218,165 @@ export const GetUserTablesPostgreSqlTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ValidateOracleAzureDbPostgreSqlSyncTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ValidateOracleAzureDbPostgreSqlSyncTaskOutput",
-    modelProperties: {
-      validationErrors: {
-        serializedName: "validationErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MigrateOracleAzureDbPostgreSqlSyncTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateOracleAzureDbPostgreSqlSyncTaskInput",
-    modelProperties: {
-      selectedDatabases: {
-        serializedName: "selectedDatabases",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateOracleAzureDbPostgreSqlSyncDatabaseInput"
-            }
-          }
-        }
+              className: "ReportableException",
+            },
+          },
+        },
       },
-      targetConnectionInfo: {
-        serializedName: "targetConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "PostgreSqlConnectionInfo"
-        }
-      },
-      sourceConnectionInfo: {
-        serializedName: "sourceConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "OracleConnectionInfo"
-        }
-      }
-    }
-  }
-};
-
-export const MigrateOracleAzureDbPostgreSqlSyncDatabaseInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateOracleAzureDbPostgreSqlSyncDatabaseInput",
-    modelProperties: {
-      caseManipulation: {
-        serializedName: "caseManipulation",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      schemaName: {
-        serializedName: "schemaName",
-        type: {
-          name: "String"
-        }
-      },
-      tableMap: {
-        serializedName: "tableMap",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      targetDatabaseName: {
-        serializedName: "targetDatabaseName",
-        type: {
-          name: "String"
-        }
-      },
-      migrationSetting: {
-        serializedName: "migrationSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      sourceSetting: {
-        serializedName: "sourceSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      targetSetting: {
-        serializedName: "targetSetting",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const MigrateOracleAzureDbPostgreSqlSyncTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
-    uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
-    polymorphicDiscriminator: {
-      serializedName: "resultType",
-      clientName: "resultType"
     },
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resultType: {
-        serializedName: "resultType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+  },
 };
+
+export const ValidateOracleAzureDbPostgreSqlSyncTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ValidateOracleAzureDbPostgreSqlSyncTaskOutput",
+      modelProperties: {
+        validationErrors: {
+          serializedName: "validationErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const MigrateOracleAzureDbPostgreSqlSyncTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateOracleAzureDbPostgreSqlSyncTaskInput",
+      modelProperties: {
+        selectedDatabases: {
+          serializedName: "selectedDatabases",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateOracleAzureDbPostgreSqlSyncDatabaseInput",
+              },
+            },
+          },
+        },
+        targetConnectionInfo: {
+          serializedName: "targetConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "PostgreSqlConnectionInfo",
+          },
+        },
+        sourceConnectionInfo: {
+          serializedName: "sourceConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "OracleConnectionInfo",
+          },
+        },
+      },
+    },
+  };
+
+export const MigrateOracleAzureDbPostgreSqlSyncDatabaseInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateOracleAzureDbPostgreSqlSyncDatabaseInput",
+      modelProperties: {
+        caseManipulation: {
+          serializedName: "caseManipulation",
+          type: {
+            name: "String",
+          },
+        },
+        name: {
+          serializedName: "name",
+          type: {
+            name: "String",
+          },
+        },
+        schemaName: {
+          serializedName: "schemaName",
+          type: {
+            name: "String",
+          },
+        },
+        tableMap: {
+          serializedName: "tableMap",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        targetDatabaseName: {
+          serializedName: "targetDatabaseName",
+          type: {
+            name: "String",
+          },
+        },
+        migrationSetting: {
+          serializedName: "migrationSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        sourceSetting: {
+          serializedName: "sourceSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        targetSetting: {
+          serializedName: "targetSetting",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+      },
+    },
+  };
+
+export const MigrateOracleAzureDbPostgreSqlSyncTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
+      uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator: {
+        serializedName: "resultType",
+        clientName: "resultType",
+      },
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        resultType: {
+          serializedName: "resultType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
 export const OracleOCIDriverInfo: coreClient.CompositeMapper = {
   type: {
@@ -5682,36 +6387,36 @@ export const OracleOCIDriverInfo: coreClient.CompositeMapper = {
         serializedName: "driverName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       driverSize: {
         serializedName: "driverSize",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       archiveChecksum: {
         serializedName: "archiveChecksum",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       oracleChecksum: {
         serializedName: "oracleChecksum",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       assemblyVersion: {
         serializedName: "assemblyVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       supportedOracleVersions: {
         serializedName: "supportedOracleVersions",
@@ -5720,13 +6425,13 @@ export const OracleOCIDriverInfo: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const CheckOCIDriverTaskInput: coreClient.CompositeMapper = {
@@ -5737,11 +6442,11 @@ export const CheckOCIDriverTaskInput: coreClient.CompositeMapper = {
       serverVersion: {
         serializedName: "serverVersion",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CheckOCIDriverTaskOutput: coreClient.CompositeMapper = {
@@ -5753,8 +6458,8 @@ export const CheckOCIDriverTaskOutput: coreClient.CompositeMapper = {
         serializedName: "installedDriver",
         type: {
           name: "Composite",
-          className: "OracleOCIDriverInfo"
-        }
+          className: "OracleOCIDriverInfo",
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -5764,13 +6469,13 @@ export const CheckOCIDriverTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const UploadOCIDriverTaskInput: coreClient.CompositeMapper = {
@@ -5782,11 +6487,11 @@ export const UploadOCIDriverTaskInput: coreClient.CompositeMapper = {
         serializedName: "driverShare",
         type: {
           name: "Composite",
-          className: "FileShare"
-        }
-      }
-    }
-  }
+          className: "FileShare",
+        },
+      },
+    },
+  },
 };
 
 export const UploadOCIDriverTaskOutput: coreClient.CompositeMapper = {
@@ -5798,8 +6503,8 @@ export const UploadOCIDriverTaskOutput: coreClient.CompositeMapper = {
         serializedName: "driverPackageName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -5809,13 +6514,13 @@ export const UploadOCIDriverTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const InstallOCIDriverTaskInput: coreClient.CompositeMapper = {
@@ -5826,11 +6531,11 @@ export const InstallOCIDriverTaskInput: coreClient.CompositeMapper = {
       driverPackageName: {
         serializedName: "driverPackageName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const InstallOCIDriverTaskOutput: coreClient.CompositeMapper = {
@@ -5846,13 +6551,13 @@ export const InstallOCIDriverTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ServiceOperation: coreClient.CompositeMapper = {
@@ -5863,18 +6568,18 @@ export const ServiceOperation: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "ServiceOperationDisplay"
-        }
-      }
-    }
-  }
+          className: "ServiceOperationDisplay",
+        },
+      },
+    },
+  },
 };
 
 export const ServiceOperationDisplay: coreClient.CompositeMapper = {
@@ -5885,29 +6590,29 @@ export const ServiceOperationDisplay: coreClient.CompositeMapper = {
       provider: {
         serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ServiceOperationList: coreClient.CompositeMapper = {
@@ -5922,19 +6627,19 @@ export const ServiceOperationList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ServiceOperation"
-            }
-          }
-        }
+              className: "ServiceOperation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToSourceNonSqlTaskOutput: coreClient.CompositeMapper = {
@@ -5946,22 +6651,22 @@ export const ConnectToSourceNonSqlTaskOutput: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceServerBrandVersion: {
         serializedName: "sourceServerBrandVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverProperties: {
         serializedName: "serverProperties",
         type: {
           name: "Composite",
-          className: "ServerProperties"
-        }
+          className: "ServerProperties",
+        },
       },
       databases: {
         serializedName: "databases",
@@ -5970,10 +6675,10 @@ export const ConnectToSourceNonSqlTaskOutput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       validationErrors: {
         serializedName: "validationErrors",
@@ -5983,13 +6688,13 @@ export const ConnectToSourceNonSqlTaskOutput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ServerProperties: coreClient.CompositeMapper = {
@@ -6001,393 +6706,406 @@ export const ServerProperties: coreClient.CompositeMapper = {
         serializedName: "serverPlatform",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverName: {
         serializedName: "serverName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverVersion: {
         serializedName: "serverVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverEdition: {
         serializedName: "serverEdition",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverOperatingSystemVersion: {
         serializedName: "serverOperatingSystemVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverDatabaseCount: {
         serializedName: "serverDatabaseCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const MigrateMySqlAzureDbForMySqlOfflineTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlOfflineTaskInput",
-    modelProperties: {
-      sourceConnectionInfo: {
-        serializedName: "sourceConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "MySqlConnectionInfo"
-        }
+          name: "Number",
+        },
       },
-      targetConnectionInfo: {
-        serializedName: "targetConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "MySqlConnectionInfo"
-        }
-      },
-      selectedDatabases: {
-        serializedName: "selectedDatabases",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateMySqlAzureDbForMySqlOfflineDatabaseInput"
-            }
-          }
-        }
-      },
-      makeSourceServerReadOnly: {
-        defaultValue: false,
-        serializedName: "makeSourceServerReadOnly",
-        type: {
-          name: "Boolean"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        type: {
-          name: "DateTime"
-        }
-      },
-      optionalAgentSettings: {
-        serializedName: "optionalAgentSettings",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const MigrateMySqlAzureDbForMySqlOfflineDatabaseInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlOfflineDatabaseInput",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      targetDatabaseName: {
-        serializedName: "targetDatabaseName",
-        type: {
-          name: "String"
-        }
-      },
-      tableMap: {
-        serializedName: "tableMap",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const MigrateMySqlAzureDbForMySqlOfflineTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
-    uberParent: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
-    polymorphicDiscriminator: {
-      serializedName: "resultType",
-      clientName: "resultType"
     },
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+  },
+};
+
+export const MigrateMySqlAzureDbForMySqlOfflineTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlOfflineTaskInput",
+      modelProperties: {
+        sourceConnectionInfo: {
+          serializedName: "sourceConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "MySqlConnectionInfo",
+          },
+        },
+        targetConnectionInfo: {
+          serializedName: "targetConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "MySqlConnectionInfo",
+          },
+        },
+        selectedDatabases: {
+          serializedName: "selectedDatabases",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateMySqlAzureDbForMySqlOfflineDatabaseInput",
+              },
+            },
+          },
+        },
+        makeSourceServerReadOnly: {
+          defaultValue: false,
+          serializedName: "makeSourceServerReadOnly",
+          type: {
+            name: "Boolean",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          type: {
+            name: "DateTime",
+          },
+        },
+        optionalAgentSettings: {
+          serializedName: "optionalAgentSettings",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+        encryptedKeyForSecureFields: {
+          serializedName: "encryptedKeyForSecureFields",
+          type: {
+            name: "String",
+          },
+        },
       },
-      resultType: {
+    },
+  };
+
+export const MigrateMySqlAzureDbForMySqlOfflineDatabaseInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlOfflineDatabaseInput",
+      modelProperties: {
+        name: {
+          serializedName: "name",
+          type: {
+            name: "String",
+          },
+        },
+        targetDatabaseName: {
+          serializedName: "targetDatabaseName",
+          type: {
+            name: "String",
+          },
+        },
+        tableMap: {
+          serializedName: "tableMap",
+          type: {
+            name: "Dictionary",
+            value: { type: { name: "String" } },
+          },
+        },
+      },
+    },
+  };
+
+export const MigrateMySqlAzureDbForMySqlOfflineTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
+      uberParent: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
+      polymorphicDiscriminator: {
         serializedName: "resultType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+        clientName: "resultType",
+      },
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        resultType: {
+          serializedName: "resultType",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
 
-export const ValidateSyncMigrationInputSqlServerTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ValidateSyncMigrationInputSqlServerTaskInput",
-    modelProperties: {
-      sourceConnectionInfo: {
-        serializedName: "sourceConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+export const ValidateSyncMigrationInputSqlServerTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ValidateSyncMigrationInputSqlServerTaskInput",
+      modelProperties: {
+        sourceConnectionInfo: {
+          serializedName: "sourceConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "SqlConnectionInfo",
+          },
+        },
+        targetConnectionInfo: {
+          serializedName: "targetConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "SqlConnectionInfo",
+          },
+        },
+        selectedDatabases: {
+          serializedName: "selectedDatabases",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateSqlServerSqlDbSyncDatabaseInput",
+              },
+            },
+          },
+        },
       },
-      targetConnectionInfo: {
-        serializedName: "targetConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "SqlConnectionInfo"
-        }
-      },
-      selectedDatabases: {
-        serializedName: "selectedDatabases",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateSqlServerSqlDbSyncDatabaseInput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ValidateSyncMigrationInputSqlServerTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ValidateSyncMigrationInputSqlServerTaskOutput",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ValidateSyncMigrationInputSqlServerTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ValidateSyncMigrationInputSqlServerTaskOutput",
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        name: {
+          serializedName: "name",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        validationErrors: {
+          serializedName: "validationErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      validationErrors: {
-        serializedName: "validationErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ValidateMigrationInputSqlServerSqlMITaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ValidateMigrationInputSqlServerSqlMITaskInput",
-    modelProperties: {
-      sourceConnectionInfo: {
-        serializedName: "sourceConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+export const ValidateMigrationInputSqlServerSqlMITaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ValidateMigrationInputSqlServerSqlMITaskInput",
+      modelProperties: {
+        sourceConnectionInfo: {
+          serializedName: "sourceConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "SqlConnectionInfo",
+          },
+        },
+        targetConnectionInfo: {
+          serializedName: "targetConnectionInfo",
+          type: {
+            name: "Composite",
+            className: "SqlConnectionInfo",
+          },
+        },
+        selectedDatabases: {
+          serializedName: "selectedDatabases",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateSqlServerSqlMIDatabaseInput",
+              },
+            },
+          },
+        },
+        selectedLogins: {
+          serializedName: "selectedLogins",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+        backupFileShare: {
+          serializedName: "backupFileShare",
+          type: {
+            name: "Composite",
+            className: "FileShare",
+          },
+        },
+        backupBlobShare: {
+          serializedName: "backupBlobShare",
+          type: {
+            name: "Composite",
+            className: "BlobShare",
+          },
+        },
+        backupMode: {
+          serializedName: "backupMode",
+          type: {
+            name: "String",
+          },
+        },
       },
-      targetConnectionInfo: {
-        serializedName: "targetConnectionInfo",
-        type: {
-          name: "Composite",
-          className: "SqlConnectionInfo"
-        }
-      },
-      selectedDatabases: {
-        serializedName: "selectedDatabases",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateSqlServerSqlMIDatabaseInput"
-            }
-          }
-        }
-      },
-      selectedLogins: {
-        serializedName: "selectedLogins",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      backupFileShare: {
-        serializedName: "backupFileShare",
-        type: {
-          name: "Composite",
-          className: "FileShare"
-        }
-      },
-      backupBlobShare: {
-        serializedName: "backupBlobShare",
-        type: {
-          name: "Composite",
-          className: "BlobShare"
-        }
-      },
-      backupMode: {
-        serializedName: "backupMode",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ValidateMigrationInputSqlServerSqlMITaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ValidateMigrationInputSqlServerSqlMITaskOutput",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ValidateMigrationInputSqlServerSqlMITaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ValidateMigrationInputSqlServerSqlMITaskOutput",
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        name: {
+          serializedName: "name",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        restoreDatabaseNameErrors: {
+          serializedName: "restoreDatabaseNameErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+        backupFolderErrors: {
+          serializedName: "backupFolderErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+        backupShareCredentialsErrors: {
+          serializedName: "backupShareCredentialsErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+        backupStorageAccountErrors: {
+          serializedName: "backupStorageAccountErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+        existingBackupErrors: {
+          serializedName: "existingBackupErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+        databaseBackupInfo: {
+          serializedName: "databaseBackupInfo",
+          type: {
+            name: "Composite",
+            className: "DatabaseBackupInfo",
+          },
+        },
       },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      restoreDatabaseNameErrors: {
-        serializedName: "restoreDatabaseNameErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      },
-      backupFolderErrors: {
-        serializedName: "backupFolderErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      },
-      backupShareCredentialsErrors: {
-        serializedName: "backupShareCredentialsErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      },
-      backupStorageAccountErrors: {
-        serializedName: "backupStorageAccountErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      },
-      existingBackupErrors: {
-        serializedName: "existingBackupErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      },
-      databaseBackupInfo: {
-        serializedName: "databaseBackupInfo",
-        type: {
-          name: "Composite",
-          className: "DatabaseBackupInfo"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const DatabaseBackupInfo: coreClient.CompositeMapper = {
   type: {
@@ -6398,15 +7116,15 @@ export const DatabaseBackupInfo: coreClient.CompositeMapper = {
         serializedName: "databaseName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       backupType: {
         serializedName: "backupType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       backupFiles: {
         serializedName: "backupFiles",
@@ -6415,85 +7133,86 @@ export const DatabaseBackupInfo: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       position: {
         serializedName: "position",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       isDamaged: {
         serializedName: "isDamaged",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       isCompressed: {
         serializedName: "isCompressed",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       familyCount: {
         serializedName: "familyCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       backupFinishDate: {
         serializedName: "backupFinishDate",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
-export const ValidateMigrationInputSqlServerSqlMISyncTaskOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ValidateMigrationInputSqlServerSqlMISyncTaskOutput",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ValidateMigrationInputSqlServerSqlMISyncTaskOutput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ValidateMigrationInputSqlServerSqlMISyncTaskOutput",
+      modelProperties: {
+        id: {
+          serializedName: "id",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        name: {
+          serializedName: "name",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        validationErrors: {
+          serializedName: "validationErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      validationErrors: {
-        serializedName: "validationErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const Database: coreClient.CompositeMapper = {
   type: {
@@ -6503,107 +7222,107 @@ export const Database: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       compatibilityLevel: {
         serializedName: "compatibilityLevel",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       collation: {
         serializedName: "collation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverName: {
         serializedName: "serverName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       fqdn: {
         serializedName: "fqdn",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       installId: {
         serializedName: "installId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverVersion: {
         serializedName: "serverVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverEdition: {
         serializedName: "serverEdition",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverLevel: {
         serializedName: "serverLevel",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverDefaultDataPath: {
         serializedName: "serverDefaultDataPath",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverDefaultLogPath: {
         serializedName: "serverDefaultLogPath",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverDefaultBackupPath: {
         serializedName: "serverDefaultBackupPath",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverCoreCount: {
         serializedName: "serverCoreCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       serverVisibleOnlineCoreCount: {
         serializedName: "serverVisibleOnlineCoreCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       databaseState: {
         serializedName: "databaseState",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverId: {
         serializedName: "serverId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DatabaseObjectName: coreClient.CompositeMapper = {
@@ -6615,31 +7334,31 @@ export const DatabaseObjectName: coreClient.CompositeMapper = {
         serializedName: "databaseName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       objectName: {
         serializedName: "objectName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       schemaName: {
         serializedName: "schemaName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       objectType: {
         serializedName: "objectType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DataMigrationProjectMetadata: coreClient.CompositeMapper = {
@@ -6651,50 +7370,50 @@ export const DataMigrationProjectMetadata: coreClient.CompositeMapper = {
         serializedName: "sourceServerName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceServerPort: {
         serializedName: "sourceServerPort",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceUsername: {
         serializedName: "sourceUsername",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetServerName: {
         serializedName: "targetServerName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetUsername: {
         serializedName: "targetUsername",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetDbName: {
         serializedName: "targetDbName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetUsingWinAuth: {
         serializedName: "targetUsingWinAuth",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       selectedMigrationTables: {
         serializedName: "selectedMigrationTables",
@@ -6704,13 +7423,13 @@ export const DataMigrationProjectMetadata: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MigrationTableMetadata"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "MigrationTableMetadata",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const MigrationTableMetadata: coreClient.CompositeMapper = {
@@ -6722,18 +7441,18 @@ export const MigrationTableMetadata: coreClient.CompositeMapper = {
         serializedName: "sourceTableName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetTableName: {
         serializedName: "targetTableName",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GetProjectDetailsNonSqlTaskInput: coreClient.CompositeMapper = {
@@ -6745,18 +7464,18 @@ export const GetProjectDetailsNonSqlTaskInput: coreClient.CompositeMapper = {
         serializedName: "projectName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       projectLocation: {
         serializedName: "projectLocation",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const NonSqlMigrationTaskInput: coreClient.CompositeMapper = {
@@ -6768,29 +7487,29 @@ export const NonSqlMigrationTaskInput: coreClient.CompositeMapper = {
         serializedName: "targetConnectionInfo",
         type: {
           name: "Composite",
-          className: "SqlConnectionInfo"
-        }
+          className: "SqlConnectionInfo",
+        },
       },
       targetDatabaseName: {
         serializedName: "targetDatabaseName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       projectName: {
         serializedName: "projectName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       projectLocation: {
         serializedName: "projectLocation",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       selectedTables: {
         serializedName: "selectedTables",
@@ -6800,13 +7519,13 @@ export const NonSqlMigrationTaskInput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NonSqlDataMigrationTable"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "NonSqlDataMigrationTable",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const NonSqlDataMigrationTable: coreClient.CompositeMapper = {
@@ -6817,11 +7536,11 @@ export const NonSqlDataMigrationTable: coreClient.CompositeMapper = {
       sourceName: {
         serializedName: "sourceName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const NonSqlMigrationTaskOutput: coreClient.CompositeMapper = {
@@ -6833,60 +7552,60 @@ export const NonSqlMigrationTaskOutput: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       startedOn: {
         serializedName: "startedOn",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endedOn: {
         serializedName: "endedOn",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       status: {
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataMigrationTableResults: {
         serializedName: "dataMigrationTableResults",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       progressMessage: {
         serializedName: "progressMessage",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceServerName: {
         serializedName: "sourceServerName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetServerName: {
         serializedName: "targetServerName",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const NonSqlDataMigrationTableResult: coreClient.CompositeMapper = {
@@ -6898,43 +7617,43 @@ export const NonSqlDataMigrationTableResult: coreClient.CompositeMapper = {
         serializedName: "resultCode",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceName: {
         serializedName: "sourceName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetName: {
         serializedName: "targetName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceRowCount: {
         serializedName: "sourceRowCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       targetRowCount: {
         serializedName: "targetRowCount",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       elapsedTimeInMiliseconds: {
         serializedName: "elapsedTimeInMiliseconds",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       errors: {
         serializedName: "errors",
@@ -6944,13 +7663,13 @@ export const NonSqlDataMigrationTableResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DataMigrationError"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "DataMigrationError",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const DataMigrationError: coreClient.CompositeMapper = {
@@ -6962,17 +7681,17 @@ export const DataMigrationError: coreClient.CompositeMapper = {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerDatabaseInput: coreClient.CompositeMapper = {
@@ -6983,20 +7702,20 @@ export const MigrateSqlServerDatabaseInput: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       restoreDatabaseName: {
         serializedName: "restoreDatabaseName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       backupAndRestoreFolder: {
         serializedName: "backupAndRestoreFolder",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databaseFiles: {
         serializedName: "databaseFiles",
@@ -7005,13 +7724,13 @@ export const MigrateSqlServerDatabaseInput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DatabaseFileInput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "DatabaseFileInput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const DatabaseFileInput: coreClient.CompositeMapper = {
@@ -7022,165 +7741,206 @@ export const DatabaseFileInput: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       logicalName: {
         serializedName: "logicalName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       physicalFullName: {
         serializedName: "physicalFullName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       restoreFullName: {
         serializedName: "restoreFullName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       fileType: {
         serializedName: "fileType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const StartMigrationScenarioServerRoleResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StartMigrationScenarioServerRoleResult",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const StartMigrationScenarioServerRoleResult: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "StartMigrationScenarioServerRoleResult",
+      modelProperties: {
+        name: {
+          serializedName: "name",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        exceptionsAndWarnings: {
+          serializedName: "exceptionsAndWarnings",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      exceptionsAndWarnings: {
-        serializedName: "exceptionsAndWarnings",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const DatabaseMigrationPropertiesSqlMi: coreClient.CompositeMapper = {
-  serializedName: "SqlMi",
+export const DatabaseMigrationPropertiesCosmosDbMongo: coreClient.CompositeMapper =
+  {
+    serializedName: "MongoToCosmosDbMongo",
+    type: {
+      name: "Composite",
+      className: "DatabaseMigrationPropertiesCosmosDbMongo",
+      uberParent: "DatabaseMigrationBaseProperties",
+      polymorphicDiscriminator:
+        DatabaseMigrationBaseProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...DatabaseMigrationBaseProperties.type.modelProperties,
+        sourceMongoConnection: {
+          serializedName: "sourceMongoConnection",
+          type: {
+            name: "Composite",
+            className: "MongoConnectionInformation",
+          },
+        },
+        targetMongoConnection: {
+          serializedName: "targetMongoConnection",
+          type: {
+            name: "Composite",
+            className: "MongoConnectionInformation",
+          },
+        },
+        collectionList: {
+          serializedName: "collectionList",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MongoMigrationCollection",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const DatabaseMigrationProperties: coreClient.CompositeMapper = {
+  serializedName: "DatabaseMigrationProperties",
   type: {
     name: "Composite",
-    className: "DatabaseMigrationPropertiesSqlMi",
-    uberParent: "DatabaseMigrationProperties",
-    polymorphicDiscriminator:
-      DatabaseMigrationProperties.type.polymorphicDiscriminator,
+    className: "DatabaseMigrationProperties",
+    uberParent: "DatabaseMigrationBaseProperties",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind",
+    },
     modelProperties: {
-      ...DatabaseMigrationProperties.type.modelProperties,
-      migrationStatusDetails: {
-        serializedName: "migrationStatusDetails",
+      ...DatabaseMigrationBaseProperties.type.modelProperties,
+      sourceSqlConnection: {
+        serializedName: "sourceSqlConnection",
         type: {
           name: "Composite",
-          className: "MigrationStatusDetails"
-        }
+          className: "SqlConnectionInformation",
+        },
+      },
+      sourceDatabaseName: {
+        serializedName: "sourceDatabaseName",
+        type: {
+          name: "String",
+        },
+      },
+      sourceServerName: {
+        serializedName: "sourceServerName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
       },
       targetDatabaseCollation: {
         serializedName: "targetDatabaseCollation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      provisioningError: {
-        serializedName: "provisioningError",
-        type: {
-          name: "String"
-        }
-      },
-      backupConfiguration: {
-        serializedName: "backupConfiguration",
-        type: {
-          name: "Composite",
-          className: "BackupConfiguration"
-        }
-      },
-      offlineConfiguration: {
-        serializedName: "offlineConfiguration",
-        type: {
-          name: "Composite",
-          className: "OfflineConfiguration"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
-export const DatabaseMigrationPropertiesSqlVm: coreClient.CompositeMapper = {
-  serializedName: "SqlVm",
+export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DatabaseMigrationPropertiesSqlVm",
-    uberParent: "DatabaseMigrationProperties",
-    polymorphicDiscriminator:
-      DatabaseMigrationProperties.type.polymorphicDiscriminator,
+    className: "ProxyResource",
     modelProperties: {
-      ...DatabaseMigrationProperties.type.modelProperties,
-      migrationStatusDetails: {
-        serializedName: "migrationStatusDetails",
+      ...Resource.type.modelProperties,
+    },
+  },
+};
+
+export const TrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DatabaseMigrationSqlDb: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatabaseMigrationSqlDb",
+    modelProperties: {
+      ...ProxyResourceAutoGenerated.type.modelProperties,
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "MigrationStatusDetails"
-        }
+          className: "DatabaseMigrationPropertiesSqlDb",
+        },
       },
-      targetDatabaseCollation: {
-        serializedName: "targetDatabaseCollation",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningError: {
-        serializedName: "provisioningError",
-        type: {
-          name: "String"
-        }
-      },
-      backupConfiguration: {
-        serializedName: "backupConfiguration",
-        type: {
-          name: "Composite",
-          className: "BackupConfiguration"
-        }
-      },
-      offlineConfiguration: {
-        serializedName: "offlineConfiguration",
-        type: {
-          name: "Composite",
-          className: "OfflineConfiguration"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const DatabaseMigrationSqlMi: coreClient.CompositeMapper = {
@@ -7188,23 +7948,16 @@ export const DatabaseMigrationSqlMi: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DatabaseMigrationSqlMi",
     modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
+      ...ProxyResourceAutoGenerated.type.modelProperties,
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "DatabaseMigrationPropertiesSqlMi"
-        }
-      }
-    }
-  }
+          className: "DatabaseMigrationPropertiesSqlMi",
+        },
+      },
+    },
+  },
 };
 
 export const DatabaseMigrationSqlVm: coreClient.CompositeMapper = {
@@ -7212,47 +7965,16 @@ export const DatabaseMigrationSqlVm: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DatabaseMigrationSqlVm",
     modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      },
+      ...ProxyResourceAutoGenerated.type.modelProperties,
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "DatabaseMigrationPropertiesSqlVm"
-        }
-      }
-    }
-  }
-};
-
-export const DatabaseMigration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatabaseMigration",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
+          className: "DatabaseMigrationPropertiesSqlVm",
+        },
       },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "DatabaseMigrationProperties"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const SqlMigrationService: coreClient.CompositeMapper = {
@@ -7260,23 +7982,23 @@ export const SqlMigrationService: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SqlMigrationService",
     modelProperties: {
-      ...TrackedResource.type.modelProperties,
+      ...TrackedResourceAutoGenerated.type.modelProperties,
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       integrationRuntimeState: {
         serializedName: "properties.integrationRuntimeState",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DataMigrationService: coreClient.CompositeMapper = {
@@ -7284,65 +8006,65 @@ export const DataMigrationService: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DataMigrationService",
     modelProperties: {
-      ...TrackedResource.type.modelProperties,
+      ...TrackedResourceAutoGenerated.type.modelProperties,
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       kind: {
         serializedName: "kind",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "ServiceSku"
-        }
+          className: "ServiceSku",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       publicKey: {
         serializedName: "properties.publicKey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       virtualSubnetId: {
         serializedName: "properties.virtualSubnetId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       virtualNicId: {
         serializedName: "properties.virtualNicId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       autoStopDelay: {
         serializedName: "properties.autoStopDelay",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deleteResourcesOnStop: {
         serializedName: "properties.deleteResourcesOnStop",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const Project: coreClient.CompositeMapper = {
@@ -7350,51 +8072,52 @@ export const Project: coreClient.CompositeMapper = {
     name: "Composite",
     className: "Project",
     modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      eTag: {
-        serializedName: "eTag",
+      ...TrackedResourceAutoGenerated.type.modelProperties,
+      etag: {
+        serializedName: "etag",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourcePlatform: {
         serializedName: "properties.sourcePlatform",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureAuthenticationInfo: {
         serializedName: "properties.azureAuthenticationInfo",
         type: {
-          name: "String"
-        }
+          name: "Composite",
+          className: "AzureActiveDirectoryApp",
+        },
       },
       targetPlatform: {
         serializedName: "properties.targetPlatform",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       creationTime: {
         serializedName: "properties.creationTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       sourceConnectionInfo: {
         serializedName: "properties.sourceConnectionInfo",
         type: {
           name: "Composite",
-          className: "ConnectionInfo"
-        }
+          className: "ConnectionInfo",
+        },
       },
       targetConnectionInfo: {
         serializedName: "properties.targetConnectionInfo",
         type: {
           name: "Composite",
-          className: "ConnectionInfo"
-        }
+          className: "ConnectionInfo",
+        },
       },
       databasesInfo: {
         serializedName: "properties.databasesInfo",
@@ -7403,67 +8126,74 @@ export const Project: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DatabaseInfo"
-            }
-          }
-        }
+              className: "DatabaseInfo",
+            },
+          },
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const MigrateSchemaSqlServerSqlDbTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "MigrateSchemaSqlServerSqlDb",
-  type: {
-    name: "Composite",
-    className: "MigrateSchemaSqlServerSqlDbTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MigrateSchemaSqlServerSqlDbTaskInput"
-        }
+export const MigrateSchemaSqlServerSqlDbTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrateSchemaSqlServerSqlDb",
+    type: {
+      name: "Composite",
+      className: "MigrateSchemaSqlServerSqlDbTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "MigrateSchemaSqlServerSqlDbTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateSchemaSqlServerSqlDbTaskOutput",
+              },
+            },
+          },
+        },
+        createdOn: {
+          serializedName: "createdOn",
+          type: {
+            name: "String",
+          },
+        },
+        taskId: {
+          serializedName: "taskId",
+          type: {
+            name: "String",
+          },
+        },
+        isCloneable: {
+          serializedName: "isCloneable",
+          type: {
+            name: "Boolean",
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateSchemaSqlServerSqlDbTaskOutput"
-            }
-          }
-        }
-      },
-      createdOn: {
-        serializedName: "createdOn",
-        type: {
-          name: "String"
-        }
-      },
-      taskId: {
-        serializedName: "taskId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const CheckOCIDriverTaskProperties: coreClient.CompositeMapper = {
   serializedName: "Service.Check.OCI",
@@ -7479,8 +8209,8 @@ export const CheckOCIDriverTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "CheckOCIDriverTaskInput"
-        }
+          className: "CheckOCIDriverTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -7490,13 +8220,13 @@ export const CheckOCIDriverTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CheckOCIDriverTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "CheckOCIDriverTaskOutput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const UploadOCIDriverTaskProperties: coreClient.CompositeMapper = {
@@ -7513,8 +8243,8 @@ export const UploadOCIDriverTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "UploadOCIDriverTaskInput"
-        }
+          className: "UploadOCIDriverTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -7524,13 +8254,13 @@ export const UploadOCIDriverTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "UploadOCIDriverTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "UploadOCIDriverTaskOutput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const InstallOCIDriverTaskProperties: coreClient.CompositeMapper = {
@@ -7547,8 +8277,8 @@ export const InstallOCIDriverTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "InstallOCIDriverTaskInput"
-        }
+          className: "InstallOCIDriverTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -7558,13 +8288,13 @@ export const InstallOCIDriverTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "InstallOCIDriverTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "InstallOCIDriverTaskOutput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToMongoDbTaskProperties: coreClient.CompositeMapper = {
@@ -7581,8 +8311,8 @@ export const ConnectToMongoDbTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "MongoDbConnectionInfo"
-        }
+          className: "MongoDbConnectionInfo",
+        },
       },
       output: {
         serializedName: "output",
@@ -7592,116 +8322,125 @@ export const ConnectToMongoDbTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MongoDbClusterInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "MongoDbClusterInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const ConnectToSourceSqlServerTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ConnectToSource.SqlServer",
-  type: {
-    name: "Composite",
-    className: "ConnectToSourceSqlServerTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ConnectToSourceSqlServerTaskInput"
-        }
+export const ConnectToSourceSqlServerTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ConnectToSource.SqlServer",
+    type: {
+      name: "Composite",
+      className: "ConnectToSourceSqlServerTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ConnectToSourceSqlServerTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ConnectToSourceSqlServerTaskOutput",
+              },
+            },
+          },
+        },
+        taskId: {
+          serializedName: "taskId",
+          type: {
+            name: "String",
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectToSourceSqlServerTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToSourceSqlServerSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ConnectToSource.SqlServer.Sync",
-  type: {
-    name: "Composite",
-    className: "ConnectToSourceSqlServerSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ConnectToSourceSqlServerTaskInput"
-        }
+export const ConnectToSourceSqlServerSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ConnectToSource.SqlServer.Sync",
+    type: {
+      name: "Composite",
+      className: "ConnectToSourceSqlServerSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ConnectToSourceSqlServerTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ConnectToSourceSqlServerTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectToSourceSqlServerTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToSourcePostgreSqlSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ConnectToSource.PostgreSql.Sync",
-  type: {
-    name: "Composite",
-    className: "ConnectToSourcePostgreSqlSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ConnectToSourcePostgreSqlSyncTaskInput"
-        }
+export const ConnectToSourcePostgreSqlSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ConnectToSource.PostgreSql.Sync",
+    type: {
+      name: "Composite",
+      className: "ConnectToSourcePostgreSqlSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ConnectToSourcePostgreSqlSyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ConnectToSourcePostgreSqlSyncTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectToSourcePostgreSqlSyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const ConnectToSourceMySqlTaskProperties: coreClient.CompositeMapper = {
   serializedName: "ConnectToSource.MySql",
@@ -7717,8 +8456,8 @@ export const ConnectToSourceMySqlTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "ConnectToSourceMySqlTaskInput"
-        }
+          className: "ConnectToSourceMySqlTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -7728,48 +8467,49 @@ export const ConnectToSourceMySqlTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ConnectToSourceNonSqlTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ConnectToSourceNonSqlTaskOutput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const ConnectToSourceOracleSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ConnectToSource.Oracle.Sync",
-  type: {
-    name: "Composite",
-    className: "ConnectToSourceOracleSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ConnectToSourceOracleSyncTaskInput"
-        }
+export const ConnectToSourceOracleSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ConnectToSource.Oracle.Sync",
+    type: {
+      name: "Composite",
+      className: "ConnectToSourceOracleSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ConnectToSourceOracleSyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ConnectToSourceOracleSyncTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectToSourceOracleSyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const ConnectToTargetSqlDbTaskProperties: coreClient.CompositeMapper = {
   serializedName: "ConnectToTarget.SqlDb",
@@ -7785,8 +8525,8 @@ export const ConnectToTargetSqlDbTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "ConnectToTargetSqlDbTaskInput"
-        }
+          className: "ConnectToTargetSqlDbTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -7796,117 +8536,126 @@ export const ConnectToTargetSqlDbTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ConnectToTargetSqlDbTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ConnectToTargetSqlDbTaskOutput",
+            },
+          },
+        },
+      },
+      createdOn: {
+        serializedName: "createdOn",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const ConnectToTargetSqlDbSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ConnectToTarget.SqlDb.Sync",
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetSqlDbSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ConnectToTargetSqlDbSyncTaskInput"
-        }
+export const ConnectToTargetSqlDbSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ConnectToTarget.SqlDb.Sync",
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetSqlDbSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ConnectToTargetSqlDbSyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ConnectToTargetSqlDbTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectToTargetSqlDbTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ConnectToTarget.AzureDbForPostgreSql.Sync",
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskInput"
-        }
+export const ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ConnectToTarget.AzureDbForPostgreSql.Sync",
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync",
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput"
-        }
+export const ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync",
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className:
-                "ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const GetUserTablesSqlTaskProperties: coreClient.CompositeMapper = {
   serializedName: "GetUserTables.Sql",
@@ -7922,8 +8671,8 @@ export const GetUserTablesSqlTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "GetUserTablesSqlTaskInput"
-        }
+          className: "GetUserTablesSqlTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -7933,13 +8682,19 @@ export const GetUserTablesSqlTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GetUserTablesSqlTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "GetUserTablesSqlTaskOutput",
+            },
+          },
+        },
+      },
+      taskId: {
+        serializedName: "taskId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GetUserTablesSqlSyncTaskProperties: coreClient.CompositeMapper = {
@@ -7956,8 +8711,8 @@ export const GetUserTablesSqlSyncTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "GetUserTablesSqlSyncTaskInput"
-        }
+          className: "GetUserTablesSqlSyncTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -7967,13 +8722,13 @@ export const GetUserTablesSqlSyncTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GetUserTablesSqlSyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "GetUserTablesSqlSyncTaskOutput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const GetUserTablesOracleTaskProperties: coreClient.CompositeMapper = {
@@ -7990,8 +8745,8 @@ export const GetUserTablesOracleTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "GetUserTablesOracleTaskInput"
-        }
+          className: "GetUserTablesOracleTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -8001,48 +8756,49 @@ export const GetUserTablesOracleTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GetUserTablesOracleTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "GetUserTablesOracleTaskOutput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const GetUserTablesPostgreSqlTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "GetUserTablesPostgreSql",
-  type: {
-    name: "Composite",
-    className: "GetUserTablesPostgreSqlTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "GetUserTablesPostgreSqlTaskInput"
-        }
+export const GetUserTablesPostgreSqlTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "GetUserTablesPostgreSql",
+    type: {
+      name: "Composite",
+      className: "GetUserTablesPostgreSqlTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "GetUserTablesPostgreSqlTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "GetUserTablesPostgreSqlTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "GetUserTablesPostgreSqlTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const GetUserTablesMySqlTaskProperties: coreClient.CompositeMapper = {
   serializedName: "GetUserTablesMySql",
@@ -8058,8 +8814,8 @@ export const GetUserTablesMySqlTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "GetUserTablesMySqlTaskInput"
-        }
+          className: "GetUserTablesMySqlTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -8069,13 +8825,13 @@ export const GetUserTablesMySqlTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GetUserTablesMySqlTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "GetUserTablesMySqlTaskOutput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ConnectToTargetSqlMITaskProperties: coreClient.CompositeMapper = {
@@ -8092,8 +8848,8 @@ export const ConnectToTargetSqlMITaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "ConnectToTargetSqlMITaskInput"
-        }
+          className: "ConnectToTargetSqlMITaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -8103,82 +8859,84 @@ export const ConnectToTargetSqlMITaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ConnectToTargetSqlMITaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ConnectToTargetSqlMITaskOutput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const ConnectToTargetSqlMISyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ConnectToTarget.AzureSqlDbMI.Sync.LRS",
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetSqlMISyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ConnectToTargetSqlMISyncTaskInput"
-        }
+export const ConnectToTargetSqlMISyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ConnectToTarget.AzureSqlDbMI.Sync.LRS",
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetSqlMISyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ConnectToTargetSqlMISyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ConnectToTargetSqlMISyncTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectToTargetSqlMISyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToTargetAzureDbForMySqlTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ConnectToTarget.AzureDbForMySql",
-  type: {
-    name: "Composite",
-    className: "ConnectToTargetAzureDbForMySqlTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ConnectToTargetAzureDbForMySqlTaskInput"
-        }
+export const ConnectToTargetAzureDbForMySqlTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ConnectToTarget.AzureDbForMySql",
+    type: {
+      name: "Composite",
+      className: "ConnectToTargetAzureDbForMySqlTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ConnectToTargetAzureDbForMySqlTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ConnectToTargetAzureDbForMySqlTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectToTargetAzureDbForMySqlTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const MigrateMongoDbTaskProperties: coreClient.CompositeMapper = {
   serializedName: "Migrate.MongoDb",
@@ -8194,8 +8952,8 @@ export const MigrateMongoDbTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "MongoDbMigrationSettings"
-        }
+          className: "MongoDbMigrationSettings",
+        },
       },
       output: {
         serializedName: "output",
@@ -8205,13 +8963,13 @@ export const MigrateMongoDbTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MongoDbProgress"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "MongoDbProgress",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerSqlMITaskProperties: coreClient.CompositeMapper = {
@@ -8228,8 +8986,8 @@ export const MigrateSqlServerSqlMITaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "MigrateSqlServerSqlMITaskInput"
-        }
+          className: "MigrateSqlServerSqlMITaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -8239,54 +8997,79 @@ export const MigrateSqlServerSqlMITaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MigrateSqlServerSqlMITaskOutput"
-            }
-          }
-        }
+              className: "MigrateSqlServerSqlMITaskOutput",
+            },
+          },
+        },
       },
       taskId: {
         serializedName: "taskId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      createdOn: {
+        serializedName: "createdOn",
+        type: {
+          name: "String",
+        },
+      },
+      parentTaskId: {
+        serializedName: "parentTaskId",
+        type: {
+          name: "String",
+        },
+      },
+      isCloneable: {
+        serializedName: "isCloneable",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
-export const MigrateSqlServerSqlMISyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlMISyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MigrateSqlServerSqlMISyncTaskInput"
-        }
+export const MigrateSqlServerSqlMISyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlMISyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "MigrateSqlServerSqlMISyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateSqlServerSqlMISyncTaskOutput",
+              },
+            },
+          },
+        },
+        createdOn: {
+          serializedName: "createdOn",
+          type: {
+            name: "String",
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateSqlServerSqlMISyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const MigrateSqlServerSqlDbTaskProperties: coreClient.CompositeMapper = {
   serializedName: "Migrate.SqlServer.SqlDb",
@@ -8302,8 +9085,8 @@ export const MigrateSqlServerSqlDbTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "MigrateSqlServerSqlDbTaskInput"
-        }
+          className: "MigrateSqlServerSqlDbTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -8313,310 +9096,343 @@ export const MigrateSqlServerSqlDbTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MigrateSqlServerSqlDbTaskOutput"
-            }
-          }
-        }
+              className: "MigrateSqlServerSqlDbTaskOutput",
+            },
+          },
+        },
       },
       taskId: {
         serializedName: "taskId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isCloneable: {
         serializedName: "isCloneable",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const MigrateSqlServerSqlDbSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "Migrate.SqlServer.AzureSqlDb.Sync",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MigrateSqlServerSqlDbSyncTaskInput"
-        }
-      },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateSqlServerSqlDbSyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MigrateMySqlAzureDbForMySqlSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "Migrate.MySql.AzureDbForMySql.Sync",
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MigrateMySqlAzureDbForMySqlSyncTaskInput"
-        }
-      },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateMySqlAzureDbForMySqlSyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MigrateMySqlAzureDbForMySqlOfflineTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "Migrate.MySql.AzureDbForMySql",
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlOfflineTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MigrateMySqlAzureDbForMySqlOfflineTaskInput"
-        }
-      },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
-  type: {
-    name: "Composite",
-    className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput"
-        }
-      },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput"
-            }
-          }
-        }
-      },
-      taskId: {
-        serializedName: "taskId",
-        type: {
-          name: "String"
-        }
+          name: "Boolean",
+        },
       },
       createdOn: {
         serializedName: "createdOn",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const MigrateOracleAzureDbForPostgreSqlSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "Migrate.Oracle.AzureDbForPostgreSql.Sync",
-  type: {
-    name: "Composite",
-    className: "MigrateOracleAzureDbForPostgreSqlSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MigrateOracleAzureDbPostgreSqlSyncTaskInput"
-        }
+export const MigrateSqlServerSqlDbSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "Migrate.SqlServer.AzureSqlDb.Sync",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "MigrateSqlServerSqlDbSyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateSqlServerSqlDbSyncTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ValidateMigrationInputSqlServerSqlDbSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ValidateMigrationInput.SqlServer.SqlDb.Sync",
-  type: {
-    name: "Composite",
-    className: "ValidateMigrationInputSqlServerSqlDbSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ValidateSyncMigrationInputSqlServerTaskInput"
-        }
+export const MigrateMySqlAzureDbForMySqlSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "Migrate.MySql.AzureDbForMySql.Sync",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "MigrateMySqlAzureDbForMySqlSyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ValidateSyncMigrationInputSqlServerTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ValidateMigrationInputSqlServerSqlMITaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
-  type: {
-    name: "Composite",
-    className: "ValidateMigrationInputSqlServerSqlMITaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ValidateMigrationInputSqlServerSqlMITaskInput"
-        }
+export const MigrateMySqlAzureDbForMySqlOfflineTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "Migrate.MySql.AzureDbForMySql",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlOfflineTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "MigrateMySqlAzureDbForMySqlOfflineTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
+              },
+            },
+          },
+        },
+        isCloneable: {
+          serializedName: "isCloneable",
+          type: {
+            name: "Boolean",
+          },
+        },
+        taskId: {
+          serializedName: "taskId",
+          type: {
+            name: "String",
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ValidateMigrationInputSqlServerSqlMITaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ValidateMigrationInputSqlServerSqlMISyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS",
-  type: {
-    name: "Composite",
-    className: "ValidateMigrationInputSqlServerSqlMISyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "ValidateMigrationInputSqlServerSqlMISyncTaskInput"
-        }
+export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2",
+    type: {
+      name: "Composite",
+      className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className:
+                  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
+              },
+            },
+          },
+        },
+        taskId: {
+          serializedName: "taskId",
+          type: {
+            name: "String",
+          },
+        },
+        createdOn: {
+          serializedName: "createdOn",
+          type: {
+            name: "String",
+          },
+        },
+        isCloneable: {
+          serializedName: "isCloneable",
+          type: {
+            name: "Boolean",
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ValidateMigrationInputSqlServerSqlMISyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
+
+export const MigrateOracleAzureDbForPostgreSqlSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "Migrate.Oracle.AzureDbForPostgreSql.Sync",
+    type: {
+      name: "Composite",
+      className: "MigrateOracleAzureDbForPostgreSqlSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "MigrateOracleAzureDbPostgreSqlSyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const ValidateMigrationInputSqlServerSqlDbSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ValidateMigrationInput.SqlServer.SqlDb.Sync",
+    type: {
+      name: "Composite",
+      className: "ValidateMigrationInputSqlServerSqlDbSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ValidateSyncMigrationInputSqlServerTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ValidateSyncMigrationInputSqlServerTaskOutput",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const ValidateMigrationInputSqlServerSqlMITaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ValidateMigrationInput.SqlServer.AzureSqlDbMI",
+    type: {
+      name: "Composite",
+      className: "ValidateMigrationInputSqlServerSqlMITaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ValidateMigrationInputSqlServerSqlMITaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ValidateMigrationInputSqlServerSqlMITaskOutput",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const ValidateMigrationInputSqlServerSqlMISyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS",
+    type: {
+      name: "Composite",
+      className: "ValidateMigrationInputSqlServerSqlMISyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "ValidateMigrationInputSqlServerSqlMISyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ValidateMigrationInputSqlServerSqlMISyncTaskOutput",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
 
 export const ValidateMongoDbTaskProperties: coreClient.CompositeMapper = {
   serializedName: "Validate.MongoDb",
@@ -8632,8 +9448,8 @@ export const ValidateMongoDbTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "MongoDbMigrationSettings"
-        }
+          className: "MongoDbMigrationSettings",
+        },
       },
       output: {
         serializedName: "output",
@@ -8643,48 +9459,49 @@ export const ValidateMongoDbTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MongoDbMigrationProgress"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "MongoDbMigrationProgress",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const ValidateOracleAzureDbForPostgreSqlSyncTaskProperties: coreClient.CompositeMapper = {
-  serializedName: "Validate.Oracle.AzureDbPostgreSql.Sync",
-  type: {
-    name: "Composite",
-    className: "ValidateOracleAzureDbForPostgreSqlSyncTaskProperties",
-    uberParent: "ProjectTaskProperties",
-    polymorphicDiscriminator:
-      ProjectTaskProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ProjectTaskProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MigrateOracleAzureDbPostgreSqlSyncTaskInput"
-        }
+export const ValidateOracleAzureDbForPostgreSqlSyncTaskProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "Validate.Oracle.AzureDbPostgreSql.Sync",
+    type: {
+      name: "Composite",
+      className: "ValidateOracleAzureDbForPostgreSqlSyncTaskProperties",
+      uberParent: "ProjectTaskProperties",
+      polymorphicDiscriminator:
+        ProjectTaskProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ProjectTaskProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "MigrateOracleAzureDbPostgreSqlSyncTaskInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ValidateOracleAzureDbPostgreSqlSyncTaskOutput",
+              },
+            },
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ValidateOracleAzureDbPostgreSqlSyncTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const GetTdeCertificatesSqlTaskProperties: coreClient.CompositeMapper = {
   serializedName: "GetTDECertificates.Sql",
@@ -8700,8 +9517,8 @@ export const GetTdeCertificatesSqlTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "GetTdeCertificatesSqlTaskInput"
-        }
+          className: "GetTdeCertificatesSqlTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -8711,13 +9528,13 @@ export const GetTdeCertificatesSqlTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GetTdeCertificatesSqlTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "GetTdeCertificatesSqlTaskOutput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSsisTaskProperties: coreClient.CompositeMapper = {
@@ -8734,8 +9551,8 @@ export const MigrateSsisTaskProperties: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "MigrateSsisTaskInput"
-        }
+          className: "MigrateSsisTaskInput",
+        },
       },
       output: {
         serializedName: "output",
@@ -8745,68 +9562,76 @@ export const MigrateSsisTaskProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MigrateSsisTaskOutput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "MigrateSsisTaskOutput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const MigrateSyncCompleteCommandProperties: coreClient.CompositeMapper = {
-  serializedName: "Migrate.Sync.Complete.Database",
-  type: {
-    name: "Composite",
-    className: "MigrateSyncCompleteCommandProperties",
-    uberParent: "CommandProperties",
-    polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...CommandProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MigrateSyncCompleteCommandInput"
-        }
+export const MigrateSyncCompleteCommandProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "Migrate.Sync.Complete.Database",
+    type: {
+      name: "Composite",
+      className: "MigrateSyncCompleteCommandProperties",
+      uberParent: "CommandProperties",
+      polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...CommandProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "MigrateSyncCompleteCommandInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          type: {
+            name: "Composite",
+            className: "MigrateSyncCompleteCommandOutput",
+          },
+        },
+        commandId: {
+          serializedName: "commandId",
+          type: {
+            name: "String",
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        type: {
-          name: "Composite",
-          className: "MigrateSyncCompleteCommandOutput"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateMISyncCompleteCommandProperties: coreClient.CompositeMapper = {
-  serializedName: "Migrate.SqlServer.AzureDbSqlMi.Complete",
-  type: {
-    name: "Composite",
-    className: "MigrateMISyncCompleteCommandProperties",
-    uberParent: "CommandProperties",
-    polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...CommandProperties.type.modelProperties,
-      input: {
-        serializedName: "input",
-        type: {
-          name: "Composite",
-          className: "MigrateMISyncCompleteCommandInput"
-        }
+export const MigrateMISyncCompleteCommandProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "Migrate.SqlServer.AzureDbSqlMi.Complete",
+    type: {
+      name: "Composite",
+      className: "MigrateMISyncCompleteCommandProperties",
+      uberParent: "CommandProperties",
+      polymorphicDiscriminator: CommandProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...CommandProperties.type.modelProperties,
+        input: {
+          serializedName: "input",
+          type: {
+            name: "Composite",
+            className: "MigrateMISyncCompleteCommandInput",
+          },
+        },
+        output: {
+          serializedName: "output",
+          type: {
+            name: "Composite",
+            className: "MigrateMISyncCompleteCommandOutput",
+          },
+        },
       },
-      output: {
-        serializedName: "output",
-        type: {
-          name: "Composite",
-          className: "MigrateMISyncCompleteCommandOutput"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const MongoDbCancelCommand: coreClient.CompositeMapper = {
   serializedName: "cancel",
@@ -8821,11 +9646,11 @@ export const MongoDbCancelCommand: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "MongoDbCommandInput"
-        }
-      }
-    }
-  }
+          className: "MongoDbCommandInput",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbFinishCommand: coreClient.CompositeMapper = {
@@ -8841,11 +9666,11 @@ export const MongoDbFinishCommand: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "MongoDbFinishCommandInput"
-        }
-      }
-    }
-  }
+          className: "MongoDbFinishCommandInput",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbRestartCommand: coreClient.CompositeMapper = {
@@ -8861,11 +9686,11 @@ export const MongoDbRestartCommand: coreClient.CompositeMapper = {
         serializedName: "input",
         type: {
           name: "Composite",
-          className: "MongoDbCommandInput"
-        }
-      }
-    }
-  }
+          className: "MongoDbCommandInput",
+        },
+      },
+    },
+  },
 };
 
 export const ProjectTask: coreClient.CompositeMapper = {
@@ -8873,29 +9698,29 @@ export const ProjectTask: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProjectTask",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      ...ResourceAutoGenerated.type.modelProperties,
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ProjectTaskProperties"
-        }
+          className: "ProjectTaskProperties",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemDataAutoGenerated",
+        },
+      },
+    },
+  },
 };
 
 export const ProjectFile: coreClient.CompositeMapper = {
@@ -8903,29 +9728,29 @@ export const ProjectFile: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ProjectFile",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      ...ResourceAutoGenerated.type.modelProperties,
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ProjectFileProperties"
-        }
+          className: "ProjectFileProperties",
+        },
       },
       systemData: {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          className: "SystemDataAutoGenerated",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbConnectionInfo: coreClient.CompositeMapper = {
@@ -8941,47 +9766,72 @@ export const MongoDbConnectionInfo: coreClient.CompositeMapper = {
         serializedName: "connectionString",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataSource: {
         serializedName: "dataSource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       encryptConnection: {
         serializedName: "encryptConnection",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       serverBrandVersion: {
         serializedName: "serverBrandVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
+      },
+      serverVersion: {
+        serializedName: "serverVersion",
+        type: {
+          name: "String",
+        },
+      },
+      serverName: {
+        serializedName: "serverName",
+        type: {
+          name: "String",
+        },
+      },
+      trustServerCertificate: {
+        defaultValue: false,
+        serializedName: "trustServerCertificate",
+        type: {
+          name: "Boolean",
+        },
       },
       enforceSSL: {
         serializedName: "enforceSSL",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       port: {
         serializedName: "port",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       additionalSettings: {
         serializedName: "additionalSettings",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      authentication: {
+        serializedName: "authentication",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SqlConnectionInfo: coreClient.CompositeMapper = {
@@ -8997,61 +9847,73 @@ export const SqlConnectionInfo: coreClient.CompositeMapper = {
         serializedName: "dataSource",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverName: {
         serializedName: "serverName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       port: {
         serializedName: "port",
         type: {
-          name: "String"
-        }
+          name: "Number",
+        },
+      },
+      serverVersion: {
+        serializedName: "serverVersion",
+        type: {
+          name: "String",
+        },
+      },
+      serverBrandVersion: {
+        serializedName: "serverBrandVersion",
+        type: {
+          name: "String",
+        },
       },
       resourceId: {
         serializedName: "resourceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       authentication: {
         serializedName: "authentication",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       encryptConnection: {
         defaultValue: true,
         serializedName: "encryptConnection",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       additionalSettings: {
         serializedName: "additionalSettings",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       trustServerCertificate: {
         defaultValue: false,
         serializedName: "trustServerCertificate",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       platform: {
         serializedName: "platform",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MySqlConnectionInfo: coreClient.CompositeMapper = {
@@ -9067,31 +9929,43 @@ export const MySqlConnectionInfo: coreClient.CompositeMapper = {
         serializedName: "serverName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataSource: {
         serializedName: "dataSource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       port: {
         serializedName: "port",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       encryptConnection: {
         defaultValue: true,
         serializedName: "encryptConnection",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+      authentication: {
+        serializedName: "authentication",
+        type: {
+          name: "String",
+        },
+      },
+      additionalSettings: {
+        serializedName: "additionalSettings",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OracleConnectionInfo: coreClient.CompositeMapper = {
@@ -9107,11 +9981,35 @@ export const OracleConnectionInfo: coreClient.CompositeMapper = {
         serializedName: "dataSource",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      serverName: {
+        serializedName: "serverName",
+        type: {
+          name: "String",
+        },
+      },
+      serverVersion: {
+        serializedName: "serverVersion",
+        type: {
+          name: "String",
+        },
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Number",
+        },
+      },
+      authentication: {
+        serializedName: "authentication",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PostgreSqlConnectionInfo: coreClient.CompositeMapper = {
@@ -9127,50 +10025,68 @@ export const PostgreSqlConnectionInfo: coreClient.CompositeMapper = {
         serializedName: "serverName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataSource: {
         serializedName: "dataSource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       serverVersion: {
         serializedName: "serverVersion",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       databaseName: {
         serializedName: "databaseName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       port: {
         serializedName: "port",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       encryptConnection: {
         defaultValue: true,
         serializedName: "encryptConnection",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       trustServerCertificate: {
         defaultValue: false,
         serializedName: "trustServerCertificate",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+      additionalSettings: {
+        serializedName: "additionalSettings",
+        type: {
+          name: "String",
+        },
+      },
+      serverBrandVersion: {
+        serializedName: "serverBrandVersion",
+        type: {
+          name: "String",
+        },
+      },
+      authentication: {
+        serializedName: "authentication",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MiSqlConnectionInfo: coreClient.CompositeMapper = {
@@ -9186,289 +10102,294 @@ export const MiSqlConnectionInfo: coreClient.CompositeMapper = {
         serializedName: "managedInstanceResourceId",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const ConnectToSourceSqlServerTaskOutputTaskLevel: coreClient.CompositeMapper = {
-  serializedName: "TaskLevelOutput",
-  type: {
-    name: "Composite",
-    className: "ConnectToSourceSqlServerTaskOutputTaskLevel",
-    uberParent: "ConnectToSourceSqlServerTaskOutput",
-    polymorphicDiscriminator:
-      ConnectToSourceSqlServerTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ConnectToSourceSqlServerTaskOutput.type.modelProperties,
-      databases: {
-        serializedName: "databases",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ConnectToSourceSqlServerTaskOutputTaskLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "TaskLevelOutput",
+    type: {
+      name: "Composite",
+      className: "ConnectToSourceSqlServerTaskOutputTaskLevel",
+      uberParent: "ConnectToSourceSqlServerTaskOutput",
+      polymorphicDiscriminator:
+        ConnectToSourceSqlServerTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ConnectToSourceSqlServerTaskOutput.type.modelProperties,
+        databases: {
+          serializedName: "databases",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        logins: {
+          serializedName: "logins",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        agentJobs: {
+          serializedName: "agentJobs",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databaseTdeCertificateMapping: {
+          serializedName: "databaseTdeCertificateMapping",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerBrandVersion: {
+          serializedName: "sourceServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        validationErrors: {
+          serializedName: "validationErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      logins: {
-        serializedName: "logins",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      agentJobs: {
-        serializedName: "agentJobs",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databaseTdeCertificateMapping: {
-        serializedName: "databaseTdeCertificateMapping",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServerBrandVersion: {
-        serializedName: "sourceServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      validationErrors: {
-        serializedName: "validationErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToSourceSqlServerTaskOutputDatabaseLevel: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelOutput",
-  type: {
-    name: "Composite",
-    className: "ConnectToSourceSqlServerTaskOutputDatabaseLevel",
-    uberParent: "ConnectToSourceSqlServerTaskOutput",
-    polymorphicDiscriminator:
-      ConnectToSourceSqlServerTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ConnectToSourceSqlServerTaskOutput.type.modelProperties,
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ConnectToSourceSqlServerTaskOutputDatabaseLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelOutput",
+    type: {
+      name: "Composite",
+      className: "ConnectToSourceSqlServerTaskOutputDatabaseLevel",
+      uberParent: "ConnectToSourceSqlServerTaskOutput",
+      polymorphicDiscriminator:
+        ConnectToSourceSqlServerTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ConnectToSourceSqlServerTaskOutput.type.modelProperties,
+        name: {
+          serializedName: "name",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sizeMB: {
+          serializedName: "sizeMB",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        databaseFiles: {
+          serializedName: "databaseFiles",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "DatabaseFileInfo",
+              },
+            },
+          },
+        },
+        compatibilityLevel: {
+          serializedName: "compatibilityLevel",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databaseState: {
+          serializedName: "databaseState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      sizeMB: {
-        serializedName: "sizeMB",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      databaseFiles: {
-        serializedName: "databaseFiles",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DatabaseFileInfo"
-            }
-          }
-        }
-      },
-      compatibilityLevel: {
-        serializedName: "compatibilityLevel",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databaseState: {
-        serializedName: "databaseState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToSourceSqlServerTaskOutputLoginLevel: coreClient.CompositeMapper = {
-  serializedName: "LoginLevelOutput",
-  type: {
-    name: "Composite",
-    className: "ConnectToSourceSqlServerTaskOutputLoginLevel",
-    uberParent: "ConnectToSourceSqlServerTaskOutput",
-    polymorphicDiscriminator:
-      ConnectToSourceSqlServerTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ConnectToSourceSqlServerTaskOutput.type.modelProperties,
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ConnectToSourceSqlServerTaskOutputLoginLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "LoginLevelOutput",
+    type: {
+      name: "Composite",
+      className: "ConnectToSourceSqlServerTaskOutputLoginLevel",
+      uberParent: "ConnectToSourceSqlServerTaskOutput",
+      polymorphicDiscriminator:
+        ConnectToSourceSqlServerTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ConnectToSourceSqlServerTaskOutput.type.modelProperties,
+        name: {
+          serializedName: "name",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        loginType: {
+          serializedName: "loginType",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        defaultDatabase: {
+          serializedName: "defaultDatabase",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        isEnabled: {
+          serializedName: "isEnabled",
+          readOnly: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        migrationEligibility: {
+          serializedName: "migrationEligibility",
+          type: {
+            name: "Composite",
+            className: "MigrationEligibilityInfo",
+          },
+        },
       },
-      loginType: {
-        serializedName: "loginType",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      defaultDatabase: {
-        serializedName: "defaultDatabase",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isEnabled: {
-        serializedName: "isEnabled",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      migrationEligibility: {
-        serializedName: "migrationEligibility",
-        type: {
-          name: "Composite",
-          className: "MigrationEligibilityInfo"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const ConnectToSourceSqlServerTaskOutputAgentJobLevel: coreClient.CompositeMapper = {
-  serializedName: "AgentJobLevelOutput",
-  type: {
-    name: "Composite",
-    className: "ConnectToSourceSqlServerTaskOutputAgentJobLevel",
-    uberParent: "ConnectToSourceSqlServerTaskOutput",
-    polymorphicDiscriminator:
-      ConnectToSourceSqlServerTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ConnectToSourceSqlServerTaskOutput.type.modelProperties,
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const ConnectToSourceSqlServerTaskOutputAgentJobLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "AgentJobLevelOutput",
+    type: {
+      name: "Composite",
+      className: "ConnectToSourceSqlServerTaskOutputAgentJobLevel",
+      uberParent: "ConnectToSourceSqlServerTaskOutput",
+      polymorphicDiscriminator:
+        ConnectToSourceSqlServerTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ConnectToSourceSqlServerTaskOutput.type.modelProperties,
+        name: {
+          serializedName: "name",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        jobCategory: {
+          serializedName: "jobCategory",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        isEnabled: {
+          serializedName: "isEnabled",
+          readOnly: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        jobOwner: {
+          serializedName: "jobOwner",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        lastExecutedOn: {
+          serializedName: "lastExecutedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        validationErrors: {
+          serializedName: "validationErrors",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+        migrationEligibility: {
+          serializedName: "migrationEligibility",
+          type: {
+            name: "Composite",
+            className: "MigrationEligibilityInfo",
+          },
+        },
       },
-      jobCategory: {
-        serializedName: "jobCategory",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isEnabled: {
-        serializedName: "isEnabled",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      jobOwner: {
-        serializedName: "jobOwner",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      lastExecutedOn: {
-        serializedName: "lastExecutedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      validationErrors: {
-        serializedName: "validationErrors",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      },
-      migrationEligibility: {
-        serializedName: "migrationEligibility",
-        type: {
-          name: "Composite",
-          className: "MigrationEligibilityInfo"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSchemaSqlServerSqlDbTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MigrateSchemaSqlServerSqlDbTaskInput",
-    modelProperties: {
-      ...SqlMigrationTaskInput.type.modelProperties,
-      selectedDatabases: {
-        serializedName: "selectedDatabases",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MigrateSchemaSqlServerSqlDbDatabaseInput"
-            }
-          }
-        }
+export const MigrateSchemaSqlServerSqlDbTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "MigrateSchemaSqlServerSqlDbTaskInput",
+      modelProperties: {
+        ...SqlMigrationTaskInput.type.modelProperties,
+        selectedDatabases: {
+          serializedName: "selectedDatabases",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "MigrateSchemaSqlServerSqlDbDatabaseInput",
+              },
+            },
+          },
+        },
+        encryptedKeyForSecureFields: {
+          serializedName: "encryptedKeyForSecureFields",
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          type: {
+            name: "String",
+          },
+        },
       },
-      encryptedKeyForSecureFields: {
-        serializedName: "encryptedKeyForSecureFields",
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const MigrateSqlServerSqlDbSyncTaskInput: coreClient.CompositeMapper = {
   type: {
@@ -9484,20 +10405,20 @@ export const MigrateSqlServerSqlDbSyncTaskInput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MigrateSqlServerSqlDbSyncDatabaseInput"
-            }
-          }
-        }
+              className: "MigrateSqlServerSqlDbSyncDatabaseInput",
+            },
+          },
+        },
       },
       validationOptions: {
         serializedName: "validationOptions",
         type: {
           name: "Composite",
-          className: "MigrationValidationOptions"
-        }
-      }
-    }
-  }
+          className: "MigrationValidationOptions",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerSqlDbTaskInput: coreClient.CompositeMapper = {
@@ -9514,32 +10435,32 @@ export const MigrateSqlServerSqlDbTaskInput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MigrateSqlServerSqlDbDatabaseInput"
-            }
-          }
-        }
+              className: "MigrateSqlServerSqlDbDatabaseInput",
+            },
+          },
+        },
       },
       validationOptions: {
         serializedName: "validationOptions",
         type: {
           name: "Composite",
-          className: "MigrationValidationOptions"
-        }
+          className: "MigrationValidationOptions",
+        },
       },
       startedOn: {
         serializedName: "startedOn",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       encryptedKeyForSecureFields: {
         serializedName: "encryptedKeyForSecureFields",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerSqlMITaskInput: coreClient.CompositeMapper = {
@@ -9556,16 +10477,16 @@ export const MigrateSqlServerSqlMITaskInput: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MigrateSqlServerSqlMIDatabaseInput"
-            }
-          }
-        }
+              className: "MigrateSqlServerSqlMIDatabaseInput",
+            },
+          },
+        },
       },
       startedOn: {
         serializedName: "startedOn",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       selectedLogins: {
         serializedName: "selectedLogins",
@@ -9573,10 +10494,10 @@ export const MigrateSqlServerSqlMITaskInput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       selectedAgentJobs: {
         serializedName: "selectedAgentJobs",
@@ -9584,39 +10505,45 @@ export const MigrateSqlServerSqlMITaskInput: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       backupFileShare: {
         serializedName: "backupFileShare",
         type: {
           name: "Composite",
-          className: "FileShare"
-        }
+          className: "FileShare",
+        },
       },
       backupBlobShare: {
         serializedName: "backupBlobShare",
         type: {
           name: "Composite",
-          className: "BlobShare"
-        }
+          className: "BlobShare",
+        },
       },
       backupMode: {
         serializedName: "backupMode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       aadDomainName: {
         serializedName: "aadDomainName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      encryptedKeyForSecureFields: {
+        serializedName: "encryptedKeyForSecureFields",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSsisTaskInput: coreClient.CompositeMapper = {
@@ -9629,187 +10556,190 @@ export const MigrateSsisTaskInput: coreClient.CompositeMapper = {
         serializedName: "ssisMigrationInfo",
         type: {
           name: "Composite",
-          className: "SsisMigrationInfo"
-        }
-      }
-    }
-  }
+          className: "SsisMigrationInfo",
+        },
+      },
+    },
+  },
 };
 
-export const MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel: coreClient.CompositeMapper = {
-  serializedName: "MigrationLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel",
-    uberParent: "MigrateSchemaSqlServerSqlDbTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSchemaSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSchemaSqlServerSqlDbTaskOutput.type.modelProperties,
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel",
+      uberParent: "MigrateSchemaSqlServerSqlDbTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSchemaSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSchemaSqlServerSqlDbTaskOutput.type.modelProperties,
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerBrandVersion: {
+          serializedName: "sourceServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerBrandVersion: {
+          serializedName: "targetServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServerBrandVersion: {
-        serializedName: "sourceServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerBrandVersion: {
-        serializedName: "targetServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel",
-    uberParent: "MigrateSchemaSqlServerSqlDbTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSchemaSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSchemaSqlServerSqlDbTaskOutput.type.modelProperties,
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel",
+      uberParent: "MigrateSchemaSqlServerSqlDbTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSchemaSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSchemaSqlServerSqlDbTaskOutput.type.modelProperties,
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        stage: {
+          serializedName: "stage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        databaseErrorResultPrefix: {
+          serializedName: "databaseErrorResultPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        schemaErrorResultPrefix: {
+          serializedName: "schemaErrorResultPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        numberOfSuccessfulOperations: {
+          serializedName: "numberOfSuccessfulOperations",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        numberOfFailedOperations: {
+          serializedName: "numberOfFailedOperations",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fileId: {
+          serializedName: "fileId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      stage: {
-        serializedName: "stage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      databaseErrorResultPrefix: {
-        serializedName: "databaseErrorResultPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      schemaErrorResultPrefix: {
-        serializedName: "schemaErrorResultPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      numberOfSuccessfulOperations: {
-        serializedName: "numberOfSuccessfulOperations",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      numberOfFailedOperations: {
-        serializedName: "numberOfFailedOperations",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fileId: {
-        serializedName: "fileId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSchemaSqlServerSqlDbTaskOutputError: coreClient.CompositeMapper = {
-  serializedName: "SchemaErrorOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSchemaSqlServerSqlDbTaskOutputError",
-    uberParent: "MigrateSchemaSqlServerSqlDbTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSchemaSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSchemaSqlServerSqlDbTaskOutput.type.modelProperties,
-      commandText: {
-        serializedName: "commandText",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSchemaSqlServerSqlDbTaskOutputError: coreClient.CompositeMapper =
+  {
+    serializedName: "SchemaErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSchemaSqlServerSqlDbTaskOutputError",
+      uberParent: "MigrateSchemaSqlServerSqlDbTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSchemaSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSchemaSqlServerSqlDbTaskOutput.type.modelProperties,
+        commandText: {
+          serializedName: "commandText",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        errorText: {
+          serializedName: "errorText",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      errorText: {
-        serializedName: "errorText",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
 export const MigrateSchemaSqlTaskOutputError: coreClient.CompositeMapper = {
   serializedName: "ErrorOutput",
@@ -9825,1441 +10755,1463 @@ export const MigrateSchemaSqlTaskOutputError: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ReportableException"
-        }
-      }
-    }
-  }
+          className: "ReportableException",
+        },
+      },
+    },
+  },
 };
 
-export const MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel: coreClient.CompositeMapper = {
-  serializedName: "MigrationLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel",
-    uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.modelProperties,
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
+export const MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel",
+      uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.modelProperties,
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServer: {
+          serializedName: "sourceServer",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServer: {
+          serializedName: "targetServer",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServer: {
-        serializedName: "sourceServer",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServer: {
-        serializedName: "targetServer",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel",
-    uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.modelProperties,
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel",
+      uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.modelProperties,
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        migrationState: {
+          serializedName: "migrationState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        incomingChanges: {
+          serializedName: "incomingChanges",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        appliedChanges: {
+          serializedName: "appliedChanges",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcInsertCounter: {
+          serializedName: "cdcInsertCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcDeleteCounter: {
+          serializedName: "cdcDeleteCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcUpdateCounter: {
+          serializedName: "cdcUpdateCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadCompletedTables: {
+          serializedName: "fullLoadCompletedTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadLoadingTables: {
+          serializedName: "fullLoadLoadingTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadQueuedTables: {
+          serializedName: "fullLoadQueuedTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadErroredTables: {
+          serializedName: "fullLoadErroredTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        initializationCompleted: {
+          serializedName: "initializationCompleted",
+          readOnly: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        latency: {
+          serializedName: "latency",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
       },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      migrationState: {
-        serializedName: "migrationState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      incomingChanges: {
-        serializedName: "incomingChanges",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      appliedChanges: {
-        serializedName: "appliedChanges",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcInsertCounter: {
-        serializedName: "cdcInsertCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcDeleteCounter: {
-        serializedName: "cdcDeleteCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcUpdateCounter: {
-        serializedName: "cdcUpdateCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadCompletedTables: {
-        serializedName: "fullLoadCompletedTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadLoadingTables: {
-        serializedName: "fullLoadLoadingTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadQueuedTables: {
-        serializedName: "fullLoadQueuedTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadErroredTables: {
-        serializedName: "fullLoadErroredTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      initializationCompleted: {
-        serializedName: "initializationCompleted",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      latency: {
-        serializedName: "latency",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel: coreClient.CompositeMapper = {
-  serializedName: "TableLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel",
-    uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.modelProperties,
-      tableName: {
-        serializedName: "tableName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "TableLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel",
+      uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.modelProperties,
+        tableName: {
+          serializedName: "tableName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        cdcInsertCounter: {
+          serializedName: "cdcInsertCounter",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        cdcUpdateCounter: {
+          serializedName: "cdcUpdateCounter",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        cdcDeleteCounter: {
+          serializedName: "cdcDeleteCounter",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        fullLoadEstFinishTime: {
+          serializedName: "fullLoadEstFinishTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadStartedOn: {
+          serializedName: "fullLoadStartedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadEndedOn: {
+          serializedName: "fullLoadEndedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadTotalRows: {
+          serializedName: "fullLoadTotalRows",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        totalChangesApplied: {
+          serializedName: "totalChangesApplied",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        dataErrorsCounter: {
+          serializedName: "dataErrorsCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        lastModifiedTime: {
+          serializedName: "lastModifiedTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
       },
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      cdcInsertCounter: {
-        serializedName: "cdcInsertCounter",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      cdcUpdateCounter: {
-        serializedName: "cdcUpdateCounter",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      cdcDeleteCounter: {
-        serializedName: "cdcDeleteCounter",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      fullLoadEstFinishTime: {
-        serializedName: "fullLoadEstFinishTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadStartedOn: {
-        serializedName: "fullLoadStartedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadEndedOn: {
-        serializedName: "fullLoadEndedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadTotalRows: {
-        serializedName: "fullLoadTotalRows",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      totalChangesApplied: {
-        serializedName: "totalChangesApplied",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      dataErrorsCounter: {
-        serializedName: "dataErrorsCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      lastModifiedTime: {
-        serializedName: "lastModifiedTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateMySqlAzureDbForMySqlSyncTaskOutputError: coreClient.CompositeMapper = {
-  serializedName: "ErrorOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputError",
-    uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.modelProperties,
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ReportableException"
-        }
-      }
-    }
-  }
-};
+export const MigrateMySqlAzureDbForMySqlSyncTaskOutputError: coreClient.CompositeMapper =
+  {
+    serializedName: "ErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputError",
+      uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.modelProperties,
+        error: {
+          serializedName: "error",
+          type: {
+            name: "Composite",
+            className: "ReportableException",
+          },
+        },
+      },
+    },
+  };
 
-export const MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelErrorOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError",
-    uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.modelProperties,
-      errorMessage: {
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
-        }
+export const MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError",
+      uberParent: "MigrateMySqlAzureDbForMySqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateMySqlAzureDbForMySqlSyncTaskOutput.type.modelProperties,
+        errorMessage: {
+          serializedName: "errorMessage",
+          type: {
+            name: "String",
+          },
+        },
+        events: {
+          serializedName: "events",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SyncMigrationDatabaseErrorEvent",
+              },
+            },
+          },
+        },
       },
-      events: {
-        serializedName: "events",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SyncMigrationDatabaseErrorEvent"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel: coreClient.CompositeMapper = {
-  serializedName: "MigrationLevelOutput",
-  type: {
-    name: "Composite",
-    className:
-      "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel",
-    uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
-        .polymorphicDiscriminator,
-    modelProperties: {
-      ...MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
-        .modelProperties,
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
+export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationLevelOutput",
+    type: {
+      name: "Composite",
+      className:
+        "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel",
+      uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
+          .modelProperties,
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServer: {
+          serializedName: "sourceServer",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServer: {
+          serializedName: "targetServer",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerType: {
+          serializedName: "sourceServerType",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerType: {
+          serializedName: "targetServerType",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databaseCount: {
+          serializedName: "databaseCount",
+          type: {
+            name: "Number",
+          },
+        },
       },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServer: {
-        serializedName: "sourceServer",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServer: {
-        serializedName: "targetServer",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServerType: {
-        serializedName: "sourceServerType",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerType: {
-        serializedName: "targetServerType",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databaseCount: {
-        serializedName: "databaseCount",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelOutput",
-  type: {
-    name: "Composite",
-    className:
-      "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel",
-    uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
-        .polymorphicDiscriminator,
-    modelProperties: {
-      ...MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
-        .modelProperties,
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelOutput",
+    type: {
+      name: "Composite",
+      className:
+        "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel",
+      uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
+          .modelProperties,
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        migrationState: {
+          serializedName: "migrationState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        incomingChanges: {
+          serializedName: "incomingChanges",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        appliedChanges: {
+          serializedName: "appliedChanges",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcInsertCounter: {
+          serializedName: "cdcInsertCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcDeleteCounter: {
+          serializedName: "cdcDeleteCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcUpdateCounter: {
+          serializedName: "cdcUpdateCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadCompletedTables: {
+          serializedName: "fullLoadCompletedTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadLoadingTables: {
+          serializedName: "fullLoadLoadingTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadQueuedTables: {
+          serializedName: "fullLoadQueuedTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadErroredTables: {
+          serializedName: "fullLoadErroredTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        initializationCompleted: {
+          serializedName: "initializationCompleted",
+          readOnly: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        latency: {
+          serializedName: "latency",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
       },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      migrationState: {
-        serializedName: "migrationState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      incomingChanges: {
-        serializedName: "incomingChanges",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      appliedChanges: {
-        serializedName: "appliedChanges",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcInsertCounter: {
-        serializedName: "cdcInsertCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcDeleteCounter: {
-        serializedName: "cdcDeleteCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcUpdateCounter: {
-        serializedName: "cdcUpdateCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadCompletedTables: {
-        serializedName: "fullLoadCompletedTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadLoadingTables: {
-        serializedName: "fullLoadLoadingTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadQueuedTables: {
-        serializedName: "fullLoadQueuedTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadErroredTables: {
-        serializedName: "fullLoadErroredTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      initializationCompleted: {
-        serializedName: "initializationCompleted",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      latency: {
-        serializedName: "latency",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel: coreClient.CompositeMapper = {
-  serializedName: "TableLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel",
-    uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
-        .polymorphicDiscriminator,
-    modelProperties: {
-      ...MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
-        .modelProperties,
-      tableName: {
-        serializedName: "tableName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "TableLevelOutput",
+    type: {
+      name: "Composite",
+      className:
+        "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel",
+      uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
+          .modelProperties,
+        tableName: {
+          serializedName: "tableName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        cdcInsertCounter: {
+          serializedName: "cdcInsertCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcUpdateCounter: {
+          serializedName: "cdcUpdateCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcDeleteCounter: {
+          serializedName: "cdcDeleteCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadEstFinishTime: {
+          serializedName: "fullLoadEstFinishTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadStartedOn: {
+          serializedName: "fullLoadStartedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadEndedOn: {
+          serializedName: "fullLoadEndedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadTotalRows: {
+          serializedName: "fullLoadTotalRows",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        totalChangesApplied: {
+          serializedName: "totalChangesApplied",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        dataErrorsCounter: {
+          serializedName: "dataErrorsCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        lastModifiedTime: {
+          serializedName: "lastModifiedTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
       },
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      cdcInsertCounter: {
-        serializedName: "cdcInsertCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcUpdateCounter: {
-        serializedName: "cdcUpdateCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcDeleteCounter: {
-        serializedName: "cdcDeleteCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadEstFinishTime: {
-        serializedName: "fullLoadEstFinishTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadStartedOn: {
-        serializedName: "fullLoadStartedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadEndedOn: {
-        serializedName: "fullLoadEndedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadTotalRows: {
-        serializedName: "fullLoadTotalRows",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      totalChangesApplied: {
-        serializedName: "totalChangesApplied",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      dataErrorsCounter: {
-        serializedName: "dataErrorsCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      lastModifiedTime: {
-        serializedName: "lastModifiedTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError: coreClient.CompositeMapper = {
-  serializedName: "ErrorOutput",
-  type: {
-    name: "Composite",
-    className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError",
-    uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
-        .polymorphicDiscriminator,
-    modelProperties: {
-      ...MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
-        .modelProperties,
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ReportableException"
-        }
+export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError: coreClient.CompositeMapper =
+  {
+    serializedName: "ErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError",
+      uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
+          .modelProperties,
+        error: {
+          serializedName: "error",
+          type: {
+            name: "Composite",
+            className: "ReportableException",
+          },
+        },
+        events: {
+          serializedName: "events",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SyncMigrationDatabaseErrorEvent",
+              },
+            },
+          },
+        },
       },
-      events: {
-        serializedName: "events",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SyncMigrationDatabaseErrorEvent"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelErrorOutput",
-  type: {
-    name: "Composite",
-    className:
-      "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError",
-    uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
-        .polymorphicDiscriminator,
-    modelProperties: {
-      ...MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
-        .modelProperties,
-      errorMessage: {
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
-        }
+export const MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelErrorOutput",
+    type: {
+      name: "Composite",
+      className:
+        "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError",
+      uberParent: "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.type
+          .modelProperties,
+        errorMessage: {
+          serializedName: "errorMessage",
+          type: {
+            name: "String",
+          },
+        },
+        events: {
+          serializedName: "events",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SyncMigrationDatabaseErrorEvent",
+              },
+            },
+          },
+        },
       },
-      events: {
-        serializedName: "events",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SyncMigrationDatabaseErrorEvent"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel: coreClient.CompositeMapper = {
-  serializedName: "MigrationLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel",
-    uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbSyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbSyncTaskOutput.type.modelProperties,
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
+export const MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel",
+      uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbSyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbSyncTaskOutput.type.modelProperties,
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServer: {
+          serializedName: "sourceServer",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServer: {
+          serializedName: "targetServer",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databaseCount: {
+          serializedName: "databaseCount",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
       },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServer: {
-        serializedName: "sourceServer",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServer: {
-        serializedName: "targetServer",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databaseCount: {
-        serializedName: "databaseCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel",
-    uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbSyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbSyncTaskOutput.type.modelProperties,
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel",
+      uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbSyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbSyncTaskOutput.type.modelProperties,
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        migrationState: {
+          serializedName: "migrationState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        incomingChanges: {
+          serializedName: "incomingChanges",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        appliedChanges: {
+          serializedName: "appliedChanges",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcInsertCounter: {
+          serializedName: "cdcInsertCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcDeleteCounter: {
+          serializedName: "cdcDeleteCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcUpdateCounter: {
+          serializedName: "cdcUpdateCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadCompletedTables: {
+          serializedName: "fullLoadCompletedTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadLoadingTables: {
+          serializedName: "fullLoadLoadingTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadQueuedTables: {
+          serializedName: "fullLoadQueuedTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadErroredTables: {
+          serializedName: "fullLoadErroredTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        initializationCompleted: {
+          serializedName: "initializationCompleted",
+          readOnly: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        latency: {
+          serializedName: "latency",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
       },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      migrationState: {
-        serializedName: "migrationState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      incomingChanges: {
-        serializedName: "incomingChanges",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      appliedChanges: {
-        serializedName: "appliedChanges",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcInsertCounter: {
-        serializedName: "cdcInsertCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcDeleteCounter: {
-        serializedName: "cdcDeleteCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcUpdateCounter: {
-        serializedName: "cdcUpdateCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadCompletedTables: {
-        serializedName: "fullLoadCompletedTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadLoadingTables: {
-        serializedName: "fullLoadLoadingTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadQueuedTables: {
-        serializedName: "fullLoadQueuedTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadErroredTables: {
-        serializedName: "fullLoadErroredTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      initializationCompleted: {
-        serializedName: "initializationCompleted",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      latency: {
-        serializedName: "latency",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlDbSyncTaskOutputTableLevel: coreClient.CompositeMapper = {
-  serializedName: "TableLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbSyncTaskOutputTableLevel",
-    uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbSyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbSyncTaskOutput.type.modelProperties,
-      tableName: {
-        serializedName: "tableName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSqlServerSqlDbSyncTaskOutputTableLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "TableLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbSyncTaskOutputTableLevel",
+      uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbSyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbSyncTaskOutput.type.modelProperties,
+        tableName: {
+          serializedName: "tableName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        cdcInsertCounter: {
+          serializedName: "cdcInsertCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcUpdateCounter: {
+          serializedName: "cdcUpdateCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcDeleteCounter: {
+          serializedName: "cdcDeleteCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadEstFinishTime: {
+          serializedName: "fullLoadEstFinishTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadStartedOn: {
+          serializedName: "fullLoadStartedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadEndedOn: {
+          serializedName: "fullLoadEndedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadTotalRows: {
+          serializedName: "fullLoadTotalRows",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        totalChangesApplied: {
+          serializedName: "totalChangesApplied",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        dataErrorsCounter: {
+          serializedName: "dataErrorsCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        lastModifiedTime: {
+          serializedName: "lastModifiedTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
       },
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      cdcInsertCounter: {
-        serializedName: "cdcInsertCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcUpdateCounter: {
-        serializedName: "cdcUpdateCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcDeleteCounter: {
-        serializedName: "cdcDeleteCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadEstFinishTime: {
-        serializedName: "fullLoadEstFinishTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadStartedOn: {
-        serializedName: "fullLoadStartedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadEndedOn: {
-        serializedName: "fullLoadEndedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadTotalRows: {
-        serializedName: "fullLoadTotalRows",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      totalChangesApplied: {
-        serializedName: "totalChangesApplied",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      dataErrorsCounter: {
-        serializedName: "dataErrorsCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      lastModifiedTime: {
-        serializedName: "lastModifiedTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlDbSyncTaskOutputError: coreClient.CompositeMapper = {
-  serializedName: "ErrorOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbSyncTaskOutputError",
-    uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbSyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbSyncTaskOutput.type.modelProperties,
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ReportableException"
-        }
-      }
-    }
-  }
-};
+export const MigrateSqlServerSqlDbSyncTaskOutputError: coreClient.CompositeMapper =
+  {
+    serializedName: "ErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbSyncTaskOutputError",
+      uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbSyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbSyncTaskOutput.type.modelProperties,
+        error: {
+          serializedName: "error",
+          type: {
+            name: "Composite",
+            className: "ReportableException",
+          },
+        },
+      },
+    },
+  };
 
-export const MigrateSqlServerSqlDbSyncTaskOutputDatabaseError: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelErrorOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbSyncTaskOutputDatabaseError",
-    uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbSyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbSyncTaskOutput.type.modelProperties,
-      errorMessage: {
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
-        }
+export const MigrateSqlServerSqlDbSyncTaskOutputDatabaseError: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbSyncTaskOutputDatabaseError",
+      uberParent: "MigrateSqlServerSqlDbSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbSyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbSyncTaskOutput.type.modelProperties,
+        errorMessage: {
+          serializedName: "errorMessage",
+          type: {
+            name: "String",
+          },
+        },
+        events: {
+          serializedName: "events",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SyncMigrationDatabaseErrorEvent",
+              },
+            },
+          },
+        },
       },
-      events: {
-        serializedName: "events",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SyncMigrationDatabaseErrorEvent"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlDbTaskOutputMigrationLevel: coreClient.CompositeMapper = {
-  serializedName: "MigrationLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbTaskOutputMigrationLevel",
-    uberParent: "MigrateSqlServerSqlDbTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
+export const MigrateSqlServerSqlDbTaskOutputMigrationLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbTaskOutputMigrationLevel",
+      uberParent: "MigrateSqlServerSqlDbTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        durationInSeconds: {
+          serializedName: "durationInSeconds",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        status: {
+          serializedName: "status",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        statusMessage: {
+          serializedName: "statusMessage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        message: {
+          serializedName: "message",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databases: {
+          serializedName: "databases",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databaseSummary: {
+          serializedName: "databaseSummary",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        migrationValidationResult: {
+          serializedName: "migrationValidationResult",
+          type: {
+            name: "Composite",
+            className: "MigrationValidationResult",
+          },
+        },
+        migrationReportResult: {
+          serializedName: "migrationReportResult",
+          type: {
+            name: "Composite",
+            className: "MigrationReportResult",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerBrandVersion: {
+          serializedName: "sourceServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerBrandVersion: {
+          serializedName: "targetServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        exceptionsAndWarnings: {
+          serializedName: "exceptionsAndWarnings",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      durationInSeconds: {
-        serializedName: "durationInSeconds",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      status: {
-        serializedName: "status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      statusMessage: {
-        serializedName: "statusMessage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databases: {
-        serializedName: "databases",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databaseSummary: {
-        serializedName: "databaseSummary",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      migrationValidationResult: {
-        serializedName: "migrationValidationResult",
-        type: {
-          name: "Composite",
-          className: "MigrationValidationResult"
-        }
-      },
-      migrationReportResult: {
-        serializedName: "migrationReportResult",
-        type: {
-          name: "Composite",
-          className: "MigrationReportResult"
-        }
-      },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServerBrandVersion: {
-        serializedName: "sourceServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerBrandVersion: {
-        serializedName: "targetServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      exceptionsAndWarnings: {
-        serializedName: "exceptionsAndWarnings",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlDbTaskOutputDatabaseLevel: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbTaskOutputDatabaseLevel",
-    uberParent: "MigrateSqlServerSqlDbTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSqlServerSqlDbTaskOutputDatabaseLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbTaskOutputDatabaseLevel",
+      uberParent: "MigrateSqlServerSqlDbTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        stage: {
+          serializedName: "stage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        statusMessage: {
+          serializedName: "statusMessage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        message: {
+          serializedName: "message",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        numberOfObjects: {
+          serializedName: "numberOfObjects",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        numberOfObjectsCompleted: {
+          serializedName: "numberOfObjectsCompleted",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        errorCount: {
+          serializedName: "errorCount",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        errorPrefix: {
+          serializedName: "errorPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        resultPrefix: {
+          serializedName: "resultPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        exceptionsAndWarnings: {
+          serializedName: "exceptionsAndWarnings",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+        objectSummary: {
+          serializedName: "objectSummary",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      stage: {
-        serializedName: "stage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      statusMessage: {
-        serializedName: "statusMessage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      numberOfObjects: {
-        serializedName: "numberOfObjects",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      numberOfObjectsCompleted: {
-        serializedName: "numberOfObjectsCompleted",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      errorCount: {
-        serializedName: "errorCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      errorPrefix: {
-        serializedName: "errorPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resultPrefix: {
-        serializedName: "resultPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      exceptionsAndWarnings: {
-        serializedName: "exceptionsAndWarnings",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      },
-      objectSummary: {
-        serializedName: "objectSummary",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlDbTaskOutputTableLevel: coreClient.CompositeMapper = {
-  serializedName: "TableLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbTaskOutputTableLevel",
-    uberParent: "MigrateSqlServerSqlDbTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
-      objectName: {
-        serializedName: "objectName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSqlServerSqlDbTaskOutputTableLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "TableLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbTaskOutputTableLevel",
+      uberParent: "MigrateSqlServerSqlDbTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
+        objectName: {
+          serializedName: "objectName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        statusMessage: {
+          serializedName: "statusMessage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        itemsCount: {
+          serializedName: "itemsCount",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        itemsCompletedCount: {
+          serializedName: "itemsCompletedCount",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        errorPrefix: {
+          serializedName: "errorPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        resultPrefix: {
+          serializedName: "resultPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      statusMessage: {
-        serializedName: "statusMessage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      itemsCount: {
-        serializedName: "itemsCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      itemsCompletedCount: {
-        serializedName: "itemsCompletedCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      errorPrefix: {
-        serializedName: "errorPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resultPrefix: {
-        serializedName: "resultPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlDbTaskOutputError: coreClient.CompositeMapper = {
-  serializedName: "ErrorOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbTaskOutputError",
-    uberParent: "MigrateSqlServerSqlDbTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ReportableException"
-        }
-      }
-    }
-  }
-};
+export const MigrateSqlServerSqlDbTaskOutputError: coreClient.CompositeMapper =
+  {
+    serializedName: "ErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbTaskOutputError",
+      uberParent: "MigrateSqlServerSqlDbTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
+        error: {
+          serializedName: "error",
+          type: {
+            name: "Composite",
+            className: "ReportableException",
+          },
+        },
+      },
+    },
+  };
 
-export const MigrateSqlServerSqlDbTaskOutputValidationResult: coreClient.CompositeMapper = {
-  serializedName: "MigrationValidationOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbTaskOutputValidationResult",
-    uberParent: "MigrateSqlServerSqlDbTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
-      ...MigrationValidationResult.type.modelProperties
-    }
-  }
-};
+export const MigrateSqlServerSqlDbTaskOutputValidationResult: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationValidationOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbTaskOutputValidationResult",
+      uberParent: "MigrateSqlServerSqlDbTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
+        ...MigrationValidationResult.type.modelProperties,
+      },
+    },
+  };
 
-export const MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult: coreClient.CompositeMapper = {
-  serializedName: "MigrationDatabaseLevelValidationOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult",
-    uberParent: "MigrateSqlServerSqlDbTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
-      ...MigrationValidationDatabaseLevelResult.type.modelProperties
-    }
-  }
-};
+export const MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationDatabaseLevelValidationOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult",
+      uberParent: "MigrateSqlServerSqlDbTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlDbTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlDbTaskOutput.type.modelProperties,
+        ...MigrationValidationDatabaseLevelResult.type.modelProperties,
+      },
+    },
+  };
 
 export const DatabaseSummaryResult: coreClient.CompositeMapper = {
   type: {
@@ -11271,11 +12223,11 @@ export const DatabaseSummaryResult: coreClient.CompositeMapper = {
         serializedName: "sizeMB",
         readOnly: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSqlServerSqlMISyncTaskInput: coreClient.CompositeMapper = {
@@ -11283,601 +12235,616 @@ export const MigrateSqlServerSqlMISyncTaskInput: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MigrateSqlServerSqlMISyncTaskInput",
     modelProperties: {
-      ...SqlServerSqlMISyncTaskInput.type.modelProperties
-    }
-  }
+      ...SqlServerSqlMISyncTaskInput.type.modelProperties,
+      numberOfParallelDatabaseMigrations: {
+        serializedName: "numberOfParallelDatabaseMigrations",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
-export const ValidateMigrationInputSqlServerSqlMISyncTaskInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ValidateMigrationInputSqlServerSqlMISyncTaskInput",
-    modelProperties: {
-      ...SqlServerSqlMISyncTaskInput.type.modelProperties
-    }
-  }
-};
+export const ValidateMigrationInputSqlServerSqlMISyncTaskInput: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ValidateMigrationInputSqlServerSqlMISyncTaskInput",
+      modelProperties: {
+        ...SqlServerSqlMISyncTaskInput.type.modelProperties,
+      },
+    },
+  };
 
-export const MigrateSqlServerSqlMISyncTaskOutputMigrationLevel: coreClient.CompositeMapper = {
-  serializedName: "MigrationLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlMISyncTaskOutputMigrationLevel",
-    uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlMISyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlMISyncTaskOutput.type.modelProperties,
-      databaseCount: {
-        serializedName: "databaseCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
+export const MigrateSqlServerSqlMISyncTaskOutputMigrationLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlMISyncTaskOutputMigrationLevel",
+      uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlMISyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlMISyncTaskOutput.type.modelProperties,
+        databaseCount: {
+          serializedName: "databaseCount",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        sourceServerName: {
+          serializedName: "sourceServerName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerBrandVersion: {
+          serializedName: "sourceServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerName: {
+          serializedName: "targetServerName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerBrandVersion: {
+          serializedName: "targetServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databaseErrorCount: {
+          serializedName: "databaseErrorCount",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
       },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      sourceServerName: {
-        serializedName: "sourceServerName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServerBrandVersion: {
-        serializedName: "sourceServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerName: {
-        serializedName: "targetServerName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerBrandVersion: {
-        serializedName: "targetServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databaseErrorCount: {
-        serializedName: "databaseErrorCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel",
-    uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlMISyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlMISyncTaskOutput.type.modelProperties,
-      sourceDatabaseName: {
-        serializedName: "sourceDatabaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel",
+      uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlMISyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlMISyncTaskOutput.type.modelProperties,
+        sourceDatabaseName: {
+          serializedName: "sourceDatabaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        migrationState: {
+          serializedName: "migrationState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullBackupSetInfo: {
+          serializedName: "fullBackupSetInfo",
+          type: {
+            name: "Composite",
+            className: "BackupSetInfo",
+          },
+        },
+        lastRestoredBackupSetInfo: {
+          serializedName: "lastRestoredBackupSetInfo",
+          type: {
+            name: "Composite",
+            className: "BackupSetInfo",
+          },
+        },
+        activeBackupSets: {
+          serializedName: "activeBackupSets",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "BackupSetInfo",
+              },
+            },
+          },
+        },
+        containerName: {
+          serializedName: "containerName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        errorPrefix: {
+          serializedName: "errorPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        isFullBackupRestored: {
+          serializedName: "isFullBackupRestored",
+          readOnly: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        exceptionsAndWarnings: {
+          serializedName: "exceptionsAndWarnings",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      migrationState: {
-        serializedName: "migrationState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullBackupSetInfo: {
-        serializedName: "fullBackupSetInfo",
-        type: {
-          name: "Composite",
-          className: "BackupSetInfo"
-        }
-      },
-      lastRestoredBackupSetInfo: {
-        serializedName: "lastRestoredBackupSetInfo",
-        type: {
-          name: "Composite",
-          className: "BackupSetInfo"
-        }
-      },
-      activeBackupSets: {
-        serializedName: "activeBackupSets",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BackupSetInfo"
-            }
-          }
-        }
-      },
-      containerName: {
-        serializedName: "containerName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      errorPrefix: {
-        serializedName: "errorPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isFullBackupRestored: {
-        serializedName: "isFullBackupRestored",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      exceptionsAndWarnings: {
-        serializedName: "exceptionsAndWarnings",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlMISyncTaskOutputError: coreClient.CompositeMapper = {
-  serializedName: "ErrorOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlMISyncTaskOutputError",
-    uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlMISyncTaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlMISyncTaskOutput.type.modelProperties,
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ReportableException"
-        }
-      }
-    }
-  }
-};
+export const MigrateSqlServerSqlMISyncTaskOutputError: coreClient.CompositeMapper =
+  {
+    serializedName: "ErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlMISyncTaskOutputError",
+      uberParent: "MigrateSqlServerSqlMISyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlMISyncTaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlMISyncTaskOutput.type.modelProperties,
+        error: {
+          serializedName: "error",
+          type: {
+            name: "Composite",
+            className: "ReportableException",
+          },
+        },
+      },
+    },
+  };
 
-export const MigrateSqlServerSqlMITaskOutputMigrationLevel: coreClient.CompositeMapper = {
-  serializedName: "MigrationLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlMITaskOutputMigrationLevel",
-    uberParent: "MigrateSqlServerSqlMITaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlMITaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlMITaskOutput.type.modelProperties,
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
+export const MigrateSqlServerSqlMITaskOutputMigrationLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlMITaskOutputMigrationLevel",
+      uberParent: "MigrateSqlServerSqlMITaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlMITaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlMITaskOutput.type.modelProperties,
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        status: {
+          serializedName: "status",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        agentJobs: {
+          serializedName: "agentJobs",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        logins: {
+          serializedName: "logins",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        message: {
+          serializedName: "message",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        serverRoleResults: {
+          serializedName: "serverRoleResults",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        orphanedUsersInfo: {
+          serializedName: "orphanedUsersInfo",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "OrphanedUserInfo",
+              },
+            },
+          },
+        },
+        databases: {
+          serializedName: "databases",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerBrandVersion: {
+          serializedName: "sourceServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerBrandVersion: {
+          serializedName: "targetServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        exceptionsAndWarnings: {
+          serializedName: "exceptionsAndWarnings",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      status: {
-        serializedName: "status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      agentJobs: {
-        serializedName: "agentJobs",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      logins: {
-        serializedName: "logins",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      serverRoleResults: {
-        serializedName: "serverRoleResults",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      orphanedUsersInfo: {
-        serializedName: "orphanedUsersInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OrphanedUserInfo"
-            }
-          }
-        }
-      },
-      databases: {
-        serializedName: "databases",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServerBrandVersion: {
-        serializedName: "sourceServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerBrandVersion: {
-        serializedName: "targetServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      exceptionsAndWarnings: {
-        serializedName: "exceptionsAndWarnings",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlMITaskOutputDatabaseLevel: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlMITaskOutputDatabaseLevel",
-    uberParent: "MigrateSqlServerSqlMITaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlMITaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlMITaskOutput.type.modelProperties,
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSqlServerSqlMITaskOutputDatabaseLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlMITaskOutputDatabaseLevel",
+      uberParent: "MigrateSqlServerSqlMITaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlMITaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlMITaskOutput.type.modelProperties,
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sizeMB: {
+          serializedName: "sizeMB",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        stage: {
+          serializedName: "stage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        message: {
+          serializedName: "message",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        exceptionsAndWarnings: {
+          serializedName: "exceptionsAndWarnings",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      sizeMB: {
-        serializedName: "sizeMB",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      stage: {
-        serializedName: "stage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      exceptionsAndWarnings: {
-        serializedName: "exceptionsAndWarnings",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlMITaskOutputAgentJobLevel: coreClient.CompositeMapper = {
-  serializedName: "AgentJobLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlMITaskOutputAgentJobLevel",
-    uberParent: "MigrateSqlServerSqlMITaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlMITaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlMITaskOutput.type.modelProperties,
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSqlServerSqlMITaskOutputAgentJobLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "AgentJobLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlMITaskOutputAgentJobLevel",
+      uberParent: "MigrateSqlServerSqlMITaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlMITaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlMITaskOutput.type.modelProperties,
+        name: {
+          serializedName: "name",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        isEnabled: {
+          serializedName: "isEnabled",
+          readOnly: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        message: {
+          serializedName: "message",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        exceptionsAndWarnings: {
+          serializedName: "exceptionsAndWarnings",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      isEnabled: {
-        serializedName: "isEnabled",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      exceptionsAndWarnings: {
-        serializedName: "exceptionsAndWarnings",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlMITaskOutputLoginLevel: coreClient.CompositeMapper = {
-  serializedName: "LoginLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlMITaskOutputLoginLevel",
-    uberParent: "MigrateSqlServerSqlMITaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlMITaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlMITaskOutput.type.modelProperties,
-      loginName: {
-        serializedName: "loginName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateSqlServerSqlMITaskOutputLoginLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "LoginLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlMITaskOutputLoginLevel",
+      uberParent: "MigrateSqlServerSqlMITaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlMITaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlMITaskOutput.type.modelProperties,
+        loginName: {
+          serializedName: "loginName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        stage: {
+          serializedName: "stage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        message: {
+          serializedName: "message",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        exceptionsAndWarnings: {
+          serializedName: "exceptionsAndWarnings",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
       },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      stage: {
-        serializedName: "stage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      exceptionsAndWarnings: {
-        serializedName: "exceptionsAndWarnings",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateSqlServerSqlMITaskOutputError: coreClient.CompositeMapper = {
-  serializedName: "ErrorOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateSqlServerSqlMITaskOutputError",
-    uberParent: "MigrateSqlServerSqlMITaskOutput",
-    polymorphicDiscriminator:
-      MigrateSqlServerSqlMITaskOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateSqlServerSqlMITaskOutput.type.modelProperties,
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ReportableException"
-        }
-      }
-    }
-  }
-};
+export const MigrateSqlServerSqlMITaskOutputError: coreClient.CompositeMapper =
+  {
+    serializedName: "ErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateSqlServerSqlMITaskOutputError",
+      uberParent: "MigrateSqlServerSqlMITaskOutput",
+      polymorphicDiscriminator:
+        MigrateSqlServerSqlMITaskOutput.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateSqlServerSqlMITaskOutput.type.modelProperties,
+        error: {
+          serializedName: "error",
+          type: {
+            name: "Composite",
+            className: "ReportableException",
+          },
+        },
+      },
+    },
+  };
 
 export const MigrateSsisTaskOutputMigrationLevel: coreClient.CompositeMapper = {
   serializedName: "MigrationLevelOutput",
@@ -11893,57 +12860,57 @@ export const MigrateSsisTaskOutputMigrationLevel: coreClient.CompositeMapper = {
         serializedName: "startedOn",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endedOn: {
         serializedName: "endedOn",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       status: {
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceServerVersion: {
         serializedName: "sourceServerVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sourceServerBrandVersion: {
         serializedName: "sourceServerBrandVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetServerVersion: {
         serializedName: "targetServerVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targetServerBrandVersion: {
         serializedName: "targetServerBrandVersion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       exceptionsAndWarnings: {
         serializedName: "exceptionsAndWarnings",
@@ -11953,20 +12920,20 @@ export const MigrateSsisTaskOutputMigrationLevel: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
+              className: "ReportableException",
+            },
+          },
+        },
       },
       stage: {
         serializedName: "stage",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MigrateSsisTaskOutputProjectLevel: coreClient.CompositeMapper = {
@@ -11983,50 +12950,50 @@ export const MigrateSsisTaskOutputProjectLevel: coreClient.CompositeMapper = {
         serializedName: "folderName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       projectName: {
         serializedName: "projectName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       state: {
         serializedName: "state",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       stage: {
         serializedName: "stage",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       startedOn: {
         serializedName: "startedOn",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endedOn: {
         serializedName: "endedOn",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       exceptionsAndWarnings: {
         serializedName: "exceptionsAndWarnings",
@@ -12036,13 +13003,13 @@ export const MigrateSsisTaskOutputProjectLevel: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ReportableException",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbFinishCommandInput: coreClient.CompositeMapper = {
@@ -12055,11 +13022,11 @@ export const MongoDbFinishCommandInput: coreClient.CompositeMapper = {
         serializedName: "immediate",
         required: true,
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbCollectionInfo: coreClient.CompositeMapper = {
@@ -12072,52 +13039,52 @@ export const MongoDbCollectionInfo: coreClient.CompositeMapper = {
         serializedName: "databaseName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isCapped: {
         serializedName: "isCapped",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       isSystemCollection: {
         serializedName: "isSystemCollection",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       isView: {
         serializedName: "isView",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       shardKey: {
         serializedName: "shardKey",
         type: {
           name: "Composite",
-          className: "MongoDbShardKeyInfo"
-        }
+          className: "MongoDbShardKeyInfo",
+        },
       },
       supportsSharding: {
         serializedName: "supportsSharding",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       viewOf: {
         serializedName: "viewOf",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbDatabaseInfo: coreClient.CompositeMapper = {
@@ -12134,20 +13101,20 @@ export const MongoDbDatabaseInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MongoDbCollectionInfo"
-            }
-          }
-        }
+              className: "MongoDbCollectionInfo",
+            },
+          },
+        },
       },
       supportsSharding: {
         serializedName: "supportsSharding",
         required: true,
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbCollectionProgress: coreClient.CompositeMapper = {
@@ -12158,9 +13125,9 @@ export const MongoDbCollectionProgress: coreClient.CompositeMapper = {
     uberParent: "MongoDbProgress",
     polymorphicDiscriminator: MongoDbProgress.type.polymorphicDiscriminator,
     modelProperties: {
-      ...MongoDbProgress.type.modelProperties
-    }
-  }
+      ...MongoDbProgress.type.modelProperties,
+    },
+  },
 };
 
 export const MongoDbDatabaseProgress: coreClient.CompositeMapper = {
@@ -12177,12 +13144,12 @@ export const MongoDbDatabaseProgress: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "MongoDbCollectionProgress" }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Composite", className: "MongoDbCollectionProgress" },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const MongoDbMigrationProgress: coreClient.CompositeMapper = {
@@ -12199,769 +13166,1152 @@ export const MongoDbMigrationProgress: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: { name: "Composite", className: "MongoDbDatabaseProgress" }
-          }
-        }
-      }
-    }
-  }
+            type: { name: "Composite", className: "MongoDbDatabaseProgress" },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel: coreClient.CompositeMapper = {
-  serializedName: "MigrationLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel",
-    uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type
-        .polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.modelProperties,
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
+export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel",
+      uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.modelProperties,
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServer: {
+          serializedName: "sourceServer",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServer: {
+          serializedName: "targetServer",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
       },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServer: {
-        serializedName: "sourceServer",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServer: {
-        serializedName: "targetServer",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel",
-    uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type
-        .polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.modelProperties,
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel",
+      uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.modelProperties,
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        migrationState: {
+          serializedName: "migrationState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        incomingChanges: {
+          serializedName: "incomingChanges",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        appliedChanges: {
+          serializedName: "appliedChanges",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcInsertCounter: {
+          serializedName: "cdcInsertCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcDeleteCounter: {
+          serializedName: "cdcDeleteCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcUpdateCounter: {
+          serializedName: "cdcUpdateCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadCompletedTables: {
+          serializedName: "fullLoadCompletedTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadLoadingTables: {
+          serializedName: "fullLoadLoadingTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadQueuedTables: {
+          serializedName: "fullLoadQueuedTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadErroredTables: {
+          serializedName: "fullLoadErroredTables",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        initializationCompleted: {
+          serializedName: "initializationCompleted",
+          readOnly: true,
+          type: {
+            name: "Boolean",
+          },
+        },
+        latency: {
+          serializedName: "latency",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
       },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      migrationState: {
-        serializedName: "migrationState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      incomingChanges: {
-        serializedName: "incomingChanges",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      appliedChanges: {
-        serializedName: "appliedChanges",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcInsertCounter: {
-        serializedName: "cdcInsertCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcDeleteCounter: {
-        serializedName: "cdcDeleteCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcUpdateCounter: {
-        serializedName: "cdcUpdateCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadCompletedTables: {
-        serializedName: "fullLoadCompletedTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadLoadingTables: {
-        serializedName: "fullLoadLoadingTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadQueuedTables: {
-        serializedName: "fullLoadQueuedTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadErroredTables: {
-        serializedName: "fullLoadErroredTables",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      initializationCompleted: {
-        serializedName: "initializationCompleted",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      latency: {
-        serializedName: "latency",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel: coreClient.CompositeMapper = {
-  serializedName: "TableLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel",
-    uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
-    polymorphicDiscriminator:
-      MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type
-        .polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.modelProperties,
-      tableName: {
-        serializedName: "tableName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "TableLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel",
+      uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.modelProperties,
+        tableName: {
+          serializedName: "tableName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        cdcInsertCounter: {
+          serializedName: "cdcInsertCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcUpdateCounter: {
+          serializedName: "cdcUpdateCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        cdcDeleteCounter: {
+          serializedName: "cdcDeleteCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        fullLoadEstFinishTime: {
+          serializedName: "fullLoadEstFinishTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadStartedOn: {
+          serializedName: "fullLoadStartedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadEndedOn: {
+          serializedName: "fullLoadEndedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        fullLoadTotalRows: {
+          serializedName: "fullLoadTotalRows",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        totalChangesApplied: {
+          serializedName: "totalChangesApplied",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        dataErrorsCounter: {
+          serializedName: "dataErrorsCounter",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        lastModifiedTime: {
+          serializedName: "lastModifiedTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
       },
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      cdcInsertCounter: {
-        serializedName: "cdcInsertCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcUpdateCounter: {
-        serializedName: "cdcUpdateCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      cdcDeleteCounter: {
-        serializedName: "cdcDeleteCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      fullLoadEstFinishTime: {
-        serializedName: "fullLoadEstFinishTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadStartedOn: {
-        serializedName: "fullLoadStartedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadEndedOn: {
-        serializedName: "fullLoadEndedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      fullLoadTotalRows: {
-        serializedName: "fullLoadTotalRows",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      totalChangesApplied: {
-        serializedName: "totalChangesApplied",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      dataErrorsCounter: {
-        serializedName: "dataErrorsCounter",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      lastModifiedTime: {
-        serializedName: "lastModifiedTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
+    },
+  };
 
-export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputError: coreClient.CompositeMapper = {
-  serializedName: "ErrorOutput",
+export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputError: coreClient.CompositeMapper =
+  {
+    serializedName: "ErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputError",
+      uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.modelProperties,
+        error: {
+          serializedName: "error",
+          type: {
+            name: "Composite",
+            className: "ReportableException",
+          },
+        },
+      },
+    },
+  };
+
+export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError",
+      uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
+      polymorphicDiscriminator:
+        MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.modelProperties,
+        errorMessage: {
+          serializedName: "errorMessage",
+          type: {
+            name: "String",
+          },
+        },
+        events: {
+          serializedName: "events",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "SyncMigrationDatabaseErrorEvent",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
+export const MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "MigrationLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel",
+      uberParent: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
+      polymorphicDiscriminator:
+        MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type.modelProperties,
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        durationInSeconds: {
+          serializedName: "durationInSeconds",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        status: {
+          serializedName: "status",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        statusMessage: {
+          serializedName: "statusMessage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        message: {
+          serializedName: "message",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        databases: {
+          serializedName: "databases",
+          type: {
+            name: "String",
+          },
+        },
+        databaseSummary: {
+          serializedName: "databaseSummary",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        migrationReportResult: {
+          serializedName: "migrationReportResult",
+          type: {
+            name: "Composite",
+            className: "MigrationReportResult",
+          },
+        },
+        sourceServerVersion: {
+          serializedName: "sourceServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        sourceServerBrandVersion: {
+          serializedName: "sourceServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerVersion: {
+          serializedName: "targetServerVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        targetServerBrandVersion: {
+          serializedName: "targetServerBrandVersion",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        exceptionsAndWarnings: {
+          serializedName: "exceptionsAndWarnings",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+        lastStorageUpdate: {
+          serializedName: "lastStorageUpdate",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+      },
+    },
+  };
+
+export const MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "DatabaseLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel",
+      uberParent: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
+      polymorphicDiscriminator:
+        MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type.modelProperties,
+        databaseName: {
+          serializedName: "databaseName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        stage: {
+          serializedName: "stage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        statusMessage: {
+          serializedName: "statusMessage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        message: {
+          serializedName: "message",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        numberOfObjects: {
+          serializedName: "numberOfObjects",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        numberOfObjectsCompleted: {
+          serializedName: "numberOfObjectsCompleted",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        errorCount: {
+          serializedName: "errorCount",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        errorPrefix: {
+          serializedName: "errorPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        resultPrefix: {
+          serializedName: "resultPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        exceptionsAndWarnings: {
+          serializedName: "exceptionsAndWarnings",
+          readOnly: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ReportableException",
+              },
+            },
+          },
+        },
+        lastStorageUpdate: {
+          serializedName: "lastStorageUpdate",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        objectSummary: {
+          serializedName: "objectSummary",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel: coreClient.CompositeMapper =
+  {
+    serializedName: "TableLevelOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel",
+      uberParent: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
+      polymorphicDiscriminator:
+        MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type.modelProperties,
+        objectName: {
+          serializedName: "objectName",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        startedOn: {
+          serializedName: "startedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        endedOn: {
+          serializedName: "endedOn",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        state: {
+          serializedName: "state",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        statusMessage: {
+          serializedName: "statusMessage",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        itemsCount: {
+          serializedName: "itemsCount",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        itemsCompletedCount: {
+          serializedName: "itemsCompletedCount",
+          readOnly: true,
+          type: {
+            name: "Number",
+          },
+        },
+        errorPrefix: {
+          serializedName: "errorPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        resultPrefix: {
+          serializedName: "resultPrefix",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        lastStorageUpdate: {
+          serializedName: "lastStorageUpdate",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+      },
+    },
+  };
+
+export const MigrateMySqlAzureDbForMySqlOfflineTaskOutputError: coreClient.CompositeMapper =
+  {
+    serializedName: "ErrorOutput",
+    type: {
+      name: "Composite",
+      className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutputError",
+      uberParent: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
+      polymorphicDiscriminator:
+        MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type
+          .polymorphicDiscriminator,
+      modelProperties: {
+        ...MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type.modelProperties,
+        error: {
+          serializedName: "error",
+          type: {
+            name: "Composite",
+            className: "ReportableException",
+          },
+        },
+      },
+    },
+  };
+
+export const DatabaseMigrationPropertiesSqlDb: coreClient.CompositeMapper = {
+  serializedName: "SqlDb",
   type: {
     name: "Composite",
-    className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputError",
-    uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
+    className: "DatabaseMigrationPropertiesSqlDb",
+    uberParent: "DatabaseMigrationProperties",
     polymorphicDiscriminator:
-      MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type
-        .polymorphicDiscriminator,
+      DatabaseMigrationProperties.type.polymorphicDiscriminator,
     modelProperties: {
-      ...MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.modelProperties,
-      error: {
-        serializedName: "error",
+      ...DatabaseMigrationProperties.type.modelProperties,
+      migrationStatusDetails: {
+        serializedName: "migrationStatusDetails",
         type: {
           name: "Composite",
-          className: "ReportableException"
-        }
-      }
-    }
-  }
+          className: "SqlDbMigrationStatusDetails",
+        },
+      },
+      targetSqlConnection: {
+        serializedName: "targetSqlConnection",
+        type: {
+          name: "Composite",
+          className: "SqlConnectionInformation",
+        },
+      },
+      offlineConfiguration: {
+        serializedName: "offlineConfiguration",
+        type: {
+          name: "Composite",
+          className: "SqlDbOfflineConfiguration",
+        },
+      },
+      tableList: {
+        serializedName: "tableList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelErrorOutput",
+export const DatabaseMigrationPropertiesSqlMi: coreClient.CompositeMapper = {
+  serializedName: "SqlMi",
   type: {
     name: "Composite",
-    className: "MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError",
-    uberParent: "MigrateOracleAzureDbPostgreSqlSyncTaskOutput",
+    className: "DatabaseMigrationPropertiesSqlMi",
+    uberParent: "DatabaseMigrationProperties",
     polymorphicDiscriminator:
-      MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type
-        .polymorphicDiscriminator,
+      DatabaseMigrationProperties.type.polymorphicDiscriminator,
     modelProperties: {
-      ...MigrateOracleAzureDbPostgreSqlSyncTaskOutput.type.modelProperties,
-      errorMessage: {
-        serializedName: "errorMessage",
+      ...DatabaseMigrationProperties.type.modelProperties,
+      migrationStatusDetails: {
+        serializedName: "migrationStatusDetails",
         type: {
-          name: "String"
-        }
+          name: "Composite",
+          className: "MigrationStatusDetails",
+        },
       },
-      events: {
-        serializedName: "events",
+      backupConfiguration: {
+        serializedName: "backupConfiguration",
+        type: {
+          name: "Composite",
+          className: "BackupConfiguration",
+        },
+      },
+      offlineConfiguration: {
+        serializedName: "offlineConfiguration",
+        type: {
+          name: "Composite",
+          className: "OfflineConfiguration",
+        },
+      },
+    },
+  },
+};
+
+export const DatabaseMigrationPropertiesSqlVm: coreClient.CompositeMapper = {
+  serializedName: "SqlVm",
+  type: {
+    name: "Composite",
+    className: "DatabaseMigrationPropertiesSqlVm",
+    uberParent: "DatabaseMigrationProperties",
+    polymorphicDiscriminator:
+      DatabaseMigrationProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DatabaseMigrationProperties.type.modelProperties,
+      migrationStatusDetails: {
+        serializedName: "migrationStatusDetails",
+        type: {
+          name: "Composite",
+          className: "MigrationStatusDetails",
+        },
+      },
+      backupConfiguration: {
+        serializedName: "backupConfiguration",
+        type: {
+          name: "Composite",
+          className: "BackupConfiguration",
+        },
+      },
+      offlineConfiguration: {
+        serializedName: "offlineConfiguration",
+        type: {
+          name: "Composite",
+          className: "OfflineConfiguration",
+        },
+      },
+    },
+  },
+};
+
+export const DatabaseMigrationCosmosDbMongo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatabaseMigrationCosmosDbMongo",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      kind: {
+        serializedName: "properties.kind",
+        type: {
+          name: "String",
+        },
+      },
+      scope: {
+        serializedName: "properties.scope",
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      migrationStatus: {
+        serializedName: "properties.migrationStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      startedOn: {
+        serializedName: "properties.startedOn",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      endedOn: {
+        serializedName: "properties.endedOn",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      migrationService: {
+        serializedName: "properties.migrationService",
+        type: {
+          name: "String",
+        },
+      },
+      migrationOperationId: {
+        serializedName: "properties.migrationOperationId",
+        type: {
+          name: "String",
+        },
+      },
+      migrationFailureError: {
+        serializedName: "properties.migrationFailureError",
+        type: {
+          name: "Composite",
+          className: "ErrorInfo",
+        },
+      },
+      provisioningError: {
+        serializedName: "properties.provisioningError",
+        type: {
+          name: "String",
+        },
+      },
+      sourceMongoConnection: {
+        serializedName: "properties.sourceMongoConnection",
+        type: {
+          name: "Composite",
+          className: "MongoConnectionInformation",
+        },
+      },
+      targetMongoConnection: {
+        serializedName: "properties.targetMongoConnection",
+        type: {
+          name: "Composite",
+          className: "MongoConnectionInformation",
+        },
+      },
+      collectionList: {
+        serializedName: "properties.collectionList",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "SyncMigrationDatabaseErrorEvent"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "MongoMigrationCollection",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
-export const MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel: coreClient.CompositeMapper = {
-  serializedName: "MigrationLevelOutput",
+export const DatabaseMigrationBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel",
-    uberParent: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
-    polymorphicDiscriminator:
-      MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type
-        .polymorphicDiscriminator,
+    className: "DatabaseMigrationBase",
     modelProperties: {
-      ...MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type.modelProperties,
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      durationInSeconds: {
-        serializedName: "durationInSeconds",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      status: {
-        serializedName: "status",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      statusMessage: {
-        serializedName: "statusMessage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      databases: {
-        serializedName: "databases",
-        type: {
-          name: "String"
-        }
-      },
-      databaseSummary: {
-        serializedName: "databaseSummary",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      migrationReportResult: {
-        serializedName: "migrationReportResult",
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "MigrationReportResult"
-        }
+          className: "DatabaseMigrationBaseProperties",
+        },
       },
-      sourceServerVersion: {
-        serializedName: "sourceServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceServerBrandVersion: {
-        serializedName: "sourceServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerVersion: {
-        serializedName: "targetServerVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      targetServerBrandVersion: {
-        serializedName: "targetServerBrandVersion",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      exceptionsAndWarnings: {
-        serializedName: "exceptionsAndWarnings",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      },
-      lastStorageUpdate: {
-        serializedName: "lastStorageUpdate",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
-export const MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel: coreClient.CompositeMapper = {
-  serializedName: "DatabaseLevelOutput",
+export const DatabaseMigration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel",
-    uberParent: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
-    polymorphicDiscriminator:
-      MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type
-        .polymorphicDiscriminator,
+    className: "DatabaseMigration",
     modelProperties: {
-      ...MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type.modelProperties,
-      databaseName: {
-        serializedName: "databaseName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      stage: {
-        serializedName: "stage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      statusMessage: {
-        serializedName: "statusMessage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      numberOfObjects: {
-        serializedName: "numberOfObjects",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      numberOfObjectsCompleted: {
-        serializedName: "numberOfObjectsCompleted",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      errorCount: {
-        serializedName: "errorCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      errorPrefix: {
-        serializedName: "errorPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resultPrefix: {
-        serializedName: "resultPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      exceptionsAndWarnings: {
-        serializedName: "exceptionsAndWarnings",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ReportableException"
-            }
-          }
-        }
-      },
-      lastStorageUpdate: {
-        serializedName: "lastStorageUpdate",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      objectSummary: {
-        serializedName: "objectSummary",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel: coreClient.CompositeMapper = {
-  serializedName: "TableLevelOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel",
-    uberParent: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
-    polymorphicDiscriminator:
-      MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type
-        .polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type.modelProperties,
-      objectName: {
-        serializedName: "objectName",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      startedOn: {
-        serializedName: "startedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      endedOn: {
-        serializedName: "endedOn",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      state: {
-        serializedName: "state",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      statusMessage: {
-        serializedName: "statusMessage",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      itemsCount: {
-        serializedName: "itemsCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      itemsCompletedCount: {
-        serializedName: "itemsCompletedCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
-      },
-      errorPrefix: {
-        serializedName: "errorPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      resultPrefix: {
-        serializedName: "resultPrefix",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      lastStorageUpdate: {
-        serializedName: "lastStorageUpdate",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const MigrateMySqlAzureDbForMySqlOfflineTaskOutputError: coreClient.CompositeMapper = {
-  serializedName: "ErrorOutput",
-  type: {
-    name: "Composite",
-    className: "MigrateMySqlAzureDbForMySqlOfflineTaskOutputError",
-    uberParent: "MigrateMySqlAzureDbForMySqlOfflineTaskOutput",
-    polymorphicDiscriminator:
-      MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type
-        .polymorphicDiscriminator,
-    modelProperties: {
-      ...MigrateMySqlAzureDbForMySqlOfflineTaskOutput.type.modelProperties,
-      error: {
-        serializedName: "error",
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ReportableException"
-        }
-      }
-    }
-  }
+          className: "DatabaseMigrationProperties",
+        },
+      },
+    },
+  },
+};
+
+export const MigrationService: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigrationService",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      integrationRuntimeState: {
+        serializedName: "properties.integrationRuntimeState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DatabaseMigrationsMongoToCosmosDbRUMongoDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DatabaseMigrationsMongoToCosmosDbRUMongoDeleteHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const MigrationServicesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigrationServicesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MigrationServicesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MigrationServicesUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export let discriminators = {
-  DatabaseMigrationProperties: DatabaseMigrationProperties,
+  DatabaseMigrationBaseProperties: DatabaseMigrationBaseProperties,
   ProjectTaskProperties: ProjectTaskProperties,
   CommandProperties: CommandProperties,
   ConnectionInfo: ConnectionInfo,
   ConnectToSourceSqlServerTaskOutput: ConnectToSourceSqlServerTaskOutput,
   MigrateSchemaSqlServerSqlDbTaskOutput: MigrateSchemaSqlServerSqlDbTaskOutput,
-  MigrateMySqlAzureDbForMySqlSyncTaskOutput: MigrateMySqlAzureDbForMySqlSyncTaskOutput,
-  MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput,
+  MigrateMySqlAzureDbForMySqlSyncTaskOutput:
+    MigrateMySqlAzureDbForMySqlSyncTaskOutput,
+  MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput:
+    MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput,
   MigrateSqlServerSqlDbSyncTaskOutput: MigrateSqlServerSqlDbSyncTaskOutput,
   MigrateSqlServerSqlDbTaskOutput: MigrateSqlServerSqlDbTaskOutput,
   MigrateSqlServerSqlMISyncTaskOutput: MigrateSqlServerSqlMISyncTaskOutput,
   MigrateSqlServerSqlMITaskOutput: MigrateSqlServerSqlMITaskOutput,
   MigrateSsisTaskOutput: MigrateSsisTaskOutput,
   MongoDbProgress: MongoDbProgress,
-  MigrateOracleAzureDbPostgreSqlSyncTaskOutput: MigrateOracleAzureDbPostgreSqlSyncTaskOutput,
-  MigrateMySqlAzureDbForMySqlOfflineTaskOutput: MigrateMySqlAzureDbForMySqlOfflineTaskOutput,
-  "DatabaseMigrationProperties.SqlMi": DatabaseMigrationPropertiesSqlMi,
-  "DatabaseMigrationProperties.SqlVm": DatabaseMigrationPropertiesSqlVm,
-  "ProjectTaskProperties.MigrateSchemaSqlServerSqlDb": MigrateSchemaSqlServerSqlDbTaskProperties,
+  MigrateOracleAzureDbPostgreSqlSyncTaskOutput:
+    MigrateOracleAzureDbPostgreSqlSyncTaskOutput,
+  MigrateMySqlAzureDbForMySqlOfflineTaskOutput:
+    MigrateMySqlAzureDbForMySqlOfflineTaskOutput,
+  "DatabaseMigrationBaseProperties.MongoToCosmosDbMongo":
+    DatabaseMigrationPropertiesCosmosDbMongo,
+  "DatabaseMigrationBaseProperties.DatabaseMigrationProperties":
+    DatabaseMigrationProperties,
+  "ProjectTaskProperties.MigrateSchemaSqlServerSqlDb":
+    MigrateSchemaSqlServerSqlDbTaskProperties,
   "ProjectTaskProperties.Service.Check.OCI": CheckOCIDriverTaskProperties,
   "ProjectTaskProperties.Service.Upload.OCI": UploadOCIDriverTaskProperties,
   "ProjectTaskProperties.Service.Install.OCI": InstallOCIDriverTaskProperties,
   "ProjectTaskProperties.Connect.MongoDb": ConnectToMongoDbTaskProperties,
-  "ProjectTaskProperties.ConnectToSource.SqlServer": ConnectToSourceSqlServerTaskProperties,
-  "ProjectTaskProperties.ConnectToSource.SqlServer.Sync": ConnectToSourceSqlServerSyncTaskProperties,
-  "ProjectTaskProperties.ConnectToSource.PostgreSql.Sync": ConnectToSourcePostgreSqlSyncTaskProperties,
-  "ProjectTaskProperties.ConnectToSource.MySql": ConnectToSourceMySqlTaskProperties,
-  "ProjectTaskProperties.ConnectToSource.Oracle.Sync": ConnectToSourceOracleSyncTaskProperties,
-  "ProjectTaskProperties.ConnectToTarget.SqlDb": ConnectToTargetSqlDbTaskProperties,
-  "ProjectTaskProperties.ConnectToTarget.SqlDb.Sync": ConnectToTargetSqlDbSyncTaskProperties,
-  "ProjectTaskProperties.ConnectToTarget.AzureDbForPostgreSql.Sync": ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties,
-  "ProjectTaskProperties.ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync": ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToSource.SqlServer":
+    ConnectToSourceSqlServerTaskProperties,
+  "ProjectTaskProperties.ConnectToSource.SqlServer.Sync":
+    ConnectToSourceSqlServerSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToSource.PostgreSql.Sync":
+    ConnectToSourcePostgreSqlSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToSource.MySql":
+    ConnectToSourceMySqlTaskProperties,
+  "ProjectTaskProperties.ConnectToSource.Oracle.Sync":
+    ConnectToSourceOracleSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.SqlDb":
+    ConnectToTargetSqlDbTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.SqlDb.Sync":
+    ConnectToTargetSqlDbSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.AzureDbForPostgreSql.Sync":
+    ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync":
+    ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties,
   "ProjectTaskProperties.GetUserTables.Sql": GetUserTablesSqlTaskProperties,
-  "ProjectTaskProperties.GetUserTables.AzureSqlDb.Sync": GetUserTablesSqlSyncTaskProperties,
-  "ProjectTaskProperties.GetUserTablesOracle": GetUserTablesOracleTaskProperties,
-  "ProjectTaskProperties.GetUserTablesPostgreSql": GetUserTablesPostgreSqlTaskProperties,
+  "ProjectTaskProperties.GetUserTables.AzureSqlDb.Sync":
+    GetUserTablesSqlSyncTaskProperties,
+  "ProjectTaskProperties.GetUserTablesOracle":
+    GetUserTablesOracleTaskProperties,
+  "ProjectTaskProperties.GetUserTablesPostgreSql":
+    GetUserTablesPostgreSqlTaskProperties,
   "ProjectTaskProperties.GetUserTablesMySql": GetUserTablesMySqlTaskProperties,
-  "ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI": ConnectToTargetSqlMITaskProperties,
-  "ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI.Sync.LRS": ConnectToTargetSqlMISyncTaskProperties,
-  "ProjectTaskProperties.ConnectToTarget.AzureDbForMySql": ConnectToTargetAzureDbForMySqlTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI":
+    ConnectToTargetSqlMITaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.AzureSqlDbMI.Sync.LRS":
+    ConnectToTargetSqlMISyncTaskProperties,
+  "ProjectTaskProperties.ConnectToTarget.AzureDbForMySql":
+    ConnectToTargetAzureDbForMySqlTaskProperties,
   "ProjectTaskProperties.Migrate.MongoDb": MigrateMongoDbTaskProperties,
-  "ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI": MigrateSqlServerSqlMITaskProperties,
-  "ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI.Sync.LRS": MigrateSqlServerSqlMISyncTaskProperties,
-  "ProjectTaskProperties.Migrate.SqlServer.SqlDb": MigrateSqlServerSqlDbTaskProperties,
-  "ProjectTaskProperties.Migrate.SqlServer.AzureSqlDb.Sync": MigrateSqlServerSqlDbSyncTaskProperties,
-  "ProjectTaskProperties.Migrate.MySql.AzureDbForMySql.Sync": MigrateMySqlAzureDbForMySqlSyncTaskProperties,
-  "ProjectTaskProperties.Migrate.MySql.AzureDbForMySql": MigrateMySqlAzureDbForMySqlOfflineTaskProperties,
-  "ProjectTaskProperties.Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties,
-  "ProjectTaskProperties.Migrate.Oracle.AzureDbForPostgreSql.Sync": MigrateOracleAzureDbForPostgreSqlSyncTaskProperties,
-  "ProjectTaskProperties.ValidateMigrationInput.SqlServer.SqlDb.Sync": ValidateMigrationInputSqlServerSqlDbSyncTaskProperties,
-  "ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI": ValidateMigrationInputSqlServerSqlMITaskProperties,
-  "ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS": ValidateMigrationInputSqlServerSqlMISyncTaskProperties,
+  "ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI":
+    MigrateSqlServerSqlMITaskProperties,
+  "ProjectTaskProperties.Migrate.SqlServer.AzureSqlDbMI.Sync.LRS":
+    MigrateSqlServerSqlMISyncTaskProperties,
+  "ProjectTaskProperties.Migrate.SqlServer.SqlDb":
+    MigrateSqlServerSqlDbTaskProperties,
+  "ProjectTaskProperties.Migrate.SqlServer.AzureSqlDb.Sync":
+    MigrateSqlServerSqlDbSyncTaskProperties,
+  "ProjectTaskProperties.Migrate.MySql.AzureDbForMySql.Sync":
+    MigrateMySqlAzureDbForMySqlSyncTaskProperties,
+  "ProjectTaskProperties.Migrate.MySql.AzureDbForMySql":
+    MigrateMySqlAzureDbForMySqlOfflineTaskProperties,
+  "ProjectTaskProperties.Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2":
+    MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties,
+  "ProjectTaskProperties.Migrate.Oracle.AzureDbForPostgreSql.Sync":
+    MigrateOracleAzureDbForPostgreSqlSyncTaskProperties,
+  "ProjectTaskProperties.ValidateMigrationInput.SqlServer.SqlDb.Sync":
+    ValidateMigrationInputSqlServerSqlDbSyncTaskProperties,
+  "ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI":
+    ValidateMigrationInputSqlServerSqlMITaskProperties,
+  "ProjectTaskProperties.ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS":
+    ValidateMigrationInputSqlServerSqlMISyncTaskProperties,
   "ProjectTaskProperties.Validate.MongoDb": ValidateMongoDbTaskProperties,
-  "ProjectTaskProperties.Validate.Oracle.AzureDbPostgreSql.Sync": ValidateOracleAzureDbForPostgreSqlSyncTaskProperties,
-  "ProjectTaskProperties.GetTDECertificates.Sql": GetTdeCertificatesSqlTaskProperties,
+  "ProjectTaskProperties.Validate.Oracle.AzureDbPostgreSql.Sync":
+    ValidateOracleAzureDbForPostgreSqlSyncTaskProperties,
+  "ProjectTaskProperties.GetTDECertificates.Sql":
+    GetTdeCertificatesSqlTaskProperties,
   "ProjectTaskProperties.Migrate.Ssis": MigrateSsisTaskProperties,
-  "CommandProperties.Migrate.Sync.Complete.Database": MigrateSyncCompleteCommandProperties,
-  "CommandProperties.Migrate.SqlServer.AzureDbSqlMi.Complete": MigrateMISyncCompleteCommandProperties,
+  "CommandProperties.Migrate.Sync.Complete.Database":
+    MigrateSyncCompleteCommandProperties,
+  "CommandProperties.Migrate.SqlServer.AzureDbSqlMi.Complete":
+    MigrateMISyncCompleteCommandProperties,
   "CommandProperties.cancel": MongoDbCancelCommand,
   "CommandProperties.finish": MongoDbFinishCommand,
   "CommandProperties.restart": MongoDbRestartCommand,
@@ -12971,55 +14321,106 @@ export let discriminators = {
   "ConnectionInfo.OracleConnectionInfo": OracleConnectionInfo,
   "ConnectionInfo.PostgreSqlConnectionInfo": PostgreSqlConnectionInfo,
   "ConnectionInfo.MiSqlConnectionInfo": MiSqlConnectionInfo,
-  "ConnectToSourceSqlServerTaskOutput.TaskLevelOutput": ConnectToSourceSqlServerTaskOutputTaskLevel,
-  "ConnectToSourceSqlServerTaskOutput.DatabaseLevelOutput": ConnectToSourceSqlServerTaskOutputDatabaseLevel,
-  "ConnectToSourceSqlServerTaskOutput.LoginLevelOutput": ConnectToSourceSqlServerTaskOutputLoginLevel,
-  "ConnectToSourceSqlServerTaskOutput.AgentJobLevelOutput": ConnectToSourceSqlServerTaskOutputAgentJobLevel,
-  "MigrateSchemaSqlServerSqlDbTaskOutput.MigrationLevelOutput": MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel,
-  "MigrateSchemaSqlServerSqlDbTaskOutput.DatabaseLevelOutput": MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel,
-  "MigrateSchemaSqlServerSqlDbTaskOutput.SchemaErrorOutput": MigrateSchemaSqlServerSqlDbTaskOutputError,
-  "MigrateSchemaSqlServerSqlDbTaskOutput.ErrorOutput": MigrateSchemaSqlTaskOutputError,
-  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.MigrationLevelOutput": MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel,
-  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.DatabaseLevelOutput": MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel,
-  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.TableLevelOutput": MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel,
-  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.ErrorOutput": MigrateMySqlAzureDbForMySqlSyncTaskOutputError,
-  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.DatabaseLevelErrorOutput": MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError,
-  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.MigrationLevelOutput": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel,
-  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.DatabaseLevelOutput": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel,
-  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.TableLevelOutput": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel,
-  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.ErrorOutput": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError,
-  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.DatabaseLevelErrorOutput": MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError,
-  "MigrateSqlServerSqlDbSyncTaskOutput.MigrationLevelOutput": MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel,
-  "MigrateSqlServerSqlDbSyncTaskOutput.DatabaseLevelOutput": MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel,
-  "MigrateSqlServerSqlDbSyncTaskOutput.TableLevelOutput": MigrateSqlServerSqlDbSyncTaskOutputTableLevel,
-  "MigrateSqlServerSqlDbSyncTaskOutput.ErrorOutput": MigrateSqlServerSqlDbSyncTaskOutputError,
-  "MigrateSqlServerSqlDbSyncTaskOutput.DatabaseLevelErrorOutput": MigrateSqlServerSqlDbSyncTaskOutputDatabaseError,
-  "MigrateSqlServerSqlDbTaskOutput.MigrationLevelOutput": MigrateSqlServerSqlDbTaskOutputMigrationLevel,
-  "MigrateSqlServerSqlDbTaskOutput.DatabaseLevelOutput": MigrateSqlServerSqlDbTaskOutputDatabaseLevel,
-  "MigrateSqlServerSqlDbTaskOutput.TableLevelOutput": MigrateSqlServerSqlDbTaskOutputTableLevel,
-  "MigrateSqlServerSqlDbTaskOutput.ErrorOutput": MigrateSqlServerSqlDbTaskOutputError,
-  "MigrateSqlServerSqlDbTaskOutput.MigrationValidationOutput": MigrateSqlServerSqlDbTaskOutputValidationResult,
-  "MigrateSqlServerSqlDbTaskOutput.MigrationDatabaseLevelValidationOutput": MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult,
-  "MigrateSqlServerSqlMISyncTaskOutput.MigrationLevelOutput": MigrateSqlServerSqlMISyncTaskOutputMigrationLevel,
-  "MigrateSqlServerSqlMISyncTaskOutput.DatabaseLevelOutput": MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel,
-  "MigrateSqlServerSqlMISyncTaskOutput.ErrorOutput": MigrateSqlServerSqlMISyncTaskOutputError,
-  "MigrateSqlServerSqlMITaskOutput.MigrationLevelOutput": MigrateSqlServerSqlMITaskOutputMigrationLevel,
-  "MigrateSqlServerSqlMITaskOutput.DatabaseLevelOutput": MigrateSqlServerSqlMITaskOutputDatabaseLevel,
-  "MigrateSqlServerSqlMITaskOutput.AgentJobLevelOutput": MigrateSqlServerSqlMITaskOutputAgentJobLevel,
-  "MigrateSqlServerSqlMITaskOutput.LoginLevelOutput": MigrateSqlServerSqlMITaskOutputLoginLevel,
-  "MigrateSqlServerSqlMITaskOutput.ErrorOutput": MigrateSqlServerSqlMITaskOutputError,
-  "MigrateSsisTaskOutput.MigrationLevelOutput": MigrateSsisTaskOutputMigrationLevel,
-  "MigrateSsisTaskOutput.SsisProjectLevelOutput": MigrateSsisTaskOutputProjectLevel,
+  "ConnectToSourceSqlServerTaskOutput.TaskLevelOutput":
+    ConnectToSourceSqlServerTaskOutputTaskLevel,
+  "ConnectToSourceSqlServerTaskOutput.DatabaseLevelOutput":
+    ConnectToSourceSqlServerTaskOutputDatabaseLevel,
+  "ConnectToSourceSqlServerTaskOutput.LoginLevelOutput":
+    ConnectToSourceSqlServerTaskOutputLoginLevel,
+  "ConnectToSourceSqlServerTaskOutput.AgentJobLevelOutput":
+    ConnectToSourceSqlServerTaskOutputAgentJobLevel,
+  "MigrateSchemaSqlServerSqlDbTaskOutput.MigrationLevelOutput":
+    MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel,
+  "MigrateSchemaSqlServerSqlDbTaskOutput.DatabaseLevelOutput":
+    MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel,
+  "MigrateSchemaSqlServerSqlDbTaskOutput.SchemaErrorOutput":
+    MigrateSchemaSqlServerSqlDbTaskOutputError,
+  "MigrateSchemaSqlServerSqlDbTaskOutput.ErrorOutput":
+    MigrateSchemaSqlTaskOutputError,
+  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.MigrationLevelOutput":
+    MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel,
+  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.DatabaseLevelOutput":
+    MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel,
+  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.TableLevelOutput":
+    MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel,
+  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.ErrorOutput":
+    MigrateMySqlAzureDbForMySqlSyncTaskOutputError,
+  "MigrateMySqlAzureDbForMySqlSyncTaskOutput.DatabaseLevelErrorOutput":
+    MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError,
+  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.MigrationLevelOutput":
+    MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel,
+  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.DatabaseLevelOutput":
+    MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel,
+  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.TableLevelOutput":
+    MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel,
+  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.ErrorOutput":
+    MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError,
+  "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput.DatabaseLevelErrorOutput":
+    MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError,
+  "MigrateSqlServerSqlDbSyncTaskOutput.MigrationLevelOutput":
+    MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel,
+  "MigrateSqlServerSqlDbSyncTaskOutput.DatabaseLevelOutput":
+    MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel,
+  "MigrateSqlServerSqlDbSyncTaskOutput.TableLevelOutput":
+    MigrateSqlServerSqlDbSyncTaskOutputTableLevel,
+  "MigrateSqlServerSqlDbSyncTaskOutput.ErrorOutput":
+    MigrateSqlServerSqlDbSyncTaskOutputError,
+  "MigrateSqlServerSqlDbSyncTaskOutput.DatabaseLevelErrorOutput":
+    MigrateSqlServerSqlDbSyncTaskOutputDatabaseError,
+  "MigrateSqlServerSqlDbTaskOutput.MigrationLevelOutput":
+    MigrateSqlServerSqlDbTaskOutputMigrationLevel,
+  "MigrateSqlServerSqlDbTaskOutput.DatabaseLevelOutput":
+    MigrateSqlServerSqlDbTaskOutputDatabaseLevel,
+  "MigrateSqlServerSqlDbTaskOutput.TableLevelOutput":
+    MigrateSqlServerSqlDbTaskOutputTableLevel,
+  "MigrateSqlServerSqlDbTaskOutput.ErrorOutput":
+    MigrateSqlServerSqlDbTaskOutputError,
+  "MigrateSqlServerSqlDbTaskOutput.MigrationValidationOutput":
+    MigrateSqlServerSqlDbTaskOutputValidationResult,
+  "MigrateSqlServerSqlDbTaskOutput.MigrationDatabaseLevelValidationOutput":
+    MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult,
+  "MigrateSqlServerSqlMISyncTaskOutput.MigrationLevelOutput":
+    MigrateSqlServerSqlMISyncTaskOutputMigrationLevel,
+  "MigrateSqlServerSqlMISyncTaskOutput.DatabaseLevelOutput":
+    MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel,
+  "MigrateSqlServerSqlMISyncTaskOutput.ErrorOutput":
+    MigrateSqlServerSqlMISyncTaskOutputError,
+  "MigrateSqlServerSqlMITaskOutput.MigrationLevelOutput":
+    MigrateSqlServerSqlMITaskOutputMigrationLevel,
+  "MigrateSqlServerSqlMITaskOutput.DatabaseLevelOutput":
+    MigrateSqlServerSqlMITaskOutputDatabaseLevel,
+  "MigrateSqlServerSqlMITaskOutput.AgentJobLevelOutput":
+    MigrateSqlServerSqlMITaskOutputAgentJobLevel,
+  "MigrateSqlServerSqlMITaskOutput.LoginLevelOutput":
+    MigrateSqlServerSqlMITaskOutputLoginLevel,
+  "MigrateSqlServerSqlMITaskOutput.ErrorOutput":
+    MigrateSqlServerSqlMITaskOutputError,
+  "MigrateSsisTaskOutput.MigrationLevelOutput":
+    MigrateSsisTaskOutputMigrationLevel,
+  "MigrateSsisTaskOutput.SsisProjectLevelOutput":
+    MigrateSsisTaskOutputProjectLevel,
   "MongoDbProgress.Collection": MongoDbCollectionProgress,
   "MongoDbProgress.Database": MongoDbDatabaseProgress,
   "MongoDbProgress.Migration": MongoDbMigrationProgress,
-  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.MigrationLevelOutput": MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel,
-  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.DatabaseLevelOutput": MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel,
-  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.TableLevelOutput": MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel,
-  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.ErrorOutput": MigrateOracleAzureDbPostgreSqlSyncTaskOutputError,
-  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.DatabaseLevelErrorOutput": MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError,
-  "MigrateMySqlAzureDbForMySqlOfflineTaskOutput.MigrationLevelOutput": MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel,
-  "MigrateMySqlAzureDbForMySqlOfflineTaskOutput.DatabaseLevelOutput": MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel,
-  "MigrateMySqlAzureDbForMySqlOfflineTaskOutput.TableLevelOutput": MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel,
-  "MigrateMySqlAzureDbForMySqlOfflineTaskOutput.ErrorOutput": MigrateMySqlAzureDbForMySqlOfflineTaskOutputError
+  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.MigrationLevelOutput":
+    MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel,
+  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.DatabaseLevelOutput":
+    MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel,
+  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.TableLevelOutput":
+    MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel,
+  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.ErrorOutput":
+    MigrateOracleAzureDbPostgreSqlSyncTaskOutputError,
+  "MigrateOracleAzureDbPostgreSqlSyncTaskOutput.DatabaseLevelErrorOutput":
+    MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError,
+  "MigrateMySqlAzureDbForMySqlOfflineTaskOutput.MigrationLevelOutput":
+    MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel,
+  "MigrateMySqlAzureDbForMySqlOfflineTaskOutput.DatabaseLevelOutput":
+    MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel,
+  "MigrateMySqlAzureDbForMySqlOfflineTaskOutput.TableLevelOutput":
+    MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel,
+  "MigrateMySqlAzureDbForMySqlOfflineTaskOutput.ErrorOutput":
+    MigrateMySqlAzureDbForMySqlOfflineTaskOutputError,
+  "DatabaseMigrationProperties.SqlDb": DatabaseMigrationPropertiesSqlDb,
+  "DatabaseMigrationProperties.SqlMi": DatabaseMigrationPropertiesSqlMi,
+  "DatabaseMigrationProperties.SqlVm": DatabaseMigrationPropertiesSqlVm,
 };

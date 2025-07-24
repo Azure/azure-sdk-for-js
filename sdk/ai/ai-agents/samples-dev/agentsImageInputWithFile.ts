@@ -53,8 +53,8 @@ export async function main(): Promise<void> {
     },
     {
       type: "image_file",
-      image_file: {
-        file_id: imageFile.id,
+      imageFile: {
+        fileId: imageFile.id,
         detail: "high",
       },
     },

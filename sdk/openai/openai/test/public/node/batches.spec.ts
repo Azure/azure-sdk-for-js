@@ -69,7 +69,7 @@ describe("Batches", () => {
                 }
                 return batches;
               } finally {
-                const fileDeleted = await client.files.del(file.id);
+                const fileDeleted = await client.files.delete(file.id);
                 assert.isTrue(fileDeleted.deleted);
               }
             },

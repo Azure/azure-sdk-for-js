@@ -611,7 +611,7 @@ describe("Service Utils", () => {
     process.env["GITHUB_REPOSITORY"] = "Azure/test-repo";
 
     const ciInfo = {
-      provider: CI_PROVIDERS.GITHUB,
+      providerName: CI_PROVIDERS.GITHUB,
     };
 
     try {
@@ -632,7 +632,7 @@ describe("Service Utils", () => {
   it("should return git commit message when not in GitHub PR context", async () => {
     // Setup non-PR context
     const ciInfo = {
-      provider: CI_PROVIDERS.DEFAULT,
+      providerName: CI_PROVIDERS.DEFAULT,
     };
 
     const result = await getRunName(ciInfo);
@@ -641,7 +641,7 @@ describe("Service Utils", () => {
 
   it("should return empty string when not inside a git repository", async () => {
     const ciInfo = {
-      provider: CI_PROVIDERS.DEFAULT,
+      providerName: CI_PROVIDERS.DEFAULT,
     };
 
     // Create a new mock implementation for this test only
@@ -670,7 +670,7 @@ describe("Service Utils", () => {
 
   it("should return empty string when git command throws an error", async () => {
     const ciInfo = {
-      provider: CI_PROVIDERS.DEFAULT,
+      providerName: CI_PROVIDERS.DEFAULT,
     };
 
     // Create a new mock implementation for this test only

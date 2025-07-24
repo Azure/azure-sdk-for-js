@@ -11,10 +11,8 @@
  * @summary Update SQL Migration Service.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/UpdateMigrationService.json
  */
-import {
-  SqlMigrationServiceUpdate,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { SqlMigrationServiceUpdate } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function updateSqlMigrationService(): Promise<void> {
@@ -27,7 +25,7 @@ async function updateSqlMigrationService(): Promise<void> {
   const result = await client.sqlMigrationServices.beginUpdateAndWait(
     resourceGroupName,
     sqlMigrationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

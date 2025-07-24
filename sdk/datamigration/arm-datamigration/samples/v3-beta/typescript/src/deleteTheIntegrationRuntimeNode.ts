@@ -11,10 +11,8 @@
  * @summary Delete the integration runtime node.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/DeleteIntegrationRuntimeNode.json
  */
-import {
-  DeleteNode,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { DeleteNode } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function deleteTheIntegrationRuntimeNode(): Promise<void> {
@@ -23,14 +21,14 @@ async function deleteTheIntegrationRuntimeNode(): Promise<void> {
   const sqlMigrationServiceName = "service1";
   const parameters: DeleteNode = {
     integrationRuntimeName: "IRName",
-    nodeName: "nodeName"
+    nodeName: "nodeName",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const result = await client.sqlMigrationServices.deleteNode(
     resourceGroupName,
     sqlMigrationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
