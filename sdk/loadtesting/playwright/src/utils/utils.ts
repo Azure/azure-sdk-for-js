@@ -281,3 +281,19 @@ export async function getRunName(ciInfo: CIInfo): Promise<string> {
     return "";
   }
 }
+
+export function extractErrorMessage(responseBody: string): string {
+  if (!responseBody) {
+    return "";
+  }
+
+  try {
+    const errorResponse = JSON.parse(responseBody);
+    if (errorResponse.error && errorResponse.error.message) {
+      return errorResponse.error.message;
+    }
+    return responseBody;
+  } catch (e) {
+    return responseBody;
+  }
+}

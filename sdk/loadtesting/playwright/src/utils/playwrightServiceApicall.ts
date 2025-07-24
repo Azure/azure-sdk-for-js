@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { getTestRunApiUrl, getAccessToken, exitWithFailureMessage } from "./utils.js";
+import {
+  getTestRunApiUrl,
+  getAccessToken,
+  extractErrorMessage,
+  exitWithFailureMessage,
+} from "./utils.js";
 import { HttpService } from "../common/httpService.js";
 import { TestRunCreatePayload } from "../common/types.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
@@ -42,19 +47,7 @@ export class PlaywrightServiceApiCall {
       correlationId,
     );
     if (response.status !== 200) {
-      let errorMessage = ``;
-
-      if (response.bodyAsText) {
-        try {
-          const errorResponse = JSON.parse(response.bodyAsText);
-          if (errorResponse.error && errorResponse.error.message) {
-            errorMessage = errorResponse.error.message;
-          }
-        } catch (e) {
-          errorMessage = response.bodyAsText;
-        }
-      }
-
+      const errorMessage = extractErrorMessage(response?.bodyAsText ?? "");
       exitWithFailureMessage(ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN, errorMessage);
     }
     return response.bodyAsText ? JSON.parse(response.bodyAsText) : {};

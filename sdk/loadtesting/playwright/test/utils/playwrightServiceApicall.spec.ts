@@ -14,6 +14,7 @@ const mockState = {
   getAccessToken: vi.fn().mockReturnValue("mock-token"),
   getTestRunApiUrl: vi.fn().mockReturnValue("https://example.com/test-run"),
   randomUUID: vi.fn().mockReturnValue("mock-uuid"),
+  extractErrorMessage: vi.fn(),
 };
 
 // Mock modules using only inline function definitions to avoid hoisting issues
@@ -27,6 +28,7 @@ vi.mock("../../src/utils/utils.js", () => ({
   getTestRunApiUrl: (...args: any[]) => mockState.getTestRunApiUrl(...args),
   getAccessToken: (...args: any[]) => mockState.getAccessToken(...args),
   exitWithFailureMessage: (...args: any[]) => mockState.exitWithFailureMessage(...args),
+  extractErrorMessage: (...args: any[]) => mockState.extractErrorMessage(...args),
 }));
 
 // Mock the global crypto object since it's not imported but used directly
@@ -96,7 +98,7 @@ describe("PlaywrightServiceApiCall", () => {
 
     it("should call exitWithFailureMessage when API returns non-200 status", async () => {
       // Arrange
-      const errorMessage = "The displayName should be 1-200 characters long";
+      const errorMessage = "The displayName should be 1-200 characters long.";
       const mockResponse = {
         status: 400,
         bodyAsText: JSON.stringify({
@@ -107,8 +109,9 @@ describe("PlaywrightServiceApiCall", () => {
         }),
       };
       mockState.callAPI.mockResolvedValue(mockResponse);
+      mockState.extractErrorMessage.mockReturnValue(errorMessage);
 
-      // Mock exitWithFailureMessage to throw an error
+      // Mock exitWithFailureMessage to throw an error so we can verify it was called
       mockState.exitWithFailureMessage.mockImplementation(() => {
         throw new Error("Exit with failure message");
       });
@@ -117,6 +120,9 @@ describe("PlaywrightServiceApiCall", () => {
       await expect(apiCall.patchTestRunAPI(mockPayload)).rejects.toThrow(
         "Exit with failure message",
       );
+
+      // Verify extractErrorMessage was called with the response body
+      expect(mockState.extractErrorMessage).toHaveBeenCalledWith(mockResponse.bodyAsText);
 
       // Verify exitWithFailureMessage was called with the correct message and error details
       expect(mockState.exitWithFailureMessage).toHaveBeenCalledWith(
