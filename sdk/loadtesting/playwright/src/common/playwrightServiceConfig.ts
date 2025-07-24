@@ -32,9 +32,13 @@ class PlaywrightServiceConfig {
       process.env[InternalEnvironmentVariables.MPT_API_VERSION] || Constants.LatestAPIVersion;
   }
 
-  // Generate and set run ID
+  private _runId?: string;
+
   public get runId(): string {
-    return getAndSetRunId();
+    if (!this._runId) {
+      this._runId = getAndSetRunId();
+    }
+    return this._runId;
   }
 
   public static get instance(): PlaywrightServiceConfig {

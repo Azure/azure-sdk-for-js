@@ -176,7 +176,7 @@ describe("PlaywrightServiceConfig", () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
 
-  it("should always generate a new runId regardless of environment variables", () => {
+  it("should use the cached runId after first access", () => {
     process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = "existing-run-id";
 
     const playwrightServiceConfig = new PlaywrightServiceConfig();
@@ -188,10 +188,9 @@ describe("PlaywrightServiceConfig", () => {
     expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(firstRunId);
 
     const secondRunId = playwrightServiceConfig.runId;
-    expect(secondRunId).to.be.a("string");
-    expect(secondRunId).to.not.equal(firstRunId);
+    expect(secondRunId).to.equal(firstRunId);
 
-    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(secondRunId);
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(firstRunId);
 
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
