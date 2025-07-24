@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ContainerService } from "../operationsInterfaces/index.js";
+import type { ContainerService } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { ContainerServiceClient } from "../containerServiceClient.js";
-import {
+import type { ContainerServiceClient } from "../containerServiceClient.js";
+import type {
   NodeImageVersion,
   ContainerServiceListNodeImageVersionsNextOptionalParams,
   ContainerServiceListNodeImageVersionsOptionalParams,
@@ -75,7 +75,7 @@ export class ContainerServiceImpl implements ContainerService {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listNodeImageVersions(location, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -87,7 +87,7 @@ export class ContainerServiceImpl implements ContainerService {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
