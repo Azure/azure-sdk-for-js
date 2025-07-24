@@ -4,6 +4,12 @@
 
 ### Features Added
 
+- Added support for SIP routing API version `2024-11-15-preview` which includes new advanced trunk settings.
+
+## 1.5.0-beta.1 (2025-07-22)
+
+### Features Added
+
 - Adds support for mobile number types
   - mobile numbers are location associated phone numbers with SMS capabilities
 - API version `2025-06-01` is the default.
