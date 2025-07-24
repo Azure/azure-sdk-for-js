@@ -22,7 +22,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
 useAzureMonitor(options);
 
 export async function main(): Promise<void> {
-  const tracer = trace.getTracer("inference-sample", "0.1.0");
+  const tracer = trace.getTracer("agents-basic-sample", "0.1.0");
 
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
   const runResponse = await tracer.startActiveSpan("basicMessages", async (span) => {
