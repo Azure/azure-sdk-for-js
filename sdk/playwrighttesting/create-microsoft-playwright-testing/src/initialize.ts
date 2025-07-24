@@ -130,11 +130,8 @@ export default defineConfig(
     exposeNetwork: '<loopback>',
     timeout: 30000,
     os: ServiceOS.LINUX,
-    useCloudHostedBrowsers: true // Set to false if you want to only use reporting and not cloud hosted browsers
   }),
-  {
-  
-  }
+
 );
 `;
     return content;
