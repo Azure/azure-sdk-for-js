@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to enable remote telemetry for inference operations using AIProjectClient.
+ * @summary This sample demonstrates how to enable remote telemetry for AIAgentClient at production.
  */
 
 const { trace, context } = require("@opentelemetry/api");

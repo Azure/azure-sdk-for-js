@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to enable telemetry for inference operations using AIProjectClient.
+ * @summary This sample demonstrates how to enable telemetry for AIAgentClient at local development.
  */
 
 import { trace, context } from "@opentelemetry/api";
@@ -27,9 +27,7 @@ const provider = new NodeTracerProvider({
 provider.register();
 
 registerInstrumentations({
-  instrumentations: [
-    createAzureSdkInstrumentation(),
-  ],
+  instrumentations: [createAzureSdkInstrumentation()],
 });
 
 export async function main(): Promise<void> {

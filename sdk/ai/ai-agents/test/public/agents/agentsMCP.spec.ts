@@ -46,7 +46,6 @@ describe("Agents - MCP", () => {
   });
 
   it("should manage allowed tools dynamically", async function () {
-    
     // Initially no tools allowed
     assert.equal(mcpTool.allowedTools.length, 0);
 
@@ -61,7 +60,6 @@ describe("Agents - MCP", () => {
     assert.equal(mcpTool.allowedTools.length, 0);
   });
 
-
   it("should update MCP tool headers", async function () {
     // Update headers
     mcpTool.updateHeaders("Authorization", "Bearer token123");
@@ -75,8 +73,7 @@ describe("Agents - MCP", () => {
     // Create agent with MCP tool
     const agent = await projectsClient.createAgent(modelDeploymentName, {
       name: "test-mcp-agent",
-      instructions:
-        "You are a helpful agent that can use MCP tools to assist users.",
+      instructions: "You are a helpful agent that can use MCP tools to assist users.",
       tools: mcpTool.definitions,
     });
     assert.isNotNull(agent);
@@ -91,7 +88,7 @@ describe("Agents - MCP", () => {
     const message = await projectsClient.messages.create(
       thread.id,
       "user",
-      "Hello, please help me with a simple task."
+      "Hello, please help me with a simple task.",
     );
     assert.isNotNull(message);
     assert.isString(message.id);

@@ -25,9 +25,9 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [agentsImageInputWithBase64.ts][agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service. |
 | [agentsImageInputWithFile.ts][agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.            |
 | [agentsImageInputWithUrl.ts][agentsimageinputwithurl]                         | This sample demonstrates how to use basic agent operations using image url input for the Azure Agents service.             |
-| [agentsLocalTelemetry.ts][agentslocaltelemetry]                               | This sample demonstrates how to enable telemetry for inference operations using AIProjectClient.                           |
+| [agentsLocalTelemetry.ts][agentslocaltelemetry]                               | This sample demonstrates how to enable telemetry for AIAgentClient at local development.                                   |
 | [agentsMCPs.ts][agentsmcps]                                                   | demonstrates how to use agent operations with the MCP tool.                                                                |
-| [agentsRemoteTelemetry.ts][agentsremotetelemetry]                             | This sample demonstrates how to enable remote telemetry for inference operations using AIProjectClient.                    |
+| [agentsRemoteTelemetry.ts][agentsremotetelemetry]                             | This sample demonstrates how to enable remote telemetry for AIAgentClient at production.                                   |
 | [agentsSharepoint.ts][agentssharepoint]                                       | demonstrates how to use agent operations with the Sharepoint tool.                                                         |
 | [agentsWithFunctionTool.ts][agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                        |
 | [agentsWithOpenApi.ts][agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                             |
