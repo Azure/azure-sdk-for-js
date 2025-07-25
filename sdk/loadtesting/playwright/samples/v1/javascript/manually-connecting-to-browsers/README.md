@@ -13,7 +13,7 @@ This guide will walk you through the steps to integrate your Playwright project,
 
 Make sure you have set up your Azure Playwright workspace by following these steps:
 
-- [Create a workspace](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/playwright/README.md#create-a-workspace)
+- [Create a workspace](https://github.com/Azure/playwright-workspaces/blob/main/quickstart-run-end-to-end-tests.md#create-a-workspace)
 
 ### Install Azure Playwright package
 
@@ -34,11 +34,11 @@ The service configuration serves to:
 
 ### Obtain region endpoint
 
-1. In the [Playwright portal](https://aka.ms/pww/docs/portal), copy the command under **Add region endpoint in your set up**.
+1. In the [Azure portal](https://portal.azure.com/), copy the command under **Add region endpoint in your set up**.
 
-    ![Set workspace endpoint](https://github.com/microsoft/playwright-testing-service/assets/12104064/d81ca629-2b23-4d34-8b70-67b6f7061a83)
+    ![Set workspace endpoint](https://github.com/Azure/playwright-workspaces/blob/main/media/quickstart-run-end-to-end-tests/copy-service-endpoint-url.png?raw=true)
 
-    The endpoint URL corresponds to the workspace region. You might see a different endpoint URL in the Playwright portal, depending on the region you selected when creating the workspace.
+    The endpoint URL corresponds to the workspace region. You might see a different endpoint URL in the Azure portal, depending on the region you selected when creating the workspace.
 
 ### Set up environment
 
@@ -55,7 +55,7 @@ npm i --save-dev dotenv
 `.env` file
 
 ```sh
-PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/workspace-id/browsers
+PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/playwrightworkspaces/workspace-id/browsers
 ```
 
 ### Configure browsers to be launched on the service
