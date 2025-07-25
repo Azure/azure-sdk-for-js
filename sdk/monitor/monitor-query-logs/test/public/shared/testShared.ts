@@ -31,21 +31,8 @@ export interface RecorderAndLogsClient {
   recorder: Recorder;
 }
 
-export function getMetricsBatchResourceIds(): string[] {
-  const resourceId: string = assertEnvironmentVariable("LOGS_RESOURCE_ID");
-  return [resourceId, `${resourceId}2`];
-}
-
-export function getMetricsBatchNamespace(): string {
-  return env["AZURE_MONITOR_BATCH_NAMESPACE"] ?? "requests/count";
-}
-
-export function getMetricsBatchNames(): string[] {
-  const metricNamesString = env["AZURE_MONITOR_BATCH_METRICNAMES"];
-  if (!metricNamesString) {
-    return ["requests", "count"];
-  }
-  return metricNamesString.split(" ");
+export function getLogsResourceId(): string {
+  return assertEnvironmentVariable("LOGS_RESOURCE_ID");
 }
 
 export const testEnv = new Proxy(envSetupForPlayback, {
