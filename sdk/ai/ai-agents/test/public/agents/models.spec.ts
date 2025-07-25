@@ -29,7 +29,7 @@ describe("AgentsResponseFormatOption Serialization", () => {
 
     it("should serialize AgentsResponseFormat objects directly", () => {
       const format: AgentsResponseFormat = {
-        type: "text"
+        type: "text",
       };
 
       const result = agentsResponseFormatOptionSerializer(format);
@@ -38,7 +38,7 @@ describe("AgentsResponseFormatOption Serialization", () => {
 
     it("should serialize AgentsResponseFormat with json_object type", () => {
       const format: AgentsResponseFormat = {
-        type: "json_object"
+        type: "json_object",
       };
 
       const result = agentsResponseFormatOptionSerializer(format);
@@ -53,15 +53,15 @@ describe("AgentsResponseFormatOption Serialization", () => {
           type: "object",
           properties: {
             name: { type: "string" },
-            age: { type: "number" }
+            age: { type: "number" },
           },
-          required: ["name"]
-        }
+          required: ["name"],
+        },
       };
 
       const format: ResponseFormatJsonSchemaType = {
         type: "json_schema",
-        jsonSchema
+        jsonSchema,
       };
 
       const result = agentsResponseFormatOptionSerializer(format);
@@ -74,11 +74,11 @@ describe("AgentsResponseFormatOption Serialization", () => {
             type: "object",
             properties: {
               name: { type: "string" },
-              age: { type: "number" }
+              age: { type: "number" },
             },
-            required: ["name"]
-          }
-        }
+            required: ["name"],
+          },
+        },
       });
     });
   });
@@ -117,11 +117,11 @@ describe("AgentsResponseFormatOption Serialization", () => {
             type: "object",
             properties: {
               name: { type: "string" },
-              age: { type: "number" }
+              age: { type: "number" },
             },
-            required: ["name"]
-          }
-        }
+            required: ["name"],
+          },
+        },
       };
 
       const result = agentsResponseFormatOptionDeserializer(input);
@@ -134,11 +134,11 @@ describe("AgentsResponseFormatOption Serialization", () => {
             type: "object",
             properties: {
               name: { type: "string" },
-              age: { type: "number" }
+              age: { type: "number" },
             },
-            required: ["name"]
-          }
-        }
+            required: ["name"],
+          },
+        },
       });
     });
   });
