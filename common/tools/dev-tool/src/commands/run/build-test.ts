@@ -86,8 +86,8 @@ export default leafCommand(commandInfo, async (options) => {
     }
 
     log.info(`Building for browser testing...`);
-    const esmMap = overrides.has("esm") ? overrides.get("esm")!.map : new Map<string, string>();
-    await compileForEnvironment("browser", browserConfig, importMap, esmMap);
+    // const esmMap = overrides.has("esm") ? overrides.get("esm")!.map : new Map<string, string>();
+    await compileForEnvironment("browser", browserConfig, importMap, new Map());
   }
 
   return true;

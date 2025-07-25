@@ -1,0 +1,20 @@
+{
+  "extends": "../../../tsconfig.nonlib.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "paths": {
+      "@azure/core-sse": ["./src/index.ts"],
+      "@azure/core-sse/*": ["./src/*"],
+      "internal/*": ["./src/*"]
+    },
+    "lib": ["ESNext"]
+  },
+  "include": ["${configDir}/test", "${configDir}/src"],
+  "exclude": [
+    "${configDir}/src/**/*-browser.mts",
+    "${configDir}/src/**/*-react-native.mts",
+    "${configDir}/test/stress",
+    "${configDir}/test/snippets.spec.ts",
+    "${configDir}/test/**/browser"
+  ]
+}
