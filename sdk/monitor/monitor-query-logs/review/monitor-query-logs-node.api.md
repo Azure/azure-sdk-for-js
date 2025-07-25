@@ -150,9 +150,9 @@ export interface LogsQueryOptions extends OperationOptions {
 export interface LogsQueryPartialResult {
     partialError: LogsErrorInfo;
     partialTables: LogsTable[];
-    statistics?: Record<string, unknown>;
+    statistics?: Record<string, any>;
     status: LogsQueryResultStatus.PartialFailure;
-    visualization?: Record<string, unknown>;
+    visualization?: Record<string, any>;
 }
 
 // @public
@@ -167,10 +167,10 @@ export enum LogsQueryResultStatus {
 
 // @public
 export interface LogsQuerySuccessfulResult {
-    statistics?: Record<string, unknown>;
+    statistics?: Record<string, any>;
     status: LogsQueryResultStatus.Success;
     tables: LogsTable[];
-    visualization?: Record<string, unknown>;
+    visualization?: Record<string, any>;
 }
 
 // @public

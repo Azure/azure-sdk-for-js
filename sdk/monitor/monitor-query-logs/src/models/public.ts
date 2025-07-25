@@ -66,9 +66,9 @@ export interface LogsQuerySuccessfulResult {
   /** The results of the query in tabular format. */
   tables: LogsTable[];
   /** Statistics represented in JSON format. */
-  statistics?: Record<string, unknown>;
+  statistics?: Record<string, any>;
   /** Visualization data in JSON format. */
-  visualization?: Record<string, unknown>;
+  visualization?: Record<string, any>;
 }
 
 /** A partially successful query result. */
@@ -80,9 +80,9 @@ export interface LogsQueryPartialResult {
   /** The code and message for an error. */
   partialError: LogsErrorInfo;
   /** Statistics represented in JSON format. */
-  statistics?: Record<string, unknown>;
+  statistics?: Record<string, any>;
   /** Visualization data in JSON format. */
-  visualization?: Record<string, unknown>;
+  visualization?: Record<string, any>;
 }
 
 /** A failed query result. */
