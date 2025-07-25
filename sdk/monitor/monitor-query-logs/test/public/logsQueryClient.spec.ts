@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RecorderAndLogsClient } from "./shared/testShared.js";
-import { createRecorderAndLogsClient, getLogsArmResourceId } from "./shared/testShared.js";
+import { createRecorderAndLogsClient, getLogsResourceId } from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { LogsQueryClient, QueryBatch } from "../../src/index.js";
 import { Durations, LogsQueryResultStatus } from "../../src/index.js";
@@ -24,7 +24,7 @@ describe("LogsQueryClient live tests", function () {
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(ctx);
     const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder);
-    logsResourceId = getLogsArmResourceId();
+    logsResourceId = getLogsResourceId();
     monitorWorkspaceId = getMonitorWorkspaceId();
     logsClient = recordedClient.client;
   });
