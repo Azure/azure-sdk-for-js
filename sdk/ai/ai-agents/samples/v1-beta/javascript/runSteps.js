@@ -8,11 +8,10 @@
  */
 
 const { AgentsClient } = require("@azure/ai-agents");
-const { delay } = require("@azure/core-util");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
 
 async function main() {
@@ -34,16 +33,22 @@ async function main() {
   const message = await client.messages.create(thread.id, "user", "hello, world!");
   console.log(`Created message, message ID: ${message.id}`);
 
-  // Create run
-  let run = await client.runs.create(thread.id, agent.id);
-  console.log(`Created run, run ID: ${run.id}`);
-
-  // Wait for run to complete
-  while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
-    console.log(`Run status: ${run.status}`);
-  }
+  // Create and poll a run
+  console.log("Creating run...");
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: (response) => {
+      const parsedBody =
+        typeof response.parsedBody === "object" && response.parsedBody !== null
+          ? response.parsedBody
+          : null;
+      const status = parsedBody && "status" in parsedBody ? parsedBody.status : "unknown";
+      console.log(`Received response with status: ${status}`);
+    },
+  });
+  console.log(`Run finished with status: ${run.status}`);
 
   // List run steps
   const runSteps = await client.runSteps.list(thread.id, run.id);

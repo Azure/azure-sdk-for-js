@@ -7,9 +7,9 @@ import {
   OnlineExperimentationClientOptionalParams,
 } from "./api/index.js";
 import {
-  OnlineExperimentWorkspacesOperations,
-  _getOnlineExperimentWorkspacesOperations,
-} from "./classic/onlineExperimentWorkspaces/index.js";
+  OnlineExperimentationWorkspacesOperations,
+  _getOnlineExperimentationWorkspacesOperations,
+} from "./classic/onlineExperimentationWorkspaces/index.js";
 import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
@@ -36,12 +36,14 @@ export class OnlineExperimentationClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.onlineExperimentWorkspaces = _getOnlineExperimentWorkspacesOperations(this._client);
+    this.onlineExperimentationWorkspaces = _getOnlineExperimentationWorkspacesOperations(
+      this._client,
+    );
     this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for onlineExperimentWorkspaces */
-  public readonly onlineExperimentWorkspaces: OnlineExperimentWorkspacesOperations;
+  /** The operation groups for onlineExperimentationWorkspaces */
+  public readonly onlineExperimentationWorkspaces: OnlineExperimentationWorkspacesOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
 }

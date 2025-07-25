@@ -11,7 +11,7 @@ const { AgentsClient } = require("@azure/ai-agents");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
-const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project connection string>";
+const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
 
 async function main() {
   // Create an Azure AI Client
@@ -23,11 +23,9 @@ async function main() {
   // List vector stores
   const vectorStores = await client.vectorStores.list();
   console.log("List of vector stores:");
-  const stores = [];
   for await (const store of vectorStores) {
-    stores.push(store);
+    console.log(`Vector Store ID: ${store.id}, Name: ${store.name}`);
   }
-  console.log(stores);
 
   // Modify the vector store
   const updatedVectorStore = await client.vectorStores.update(vectorStore.id, {

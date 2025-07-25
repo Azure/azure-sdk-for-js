@@ -19,9 +19,10 @@ import {
   RunCommandRequest as RunCommandRequestMapper,
   RebalanceLoadBalancersRequestBody as RebalanceLoadBalancersRequestBodyMapper,
   MaintenanceConfiguration as MaintenanceConfigurationMapper,
-  Namespace as NamespaceMapper,
+  ManagedNamespace as ManagedNamespaceMapper,
   AgentPool as AgentPoolMapper,
   AgentPoolDeleteMachinesParameter as AgentPoolDeleteMachinesParameterMapper,
+  Machine as MachineMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateLinkResource as PrivateLinkResourceMapper,
   Snapshot as SnapshotMapper,
@@ -57,7 +58,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-02-02-preview",
+    defaultValue: "2025-04-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -299,15 +300,15 @@ export const parameters5: OperationParameter = {
   mapper: MaintenanceConfigurationMapper,
 };
 
-export const namespaceName: OperationURLParameter = {
-  parameterPath: "namespaceName",
+export const managedNamespaceName: OperationURLParameter = {
+  parameterPath: "managedNamespaceName",
   mapper: {
     constraints: {
       Pattern: new RegExp("[a-z0-9]([-a-z0-9]*[a-z0-9])?"),
       MaxLength: 63,
       MinLength: 1,
     },
-    serializedName: "namespaceName",
+    serializedName: "managedNamespaceName",
     required: true,
     type: {
       name: "String",
@@ -317,7 +318,7 @@ export const namespaceName: OperationURLParameter = {
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
-  mapper: NamespaceMapper,
+  mapper: ManagedNamespaceMapper,
 };
 
 export const agentPoolName: OperationURLParameter = {
@@ -350,7 +351,9 @@ export const machineName: OperationURLParameter = {
   parameterPath: "machineName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][-_a-zA-Z0-9]{0,39}$"),
+      Pattern: new RegExp(
+        "^[a-z][a-z0-9]{0,11}$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,39}$",
+      ),
     },
     serializedName: "machineName",
     required: true,
@@ -358,6 +361,11 @@ export const machineName: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const parameters8: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: MachineMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -371,12 +379,12 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters8: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper,
 };
 
-export const parameters9: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateLinkResourceMapper,
 };
@@ -395,12 +403,12 @@ export const operationId: OperationURLParameter = {
   },
 };
 
-export const parameters10: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: SnapshotMapper,
 };
 
-export const parameters11: OperationParameter = {
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedClusterSnapshotMapper,
 };
@@ -442,7 +450,7 @@ export const loadBalancerName: OperationURLParameter = {
   },
 };
 
-export const parameters12: OperationParameter = {
+export const parameters13: OperationParameter = {
   parameterPath: "parameters",
   mapper: LoadBalancerMapper,
 };

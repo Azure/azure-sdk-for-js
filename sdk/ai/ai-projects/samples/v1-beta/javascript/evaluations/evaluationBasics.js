@@ -10,24 +10,30 @@
 
 const { AIProjectClient, EvaluatorIds } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
+const path = require("path");
 require("dotenv/config");
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
-const datasetId = process.env["EVALUATION_DATASET_ID"] || "<evaluation dataset id>";
 const evaluationDeploymentName =
   process.env["EVALUATION_DEPLOYMENT_NAME"] || "<evaluation deployment name>";
+const containerConnectionName =
+  process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
 
 async function main() {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
-
+  const filePath = path.join(__dirname, "sample_data_evaluation.jsonl");
+  // upload a file to the dataset
+  const dataset = await project.datasets.uploadFile("data-evaluation-test", "1.0.5", filePath, {
+    connectionName: containerConnectionName,
+  });
+  console.log("Dataset created:", JSON.stringify(dataset, null, 2));
   // create a new evaluation
   const newEvaluation = {
     displayName: "Evaluation 1",
     description: "This is a test evaluation",
     data: {
       type: "dataset",
-      // return by project.datasets.uploadFile().name for example
-      id: datasetId,
+      id: dataset.id,
     },
     evaluators: {
       relevance: {

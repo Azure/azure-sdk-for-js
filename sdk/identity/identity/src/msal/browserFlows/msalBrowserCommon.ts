@@ -79,7 +79,7 @@ const redirectHash = isLocationDefined ? self.location.hash : undefined;
 
 /**
  * Uses MSAL Browser 2.X for browser authentication,
- * which uses the [Auth Code Flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow).
+ * which uses the [Auth Code Flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow).
  * @internal
  */
 export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBrowserClient {
@@ -141,44 +141,6 @@ export function createMsalBrowserClient(options: MsalBrowserFlowOptions): MsalBr
         msalApp.setActiveAccount(result.account);
         return msalToPublic(clientId, result.account);
       }
-
-      // If by this point we happen to have an active account, we should stop trying to parse this.
-      const activeAccount = msalApp.getActiveAccount();
-      if (activeAccount) {
-        return msalToPublic(clientId, activeAccount);
-      }
-
-      // If we don't have an active account, we try to activate it from all the already loaded accounts.
-      const allAccounts = app.getAllAccounts();
-      if (allAccounts.length > 1) {
-        // If there's more than one account in memory, we force the user to authenticate again.
-        // At this point we can't identify which account should this credential work with,
-        // since at this point the user won't have provided enough information.
-        // We log a message in case that helps.
-        logger.info(
-          `More than one account was found authenticated for this Client ID and Tenant ID.
-  However, no "authenticationRecord" has been provided for this credential,
-  therefore we're unable to pick between these accounts.
-  A new login attempt will be requested, to ensure the correct account is picked.
-  To work with multiple accounts for the same Client ID and Tenant ID, please provide an "authenticationRecord" when initializing "InteractiveBrowserCredential".`,
-        );
-        // To safely trigger a new login, we're also ensuring the local cache is cleared up for this MSAL object.
-        // However, we want to avoid kicking the user out of their authentication on the Azure side.
-        // We do this by calling to logout while specifying a `onRedirectNavigate` that returns false.
-        await msalApp.logout({
-          onRedirectNavigate: () => false,
-        });
-        return;
-      }
-
-      // If there's only one account for this MSAL object, we can safely activate it.
-      if (allAccounts.length === 1) {
-        const msalAccount = allAccounts[0];
-        msalApp.setActiveAccount(msalAccount);
-        return msalToPublic(clientId, msalAccount);
-      }
-
-      logger.info(`No accounts were found through MSAL.`);
     } catch (e: any) {
       logger.info(`Failed to acquire token through MSAL. ${e.message}`);
     }

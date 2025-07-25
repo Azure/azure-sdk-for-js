@@ -4,19 +4,12 @@
 
 import { AgentsClient } from "@azure/ai-agents";
 import { createAIProject, AIProjectContext, AIProjectClientOptionalParams } from "./api/index.js";
-import { RedTeamsOperations, _getRedTeamsOperations } from "./classic/redTeams/index.js";
 import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
 import { IndexesOperations, _getIndexesOperations } from "./classic/indexes/index.js";
 import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/index.js";
-import { EvaluationsOperations, _getEvaluationsOperations } from "./classic/evaluations/index.js";
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
 import { InferenceOperations, _getInferenceOperations } from "./classic/inference/index.js";
-import {
-  TelemetryOperations,
-  _getTelemetryOperations,
-  enableTelemetry,
-  EnableTelemetryType,
-} from "./classic/telemetry/index.js";
+import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -31,15 +24,12 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @param {string} endpoint - The endpoint to use
  * @param {TokenCredential} credential - The credential to use
  * @param {AIProjectClientOptionalParams} [options] - Optional parameters for the client.
- * @property {RedTeamsOperations} redTeams - The operation groups for redTeams
  * @property {DeploymentsOperations} deployments - The operation groups for deployments
  * @property {IndexesOperations} indexes - The operation groups for indexes
  * @property {DatasetsOperations} datasets - The operation groups for datasets
- * @property {EvaluationsOperations} evaluations - The operation groups for evaluations
  * @property {ConnectionsOperations} connections - The operation groups for connections
  * @property {InferenceOperations} inference - The operation groups for inference
  * @property {TelemetryOperations} telemetry - The operation groups for telemetry
- * @property {EnableTelemetryType} enableTelemetry - The operation groups for enabling telemetry
  */
 export class AIProjectClient {
   private _cognitiveScopeClient: AIProjectContext;
@@ -47,6 +37,7 @@ export class AIProjectClient {
   private _endpoint: string;
   private _credential: TokenCredential;
   private _agents: AgentsClient | undefined;
+  private _options: AIProjectClientOptionalParams;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -57,6 +48,7 @@ export class AIProjectClient {
   ) {
     this._endpoint = endpointParam;
     this._credential = credential;
+    this._options = options;
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
@@ -76,36 +68,26 @@ export class AIProjectClient {
     });
 
     this.pipeline = this._cognitiveScopeClient.pipeline;
-    this.redTeams = _getRedTeamsOperations(this._azureScopeClient);
     this.deployments = _getDeploymentsOperations(this._azureScopeClient);
     this.indexes = _getIndexesOperations(this._azureScopeClient);
-    this.datasets = _getDatasetsOperations(this._azureScopeClient);
-    this.evaluations = _getEvaluationsOperations(this._azureScopeClient);
+    this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.inference = _getInferenceOperations(this._cognitiveScopeClient, this.connections);
     this.telemetry = _getTelemetryOperations(this.connections);
-    this.enableTelemetry = enableTelemetry;
   }
 
-  /** The operation groups for redTeams */
-  public readonly redTeams: RedTeamsOperations;
   /** The operation groups for deployments */
   public readonly deployments: DeploymentsOperations;
   /** The operation groups for indexes */
   public readonly indexes: IndexesOperations;
   /** The operation groups for datasets */
   public readonly datasets: DatasetsOperations;
-  /** The operation groups for evaluations */
-  public readonly evaluations: EvaluationsOperations;
   /** The operation groups for connections */
   public readonly connections: ConnectionsOperations;
   /** The operation groups for inference */
   public readonly inference: InferenceOperations;
   /** The operation groups for telemetry */
   public readonly telemetry: TelemetryOperations;
-  /** The operation groups for enabling telemetry */
-  public readonly enableTelemetry: EnableTelemetryType;
-
   /**
    * gets the endpoint of the client
    * @returns the endpoint of the client
@@ -135,8 +117,11 @@ export class AIProjectClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients
   public get agents(): AgentsClient {
+    const { apiVersion, ...clientOptions } = this._options;
+
     if (!this._agents) {
       this._agents = new AgentsClient(this._endpoint, this._credential, {
+        ...clientOptions,
         userAgentOptions: this._cognitiveScopeClient.getUserAgent(),
       });
     }

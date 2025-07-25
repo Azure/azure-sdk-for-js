@@ -16,23 +16,19 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
-  DeploymentsImpl,
   ProvidersImpl,
   ProviderResourceTypesImpl,
   ResourcesImpl,
   ResourceGroupsImpl,
   TagsOperationsImpl,
-  DeploymentOperationsImpl,
 } from "./operations/index.js";
 import {
   Operations,
-  Deployments,
   Providers,
   ProviderResourceTypes,
   Resources,
   ResourceGroups,
   TagsOperations,
-  DeploymentOperations,
 } from "./operationsInterfaces/index.js";
 import { ResourceManagementClientOptionalParams } from "./models/index.js";
 
@@ -82,7 +78,7 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-resources/6.0.1`;
+    const packageDetails = `azsdk-js-arm-resources/7.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -136,15 +132,13 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-11-01";
+    this.apiVersion = options.apiVersion || "2025-04-01";
     this.operations = new OperationsImpl(this);
-    this.deployments = new DeploymentsImpl(this);
     this.providers = new ProvidersImpl(this);
     this.providerResourceTypes = new ProviderResourceTypesImpl(this);
     this.resources = new ResourcesImpl(this);
     this.resourceGroups = new ResourceGroupsImpl(this);
     this.tagsOperations = new TagsOperationsImpl(this);
-    this.deploymentOperations = new DeploymentOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -177,11 +171,9 @@ export class ResourceManagementClient extends coreClient.ServiceClient {
   }
 
   operations: Operations;
-  deployments: Deployments;
   providers: Providers;
   providerResourceTypes: ProviderResourceTypes;
   resources: Resources;
   resourceGroups: ResourceGroups;
   tagsOperations: TagsOperations;
-  deploymentOperations: DeploymentOperations;
 }

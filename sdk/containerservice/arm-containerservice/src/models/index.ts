@@ -324,7 +324,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   /** The security settings of an agent pool. */
   securityProfile?: AgentPoolSecurityProfile;
   /** The GPU settings of an agent pool. */
-  gpuProfile?: AgentPoolGPUProfile;
+  gpuProfile?: GPUProfile;
   /** Configuration for using artifact streaming on AKS. */
   artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
   /** Specifications on VirtualMachines agent pool. */
@@ -335,6 +335,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   gatewayProfile?: AgentPoolGatewayProfile;
   /** Contains read-only information about the Agent Pool. */
   status?: AgentPoolStatus;
+  /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
+  localDNSProfile?: LocalDNSProfile;
 }
 
 /** Settings for upgrading an agentpool */
@@ -497,9 +499,9 @@ export interface AgentPoolSecurityProfile {
   enableSecureBoot?: boolean;
 }
 
-export interface AgentPoolGPUProfile {
-  /** The default value is true when the vmSize of the agent pool contains a GPU, false otherwise. GPU Driver Installation can only be set true when VM has an associated GPU resource. Setting this field to false prevents automatic GPU driver installation. In that case, in order for the GPU to be usable, the user must perform GPU driver installation themselves. */
-  installGPUDriver?: boolean;
+export interface GPUProfile {
+  /** Whether to install GPU drivers. When it's not specified, default is Install. */
+  driver?: GPUDriver;
   /** Specify the type of GPU driver to install when creating Windows agent pools. If not provided, AKS selects the driver based on system compatibility. This cannot be changed once the AgentPool has been created. This cannot be set on Linux AgentPools. For Linux AgentPools, the driver is selected based on system compatibility. */
   driverType?: DriverType;
 }
@@ -520,7 +522,7 @@ export interface ScaleProfile {
   /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
   manual?: ManualScaleProfile[];
   /** Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. */
-  autoscale?: Record<string, unknown>;
+  autoscale?: AutoScaleProfile;
 }
 
 /** Specifications on number of machines. */
@@ -529,6 +531,16 @@ export interface ManualScaleProfile {
   size?: string;
   /** Number of nodes. */
   count?: number;
+}
+
+/** Specifications on auto-scaling. */
+export interface AutoScaleProfile {
+  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
+  size?: string;
+  /** The minimum number of nodes of the specified sizes. */
+  minCount?: number;
+  /** The maximum number of nodes of the specified sizes. */
+  maxCount?: number;
 }
 
 /** Current status on a group of nodes of the same vm size. */
@@ -552,6 +564,41 @@ export interface AgentPoolStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningError?: CloudErrorBody;
+}
+
+/** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
+export interface LocalDNSProfile {
+  /** Mode of enablement for localDNS. */
+  mode?: LocalDNSMode;
+  /**
+   * System-generated state of localDNS.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: LocalDNSState;
+  /** VnetDNS overrides apply to DNS traffic from pods with dnsPolicy:default or kubelet (referred to as VnetDNS traffic). */
+  vnetDNSOverrides?: LocalDNSOverrides;
+  /** KubeDNS overrides apply to DNS traffic from pods with dnsPolicy:ClusterFirst (referred to as KubeDNS traffic). */
+  kubeDNSOverrides?: LocalDNSOverrides;
+}
+
+/** Overrides for localDNS profile. */
+export interface LocalDNSOverrides {
+  /** Log level for DNS queries in localDNS. */
+  queryLogging?: LocalDNSQueryLogging;
+  /** Enforce TCP or prefer UDP protocol for connections from localDNS to upstream DNS server. */
+  protocol?: LocalDNSProtocol;
+  /** Destination server for DNS queries to be forwarded from localDNS. */
+  forwardDestination?: LocalDNSForwardDestination;
+  /** Forward policy for selecting upstream DNS server. See [forward plugin](https://coredns.io/plugins/forward) for more information. */
+  forwardPolicy?: LocalDNSForwardPolicy;
+  /** Maximum number of concurrent queries. See [forward plugin](https://coredns.io/plugins/forward) for more information. */
+  maxConcurrent?: number;
+  /** Cache max TTL in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information. */
+  cacheDurationInSeconds?: number;
+  /** Serve stale duration in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information. */
+  serveStaleDurationInSeconds?: number;
+  /** Policy for serving stale data. See [cache plugin](https://coredns.io/plugins/cache) for more information. */
+  serveStale?: LocalDNSServeStale;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -872,8 +919,14 @@ export interface AdvancedNetworkingSecurity {
   enabled?: boolean;
   /** This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true. */
   advancedNetworkPolicies?: AdvancedNetworkPolicies;
+  /** Encryption configuration for Cilium-based clusters. Once enabled all traffic between Cilium managed pods will be encrypted when it leaves the node boundary. */
+  transitEncryption?: AdvancedNetworkingSecurityTransitEncryption;
+}
+
+/** Encryption configuration for Cilium-based clusters. Once enabled all traffic between Cilium managed pods will be encrypted when it leaves the node boundary. */
+export interface AdvancedNetworkingSecurityTransitEncryption {
   /** This can be enabled only on Cilium-based clusters. If not specified, the default value is None. */
-  transitEncryption?: TransitEncryption;
+  type?: TransitEncryptionType;
 }
 
 /** For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad). */
@@ -1012,6 +1065,8 @@ export interface ManagedClusterHttpProxyConfig {
   readonly effectiveNoProxy?: string[];
   /** Alternative CA cert to use for connecting to proxy servers. */
   trustedCa?: string;
+  /** Whether to enable HTTP proxy. When disabled, the specified proxy configuration will be not be set on pods and nodes. */
+  enabled?: boolean;
 }
 
 /** Security profile for the container service cluster. */
@@ -1259,21 +1314,6 @@ export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogs
   port?: number;
 }
 
-/** The Safeguards profile. */
-export interface SafeguardsProfile {
-  /**
-   * List of namespaces specified by AKS to be excluded from Safeguards
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemExcludedNamespaces?: string[];
-  /** The version of constraints to use */
-  version?: string;
-  /** The Safeguards level to be used. By default, Safeguards is enabled for all namespaces except those that AKS excludes via systemExcludedNamespaces */
-  level: Level;
-  /** List of namespaces excluded from Safeguards checks */
-  excludedNamespaces?: string[];
-}
-
 /** Service mesh profile for a managed cluster. */
 export interface ServiceMeshProfile {
   /** Mode of the service mesh. */
@@ -1361,6 +1401,8 @@ export interface ManagedClusterAIToolchainOperatorProfile {
 export interface ManagedClusterNodeProvisioningProfile {
   /** Once the mode it set to Auto, it cannot be changed back to Manual. */
   mode?: NodeProvisioningMode;
+  /** This field has no effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will in turn drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action. If not specified, the default is Auto. For more information see aka.ms/something */
+  defaultNodePools?: NodeProvisioningDefaultNodePools;
 }
 
 /** The bootstrap profile. */
@@ -1369,6 +1411,24 @@ export interface ManagedClusterBootstrapProfile {
   artifactSource?: ArtifactSource;
   /** The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy. */
   containerRegistryId?: string;
+}
+
+/** The pod scheduler profile for the cluster. */
+export interface SchedulerProfile {
+  /** Mapping of each scheduler instance to its profile. */
+  schedulerInstanceProfiles?: SchedulerProfileSchedulerInstanceProfiles;
+}
+
+/** Mapping of each scheduler instance to its profile. */
+export interface SchedulerProfileSchedulerInstanceProfiles {
+  /** The scheduler profile for the upstream scheduler instance. */
+  upstream?: SchedulerInstanceProfile;
+}
+
+/** The scheduler profile for a single scheduler instance. */
+export interface SchedulerInstanceProfile {
+  /** The config customization mode for this scheduler instance. */
+  schedulerConfigMode?: SchedulerConfigMode;
 }
 
 /** Contains read-only information about the Managed Cluster. */
@@ -1626,10 +1686,10 @@ export interface SubResource {
   readonly type?: string;
 }
 
-/** The result of a request to list namespaces in a managed cluster. */
-export interface NamespaceListResult {
-  /** The list of namespaces. */
-  value?: Namespace[];
+/** The result of a request to list managed namespaces in a managed cluster. */
+export interface ManagedNamespaceListResult {
+  /** The list of managed namespaces. */
+  value?: ManagedNamespace[];
   /** The URI to fetch the next page of results, if any. */
   nextLink?: string;
 }
@@ -1792,25 +1852,66 @@ export interface MachineListResult {
 
 /** The properties of the machine */
 export interface MachineProperties {
-  /**
-   * network properties of the machine
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly network?: MachineNetworkProperties;
+  /** The network properties of the machine */
+  network?: MachineNetworkProperties;
   /**
    * Arm resource id of the machine. It can be used to GET underlying VM Instance
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceId?: string;
+  /** The hardware and GPU settings of the machine. */
+  hardware?: MachineHardwareProfile;
+  /** The operating system and disk used by the machine. */
+  operatingSystem?: MachineOSProfile;
+  /** The Kubernetes configurations used by the machine. */
+  kubernetes?: MachineKubernetesProfile;
+  /** Machine only allows 'System' and 'User' mode. */
+  mode?: AgentPoolMode;
+  /** The security settings of the machine. */
+  security?: AgentPoolSecurityProfile;
+  /** The priority for the machine. If not specified, the default is 'Regular'. */
+  priority?: ScaleSetPriority;
+  /**
+   * The version of node image.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeImageVersion?: string;
+  /**
+   * The current deployment or provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The tags to be persisted on the machine. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+  /**
+   * Contains read-only information about the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: MachineStatus;
 }
 
-/** network properties of the machine */
+/** The network properties of the machine */
 export interface MachineNetworkProperties {
   /**
    * IPv4, IPv6 addresses of the machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddresses?: MachineIpAddress[];
+  /** If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
+  vnetSubnetID?: string;
+  /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
+  podSubnetID?: string;
+  /** Some scenarios may require the machine to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. The default is false. */
+  enableNodePublicIP?: boolean;
+  /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
+  nodePublicIPPrefixID?: string;
+  /** IPTags of instance-level public IPs. */
+  nodePublicIPTags?: IPTag[];
 }
 
 /** The machine IP address details. */
@@ -1825,6 +1926,103 @@ export interface MachineIpAddress {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ip?: string;
+}
+
+/** The hardware and GPU settings of the machine. */
+export interface MachineHardwareProfile {
+  /** VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
+  vmSize?: string;
+  /** GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. */
+  gpuInstanceProfile?: GPUInstanceProfile;
+  /** The GPU settings of the machine. */
+  gpuProfile?: GPUProfile;
+}
+
+/** The operating system and disk used by the machine. */
+export interface MachineOSProfile {
+  /** The operating system type. The default is Linux. */
+  osType?: OSType;
+  /** Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated. */
+  osSKU?: Ossku;
+  /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
+  osDiskSizeGB?: number;
+  /** The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
+  osDiskType?: OSDiskType;
+  /** Whether to use a FIPS-enabled OS. */
+  enableFips?: boolean;
+  /** The Linux machine's specific profile. */
+  linuxProfile?: MachineOSProfileLinuxProfile;
+  /** The Windows machine's specific profile. */
+  windowsProfile?: AgentPoolWindowsProfile;
+}
+
+/** The Linux machine's specific profile. */
+export interface MachineOSProfileLinuxProfile {
+  /** The OS configuration of Linux machine. */
+  linuxOSConfig?: LinuxOSConfig;
+  /** A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
+  messageOfTheDay?: string;
+}
+
+/** The Kubernetes configurations used by the machine. */
+export interface MachineKubernetesProfile {
+  /** The node labels on the machine. */
+  nodeLabels?: { [propertyName: string]: string };
+  /** Both patch version <major.minor.patch> and <major.minor> are supported. When <major.minor> is specified, the latest supported patch version is chosen automatically. */
+  orchestratorVersion?: string;
+  /**
+   * If orchestratorVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentOrchestratorVersion?: string;
+  /** Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. */
+  kubeletDiskType?: KubeletDiskType;
+  /** The Kubelet configuration on the machine. */
+  kubeletConfig?: KubeletConfig;
+  /** These taints will not be reconciled by AKS and can be removed with a kubectl call. These taints allow for required configuration to run before the node is ready to accept workloads, for example 'key1=value1:NoSchedule' that then can be removed with `kubectl taint nodes node1 key1=value1:NoSchedule-` */
+  nodeInitializationTaints?: string[];
+  /** The taints added to new node during machine create. For example, key=value:NoSchedule. */
+  nodeTaints?: string[];
+  /** The maximum number of pods that can run on a node. */
+  maxPods?: number;
+  /**
+   * The node name in the Kubernetes cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeName?: string;
+  /** Determines the type of workload a node can run. */
+  workloadRuntime?: WorkloadRuntime;
+  /** Configuration for using artifact streaming on AKS. */
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
+}
+
+/** Contains read-only information about the machine. */
+export interface MachineStatus {
+  /**
+   * Preserves the detailed info of failure. If there was no error, this field is omitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: CloudErrorBody;
+  /**
+   * Specifies the time at which the machine was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationTimestamp?: Date;
+  /**
+   * Indicates whether a machine has deviated from its expected state due to changes in managed cluster properties, requiring corrective action.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly driftAction?: DriftAction;
+  /**
+   * Provides detailed information on why the machine has drifted. This field is omitted if the machine is up to date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly driftReason?: string;
+  /**
+   * Indicates the current state of the underlying virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmState?: VmState;
 }
 
 /** The list of available versions for an agent pool. */
@@ -2286,16 +2484,6 @@ export interface RebalanceLoadBalancersRequestBody {
   loadBalancerNames?: string[];
 }
 
-/** Specifications on auto-scaling. */
-export interface AutoScaleProfile {
-  /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
-  size?: string;
-  /** The minimum number of nodes of the specified sizes. */
-  minCount?: number;
-  /** The maximum number of nodes of the specified sizes. */
-  maxCount?: number;
-}
-
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile
   extends ManagedClusterAgentPoolProfileProperties {
@@ -2359,7 +2547,7 @@ export interface MaintenanceConfiguration extends SubResource {
 }
 
 /** Namespace managed by ARM. */
-export interface Namespace extends SubResource {
+export interface ManagedNamespace extends SubResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2493,7 +2681,7 @@ export interface AgentPool extends SubResource {
   /** The security settings of an agent pool. */
   securityProfile?: AgentPoolSecurityProfile;
   /** The GPU settings of an agent pool. */
-  gpuProfile?: AgentPoolGPUProfile;
+  gpuProfile?: GPUProfile;
   /** Configuration for using artifact streaming on AKS. */
   artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
   /** Specifications on VirtualMachines agent pool. */
@@ -2504,15 +2692,16 @@ export interface AgentPool extends SubResource {
   gatewayProfile?: AgentPoolGatewayProfile;
   /** Contains read-only information about the Agent Pool. */
   status?: AgentPoolStatus;
+  /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
+  localDNSProfile?: LocalDNSProfile;
 }
 
-/** A machine. Contains details about the underlying virtual machine. A machine may be visible here but not in kubectl get nodes; if so it may be because the machine has not been registered with the Kubernetes API Server yet. */
+/** A machine provides detailed information about its configuration and status. A machine may be visible here but not in kubectl get nodes; if so, it may be because the machine has not been registered with the Kubernetes API Server yet. */
 export interface Machine extends SubResource {
-  /**
-   * The properties of the machine
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly properties?: MachineProperties;
+  /** The Availability zone in which machine is located. */
+  zones?: string[];
+  /** The properties of the machine */
+  properties?: MachineProperties;
 }
 
 /** Mesh upgrade profile properties for a major.minor release. */
@@ -2598,8 +2787,6 @@ export interface ManagedCluster extends TrackedResource {
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
   supportPlan?: KubernetesSupportPlan;
-  /** (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. */
-  enablePodSecurityPolicy?: boolean;
   /** The default value is false. It can be enabled/disabled on creation and updating of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
   enableNamespaceResources?: boolean;
   /** The network configuration profile. */
@@ -2636,8 +2823,6 @@ export interface ManagedCluster extends TrackedResource {
   workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
   /** Prometheus addon profile for the container service cluster */
   azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
-  /** The Safeguards profile holds all the safeguards information for a given cluster */
-  safeguardsProfile?: SafeguardsProfile;
   /** Service mesh profile for a managed cluster. */
   serviceMeshProfile?: ServiceMeshProfile;
   /**
@@ -2653,6 +2838,8 @@ export interface ManagedCluster extends TrackedResource {
   nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile;
   /** Profile of the cluster bootstrap configuration. */
   bootstrapProfile?: ManagedClusterBootstrapProfile;
+  /** Profile of the pod scheduler configuration. */
+  schedulerProfile?: SchedulerProfile;
   /** Contains read-only information about the Managed Cluster. */
   status?: ManagedClusterStatus;
 }
@@ -2813,8 +3000,8 @@ export interface ManagedClustersRebalanceLoadBalancersHeaders {
   location?: string;
 }
 
-/** Defines headers for Namespaces_delete operation. */
-export interface NamespacesDeleteHeaders {
+/** Defines headers for ManagedNamespaces_delete operation. */
+export interface ManagedNamespacesDeleteHeaders {
   /** URL to query for status of the operation. */
   location?: string;
 }
@@ -3006,7 +3193,7 @@ export type WorkloadRuntime = string;
 
 /** Known values of {@link PodIPAllocationMode} that the service accepts. */
 export enum KnownPodIPAllocationMode {
-  /** Each pod gets a single IP address assigned. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode */
+  /** Each node gets allocated with a non-contiguous list of IP addresses assignable to pods. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode */
   DynamicIndividual = "DynamicIndividual",
   /** Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger */
   StaticBlock = "StaticBlock",
@@ -3017,7 +3204,7 @@ export enum KnownPodIPAllocationMode {
  * {@link KnownPodIPAllocationMode} can be used interchangeably with PodIPAllocationMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **DynamicIndividual**: Each pod gets a single IP address assigned. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode \
+ * **DynamicIndividual**: Each node gets allocated with a non-contiguous list of IP addresses assignable to pods. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode \
  * **StaticBlock**: Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger
  */
 export type PodIPAllocationMode = string;
@@ -3056,6 +3243,10 @@ export enum KnownOssku {
   Windows2022 = "Windows2022",
   /** Use Windows Annual Channel version as the OS for node images. Unsupported for system node pools. Details about supported container images and kubernetes versions under different AKS Annual Channel versions could be seen in https:\//aka.ms\/aks\/windows-annual-channel-details. */
   WindowsAnnual = "WindowsAnnual",
+  /** Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\//aka.ms\/aks\/supported-ubuntu-versions */
+  Ubuntu2204 = "Ubuntu2204",
+  /** Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\//aka.ms\/aks\/supported-ubuntu-versions */
+  Ubuntu2404 = "Ubuntu2404",
 }
 
 /**
@@ -3069,7 +3260,9 @@ export enum KnownOssku {
  * **CBLMariner**: Deprecated OSSKU. Microsoft recommends that new deployments choose 'AzureLinux' instead. \
  * **Windows2019**: Use Windows2019 as the OS for node images. Unsupported for system node pools. Windows2019 only supports Windows2019 containers; it cannot run Windows2022 containers and vice versa. \
  * **Windows2022**: Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa. \
- * **WindowsAnnual**: Use Windows Annual Channel version as the OS for node images. Unsupported for system node pools. Details about supported container images and kubernetes versions under different AKS Annual Channel versions could be seen in https:\/\/aka.ms\/aks\/windows-annual-channel-details.
+ * **WindowsAnnual**: Use Windows Annual Channel version as the OS for node images. Unsupported for system node pools. Details about supported container images and kubernetes versions under different AKS Annual Channel versions could be seen in https:\/\/aka.ms\/aks\/windows-annual-channel-details. \
+ * **Ubuntu2204**: Use Ubuntu2204 as the OS for node images, however, Ubuntu 22.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\/\/aka.ms\/aks\/supported-ubuntu-versions \
+ * **Ubuntu2404**: Use Ubuntu2404 as the OS for node images, however, Ubuntu 24.04 may not be supported for all nodepools. For limitations and supported kubernetes versions, see see https:\/\/aka.ms\/aks\/supported-ubuntu-versions
  */
 export type Ossku = string;
 
@@ -3120,6 +3313,10 @@ export enum KnownAgentPoolMode {
   User = "User",
   /** Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\//aka.ms\/aks\/static-egress-gateway. */
   Gateway = "Gateway",
+  /** ManagedSystem is a system pool managed by AKS. The pool scales dynamically according to cluster usage, and has additional automated monitoring and healing capabilities. There can only be one ManagedSystem pool, and it is recommended to delete all other system pools for the best experience. */
+  ManagedSystem = "ManagedSystem",
+  /** Machines agent pools are dedicated to hosting machines. Only limited operations, such as creation and deletion, are allowed at the pool level. Please use the machine APIs to manage the full machine lifecycle. */
+  Machines = "Machines",
 }
 
 /**
@@ -3129,7 +3326,9 @@ export enum KnownAgentPoolMode {
  * ### Known values supported by the service
  * **System**: System agent pools are primarily for hosting critical system pods such as CoreDNS and metrics-server. System agent pools osType must be Linux. System agent pools VM SKU must have at least 2vCPUs and 4GB of memory. \
  * **User**: User agent pools are primarily for hosting your application pods. \
- * **Gateway**: Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\/\/aka.ms\/aks\/static-egress-gateway.
+ * **Gateway**: Gateway agent pools are dedicated to providing static egress IPs to pods. For more details, see https:\/\/aka.ms\/aks\/static-egress-gateway. \
+ * **ManagedSystem**: ManagedSystem is a system pool managed by AKS. The pool scales dynamically according to cluster usage, and has additional automated monitoring and healing capabilities. There can only be one ManagedSystem pool, and it is recommended to delete all other system pools for the best experience. \
+ * **Machines**: Machines agent pools are dedicated to hosting machines. Only limited operations, such as creation and deletion, are allowed at the pool level. Please use the machine APIs to manage the full machine lifecycle.
  */
 export type AgentPoolMode = string;
 
@@ -3268,6 +3467,24 @@ export enum KnownAgentPoolSSHAccess {
  */
 export type AgentPoolSSHAccess = string;
 
+/** Known values of {@link GPUDriver} that the service accepts. */
+export enum KnownGPUDriver {
+  /** Install driver. */
+  Install = "Install",
+  /** Skip driver install. */
+  None = "None",
+}
+
+/**
+ * Defines values for GPUDriver. \
+ * {@link KnownGPUDriver} can be used interchangeably with GPUDriver,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Install**: Install driver. \
+ * **None**: Skip driver install.
+ */
+export type GPUDriver = string;
+
 /** Known values of {@link DriverType} that the service accepts. */
 export enum KnownDriverType {
   /** Install the GRID driver for the GPU, suitable for applications requiring virtualization support. */
@@ -3285,6 +3502,141 @@ export enum KnownDriverType {
  * **CUDA**: Install the CUDA driver for the GPU, optimized for computational tasks in scientific computing and data-intensive applications.
  */
 export type DriverType = string;
+
+/** Known values of {@link LocalDNSMode} that the service accepts. */
+export enum KnownLocalDNSMode {
+  /** If the current orchestrator version supports this feature, prefer enabling localDNS. */
+  Preferred = "Preferred",
+  /** Enable localDNS. */
+  Required = "Required",
+  /** Disable localDNS. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for LocalDNSMode. \
+ * {@link KnownLocalDNSMode} can be used interchangeably with LocalDNSMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Preferred**: If the current orchestrator version supports this feature, prefer enabling localDNS. \
+ * **Required**: Enable localDNS. \
+ * **Disabled**: Disable localDNS.
+ */
+export type LocalDNSMode = string;
+
+/** Known values of {@link LocalDNSState} that the service accepts. */
+export enum KnownLocalDNSState {
+  /** localDNS is enabled. */
+  Enabled = "Enabled",
+  /** localDNS is disabled. */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for LocalDNSState. \
+ * {@link KnownLocalDNSState} can be used interchangeably with LocalDNSState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: localDNS is enabled. \
+ * **Disabled**: localDNS is disabled.
+ */
+export type LocalDNSState = string;
+
+/** Known values of {@link LocalDNSQueryLogging} that the service accepts. */
+export enum KnownLocalDNSQueryLogging {
+  /** Enables error logging in localDNS. See [errors plugin](https:\//coredns.io\/plugins\/errors) for more information. */
+  Error = "Error",
+  /** Enables query logging in localDNS. See [log plugin](https:\//coredns.io\/plugins\/log) for more information. */
+  Log = "Log",
+}
+
+/**
+ * Defines values for LocalDNSQueryLogging. \
+ * {@link KnownLocalDNSQueryLogging} can be used interchangeably with LocalDNSQueryLogging,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Error**: Enables error logging in localDNS. See [errors plugin](https:\/\/coredns.io\/plugins\/errors) for more information. \
+ * **Log**: Enables query logging in localDNS. See [log plugin](https:\/\/coredns.io\/plugins\/log) for more information.
+ */
+export type LocalDNSQueryLogging = string;
+
+/** Known values of {@link LocalDNSProtocol} that the service accepts. */
+export enum KnownLocalDNSProtocol {
+  /** Prefer UDP protocol for connections from localDNS to upstream DNS server. */
+  PreferUDP = "PreferUDP",
+  /** Enforce TCP protocol for connections from localDNS to upstream DNS server. */
+  ForceTCP = "ForceTCP",
+}
+
+/**
+ * Defines values for LocalDNSProtocol. \
+ * {@link KnownLocalDNSProtocol} can be used interchangeably with LocalDNSProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PreferUDP**: Prefer UDP protocol for connections from localDNS to upstream DNS server. \
+ * **ForceTCP**: Enforce TCP protocol for connections from localDNS to upstream DNS server.
+ */
+export type LocalDNSProtocol = string;
+
+/** Known values of {@link LocalDNSForwardDestination} that the service accepts. */
+export enum KnownLocalDNSForwardDestination {
+  /** Forward DNS queries from localDNS to cluster CoreDNS. */
+  ClusterCoreDNS = "ClusterCoreDNS",
+  /** Forward DNS queries from localDNS to DNS server configured in the VNET. A VNET can have multiple DNS servers configured. */
+  VnetDNS = "VnetDNS",
+}
+
+/**
+ * Defines values for LocalDNSForwardDestination. \
+ * {@link KnownLocalDNSForwardDestination} can be used interchangeably with LocalDNSForwardDestination,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClusterCoreDNS**: Forward DNS queries from localDNS to cluster CoreDNS. \
+ * **VnetDNS**: Forward DNS queries from localDNS to DNS server configured in the VNET. A VNET can have multiple DNS servers configured.
+ */
+export type LocalDNSForwardDestination = string;
+
+/** Known values of {@link LocalDNSForwardPolicy} that the service accepts. */
+export enum KnownLocalDNSForwardPolicy {
+  /** Implements sequential upstream DNS server selection. See [forward plugin](https:\//coredns.io\/plugins\/forward) for more information. */
+  Sequential = "Sequential",
+  /** Implements round robin upstream DNS server selection. See [forward plugin](https:\//coredns.io\/plugins\/forward) for more information. */
+  RoundRobin = "RoundRobin",
+  /** Implements random upstream DNS server selection. See [forward plugin](https:\//coredns.io\/plugins\/forward) for more information. */
+  Random = "Random",
+}
+
+/**
+ * Defines values for LocalDNSForwardPolicy. \
+ * {@link KnownLocalDNSForwardPolicy} can be used interchangeably with LocalDNSForwardPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Sequential**: Implements sequential upstream DNS server selection. See [forward plugin](https:\/\/coredns.io\/plugins\/forward) for more information. \
+ * **RoundRobin**: Implements round robin upstream DNS server selection. See [forward plugin](https:\/\/coredns.io\/plugins\/forward) for more information. \
+ * **Random**: Implements random upstream DNS server selection. See [forward plugin](https:\/\/coredns.io\/plugins\/forward) for more information.
+ */
+export type LocalDNSForwardPolicy = string;
+
+/** Known values of {@link LocalDNSServeStale} that the service accepts. */
+export enum KnownLocalDNSServeStale {
+  /** Serve stale data with verification. First verify that an entry is still unavailable from the source before sending the expired entry to the client. See [cache plugin](https:\//coredns.io\/plugins\/cache) for more information. */
+  Verify = "Verify",
+  /** Serve stale data immediately. Send the expired entry to the client before checking to see if the entry is available from the source. See [cache plugin](https:\//coredns.io\/plugins\/cache) for more information. */
+  Immediate = "Immediate",
+  /** Disable serving stale data. */
+  Disable = "Disable",
+}
+
+/**
+ * Defines values for LocalDNSServeStale. \
+ * {@link KnownLocalDNSServeStale} can be used interchangeably with LocalDNSServeStale,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Verify**: Serve stale data with verification. First verify that an entry is still unavailable from the source before sending the expired entry to the client. See [cache plugin](https:\/\/coredns.io\/plugins\/cache) for more information. \
+ * **Immediate**: Serve stale data immediately. Send the expired entry to the client before checking to see if the entry is available from the source. See [cache plugin](https:\/\/coredns.io\/plugins\/cache) for more information. \
+ * **Disable**: Disable serving stale data.
+ */
+export type LocalDNSServeStale = string;
 
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
@@ -3622,23 +3974,23 @@ export enum KnownAdvancedNetworkPolicies {
  */
 export type AdvancedNetworkPolicies = string;
 
-/** Known values of {@link TransitEncryption} that the service accepts. */
-export enum KnownTransitEncryption {
-  /** Enable WireGuard encryption for cluster traffic */
+/** Known values of {@link TransitEncryptionType} that the service accepts. */
+export enum KnownTransitEncryptionType {
+  /** Enable WireGuard encryption. Refer to https:\//docs.cilium.io\/en\/latest\/security\/network\/encryption-wireguard\/ on use cases and implementation details */
   WireGuard = "WireGuard",
-  /** Disable WireGuard encryption for cluster traffic */
+  /** Disable Transit encryption */
   None = "None",
 }
 
 /**
- * Defines values for TransitEncryption. \
- * {@link KnownTransitEncryption} can be used interchangeably with TransitEncryption,
+ * Defines values for TransitEncryptionType. \
+ * {@link KnownTransitEncryptionType} can be used interchangeably with TransitEncryptionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **WireGuard**: Enable WireGuard encryption for cluster traffic \
- * **None**: Disable WireGuard encryption for cluster traffic
+ * **WireGuard**: Enable WireGuard encryption. Refer to https:\/\/docs.cilium.io\/en\/latest\/security\/network\/encryption-wireguard\/ on use cases and implementation details \
+ * **None**: Disable Transit encryption
  */
-export type TransitEncryption = string;
+export type TransitEncryptionType = string;
 
 /** Known values of {@link UpgradeChannel} that the service accepts. */
 export enum KnownUpgradeChannel {
@@ -3796,27 +4148,6 @@ export enum KnownAddonAutoscaling {
  */
 export type AddonAutoscaling = string;
 
-/** Known values of {@link Level} that the service accepts. */
-export enum KnownLevel {
-  /** Off */
-  Off = "Off",
-  /** Warning */
-  Warning = "Warning",
-  /** Enforcement */
-  Enforcement = "Enforcement",
-}
-
-/**
- * Defines values for Level. \
- * {@link KnownLevel} can be used interchangeably with Level,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Off** \
- * **Warning** \
- * **Enforcement**
- */
-export type Level = string;
-
 /** Known values of {@link ServiceMeshMode} that the service accepts. */
 export enum KnownServiceMeshMode {
   /** Istio deployed as an AKS addon. */
@@ -3871,6 +4202,24 @@ export enum KnownNodeProvisioningMode {
  */
 export type NodeProvisioningMode = string;
 
+/** Known values of {@link NodeProvisioningDefaultNodePools} that the service accepts. */
+export enum KnownNodeProvisioningDefaultNodePools {
+  /** No Karpenter NodePools are provisioned automatically. Automatic scaling will not happen unless the user creates one or more NodePool instances. */
+  None = "None",
+  /** A standard set of Karpenter NodePools are provisioned */
+  Auto = "Auto",
+}
+
+/**
+ * Defines values for NodeProvisioningDefaultNodePools. \
+ * {@link KnownNodeProvisioningDefaultNodePools} can be used interchangeably with NodeProvisioningDefaultNodePools,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No Karpenter NodePools are provisioned automatically. Automatic scaling will not happen unless the user creates one or more NodePool instances. \
+ * **Auto**: A standard set of Karpenter NodePools are provisioned
+ */
+export type NodeProvisioningDefaultNodePools = string;
+
 /** Known values of {@link ArtifactSource} that the service accepts. */
 export enum KnownArtifactSource {
   /** pull images from Azure Container Registry with cache */
@@ -3888,6 +4237,24 @@ export enum KnownArtifactSource {
  * **Direct**: pull images from Microsoft Artifact Registry
  */
 export type ArtifactSource = string;
+
+/** Known values of {@link SchedulerConfigMode} that the service accepts. */
+export enum KnownSchedulerConfigMode {
+  /** No config customization. Use default configuration. */
+  Default = "Default",
+  /** Enable config customization. Customer can specify scheduler configuration via a CRD. See aka.ms\/aks\/scheduler-crd for details. */
+  ManagedByCRD = "ManagedByCRD",
+}
+
+/**
+ * Defines values for SchedulerConfigMode. \
+ * {@link KnownSchedulerConfigMode} can be used interchangeably with SchedulerConfigMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: No config customization. Use default configuration. \
+ * **ManagedByCRD**: Enable config customization. Customer can specify scheduler configuration via a CRD. See aka.ms\/aks\/scheduler-crd for details.
+ */
+export type SchedulerConfigMode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -4080,6 +4447,42 @@ export enum KnownDeletePolicy {
  * **Delete**: Delete both the ARM resource and the Kubernetes namespace together.
  */
 export type DeletePolicy = string;
+
+/** Known values of {@link DriftAction} that the service accepts. */
+export enum KnownDriftAction {
+  /** The machine is up to date. */
+  Synced = "Synced",
+  /** The machine has drifted and needs to be deleted and recreated. */
+  Recreate = "Recreate",
+}
+
+/**
+ * Defines values for DriftAction. \
+ * {@link KnownDriftAction} can be used interchangeably with DriftAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Synced**: The machine is up to date. \
+ * **Recreate**: The machine has drifted and needs to be deleted and recreated.
+ */
+export type DriftAction = string;
+
+/** Known values of {@link VmState} that the service accepts. */
+export enum KnownVmState {
+  /** The virtual machine is currently running. */
+  Running = "Running",
+  /** The virtual machine has been deleted by the user or due to spot eviction. */
+  Deleted = "Deleted",
+}
+
+/**
+ * Defines values for VmState. \
+ * {@link KnownVmState} can be used interchangeably with VmState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Running**: The virtual machine is currently running. \
+ * **Deleted**: The virtual machine has been deleted by the user or due to spot eviction.
+ */
+export type VmState = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
@@ -4663,21 +5066,22 @@ export type MaintenanceConfigurationsListByManagedClusterNextResponse =
   MaintenanceConfigurationListResult;
 
 /** Optional parameters. */
-export interface NamespacesListByManagedClusterOptionalParams
+export interface ManagedNamespacesListByManagedClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagedCluster operation. */
-export type NamespacesListByManagedClusterResponse = NamespaceListResult;
+export type ManagedNamespacesListByManagedClusterResponse =
+  ManagedNamespaceListResult;
 
 /** Optional parameters. */
-export interface NamespacesGetOptionalParams
+export interface ManagedNamespacesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type NamespacesGetResponse = Namespace;
+export type ManagedNamespacesGetResponse = ManagedNamespace;
 
 /** Optional parameters. */
-export interface NamespacesCreateOrUpdateOptionalParams
+export interface ManagedNamespacesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -4686,10 +5090,10 @@ export interface NamespacesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NamespacesCreateOrUpdateResponse = Namespace;
+export type ManagedNamespacesCreateOrUpdateResponse = ManagedNamespace;
 
 /** Optional parameters. */
-export interface NamespacesDeleteOptionalParams
+export interface ManagedNamespacesDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -4698,28 +5102,29 @@ export interface NamespacesDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type NamespacesDeleteResponse = NamespacesDeleteHeaders;
+export type ManagedNamespacesDeleteResponse = ManagedNamespacesDeleteHeaders;
 
 /** Optional parameters. */
-export interface NamespacesUpdateOptionalParams
+export interface ManagedNamespacesUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type NamespacesUpdateResponse = Namespace;
+export type ManagedNamespacesUpdateResponse = ManagedNamespace;
 
 /** Optional parameters. */
-export interface NamespacesListCredentialOptionalParams
+export interface ManagedNamespacesListCredentialOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCredential operation. */
-export type NamespacesListCredentialResponse = CredentialResults;
+export type ManagedNamespacesListCredentialResponse = CredentialResults;
 
 /** Optional parameters. */
-export interface NamespacesListByManagedClusterNextOptionalParams
+export interface ManagedNamespacesListByManagedClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagedClusterNext operation. */
-export type NamespacesListByManagedClusterNextResponse = NamespaceListResult;
+export type ManagedNamespacesListByManagedClusterNextResponse =
+  ManagedNamespaceListResult;
 
 /** Optional parameters. */
 export interface AgentPoolsAbortLatestOperationOptionalParams
@@ -4836,6 +5241,22 @@ export interface MachinesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type MachinesGetResponse = Machine;
+
+/** Optional parameters. */
+export interface MachinesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type MachinesCreateOrUpdateResponse = Machine;
 
 /** Optional parameters. */
 export interface MachinesListNextOptionalParams

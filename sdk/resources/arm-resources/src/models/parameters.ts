@@ -12,10 +12,6 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  Deployment as DeploymentMapper,
-  ScopedDeployment as ScopedDeploymentMapper,
-  ScopedDeploymentWhatIf as ScopedDeploymentWhatIfMapper,
-  DeploymentWhatIf as DeploymentWhatIfMapper,
   ProviderRegistrationRequest as ProviderRegistrationRequestMapper,
   ResourcesMoveInfo as ResourcesMoveInfoMapper,
   GenericResource as GenericResourceMapper,
@@ -53,7 +49,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-11-01",
+    defaultValue: "2025-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -74,27 +70,36 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const scope: OperationURLParameter = {
-  parameterPath: "scope",
+export const resourceProviderNamespace: OperationURLParameter = {
+  parameterPath: "resourceProviderNamespace",
   mapper: {
-    serializedName: "scope",
+    serializedName: "resourceProviderNamespace",
     required: true,
     type: {
       name: "String",
     },
   },
-  skipEncoding: true,
 };
 
-export const deploymentName: OperationURLParameter = {
-  parameterPath: "deploymentName",
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const groupId: OperationURLParameter = {
+  parameterPath: "groupId",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
-      MaxLength: 64,
+      MaxLength: 90,
       MinLength: 1,
     },
-    serializedName: "deploymentName",
+    serializedName: "groupId",
     required: true,
     type: {
       name: "String",
@@ -114,9 +119,35 @@ export const contentType: OperationParameter = {
   },
 };
 
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DeploymentMapper,
+export const properties: OperationParameter = {
+  parameterPath: ["options", "properties"],
+  mapper: ProviderRegistrationRequestMapper,
+};
+
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -139,102 +170,7 @@ export const top: OperationQueryParameter = {
   },
 };
 
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ScopedDeploymentMapper,
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ScopedDeploymentWhatIfMapper,
-};
-
-export const groupId: OperationURLParameter = {
-  parameterPath: "groupId",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1,
-    },
-    serializedName: "groupId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DeploymentWhatIfMapper,
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
-      MaxLength: 90,
-      MinLength: 1,
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const template: OperationParameter = {
-  parameterPath: "template",
-  mapper: {
-    serializedName: "template",
-    required: true,
-    type: {
-      name: "Dictionary",
-      value: { type: { name: "any" } },
-    },
-  },
-};
-
-export const resourceProviderNamespace: OperationURLParameter = {
-  parameterPath: "resourceProviderNamespace",
-  mapper: {
-    serializedName: "resourceProviderNamespace",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const properties: OperationParameter = {
-  parameterPath: ["options", "properties"],
-  mapper: ProviderRegistrationRequestMapper,
-};
-
-export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters4: OperationParameter = {
+export const parameters: OperationParameter = {
   parameterPath: "parameters",
   mapper: ResourcesMoveInfoMapper,
 };
@@ -301,7 +237,7 @@ export const apiVersion1: OperationQueryParameter = {
   },
 };
 
-export const parameters5: OperationParameter = {
+export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: GenericResourceMapper,
 };
@@ -318,7 +254,7 @@ export const resourceId: OperationURLParameter = {
   skipEncoding: true,
 };
 
-export const parameters6: OperationParameter = {
+export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: ResourceGroupMapper,
 };
@@ -333,12 +269,12 @@ export const forceDeletionTypes: OperationQueryParameter = {
   },
 };
 
-export const parameters7: OperationParameter = {
+export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: ResourceGroupPatchableMapper,
 };
 
-export const parameters8: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: ExportTemplateRequestMapper,
 };
@@ -380,23 +316,24 @@ export const tagValue: OperationURLParameter = {
   },
 };
 
-export const parameters9: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: TagsResourceMapper,
 };
 
-export const parameters10: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: TagsPatchResourceMapper,
-};
-
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
+export const scope: OperationURLParameter = {
+  parameterPath: "scope",
   mapper: {
-    serializedName: "operationId",
+    serializedName: "scope",
     required: true,
     type: {
       name: "String",
     },
   },
+  skipEncoding: true,
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: TagsPatchResourceMapper,
 };

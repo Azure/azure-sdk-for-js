@@ -21,8 +21,8 @@ import type {
 } from "../cryptographyClientModels.js";
 import { SDK_VERSION } from "../constants.js";
 import type { UnwrapResult } from "../cryptographyClientModels.js";
-import type { KeyVaultClientOptionalParams } from "../generated/index.js";
-import { KeyVaultClient } from "../generated/index.js";
+import type { KeyVaultClientOptionalParams } from "../generated/src/index.js";
+import { KeyVaultClient } from "../generated/src/index.js";
 import { parseKeyVaultKeyIdentifier } from "../identifier.js";
 import type { CryptographyClientOptions, GetKeyOptions, KeyVaultKey } from "../keysModels.js";
 import { LATEST_API_VERSION } from "../keysModels.js";

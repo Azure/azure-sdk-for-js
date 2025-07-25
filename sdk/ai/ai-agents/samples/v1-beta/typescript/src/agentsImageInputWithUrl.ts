@@ -7,7 +7,6 @@
  */
 
 import { AgentsClient } from "@azure/ai-agents";
-import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load environment variables
@@ -45,7 +44,7 @@ export async function main(): Promise<void> {
     },
     {
       type: "image_url",
-      image_url: {
+      imageUrl: {
         url: imageUrl,
         detail: "high",
       },
@@ -56,20 +55,15 @@ export async function main(): Promise<void> {
 
   // Create and poll a run
   console.log("Creating run...");
-  let run = await client.runs.create(thread.id, agent.id);
-
-  // Poll the run as long as run status is queued or in progress
-  while (
-    run.status === "queued" ||
-    run.status === "in_progress" ||
-    run.status === "requires_action"
-  ) {
-    // Wait for a second
-    console.log(`Run status: ${run.status}, waiting...`);
-    await delay(1000);
-    run = await client.runs.get(thread.id, run.id);
-  }
-  console.log(`Run complete with status: ${run.status}`);
+  const run = await client.runs.createAndPoll(thread.id, agent.id, {
+    pollingOptions: {
+      intervalInMs: 2000,
+    },
+    onResponse: (response): void => {
+      console.log(`Received response with status: ${response.parsedBody.status}`);
+    },
+  });
+  console.log(`Run finished with status: ${run.status}`);
 
   // Delete the agent
   await client.deleteAgent(agent.id);
@@ -88,11 +82,9 @@ export async function main(): Promise<void> {
   }
 
   const messagesIterator = client.messages.list(thread.id);
-  const allMessages = [];
   for await (const m of messagesIterator) {
-    allMessages.push(m);
+    console.log(`Role: ${m.role}, Content: ${m.content}`);
   }
-  console.log("Messages:", allMessages);
 }
 
 main().catch((error) => {

@@ -19,12 +19,12 @@ import {
   MessageTextContent,
   RequiredToolCall,
   ThreadRun,
-} from "@azure/ai-agents";
+  DeepResearchToolDefinition,
+} from "../src/index.js";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
-import * as fs from "node:fs";
-import { delay } from "@azure/core-util";
+import * as fs from "fs";
 import { RestError } from "@azure/core-rest-pipeline";
 
 describe("snippets", function () {
@@ -49,7 +49,7 @@ describe("snippets", function () {
 
   it("toolSet", async function () {
     // Upload file for code interpreter tool
-    const filePath1 = "./data/nifty500QuarterlyResults.csv";
+    const filePath1 = "./data/syntheticCompanyQuarterlyResults.csv";
     const fileStream1 = fs.createReadStream(filePath1);
     const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
       fileName: "myLocalFile",
@@ -76,6 +76,15 @@ describe("snippets", function () {
     const toolSet = new ToolSet();
     toolSet.addFileSearchTool([vectorStore.id]);
     toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
+    // @ts-preserve-whitespace
+    // Create agent with tool set
+    const agent = await client.createAgent("gpt-4o", {
+      name: "my-agent",
+      instructions: "You are a helpful agent",
+      tools: toolSet.toolDefinitions,
+      toolResources: toolSet.toolResources,
+    });
+    console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
   it("fileSearch", async function () {
@@ -104,7 +113,7 @@ describe("snippets", function () {
   });
 
   it("codeInterpreter", async function () {
-    const filePath = "./data/nifty500QuarterlyResults.csv";
+    const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
     const localFileStream = fs.createReadStream(filePath);
     const localFile = await client.files.upload(localFileStream, "assistants", {
       fileName: "localFile",
@@ -124,6 +133,30 @@ describe("snippets", function () {
     console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
+  it("MultiAgents", async function () {
+    const connectedAgentName = "stock_price_bot";
+    const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+    const stockAgent = await client.createAgent(modelDeploymentName, {
+      name: "stock-price-agent",
+      instructions:
+        "Your job is to get the stock price of a company. If you don't know the realtime stock price, return the last known stock price.",
+    });
+    // Initialize Connected Agent tool with the agent id, name, and description
+    const connectedAgentTool = ToolUtility.createConnectedAgentTool(
+      stockAgent.id,
+      connectedAgentName,
+      "Gets the stock price of a company",
+    );
+
+    // Create agent with the Connected Agent tool and process assistant run
+    const agent = await client.createAgent(modelDeploymentName, {
+      name: "my-agent",
+      instructions: "You are a helpful assistant, and use the connected agent to get stock prices.",
+      tools: [connectedAgentTool.definition],
+    });
+    console.log(`Created agent, agent ID: ${agent.id}`);
+  });
+
   it("bingGrounding", async function () {
     const connectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
     // @ts-preserve-whitespace
@@ -135,6 +168,62 @@ describe("snippets", function () {
       name: "my-agent",
       instructions: "You are a helpful agent",
       tools: [bingTool.definition],
+    });
+    console.log(`Created agent, agent ID : ${agent.id}`);
+  });
+
+  it("DeepResearch", async function () {
+    const bingConnectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
+    const deepResearchModelDeploymentName =
+      process.env["DEEP_RESEARCH_MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+    const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+    // Create Deep Research tool definition
+    const deepResearchTool: DeepResearchToolDefinition = {
+      type: "deep_research",
+      deepResearch: {
+        deepResearchModel: deepResearchModelDeploymentName,
+        deepResearchBingGroundingConnections: [
+          {
+            connectionId: bingConnectionId,
+          },
+        ],
+      },
+    };
+    // Create agent with the Deep Research tool
+    const agent = await client.createAgent(modelDeploymentName, {
+      name: "my-agent",
+      instructions: "You are a helpful Agent that assists in researching scientific topics.",
+      tools: [deepResearchTool],
+    });
+    console.log(`Created agent, ID: ${agent.id}`);
+  });
+
+  it("MCPTool", async function () {
+    // Get MCP server configuration from environment variables
+    const mcpServerUrl =
+      process.env["MCP_SERVER_URL"] || "https://gitmcp.io/Azure/azure-rest-api-specs";
+    const mcpServerLabel = process.env["MCP_SERVER_LABEL"] || "github";
+    // Create an Azure AI Client
+    const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
+
+    // Initialize agent MCP tool
+    const mcpTool = ToolUtility.createMCPTool({
+      serverLabel: mcpServerLabel,
+      serverUrl: mcpServerUrl,
+      allowedTools: [], // Optional: specify allowed tools
+    });
+
+    // You can also add or remove allowed tools dynamically
+    const searchApiCode = "search_azure_rest_api_code";
+    mcpTool.allowTool(searchApiCode);
+    console.log(`Allowed tools: ${mcpTool.allowedTools}`);
+
+    // Create agent with MCP tool
+    const agent = await client.createAgent(modelDeploymentName, {
+      name: "my-mcp-agent",
+      instructions:
+        "You are a helpful agent that can use MCP tools to assist users. Use the available MCP tools to answer questions and perform tasks.",
+      tools: mcpTool.definitions,
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
   });
@@ -236,13 +325,11 @@ describe("snippets", function () {
             return undefined;
           }
         }
-        const result = this.functionTools
-          .map((tool) =>
-            tool.definition.function.name === toolCall.function.name
-              ? tool.func(...args)
-              : undefined,
-          )
-          .find((r) => r !== undefined);
+        // Create a mapping of function names to their implementations
+        const functionMap = new Map(
+          this.functionTools.map((tool) => [tool.definition.function.name, tool.func]),
+        );
+        const result = functionMap.get(toolCall.function.name)?.(...args);
         return result
           ? {
               toolCallId: toolCall.id,
@@ -323,7 +410,7 @@ describe("snippets", function () {
   });
 
   it("threadWithTool", async function () {
-    const filePath = "./data/nifty500QuarterlyResults.csv";
+    const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
     const localFileStream = fs.createReadStream(filePath);
     const file = await client.files.upload(localFileStream, "assistants", {
       fileName: "sample_file_for_upload.csv",
@@ -431,7 +518,7 @@ describe("snippets", function () {
       },
       {
         type: "image_file",
-        image_file: {
+        imageFile: {
           file_id: imageFile.id,
           detail: "high",
         },
@@ -455,7 +542,7 @@ describe("snippets", function () {
       },
       {
         type: "image_url",
-        image_url: {
+        imageUrl: {
           url: imageUrl,
           detail: "high",
         },
@@ -495,7 +582,7 @@ describe("snippets", function () {
       },
       {
         type: "image_url",
-        image_url: {
+        imageUrl: {
           url: imageDataUrl,
           detail: "high",
         },
@@ -507,15 +594,18 @@ describe("snippets", function () {
   });
 
   it("createRun", async function () {
-    let run = await client.runs.create(thread.id, agent.id);
-    console.log(`Created run, run ID: ${run.id}`);
     // @ts-preserve-whitespace
-    // Wait for run to complete
-    while (["queued", "in_progress", "requires_action"].includes(run.status)) {
-      await delay(1000);
-      run = await client.runs.get(thread.id, run.id);
-      console.log(`Run status: ${run.status}`);
-    }
+    // Create and poll a run
+    console.log("Creating run...");
+    const run = await client.runs.createAndPoll(thread.id, agent.id, {
+      pollingOptions: {
+        intervalInMs: 2000,
+      },
+      onResponse: (response): void => {
+        console.log(`Received response with status: ${response.parsedBody.status}`);
+      },
+    });
+    console.log(`Run finished with status: ${run.status}`);
   });
 
   it("createThreadAndRun", async function () {
@@ -541,21 +631,20 @@ describe("snippets", function () {
     for await (const eventMessage of streamEventMessages) {
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
-          console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
+          console.log(`ThreadRun status: ${eventMessage.data.status}`);
           break;
         case MessageStreamEvent.ThreadMessageDelta:
           {
-            const messageDelta = eventMessage.data as MessageDeltaChunk;
+            const messageDelta = eventMessage.data;
             messageDelta.delta.content.forEach((contentPart) => {
               if (contentPart.type === "text") {
-                const textContent = contentPart as MessageDeltaTextContent;
+                const textContent = contentPart;
                 const textValue = textContent.text?.value || "No text";
                 console.log(`Text delta received:: ${textValue}`);
               }
             });
           }
           break;
-        // @ts-preserve-whitespace
         case RunStreamEvent.ThreadRunCompleted:
           console.log("Thread Run Completed");
           break;
