@@ -44,6 +44,9 @@ export class PlaywrightServiceApiCall {
     if (response.status !== 200) {
       exitWithFailureMessage(ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN);
     }
+    console.log(
+      "Test run created successfully, please visit https://aka.ms/pww/docs/activitylog for more details.",
+    );
     return response.bodyAsText ? JSON.parse(response.bodyAsText) : {};
   }
 }

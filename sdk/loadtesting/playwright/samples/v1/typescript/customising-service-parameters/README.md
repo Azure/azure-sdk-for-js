@@ -16,7 +16,6 @@ export default defineConfig(
   config,
   getServiceConfig(config, {
     os: ServiceOS.WINDOWS, // Select the operating system where you want to run tests.
-    runId: new Date().toISOString(), // Set a unique ID for every test run to distinguish them in the service portal.
     credential: new AzureCliCredential(), // Select the authentication method you want to use with Entra
     useCloudHostedBrowsers: true, //Select if you want to use cloud-hosted browsers to run your Playwright tests
   })
@@ -35,13 +34,6 @@ export default defineConfig(
     - **Example**:
       ```typescript
       os: ServiceOS.WINDOWS
-      ```
-
-2. **`runId`**:
-    - **Description**: This setting allows you to set a unique ID for every test run to distinguish them in the service portal.
-    - **Example**:
-      ```typescript
-      runId: new Date().toISOString()
       ```
 
 3. **`credential`**:
