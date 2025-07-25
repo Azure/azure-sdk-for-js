@@ -34,7 +34,6 @@ export type OsType = (typeof ServiceOS)[keyof typeof ServiceOS];
 export type PlaywrightServiceAdditionalOptions = {
     serviceAuthType?: AuthenticationType;
     os?: OsType;
-    runId?: string;
     timeout?: number;
     slowMo?: number;
     exposeNetwork?: string;
