@@ -131,14 +131,14 @@ Azure Confidential Ledger is built on Microsoft Research's open-source [Confiden
 This section contains code snippets for the following samples:
 
 - [Post Ledger Entry](#post-ledger-entry "Post Ledger Entry")
-- [Post Ledger Entry With CollectioId](#post-ledger-entry-with-collectionid "Post Ledger Entry With CollectionId")]
+- [Post Ledger Entry With CollectionId](#post-ledger-entry-with-collectionid "Post Ledger Entry With CollectionId")]
 - [Post Ledger Entry With CollectionId and Tags](#post-ledger-entry-with-collectionid-and-tags "Post Ledger Entry With CollectionId and Tags")]
 - [Get a Ledger Entry By Transaction Id](#get-a-ledger-entry "Get a Ledger Entry By Transaction Id")
 - [Get a Ledger Entry By Transaction Id With CollectionId](#get-a-ledger-entry-with-collectionid "Get a Ledger Entry By Transaction Id With CollectionId")
-- [Get a Ledger Entry By Transaction Id With CollectionId and Tags](#get-a-ledger-entry-with-collectionid-and-tags "Get a Ledger Entry By Transaction Id With CollectionId and Tags")
+- [Get a Ledger Entry By Transaction Id With CollectionId and Tag](#get-a-ledger-entry-with-collectionid-and-tag "Get a Ledger Entry By Transaction Id With CollectionId and Tag")
 - [Get All Ledger Entries](#get-all-ledger-entries "Get All Ledger Entries")
 - [Get All Ledger Entries With CollectionId](#get-all-ledger-entries-with-collectionid "Get All Ledger Entries With CollectionId")
-- [Get All Ledger Entries With CollectionId and Tags](#get-all-ledger-entries-with-collectionid-and-tags "Get All Ledger Entries With CollectionId and Tags")
+- [Get All Ledger Entries With CollectionId and Tag](#get-all-ledger-entries-with-collectionid-and-tag "Get All Ledger Entries With CollectionId and Tag")
 - [Get All Collections](#get-all-collections "Get All Collections")
 - [Get Transactions for a Collection](#transactions-for-collection "Get Transactions for a Collection")
 - [List Enclave Quotes](#list-enclave-quotes "List Enclave Quotes
@@ -175,7 +175,7 @@ const ledgerEntry: CreateLedgerEntryParameters = {
 const result = await client.path("/app/transactions").post(ledgerEntry);
 ```
 
-### Post Ledger Entry With CollectioId
+### Post Ledger Entry With CollectionId
 
 ```ts snippet:ReadmeSamplePostLedgerEntryWithCollectionId
 import ConfidentialLedger, {
@@ -291,7 +291,7 @@ const result = await client
   .get(getLedgerEntryParams);
 ```
 
-### Get a Ledger Entry By Transaction Id With CollectionId and Tags
+### Get a Ledger Entry By Transaction Id With CollectionId and Tag
 
 ```ts snippet:ReadmeSampleGetLedgerEntryWithCollectionIdAndTagSample
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
@@ -359,7 +359,7 @@ const getLedgerEntriesParams = {
 const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
 ```
 
-### Get All Ledger Entries With CollectionId and Tags
+### Get All Ledger Entries With CollectionId and Tag
 
 ```ts snippet:ReadmeSampleGetAllLedgerEntriesWithCollectionIdAndTagSample
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
