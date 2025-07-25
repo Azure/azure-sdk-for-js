@@ -2,7 +2,7 @@
 
 ## 1.6.1 (2025-07-22)
 
-### Other Changes
+### Bugs Fixed
 
 - Include TeamsExtensionUserIdentifierModel and PhoneNumberIdentifierModel.
 
