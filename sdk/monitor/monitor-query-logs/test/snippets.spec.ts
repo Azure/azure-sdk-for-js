@@ -1,17 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Durations,
-  LogsQueryClient,
-  LogsQueryResultStatus,
-  MetricsClient,
-  MetricsQueryClient,
-} from "../src/index.js";
-import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
-import { setLogLevel } from "@azure/logger";
+import { Durations, LogsQueryClient, LogsQueryResultStatus, LogsTable } from "../src/index.js";
+import { DefaultAzureCredential } from "@azure/identity";
 import { describe, it } from "vitest";
 import { config } from "dotenv";
+import { setLogLevel } from "@azure/logger";
+
+function processTables(tablesFromResult: LogsTable[]) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
+  }
+}
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", async () => {
@@ -19,13 +27,6 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // Create a LogsQueryClient
     const logsQueryClient = new LogsQueryClient(credential);
-    // @ts-preserve-whitespace
-    // Create a MetricsQueryClient
-    const metricsQueryClient = new MetricsQueryClient(credential);
-    // @ts-preserve-whitespace
-    // Create a MetricsClient
-    const endpoint = " https://<endpoint>.monitor.azure.com/";
-    const metricsClient = new MetricsClient(endpoint, credential);
   });
 
   it("ReadmeSampleCreateClientSovereign", async () => {
@@ -36,18 +37,64 @@ describe("snippets", () => {
       endpoint: "https://api.loganalytics.azure.cn/v1",
       audience: "https://api.loganalytics.azure.cn/.default",
     });
-    // @ts-preserve-whitespace
-    // Create a MetricsQueryClient
-    const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential, {
-      endpoint: "https://management.chinacloudapi.cn",
-      audience: "https://monitor.azure.cn/.default",
-    });
-    // @ts-preserve-whitespace
-    // Create a MetricsClient
-    const endpoint = " https://<endpoint>.monitor.azure.cn/";
-    const metricsClient = new MetricsClient(endpoint, credential, {
-      audience: "https://monitor.azure.cn/.default",
-    });
+  });
+
+  it("ReadmeSampleProcessTables", async () => {
+    function processTables(tablesFromResult) {
+      for (const table of tablesFromResult) {
+        const columnHeaderString = table.columnDescriptors
+          .map((column) => `${column.name}(${column.type}) `)
+          .join("| ");
+        console.log("| " + columnHeaderString);
+
+        for (const row of table.rows) {
+          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+          console.log("| " + columnValuesString);
+        }
+      }
+    }
+  });
+
+  it("ReadmeSampleProcessBatchResult", async () => {
+    async function processBatchResult(result, queriesBatch) {
+      let i = 0;
+      for (const response of result) {
+        console.log(`Results for query with query: ${queriesBatch[i]}`);
+        if (response.status === LogsQueryResultStatus.Success) {
+          console.log(
+            `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+          );
+          processTables(response.tables);
+        } else if (response.status === LogsQueryResultStatus.PartialFailure) {
+          console.log(
+            `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+          );
+          processTables(response.partialTables);
+          console.log(
+            ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
+          );
+        } else {
+          console.log(`Printing errors from query '${queriesBatch[i].query}'`);
+          console.log(` Query had errors:${response.message} with code ${response.code}`);
+        }
+        // next query
+        i++;
+      }
+    }
+
+    function processTables(tablesFromResult) {
+      for (const table of tablesFromResult) {
+        const columnHeaderString = table.columnDescriptors
+          .map((column) => `${column.name}(${column.type}) `)
+          .join("| ");
+        console.log("| " + columnHeaderString);
+
+        for (const row of table.rows) {
+          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+          console.log("| " + columnValuesString);
+        }
+      }
+    }
   });
 
   it("ReadmeSampleLogsQuery", async () => {
@@ -73,20 +120,6 @@ describe("snippets", () => {
       if (result.partialTables.length > 0) {
         console.log(`This query has also returned partial data in the following table(s) - `);
         processTables(result.partialTables);
-      }
-    }
-    // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
       }
     }
   });
@@ -137,36 +170,6 @@ describe("snippets", () => {
       if (result.partialTables.length > 0) {
         console.log(`This query has also returned partial data in the following table(s) - `);
         processTables(result.partialTables);
-      }
-    }
-    // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
-      }
-    }
-  });
-
-  it("ReadmeSampleProcessTables", async () => {
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
       }
     }
   });
@@ -231,62 +234,6 @@ describe("snippets", () => {
       }
       // next query
       i++;
-    }
-    // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
-      }
-    }
-  });
-
-  it("ReadmeSampleProcessBatchResult", async () => {
-    async function processBatchResult(result, queriesBatch) {
-      let i = 0;
-      for (const response of result) {
-        console.log(`Results for query with query: ${queriesBatch[i]}`);
-        if (response.status === LogsQueryResultStatus.Success) {
-          console.log(
-            `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
-          );
-          processTables(response.tables);
-        } else if (response.status === LogsQueryResultStatus.PartialFailure) {
-          console.log(
-            `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
-          );
-          processTables(response.partialTables);
-          console.log(
-            ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
-          );
-        } else {
-          console.log(`Printing errors from query '${queriesBatch[i].query}'`);
-          console.log(` Query had errors:${response.message} with code ${response.code}`);
-        }
-        // next query
-        i++;
-      }
-    }
-    // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
-      }
     }
   });
 
@@ -380,124 +327,6 @@ describe("snippets", () => {
     console.log("visualization result:", result.visualization);
   });
 
-  it("MetricQueryClientListMetricDefinitions", async () => {
-    const metricsResourceId = "<the Resource Id for your metrics resource>";
-    // @ts-preserve-whitespace
-    const tokenCredential = new DefaultAzureCredential();
-    const metricsQueryClient = new MetricsQueryClient(tokenCredential);
-    // @ts-preserve-whitespace
-    const metricDefinitions = metricsQueryClient.listMetricDefinitions(metricsResourceId);
-    for await (const { id, name } of metricDefinitions) {
-      console.log(` metricDefinitions - ${id}, ${name}`);
-    }
-  });
-
-  it("MetricQueryClientListMetricNamespaces", async () => {
-    const metricsResourceId = "<the Resource Id for your metrics resource>";
-    // @ts-preserve-whitespace
-    const tokenCredential = new DefaultAzureCredential();
-    const metricsQueryClient = new MetricsQueryClient(tokenCredential);
-    // @ts-preserve-whitespace
-    const metricNamespaces = metricsQueryClient.listMetricNamespaces(metricsResourceId);
-    for await (const { id, name } of metricNamespaces) {
-      console.log(` metricNamespaces - ${id}, ${name}`);
-    }
-  });
-
-  it("ReadmeSampleMetricsQuery", async () => {
-    const metricsResourceId = "<the Resource Id for your metrics resource>";
-    // @ts-preserve-whitespace
-    const tokenCredential = new DefaultAzureCredential();
-    const metricsQueryClient = new MetricsQueryClient(tokenCredential);
-    // @ts-preserve-whitespace
-    const metricNames = [];
-    const metricDefinitions = metricsQueryClient.listMetricDefinitions(metricsResourceId);
-    for await (const { id, name } of metricDefinitions) {
-      console.log(` metricDefinitions - ${id}, ${name}`);
-      if (name) {
-        metricNames.push(name);
-      }
-    }
-    // @ts-preserve-whitespace
-    const [firstMetricName, secondMetricName] = metricNames;
-    if (firstMetricName && secondMetricName) {
-      console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
-      const metricsResponse = await metricsQueryClient.queryResource(
-        metricsResourceId,
-        [firstMetricName, secondMetricName],
-        {
-          granularity: "PT1M",
-          timespan: { duration: Durations.fiveMinutes },
-        },
-      );
-      // @ts-preserve-whitespace
-      console.log(
-        `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
-      );
-      // @ts-preserve-whitespace
-      const metrics = metricsResponse.metrics;
-      console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
-      const metric = metricsResponse.getMetricByName(firstMetricName);
-      console.log(`Selected Metric: ${firstMetricName}`, JSON.stringify(metric, undefined, 2));
-    } else {
-      console.error(`Metric names are not defined - ${firstMetricName} and ${secondMetricName}`);
-    }
-  });
-
-  it("ReadmeSampleProcessMetricsResponse", async () => {
-    const metricsResourceId = "<the Resource Id for your metrics resource>";
-    // @ts-preserve-whitespace
-    const tokenCredential = new DefaultAzureCredential();
-    const metricsQueryClient = new MetricsQueryClient(tokenCredential);
-    // @ts-preserve-whitespace
-    console.log(`Picking an example metric to query: MatchedEventCount`);
-    // @ts-preserve-whitespace
-    const metricsResponse = await metricsQueryClient.queryResource(
-      metricsResourceId,
-      ["MatchedEventCount"],
-      {
-        timespan: {
-          duration: Durations.fiveMinutes,
-        },
-        granularity: "PT1M",
-        aggregations: ["Count"],
-      },
-    );
-    // @ts-preserve-whitespace
-    console.log(
-      `Query cost: ${metricsResponse.cost}, granularity: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
-    );
-    // @ts-preserve-whitespace
-    const metrics = metricsResponse.metrics;
-    for (const metric of metrics) {
-      console.log(metric.name);
-      for (const timeseriesElement of metric.timeseries) {
-        for (const metricValue of timeseriesElement.data!) {
-          if (metricValue.count !== 0) {
-            console.log(
-              `There are ${metricValue.count} matched events at ${metricValue.timeStamp}`,
-            );
-          }
-        }
-      }
-    }
-  });
-
-  it("ReadmeSampleMetricsQueryMultipleResources", async () => {
-    const resourceIds = [
-      "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs",
-      "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs2",
-    ];
-    const metricsNamespace = "<YOUR_METRICS_NAMESPACE>";
-    const metricNames = ["requests", "count"];
-    const endpoint = " https://<endpoint>.monitor.azure.com/";
-    // @ts-preserve-whitespace
-    const credential = new DefaultAzureCredential();
-    const metricsClient = new MetricsClient(endpoint, credential);
-    // @ts-preserve-whitespace
-    const result = await metricsClient.queryResources(resourceIds, metricNames, metricsNamespace);
-  });
-
   it("TroubleShootingProcessServerTimeout", async () => {
     const monitorWorkspaceId = "<workspace_id>";
     const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
@@ -538,20 +367,41 @@ describe("snippets", () => {
         processTables(result.partialTables);
       }
     }
+  });
+
+  it("TroubleShootingProcessPartialResult", async () => {
+    const azureLogAnalyticsWorkspaceId = "<workspace_id>";
+    const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
     // @ts-preserve-whitespace
-    function processTables(tablesFromResult) {
-      for (const table of tablesFromResult) {
-        const columnHeaderString = table.columnDescriptors
-          .map((column) => `${column.name}(${column.type}) `)
-          .join("| ");
-        console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
-        for (const row of table.rows) {
-          const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
-          console.log("| " + columnValuesString);
-        }
+    const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
+    const result = await logsQueryClient.queryWorkspace(azureLogAnalyticsWorkspaceId, kustoQuery, {
+      duration: Durations.twentyFourHours,
+    });
+    // @ts-preserve-whitespace
+    if (result.status === LogsQueryResultStatus.Success) {
+      const tablesFromResult = result.tables;
+      // @ts-preserve-whitespace
+      if (tablesFromResult.length === 0) {
+        console.log(`No results for query '${kustoQuery}'`);
+        return;
+      }
+      console.log(`This query has returned table(s) - `);
+      processTables(tablesFromResult);
+    } else {
+      console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+      if (result.partialTables.length > 0) {
+        console.log(`This query has also returned partial data in the following table(s) - `);
+        processTables(result.partialTables);
       }
     }
+  });
+
+  it("DotEnvSample", async () => {
+    config({ path: ".env" });
+  });
+
+  it("SetLogLevel", async () => {
+    setLogLevel("info");
   });
 
   it("TroubleShootingProcessBatchResult", async () => {
@@ -580,14 +430,14 @@ describe("snippets", () => {
         i++;
       }
     }
-    // @ts-preserve-whitespace
+
     function processTables(tablesFromResult) {
       for (const table of tablesFromResult) {
         const columnHeaderString = table.columnDescriptors
           .map((column) => `${column.name}(${column.type}) `)
           .join("| ");
         console.log("| " + columnHeaderString);
-        // @ts-preserve-whitespace
+
         for (const row of table.rows) {
           const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
           console.log("| " + columnValuesString);

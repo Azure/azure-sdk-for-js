@@ -43,3 +43,5 @@ extends:
         safeName: azuremonitorquery
       - name: azure-monitor-ingestion
         safeName: azuremonitoringestion
+      - name: azure-monitor-query-logs
+        safeName: azuremonitorquerylogs
