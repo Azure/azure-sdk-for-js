@@ -1011,9 +1011,9 @@ export enum KnownRelationshipStatus {
 
 // @public
 export enum KnownReplicationSchedule {
+    "10Minutely" = "_10minutely",
     Daily = "daily",
-    Hourly = "hourly",
-    TenMinutely = "_10minutely"
+    Hourly = "hourly"
 }
 
 // @public
