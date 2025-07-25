@@ -1592,11 +1592,7 @@ export type AgentsResponseFormatOption =
   | ResponseFormatJsonSchemaType;
 
 export function agentsResponseFormatOptionSerializer(item: AgentsResponseFormatOption): any {
-  if (typeof item === "string") {
-    return item;
-  }
-
-  if (item.type === "json_schema") {
+  if (typeof item === "object" && item.type === "json_schema") {
     return responseFormatJsonSchemaTypeSerializer(item);
   }
 
@@ -1604,11 +1600,7 @@ export function agentsResponseFormatOptionSerializer(item: AgentsResponseFormatO
 }
 
 export function agentsResponseFormatOptionDeserializer(item: any): AgentsResponseFormatOption {
-  if (typeof item === "string") {
-    return item;
-  }
-
-  if (item.type === "json_schema") {
+  if (typeof item === "object" && item.type === "json_schema") {
     return responseFormatJsonSchemaTypeDeserializer(item);
   }
 
