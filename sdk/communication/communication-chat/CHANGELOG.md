@@ -4,7 +4,8 @@
 
 ### Bugs Fixed
 
-- Include TeamsExtensionUserIdentifierModel and PhoneNumberIdentifierModel.
+- Fixed missing support for `TeamsExtensionUserIdentifierModel`.
+- Updated serialization logic for `PhoneNumberIdentifierModel`.
 
 ## 1.6.0 (2025-06-23)
 
