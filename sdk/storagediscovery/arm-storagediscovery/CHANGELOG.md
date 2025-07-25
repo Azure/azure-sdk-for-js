@@ -4,4 +4,4 @@
 
 ### Features Added
 
-Initial release of @azure/arm-storagediscovery package
+Initial release of the @azure/arm-storagediscovery package
