@@ -1600,7 +1600,7 @@ export function agentsResponseFormatOptionSerializer(item: AgentsResponseFormatO
     return responseFormatJsonSchemaTypeSerializer(item);
   }
 
-  return item
+  return item;
 }
 
 export function agentsResponseFormatOptionDeserializer(item: any): AgentsResponseFormatOption {
