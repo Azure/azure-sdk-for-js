@@ -817,6 +817,9 @@ importers:
       '@rush-temp/arm-storagecache':
         specifier: file:./projects/arm-storagecache.tgz
         version: file:projects/arm-storagecache.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/arm-storagediscovery':
+        specifier: file:./projects/arm-storagediscovery.tgz
+        version: file:projects/arm-storagediscovery.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-storageimportexport':
         specifier: file:./projects/arm-storageimportexport.tgz
         version: file:projects/arm-storageimportexport.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -3572,6 +3575,10 @@ packages:
 
   '@rush-temp/arm-storagecache@file:projects/arm-storagecache.tgz':
     resolution: {integrity: sha512-aBstDQZ0i/sIt31WfZYLG/9sC4eIgcxF1WwySxJn46VLYBmkKMtgM3BXWQ3ZB50uyFK1soW84kT5jKanDIjCVg==, tarball: file:projects/arm-storagecache.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-storagediscovery@file:projects/arm-storagediscovery.tgz':
+    resolution: {integrity: sha512-iL1xnoblx3+4vz+mT7udBWz8aB/f1YPk7lCiFYnKIlHH+0A8lY9sg834z0U9lZmOL6Mzj7WFgxyH/fUDNqnNfw==, tarball: file:projects/arm-storagediscovery.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storageimportexport@file:projects/arm-storageimportexport.tgz':
@@ -18599,6 +18606,42 @@ snapshots:
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
+      playwright: 1.53.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-storagediscovery@file:projects/arm-storagediscovery.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@azure/identity': 4.10.2
+      '@types/node': 20.19.1
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.5.0
+      eslint: 9.29.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
