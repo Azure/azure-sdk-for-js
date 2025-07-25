@@ -11,8 +11,8 @@ import {
   StorageDiscoveryWorkspacesOperations,
   _getStorageDiscoveryWorkspacesOperations,
 } from "./classic/storageDiscoveryWorkspaces/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { StorageDiscoveryClientOptionalParams } from "./api/storageDiscoveryContext.js";
 

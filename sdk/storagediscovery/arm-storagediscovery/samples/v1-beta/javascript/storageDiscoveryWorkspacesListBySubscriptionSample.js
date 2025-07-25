@@ -15,7 +15,9 @@ async function listStorageDiscoveryWorkspacesBySubscription() {
   const subscriptionId = "b79cb3ba-745e-5d9a-8903-4a02327a7e09";
   const client = new StorageDiscoveryClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.storageDiscoveryWorkspaces.listBySubscription()) {
+  for await (const item of client.storageDiscoveryWorkspaces.listBySubscription(
+    "2025-06-01-preview",
+  )) {
     resArray.push(item);
   }
 

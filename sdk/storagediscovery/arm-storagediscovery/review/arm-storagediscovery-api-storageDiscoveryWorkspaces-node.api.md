@@ -8,19 +8,19 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function $delete(context: StorageDiscoveryContext, resourceGroupName: string, storageDiscoveryWorkspaceName: string, options?: StorageDiscoveryWorkspacesDeleteOptionalParams): Promise<void>;
+export function $delete(context: StorageDiscoveryContext, apiVersion: string, resourceGroupName: string, storageDiscoveryWorkspaceName: string, options?: StorageDiscoveryWorkspacesDeleteOptionalParams): Promise<void>;
 
 // @public
-export function createOrUpdate(context: StorageDiscoveryContext, resourceGroupName: string, storageDiscoveryWorkspaceName: string, resource: StorageDiscoveryWorkspace, options?: StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams): Promise<StorageDiscoveryWorkspace>;
+export function createOrUpdate(context: StorageDiscoveryContext, apiVersion: string, resourceGroupName: string, storageDiscoveryWorkspaceName: string, resource: StorageDiscoveryWorkspace, options?: StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams): Promise<StorageDiscoveryWorkspace>;
 
 // @public
-export function get(context: StorageDiscoveryContext, resourceGroupName: string, storageDiscoveryWorkspaceName: string, options?: StorageDiscoveryWorkspacesGetOptionalParams): Promise<StorageDiscoveryWorkspace>;
+export function get(context: StorageDiscoveryContext, apiVersion: string, resourceGroupName: string, storageDiscoveryWorkspaceName: string, options?: StorageDiscoveryWorkspacesGetOptionalParams): Promise<StorageDiscoveryWorkspace>;
 
 // @public
-export function listByResourceGroup(context: StorageDiscoveryContext, resourceGroupName: string, options?: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
+export function listByResourceGroup(context: StorageDiscoveryContext, apiVersion: string, resourceGroupName: string, options?: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
 
 // @public
-export function listBySubscription(context: StorageDiscoveryContext, options?: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
+export function listBySubscription(context: StorageDiscoveryContext, apiVersion: string, options?: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
 
 // @public
 export interface StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -47,7 +47,7 @@ export interface StorageDiscoveryWorkspacesUpdateOptionalParams extends Operatio
 }
 
 // @public
-export function update(context: StorageDiscoveryContext, resourceGroupName: string, storageDiscoveryWorkspaceName: string, properties: StorageDiscoveryWorkspaceUpdate, options?: StorageDiscoveryWorkspacesUpdateOptionalParams): Promise<StorageDiscoveryWorkspace>;
+export function update(context: StorageDiscoveryContext, apiVersion: string, resourceGroupName: string, storageDiscoveryWorkspaceName: string, properties: StorageDiscoveryWorkspaceUpdate, options?: StorageDiscoveryWorkspacesUpdateOptionalParams): Promise<StorageDiscoveryWorkspace>;
 
 // (No @packageDocumentation comment for this package)
 

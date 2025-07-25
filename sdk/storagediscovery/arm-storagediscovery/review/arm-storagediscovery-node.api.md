@@ -13,6 +13,16 @@ import { TokenCredential } from '@azure/core-auth';
 export type ActionType = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -107,7 +117,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 
 // @public
 export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+    list: (apiVersion: string, options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -146,7 +156,7 @@ export class StorageDiscoveryClient {
 
 // @public
 export interface StorageDiscoveryClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -207,12 +217,12 @@ export interface StorageDiscoveryWorkspacesListBySubscriptionOptionalParams exte
 
 // @public
 export interface StorageDiscoveryWorkspacesOperations {
-    createOrUpdate: (resourceGroupName: string, storageDiscoveryWorkspaceName: string, resource: StorageDiscoveryWorkspace, options?: StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams) => Promise<StorageDiscoveryWorkspace>;
-    delete: (resourceGroupName: string, storageDiscoveryWorkspaceName: string, options?: StorageDiscoveryWorkspacesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, storageDiscoveryWorkspaceName: string, options?: StorageDiscoveryWorkspacesGetOptionalParams) => Promise<StorageDiscoveryWorkspace>;
-    listByResourceGroup: (resourceGroupName: string, options?: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
-    listBySubscription: (options?: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
-    update: (resourceGroupName: string, storageDiscoveryWorkspaceName: string, properties: StorageDiscoveryWorkspaceUpdate, options?: StorageDiscoveryWorkspacesUpdateOptionalParams) => Promise<StorageDiscoveryWorkspace>;
+    createOrUpdate: (apiVersion: string, resourceGroupName: string, storageDiscoveryWorkspaceName: string, resource: StorageDiscoveryWorkspace, options?: StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams) => Promise<StorageDiscoveryWorkspace>;
+    delete: (apiVersion: string, resourceGroupName: string, storageDiscoveryWorkspaceName: string, options?: StorageDiscoveryWorkspacesDeleteOptionalParams) => Promise<void>;
+    get: (apiVersion: string, resourceGroupName: string, storageDiscoveryWorkspaceName: string, options?: StorageDiscoveryWorkspacesGetOptionalParams) => Promise<StorageDiscoveryWorkspace>;
+    listByResourceGroup: (apiVersion: string, resourceGroupName: string, options?: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
+    listBySubscription: (apiVersion: string, options?: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
+    update: (apiVersion: string, resourceGroupName: string, storageDiscoveryWorkspaceName: string, properties: StorageDiscoveryWorkspaceUpdate, options?: StorageDiscoveryWorkspacesUpdateOptionalParams) => Promise<StorageDiscoveryWorkspace>;
 }
 
 // @public

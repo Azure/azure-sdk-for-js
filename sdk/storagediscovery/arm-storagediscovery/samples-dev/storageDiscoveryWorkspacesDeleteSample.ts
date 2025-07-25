@@ -14,7 +14,11 @@ async function deleteAStorageDiscoveryWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "b79cb3ba-745e-5d9a-8903-4a02327a7e09";
   const client = new StorageDiscoveryClient(credential, subscriptionId);
-  await client.storageDiscoveryWorkspaces.delete("sample-rg", "sampleworkspace");
+  await client.storageDiscoveryWorkspaces.delete(
+    "2025-06-01-preview",
+    "sample-rg",
+    "sampleworkspace",
+  );
 }
 
 async function main(): Promise<void> {

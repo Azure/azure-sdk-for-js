@@ -15,6 +15,7 @@ async function getAStorageDiscoveryWorkspace() {
   const subscriptionId = "b79cb3ba-745e-5d9a-8903-4a02327a7e09";
   const client = new StorageDiscoveryClient(credential, subscriptionId);
   const result = await client.storageDiscoveryWorkspaces.get(
+    "2025-06-01-preview",
     "sample-rg",
     "Sample-Storage-Workspace",
   );

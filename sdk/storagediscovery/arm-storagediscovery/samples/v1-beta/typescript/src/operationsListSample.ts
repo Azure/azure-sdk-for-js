@@ -15,7 +15,7 @@ async function listAllProviderOperations(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new StorageDiscoveryClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.operations.list()) {
+  for await (const item of client.operations.list("2025-06-01-preview")) {
     resArray.push(item);
   }
 

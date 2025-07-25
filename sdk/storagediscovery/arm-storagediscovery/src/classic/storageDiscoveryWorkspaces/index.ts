@@ -2,15 +2,6 @@
 // Licensed under the MIT License.
 
 import { StorageDiscoveryContext } from "../../api/storageDiscoveryContext.js";
-import { StorageDiscoveryWorkspace, StorageDiscoveryWorkspaceUpdate } from "../../models/models.js";
-import {
-  StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
-  StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
-  StorageDiscoveryWorkspacesDeleteOptionalParams,
-  StorageDiscoveryWorkspacesUpdateOptionalParams,
-  StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
-  StorageDiscoveryWorkspacesGetOptionalParams,
-} from "../../api/storageDiscoveryWorkspaces/options.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,16 +10,27 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageDiscoveryWorkspaces/operations.js";
+import {
+  StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
+  StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
+  StorageDiscoveryWorkspacesDeleteOptionalParams,
+  StorageDiscoveryWorkspacesUpdateOptionalParams,
+  StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
+  StorageDiscoveryWorkspacesGetOptionalParams,
+} from "../../api/storageDiscoveryWorkspaces/options.js";
+import { StorageDiscoveryWorkspace, StorageDiscoveryWorkspaceUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StorageDiscoveryWorkspaces operations. */
 export interface StorageDiscoveryWorkspacesOperations {
   /** List StorageDiscoveryWorkspace resources by subscription ID */
   listBySubscription: (
+    apiVersion: string,
     options?: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
   /** List StorageDiscoveryWorkspace resources by resource group */
   listByResourceGroup: (
+    apiVersion: string,
     resourceGroupName: string,
     options?: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<StorageDiscoveryWorkspace>;
@@ -39,12 +41,14 @@ export interface StorageDiscoveryWorkspacesOperations {
    *         to the operation to override the generated name.
    */
   delete: (
+    apiVersion: string,
     resourceGroupName: string,
     storageDiscoveryWorkspaceName: string,
     options?: StorageDiscoveryWorkspacesDeleteOptionalParams,
   ) => Promise<void>;
   /** Update a StorageDiscoveryWorkspace */
   update: (
+    apiVersion: string,
     resourceGroupName: string,
     storageDiscoveryWorkspaceName: string,
     properties: StorageDiscoveryWorkspaceUpdate,
@@ -52,6 +56,7 @@ export interface StorageDiscoveryWorkspacesOperations {
   ) => Promise<StorageDiscoveryWorkspace>;
   /** Create a StorageDiscoveryWorkspace */
   createOrUpdate: (
+    apiVersion: string,
     resourceGroupName: string,
     storageDiscoveryWorkspaceName: string,
     resource: StorageDiscoveryWorkspace,
@@ -59,6 +64,7 @@ export interface StorageDiscoveryWorkspacesOperations {
   ) => Promise<StorageDiscoveryWorkspace>;
   /** Get a StorageDiscoveryWorkspace */
   get: (
+    apiVersion: string,
     resourceGroupName: string,
     storageDiscoveryWorkspaceName: string,
     options?: StorageDiscoveryWorkspacesGetOptionalParams,
@@ -67,35 +73,57 @@ export interface StorageDiscoveryWorkspacesOperations {
 
 function _getStorageDiscoveryWorkspaces(context: StorageDiscoveryContext) {
   return {
-    listBySubscription: (options?: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    listBySubscription: (
+      apiVersion: string,
+      options?: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, apiVersion, options),
     listByResourceGroup: (
+      apiVersion: string,
       resourceGroupName: string,
       options?: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, resourceGroupName, options),
+    ) => listByResourceGroup(context, apiVersion, resourceGroupName, options),
     delete: (
+      apiVersion: string,
       resourceGroupName: string,
       storageDiscoveryWorkspaceName: string,
       options?: StorageDiscoveryWorkspacesDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, storageDiscoveryWorkspaceName, options),
+    ) => $delete(context, apiVersion, resourceGroupName, storageDiscoveryWorkspaceName, options),
     update: (
+      apiVersion: string,
       resourceGroupName: string,
       storageDiscoveryWorkspaceName: string,
       properties: StorageDiscoveryWorkspaceUpdate,
       options?: StorageDiscoveryWorkspacesUpdateOptionalParams,
-    ) => update(context, resourceGroupName, storageDiscoveryWorkspaceName, properties, options),
+    ) =>
+      update(
+        context,
+        apiVersion,
+        resourceGroupName,
+        storageDiscoveryWorkspaceName,
+        properties,
+        options,
+      ),
     createOrUpdate: (
+      apiVersion: string,
       resourceGroupName: string,
       storageDiscoveryWorkspaceName: string,
       resource: StorageDiscoveryWorkspace,
       options?: StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
     ) =>
-      createOrUpdate(context, resourceGroupName, storageDiscoveryWorkspaceName, resource, options),
+      createOrUpdate(
+        context,
+        apiVersion,
+        resourceGroupName,
+        storageDiscoveryWorkspaceName,
+        resource,
+        options,
+      ),
     get: (
+      apiVersion: string,
       resourceGroupName: string,
       storageDiscoveryWorkspaceName: string,
       options?: StorageDiscoveryWorkspacesGetOptionalParams,
-    ) => get(context, resourceGroupName, storageDiscoveryWorkspaceName, options),
+    ) => get(context, apiVersion, resourceGroupName, storageDiscoveryWorkspaceName, options),
   };
 }
 

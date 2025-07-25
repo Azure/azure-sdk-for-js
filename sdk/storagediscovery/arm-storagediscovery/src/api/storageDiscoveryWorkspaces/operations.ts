@@ -13,6 +13,11 @@ import {
   _storageDiscoveryWorkspaceListResultDeserializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
   StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
   StorageDiscoveryWorkspacesDeleteOptionalParams,
@@ -20,11 +25,6 @@ import {
   StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
   StorageDiscoveryWorkspacesGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -34,6 +34,7 @@ import {
 
 export function _listBySubscriptionSend(
   context: Client,
+  apiVersion: string,
   options: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
@@ -42,7 +43,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.StorageDiscovery/storageDiscoveryWorkspaces{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -73,13 +74,14 @@ export async function _listBySubscriptionDeserialize(
 /** List StorageDiscoveryWorkspace resources by subscription ID */
 export function listBySubscription(
   context: Client,
+  apiVersion: string,
   options: StorageDiscoveryWorkspacesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<StorageDiscoveryWorkspace> {
   return buildPagedAsyncIterator(
     context,
-    () => _listBySubscriptionSend(context, options),
+    () => _listBySubscriptionSend(context, apiVersion, options),
     _listBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -88,6 +90,7 @@ export function listBySubscription(
 
 export function _listByResourceGroupSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   options: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams = {
     requestOptions: {},
@@ -98,7 +101,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -129,6 +132,7 @@ export async function _listByResourceGroupDeserialize(
 /** List StorageDiscoveryWorkspace resources by resource group */
 export function listByResourceGroup(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   options: StorageDiscoveryWorkspacesListByResourceGroupOptionalParams = {
     requestOptions: {},
@@ -136,7 +140,7 @@ export function listByResourceGroup(
 ): PagedAsyncIterableIterator<StorageDiscoveryWorkspace> {
   return buildPagedAsyncIterator(
     context,
-    () => _listByResourceGroupSend(context, resourceGroupName, options),
+    () => _listByResourceGroupSend(context, apiVersion, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -145,6 +149,7 @@ export function listByResourceGroup(
 
 export function _$deleteSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   options: StorageDiscoveryWorkspacesDeleteOptionalParams = {
@@ -157,7 +162,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageDiscoveryWorkspaceName: storageDiscoveryWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -191,6 +196,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  */
 export async function $delete(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   options: StorageDiscoveryWorkspacesDeleteOptionalParams = {
@@ -199,6 +205,7 @@ export async function $delete(
 ): Promise<void> {
   const result = await _$deleteSend(
     context,
+    apiVersion,
     resourceGroupName,
     storageDiscoveryWorkspaceName,
     options,
@@ -208,6 +215,7 @@ export async function $delete(
 
 export function _updateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   properties: StorageDiscoveryWorkspaceUpdate,
@@ -221,7 +229,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageDiscoveryWorkspaceName: storageDiscoveryWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -254,6 +262,7 @@ export async function _updateDeserialize(
 /** Update a StorageDiscoveryWorkspace */
 export async function update(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   properties: StorageDiscoveryWorkspaceUpdate,
@@ -263,6 +272,7 @@ export async function update(
 ): Promise<StorageDiscoveryWorkspace> {
   const result = await _updateSend(
     context,
+    apiVersion,
     resourceGroupName,
     storageDiscoveryWorkspaceName,
     properties,
@@ -273,6 +283,7 @@ export async function update(
 
 export function _createOrUpdateSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   resource: StorageDiscoveryWorkspace,
@@ -286,7 +297,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageDiscoveryWorkspaceName: storageDiscoveryWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -319,6 +330,7 @@ export async function _createOrUpdateDeserialize(
 /** Create a StorageDiscoveryWorkspace */
 export async function createOrUpdate(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   resource: StorageDiscoveryWorkspace,
@@ -328,6 +340,7 @@ export async function createOrUpdate(
 ): Promise<StorageDiscoveryWorkspace> {
   const result = await _createOrUpdateSend(
     context,
+    apiVersion,
     resourceGroupName,
     storageDiscoveryWorkspaceName,
     resource,
@@ -338,6 +351,7 @@ export async function createOrUpdate(
 
 export function _getSend(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   options: StorageDiscoveryWorkspacesGetOptionalParams = { requestOptions: {} },
@@ -348,7 +362,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageDiscoveryWorkspaceName: storageDiscoveryWorkspaceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -379,10 +393,17 @@ export async function _getDeserialize(
 /** Get a StorageDiscoveryWorkspace */
 export async function get(
   context: Client,
+  apiVersion: string,
   resourceGroupName: string,
   storageDiscoveryWorkspaceName: string,
   options: StorageDiscoveryWorkspacesGetOptionalParams = { requestOptions: {} },
 ): Promise<StorageDiscoveryWorkspace> {
-  const result = await _getSend(context, resourceGroupName, storageDiscoveryWorkspaceName, options);
+  const result = await _getSend(
+    context,
+    apiVersion,
+    resourceGroupName,
+    storageDiscoveryWorkspaceName,
+    options,
+  );
   return _getDeserialize(result);
 }
