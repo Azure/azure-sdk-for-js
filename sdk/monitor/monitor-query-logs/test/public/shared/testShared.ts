@@ -17,9 +17,7 @@ const replacementForLogsResourceId = env["LOGS_RESOURCE_ID"]?.startsWith("/")
 
 const envSetupForPlayback: Record<string, string> = {
   MONITOR_WORKSPACE_ID: "workspace-id",
-  METRICS_RESOURCE_ID: "metrics-arm-resource-id",
   LOGS_RESOURCE_ID: replacementForLogsResourceId,
-  MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -88,28 +86,6 @@ export async function createRecorderAndLogsClient(
 
 export function getMonitorWorkspaceId(): string {
   return assertEnvironmentVariable("MONITOR_WORKSPACE_ID");
-}
-
-export function getMetricsArmResourceId(): string {
-  return assertEnvironmentVariable("METRICS_RESOURCE_ID");
-}
-
-export function getLogsArmResourceId(): string {
-  return assertEnvironmentVariable("LOGS_RESOURCE_ID");
-}
-export function getAppInsightsConnectionString(): string {
-  let appInsightsConnectionString = assertEnvironmentVariable(
-    "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING",
-  );
-
-  // TODO: this is a workaround for now - adding in an endpoint causes the Monitor endpoint to return a 308 (ie: permanent redirect)
-  // Removing for now until we get fix the exporter.
-  appInsightsConnectionString = appInsightsConnectionString.replace(
-    /IngestionEndpoint=.+?(;|$)/,
-    "",
-  );
-
-  return appInsightsConnectionString;
 }
 
 export function printLogQueryTables(tables: LogsTable[]): void {

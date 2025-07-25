@@ -174,11 +174,7 @@ const result = await logsQueryClient.queryResource(
   queryLogsOptions,
 );
 
-const executionTime = (result as any)?.statistics?.query?.executionTime;
-
-console.log(
-  `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
-);
+console.log(`Results for query '${kustoQuery}'`);
 
 if (result.status === LogsQueryResultStatus.Success) {
   const tablesFromResult = result.tables;
@@ -525,11 +521,7 @@ const result = await logsQueryClient.queryWorkspace(
   },
 );
 
-const executionTime = (result as any)?.statistics?.query?.executionTime;
-
-console.log(
-  `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
-);
+console.log(`Results for query '${kustoQuery}'`);
 ```
 
 Because the structure of the `statistics` payload varies by query, a `Record<string, unknown>` return type is used. It contains the raw JSON response. The statistics are found within the `query` property of the JSON. For example:
@@ -634,7 +626,6 @@ For more details, view our [tests](https://github.com/Azure/azure-sdk-for-js/blo
 [azure_subscription]: https://azure.microsoft.com/free/
 [changelog]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/CHANGELOG.md
 [kusto_query_language]: https://learn.microsoft.com/azure/data-explorer/kusto/query/
-[metric_namespaces]: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/metrics-index#supported-metrics-and-log-categories-by-resource-type
 [msdocs_apiref]: https://learn.microsoft.com/javascript/api/@azure/monitor-query
 [package]: https://www.npmjs.com/package/@azure/monitor-query-logs
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/samples
