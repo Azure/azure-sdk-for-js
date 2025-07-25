@@ -3,6 +3,7 @@
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { delay } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type {
   AgentsClient,
   DeepResearchToolDefinition,
@@ -17,22 +18,8 @@ import { assert, beforeEach, afterEach, it, describe } from "vitest";
 describe("Agents - Deep Research", () => {
   let recorder: Recorder;
   let projectsClient: AgentsClient;
-  const bingConnectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-id>";
-  const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
-  const deepResearchModelDeploymentName =
-    process.env["DEEP_RESEARCH_MODEL_DEPLOYMENT_NAME"] || "o3-deep-research";
-  // Create Deep Research tool definition
-  const deepResearchTool: DeepResearchToolDefinition = {
-    type: "deep_research",
-    deepResearch: {
-      model: deepResearchModelDeploymentName,
-      bingGroundingConnections: [
-        {
-          connectionId: bingConnectionId,
-        },
-      ],
-    },
-  };
+  const modelDeploymentName = "gpt-4o";
+  const deepResearchModelDeploymentName = "o3-deep-research";
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
@@ -44,11 +31,25 @@ describe("Agents - Deep Research", () => {
   });
 
   it("client and projectsClient operations are accessible", async function () {
+    const bingConnectionId = assertEnvironmentVariable("AZURE_BING_CONNECTION_ID");
     assert.isNotNull(projectsClient);
     assert.notEqual(bingConnectionId, "<connection-id>");
   });
 
   it("should create agent with Deep Research tool", async function () {
+    // Create Deep Research tool definition
+    const bingConnectionId = assertEnvironmentVariable("AZURE_BING_CONNECTION_ID");
+    const deepResearchTool: DeepResearchToolDefinition = {
+      type: "deep_research",
+      deepResearch: {
+        model: deepResearchModelDeploymentName,
+        bingGroundingConnections: [
+          {
+            connectionId: bingConnectionId,
+          },
+        ],
+      },
+    };
     // Create agent with the Deep Research tool
     const agent = await projectsClient.createAgent(modelDeploymentName, {
       name: "test-deep-research-agent",
@@ -67,6 +68,19 @@ describe("Agents - Deep Research", () => {
   });
 
   it("should run Deep Research and get results", async function () {
+    // Create Deep Research tool definition
+    const bingConnectionId = assertEnvironmentVariable("AZURE_BING_CONNECTION_ID");
+    const deepResearchTool: DeepResearchToolDefinition = {
+      type: "deep_research",
+      deepResearch: {
+        model: deepResearchModelDeploymentName,
+        bingGroundingConnections: [
+          {
+            connectionId: bingConnectionId,
+          },
+        ],
+      },
+    };
     // Create agent with the Deep Research tool
     const agent = await projectsClient.createAgent(modelDeploymentName, {
       name: "test-deep-research-agent",

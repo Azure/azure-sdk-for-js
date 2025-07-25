@@ -8,6 +8,7 @@ import type {
   RequiredMcpToolCall,
   ToolApproval,
 } from "../../../src/index.js";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { ToolUtility, isOutputOfType } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
@@ -21,13 +22,6 @@ describe("Agents - MCP", () => {
   let projectsClient: AgentsClient;
   const modelDeploymentName = "gpt-4o";
   const searchApiCode = "search_azure_rest_api_code";
-  const mcpServerUrl = "https://gitmcp.io/Azure/azure-rest-api-specs";
-  const mcpServerLabel = "github";
-  const mcpTool = ToolUtility.createMCPTool({
-    serverLabel: mcpServerLabel,
-    serverUrl: mcpServerUrl,
-    allowedTools: [],
-  });
 
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
@@ -39,6 +33,13 @@ describe("Agents - MCP", () => {
   });
 
   it("client and projectsClient operations are accessible", async function () {
+    const mcpServerUrl = assertEnvironmentVariable("MCP_SERVER_URL");
+    const mcpServerLabel = assertEnvironmentVariable("MCP_SERVER_LABEL");
+    const mcpTool = ToolUtility.createMCPTool({
+      serverLabel: mcpServerLabel,
+      serverUrl: mcpServerUrl,
+      allowedTools: [],
+    });
     assert.isNotNull(projectsClient);
     assert.isNotNull(mcpTool);
     assert.equal(mcpTool.serverLabel, mcpServerLabel);
@@ -46,6 +47,13 @@ describe("Agents - MCP", () => {
   });
 
   it("should manage allowed tools dynamically", async function () {
+    const mcpServerUrl = assertEnvironmentVariable("MCP_SERVER_URL");
+    const mcpServerLabel = assertEnvironmentVariable("MCP_SERVER_LABEL");
+    const mcpTool = ToolUtility.createMCPTool({
+      serverLabel: mcpServerLabel,
+      serverUrl: mcpServerUrl,
+      allowedTools: [],
+    });
     // Initially no tools allowed
     assert.equal(mcpTool.allowedTools.length, 0);
 
@@ -61,13 +69,27 @@ describe("Agents - MCP", () => {
   });
 
   it("should update MCP tool headers", async function () {
+    const mcpServerUrl = assertEnvironmentVariable("MCP_SERVER_URL");
+    const mcpServerLabel = assertEnvironmentVariable("MCP_SERVER_LABEL");
+    const mcpTool = ToolUtility.createMCPTool({
+      serverLabel: mcpServerLabel,
+      serverUrl: mcpServerUrl,
+      allowedTools: [],
+    });
     // Update headers
-    mcpTool.updateHeaders("Authorization", "Bearer token123");
+    mcpTool.updateHeaders("SuperSecret", "123456");
     assert.isNotNull(mcpTool.headers);
-    assert.equal(mcpTool.headers["Authorization"], "Bearer token123");
+    assert.equal(mcpTool.headers["SuperSecret"], "123456");
   });
 
   it("should create and run thread with MCP agent", async function () {
+    const mcpServerUrl = assertEnvironmentVariable("MCP_SERVER_URL");
+    const mcpServerLabel = assertEnvironmentVariable("MCP_SERVER_LABEL");
+    const mcpTool = ToolUtility.createMCPTool({
+      serverLabel: mcpServerLabel,
+      serverUrl: mcpServerUrl,
+      allowedTools: [],
+    });
     mcpTool.allowTool(searchApiCode);
 
     // Create agent with MCP tool
