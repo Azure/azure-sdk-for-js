@@ -73,24 +73,46 @@ describe("snippets", () => {
     const result = await client.path("/app/transactions").post(ledgerEntry);
   });
 
+  it("ReadmeSamplePostLedgerEntryWithCollectionId", async () => {
+    const { ledgerIdentityCertificate } = await getLedgerIdentity(
+      "test-ledger-name",
+      "https://identity.confidential-ledger.core.azure.com",
+    );
+    const credential = new DefaultAzureCredential();
+    const client = ConfidentialLedger(
+      "https://test-ledger-name.confidential-ledger.azure.com",
+      ledgerIdentityCertificate,
+      credential,
+    );
+    // Type assertion is used to allow collectionId
+    const entry = {
+      contents: "<content>",
+      collectionId: "my-collection",
+    } as LedgerEntry & { collectionId: string };
+    const ledgerEntry: CreateLedgerEntryParameters = {
+      contentType: "application/json",
+      body: entry,
+    };
+    const result = await client.path("/app/transactions").post(ledgerEntry);
+  });
+
   it("ReadmeSamplePostLedgerEntryWithCollectionIdAndTags", async () => {
     const { ledgerIdentityCertificate } = await getLedgerIdentity(
       "test-ledger-name",
       "https://identity.confidential-ledger.core.azure.com",
     );
     const credential = new DefaultAzureCredential();
-    // @ts-preserve-whitespace
     const client = ConfidentialLedger(
       "https://test-ledger-name.confidential-ledger.azure.com",
       ledgerIdentityCertificate,
       credential,
     );
-    // @ts-preserve-whitespace
-    const entry: LedgerEntry = {
+    // Type assertion is used to allow collectionId and tags
+    const entry = {
       contents: "<content>",
-      collectionId: "my collection", // Optional, defaults to the service's default collection
-      tags: "tag1,tag2", // Optional, multiple tags can be specified using commas
-    };
+      collectionId: "my-collection",
+      tags: "tag1,tag2",
+    } as LedgerEntry & { collectionId: string; tags: string };
     const ledgerEntry: CreateLedgerEntryParameters = {
       contentType: "application/json",
       body: entry,
@@ -117,6 +139,46 @@ describe("snippets", () => {
       .get();
   });
 
+  it("ReadmeSampleGetLedgerEntryWithCollectionIdSample", async () => {
+    const { ledgerIdentityCertificate } = await getLedgerIdentity(
+      "test-ledger-name",
+      "https://identity.confidential-ledger.core.azure.com",
+    );
+    const credential = new DefaultAzureCredential();
+    const client = ConfidentialLedger(
+      "https://test-ledger-name.confidential-ledger.azure.com",
+      ledgerIdentityCertificate,
+      credential,
+    );
+    const transactionId = "<TRANSACTION_ID>";
+    const getLedgerEntryParams = {
+      queryParameters: { collectionId: "my-collection" },
+    };
+    const result = await client
+      .path("/app/transactions/{transactionId}", transactionId)
+      .get(getLedgerEntryParams);
+  });
+
+  it("ReadmeSampleGetLedgerEntryWithCollectionIdAndTagSample", async () => {
+    const { ledgerIdentityCertificate } = await getLedgerIdentity(
+      "test-ledger-name",
+      "https://identity.confidential-ledger.core.azure.com",
+    );
+    const credential = new DefaultAzureCredential();
+    const client = ConfidentialLedger(
+      "https://test-ledger-name.confidential-ledger.azure.com",
+      ledgerIdentityCertificate,
+      credential,
+    );
+    const transactionId = "<TRANSACTION_ID>";
+    const getLedgerEntryParams = {
+      queryParameters: { collectionId: "my-collection", tag: "tag1" },
+    };
+    const result = await client
+      .path("/app/transactions/{transactionId}", transactionId)
+      .get(getLedgerEntryParams);
+  });
+
   it("ReadmeSampleGetAllLedgerEntries", async () => {
     const { ledgerIdentityCertificate } = await getLedgerIdentity(
       "test-ledger-name",
@@ -131,6 +193,40 @@ describe("snippets", () => {
     );
     // @ts-preserve-whitespace
     const ledgerEntries = await client.path("/app/transactions");
+  });
+
+  it("ReadmeSampleGetAllLedgerEntriesWithCollectionIdSample", async () => {
+    const { ledgerIdentityCertificate } = await getLedgerIdentity(
+      "test-ledger-name",
+      "https://identity.confidential-ledger.core.azure.com",
+    );
+    const credential = new DefaultAzureCredential();
+    const client = ConfidentialLedger(
+      "https://test-ledger-name.confidential-ledger.azure.com",
+      ledgerIdentityCertificate,
+      credential,
+    );
+    const getLedgerEntriesParams = {
+      queryParameters: { collectionId: "my-collection" },
+    };
+    const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
+  });
+
+  it("ReadmeSampleGetAllLedgerEntriesWithCollectionIdAndTagSample", async () => {
+    const { ledgerIdentityCertificate } = await getLedgerIdentity(
+      "test-ledger-name",
+      "https://identity.confidential-ledger.core.azure.com",
+    );
+    const credential = new DefaultAzureCredential();
+    const client = ConfidentialLedger(
+      "https://test-ledger-name.confidential-ledger.azure.com",
+      ledgerIdentityCertificate,
+      credential,
+    );
+    const getLedgerEntriesParams = {
+      queryParameters: { collectionId: "my-collection", tag: "tag1" },
+    };
+    const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
   });
 
   it("ReadmeSampleGetAllCollections", async () => {
@@ -163,25 +259,6 @@ describe("snippets", () => {
     );
     // @ts-preserve-whitespace
     const getLedgerEntriesParams = { queryParameters: { collectionId: "my collection" } };
-    const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
-  });
-
-  it("ReadmeSampleGetTransactionsForCollectionAndTags", async () => {
-    const { ledgerIdentityCertificate } = await getLedgerIdentity(
-      "test-ledger-name",
-      "https://identity.confidential-ledger.core.azure.com",
-    );
-    const credential = new DefaultAzureCredential();
-    // @ts-preserve-whitespace
-    const client = ConfidentialLedger(
-      "https://test-ledger-name.confidential-ledger.azure.com",
-      ledgerIdentityCertificate,
-      credential,
-    );
-    // @ts-preserve-whitespace
-    const getLedgerEntriesParams = {
-      queryParameters: { collectionId: "my collection", tag: "tag1" },
-    };
     const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
   });
 
