@@ -297,7 +297,7 @@ const walkUpdateDomainOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
     Parameters.updateDomain,
   ],
@@ -320,7 +320,7 @@ const getUpdateDomainOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
     Parameters.updateDomain,
   ],
@@ -342,7 +342,7 @@ const listUpdateDomainsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -361,9 +361,9 @@ const listUpdateDomainsNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],

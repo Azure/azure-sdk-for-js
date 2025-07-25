@@ -11,14 +11,14 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CapacityReservation,
   CapacityReservationsListByCapacityReservationGroupOptionalParams,
+  CapacityReservationsGetOptionalParams,
+  CapacityReservationsGetResponse,
   CapacityReservationsCreateOrUpdateOptionalParams,
   CapacityReservationsCreateOrUpdateResponse,
   CapacityReservationUpdate,
   CapacityReservationsUpdateOptionalParams,
   CapacityReservationsUpdateResponse,
   CapacityReservationsDeleteOptionalParams,
-  CapacityReservationsGetOptionalParams,
-  CapacityReservationsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface CapacityReservations {
   /**
    * Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink
    * property in the response to get the next page of capacity reservations.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param options The options parameters.
    */
@@ -37,10 +37,23 @@ export interface CapacityReservations {
     options?: CapacityReservationsListByCapacityReservationGroupOptionalParams,
   ): PagedAsyncIterableIterator<CapacityReservation>;
   /**
+   * The operation that retrieves information about the capacity reservation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param capacityReservationGroupName The name of the capacity reservation group.
+   * @param capacityReservationName The name of the capacity reservation.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    capacityReservationGroupName: string,
+    capacityReservationName: string,
+    options?: CapacityReservationsGetOptionalParams,
+  ): Promise<CapacityReservationsGetResponse>;
+  /**
    * The operation to create or update a capacity reservation. Please note some properties can be set
    * only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for
    * more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param parameters Parameters supplied to the Create capacity reservation.
@@ -62,7 +75,7 @@ export interface CapacityReservations {
    * The operation to create or update a capacity reservation. Please note some properties can be set
    * only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for
    * more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param parameters Parameters supplied to the Create capacity reservation.
@@ -77,7 +90,7 @@ export interface CapacityReservations {
   ): Promise<CapacityReservationsCreateOrUpdateResponse>;
   /**
    * The operation to update a capacity reservation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param parameters Parameters supplied to the Update capacity reservation operation.
@@ -97,7 +110,7 @@ export interface CapacityReservations {
   >;
   /**
    * The operation to update a capacity reservation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param parameters Parameters supplied to the Update capacity reservation operation.
@@ -114,7 +127,7 @@ export interface CapacityReservations {
    * The operation to delete a capacity reservation. This operation is allowed only when all the
    * associated resources are disassociated from the capacity reservation. Please refer to
    * https://aka.ms/CapacityReservation for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param options The options parameters.
@@ -129,7 +142,7 @@ export interface CapacityReservations {
    * The operation to delete a capacity reservation. This operation is allowed only when all the
    * associated resources are disassociated from the capacity reservation. Please refer to
    * https://aka.ms/CapacityReservation for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param options The options parameters.
@@ -140,17 +153,4 @@ export interface CapacityReservations {
     capacityReservationName: string,
     options?: CapacityReservationsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation that retrieves information about the capacity reservation.
-   * @param resourceGroupName The name of the resource group.
-   * @param capacityReservationGroupName The name of the capacity reservation group.
-   * @param capacityReservationName The name of the capacity reservation.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    capacityReservationGroupName: string,
-    capacityReservationName: string,
-    options?: CapacityReservationsGetOptionalParams,
-  ): Promise<CapacityReservationsGetResponse>;
 }

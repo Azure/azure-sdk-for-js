@@ -24,14 +24,14 @@ import {
   CapacityReservationsListByCapacityReservationGroupNextOptionalParams,
   CapacityReservationsListByCapacityReservationGroupOptionalParams,
   CapacityReservationsListByCapacityReservationGroupResponse,
+  CapacityReservationsGetOptionalParams,
+  CapacityReservationsGetResponse,
   CapacityReservationsCreateOrUpdateOptionalParams,
   CapacityReservationsCreateOrUpdateResponse,
   CapacityReservationUpdate,
   CapacityReservationsUpdateOptionalParams,
   CapacityReservationsUpdateResponse,
   CapacityReservationsDeleteOptionalParams,
-  CapacityReservationsGetOptionalParams,
-  CapacityReservationsGetResponse,
   CapacityReservationsListByCapacityReservationGroupNextResponse,
 } from "../models/index.js";
 
@@ -51,7 +51,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
   /**
    * Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink
    * property in the response to get the next page of capacity reservations.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param options The options parameters.
    */
@@ -134,10 +134,52 @@ export class CapacityReservationsImpl implements CapacityReservations {
   }
 
   /**
+   * Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink
+   * property in the response to get the next page of capacity reservations.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param capacityReservationGroupName The name of the capacity reservation group.
+   * @param options The options parameters.
+   */
+  private _listByCapacityReservationGroup(
+    resourceGroupName: string,
+    capacityReservationGroupName: string,
+    options?: CapacityReservationsListByCapacityReservationGroupOptionalParams,
+  ): Promise<CapacityReservationsListByCapacityReservationGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, capacityReservationGroupName, options },
+      listByCapacityReservationGroupOperationSpec,
+    );
+  }
+
+  /**
+   * The operation that retrieves information about the capacity reservation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param capacityReservationGroupName The name of the capacity reservation group.
+   * @param capacityReservationName The name of the capacity reservation.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    capacityReservationGroupName: string,
+    capacityReservationName: string,
+    options?: CapacityReservationsGetOptionalParams,
+  ): Promise<CapacityReservationsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        capacityReservationGroupName,
+        capacityReservationName,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * The operation to create or update a capacity reservation. Please note some properties can be set
    * only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for
    * more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param parameters Parameters supplied to the Create capacity reservation.
@@ -210,6 +252,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -219,7 +262,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
    * The operation to create or update a capacity reservation. Please note some properties can be set
    * only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for
    * more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param parameters Parameters supplied to the Create capacity reservation.
@@ -244,7 +287,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
 
   /**
    * The operation to update a capacity reservation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param parameters Parameters supplied to the Update capacity reservation operation.
@@ -317,6 +360,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -324,7 +368,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
 
   /**
    * The operation to update a capacity reservation.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param parameters Parameters supplied to the Update capacity reservation operation.
@@ -351,7 +395,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
    * The operation to delete a capacity reservation. This operation is allowed only when all the
    * associated resources are disassociated from the capacity reservation. Please refer to
    * https://aka.ms/CapacityReservation for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param options The options parameters.
@@ -413,6 +457,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -422,7 +467,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
    * The operation to delete a capacity reservation. This operation is allowed only when all the
    * associated resources are disassociated from the capacity reservation. Please refer to
    * https://aka.ms/CapacityReservation for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param capacityReservationName The name of the capacity reservation.
    * @param options The options parameters.
@@ -443,50 +488,8 @@ export class CapacityReservationsImpl implements CapacityReservations {
   }
 
   /**
-   * The operation that retrieves information about the capacity reservation.
-   * @param resourceGroupName The name of the resource group.
-   * @param capacityReservationGroupName The name of the capacity reservation group.
-   * @param capacityReservationName The name of the capacity reservation.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    capacityReservationGroupName: string,
-    capacityReservationName: string,
-    options?: CapacityReservationsGetOptionalParams,
-  ): Promise<CapacityReservationsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        capacityReservationGroupName,
-        capacityReservationName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink
-   * property in the response to get the next page of capacity reservations.
-   * @param resourceGroupName The name of the resource group.
-   * @param capacityReservationGroupName The name of the capacity reservation group.
-   * @param options The options parameters.
-   */
-  private _listByCapacityReservationGroup(
-    resourceGroupName: string,
-    capacityReservationGroupName: string,
-    options?: CapacityReservationsListByCapacityReservationGroupOptionalParams,
-  ): Promise<CapacityReservationsListByCapacityReservationGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, capacityReservationGroupName, options },
-      listByCapacityReservationGroupOperationSpec,
-    );
-  }
-
-  /**
    * ListByCapacityReservationGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param nextLink The nextLink from the previous successful call to the ListByCapacityReservationGroup
    *                 method.
@@ -507,6 +510,49 @@ export class CapacityReservationsImpl implements CapacityReservations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByCapacityReservationGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CapacityReservationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.capacityReservationGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CapacityReservation,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand9],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.capacityReservationGroupName,
+    Parameters.capacityReservationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}",
   httpMethod: "PUT",
@@ -527,7 +573,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters32,
+  requestBody: Parameters.parameters30,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -560,7 +606,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters31,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -596,49 +642,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CapacityReservation,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand10],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.capacityReservationGroupName,
-    Parameters.capacityReservationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByCapacityReservationGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CapacityReservationListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.capacityReservationGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listByCapacityReservationGroupNextOperationSpec: coreClient.OperationSpec =
   {
     path: "{nextLink}",
@@ -653,8 +656,8 @@ const listByCapacityReservationGroupNextOperationSpec: coreClient.OperationSpec 
     },
     urlParameters: [
       Parameters.$host,
-      Parameters.subscriptionId,
       Parameters.nextLink,
+      Parameters.subscriptionId,
       Parameters.resourceGroupName,
       Parameters.capacityReservationGroupName,
     ],

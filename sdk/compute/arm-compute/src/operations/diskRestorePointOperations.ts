@@ -50,7 +50,7 @@ export class DiskRestorePointOperationsImpl
 
   /**
    * Lists diskRestorePoints under a vmRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
@@ -143,36 +143,8 @@ export class DiskRestorePointOperationsImpl
   }
 
   /**
-   * Get disk restorePoint resource
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   *                                   point belongs.
-   * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   * @param diskRestorePointName The name of the disk restore point created.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    vmRestorePointName: string,
-    diskRestorePointName: string,
-    options?: DiskRestorePointGetOptionalParams,
-  ): Promise<DiskRestorePointGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        restorePointCollectionName,
-        vmRestorePointName,
-        diskRestorePointName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Lists diskRestorePoints under a vmRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
@@ -196,12 +168,40 @@ export class DiskRestorePointOperationsImpl
   }
 
   /**
-   * Grants access to a diskRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * Get disk restorePoint resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   * @param diskRestorePointName The name of the disk restore point created.
+   * @param diskRestorePointName The name of the DiskRestorePoint
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    vmRestorePointName: string,
+    diskRestorePointName: string,
+    options?: DiskRestorePointGetOptionalParams,
+  ): Promise<DiskRestorePointGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        restorePointCollectionName,
+        vmRestorePointName,
+        diskRestorePointName,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Grants access to a diskRestorePoint.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection that the disk restore
+   *                                   point belongs.
+   * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
+   * @param diskRestorePointName The name of the DiskRestorePoint
    * @param grantAccessData Access data object supplied in the body of the get disk access operation.
    * @param options The options parameters.
    */
@@ -282,11 +282,11 @@ export class DiskRestorePointOperationsImpl
 
   /**
    * Grants access to a diskRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   * @param diskRestorePointName The name of the disk restore point created.
+   * @param diskRestorePointName The name of the DiskRestorePoint
    * @param grantAccessData Access data object supplied in the body of the get disk access operation.
    * @param options The options parameters.
    */
@@ -311,11 +311,11 @@ export class DiskRestorePointOperationsImpl
 
   /**
    * Revokes access to a diskRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   * @param diskRestorePointName The name of the disk restore point created.
+   * @param diskRestorePointName The name of the DiskRestorePoint
    * @param options The options parameters.
    */
   async beginRevokeAccess(
@@ -385,11 +385,11 @@ export class DiskRestorePointOperationsImpl
 
   /**
    * Revokes access to a diskRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   * @param diskRestorePointName The name of the disk restore point created.
+   * @param diskRestorePointName The name of the DiskRestorePoint
    * @param options The options parameters.
    */
   async beginRevokeAccessAndWait(
@@ -411,7 +411,7 @@ export class DiskRestorePointOperationsImpl
 
   /**
    * ListByRestorePointNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
@@ -440,6 +440,28 @@ export class DiskRestorePointOperationsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByRestorePointOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskRestorePointList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.restorePointCollectionName,
+    Parameters.vmRestorePointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}",
   httpMethod: "GET",
@@ -459,28 +481,6 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.restorePointCollectionName,
     Parameters.vmRestorePointName,
     Parameters.diskRestorePointName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByRestorePointOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskRestorePointList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.restorePointCollectionName,
-    Parameters.vmRestorePointName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -556,8 +556,8 @@ const listByRestorePointNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.restorePointCollectionName,
     Parameters.vmRestorePointName,

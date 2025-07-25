@@ -21,26 +21,26 @@ import {
 import { createLroSpec } from "../lroImpl.js";
 import {
   Disk,
-  DisksListByResourceGroupNextOptionalParams,
-  DisksListByResourceGroupOptionalParams,
-  DisksListByResourceGroupResponse,
   DisksListNextOptionalParams,
   DisksListOptionalParams,
   DisksListResponse,
+  DisksListByResourceGroupNextOptionalParams,
+  DisksListByResourceGroupOptionalParams,
+  DisksListByResourceGroupResponse,
+  DisksGetOptionalParams,
+  DisksGetResponse,
   DisksCreateOrUpdateOptionalParams,
   DisksCreateOrUpdateResponse,
   DiskUpdate,
   DisksUpdateOptionalParams,
   DisksUpdateResponse,
-  DisksGetOptionalParams,
-  DisksGetResponse,
   DisksDeleteOptionalParams,
   GrantAccessData,
   DisksGrantAccessOptionalParams,
   DisksGrantAccessResponse,
   DisksRevokeAccessOptionalParams,
-  DisksListByResourceGroupNextResponse,
   DisksListNextResponse,
+  DisksListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,8 +57,62 @@ export class DisksImpl implements Disks {
   }
 
   /**
+   * Lists all the disks under a subscription.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: DisksListOptionalParams,
+  ): PagedAsyncIterableIterator<Disk> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    options?: DisksListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Disk[]> {
+    let result: DisksListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: DisksListOptionalParams,
+  ): AsyncIterableIterator<Disk> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Lists all the disks under a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -129,59 +183,47 @@ export class DisksImpl implements Disks {
    * Lists all the disks under a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: DisksListOptionalParams,
-  ): PagedAsyncIterableIterator<Disk> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      },
-    };
+  private _list(options?: DisksListOptionalParams): Promise<DisksListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
-  private async *listPagingPage(
-    options?: DisksListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Disk[]> {
-    let result: DisksListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+  /**
+   * Lists all the disks under a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: DisksListByResourceGroupOptionalParams,
+  ): Promise<DisksListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
   }
 
-  private async *listPagingAll(
-    options?: DisksListOptionalParams,
-  ): AsyncIterableIterator<Disk> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
+  /**
+   * Gets information about a disk.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param diskName The name of the managed disk that is being created. The name can't be changed after
+   *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
+   *                 length is 80 characters.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    diskName: string,
+    options?: DisksGetOptionalParams,
+  ): Promise<DisksGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, diskName, options },
+      getOperationSpec,
+    );
   }
 
   /**
    * Creates or updates a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -248,6 +290,7 @@ export class DisksImpl implements Disks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -255,7 +298,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Creates or updates a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -279,7 +322,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Updates (patches) a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -343,6 +386,7 @@ export class DisksImpl implements Disks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -350,7 +394,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Updates (patches) a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -373,27 +417,8 @@ export class DisksImpl implements Disks {
   }
 
   /**
-   * Gets information about a disk.
-   * @param resourceGroupName The name of the resource group.
-   * @param diskName The name of the managed disk that is being created. The name can't be changed after
-   *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
-   *                 length is 80 characters.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    diskName: string,
-    options?: DisksGetOptionalParams,
-  ): Promise<DisksGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, diskName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Deletes a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -450,6 +475,7 @@ export class DisksImpl implements Disks {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -457,7 +483,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Deletes a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -473,31 +499,8 @@ export class DisksImpl implements Disks {
   }
 
   /**
-   * Lists all the disks under a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: DisksListByResourceGroupOptionalParams,
-  ): Promise<DisksListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all the disks under a subscription.
-   * @param options The options parameters.
-   */
-  private _list(options?: DisksListOptionalParams): Promise<DisksListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
    * Grants access to a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -572,7 +575,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Grants access to a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -596,7 +599,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Revokes access to a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -661,7 +664,7 @@ export class DisksImpl implements Disks {
 
   /**
    * Revokes access to a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -681,23 +684,6 @@ export class DisksImpl implements Disks {
   }
 
   /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: DisksListByResourceGroupNextOptionalParams,
-  ): Promise<DisksListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -711,10 +697,84 @@ export class DisksImpl implements Disks {
       listNextOperationSpec,
     );
   }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: DisksListByResourceGroupNextOptionalParams,
+  ): Promise<DisksListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Disk,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.diskName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
   httpMethod: "PUT",
@@ -730,6 +790,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.Disk,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
   },
   requestBody: Parameters.disk,
@@ -760,6 +823,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.Disk,
     },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.disk1,
   queryParameters: [Parameters.apiVersion1],
@@ -773,28 +839,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Disk,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.diskName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -802,35 +858,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.diskName,
   ],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskList,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskList,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -850,6 +877,9 @@ const grantAccessOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.AccessUri,
     },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.grantAccessData,
   queryParameters: [Parameters.apiVersion1],
@@ -866,29 +896,21 @@ const grantAccessOperationSpec: coreClient.OperationSpec = {
 const revokeAccessOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/endGetAccess",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskName,
-  ],
-  serializer,
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskList,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -900,11 +922,34 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.DiskList,
     },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

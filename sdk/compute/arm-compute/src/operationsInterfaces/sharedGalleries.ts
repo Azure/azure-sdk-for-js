@@ -19,7 +19,7 @@ import {
 export interface SharedGalleries {
   /**
    * List shared galleries by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   list(
@@ -28,7 +28,7 @@ export interface SharedGalleries {
   ): PagedAsyncIterableIterator<SharedGallery>;
   /**
    * Get a shared gallery by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param options The options parameters.
    */
