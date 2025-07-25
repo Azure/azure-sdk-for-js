@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  ManagedClusterServicePrincipalProfile} from "@azure/arm-containerservice";
 import {
+  ManagedClusterServicePrincipalProfile,
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to This action cannot be performed on a cluster that is not using a service principal
  *
  * @summary This action cannot be performed on a cluster that is not using a service principal
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-04-01/examples/ManagedClustersResetServicePrincipalProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-05-01/examples/ManagedClustersResetServicePrincipalProfile.json
  */
 async function resetServicePrincipalProfile(): Promise<void> {
   const subscriptionId =

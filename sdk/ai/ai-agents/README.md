@@ -683,7 +683,7 @@ const content = [
   },
   {
     type: "image_url",
-    image_url: {
+    imageUrl: {
       url: imageDataUrl,
       detail: "high",
     },

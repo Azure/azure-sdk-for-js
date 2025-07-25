@@ -20,6 +20,10 @@
 
 - Added customer-facing statsbeat preview.
 
+### Features Added
+
+- Add RateLimitedSampler.
+
 ### Other Changes
 
 - Ensure that the longIntervalStatsbeat reader is properly bound to a MetricProducer.

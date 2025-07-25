@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataMigrationManagementClient } from "../dataMigrationManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SqlMigrationService,
   SqlMigrationServicesListByResourceGroupNextOptionalParams,
@@ -47,7 +51,7 @@ import {
   SqlMigrationServicesListMonitoringDataResponse,
   SqlMigrationServicesListByResourceGroupNextResponse,
   SqlMigrationServicesListMigrationsNextResponse,
-  SqlMigrationServicesListBySubscriptionNextResponse
+  SqlMigrationServicesListBySubscriptionNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -71,7 +75,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SqlMigrationServicesListByResourceGroupOptionalParams
+    options?: SqlMigrationServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SqlMigrationService> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -88,16 +92,16 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: SqlMigrationServicesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SqlMigrationService[]> {
     let result: SqlMigrationServicesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -112,7 +116,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,11 +127,11 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SqlMigrationServicesListByResourceGroupOptionalParams
+    options?: SqlMigrationServicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SqlMigrationService> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,12 +147,12 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   public listMigrations(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesListMigrationsOptionalParams
+    options?: SqlMigrationServicesListMigrationsOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseMigration> {
     const iter = this.listMigrationsPagingAll(
       resourceGroupName,
       sqlMigrationServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -165,9 +169,9 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
           resourceGroupName,
           sqlMigrationServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -175,7 +179,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     options?: SqlMigrationServicesListMigrationsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatabaseMigration[]> {
     let result: SqlMigrationServicesListMigrationsResponse;
     let continuationToken = settings?.continuationToken;
@@ -183,7 +187,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
       result = await this._listMigrations(
         resourceGroupName,
         sqlMigrationServiceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -195,7 +199,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
         resourceGroupName,
         sqlMigrationServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -207,12 +211,12 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   private async *listMigrationsPagingAll(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesListMigrationsOptionalParams
+    options?: SqlMigrationServicesListMigrationsOptionalParams,
   ): AsyncIterableIterator<DatabaseMigration> {
     for await (const page of this.listMigrationsPagingPage(
       resourceGroupName,
       sqlMigrationServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -223,7 +227,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SqlMigrationServicesListBySubscriptionOptionalParams
+    options?: SqlMigrationServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SqlMigrationService> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -238,13 +242,13 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: SqlMigrationServicesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SqlMigrationService[]> {
     let result: SqlMigrationServicesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -265,7 +269,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SqlMigrationServicesListBySubscriptionOptionalParams
+    options?: SqlMigrationServicesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<SqlMigrationService> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -273,7 +277,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Retrieve the Migration Service.
+   * Retrieve the Database Migration Service
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -282,16 +286,16 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   get(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesGetOptionalParams
+    options?: SqlMigrationServicesGetOptionalParams,
   ): Promise<SqlMigrationServicesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sqlMigrationServiceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or Update SQL Migration Service.
+   * Create or Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -302,30 +306,29 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: SqlMigrationService,
-    options?: SqlMigrationServicesCreateOrUpdateOptionalParams
+    options?: SqlMigrationServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlMigrationServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlMigrationServicesCreateOrUpdateResponse>,
       SqlMigrationServicesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SqlMigrationServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -334,8 +337,8 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -343,26 +346,29 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sqlMigrationServiceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sqlMigrationServiceName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SqlMigrationServicesCreateOrUpdateResponse,
+      OperationState<SqlMigrationServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or Update SQL Migration Service.
+   * Create or Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -373,19 +379,19 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: SqlMigrationService,
-    options?: SqlMigrationServicesCreateOrUpdateOptionalParams
+    options?: SqlMigrationServicesCreateOrUpdateOptionalParams,
   ): Promise<SqlMigrationServicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       sqlMigrationServiceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete SQL Migration Service.
+   * Delete Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -394,25 +400,24 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   async beginDelete(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: SqlMigrationServicesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -421,8 +426,8 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -430,26 +435,26 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sqlMigrationServiceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sqlMigrationServiceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete SQL Migration Service.
+   * Delete Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -458,18 +463,18 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   async beginDeleteAndWait(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesDeleteOptionalParams
+    options?: SqlMigrationServicesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       sqlMigrationServiceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update SQL Migration Service.
+   * Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -480,30 +485,29 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: SqlMigrationServiceUpdate,
-    options?: SqlMigrationServicesUpdateOptionalParams
+    options?: SqlMigrationServicesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SqlMigrationServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<SqlMigrationServicesUpdateResponse>,
       SqlMigrationServicesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SqlMigrationServicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -512,8 +516,8 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -521,26 +525,29 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, sqlMigrationServiceName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, sqlMigrationServiceName, parameters, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SqlMigrationServicesUpdateResponse,
+      OperationState<SqlMigrationServicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Update SQL Migration Service.
+   * Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -551,13 +558,13 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: SqlMigrationServiceUpdate,
-    options?: SqlMigrationServicesUpdateOptionalParams
+    options?: SqlMigrationServicesUpdateOptionalParams,
   ): Promise<SqlMigrationServicesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       sqlMigrationServiceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -570,11 +577,11 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SqlMigrationServicesListByResourceGroupOptionalParams
+    options?: SqlMigrationServicesListByResourceGroupOptionalParams,
   ): Promise<SqlMigrationServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -588,11 +595,11 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   listAuthKeys(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesListAuthKeysOptionalParams
+    options?: SqlMigrationServicesListAuthKeysOptionalParams,
   ): Promise<SqlMigrationServicesListAuthKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sqlMigrationServiceName, options },
-      listAuthKeysOperationSpec
+      listAuthKeysOperationSpec,
     );
   }
 
@@ -608,11 +615,11 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: RegenAuthKeys,
-    options?: SqlMigrationServicesRegenerateAuthKeysOptionalParams
+    options?: SqlMigrationServicesRegenerateAuthKeysOptionalParams,
   ): Promise<SqlMigrationServicesRegenerateAuthKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sqlMigrationServiceName, parameters, options },
-      regenerateAuthKeysOperationSpec
+      regenerateAuthKeysOperationSpec,
     );
   }
 
@@ -628,11 +635,11 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     parameters: DeleteNode,
-    options?: SqlMigrationServicesDeleteNodeOptionalParams
+    options?: SqlMigrationServicesDeleteNodeOptionalParams,
   ): Promise<SqlMigrationServicesDeleteNodeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sqlMigrationServiceName, parameters, options },
-      deleteNodeOperationSpec
+      deleteNodeOperationSpec,
     );
   }
 
@@ -646,16 +653,17 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   private _listMigrations(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesListMigrationsOptionalParams
+    options?: SqlMigrationServicesListMigrationsOptionalParams,
   ): Promise<SqlMigrationServicesListMigrationsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sqlMigrationServiceName, options },
-      listMigrationsOperationSpec
+      listMigrationsOperationSpec,
     );
   }
 
   /**
-   * Retrieve the Monitoring Data.
+   * Retrieve the registered Integration Runtime nodes and their monitoring data for a given Database
+   * Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -664,11 +672,11 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   listMonitoringData(
     resourceGroupName: string,
     sqlMigrationServiceName: string,
-    options?: SqlMigrationServicesListMonitoringDataOptionalParams
+    options?: SqlMigrationServicesListMonitoringDataOptionalParams,
   ): Promise<SqlMigrationServicesListMonitoringDataResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sqlMigrationServiceName, options },
-      listMonitoringDataOperationSpec
+      listMonitoringDataOperationSpec,
     );
   }
 
@@ -677,11 +685,11 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SqlMigrationServicesListBySubscriptionOptionalParams
+    options?: SqlMigrationServicesListBySubscriptionOptionalParams,
   ): Promise<SqlMigrationServicesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -695,11 +703,11 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SqlMigrationServicesListByResourceGroupNextOptionalParams
+    options?: SqlMigrationServicesListByResourceGroupNextOptionalParams,
   ): Promise<SqlMigrationServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -715,11 +723,11 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
     resourceGroupName: string,
     sqlMigrationServiceName: string,
     nextLink: string,
-    options?: SqlMigrationServicesListMigrationsNextOptionalParams
+    options?: SqlMigrationServicesListMigrationsNextOptionalParams,
   ): Promise<SqlMigrationServicesListMigrationsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sqlMigrationServiceName, nextLink, options },
-      listMigrationsNextOperationSpec
+      listMigrationsNextOperationSpec,
     );
   }
 
@@ -730,11 +738,11 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SqlMigrationServicesListBySubscriptionNextOptionalParams
+    options?: SqlMigrationServicesListBySubscriptionNextOptionalParams,
   ): Promise<SqlMigrationServicesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -742,59 +750,56 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlMigrationService
+      bodyMapper: Mappers.SqlMigrationService,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.sqlMigrationServiceName
+    Parameters.sqlMigrationServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlMigrationService
+      bodyMapper: Mappers.SqlMigrationService,
     },
     201: {
-      bodyMapper: Mappers.SqlMigrationService
+      bodyMapper: Mappers.SqlMigrationService,
     },
     202: {
-      bodyMapper: Mappers.SqlMigrationService
+      bodyMapper: Mappers.SqlMigrationService,
     },
     204: {
-      bodyMapper: Mappers.SqlMigrationService
+      bodyMapper: Mappers.SqlMigrationService,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.sqlMigrationServiceName
+    Parameters.sqlMigrationServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -802,233 +807,222 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.sqlMigrationServiceName
+    Parameters.sqlMigrationServiceName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlMigrationService
+      bodyMapper: Mappers.SqlMigrationService,
     },
     201: {
-      bodyMapper: Mappers.SqlMigrationService
+      bodyMapper: Mappers.SqlMigrationService,
     },
     202: {
-      bodyMapper: Mappers.SqlMigrationService
+      bodyMapper: Mappers.SqlMigrationService,
     },
     204: {
-      bodyMapper: Mappers.SqlMigrationService
+      bodyMapper: Mappers.SqlMigrationService,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.sqlMigrationServiceName
+    Parameters.sqlMigrationServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlMigrationListResult
+      bodyMapper: Mappers.SqlMigrationListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAuthKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/listAuthKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/listAuthKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthenticationKeys
+      bodyMapper: Mappers.AuthenticationKeys,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.sqlMigrationServiceName
+    Parameters.sqlMigrationServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateAuthKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/regenerateAuthKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/regenerateAuthKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RegenAuthKeys
+      bodyMapper: Mappers.RegenAuthKeys,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.sqlMigrationServiceName
+    Parameters.sqlMigrationServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteNodeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/deleteNode",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/deleteNode",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeleteNode
+      bodyMapper: Mappers.DeleteNode,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.sqlMigrationServiceName
+    Parameters.sqlMigrationServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listMigrationsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/listMigrations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/listMigrations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseMigrationListResult
+      bodyMapper: Mappers.DatabaseMigrationListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.sqlMigrationServiceName
+    Parameters.sqlMigrationServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listMonitoringDataOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/listMonitoringData",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/listMonitoringData",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IntegrationRuntimeMonitoringData
+      bodyMapper: Mappers.IntegrationRuntimeMonitoringData,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.sqlMigrationServiceName
+    Parameters.sqlMigrationServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/sqlMigrationServices",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/sqlMigrationServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlMigrationListResult
+      bodyMapper: Mappers.SqlMigrationListResult,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlMigrationListResult
+      bodyMapper: Mappers.SqlMigrationListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listMigrationsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseMigrationListResult
+      bodyMapper: Mappers.DatabaseMigrationListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.sqlMigrationServiceName
+    Parameters.sqlMigrationServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlMigrationListResult
+      bodyMapper: Mappers.SqlMigrationListResult,
     },
-    default: {}
+    default: {},
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

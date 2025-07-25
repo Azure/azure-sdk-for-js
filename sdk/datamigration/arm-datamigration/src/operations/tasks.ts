@@ -30,7 +30,7 @@ import {
   CommandPropertiesUnion,
   TasksCommandOptionalParams,
   TasksCommandResponse,
-  TasksListNextResponse
+  TasksListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,9 +47,9 @@ export class TasksImpl implements Tasks {
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of tasks owned by a service resource. Some tasks may have a status of Unknown,
-   * which indicates that an error occurred while querying the status of that task.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of tasks owned by a service resource. Some tasks may have a
+   * status of Unknown, which indicates that an error occurred while querying the status of that task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -59,13 +59,13 @@ export class TasksImpl implements Tasks {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): PagedAsyncIterableIterator<ProjectTask> {
     const iter = this.listPagingAll(
       groupName,
       serviceName,
       projectName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +83,9 @@ export class TasksImpl implements Tasks {
           serviceName,
           projectName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class TasksImpl implements Tasks {
     serviceName: string,
     projectName: string,
     options?: TasksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProjectTask[]> {
     let result: TasksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -111,7 +111,7 @@ export class TasksImpl implements Tasks {
         serviceName,
         projectName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -124,22 +124,22 @@ export class TasksImpl implements Tasks {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): AsyncIterableIterator<ProjectTask> {
     for await (const page of this.listPagingPage(
       groupName,
       serviceName,
       projectName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of tasks owned by a service resource. Some tasks may have a status of Unknown,
-   * which indicates that an error occurred while querying the status of that task.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of tasks owned by a service resource. Some tasks may have a
+   * status of Unknown, which indicates that an error occurred while querying the status of that task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -149,18 +149,18 @@ export class TasksImpl implements Tasks {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): Promise<TasksListResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The PUT method creates a new task or updates an existing one, although since tasks have no mutable
-   * custom properties, there is little reason to update an existing one.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The PUT method creates a new task or updates an existing one, although since tasks have no
+   * mutable custom properties, there is little reason to update an existing one.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -174,17 +174,17 @@ export class TasksImpl implements Tasks {
     projectName: string,
     taskName: string,
     parameters: ProjectTask,
-    options?: TasksCreateOrUpdateOptionalParams
+    options?: TasksCreateOrUpdateOptionalParams,
   ): Promise<TasksCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, taskName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The GET method retrieves information about a task.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The GET method retrieves information about a task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -196,17 +196,17 @@ export class TasksImpl implements Tasks {
     serviceName: string,
     projectName: string,
     taskName: string,
-    options?: TasksGetOptionalParams
+    options?: TasksGetOptionalParams,
   ): Promise<TasksGetResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, taskName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The DELETE method deletes a task, canceling it first if it's running.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The DELETE method deletes a task, canceling it first if it's running.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -218,18 +218,18 @@ export class TasksImpl implements Tasks {
     serviceName: string,
     projectName: string,
     taskName: string,
-    options?: TasksDeleteOptionalParams
+    options?: TasksDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, taskName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The PATCH method updates an existing task, but since tasks have no mutable custom properties, there
-   * is little reason to do so.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The PATCH method updates an existing task, but since tasks have no mutable custom
+   * properties, there is little reason to do so.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -243,17 +243,17 @@ export class TasksImpl implements Tasks {
     projectName: string,
     taskName: string,
     parameters: ProjectTask,
-    options?: TasksUpdateOptionalParams
+    options?: TasksUpdateOptionalParams,
   ): Promise<TasksUpdateResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, taskName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * This method cancels a task if it's currently queued or running.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. This method cancels a task if it's currently queued or running.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -265,17 +265,17 @@ export class TasksImpl implements Tasks {
     serviceName: string,
     projectName: string,
     taskName: string,
-    options?: TasksCancelOptionalParams
+    options?: TasksCancelOptionalParams,
   ): Promise<TasksCancelResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, taskName, options },
-      cancelOperationSpec
+      cancelOperationSpec,
     );
   }
 
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * This method executes a command on a running task.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. This method executes a command on a running task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -289,11 +289,11 @@ export class TasksImpl implements Tasks {
     projectName: string,
     taskName: string,
     parameters: CommandPropertiesUnion,
-    options?: TasksCommandOptionalParams
+    options?: TasksCommandOptionalParams,
   ): Promise<TasksCommandResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, taskName, parameters, options },
-      commandOperationSpec
+      commandOperationSpec,
     );
   }
 
@@ -310,11 +310,11 @@ export class TasksImpl implements Tasks {
     serviceName: string,
     projectName: string,
     nextLink: string,
-    options?: TasksListNextOptionalParams
+    options?: TasksListNextOptionalParams,
   ): Promise<TasksListNextResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -322,16 +322,15 @@ export class TasksImpl implements Tasks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskList
+      bodyMapper: Mappers.TaskList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.taskType],
   urlParameters: [
@@ -339,27 +338,26 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectTask
+      bodyMapper: Mappers.ProjectTask,
     },
     201: {
-      bodyMapper: Mappers.ProjectTask
+      bodyMapper: Mappers.ProjectTask,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -367,46 +365,44 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.taskName
+    Parameters.taskName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectTask
+      bodyMapper: Mappers.ProjectTask,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.taskName
+    Parameters.taskName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.deleteRunningTasks],
   urlParameters: [
@@ -415,24 +411,23 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.taskName
+    Parameters.taskName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectTask
+      bodyMapper: Mappers.ProjectTask,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -440,23 +435,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.taskName
+    Parameters.taskName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}/cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectTask
+      bodyMapper: Mappers.ProjectTask,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -465,24 +459,23 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.taskName
+    Parameters.taskName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const commandOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}/command",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}/command",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommandProperties
+      bodyMapper: Mappers.CommandProperties,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -490,32 +483,31 @@ const commandOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.taskName
+    Parameters.taskName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TaskList
+      bodyMapper: Mappers.TaskList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.taskType],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.groupName,
     Parameters.serviceName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

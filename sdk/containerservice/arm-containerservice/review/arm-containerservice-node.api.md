@@ -770,6 +770,18 @@ export enum KnownNodeOSUpgradeChannel {
 }
 
 // @public
+export enum KnownNodeProvisioningDefaultNodePools {
+    Auto = "Auto",
+    None = "None"
+}
+
+// @public
+export enum KnownNodeProvisioningMode {
+    Auto = "Auto",
+    Manual = "Manual"
+}
+
+// @public
 export enum KnownOSDiskType {
     Ephemeral = "Ephemeral",
     Managed = "Managed"
@@ -1101,6 +1113,7 @@ export interface ManagedCluster extends TrackedResource {
         [propertyName: string]: ManagedClusterAddonProfile;
     };
     agentPoolProfiles?: ManagedClusterAgentPoolProfile[];
+    aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
     apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
     autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile;
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
@@ -1127,6 +1140,7 @@ export interface ManagedCluster extends TrackedResource {
     readonly maxAgentPools?: number;
     metricsProfile?: ManagedClusterMetricsProfile;
     networkProfile?: ContainerServiceNetworkProfile;
+    nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile;
     nodeResourceGroup?: string;
     nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
     oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
@@ -1242,6 +1256,11 @@ export interface ManagedClusterAgentPoolProfileProperties {
     vnetSubnetID?: string;
     windowsProfile?: AgentPoolWindowsProfile;
     workloadRuntime?: WorkloadRuntime;
+}
+
+// @public
+export interface ManagedClusterAIToolchainOperatorProfile {
+    enabled?: boolean;
 }
 
 // @public
@@ -1377,6 +1396,12 @@ export interface ManagedClusterNATGatewayProfile {
     readonly effectiveOutboundIPs?: ResourceReference[];
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
+}
+
+// @public (undocumented)
+export interface ManagedClusterNodeProvisioningProfile {
+    defaultNodePools?: NodeProvisioningDefaultNodePools;
+    mode?: NodeProvisioningMode;
 }
 
 // @public
@@ -2002,6 +2027,12 @@ export type NginxIngressControllerType = string;
 
 // @public
 export type NodeOSUpgradeChannel = string;
+
+// @public
+export type NodeProvisioningDefaultNodePools = string;
+
+// @public
+export type NodeProvisioningMode = string;
 
 // @public
 export interface OperationListResult {
