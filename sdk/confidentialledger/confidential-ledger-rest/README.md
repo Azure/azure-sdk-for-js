@@ -185,26 +185,28 @@ import ConfidentialLedger, {
 } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
-    const { ledgerIdentityCertificate } = await getLedgerIdentity(
-      "test-ledger-name",
-      "https://identity.confidential-ledger.core.azure.com",
-    );
-    const credential = new DefaultAzureCredential();
-    const client = ConfidentialLedger(
-      "https://test-ledger-name.confidential-ledger.azure.com",
-      ledgerIdentityCertificate,
-      credential,
-    );
-    // Type assertion is used to allow collectionId
-    const entry = {
-      contents: "<content>",
-      collectionId: "my-collection",
-    } as LedgerEntry & { collectionId: string };
-    const ledgerEntry: CreateLedgerEntryParameters = {
-      contentType: "application/json",
-      body: entry,
-    };
-    const result = await client.path("/app/transactions").post(ledgerEntry);
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+// Type assertion is used to allow collectionId
+const entry = {
+  contents: "<content>",
+  collectionId: "my-collection",
+} as LedgerEntry & {
+  collectionId: string;
+};
+const ledgerEntry: CreateLedgerEntryParameters = {
+  contentType: "application/json",
+  body: entry,
+};
+const result = await client.path("/app/transactions").post(ledgerEntry);
 ```
 
 ### Post Ledger Entry With CollectionId and Tags 
@@ -216,27 +218,30 @@ import ConfidentialLedger, {
 } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
-    const { ledgerIdentityCertificate } = await getLedgerIdentity(
-      "test-ledger-name",
-      "https://identity.confidential-ledger.core.azure.com",
-    );
-    const credential = new DefaultAzureCredential();
-    const client = ConfidentialLedger(
-      "https://test-ledger-name.confidential-ledger.azure.com",
-      ledgerIdentityCertificate,
-      credential,
-    );
-    // Type assertion is used to allow collectionId and tags
-    const entry = {
-      contents: "<content>",
-      collectionId: "my-collection",
-      tags: "tag1,tag2",
-    } as LedgerEntry & { collectionId: string; tags: string };
-    const ledgerEntry: CreateLedgerEntryParameters = {
-      contentType: "application/json",
-      body: entry,
-    };
-    const result = await client.path("/app/transactions").post(ledgerEntry);
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+// Type assertion is used to allow collectionId and tags
+const entry = {
+  contents: "<content>",
+  collectionId: "my-collection",
+  tags: "tag1,tag2",
+} as LedgerEntry & {
+  collectionId: string;
+  tags: string;
+};
+const ledgerEntry: CreateLedgerEntryParameters = {
+  contentType: "application/json",
+  body: entry,
+};
+const result = await client.path("/app/transactions").post(ledgerEntry);
 ```
 
 ### Get a Ledger Entry By Transaction Id
@@ -267,23 +272,23 @@ const status = await client.path("/app/transactions/{transactionId}/status", tra
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
-    const { ledgerIdentityCertificate } = await getLedgerIdentity(
-      "test-ledger-name",
-      "https://identity.confidential-ledger.core.azure.com",
-    );
-    const credential = new DefaultAzureCredential();
-    const client = ConfidentialLedger(
-      "https://test-ledger-name.confidential-ledger.azure.com",
-      ledgerIdentityCertificate,
-      credential,
-    );
-    const transactionId = "<TRANSACTION_ID>";
-    const getLedgerEntryParams = {
-      queryParameters: { collectionId: "my-collection" },
-    };
-    const result = await client
-      .path("/app/transactions/{transactionId}", transactionId)
-      .get(getLedgerEntryParams);
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+const transactionId = "<TRANSACTION_ID>";
+const getLedgerEntryParams = {
+  queryParameters: { collectionId: "my-collection" },
+};
+const result = await client
+  .path("/app/transactions/{transactionId}", transactionId)
+  .get(getLedgerEntryParams);
 ```
 
 ### Get a Ledger Entry By Transaction Id With CollectionId and Tags
@@ -292,23 +297,23 @@ import { DefaultAzureCredential } from "@azure/identity";
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
-    const { ledgerIdentityCertificate } = await getLedgerIdentity(
-      "test-ledger-name",
-      "https://identity.confidential-ledger.core.azure.com",
-    );
-    const credential = new DefaultAzureCredential();
-    const client = ConfidentialLedger(
-      "https://test-ledger-name.confidential-ledger.azure.com",
-      ledgerIdentityCertificate,
-      credential,
-    );
-    const transactionId = "<TRANSACTION_ID>";
-    const getLedgerEntryParams = {
-      queryParameters: { collectionId: "my-collection", tag: "tag1" },
-    };
-    const result = await client
-      .path("/app/transactions/{transactionId}", transactionId)
-      .get(getLedgerEntryParams);
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+const transactionId = "<TRANSACTION_ID>";
+const getLedgerEntryParams = {
+  queryParameters: { collectionId: "my-collection", tag: "tag1" },
+};
+const result = await client
+  .path("/app/transactions/{transactionId}", transactionId)
+  .get(getLedgerEntryParams);
 ```
 
 ### Get All Ledger Entries
@@ -338,20 +343,20 @@ const ledgerEntries = await client.path("/app/transactions");
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
-    const { ledgerIdentityCertificate } = await getLedgerIdentity(
-      "test-ledger-name",
-      "https://identity.confidential-ledger.core.azure.com",
-    );
-    const credential = new DefaultAzureCredential();
-    const client = ConfidentialLedger(
-      "https://test-ledger-name.confidential-ledger.azure.com",
-      ledgerIdentityCertificate,
-      credential,
-    );
-    const getLedgerEntriesParams = {
-      queryParameters: { collectionId: "my-collection" },
-    };
-    const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+const getLedgerEntriesParams = {
+  queryParameters: { collectionId: "my-collection" },
+};
+const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
 ```
 
 ### Get All Ledger Entries With CollectionId and Tags
@@ -360,20 +365,20 @@ import { DefaultAzureCredential } from "@azure/identity";
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
-    const { ledgerIdentityCertificate } = await getLedgerIdentity(
-      "test-ledger-name",
-      "https://identity.confidential-ledger.core.azure.com",
-    );
-    const credential = new DefaultAzureCredential();
-    const client = ConfidentialLedger(
-      "https://test-ledger-name.confidential-ledger.azure.com",
-      ledgerIdentityCertificate,
-      credential,
-    );
-    const getLedgerEntriesParams = {
-      queryParameters: { collectionId: "my-collection", tag: "tag1" },
-    };
-    const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+  "test-ledger-name",
+  "https://identity.confidential-ledger.core.azure.com",
+);
+const credential = new DefaultAzureCredential();
+const client = ConfidentialLedger(
+  "https://test-ledger-name.confidential-ledger.azure.com",
+  ledgerIdentityCertificate,
+  credential,
+);
+const getLedgerEntriesParams = {
+  queryParameters: { collectionId: "my-collection", tag: "tag1" },
+};
+const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
 ```
 
 ### Get All Collections
