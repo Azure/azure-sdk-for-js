@@ -1,28 +1,4 @@
 [
-  [
-    {
-      "id": "sanitized",
-      "source": "calling/callConnections/10007f80-253b-46e2-8e27-d577904b965b",
-      "type": "Microsoft.Communication.CallDisconnected",
-      "data": {
-        "version": "2025-08-15-preview",
-        "operationContext": "operationContextAnswerCall",
-        "resultInformation": {
-          "code": 200,
-          "subCode": 7000,
-          "message": "Call was ended by Azure Communication Service Call Automation API or a server bot. DiagCode: 0#7000.@"
-        },
-        "callConnectionId": "10007f80-253b-46e2-8e27-d577904b965b",
-        "serverCallId": "sanitized",
-        "correlationId": "2b3ad36a-ce6f-4167-b69a-be5d76b1183e",
-        "publicEventType": "Microsoft.Communication.CallDisconnected"
-      },
-      "time": "2025-07-18T05:40:04.343706+00:00",
-      "specversion": "1.0",
-      "datacontenttype": "application/json",
-      "subject": "calling/callConnections/10007f80-253b-46e2-8e27-d577904b965b"
-    }
-  ],
   {
     "to": {
       "kind": "communicationUser",
@@ -41,12 +17,12 @@
     "serverCallId": "sanitized",
     "callerDisplayName": "",
     "incomingCallContext": "sanitized",
-    "correlationId": "7e42cfdb-da5e-45d7-9372-1dbb26ed13ea"
+    "correlationId": "1e2d687a-8583-4dcb-9efc-8b446208ecb2"
   },
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/1e008180-3f40-459c-b0f5-12dd233d6209",
+      "source": "calling/callConnections/02009180-3b7e-4722-a812-1d2c2d516b91",
       "type": "Microsoft.Communication.CallDisconnected",
       "data": {
         "version": "2025-08-15-preview",
@@ -56,38 +32,39 @@
           "subCode": 0,
           "message": "Call ended successfully as it was declined from callee. DiagCode: 603#0.@"
         },
-        "callConnectionId": "1e008180-3f40-459c-b0f5-12dd233d6209",
+        "callConnectionId": "02009180-3b7e-4722-a812-1d2c2d516b91",
         "serverCallId": "sanitized",
-        "correlationId": "7e42cfdb-da5e-45d7-9372-1dbb26ed13ea",
+        "correlationId": "1e2d687a-8583-4dcb-9efc-8b446208ecb2",
         "publicEventType": "Microsoft.Communication.CallDisconnected"
       },
-      "time": "2025-07-18T05:40:15.0770015+00:00",
+      "time": "2025-07-25T08:28:11.7363937+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/1e008180-3f40-459c-b0f5-12dd233d6209"
+      "subject": "calling/callConnections/02009180-3b7e-4722-a812-1d2c2d516b91"
     }
   ],
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/1e008180-3f40-459c-b0f5-12dd233d6209",
+      "source": "calling/callConnections/02009180-3b7e-4722-a812-1d2c2d516b91",
       "type": "Microsoft.Communication.CreateCallFailed",
       "data": {
         "version": "2025-08-15-preview",
+        "operationContext": "operationContextRejectCall",
         "resultInformation": {
           "code": 603,
           "subCode": 0,
           "message": "Call ended successfully as it was declined from callee. DiagCode: 603#0.@"
         },
-        "callConnectionId": "1e008180-3f40-459c-b0f5-12dd233d6209",
+        "callConnectionId": "02009180-3b7e-4722-a812-1d2c2d516b91",
         "serverCallId": "sanitized",
-        "correlationId": "7e42cfdb-da5e-45d7-9372-1dbb26ed13ea",
+        "correlationId": "1e2d687a-8583-4dcb-9efc-8b446208ecb2",
         "publicEventType": "Microsoft.Communication.CreateCallFailed"
       },
-      "time": "2025-07-18T05:40:15.0765288+00:00",
+      "time": "2025-07-25T08:28:11.7361693+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/1e008180-3f40-459c-b0f5-12dd233d6209"
+      "subject": "calling/callConnections/02009180-3b7e-4722-a812-1d2c2d516b91"
     }
   ]
 ]

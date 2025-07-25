@@ -72,6 +72,8 @@ export class StreamingData {
           ),
           participant: createIdentifierFromRawId(jsonObject.transcriptionData.participantRawID),
           resultState: jsonObject.transcriptionData.resultStatus,
+          SentimentAnalysisResult: jsonObject.transcriptionData.sentimentAnalysisResult,
+          languageIdentified: jsonObject.transcriptionData.languageIdentified,
         };
         StreamingData.streamingKind = kind;
         return transcriptionData;

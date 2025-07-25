@@ -251,6 +251,7 @@ export class CallMedia {
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
     stopMediaStreaming(options?: StopMediaStreamingOptions): Promise<void>;
     stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
+    summarizeCall(options?: SummarizeCallOptions): Promise<void>;
     unhold(targetParticipant: CommunicationIdentifier, options?: UnholdOptions): Promise<void>;
     updateTranscription(locale: string, options?: UpdateTranscriptionOptions): Promise<void>;
 }
@@ -1620,6 +1621,13 @@ export interface SummarizationOptions {
 }
 
 // @public
+export interface SummarizeCallOptions extends OperationOptions {
+    operationCallbackUrl?: string;
+    operationContext?: string;
+    summarizationOptions?: SummarizationOptions;
+}
+
+// @public
 export interface TeamsPhoneCallDetails {
     callContext?: string;
     callSentiment?: string;
@@ -1681,10 +1689,12 @@ export interface TranscriptionData {
     confidence: number;
     durationInTicks: number;
     format: string;
+    languageIdentified: string;
     offsetInTicks: number;
     participant: CommunicationIdentifier;
     // Warning: (ae-forgotten-export) The symbol "TranscriptionResultState" needs to be exported by the entry point index.d.ts
     resultState: TranscriptionResultState;
+    SentimentAnalysisResult: SentimentAnalysisResult;
     text: string;
     words: WordData[];
 }
@@ -1716,7 +1726,7 @@ export interface TranscriptionMetadata {
 export interface TranscriptionOptions {
     enableIntermediateResults?: boolean;
     enableSentimentAnalysis?: boolean;
-    locale: string;
+    locale?: string;
     locales?: string[];
     piiRedactionOptions?: PiiRedactionOptions;
     speechModelEndpointId?: string;

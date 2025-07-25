@@ -345,7 +345,6 @@ export const TranscriptionOptionsInternal: coreClient.CompositeMapper = {
       },
       locale: {
         serializedName: "locale",
-        required: true,
         type: {
           name: "String",
         },
@@ -2499,6 +2498,34 @@ export const ErrorModel: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ErrorModel",
+        },
+      },
+    },
+  },
+};
+
+export const SummarizeCallRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SummarizeCallRequest",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+      summarizationOptions: {
+        serializedName: "summarizationOptions",
+        type: {
+          name: "Composite",
+          className: "SummarizationOptionsInternal",
         },
       },
     },

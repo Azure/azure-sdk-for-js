@@ -507,3 +507,18 @@ export interface MoveParticipantsOptions extends OperationOptions {
    */
   operationCallbackUrl?: string;
 }
+
+/**
+ * Options for summarize call details.
+ */
+export interface SummarizeCallOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+  /** Configuration options for call summarization. */
+  summarizationOptions?: SummarizationOptions;
+}

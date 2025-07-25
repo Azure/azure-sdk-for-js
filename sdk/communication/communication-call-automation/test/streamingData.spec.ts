@@ -16,7 +16,7 @@ describe("Stream data parser unit tests", function () {
   const transcriptionMetaDataJson =
     '{"kind":"TranscriptionMetadata","transcriptionMetadata":{"subscriptionId":"0000a000-9999-5555-ae00-cd00e0bc0000","locale":"en-US","callConnectionId":"6d09449c-6677-4f91-8cb7-012c338e6ec1","correlationId":"6d09449c-6677-4f91-8cb7-012c338e6ec1", "speechRecognitionModelEndpointId":"0000a000-9999-5555-ae00-cd00e0bc0001"}}';
   const transcriptionDataJson =
-    '{"kind":"TranscriptionData","transcriptionData":{"text":"Hello everyone.","format":"display","confidence":0.922650933265686,"offset":212483227,"duration":9600000,"words":[{"text":"hello","offset":212483227,"duration":2800000},{"text":"everyone","offset":215283227,"duration":6800000}],"participantRawID":"4:+000000000000","resultStatus":"Final"}}';
+    '{"kind":"TranscriptionData","transcriptionData":{"text":"Hello everyone.","format":"display","confidence":0.922650933265686,"offset":212483227,"duration":9600000,"words":[{"text":"hello","offset":212483227,"duration":2800000},{"text":"everyone","offset":215283227,"duration":6800000}],"participantRawID":"4:+000000000000","resultStatus":"Final","sentimentAnalysisResult":{"sentiment":"neutral"},"languageIdentified":"en-US"}}';
 
   const audioMetadataJson =
     '{"kind":"AudioMetadata","audioMetadata":{"subscriptionId":"4af370df-3868-461f-8242-91f077a6f8a6","encoding":"PCM","sampleRate":16000,"channels":1,"length":640}}';
@@ -121,6 +121,8 @@ function validateTranscriptionData(transcriptionData: TranscriptionData): void {
   if ("phoneNumber" in transcriptionData.participant) {
     assert.equal(transcriptionData.participant.phoneNumber, "+000000000000");
   }
+  assert.equal(transcriptionData.SentimentAnalysisResult.sentiment, "neutral");
+  assert.equal(transcriptionData.languageIdentified, "en-US");
 }
 
 function validateAudioMetadata(audioMetadata: AudioMetadata): void {

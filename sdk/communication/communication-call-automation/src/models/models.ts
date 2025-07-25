@@ -291,7 +291,7 @@ export interface MediaStreamingOptions {
 /** Options for media streaming. */
 export interface TranscriptionOptions {
   /** Specifies the Locale used for transcription, e.g., en-CA or en-AU. */
-  locale: string;
+  locale?: string;
   /** Polymorphic discriminator, which specifies the different types this object can be */
   transportType: "websocket";
   /** The URL used for live transcription transport. */

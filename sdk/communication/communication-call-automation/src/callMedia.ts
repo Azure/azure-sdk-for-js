@@ -51,6 +51,7 @@ import type {
   StopMediaStreamingOptions,
   PlayToAllOptions,
   UpdateTranscriptionOptions,
+  SummarizeCallOptions,
 } from "./models/options.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type { SendDtmfTonesResult } from "./models/responses.js";
@@ -564,6 +565,22 @@ export class CallMedia {
       {},
     );
   }
+
+  /**
+   * Summarize call details.
+   * @param options - Additional attributes for summarize call.
+   */
+  public async summarizeCall(options: SummarizeCallOptions = {}): Promise<void> {
+    const summarizeRequestOptions = {
+      summarizeCallRequestOperationContext: options.operationContext,
+      summarizeCallRequestOperationCallbackUri: options.operationCallbackUrl,
+      summarizeCallRequestSummarizationOptionsEnableEndCallSummary:
+        options.summarizationOptions?.enableEndCallSummary,
+      summarizeCallRequestSummarizationOptionsLocale: options.summarizationOptions?.locale,
+    };
+    return this.callMedia.summarizeCall(this.callConnectionId, summarizeRequestOptions);
+  }
+
   /**
    * Starts media streaming in the call.
    * @param options - Additional attributes for start media streaming.

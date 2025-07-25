@@ -127,7 +127,7 @@ export interface TranscriptionOptionsInternal {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   transportType: "websocket";
   /** Specifies the Locale used for transcription, e.g., en-CA or en-AU. */
-  locale: string;
+  locale?: string;
 }
 
 /** Properties of a call connection */
@@ -903,6 +903,18 @@ export interface ErrorModel {
   message?: string;
   /** Inner error details */
   innerError?: ErrorModel;
+}
+
+export interface SummarizeCallRequest {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptionsInternal;
 }
 
 /** The failed to add participants event. */
@@ -2621,6 +2633,22 @@ export interface CallMediaStopTranscriptionOptionalParams
 /** Optional parameters. */
 export interface CallMediaUpdateTranscriptionOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaSummarizeCallOptionalParams
+  extends coreClient.OperationOptions {
+  /** The value to identify context of the operation. */
+  summarizeCallRequestOperationContext?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  summarizeCallRequestOperationCallbackUri?: string;
+  /** Indicating whether end call summary should be enabled. */
+  summarizeCallRequestSummarizationOptionsEnableEndCallSummary?: boolean;
+  /** Locale for summarization (e.g., en-US). */
+  summarizeCallRequestSummarizationOptionsLocale?: string;
+}
 
 /** Optional parameters. */
 export interface CallMediaCancelAllMediaOperationsOptionalParams
