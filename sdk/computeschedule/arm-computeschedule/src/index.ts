@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -8,6 +9,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { ComputeScheduleClient } from "./computeScheduleClient.js";
+export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Operation,
   OperationDisplay,
@@ -55,11 +57,84 @@ export {
   GetOperationErrorsResponse,
   OperationErrorsResult,
   OperationErrorDetails,
+  ScheduledAction,
+  ScheduledActionProperties,
+  KnownResourceType,
+  ResourceType,
+  KnownScheduledActionType,
+  ScheduledActionType,
+  ScheduledActionsSchedule,
+  KnownWeekDay,
+  WeekDay,
+  KnownMonth,
+  Month,
+  NotificationProperties,
+  KnownNotificationType,
+  NotificationType,
+  KnownLanguage,
+  Language,
+  KnownProvisioningState,
+  ProvisioningState,
+  TrackedResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
+  KnownResourceProvisioningState,
+  ResourceProvisioningState,
+  ScheduledActionUpdate,
+  ScheduledActionUpdateProperties,
+  ScheduledActionResource,
+  ResourceAttachRequest,
+  ScheduledActionResourceCreate,
+  RecurringActionsResourceOperationResult,
+  ResourceStatus,
+  KnownResourceOperationStatus,
+  ResourceOperationStatus,
+  ResourceDetachRequest,
+  ResourcePatchRequest,
+  CancelOccurrenceRequest,
+  Occurrence,
+  OccurrenceProperties,
+  OccurrenceResultSummary,
+  ResourceResultSummary,
+  KnownOccurrenceState,
+  OccurrenceState,
+  ProxyResource,
+  ScheduledActionResources,
+  ExtensionResource,
+  OccurrenceResource,
+  DelayRequest,
+  OccurrenceExtensionResource,
+  OccurrenceExtensionProperties,
   KnownVersions,
 } from "./models/index.js";
 export { ComputeScheduleClientOptionalParams } from "./api/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
+export { OccurrenceExtensionListOccurrenceByVmsOptionalParams } from "./api/occurrenceExtension/index.js";
 export {
+  OccurrencesDelayOptionalParams,
+  OccurrencesCancelOptionalParams,
+  OccurrencesListResourcesOptionalParams,
+  OccurrencesListByScheduledActionOptionalParams,
+  OccurrencesGetOptionalParams,
+} from "./api/occurrences/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
+export { ScheduledActionExtensionListByVmsOptionalParams } from "./api/scheduledActionExtension/index.js";
+export {
+  ScheduledActionsTriggerManualOccurrenceOptionalParams,
+  ScheduledActionsCancelNextOccurrenceOptionalParams,
+  ScheduledActionsEnableOptionalParams,
+  ScheduledActionsDisableOptionalParams,
+  ScheduledActionsPatchResourcesOptionalParams,
+  ScheduledActionsDetachResourcesOptionalParams,
+  ScheduledActionsAttachResourcesOptionalParams,
+  ScheduledActionsListResourcesOptionalParams,
+  ScheduledActionsListBySubscriptionOptionalParams,
+  ScheduledActionsListByResourceGroupOptionalParams,
+  ScheduledActionsDeleteOptionalParams,
+  ScheduledActionsUpdateOptionalParams,
+  ScheduledActionsCreateOrUpdateOptionalParams,
+  ScheduledActionsGetOptionalParams,
   ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
   ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
   ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
@@ -72,5 +147,12 @@ export {
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
 } from "./api/scheduledActions/index.js";
-export { OperationsOperations, ScheduledActionsOperations } from "./classic/index.js";
+export {
+  OccurrenceExtensionOperations,
+  OccurrencesOperations,
+  OperationsOperations,
+  ScheduledActionExtensionOperations,
+  ScheduledActionsOperations,
+} from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

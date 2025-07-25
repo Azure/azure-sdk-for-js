@@ -9,6 +9,7 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computeschedule/arm-computeschedule)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-computeschedule)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-computeschedule?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computeschedule/arm-computeschedule/samples)
 
 ## Getting started
 
@@ -64,11 +65,11 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { ComputeScheduleClient } from "@azure/arm-computeschedule";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new ComputeScheduleClient(credential, subscriptionId);
 ```
 
@@ -96,6 +97,9 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/computeschedule/arm-computeschedule/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 

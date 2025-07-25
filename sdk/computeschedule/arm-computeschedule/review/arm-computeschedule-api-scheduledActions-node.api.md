@@ -5,7 +5,104 @@
 ```ts
 
 import { Client } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
+
+// @public
+export function $delete(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+
+// @public
+export function attachResources(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, body: ResourceAttachRequest, options?: ScheduledActionsAttachResourcesOptionalParams): Promise<RecurringActionsResourceOperationResult>;
+
+// @public
+export function cancelNextOccurrence(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, body: CancelOccurrenceRequest, options?: ScheduledActionsCancelNextOccurrenceOptionalParams): Promise<RecurringActionsResourceOperationResult>;
+
+// @public
+export function createOrUpdate(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, resource: ScheduledAction, options?: ScheduledActionsCreateOrUpdateOptionalParams): PollerLike<OperationState<ScheduledAction>, ScheduledAction>;
+
+// @public
+export function detachResources(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, body: ResourceDetachRequest, options?: ScheduledActionsDetachResourcesOptionalParams): Promise<RecurringActionsResourceOperationResult>;
+
+// @public
+export function disable(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsDisableOptionalParams): Promise<void>;
+
+// @public
+export function enable(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsEnableOptionalParams): Promise<void>;
+
+// @public
+export function get(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsGetOptionalParams): Promise<ScheduledAction>;
+
+// @public
+export function listByResourceGroup(context: ComputeScheduleContext, resourceGroupName: string, options?: ScheduledActionsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ScheduledAction>;
+
+// @public
+export function listBySubscription(context: ComputeScheduleContext, options?: ScheduledActionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ScheduledAction>;
+
+// @public
+export function listResources(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsListResourcesOptionalParams): PagedAsyncIterableIterator<ScheduledActionResource>;
+
+// @public
+export function patchResources(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, body: ResourcePatchRequest, options?: ScheduledActionsPatchResourcesOptionalParams): Promise<RecurringActionsResourceOperationResult>;
+
+// @public
+export interface ScheduledActionsAttachResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsCancelNextOccurrenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledActionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledActionsDetachResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsDisableOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsEnableOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsListResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsPatchResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsTriggerManualOccurrenceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface ScheduledActionsVirtualMachinesCancelOperationsOptionalParams extends OperationOptions {
@@ -50,6 +147,12 @@ export interface ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams ex
 // @public
 export interface ScheduledActionsVirtualMachinesSubmitStartOptionalParams extends OperationOptions {
 }
+
+// @public
+export function triggerManualOccurrence(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsTriggerManualOccurrenceOptionalParams): Promise<Occurrence>;
+
+// @public
+export function update(context: ComputeScheduleContext, resourceGroupName: string, scheduledActionName: string, properties: ScheduledActionUpdate, options?: ScheduledActionsUpdateOptionalParams): Promise<ScheduledAction>;
 
 // @public
 export function virtualMachinesCancelOperations(context: ComputeScheduleContext, locationparameter: string, requestBody: CancelOperationsRequest, options?: ScheduledActionsVirtualMachinesCancelOperationsOptionalParams): Promise<CancelOperationsResponse>;
