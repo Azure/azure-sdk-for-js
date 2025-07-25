@@ -1,10 +1,14 @@
 {
-  "name": "@azure-samples/arm-arizeaiobservabilityeval-js",
+  "name": "@azure-samples/arm-arizeaiobservabilityeval-ts",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-arizeaiobservabilityeval client library samples for JavaScript",
+  "description": "@azure/arm-arizeaiobservabilityeval client library samples for TypeScript",
   "engines": {
     "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -28,6 +32,11 @@
   "dependencies": {
     "@azure/arm-arizeaiobservabilityeval": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.9.1"
+    "@azure/identity": "^4.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "~5.8.2",
+    "rimraf": "latest"
   }
 }
