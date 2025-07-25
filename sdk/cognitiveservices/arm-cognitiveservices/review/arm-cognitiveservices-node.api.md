@@ -47,8 +47,8 @@ export interface Account extends AzureEntityResource {
 
 // @public
 export interface AccountCapabilityHosts {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, capabilityHostName: string, body: CapabilityHost, options?: AccountCapabilityHostsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountCapabilityHostsCreateOrUpdateResponse>, AccountCapabilityHostsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, capabilityHostName: string, body: CapabilityHost, options?: AccountCapabilityHostsCreateOrUpdateOptionalParams): Promise<AccountCapabilityHostsCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, capabilityHostName: string, capabilityHost: CapabilityHost, options?: AccountCapabilityHostsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountCapabilityHostsCreateOrUpdateResponse>, AccountCapabilityHostsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, capabilityHostName: string, capabilityHost: CapabilityHost, options?: AccountCapabilityHostsCreateOrUpdateOptionalParams): Promise<AccountCapabilityHostsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AccountCapabilityHostsDeleteResponse>, AccountCapabilityHostsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsDeleteOptionalParams): Promise<AccountCapabilityHostsDeleteResponse>;
     get(resourceGroupName: string, accountName: string, capabilityHostName: string, options?: AccountCapabilityHostsGetOptionalParams): Promise<AccountCapabilityHostsGetResponse>;
@@ -93,57 +93,57 @@ export interface AccountCapabilityHostsGetOptionalParams extends coreClient.Oper
 export type AccountCapabilityHostsGetResponse = CapabilityHost;
 
 // @public
-export interface AccountConnection {
-    create(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionCreateOptionalParams): Promise<AccountConnectionCreateResponse>;
-    delete(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionGetOptionalParams): Promise<AccountConnectionGetResponse>;
-    list(resourceGroupName: string, accountName: string, options?: AccountConnectionListOptionalParams): PagedAsyncIterableIterator<ConnectionPropertiesV2BasicResource>;
-    update(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionUpdateOptionalParams): Promise<AccountConnectionUpdateResponse>;
+export interface AccountConnections {
+    create(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionsCreateOptionalParams): Promise<AccountConnectionsCreateResponse>;
+    delete(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionsGetOptionalParams): Promise<AccountConnectionsGetResponse>;
+    list(resourceGroupName: string, accountName: string, options?: AccountConnectionsListOptionalParams): PagedAsyncIterableIterator<ConnectionPropertiesV2BasicResource>;
+    update(resourceGroupName: string, accountName: string, connectionName: string, options?: AccountConnectionsUpdateOptionalParams): Promise<AccountConnectionsUpdateResponse>;
 }
 
 // @public
-export interface AccountConnectionCreateOptionalParams extends coreClient.OperationOptions {
-    body?: ConnectionPropertiesV2BasicResource;
+export interface AccountConnectionsCreateOptionalParams extends coreClient.OperationOptions {
+    connection?: ConnectionPropertiesV2BasicResource;
 }
 
 // @public
-export type AccountConnectionCreateResponse = ConnectionPropertiesV2BasicResource;
+export type AccountConnectionsCreateResponse = ConnectionPropertiesV2BasicResource;
 
 // @public
-export interface AccountConnectionDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AccountConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface AccountConnectionGetOptionalParams extends coreClient.OperationOptions {
+export interface AccountConnectionsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AccountConnectionGetResponse = ConnectionPropertiesV2BasicResource;
+export type AccountConnectionsGetResponse = ConnectionPropertiesV2BasicResource;
 
 // @public
-export interface AccountConnectionListNextOptionalParams extends coreClient.OperationOptions {
+export interface AccountConnectionsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AccountConnectionListNextResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+export type AccountConnectionsListNextResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
 
 // @public
-export interface AccountConnectionListOptionalParams extends coreClient.OperationOptions {
+export interface AccountConnectionsListOptionalParams extends coreClient.OperationOptions {
     category?: string;
     includeAll?: boolean;
     target?: string;
 }
 
 // @public
-export type AccountConnectionListResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+export type AccountConnectionsListResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
 
 // @public
-export interface AccountConnectionUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: ConnectionUpdateContent;
+export interface AccountConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
+    connection?: ConnectionUpdateContent;
 }
 
 // @public
-export type AccountConnectionUpdateResponse = ConnectionPropertiesV2BasicResource;
+export type AccountConnectionsUpdateResponse = ConnectionPropertiesV2BasicResource;
 
 // @public
 export interface AccountKeyAuthTypeConnectionProperties extends ConnectionPropertiesV2 {
@@ -512,7 +512,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     accountCapabilityHosts: AccountCapabilityHosts;
     // (undocumented)
-    accountConnection: AccountConnection;
+    accountConnections: AccountConnections;
     // (undocumented)
     accounts: Accounts;
     // (undocumented)
@@ -549,7 +549,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     projectCapabilityHosts: ProjectCapabilityHosts;
     // (undocumented)
-    projectConnection: ProjectConnection;
+    projectConnections: ProjectConnections;
     // (undocumented)
     projects: Projects;
     // (undocumented)
@@ -923,7 +923,6 @@ export interface ConnectionPropertiesV2 {
     authType: "PAT" | "ManagedIdentity" | "UsernamePassword" | "None" | "SAS" | "AccountKey" | "ServicePrincipal" | "AccessKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "AAD";
     category?: ConnectionCategory;
     readonly createdByWorkspaceArmId?: string;
-    // (undocumented)
     error?: string;
     // (undocumented)
     expiryTime?: Date;
@@ -933,13 +932,10 @@ export interface ConnectionPropertiesV2 {
     metadata?: {
         [propertyName: string]: string;
     };
-    // (undocumented)
     peRequirement?: ManagedPERequirement;
-    // (undocumented)
     peStatus?: ManagedPEStatus;
     // (undocumented)
     sharedUserList?: string[];
-    // (undocumented)
     target?: string;
     // (undocumented)
     useWorkspaceManagedIdentity?: boolean;
@@ -2286,8 +2282,8 @@ export interface Project extends AzureEntityResource {
 
 // @public
 export interface ProjectCapabilityHosts {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, body: CapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectCapabilityHostsCreateOrUpdateResponse>, ProjectCapabilityHostsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, body: CapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams): Promise<ProjectCapabilityHostsCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, capabilityHost: CapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProjectCapabilityHostsCreateOrUpdateResponse>, ProjectCapabilityHostsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, capabilityHost: CapabilityHost, options?: ProjectCapabilityHostsCreateOrUpdateOptionalParams): Promise<ProjectCapabilityHostsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ProjectCapabilityHostsDeleteResponse>, ProjectCapabilityHostsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsDeleteOptionalParams): Promise<ProjectCapabilityHostsDeleteResponse>;
     get(resourceGroupName: string, accountName: string, projectName: string, capabilityHostName: string, options?: ProjectCapabilityHostsGetOptionalParams): Promise<ProjectCapabilityHostsGetResponse>;
@@ -2332,57 +2328,57 @@ export interface ProjectCapabilityHostsGetOptionalParams extends coreClient.Oper
 export type ProjectCapabilityHostsGetResponse = CapabilityHost;
 
 // @public
-export interface ProjectConnection {
-    create(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionCreateOptionalParams): Promise<ProjectConnectionCreateResponse>;
-    delete(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionGetOptionalParams): Promise<ProjectConnectionGetResponse>;
-    list(resourceGroupName: string, accountName: string, projectName: string, options?: ProjectConnectionListOptionalParams): PagedAsyncIterableIterator<ConnectionPropertiesV2BasicResource>;
-    update(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionUpdateOptionalParams): Promise<ProjectConnectionUpdateResponse>;
+export interface ProjectConnections {
+    create(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionsCreateOptionalParams): Promise<ProjectConnectionsCreateResponse>;
+    delete(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionsGetOptionalParams): Promise<ProjectConnectionsGetResponse>;
+    list(resourceGroupName: string, accountName: string, projectName: string, options?: ProjectConnectionsListOptionalParams): PagedAsyncIterableIterator<ConnectionPropertiesV2BasicResource>;
+    update(resourceGroupName: string, accountName: string, projectName: string, connectionName: string, options?: ProjectConnectionsUpdateOptionalParams): Promise<ProjectConnectionsUpdateResponse>;
 }
 
 // @public
-export interface ProjectConnectionCreateOptionalParams extends coreClient.OperationOptions {
-    body?: ConnectionPropertiesV2BasicResource;
+export interface ProjectConnectionsCreateOptionalParams extends coreClient.OperationOptions {
+    connection?: ConnectionPropertiesV2BasicResource;
 }
 
 // @public
-export type ProjectConnectionCreateResponse = ConnectionPropertiesV2BasicResource;
+export type ProjectConnectionsCreateResponse = ConnectionPropertiesV2BasicResource;
 
 // @public
-export interface ProjectConnectionDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ProjectConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface ProjectConnectionGetOptionalParams extends coreClient.OperationOptions {
+export interface ProjectConnectionsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ProjectConnectionGetResponse = ConnectionPropertiesV2BasicResource;
+export type ProjectConnectionsGetResponse = ConnectionPropertiesV2BasicResource;
 
 // @public
-export interface ProjectConnectionListNextOptionalParams extends coreClient.OperationOptions {
+export interface ProjectConnectionsListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ProjectConnectionListNextResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+export type ProjectConnectionsListNextResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
 
 // @public
-export interface ProjectConnectionListOptionalParams extends coreClient.OperationOptions {
+export interface ProjectConnectionsListOptionalParams extends coreClient.OperationOptions {
     category?: string;
     includeAll?: boolean;
     target?: string;
 }
 
 // @public
-export type ProjectConnectionListResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
+export type ProjectConnectionsListResponse = ConnectionPropertiesV2BasicResourceArmPaginatedResult;
 
 // @public
-export interface ProjectConnectionUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: ConnectionUpdateContent;
+export interface ProjectConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
+    connection?: ConnectionUpdateContent;
 }
 
 // @public
-export type ProjectConnectionUpdateResponse = ConnectionPropertiesV2BasicResource;
+export type ProjectConnectionsUpdateResponse = ConnectionPropertiesV2BasicResource;
 
 // @public
 export interface ProjectListResult {
