@@ -16,7 +16,6 @@ const playwrightServiceGlobalTeardownWrapper = async (config: FullConfig): Promi
       customerConfig.globalTeardown,
     );
   }
-
   playwrightServiceEntra.globalTeardown();
   if (customerGlobalTeardownFunc) {
     await customerGlobalTeardownFunc(config);
