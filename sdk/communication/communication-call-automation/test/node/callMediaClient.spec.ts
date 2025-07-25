@@ -42,6 +42,7 @@ import type {
   StopMediaStreamingOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
   PlayToAllOptions,
+  SummarizeCallOptions,
 } from "../../src/index.js";
 
 // Current directory imports
@@ -2137,6 +2138,93 @@ describe("Call Media Client Live Tests", function () {
         locale: "en-US",
         startTranscription: false,
         enableIntermediateResults: false,
+      };
+
+      const createCallOptions: CreateCallOptions = {
+        transcriptionOptions: transcriptionOptions,
+        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+      };
+
+      const result = await callerCallAutomationClient.createCall(
+        callInvite,
+        callBackUrl,
+        createCallOptions,
+      );
+      const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
+      const callConnectionId: string = result.callConnectionProperties.callConnectionId
+        ? result.callConnectionProperties.callConnectionId
+        : "";
+      assert.isDefined(incomingCallContext);
+
+      if (incomingCallContext) {
+        await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      }
+      const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+      assert.isDefined(callConnectedEvent);
+      callConnection = result.callConnection;
+
+      await callConnection.getCallMedia().startTranscription();
+      const transcriptionStarted = await waitForEvent(
+        "TranscriptionStarted",
+        callConnectionId,
+        8000,
+      );
+      assert.isDefined(transcriptionStarted);
+
+      await callConnection.getCallMedia().stopTranscription();
+      const transcriptionStopped = waitForEvent("TranscriptionStopped", callConnectionId, 8000);
+      assert.isDefined(transcriptionStopped);
+
+      await callConnection.hangUp(true);
+      const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+      assert.isDefined(callDisconnectedEvent);
+    },
+  );
+
+  it(
+    "Creates a call, start transcription with semantic analysis and redaction, and hangs up.",
+    { timeout: 60000 },
+    async function (ctx) {
+      const fullTitle: string | undefined =
+        ctx.task.suite && ctx.task.suite.name && ctx.task.name
+          ? `${ctx.task.suite.name} ${ctx.task.name}`
+          : undefined;
+      testName = fullTitle
+        ? fullTitle.replace(/ /g, "_")
+        : "create_call_start_transcription_with_semantic_analysis_redcation_and_hang_up";
+      await loadPersistedEvents(testName);
+
+      const phoneNumbers = await getPhoneNumbers(recorder);
+      assert.isAtLeast(
+        phoneNumbers.length,
+        2,
+        "Invalid PSTN setup, test needs at least 2 phone numbers",
+      );
+      callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+      receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+      const callInvite: CallInvite = {
+        targetParticipant: receiverPhoneUser,
+        sourceCallIdNumber: callerPhoneUser,
+      };
+      const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+      const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+      const transcriptionOptions: TranscriptionOptions = {
+        transportUrl: transportUrl,
+        transportType: "websocket",
+        locale: "en-US",
+        startTranscription: false,
+        enableIntermediateResults: false,
+        enableSentimentAnalysis: true,
+        piiRedactionOptions: {
+          enable: true,
+          redactionType: "maskWithCharacter",
+        },
+        summarizationOptions: {
+          enableEndCallSummary: true,
+          locale: "en-us",
+        },
       };
 
       const createCallOptions: CreateCallOptions = {

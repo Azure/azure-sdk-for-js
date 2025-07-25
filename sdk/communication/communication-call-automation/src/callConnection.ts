@@ -11,6 +11,7 @@ import {
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
   CustomCallingContextInternal,
+  MoveParticipantsRequest,
   MuteParticipantsRequest,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
@@ -28,6 +29,7 @@ import type {
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
+  MoveParticipantsOptions,
   MuteParticipantOption,
   RemoveParticipantsOption,
   TransferCallToParticipantOptions,
@@ -39,6 +41,7 @@ import type {
   RemoveParticipantResult,
   MuteParticipantResult,
   CancelAddParticipantOperationResult,
+  MoveParticipantsResult,
 } from "./models/responses.js";
 import {
   callParticipantConverter,
@@ -47,6 +50,7 @@ import {
   communicationUserIdentifierConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
+  teamsPhoneCallDetailsModelConverter,
 } from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -180,6 +184,7 @@ export class CallConnection {
   ): CustomCallingContextInternal {
     const sipHeaders: { [key: string]: string } = {};
     const voipHeaders: { [key: string]: string } = {};
+    let teamsPhoneCallDetails: any = undefined;
     if (customCallingContext) {
       for (const header of customCallingContext) {
         if (header.kind === "sipuui") {
@@ -192,10 +197,16 @@ export class CallConnection {
           }
         } else if (header.kind === "voip") {
           voipHeaders[`${header.key}`] = header.value;
+        } else if (header.kind === "teamsPhoneCallDetails") {
+          teamsPhoneCallDetails = teamsPhoneCallDetailsModelConverter(header);
         }
       }
     }
-    return { sipHeaders: sipHeaders, voipHeaders: voipHeaders };
+    return {
+      sipHeaders: sipHeaders,
+      voipHeaders: voipHeaders,
+      teamsPhoneCallDetails: teamsPhoneCallDetails,
+    };
   }
 
   /**
@@ -370,5 +381,45 @@ export class CallConnection {
     };
 
     return cancelAddParticipantResult;
+  }
+
+  /**
+   * Move participants to the call
+   *
+   * @param targetParticipants - The participants to be moved to the call.
+   * @param fromCall - The CallConnectionId for the call you want to move the participant from.
+   * @param options - Additional attributes for move participants.
+   */
+  public async moveParticipants(
+    targetParticipants: CommunicationIdentifier[],
+    fromCall: string,
+    options: MoveParticipantsOptions = {},
+  ): Promise<MoveParticipantsResult> {
+    const moveParticipantsRequest: MoveParticipantsRequest = {
+      targetParticipants: targetParticipants.map((participant) =>
+        communicationIdentifierModelConverter(participant),
+      ),
+      fromCall: fromCall,
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationCallbackUri: options.operationCallbackUrl,
+    };
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: randomUUID(),
+    };
+    const result = await this.callConnection.moveParticipants(
+      this.callConnectionId,
+      moveParticipantsRequest,
+      optionsInternal,
+    );
+    const moveParticipantsResult: MoveParticipantsResult = {
+      ...result,
+      participants: result.participants?.map((participant) =>
+        callParticipantConverter(participant),
+      ),
+      fromCall: fromCall,
+    };
+    return moveParticipantsResult;
   }
 }

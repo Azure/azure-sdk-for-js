@@ -22,6 +22,7 @@ import {
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
   MuteParticipantsRequest as MuteParticipantsRequestMapper,
   CancelAddParticipantRequest as CancelAddParticipantRequestMapper,
+  MoveParticipantsRequest as MoveParticipantsRequestMapper,
   PlayRequest as PlayRequestMapper,
   StartTranscriptionRequest as StartTranscriptionRequestMapper,
   StopTranscriptionRequest as StopTranscriptionRequestMapper,
@@ -80,7 +81,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-06-15",
+    defaultValue: "2025-08-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -165,6 +166,11 @@ export const cancelAddParticipantRequest: OperationParameter = {
   mapper: CancelAddParticipantRequestMapper,
 };
 
+export const moveParticipantRequest: OperationParameter = {
+  parameterPath: "moveParticipantRequest",
+  mapper: MoveParticipantsRequestMapper,
+};
+
 export const participantRawId: OperationURLParameter = {
   parameterPath: "participantRawId",
   mapper: {
@@ -207,6 +213,56 @@ export const updateTranscriptionRequest: OperationParameter = {
   parameterPath: "updateTranscriptionRequest",
   mapper: UpdateTranscriptionRequestMapper,
 };
+
+export const summarizeCallRequestOperationContext: OperationQueryParameter = {
+  parameterPath: ["options", "summarizeCallRequestOperationContext"],
+  mapper: {
+    serializedName: "summarizeCallRequest.operationContext",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const summarizeCallRequestOperationCallbackUri: OperationQueryParameter =
+  {
+    parameterPath: ["options", "summarizeCallRequestOperationCallbackUri"],
+    mapper: {
+      serializedName: "summarizeCallRequest.operationCallbackUri",
+      type: {
+        name: "String",
+      },
+    },
+  };
+
+export const summarizeCallRequestSummarizationOptionsEnableEndCallSummary: OperationQueryParameter =
+  {
+    parameterPath: [
+      "options",
+      "summarizeCallRequestSummarizationOptionsEnableEndCallSummary",
+    ],
+    mapper: {
+      serializedName:
+        "summarizeCallRequest.summarizationOptions.enableEndCallSummary",
+      type: {
+        name: "Boolean",
+      },
+    },
+  };
+
+export const summarizeCallRequestSummarizationOptionsLocale: OperationQueryParameter =
+  {
+    parameterPath: [
+      "options",
+      "summarizeCallRequestSummarizationOptionsLocale",
+    ],
+    mapper: {
+      serializedName: "summarizeCallRequest.summarizationOptions.locale",
+      type: {
+        name: "String",
+      },
+    },
+  };
 
 export const recognizeRequest: OperationParameter = {
   parameterPath: "recognizeRequest",
