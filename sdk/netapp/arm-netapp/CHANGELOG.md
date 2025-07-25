@@ -1,14 +1,12 @@
 # Release History
     
-## 22.0.0 (2025-07-15)
+## 21.6.0 (2025-07-25)
     
 ### Features Added
   - Interface SubscriptionQuotaItemList has a new optional parameter nextLink
   - Added Type Alias NetAppResourceQuotaLimitsListNextResponse
   - Enum KnownReplicationSchedule has a new value TenMinutely
-### Breaking Changes
   - Enum KnownReplicationSchedule no longer has value "10Minutely"
-
     
     
 ## 21.6.0-beta.1 (2025-05-14)
