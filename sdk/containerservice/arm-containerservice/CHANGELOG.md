@@ -1,4 +1,17 @@
 # Release History
+
+## 22.2.0 (2025-07-25)
+
+### Features Added
+  - Added Interface ManagedClusterAIToolchainOperatorProfile
+  - Added Interface ManagedClusterNodeProvisioningProfile
+  - Interface ManagedCluster has a new optional parameter aiToolchainOperatorProfile
+  - Interface ManagedCluster has a new optional parameter nodeProvisioningProfile
+  - Added Type Alias NodeProvisioningDefaultNodePools
+  - Added Type Alias NodeProvisioningMode
+  - Added Enum KnownNodeProvisioningDefaultNodePools
+  - Added Enum KnownNodeProvisioningMode
+
     
 ## 23.0.0-beta.2 (2025-07-08)
 Compared with version 22.1.0

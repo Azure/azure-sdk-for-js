@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PrivateLinkResources } from "../operationsInterfaces/index.js";
+import { PrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
+import { ContainerServiceClient } from "../containerServiceClient.js";
+import {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesListResponse,
 } from "../models/index.js";
