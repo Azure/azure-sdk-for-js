@@ -3,7 +3,7 @@
 
 import https from "node:https";
 import http from "node:http";
-import type { AccessToken, GetTokenOptions, TokenCredential } from "../src/index.js";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/identity";
 import type { AzureLogLevel } from "@azure/logger";
 import { AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "node:http";
@@ -11,12 +11,12 @@ import type {
   IdentityTestContextInterface,
   RawTestResponse,
   TestResponse,
-} from "./httpRequestsCommon.js";
-import { createResponse } from "./httpRequestsCommon.js";
+} from "../../httpRequestsCommon.js";
+import { createResponse } from "../../httpRequestsCommon.js";
 import { PassThrough } from "node:stream";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { getError } from "./authTestUtils.js";
-import { openIdConfigurationResponse } from "./msalTestUtils.js";
+import { getError } from "../../authTestUtils.js";
+import { openIdConfigurationResponse } from "../../msalTestUtils.js";
 
 import type { MockInstance } from "vitest";
 import { vi } from "vitest";

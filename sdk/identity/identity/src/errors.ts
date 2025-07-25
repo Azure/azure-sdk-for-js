@@ -76,7 +76,7 @@ export const CredentialUnavailableErrorName = "CredentialUnavailableError";
  */
 export class CredentialUnavailableError extends Error {
   constructor(message?: string, options?: { cause?: unknown }) {
-    // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
+    // @ts-ignore - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
     super(message, options);
     this.name = CredentialUnavailableErrorName;
   }
@@ -143,7 +143,7 @@ export class AuthenticationError extends Error {
 
     super(
       `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription},`,
-      // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
+      // @ts-ignore - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
       options,
     );
     this.statusCode = statusCode;
@@ -234,7 +234,7 @@ export class AuthenticationRequiredError extends Error {
   ) {
     super(
       options.message,
-      // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
+      // @ts-ignore - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
       options.cause ? { cause: options.cause } : undefined,
     );
     this.scopes = options.scopes;

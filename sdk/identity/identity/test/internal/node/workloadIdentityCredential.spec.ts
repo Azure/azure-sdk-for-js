@@ -3,12 +3,12 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import type { AccessToken, WorkloadIdentityCredentialOptions } from "../../../src/index.js";
+import type { AccessToken, WorkloadIdentityCredentialOptions } from "@azure/identity";
 import {
   DefaultAzureCredential,
   ManagedIdentityCredential,
   WorkloadIdentityCredential,
-} from "../../../src/index.js";
+} from "@azure/identity";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 
