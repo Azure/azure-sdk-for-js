@@ -13,6 +13,11 @@ import {
   _storageDiscoveryWorkspaceListResultDeserializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
   StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
   StorageDiscoveryWorkspacesDeleteOptionalParams,
@@ -20,11 +25,6 @@ import {
   StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
   StorageDiscoveryWorkspacesGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
