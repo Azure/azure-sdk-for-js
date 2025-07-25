@@ -14,6 +14,7 @@ export function createStorageDiscovery(credential: TokenCredential, subscription
 // @public
 export interface StorageDiscoveryClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public

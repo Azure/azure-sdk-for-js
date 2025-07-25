@@ -13,6 +13,16 @@ import { TokenCredential } from '@azure/core-auth';
 export type ActionType = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
 };
@@ -147,6 +157,7 @@ export class StorageDiscoveryClient {
 // @public
 export interface StorageDiscoveryClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public

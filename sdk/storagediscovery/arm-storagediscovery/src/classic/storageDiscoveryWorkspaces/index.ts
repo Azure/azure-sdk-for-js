@@ -2,15 +2,6 @@
 // Licensed under the MIT License.
 
 import { StorageDiscoveryContext } from "../../api/storageDiscoveryContext.js";
-import { StorageDiscoveryWorkspace, StorageDiscoveryWorkspaceUpdate } from "../../models/models.js";
-import {
-  StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
-  StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
-  StorageDiscoveryWorkspacesDeleteOptionalParams,
-  StorageDiscoveryWorkspacesUpdateOptionalParams,
-  StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
-  StorageDiscoveryWorkspacesGetOptionalParams,
-} from "../../api/storageDiscoveryWorkspaces/options.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,6 +10,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageDiscoveryWorkspaces/operations.js";
+import {
+  StorageDiscoveryWorkspacesListBySubscriptionOptionalParams,
+  StorageDiscoveryWorkspacesListByResourceGroupOptionalParams,
+  StorageDiscoveryWorkspacesDeleteOptionalParams,
+  StorageDiscoveryWorkspacesUpdateOptionalParams,
+  StorageDiscoveryWorkspacesCreateOrUpdateOptionalParams,
+  StorageDiscoveryWorkspacesGetOptionalParams,
+} from "../../api/storageDiscoveryWorkspaces/options.js";
+import { StorageDiscoveryWorkspace, StorageDiscoveryWorkspaceUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a StorageDiscoveryWorkspaces operations. */
