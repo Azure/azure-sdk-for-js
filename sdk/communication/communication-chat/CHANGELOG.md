@@ -2,10 +2,13 @@
 
 ## 1.6.1 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
 ### Bugs Fixed
 
-- Fixed missing support for `TeamsExtensionUserIdentifierModel`.
-- Updated serialization logic for `PhoneNumberIdentifierModel`.
+### Other Changes
 
 ## 1.6.0 (2025-06-23)
 
