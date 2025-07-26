@@ -135,8 +135,8 @@ async function main() {
   const deepResearchTool = {
     type: "deep_research",
     deepResearch: {
-      deepResearchModel: deepResearchModelDeploymentName,
-      deepResearchBingGroundingConnections: [
+      model: deepResearchModelDeploymentName,
+      bingGroundingConnections: [
         {
           connectionId: bingConnectionId,
         },
