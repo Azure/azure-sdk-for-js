@@ -50,13 +50,13 @@ npx dev-tool run vendored cross-env  node operationsListSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v1/javascript/operationsListSample.js
-[organizationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v1/javascript/organizationsCreateOrUpdateSample.js
-[organizationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v1/javascript/organizationsDeleteSample.js
-[organizationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v1/javascript/organizationsGetSample.js
-[organizationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v1/javascript/organizationsListByResourceGroupSample.js
-[organizationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v1/javascript/organizationsListBySubscriptionSample.js
-[organizationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v1/javascript/organizationsUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v2/javascript/operationsListSample.js
+[organizationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v2/javascript/organizationsCreateOrUpdateSample.js
+[organizationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v2/javascript/organizationsDeleteSample.js
+[organizationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v2/javascript/organizationsGetSample.js
+[organizationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v2/javascript/organizationsListByResourceGroupSample.js
+[organizationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v2/javascript/organizationsListBySubscriptionSample.js
+[organizationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples/v2/javascript/organizationsUpdateSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-arizeaiobservabilityeval?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/liftrarize/arm-arizeaiobservabilityeval/README.md
