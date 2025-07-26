@@ -11,12 +11,12 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createJWTTokenFromCertificate } from "./utils/utils.js";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "node:fs";
-import type { WorkloadIdentityCredentialOptions } from "../../../src/index.js";
+import type { WorkloadIdentityCredentialOptions } from "@azure/identity";
 import {
   DefaultAzureCredential,
   ManagedIdentityCredential,
   WorkloadIdentityCredential,
-} from "../../../src/index.js";
+} from "@azure/identity";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe.skip("WorkloadIdentityCredential", function () {

@@ -7,9 +7,9 @@ import type {
   IdentityTestContextInterface,
   RawTestResponse,
   TestResponse,
-} from "./httpRequestsCommon.js";
+} from "../../httpRequestsCommon.js";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { getError } from "./authTestUtils.js";
+import { getError } from "../../authTestUtils.js";
 import { type MockInstance, vi } from "vitest";
 
 /**
