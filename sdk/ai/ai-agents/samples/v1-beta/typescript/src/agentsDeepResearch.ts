@@ -145,8 +145,8 @@ export async function main(): Promise<void> {
   const deepResearchTool: DeepResearchToolDefinition = {
     type: "deep_research",
     deepResearch: {
-      deepResearchModel: deepResearchModelDeploymentName,
-      deepResearchBingGroundingConnections: [
+      model: deepResearchModelDeploymentName,
+      bingGroundingConnections: [
         {
           connectionId: bingConnectionId,
         },

@@ -28,6 +28,7 @@ Use the AI Agents client library to:
       - [Code interpreter](#create-agent-with-code-interpreter)
       - [Bing grounding](#create-agent-with-bing-grounding)
       - [Deep research](#create-agent-with-deep-research)
+      - [MCP tool](#create-agent-with-mcp-tool)
       - [Azure AI Search](#create-agent-with-azure-ai-search)
       - [Function call](#create-agent-with-function-call)
     - [Create thread](#create-thread) with
