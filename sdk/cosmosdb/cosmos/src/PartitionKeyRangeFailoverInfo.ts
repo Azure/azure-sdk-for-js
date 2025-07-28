@@ -40,10 +40,10 @@ export class PartitionKeyRangeFailoverInfo {
    * Increments the failure counts for read or write requests and updates the timestamps.
    * If the time since the last failure exceeds the reset window, it resets the failure counts.
    */
-  public async incrementRequestFailureCounts(
+  public incrementRequestFailureCounts(
     isReadOnlyRequest: boolean,
     currentTimeInMilliseconds: number,
-  ): Promise<void> {
+  ): void {
     const { lastRequestFailureTime } = this.snapshotPartitionFailoverTimestamps();
 
     if (
@@ -82,12 +82,12 @@ export class PartitionKeyRangeFailoverInfo {
    * from the provided list of endpoints. If a new endpoint is found, it updates the current endpoint
    * and returns true. If no new endpoint is found, it returns false.
    */
-  public async tryMoveNextLocation(
+  public tryMoveNextLocation(
     endPoints: readonly string[],
     failedEndPoint: string,
     diagnosticNode: DiagnosticNodeInternal,
     partitionKeyRangeId: string,
-  ): Promise<boolean> {
+  ): boolean {
     if (failedEndPoint !== this.currentEndPoint) {
       return true;
     }

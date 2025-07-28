@@ -239,7 +239,7 @@ export class GlobalPartitionEndpointManager {
     );
 
     const currentTimeInMilliseconds = Date.now();
-    await partitionKeyRangeFailoverInfo.incrementRequestFailureCounts(
+    partitionKeyRangeFailoverInfo.incrementRequestFailureCounts(
       isReadRequest(requestContext.operationType),
       currentTimeInMilliseconds,
     );
@@ -358,7 +358,7 @@ export class GlobalPartitionEndpointManager {
 
     // Will return true if it was able to update to a new region
     if (
-      await partitionFailOver.tryMoveNextLocation(
+      partitionFailOver.tryMoveNextLocation(
         nextEndPoints,
         failedEndPoint,
         diagnosticNode,

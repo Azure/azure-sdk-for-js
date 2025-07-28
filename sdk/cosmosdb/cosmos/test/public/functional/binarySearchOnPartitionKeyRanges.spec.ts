@@ -8,7 +8,7 @@ import {
 } from "../../../src/utils/hashing/hash.js";
 import { isKeyInRange } from "../../../src/utils/batch.js";
 import { PartitionKeyDefinition, PartitionKeyRange } from "../../../src/index.js";
-import { PartitionKeyKind } from "../../../dist/esm/index.js";
+import { PartitionKeyKind } from "../../../src/index.js";
 
 const partitionKeyDefinition: PartitionKeyDefinition = {
   paths: ["/name"],
