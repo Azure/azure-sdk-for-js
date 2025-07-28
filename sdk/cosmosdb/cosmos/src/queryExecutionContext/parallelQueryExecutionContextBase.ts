@@ -9,7 +9,7 @@ import type { FeedOptions, Response } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
 import { QueryRange } from "../routing/QueryRange.js";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider.js";
-import type { CosmosHeaders, PartitionKeyRange } from "../index.js";
+import type { CosmosHeaders } from "../index.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { DocumentProducer } from "./documentProducer.js";
@@ -18,20 +18,8 @@ import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../diagnostics/DiagnosticNodeInternal.js";
-import { ClientContext } from "../ClientContext.js";
-
-/**
- * @hidden
- * Internal response format that includes buffer and partition key range mapping
- */
-interface InternalResponse<T> {
-  buffer: T;
-  partitionKeyRangeMap: Map<
-    string,
-    { indexes: number[]; continuationToken: string | null; partitionKeyRange?: PartitionKeyRange }
-  >;
-  headers: CosmosHeaders;
-}
+import type { ClientContext } from "../ClientContext.js";
+import type { QueryRangeMapping } from "./QueryRangeMapping.js";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -60,10 +48,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   // along partition key range it will also hold continuation token for that partition key range
   // patch id + doc range + continuation token
   // e.g. { 0: { indexes: [0, 21], continuationToken: "token" } }
-  private patchToRangeMapping: Map<
-    string,
-    { indexes: number[]; continuationToken: string | null; partitionKeyRange?: PartitionKeyRange }
-  > = new Map();
+  private patchToRangeMapping: Map<string, QueryRangeMapping> = new Map();
   private sem: any;
   private diagnosticNodeWrapper: {
     consumed: boolean;
@@ -370,14 +355,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         this.buffer = [];
         // reset the patchToRangeMapping
         const patchToRangeMapping = this.patchToRangeMapping;
-        this.patchToRangeMapping = new Map<
-          string,
-          {
-            indexes: number[];
-            continuationToken: string | null;
-            partitionKeyRange?: PartitionKeyRange;
-          }
-        >();
+        this.patchToRangeMapping = new Map<string, QueryRangeMapping>();
 
         // release the lock before returning
         this.sem.leave();

@@ -37,6 +37,7 @@ import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import { randomUUID } from "@azure/core-util";
 import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
 import { PartitionKeyRangeCache } from "./routing/index.js";
+import { Console } from "node:console";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -62,6 +63,9 @@ export class QueryIterator<T> {
     private resourceLink?: string,
     private resourceType?: ResourceType,
   ) {
+    console.log("==========================================");
+    console.log("QUERYITERATOR: Constructor called");
+    console.log("==========================================");
     this.query = query;
     this.fetchFunctions = fetchFunctions;
     this.options = options || {};
@@ -180,6 +184,9 @@ export class QueryIterator<T> {
    */
 
   public async fetchAll(): Promise<FeedResponse<T>> {
+    console.log("==========================================");
+    console.log("QUERYITERATOR: fetchAll() method called");
+    console.log("==========================================");
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       return this.fetchAllInternal(diagnosticNode);
     }, this.clientContext);
@@ -190,6 +197,9 @@ export class QueryIterator<T> {
    */
   public async fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>> {
     this.reset();
+    console.log("==========================================");
+    console.log("QUERYITERATOR: fetchAllInternal() called");
+    console.log("==========================================");
     let response: FeedResponse<T>;
     try {
       response = await this.toArrayImplementation(diagnosticNode);
@@ -266,6 +276,11 @@ export class QueryIterator<T> {
         throw error;
       }
     }
+    console.log("=== QUERYITERATOR DEBUG ===");
+    console.log("response.headers:", response.headers);
+    console.log("response.headers.continuationToken:", response.headers.continuationToken);
+    console.log("response.headers['x-ms-continuation']:", response.headers["x-ms-continuation"]);
+    console.log("=== END QUERYITERATOR DEBUG ===");
     return new FeedResponse<T>(
       response.result,
       response.headers,
@@ -313,6 +328,9 @@ export class QueryIterator<T> {
   private async toArrayImplementation(
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<FeedResponse<T>> {
+    console.log("==========================================");
+    console.log("QUERYITERATOR: toArrayImplementation() called");
+    console.log("==========================================");
     this.queryPlanPromise = withMetadataDiagnostics(
       async (metadataNode: DiagnosticNodeInternal) => {
         return this.fetchQueryPlan(metadataNode);
