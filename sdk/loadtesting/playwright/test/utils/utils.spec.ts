@@ -21,6 +21,8 @@ import {
   fetchOrValidateAccessToken,
   populateValuesFromServiceUrl,
   getRunName,
+  isValidGuid,
+  ValidateRunID,
 } from "../../src/utils/utils.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -580,7 +582,48 @@ describe("Service Utils", () => {
 
     delete process.env["PLAYWRIGHT_SERVICE_URL"];
   });
+  describe("isValidGuid", () => {
+    it("should return true for valid GUIDs", () => {
+      const validGuids = [
+        "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
+        "f3a0f9c8-1b4b-4f44-9a77-062d8d418878",
+        "00000000-0000-0000-0000-000000000000",
+        "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+      ];
 
+      validGuids.forEach((guid) => {
+        expect(isValidGuid(guid)).toBe(true);
+      });
+    });
+
+    it("should return false for invalid GUIDs", () => {
+      const invalidGuids = [
+        "",
+        "not-a-guid",
+        "a1b2c3d4e5f647a8b9c0d1e2f3a4b5c6",
+        "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5",
+        "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6c",
+      ];
+
+      invalidGuids.forEach((guid) => {
+        expect(isValidGuid(guid)).toBe(false);
+      });
+    });
+
+    it("should handle undefined and null values", () => {
+      expect(isValidGuid(undefined as unknown as string)).toBe(false);
+      expect(isValidGuid(null as unknown as string)).toBe(false);
+    });
+  });
+  it("should exit with failure message when invalid GUID is provided in runId", () => {
+    const invalidGuid = "not-a-valid-guid";
+    const exitStub = vi.mocked(process.exit).mockImplementation(() => {
+      throw new Error();
+    });
+
+    expect(() => ValidateRunID(invalidGuid)).toThrow();
+    expect(exitStub).toHaveBeenCalledWith(1);
+  });
   it("should return null for an invalid service URL", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
       await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");

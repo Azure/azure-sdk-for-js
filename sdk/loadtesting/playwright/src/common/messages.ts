@@ -48,4 +48,8 @@ export const ServiceErrorMessageConstants = {
     key: "FailedToCreateTestRun",
     message: "Failed to create the test run in the Playwright service.",
   },
+  INVALID_RUN_ID_FORMAT: {
+    key: "InvalidRunIdFormat",
+    message: "The Run ID must be a valid GUID format. Please provide a valid GUID for the Run ID.",
+  },
 };
