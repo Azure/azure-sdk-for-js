@@ -65,6 +65,11 @@ export const getServiceBaseURL = (): string | undefined => {
   return process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
 };
 
+export const isValidGuid = (guid: string): boolean => {
+  const guidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return guidRegex.test(guid);
+};
+
 export const getAndSetRunId = (): string => {
   const runId = randomUUID();
   process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = runId;
@@ -82,6 +87,11 @@ export const validateServiceUrl = (): void => {
   }
 };
 
+export const ValidateRunID = (runID: string): void => {
+  if (!isValidGuid(runID)) {
+    exitWithFailureMessage(ServiceErrorMessageConstants.INVALID_RUN_ID_FORMAT);
+  }
+};
 export const validateMptPAT = (
   validationFailureCallback: (error: { key: string; message: string }) => void,
 ): void => {
