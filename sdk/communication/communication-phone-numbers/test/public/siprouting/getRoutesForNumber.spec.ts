@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { SipRoutingClient, SipTrunkRoute } from "../../../src/index.js";
+
+import type { SipRoutingClient } from "../../../src/index.js";
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -9,12 +10,11 @@ import {
   clearSipConfiguration,
   createRecordedClient,
   createRecordedClientWithToken,
-  routesAreEqual,
 } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 matrix([[true, false]], async (useAad) => {
-  describe(`SipRoutingClient - get routes${useAad ? " [AAD]" : ""}`, () => {
+  describe(`SipRoutingClient - get routes for number${useAad ? " [AAD]" : ""}`, () => {
     let client: SipRoutingClient;
     let recorder: Recorder;
 
@@ -34,24 +34,16 @@ matrix([[true, false]], async (useAad) => {
       await recorder.stop();
     });
 
-    it("can retrieve not empty routes", async () => {
-      const expectedRoutes: SipTrunkRoute[] = [
-        {
-          name: "myFirstRoute",
-          description: "myFirstRoute's description",
-          numberPattern: "^+[1-9][0-9]{3,23}$",
-          trunks: [],
-          callerIdOverride: "+1234568790",
-        },
-        {
-          name: "mySecondRoute",
-          description: "mySecondRoute's description",
-          numberPattern: "^+[1-9][0-9]{3,23}$",
-          trunks: [],
-        },
+    it("can get routes for number", async () => {
+      const routes = [
+        { name: "route1", numberPattern: "^.123.*" },
+        { name: "route2", numberPattern: "^.987.*" },
+        { name: "route3", numberPattern: "^.*" },
       ];
-      const routes = await client.setRoutes(expectedRoutes);
-      assert.isTrue(routesAreEqual(routes, expectedRoutes));
+      const routesForNumber = await client.getRoutesForNumber("+1234567890", routes);
+      assert.isNotNull(routesForNumber);
+      assert.isArray(routesForNumber);
+      assert.equal(routesForNumber?.length, 2);
     });
   });
 });

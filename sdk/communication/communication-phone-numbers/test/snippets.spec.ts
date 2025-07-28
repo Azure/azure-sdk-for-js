@@ -369,7 +369,9 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const trunk = await client.getTrunk("sbc.one.domain.com");
     if (trunk) {
-      console.log(`Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}`);
+      console.log(
+        `Trunk ${trunk.fqdn}:${trunk.sipSignalingPort}, ${trunk.enabled}, ${trunk.directTransfer}, ${trunk.ipAddressVersion}, ${trunk.privacyHeader}`,
+      );
     } else {
       console.log("Trunk not found");
     }
@@ -390,6 +392,23 @@ describe("snippets", () => {
     const client = new SipRoutingClient("<endpoint-from-resource>", credential);
     // @ts-preserve-whitespace
     await client.deleteTrunk("sbc.one.domain.com");
+  });
+
+  it("SetLogLevel", async () => {
+    setLogLevel("info");
+  });
+
+  it("SipRoutingClientGetRoutesForNumber", async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new SipRoutingClient("<endpoint-from-resource>", credential);
+    // @ts-preserve-whitespace
+    const routes = [
+      { name: "route1", numberPattern: "^.123.*" },
+      { name: "route2", numberPattern: "^.987.*" },
+      { name: "route3", numberPattern: "^.*" },
+    ];
+
+    const matchedRoutes = await client.getRoutesForNumber("+123456789", routes);
   });
 
   it("SetLogLevel", async () => {

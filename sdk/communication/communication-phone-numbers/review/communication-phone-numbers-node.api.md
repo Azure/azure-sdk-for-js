@@ -96,6 +96,16 @@ export interface GetReservationOptions extends OperationOptions {
 }
 
 // @public
+export interface GetSipDomainsOptions extends OperationOptions {
+}
+
+// @public
+export type HealthStatusReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
+
+// @public
+export type IpAddressVersion = "ipv4" | "ipv6";
+
+// @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
 }
 
@@ -129,6 +139,10 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 
 // @public
 export interface ListReservationOptions extends OperationOptions {
+}
+
+// @public
+export interface ListSipDomainsOptions extends OperationOptions {
 }
 
 // @public
@@ -172,6 +186,14 @@ export interface OperatorInformationResult {
 
 // @public
 export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
+
+// @public (undocumented)
+export type OverallHealth = {
+    status: "unknown" | "active";
+} | {
+    status: "inactive";
+    reason: HealthStatusReason;
+};
 
 // @public
 export interface PhoneNumberAdministrativeDivision {
@@ -328,6 +350,17 @@ export interface PhoneNumbersReservation {
 export type PhoneNumberType = "geographic" | "tollFree" | "mobile";
 
 // @public
+export interface PingHealth {
+    status: PingStatus;
+}
+
+// @public
+export type PingStatus = "unknown" | "ok" | "expired" | "error";
+
+// @public
+export type PrivacyHeader = "id" | "none";
+
+// @public
 export interface PurchasedPhoneNumber {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
@@ -365,14 +398,26 @@ export interface SearchOperatorInformationOptions extends OperationOptions {
 }
 
 // @public
+export interface SipDomain {
+    enabled: boolean;
+    fqdn: string;
+}
+
+// @public
 export class SipRoutingClient {
     constructor(connectionString: string, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
+    deleteDomain(fqdn: string, options?: OperationOptions): Promise<void>;
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
+    getDomain(fqdn: string, options?: GetSipDomainsOptions): Promise<SipDomain>;
+    getRoutesForNumber(targetPhoneNumber: string, routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
+    listDomains(options?: ListSipDomainsOptions): PagedAsyncIterableIterator<SipDomain>;
     listRoutes(options?: ListSipRoutesOptions): PagedAsyncIterableIterator<SipTrunkRoute>;
     listTrunks(options?: ListSipTrunksOptions): PagedAsyncIterableIterator<SipTrunk>;
+    setDomain(domain: SipDomain, options?: OperationOptions): Promise<SipDomain>;
+    setDomains(domains: SipDomain[], options?: OperationOptions): Promise<SipDomain[]>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
     setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
@@ -393,16 +438,37 @@ export interface SipRoutingError {
 
 // @public
 export interface SipTrunk {
+    directTransfer?: boolean;
+    enabled?: boolean;
     fqdn: string;
+    health?: TrunkHealth;
+    ipAddressVersion?: IpAddressVersion;
+    privacyHeader?: PrivacyHeader;
     sipSignalingPort: number;
 }
 
 // @public
 export interface SipTrunkRoute {
+    callerIdOverride?: string;
     description?: string;
     name: string;
     numberPattern: string;
     trunks?: string[];
+}
+
+// @public
+export interface TlsHealth {
+    status: TlsStatus;
+}
+
+// @public
+export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
+
+// @public
+export interface TrunkHealth {
+    overall: OverallHealth;
+    ping: PingHealth;
+    tls: TlsHealth;
 }
 
 // (No @packageDocumentation comment for this package)

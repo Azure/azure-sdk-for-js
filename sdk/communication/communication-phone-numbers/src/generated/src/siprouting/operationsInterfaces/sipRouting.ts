@@ -10,7 +10,9 @@ import {
   SipRoutingGetOptionalParams,
   SipRoutingGetResponse,
   SipRoutingUpdateOptionalParams,
-  SipRoutingUpdateResponse
+  SipRoutingUpdateResponse,
+  SipRoutingTestRoutesWithNumberOptionalParams,
+  SipRoutingTestRoutesWithNumberResponse,
 } from "../models/index.js";
 
 /** Interface representing a SipRouting. */
@@ -25,6 +27,15 @@ export interface SipRouting {
    * @param options The options parameters.
    */
   update(
-    options?: SipRoutingUpdateOptionalParams
+    options?: SipRoutingUpdateOptionalParams,
   ): Promise<SipRoutingUpdateResponse>;
+  /**
+   * Gets the list of routes matching the target phone number, ordered by priority.
+   * @param targetPhoneNumber Phone number to test routing patterns against
+   * @param options The options parameters.
+   */
+  testRoutesWithNumber(
+    targetPhoneNumber: string,
+    options?: SipRoutingTestRoutesWithNumberOptionalParams,
+  ): Promise<SipRoutingTestRoutesWithNumberResponse>;
 }

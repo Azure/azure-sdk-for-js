@@ -9,7 +9,7 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import type { SipTrunk, SipTrunkRoute } from "../../../../src/index.js";
+import type { SipTrunk, SipTrunkRoute, SipDomain } from "../../../../src/index.js";
 import { SipRoutingClient } from "../../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/identity";
@@ -145,6 +145,7 @@ export async function clearSipConfiguration(): Promise<void> {
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
   );
+  await client.setDomain({ fqdn: env.AZURE_TEST_DOMAIN, enabled: true } as SipDomain);
   await client.setRoutes([]);
   await client.setTrunks([]);
 }
@@ -152,10 +153,32 @@ export async function clearSipConfiguration(): Promise<void> {
 let fqdnNumber = 1;
 export function getUniqueFqdn(recorder: Recorder): string {
   const id = randomUUID().replace(/-/g, "");
-  return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${getAzureTestDomain()}`);
+  return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${getAzureTestDomain(recorder)}`);
 }
+
 export function resetUniqueFqdns(): void {
   fqdnNumber = 1;
+}
+
+let domainNumber = 1;
+export function getUniqueDomain(recorder: Recorder): string {
+  const uniqueDomain = randomUUID().replace(/-/g, "");
+  return recorder.variable(`domain-${domainNumber++}`, `${uniqueDomain}.sanitized.sbc.test`);
+}
+
+export function resetUniqueDomains(): void {
+  domainNumber = 1;
+}
+
+export async function listAllDomains(client: SipRoutingClient): Promise<SipDomain[]> {
+  const result: SipDomain[] = [];
+
+  for await (const domain of client.listDomains()) {
+    if (domain) {
+      result.push(domain);
+    }
+  }
+  return result;
 }
 
 export async function listAllTrunks(client: SipRoutingClient): Promise<SipTrunk[]> {
@@ -179,6 +202,68 @@ export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkR
   return result;
 }
 
-function getAzureTestDomain(): string {
-  return env.AZURE_TEST_DOMAIN ?? "sanitized.sbc.test";
+export function trunksAreEqual(actual: SipTrunk[], expected: SipTrunk[]): boolean {
+  if (actual == null && expected == null) {
+    return true;
+  }
+
+  if (actual.length !== expected.length) {
+    return false;
+  }
+
+  for (const trunk of actual) {
+    const expectedTrunk = expected.find((value: SipTrunk) => value.fqdn === trunk.fqdn);
+
+    if (expectedTrunk === undefined) {
+      return false;
+    }
+
+    const trunkEqual =
+      trunk.enabled === expectedTrunk.enabled &&
+      trunk.sipSignalingPort === expectedTrunk.sipSignalingPort &&
+      trunk.directTransfer === expectedTrunk.directTransfer &&
+      trunk.ipAddressVersion === expectedTrunk.ipAddressVersion &&
+      trunk.privacyHeader === expectedTrunk.privacyHeader;
+
+    if (!trunkEqual) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function routesAreEqual(actual: SipTrunkRoute[], expected: SipTrunkRoute[]): boolean {
+  if (actual == null && expected == null) {
+    return true;
+  }
+
+  if (actual.length !== expected.length) {
+    return false;
+  }
+
+  for (const route of actual) {
+    const expectedRoute = expected.find((value: SipTrunkRoute) => value.name === route.name);
+
+    if (expectedRoute === undefined) {
+      return false;
+    }
+
+    const routeEqual =
+      route.description === expectedRoute.description &&
+      route.numberPattern === expectedRoute.numberPattern &&
+      route.trunks?.length === expectedRoute.trunks?.length &&
+      (route.callerIdOverride === expectedRoute.callerIdOverride ||
+        (!route.callerIdOverride && !expectedRoute.callerIdOverride));
+
+    if (!routeEqual) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function getAzureTestDomain(recorder: Recorder): string {
+  return recorder.variable("verified-domain", `${env.AZURE_TEST_DOMAIN}`);
 }
