@@ -326,8 +326,8 @@ export enum KnownScheduledActionType {
 // @public
 export enum KnownVersions {
     "V2024-10-01" = "2024-10-01",
-    _20240815Preview = "2024-08-15-preview",
-    _20250415Preview = "2025-04-15-preview",
+    V20240815Preview = "2024-08-15-preview",
+    V20250415Preview = "2025-04-15-preview",
     V20250501 = "2025-05-01"
 }
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.0-beta.1 (2025-07-25)
+## 1.2.0-beta.1 (2025-07-28)
 Compared with version 1.1.0
 
 ### Features Added
@@ -95,8 +95,8 @@ Compared with version 1.1.0
   - Added Enum KnownResourceType
   - Added Enum KnownScheduledActionType
   - Added Enum KnownWeekDay
-  - Enum KnownVersions has a new value _20240815Preview
-  - Enum KnownVersions has a new value _20250415Preview
+  - Enum KnownVersions has a new value V20240815Preview
+  - Enum KnownVersions has a new value V20250415Preview
 
     
 ## 1.1.0 (2025-06-06)

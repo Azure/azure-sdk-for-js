@@ -2043,11 +2043,11 @@ export function occurrenceExtensionPropertiesDeserializer(
 /** ComputeSchedule API versions */
 export enum KnownVersions {
   /** 2024-08-15-preview version */
-  _20240815Preview = "2024-08-15-preview",
+  V20240815Preview = "2024-08-15-preview",
   /** 2024-10-01 version */
   "V2024-10-01" = "2024-10-01",
   /** 2025-05-01 version */
   V20250501 = "2025-05-01",
   /** 2025-04-15-preview version */
-  _20250415Preview = "2025-04-15-preview",
+  V20250415Preview = "2025-04-15-preview",
 }
