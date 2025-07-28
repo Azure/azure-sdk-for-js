@@ -65,7 +65,10 @@ export const getServiceBaseURL = (): string | undefined => {
   return process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
 };
 
-export const isValidGuid = (guid: string): boolean => {
+export const isValidGuid = (guid: string | null | undefined): boolean => {
+  if (!guid) {
+    return false;
+  }
   const guidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   return guidRegex.test(guid);
 };

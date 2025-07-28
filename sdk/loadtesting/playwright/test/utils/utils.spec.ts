@@ -621,7 +621,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => ValidateRunID(invalidGuid)).to.throw();
+    expect(() => ValidateRunID(invalidGuid)).toThrow();
     expect(exitStub).toHaveBeenCalledWith(1);
   });
   it("should return null for an invalid service URL", async () => {
