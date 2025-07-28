@@ -23,6 +23,7 @@ import {
   UnholdRequest,
   StartMediaStreamingRequest,
   StopMediaStreamingRequest,
+  SummarizeCallRequest,
 } from "./generated/src/index.js";
 import { KnownPlaySourceType, KnownRecognizeInputType } from "./generated/src/index.js";
 
@@ -571,14 +572,15 @@ export class CallMedia {
    * @param options - Additional attributes for summarize call.
    */
   public async summarizeCall(options: SummarizeCallOptions = {}): Promise<void> {
-    const summarizeRequestOptions = {
-      summarizeCallRequestOperationContext: options.operationContext,
-      summarizeCallRequestOperationCallbackUri: options.operationCallbackUrl,
-      summarizeCallRequestSummarizationOptionsEnableEndCallSummary:
-        options.summarizationOptions?.enableEndCallSummary,
-      summarizeCallRequestSummarizationOptionsLocale: options.summarizationOptions?.locale,
+    const summarizeCallRequest: SummarizeCallRequest = {
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUrl,
+      summarizationOptions: {
+        enableEndCallSummary: options.summarizationOptions?.enableEndCallSummary,
+        locale: options.summarizationOptions?.locale,
+      },
     };
-    return this.callMedia.summarizeCall(this.callConnectionId, summarizeRequestOptions);
+    return this.callMedia.summarizeCall(this.callConnectionId, summarizeCallRequest, {});
   }
 
   /**

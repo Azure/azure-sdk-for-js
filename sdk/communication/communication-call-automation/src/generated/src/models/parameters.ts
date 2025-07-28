@@ -27,6 +27,7 @@ import {
   StartTranscriptionRequest as StartTranscriptionRequestMapper,
   StopTranscriptionRequest as StopTranscriptionRequestMapper,
   UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
+  SummarizeCallRequest as SummarizeCallRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
@@ -214,55 +215,10 @@ export const updateTranscriptionRequest: OperationParameter = {
   mapper: UpdateTranscriptionRequestMapper,
 };
 
-export const summarizeCallRequestOperationContext: OperationQueryParameter = {
-  parameterPath: ["options", "summarizeCallRequestOperationContext"],
-  mapper: {
-    serializedName: "summarizeCallRequest.operationContext",
-    type: {
-      name: "String",
-    },
-  },
+export const summarizeCallRequest: OperationParameter = {
+  parameterPath: "summarizeCallRequest",
+  mapper: SummarizeCallRequestMapper,
 };
-
-export const summarizeCallRequestOperationCallbackUri: OperationQueryParameter =
-  {
-    parameterPath: ["options", "summarizeCallRequestOperationCallbackUri"],
-    mapper: {
-      serializedName: "summarizeCallRequest.operationCallbackUri",
-      type: {
-        name: "String",
-      },
-    },
-  };
-
-export const summarizeCallRequestSummarizationOptionsEnableEndCallSummary: OperationQueryParameter =
-  {
-    parameterPath: [
-      "options",
-      "summarizeCallRequestSummarizationOptionsEnableEndCallSummary",
-    ],
-    mapper: {
-      serializedName:
-        "summarizeCallRequest.summarizationOptions.enableEndCallSummary",
-      type: {
-        name: "Boolean",
-      },
-    },
-  };
-
-export const summarizeCallRequestSummarizationOptionsLocale: OperationQueryParameter =
-  {
-    parameterPath: [
-      "options",
-      "summarizeCallRequestSummarizationOptionsLocale",
-    ],
-    mapper: {
-      serializedName: "summarizeCallRequest.summarizationOptions.locale",
-      type: {
-        name: "String",
-      },
-    },
-  };
 
 export const recognizeRequest: OperationParameter = {
   parameterPath: "recognizeRequest",

@@ -43,7 +43,7 @@ import {
   MediaStreamingFailed as RestMediaStreamingFailed,
 } from "../generated/src/models/index.js";
 
-import type { CallParticipant } from "./models.js";
+import type { CallParticipant, TranscriptionUpdate } from "./models.js";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
@@ -84,7 +84,8 @@ export type CallAutomationEvent =
   | PlayStarted
   | StartRecordingFailed
   | MoveParticipantSucceeded
-  | MoveParticipantFailed;
+  | MoveParticipantFailed
+  | TranscriptionCallSummaryUpdate;
 export {
   RestAddParticipantSucceeded,
   RestAddParticipantFailed,
@@ -1019,4 +1020,24 @@ export interface MoveParticipantFailed {
   participant?: CommunicationIdentifier;
   /** kind of this event. */
   kind: "MoveParticipantFailed";
+}
+
+export interface TranscriptionCallSummaryUpdate {
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  transcriptionUpdate?: TranscriptionUpdate;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "TranscriptionCallSummaryUpdate";
 }

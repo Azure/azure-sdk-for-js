@@ -15,6 +15,7 @@ import {
   CallMediaStopTranscriptionOptionalParams,
   UpdateTranscriptionRequest,
   CallMediaUpdateTranscriptionOptionalParams,
+  SummarizeCallRequest,
   CallMediaSummarizeCallOptionalParams,
   CallMediaCancelAllMediaOperationsOptionalParams,
   RecognizeRequest,
@@ -82,12 +83,14 @@ export interface CallMedia {
     options?: CallMediaUpdateTranscriptionOptionalParams,
   ): Promise<void>;
   /**
-   * API to get a summary of the call so far.
+   * API to trigger a summary of the call so far.
    * @param callConnectionId The call connection id
+   * @param summarizeCallRequest The SummarizeCall request
    * @param options The options parameters.
    */
   summarizeCall(
     callConnectionId: string,
+    summarizeCallRequest: SummarizeCallRequest,
     options?: CallMediaSummarizeCallOptionalParams,
   ): Promise<void>;
   /**

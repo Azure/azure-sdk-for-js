@@ -20,8 +20,6 @@ import {
   CallRecordingStopRecordingOptionalParams,
   CallRecordingPauseRecordingOptionalParams,
   CallRecordingResumeRecordingOptionalParams,
-  CallRecordingGetRecordingResultOptionalParams,
-  CallRecordingGetRecordingResultResponse,
 } from "../models/index.js";
 
 /** Class containing CallRecording operations. */
@@ -110,21 +108,6 @@ export class CallRecordingImpl implements CallRecording {
       resumeRecordingOperationSpec,
     );
   }
-
-  /**
-   * Get recording result. This includes the download URLs for the recording chunks.
-   * @param recordingId The recording id.
-   * @param options The options parameters.
-   */
-  getRecordingResult(
-    recordingId: string,
-    options?: CallRecordingGetRecordingResultOptionalParams,
-  ): Promise<CallRecordingGetRecordingResultResponse> {
-    return this.client.sendOperationRequest(
-      { recordingId, options },
-      getRecordingResultOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -204,22 +187,6 @@ const resumeRecordingOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.recordingId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getRecordingResultOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/recordings/{recordingId}/result",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RecordingResultResponse,
-    },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
     },

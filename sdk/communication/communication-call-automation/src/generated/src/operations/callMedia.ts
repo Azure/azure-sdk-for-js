@@ -20,6 +20,7 @@ import {
   CallMediaStopTranscriptionOptionalParams,
   UpdateTranscriptionRequest,
   CallMediaUpdateTranscriptionOptionalParams,
+  SummarizeCallRequest,
   CallMediaSummarizeCallOptionalParams,
   CallMediaCancelAllMediaOperationsOptionalParams,
   RecognizeRequest,
@@ -121,16 +122,18 @@ export class CallMediaImpl implements CallMedia {
   }
 
   /**
-   * API to get a summary of the call so far.
+   * API to trigger a summary of the call so far.
    * @param callConnectionId The call connection id
+   * @param summarizeCallRequest The SummarizeCall request
    * @param options The options parameters.
    */
   summarizeCall(
     callConnectionId: string,
+    summarizeCallRequest: SummarizeCallRequest,
     options?: CallMediaSummarizeCallOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { callConnectionId, options },
+      { callConnectionId, summarizeCallRequest, options },
       summarizeCallOperationSpec,
     );
   }
@@ -355,22 +358,18 @@ const updateTranscriptionOperationSpec: coreClient.OperationSpec = {
 };
 const summarizeCallOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:summarizeCall",
-  httpMethod: "GET",
+  httpMethod: "POST",
   responses: {
     202: {},
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.summarizeCallRequestOperationContext,
-    Parameters.summarizeCallRequestOperationCallbackUri,
-    Parameters.summarizeCallRequestSummarizationOptionsEnableEndCallSummary,
-    Parameters.summarizeCallRequestSummarizationOptionsLocale,
-  ],
+  requestBody: Parameters.summarizeCallRequest,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer,
 };
 const cancelAllMediaOperationsOperationSpec: coreClient.OperationSpec = {

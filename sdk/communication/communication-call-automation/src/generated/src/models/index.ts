@@ -505,6 +505,18 @@ export interface UpdateTranscriptionRequest {
   summarizationOptions?: SummarizationOptionsInternal;
 }
 
+export interface SummarizeCallRequest {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptionsInternal;
+}
+
 export interface RecognizeRequest {
   /** Determines the type of the recognition. */
   recognizeInputType: RecognizeInputType;
@@ -850,71 +862,6 @@ export interface RecordingStateResponse {
   recordingId?: string;
   recordingState?: RecordingState;
   recordingKind?: RecordingKind;
-}
-
-/** Recording result data */
-export interface RecordingResultResponse {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly recordingId?: string;
-  /**
-   * Container for chunks
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recordingStorageInfo?: RecordingStorageInfo;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly errors?: ErrorModel[];
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly recordingStartTime?: Date;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly recordingDurationMs?: number;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly sessionEndReason?: CallSessionEndReason;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly recordingExpirationTime?: Date;
-}
-
-/** Container for chunks */
-export interface RecordingStorageInfo {
-  /** Collection of {Microsoft.Skype.Platform.ExecutionAgent.Azure.Communication.Service.ServerCalling.Content.Contracts.BETA7_2025_08_15_preview.Models.RecordingChunkStorageInfo} */
-  recordingChunks?: RecordingChunkStorageInfo[];
-}
-
-/** Recording chunk data */
-export interface RecordingChunkStorageInfo {
-  /** Chunk document id */
-  documentId?: string;
-  /** Chunks order in a multi chunk recording */
-  index?: number;
-  /** Reason this chunk ended */
-  endReason?: ChunkEndReason;
-  /** Location of the chunk */
-  contentLocation?: string;
-  /** Location of chunk metadata */
-  metadataLocation?: string;
-  /** Callback for deleting chunk */
-  deleteLocation?: string;
-}
-
-/** Error details */
-export interface ErrorModel {
-  /** Error code */
-  code?: string;
-  /** Error message */
-  message?: string;
-  /** Inner error details */
-  innerError?: ErrorModel;
-}
-
-export interface SummarizeCallRequest {
-  /** The value to identify context of the operation. */
-  operationContext?: string;
-  /**
-   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUri?: string;
-  /** Summarization configuration options. */
-  summarizationOptions?: SummarizationOptionsInternal;
 }
 
 /** The failed to add participants event. */
@@ -1547,6 +1494,7 @@ export interface TranscriptionFailed {
 export interface TranscriptionUpdate {
   transcriptionStatus?: TranscriptionStatus;
   transcriptionStatusDetails?: TranscriptionStatusDetails;
+  message?: string;
 }
 
 export interface TranscriptionStarted {
@@ -1586,6 +1534,24 @@ export interface TranscriptionStopped {
 }
 
 export interface TranscriptionUpdated {
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+}
+
+export interface TranscriptionCallSummaryUpdate {
   /**
    * Defines the result for TranscriptionUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2130,123 +2096,6 @@ export enum KnownRecordingKind {
  */
 export type RecordingKind = string;
 
-/** Known values of {@link ChunkEndReason} that the service accepts. */
-export enum KnownChunkEndReason {
-  /** ChunkIsBeingRecorded */
-  ChunkIsBeingRecorded = "chunkIsBeingRecorded",
-  /** SessionEnded */
-  SessionEnded = "sessionEnded",
-  /** ChunkMaximumSizeExceeded */
-  ChunkMaximumSizeExceeded = "chunkMaximumSizeExceeded",
-  /** ChunkMaximumTimeExceeded */
-  ChunkMaximumTimeExceeded = "chunkMaximumTimeExceeded",
-  /** ChunkUploadFailure */
-  ChunkUploadFailure = "chunkUploadFailure",
-}
-
-/**
- * Defines values for ChunkEndReason. \
- * {@link KnownChunkEndReason} can be used interchangeably with ChunkEndReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **chunkIsBeingRecorded** \
- * **sessionEnded** \
- * **chunkMaximumSizeExceeded** \
- * **chunkMaximumTimeExceeded** \
- * **chunkUploadFailure**
- */
-export type ChunkEndReason = string;
-
-/** Known values of {@link CallSessionEndReason} that the service accepts. */
-export enum KnownCallSessionEndReason {
-  /** SessionStillOngoing */
-  SessionStillOngoing = "sessionStillOngoing",
-  /** CallEnded */
-  CallEnded = "callEnded",
-  /** InitiatorLeft */
-  InitiatorLeft = "initiatorLeft",
-  /** HandedOverOrTransfered */
-  HandedOverOrTransfered = "handedOverOrTransfered",
-  /** MaximumSessionTimeReached */
-  MaximumSessionTimeReached = "maximumSessionTimeReached",
-  /** CallStartTimeout */
-  CallStartTimeout = "callStartTimeout",
-  /** MediaTimeout */
-  MediaTimeout = "mediaTimeout",
-  /** AudioStreamFailure */
-  AudioStreamFailure = "audioStreamFailure",
-  /** AllInstancesBusy */
-  AllInstancesBusy = "allInstancesBusy",
-  /** TeamsTokenConversionFailed */
-  TeamsTokenConversionFailed = "teamsTokenConversionFailed",
-  /** ReportCallStateFailed */
-  ReportCallStateFailed = "reportCallStateFailed",
-  /** ReportCallStateFailedAndSessionMustBeDiscarded */
-  ReportCallStateFailedAndSessionMustBeDiscarded = "reportCallStateFailedAndSessionMustBeDiscarded",
-  /** CouldNotRejoinCall */
-  CouldNotRejoinCall = "couldNotRejoinCall",
-  /** InvalidBotData */
-  InvalidBotData = "invalidBotData",
-  /** CouldNotStart */
-  CouldNotStart = "couldNotStart",
-  /** AppHostedMediaFailureOutcomeWithError */
-  AppHostedMediaFailureOutcomeWithError = "appHostedMediaFailureOutcomeWithError",
-  /** AppHostedMediaFailureOutcomeGracefully */
-  AppHostedMediaFailureOutcomeGracefully = "appHostedMediaFailureOutcomeGracefully",
-  /** HandedOverDueToMediaTimeout */
-  HandedOverDueToMediaTimeout = "handedOverDueToMediaTimeout",
-  /** HandedOverDueToAudioStreamFailure */
-  HandedOverDueToAudioStreamFailure = "handedOverDueToAudioStreamFailure",
-  /** SpeechRecognitionSessionNonRetriableError */
-  SpeechRecognitionSessionNonRetriableError = "speechRecognitionSessionNonRetriableError",
-  /** SpeechRecognitionSessionRetriableErrorMaxRetryCountReached */
-  SpeechRecognitionSessionRetriableErrorMaxRetryCountReached = "speechRecognitionSessionRetriableErrorMaxRetryCountReached",
-  /** HandedOverDueToChunkCreationFailure */
-  HandedOverDueToChunkCreationFailure = "handedOverDueToChunkCreationFailure",
-  /** ChunkCreationFailed */
-  ChunkCreationFailed = "chunkCreationFailed",
-  /** HandedOverDueToProcessingTimeout */
-  HandedOverDueToProcessingTimeout = "handedOverDueToProcessingTimeout",
-  /** ProcessingTimeout */
-  ProcessingTimeout = "processingTimeout",
-  /** TranscriptObjectCreationFailed */
-  TranscriptObjectCreationFailed = "transcriptObjectCreationFailed",
-}
-
-/**
- * Defines values for CallSessionEndReason. \
- * {@link KnownCallSessionEndReason} can be used interchangeably with CallSessionEndReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **sessionStillOngoing** \
- * **callEnded** \
- * **initiatorLeft** \
- * **handedOverOrTransfered** \
- * **maximumSessionTimeReached** \
- * **callStartTimeout** \
- * **mediaTimeout** \
- * **audioStreamFailure** \
- * **allInstancesBusy** \
- * **teamsTokenConversionFailed** \
- * **reportCallStateFailed** \
- * **reportCallStateFailedAndSessionMustBeDiscarded** \
- * **couldNotRejoinCall** \
- * **invalidBotData** \
- * **couldNotStart** \
- * **appHostedMediaFailureOutcomeWithError** \
- * **appHostedMediaFailureOutcomeGracefully** \
- * **handedOverDueToMediaTimeout** \
- * **handedOverDueToAudioStreamFailure** \
- * **speechRecognitionSessionNonRetriableError** \
- * **speechRecognitionSessionRetriableErrorMaxRetryCountReached** \
- * **handedOverDueToChunkCreationFailure** \
- * **chunkCreationFailed** \
- * **handedOverDueToProcessingTimeout** \
- * **processingTimeout** \
- * **transcriptObjectCreationFailed**
- */
-export type CallSessionEndReason = string;
-
 /** Known values of {@link AudioFormat} that the service accepts. */
 export enum KnownAudioFormat {
   /** Pcm16KMono */
@@ -2379,6 +2228,8 @@ export enum KnownTranscriptionStatus {
   TranscriptionUpdated = "transcriptionUpdated",
   /** TranscriptionStopped */
   TranscriptionStopped = "transcriptionStopped",
+  /** CallSummaryUpdate */
+  CallSummaryUpdate = "callSummaryUpdate",
   /** UnspecifiedError */
   UnspecifiedError = "unspecifiedError",
 }
@@ -2393,6 +2244,7 @@ export enum KnownTranscriptionStatus {
  * **transcriptionResumed** \
  * **transcriptionUpdated** \
  * **transcriptionStopped** \
+ * **callSummaryUpdate** \
  * **unspecifiedError**
  */
 export type TranscriptionStatus = string;
@@ -2429,6 +2281,10 @@ export enum KnownTranscriptionStatusDetails {
   ServiceTimeout = "serviceTimeout",
   /** TranscriptionLocaleUpdated */
   TranscriptionLocaleUpdated = "transcriptionLocaleUpdated",
+  /** CallSummarySuccess */
+  CallSummarySuccess = "callSummarySuccess",
+  /** CallSummaryFailure */
+  CallSummaryFailure = "callSummaryFailure",
 }
 
 /**
@@ -2450,7 +2306,9 @@ export enum KnownTranscriptionStatusDetails {
  * **tooManyRequests** \
  * **forbidden** \
  * **serviceTimeout** \
- * **transcriptionLocaleUpdated**
+ * **transcriptionLocaleUpdated** \
+ * **callSummarySuccess** \
+ * **callSummaryFailure**
  */
 export type TranscriptionStatusDetails = string;
 
@@ -2636,19 +2494,7 @@ export interface CallMediaUpdateTranscriptionOptionalParams
 
 /** Optional parameters. */
 export interface CallMediaSummarizeCallOptionalParams
-  extends coreClient.OperationOptions {
-  /** The value to identify context of the operation. */
-  summarizeCallRequestOperationContext?: string;
-  /**
-   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  summarizeCallRequestOperationCallbackUri?: string;
-  /** Indicating whether end call summary should be enabled. */
-  summarizeCallRequestSummarizationOptionsEnableEndCallSummary?: boolean;
-  /** Locale for summarization (e.g., en-US). */
-  summarizeCallRequestSummarizationOptionsLocale?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallMediaCancelAllMediaOperationsOptionalParams
@@ -2725,13 +2571,6 @@ export interface CallRecordingPauseRecordingOptionalParams
 /** Optional parameters. */
 export interface CallRecordingResumeRecordingOptionalParams
   extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface CallRecordingGetRecordingResultOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getRecordingResult operation. */
-export type CallRecordingGetRecordingResultResponse = RecordingResultResponse;
 
 /** Optional parameters. */
 export interface CallAutomationApiClientOptionalParams

@@ -3,13 +3,7 @@
 
 import type { CallConnection } from "../callConnection.js";
 import type { CallConnectionProperties, CallParticipant } from "./models.js";
-import type {
-  RecordingState,
-  RecordingKind,
-  RecordingStorageInfo,
-  ErrorModel,
-  CallSessionEndReason,
-} from "../generated/src/index.js";
+import type { RecordingState, RecordingKind } from "../generated/src/index.js";
 
 /**
  * The interface used as parent of [action]CallResult
@@ -82,24 +76,6 @@ export interface RecordingStateResult {
   recordingId: string;
   recordingKind: RecordingKind;
   recordingState: RecordingState;
-}
-
-/** The response payload for starting a call recording or getting call recording result. */
-export interface RecordingResult {
-  /** The unique identifier for the recording */
-  recordingId: string;
-  /** Container for recording storage information and chunks */
-  readonly recordingStorageInfo?: RecordingStorageInfo;
-  /** List of errors that occurred during recording, if any */
-  readonly errors?: ErrorModel[];
-  /** The timestamp when the recording started */
-  readonly recordingStartTime?: Date;
-  /** The duration of the recording in milliseconds */
-  readonly recordingDurationMs?: number;
-  /** The reason why the call session ended */
-  readonly sessionEndReason?: CallSessionEndReason;
-  /** The timestamp when the recording will expire */
-  readonly recordingExpirationTime?: Date;
 }
 
 /** The response payload for sending DTMF tones. */

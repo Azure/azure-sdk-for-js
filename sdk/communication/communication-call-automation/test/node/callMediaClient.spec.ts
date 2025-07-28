@@ -685,6 +685,37 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.operationContext, options.operationContext);
     assert.equal(data.interruptCallMediaOperation, undefined);
   });
+
+  it("makes successful summarize call request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+    const summarizeCallOptions: SummarizeCallOptions = {
+      operationContext: "summarizationOperationContext",
+      operationCallbackUrl: "https://test.com",
+      summarizationOptions: {
+        enableEndCallSummary: true,
+        locale: "en-US",
+      },
+    };
+
+    await callMedia.summarizeCall(summarizeCallOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.operationContext, summarizeCallOptions.operationContext);
+    assert.equal(data.operationCallbackUri, summarizeCallOptions.operationCallbackUrl);
+    assert.equal(
+      data.summarizationOptions.enableEndCallSummary,
+      summarizeCallOptions.summarizationOptions?.enableEndCallSummary,
+    );
+    assert.equal(
+      data.summarizationOptions.locale,
+      summarizeCallOptions.summarizationOptions?.locale,
+    );
+    assert.equal(request.method, "POST");
+  });
 });
 
 describe("Call Media Client Live Tests", function () {
