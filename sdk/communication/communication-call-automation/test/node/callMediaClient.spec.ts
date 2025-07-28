@@ -716,6 +716,23 @@ describe("CallMedia Unit Tests", async function () {
     );
     assert.equal(request.method, "POST");
   });
+
+  it("makes successful summarize call request without options.", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    await callMedia.summarizeCall();
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.isUndefined(data.operationContext);
+    assert.isUndefined(data.operationCallbackUri);
+    assert.isUndefined(data.summarizationOptions.enableEndCallSummary);
+    assert.isUndefined(data.summarizationOptions.locale);
+    assert.equal(request.method, "POST");
+  });
 });
 
 describe("Call Media Client Live Tests", function () {
