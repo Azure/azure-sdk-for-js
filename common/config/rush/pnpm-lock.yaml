@@ -2829,7 +2829,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-dashboard@file:projects/arm-dashboard.tgz':
-    resolution: {integrity: sha512-qcFqQUX5iqrxOvl+aEbXAyyd7jpLwBlpBRsS9faztDR3KiT8WYmBm5ZjUd/zkrutf0nd9/HFEPC1r9p+85niZw==, tarball: file:projects/arm-dashboard.tgz}
+    resolution: {integrity: sha512-vSg4s8U7Z1CTOQA337sOBMjuypst4wp1/Ib3Y8w0Oc0fag+8O2oSb9zFYVa07iOIDQ4qO6VRLsETWrarnDHBRw==, tarball: file:projects/arm-dashboard.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databasewatcher@file:projects/arm-databasewatcher.tgz':
@@ -11907,12 +11907,12 @@ snapshots:
 
   '@rush-temp/arm-dashboard@file:projects/arm-dashboard.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/core-lro': 2.7.2
       '@azure/identity': 4.10.1
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
       dotenv: 16.5.0
+      eslint: 9.29.0
       playwright: 1.53.1
       tslib: 2.8.1
       typescript: 5.8.3
