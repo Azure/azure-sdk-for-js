@@ -141,7 +141,7 @@ This section contains code snippets for the following samples:
 - [Get All Ledger Entries With CollectionId and Tag](#get-all-ledger-entries-with-collectionid-and-tag "Get All Ledger Entries With CollectionId and Tag")
 - [Get All Collections](#get-all-collections "Get All Collections")
 - [Get Transactions for a Collection](#transactions-for-collection "Get Transactions for a Collection")
-- [List Enclave Quotes](#list-enclave-quotes "List Enclave Quotes
+- [List Enclave Quotes](#list-enclave-quotes "List Enclave Quotes")
 
 ### Post Ledger Entry
 
@@ -196,13 +196,13 @@ const client = ConfidentialLedger(
   credential,
 );
 // Type assertion is used to allow collectionId
-const entry = {
+const entry: LedgerEntry = {
   contents: "<content>",
-  collectionId: "my-collection",
-} as LedgerEntry & {
-  collectionId: string;
 };
 const ledgerEntry: CreateLedgerEntryParameters = {
+  queryParameters: {
+    collectionId: "my collection",
+  },
   contentType: "application/json",
   body: entry,
 };
@@ -229,15 +229,13 @@ const client = ConfidentialLedger(
   credential,
 );
 // Type assertion is used to allow collectionId and tags
-const entry = {
+const entry: LedgerEntry = {
   contents: "<content>",
-  collectionId: "my-collection",
-  tags: "tag1,tag2",
-} as LedgerEntry & {
-  collectionId: string;
-  tags: string;
 };
 const ledgerEntry: CreateLedgerEntryParameters = {
+  queryParameters: {
+    tags: "tag1,tag2",
+  },
   contentType: "application/json",
   body: entry,
 };

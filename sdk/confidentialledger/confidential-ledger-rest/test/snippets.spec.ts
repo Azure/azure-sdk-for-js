@@ -85,11 +85,13 @@ describe("snippets", () => {
       credential,
     );
     // Type assertion is used to allow collectionId
-    const entry = {
+    const entry: LedgerEntry = {
       contents: "<content>",
-      collectionId: "my-collection",
-    } as LedgerEntry & { collectionId: string };
+    };
     const ledgerEntry: CreateLedgerEntryParameters = {
+      queryParameters: {
+        collectionId: "my collection",
+      },
       contentType: "application/json",
       body: entry,
     };
@@ -108,16 +110,16 @@ describe("snippets", () => {
       credential,
     );
     // Type assertion is used to allow collectionId and tags
-    const entry = {
+    const entry: LedgerEntry = {
       contents: "<content>",
-      collectionId: "my-collection",
-      tags: "tag1,tag2",
-    } as LedgerEntry & { collectionId: string; tags: string };
+    };
     const ledgerEntry: CreateLedgerEntryParameters = {
+      queryParameters: {
+        tags: "tag1,tag2",
+      },
       contentType: "application/json",
       body: entry,
-    };
-    const result = await client.path("/app/transactions").post(ledgerEntry);
+    };    const result = await client.path("/app/transactions").post(ledgerEntry);
   });
 
   it("ReadmeSampleGetLedgerEntry", async () => {
