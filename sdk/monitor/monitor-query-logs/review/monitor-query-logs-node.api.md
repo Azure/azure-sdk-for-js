@@ -14,8 +14,8 @@ export interface BatchQueryRequest {
     body: QueryBody;
     headers?: Record<string, string>;
     id: string;
-    method?: "POST";
-    path?: "/query";
+    method: "POST";
+    path: "/query";
     workspace: string;
 }
 
