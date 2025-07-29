@@ -1403,36 +1403,6 @@ export class ShareClient extends StorageClient {
 
     return appendToURLQuery(this.url, sas);
   }
-  
-  /**
-   * Only available for ShareClient constructed with a shared key credential.
-   *
-   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
-   * and parameters passed in. The SAS is signed by the shared key credential of the client.
-   *
-   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
-   *
-   * @param options - Optional parameters.
-   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   */
-  public generateUserDelegationSasUrl(options: ShareGenerateSasUrlOptions,
-    userDelegationKey: UserDelegationKey): string {
-    if (!(this.credential instanceof StorageSharedKeyCredential)) {
-      throw RangeError(
-        "Can only generate the SAS when the client is initialized with a shared key credential",
-      );
-    }
-
-    const sas = generateFileSASQueryParameters(
-      {
-        shareName: this.name,
-        ...options,
-      },
-      this.credential,
-    ).toString();
-
-    return appendToURLQuery(this.url, sas);
-  }
 
   /**
    * Only available for ShareClient constructed with a shared key credential.
@@ -1459,6 +1429,60 @@ export class ShareClient extends StorageClient {
         ...options,
       },
       this.credential,
+    ).stringToSign;
+  }
+
+  /**
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the user delegation key credential input.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - user delegation key used to sign the SAS URI
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: ShareGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+
+    const sas = generateFileSASQueryParameters(
+      {
+        shareName: this.name,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the user delegation key credential input.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - user delegation key used to sign the SAS URI
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationStringToSign(
+    options: ShareGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+
+    return generateFileSASQueryParametersInternal(
+      {
+        shareName: this.name,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName
     ).stringToSign;
   }
 }
@@ -5716,6 +5740,62 @@ export class ShareFileClient extends StorageClient {
         ...options,
       },
       this.credential,
+    ).stringToSign;
+  }  
+
+  /**
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the user delegation key credential input.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - user delegation key used to sign the SAS URI
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: ShareGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+
+    const sas = generateFileSASQueryParameters(
+      {
+        shareName: this.name,
+        filePath: this.path,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the user delegation key credential input.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - user delegation key used to sign the SAS URI
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationStringToSign(
+    options: ShareGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+
+    return generateFileSASQueryParametersInternal(
+      {
+        shareName: this.name,
+        filePath: this.path,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName
     ).stringToSign;
   }
 

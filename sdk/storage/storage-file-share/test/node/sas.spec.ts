@@ -19,6 +19,7 @@ import { ShareSASPermissions } from "../../src/ShareSASPermissions.js";
 import {
   configureStorageClient,
   getBSU,
+  getTokenBSUWithDefaultCredential,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
@@ -47,6 +48,65 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   afterEach(async () => {
     await recorder.stop();
+  });
+
+  it.only("userdelegation SAS should work", async function (ctx) {
+    // Try to get BlobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let fileServiceClientWithToken: ShareServiceClient;
+    try {
+      fileServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }    
+    
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await fileServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create();
+
+    const shareSAS = generateFileSASQueryParameters(
+      {
+        shareName: shareName,
+        expiresOn: tmr,
+        // ipRange: {
+        //   start: "0000:0000:0000:0000:0000:000:000:0000",
+        //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+        // },
+        permissions: ShareSASPermissions.parse("rcwdl"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2025-07-05",
+      },
+      userDelegationKey,
+      accountName,
+    );
+
+    const sasClient = `${shareClient.url}?${shareSAS}`;
+    const shareClientwithSAS = new ShareClient(
+      sasClient,
+      newPipeline(new AnonymousCredential()),
+      {
+        fileRequestIntent: "backup"
+      }
+    );
+    configureStorageClient(recorder, shareClientwithSAS);
+
+    const result = (await shareClientwithSAS.getDirectoryClient("").listFilesAndDirectories().byPage().next()).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
+    await shareClient.delete();
   });
 
   it("generateAccountSASQueryParameters should work", async () => {
