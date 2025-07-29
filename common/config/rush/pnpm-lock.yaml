@@ -1123,6 +1123,9 @@ importers:
       '@rush-temp/monitor-query':
         specifier: file:./projects/monitor-query.tgz
         version: file:projects/monitor-query.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/monitor-query-metrics':
+        specifier: file:./projects/monitor-query-metrics.tgz
+        version: file:projects/monitor-query-metrics.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/notification-hubs':
         specifier: file:./projects/notification-hubs.tgz
         version: file:projects/notification-hubs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -2510,7 +2513,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-agents@file:projects/ai-agents.tgz':
-    resolution: {integrity: sha512-St9HPTTyAk8A+TxOCOetDCN+l2rJ4uqMH0PIMLw0GA1dFvaOZuT0KL+6/5YwU6zWAaBUDtNF0b823YGy7OnMNA==, tarball: file:projects/ai-agents.tgz}
+    resolution: {integrity: sha512-Prjk1FZqeanMOX8wFGh2u5nDgze+4CgclIKNO1xb4FnOpIDQo8jsX32c+anmP7GnTfZtgyptRQEpbCvfuRQ16g==, tarball: file:projects/ai-agents.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-anomaly-detector@file:projects/ai-anomaly-detector.tgz':
@@ -2522,7 +2525,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz':
-    resolution: {integrity: sha512-a2sw6WF1023V6IXkMKRT92l/ZF9L4Wh4Tj/gGb/QgJiF0Ow7TNfQlggPF7e4x3Jd6UmCvFY+P+HFfW0QjWFs3w==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-IA1VUJ/F0Pr9TjIsuAyGMpyPP7uITNdte+dlnm0+SQPB+x4MPVe7lxa9T4lwEONUSRO9dCSLJ8vYbe8DBkLP7A==, tarball: file:projects/ai-document-intelligence.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz':
@@ -2530,7 +2533,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz':
-    resolution: {integrity: sha512-N8CFL64D2M6tRXgY2iKi9vHT6bqCxnviigjsLq/kHKyYFVQ5W8kHo7vZZue3WTY6mD2Bnjr+HkDELMQnvh59Bw==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-gqVg9tMsGXHOAGipGhYMp25ZCLqeHTcp1x4WvDboHyeeDmnOdtCUTbfvF4wtgAqIIJrsh2LTRok3fQxJM8O4sw==, tarball: file:projects/ai-form-recognizer.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
@@ -2538,7 +2541,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
-    resolution: {integrity: sha512-wlCEvi0SgIRnIF9M3YiEc5d+h3et7dsGxmRYBMgvzPRD2vQOvNpn0BtfbMUknGGktRD9KIT9W1BGeHCVF5ZYkQ==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-NydREa5p2oq27GwvlDY6W7kACK7H4tuR7BVjQDzJx3FQcI8L1JOiAyVLBRX0YouwZJ54bBLB/m1u/Xgx0PaaSQ==, tarball: file:projects/ai-language-conversations.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz':
@@ -2558,11 +2561,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz':
-    resolution: {integrity: sha512-rw2MJ6NCi6ORGFfDUQJdXcLxrVzywnuXsQMnOvuegdAFntBFgtgOBB7CJPIdJlghMqYYBgXSYYU/RJFKG4gAvg==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-kc3nk3J3KdGN78GqvlTkVW5U+2WsdC8tPkZOtVSuDSNdZruZmJNLNezjKrrFJJYBn9acPGrr2MfKG0/nOSJBAg==, tarball: file:projects/ai-translation-document.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-translation-text@file:projects/ai-translation-text.tgz':
-    resolution: {integrity: sha512-UGjZoWxEm5H4MtWSbIYaZBhxXNmzRnqi1bQ7y6ZX+XvNZfBMYiOXoR3Emgk72TlPJuqg6p7mp/kRWxKM6CWFSg==, tarball: file:projects/ai-translation-text.tgz}
+    resolution: {integrity: sha512-aEQRjOgISt9sFsPhizhBJsuzRMfWs+vy3F5SGpEqAc2lQsF/pPhFIN4a6c2X4ADs+sfnFfUjLX1XYRSAiioEOw==, tarball: file:projects/ai-translation-text.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-vision-face@file:projects/ai-vision-face.tgz':
@@ -2726,7 +2729,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-cognitiveservices@file:projects/arm-cognitiveservices.tgz':
-    resolution: {integrity: sha512-htOT2KXHxiTfHFCDYrOOEV9R1B+1TzeqgIlAYHRsTHXRko2rJXIr77f7RJKl8eXkA0AHiIkJVXQ7t+0PAaV3VA==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-JRl5Pw4vNluK8Vri8QtabxRDjylOofVbrfpRmnA449wIj4mQNACkjrfNrI9baU4R8Ysa7J7aMzGPPvnHk9amEA==, tarball: file:projects/arm-cognitiveservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid@file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz':
@@ -2798,7 +2801,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-g0DBf4cw32LCuM7LbeacL5ezQ+NrjD9UlTxl1Mk5A+5AAgcO2ZrNN6uq9u5XuxjDJVBzAwJnhFgHvfyUxjZmIg==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-NRdWyQib5zGaeDHncIQXGw9jahAV74aVdZKRcJpYLH2g0yCb2XuFOgquU4MIOU1IKElrQ2aGflfTGhhP6aOECg==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -3250,7 +3253,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-netapp@file:projects/arm-netapp.tgz':
-    resolution: {integrity: sha512-jhUjAQHtDPp1FkYX/TqWfQYnzh/b28QEb1F4m9jzBcnOoKom/E7iq1WVc/Z1GtOtvhXySMLnmdrXlluhaPAJUg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-MBBHmqKnEPPIcfjmqLWdIuyTNQl1nlPHSj7+P/UNN2yKfXGBDjk63iZtJ0LJie1rZEVFmmoj7kxXc1XfPW2Xgg==, tarball: file:projects/arm-netapp.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-network-1@file:projects/arm-network-1.tgz':
@@ -3458,7 +3461,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-resources@file:projects/arm-resources.tgz':
-    resolution: {integrity: sha512-uLCRghwJu7S8dzfN9Jpu7Z+DkZG8jVbTchy9zDFh1hwoBzeTB8JHS66legTunqqT0KcWHEGdhhfh5ZrleaNnCQ==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-jjCsYhnPpr+G0h/RYxqc6J0BXu1N2N9mcxZsgVP4w48U0TClBSIZVMo2OWcGeWCeNf+/PgMxuPmkjvA7WKlN+A==, tarball: file:projects/arm-resources.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resourcesbicep@file:projects/arm-resourcesbicep.tgz':
@@ -3981,6 +3984,10 @@ packages:
     resolution: {integrity: sha512-8gKicb8TD2BQr684C4kkahs1dUYsIPR1KCEV1dIrK9r27LcynndRITyctYHGgOohZOzoul7d23j+7mHikwFZNw==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
+  '@rush-temp/monitor-query-metrics@file:projects/monitor-query-metrics.tgz':
+    resolution: {integrity: sha512-4JLopxkMkiEK1hdpgGWTT3ynr23AsqdX6xK/EKQJup+nmtksM9Vph5ggXEvCdzuzuvgnzK25kleMU2NSQ6DqaA==, tarball: file:projects/monitor-query-metrics.tgz}
+    version: 0.0.0
+
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
     resolution: {integrity: sha512-EOniWeZyOnUzL1Jvi6fbPVMrhzt6gIQSt/8rPZ9TNr+xt5bnZUdmjipr7GjFPjUZeJjB3wE6JGlkxo98NKWx1Q==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
@@ -3994,7 +4001,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-jKSbOHVa7nYkdGO66UIvmoIKiNWusYhdqCcs55AxbJoIYbbxQQNwhaiM4ZaSf4Xp9HNDDKkoLgXBCmD2dVo9cA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-ygsJMsVnZ649jdgVrxO9K8sY6edGFXuFnXx+o6CTYfY+IeogQ3eC0kFrc/mo+/CmOXfhlLIxEE4j8dwm0t8hCg==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -9163,7 +9170,6 @@ snapshots:
 
   '@rush-temp/ai-document-intelligence@file:projects/ai-document-intelligence.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/arm-cognitiveservices': 7.6.0
       '@azure/identity': 4.10.1
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
@@ -9236,7 +9242,6 @@ snapshots:
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/arm-cognitiveservices': 7.6.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.10.1
       '@rollup/plugin-node-resolve': 15.3.1(rollup@4.44.0)
@@ -9320,7 +9325,6 @@ snapshots:
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/arm-cognitiveservices': 7.6.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.10.1
       '@types/node': 20.19.1
@@ -9518,7 +9522,6 @@ snapshots:
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/arm-cognitiveservices': 7.6.0
       '@azure/identity': 4.10.1
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
@@ -9556,7 +9559,6 @@ snapshots:
 
   '@rush-temp/ai-translation-text@file:projects/ai-translation-text.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/arm-cognitiveservices': 7.6.0
       '@azure/identity': 4.10.1
       '@types/node': 20.19.1
       '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
@@ -22396,6 +22398,45 @@ snapshots:
       - tsx
       - yaml
 
+  '@rush-temp/monitor-query-metrics@file:projects/monitor-query-metrics.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@azure/identity': 4.10.2
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
+      '@types/node': 20.19.1
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.5.0
+      eslint: 9.29.0
+      playwright: 1.53.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.1
@@ -22508,7 +22549,6 @@ snapshots:
 
   '@rush-temp/openai@file:projects/openai.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(ws@8.18.2)(yaml@2.8.0)':
     dependencies:
-      '@azure/arm-cognitiveservices': 7.6.0
       '@azure/identity': 4.10.2
       '@azure/search-documents': 12.1.0
       '@types/node': 20.19.1
