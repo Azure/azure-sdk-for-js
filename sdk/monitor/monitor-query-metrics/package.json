@@ -1,35 +1,11 @@
 {
-  "name": "@azure/monitor-query",
-  "version": "1.3.2",
-  "description": "An isomorphic client library for querying Azure Monitor's Logs and Metrics data sources.",
+  "name": "@azure/monitor-query-metrics",
+  "version": "1.0.0",
+  "description": "An isomorphic client library for querying Azure Monitor's Metrics data sources.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "browser": "./dist/browser/index.js",
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/generated/logquery/src/azureLogAnalyticsContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/generated/metrics/src/monitorManagementClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/generated/metricsdefinitions/src/monitorManagementClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/generated/metricsnamespaces/src/monitorManagementClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      }
-    ]
-  },
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -110,7 +86,7 @@
   "//sampleConfiguration": {
     "skipFolder": false,
     "disableDocsMs": true,
-    "productName": "Monitor Query",
+    "productName": "Monitor Query Metrics",
     "productSlugs": [],
     "apiRefLink": "https://learn.microsoft.com/javascript/api/",
     "requiredResources": {

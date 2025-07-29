@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { MonitorQueryLogsClient } from "./monitorQueryLogsClient.js";
 export {
   QueryBody,
   QueryResults,
@@ -17,10 +16,4 @@ export {
   BatchQueryResponse,
   BatchQueryResults,
   Versions,
-} from "./models/index.js";
-export {
-  MonitorQueryLogsClientOptionalParams,
-  BatchOptionalParams,
-  ExecuteWithResourceIdOptionalParams,
-  ExecuteOptionalParams,
-} from "./api/index.js";
+} from "./models.js";
