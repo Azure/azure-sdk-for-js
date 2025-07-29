@@ -148,13 +148,7 @@ describe("snippets", () => {
       queryLogsOptions,
     );
     // @ts-preserve-whitespace
-    const executionTime = (result as any)?.statistics?.query?.executionTime;
-    // @ts-preserve-whitespace
-    console.log(
-      `Results for query '${kustoQuery}', execution time: ${
-        executionTime == null ? "unknown" : executionTime
-      }`,
-    );
+    console.log(`Results for query '${kustoQuery}'`);
     // @ts-preserve-whitespace
     if (result.status === LogsQueryResultStatus.Success) {
       const tablesFromResult = result.tables;
@@ -298,13 +292,7 @@ describe("snippets", () => {
       },
     );
     // @ts-preserve-whitespace
-    const executionTime = (result as any)?.statistics?.query?.executionTime;
-    // @ts-preserve-whitespace
-    console.log(
-      `Results for query '${kustoQuery}', execution time: ${
-        executionTime == null ? "unknown" : executionTime
-      }`,
-    );
+    console.log(`Results for query '${kustoQuery}'`);
   });
 
   it("ReadmeSampleLogsQueryVisualization", async () => {
