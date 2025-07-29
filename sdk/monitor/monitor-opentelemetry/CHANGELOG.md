@@ -1,5 +1,16 @@
 # Release History
 
+## 1.12.0 ()
+
+### Features Added
+
+- Add RateLimitedSampler.
+
+### Other Changes
+
+- Add customer statsbeat feature to feature statsbeat.
+- Add multi-ikey feature to feature statsbeat.
+
 ## 1.11.1 (2025-06-09)
 
 ### Other Changes

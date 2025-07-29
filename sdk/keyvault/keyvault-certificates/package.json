@@ -39,7 +39,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "node ../generate.js",
+    "generate:client": "tsp-client update -d -o src/generated --emitter-options=\"generate-metadata=false;generate-test=false\"",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -129,7 +129,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "exports": {
     "./package.json": "./package.json",

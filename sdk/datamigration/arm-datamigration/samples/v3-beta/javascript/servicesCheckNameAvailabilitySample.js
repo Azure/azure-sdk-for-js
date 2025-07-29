@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { DataMigrationManagementClient } = require("@azure/arm-datamigration");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to This method checks whether a proposed top-level resource name is valid and available.
  *
  * @summary This method checks whether a proposed top-level resource name is valid and available.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Services_CheckNameAvailability.json
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Services_CheckNameAvailability.json
  */
 async function servicesCheckNameAvailability() {
-  const subscriptionId = "fc04246f-04c5-437e-ac5e-206a19e7193f";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "fc04246f-04c5-437e-ac5e-206a19e7193f";
   const location = "eastus";
   const parameters = {
     name: "DmsSdkService",
@@ -30,4 +30,8 @@ async function servicesCheckNameAvailability() {
   console.log(result);
 }
 
-servicesCheckNameAvailability().catch(console.error);
+async function main() {
+  await servicesCheckNameAvailability();
+}
+
+main().catch(console.error);

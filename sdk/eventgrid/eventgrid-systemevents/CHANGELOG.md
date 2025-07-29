@@ -1,14 +1,22 @@
 # Release History
 
-## 1.0.0-beta.8 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.2 (Unreleased)
 
 ### Bugs Fixed
 
+- Add types that are missing from public API surface.
+
+## 1.0.1 (2025-06-27)
+
+### Bugs Fixed
+
+- Correct property name `resourceUri` in `ResourceAction*EventData`.
+
+## 1.0.0 (2025-06-26)
+
 ### Other Changes
+
+The EventGrid System Events client library is now in GA with this release.
 
 ## 1.0.0-beta.7 (2025-05-14)
 

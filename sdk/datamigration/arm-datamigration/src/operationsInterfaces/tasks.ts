@@ -21,16 +21,16 @@ import {
   TasksCancelResponse,
   CommandPropertiesUnion,
   TasksCommandOptionalParams,
-  TasksCommandResponse
+  TasksCommandResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Tasks. */
 export interface Tasks {
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of tasks owned by a service resource. Some tasks may have a status of Unknown,
-   * which indicates that an error occurred while querying the status of that task.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of tasks owned by a service resource. Some tasks may have a
+   * status of Unknown, which indicates that an error occurred while querying the status of that task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -40,12 +40,12 @@ export interface Tasks {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): PagedAsyncIterableIterator<ProjectTask>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The PUT method creates a new task or updates an existing one, although since tasks have no mutable
-   * custom properties, there is little reason to update an existing one.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The PUT method creates a new task or updates an existing one, although since tasks have no
+   * mutable custom properties, there is little reason to update an existing one.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -59,11 +59,11 @@ export interface Tasks {
     projectName: string,
     taskName: string,
     parameters: ProjectTask,
-    options?: TasksCreateOrUpdateOptionalParams
+    options?: TasksCreateOrUpdateOptionalParams,
   ): Promise<TasksCreateOrUpdateResponse>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The GET method retrieves information about a task.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The GET method retrieves information about a task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -75,11 +75,11 @@ export interface Tasks {
     serviceName: string,
     projectName: string,
     taskName: string,
-    options?: TasksGetOptionalParams
+    options?: TasksGetOptionalParams,
   ): Promise<TasksGetResponse>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The DELETE method deletes a task, canceling it first if it's running.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The DELETE method deletes a task, canceling it first if it's running.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -91,12 +91,12 @@ export interface Tasks {
     serviceName: string,
     projectName: string,
     taskName: string,
-    options?: TasksDeleteOptionalParams
+    options?: TasksDeleteOptionalParams,
   ): Promise<void>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * The PATCH method updates an existing task, but since tasks have no mutable custom properties, there
-   * is little reason to do so.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. The PATCH method updates an existing task, but since tasks have no mutable custom
+   * properties, there is little reason to do so.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -110,11 +110,11 @@ export interface Tasks {
     projectName: string,
     taskName: string,
     parameters: ProjectTask,
-    options?: TasksUpdateOptionalParams
+    options?: TasksUpdateOptionalParams,
   ): Promise<TasksUpdateResponse>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * This method cancels a task if it's currently queued or running.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. This method cancels a task if it's currently queued or running.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -126,11 +126,11 @@ export interface Tasks {
     serviceName: string,
     projectName: string,
     taskName: string,
-    options?: TasksCancelOptionalParams
+    options?: TasksCancelOptionalParams,
   ): Promise<TasksCancelResponse>;
   /**
-   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
-   * This method executes a command on a running task.
+   * The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic)
+   * instance. This method executes a command on a running task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param projectName Name of the project
@@ -144,6 +144,6 @@ export interface Tasks {
     projectName: string,
     taskName: string,
     parameters: CommandPropertiesUnion,
-    options?: TasksCommandOptionalParams
+    options?: TasksCommandOptionalParams,
   ): Promise<TasksCommandResponse>;
 }

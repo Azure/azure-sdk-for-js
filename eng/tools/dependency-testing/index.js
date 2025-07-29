@@ -128,13 +128,6 @@ async function insertPackageJson(
       packageJsonContents.name.replace("@azure-rest/", "azure-rest-") + "-test";
   }
   testPackageJson.type = packageJsonContents.type;
-  if (packageJsonContents.scripts["test:node"].includes("vitest")) {
-    testPackageJson.scripts["test:node"] =
-      "dev-tool run test:vitest -- -c vitest.dependency-test.config.ts --test-timeout 180000 --hook-timeout 180000";
-    testPackageJson.scripts["test:browser"] =
-      "dev-tool run build-test && dev-tool run test:vitest --browser  -- -c vitest.dependency-test.browser.config.ts";
-    testPackageJson.scripts["build"] = "echo skipped.";
-  }
   await usePackageTestTimeout(testPackageJson, packageJsonContents);
 
   testPackageJson.devDependencies = {};

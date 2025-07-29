@@ -365,6 +365,9 @@ export async function createTsconfig(projectInfo: ProjectInfo): Promise<string> 
 export async function makeSamplesFactory(
   projectInfo: ProjectInfo,
   sourcePath?: string,
+  options?: {
+    force: boolean;
+  },
 ): Promise<FileTreeFactory> {
   let hadError = false;
 
@@ -416,6 +419,7 @@ export async function makeSamplesFactory(
   }
 
   // We use a tempdir at the outer layer to avoid creating dirty trees
+  const actionIfDestinationDirty = options?.force ? "warn" : "throw";
   return dir(
     versionFolder,
     safeClean(
@@ -465,6 +469,7 @@ export async function makeSamplesFactory(
           ]),
         ),
       ),
+      { actionIfDirty: actionIfDestinationDirty },
     ),
   );
 }

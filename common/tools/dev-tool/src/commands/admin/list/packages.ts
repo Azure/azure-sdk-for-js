@@ -31,8 +31,8 @@ export async function getProjects(service?: string): Promise<RushJsonProject[]> 
 
   return service
     ? rushJson.projects.filter((p: RushJsonProject) =>
-        p.projectFolder.startsWith(`sdk/${service}/`),
-      )
+      p.projectFolder.startsWith(`sdk/${service}/`),
+    )
     : rushJson.projects;
 }
 
@@ -44,13 +44,11 @@ async function echoPackage(project: RushJsonProject, paths: boolean, cwd: string
   }
 }
 
-/**
- *
- * use --task option to provide code file to be excuted for each package. For example,
- * the following code adds missing "tsx" dev dependency whereever it is used.
- *
+// use --task option to provide code file to be executed for each package. For example,
+// the following code adds missing "tsx" dev dependency whereever it is used.
+/*
 ```ts
-import * as path from "node:path";
+import path from "node:path";
 import { writeFile } from "node:fs/promises";
 import { resolveProject } from "../../../../util/resolveProject";
 import { RushJsonProject } from "../../../../util/synthesizedRushJson";
@@ -80,7 +78,7 @@ export default async function listPackageCallback(
   }
 }
 ```
- */
+  */
 export default leafCommand(commandInfo, async ({ paths, service, task }) => {
   const cwd = process.cwd();
   const root = await resolveRoot();

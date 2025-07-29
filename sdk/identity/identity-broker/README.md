@@ -72,6 +72,17 @@ const credential = new InteractiveBrowserCredential({
 
 After calling `useIdentityPlugin`, the native broker plugin is registered to the `@azure/identity` package and will be available on the `InteractiveBrowserCredential` that supports WAM broker authentication. This credential has `brokerOptions` in the constructor options.
 
+**Notes**: As of `@azure/identity` version 4.11.0-beta.1, `DefaultAzureCredential` provides support to sign-in via the Windows Web Account Manager. Enable native broker in your program as follows:
+
+```ts snippet:using_plugins_dac
+import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
+import { nativeBrokerPlugin } from "@azure/identity-broker";
+
+useIdentityPlugin(nativeBrokerPlugin);
+
+const credential = new DefaultAzureCredential();
+```
+
 ## Examples
 
 Once the plugin is registered, you can enable WAM broker authentication by passing `brokerOptions` with an `enabled` property set to `true` to a credential constructor. In the following example, we use the `InteractiveBrowserCredential`.

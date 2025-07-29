@@ -1,10 +1,26 @@
 # Release History
 
+## 12.28.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.28.0 (2025-07-22)
+
+### Features Added
+
+- Includes all features released in 12.28.0-beta.2.
+
 ## 12.28.0-beta.2 (2025-05-20)
 
 ### Features Added
 
-- Includes all features released in 12.26.0-beta.2.
+- Includes all features released in 12.28.0-beta.1.
 
 ## 12.28.0-beta.1 (2025-05-20)
 

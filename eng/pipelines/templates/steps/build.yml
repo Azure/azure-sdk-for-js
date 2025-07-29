@@ -123,8 +123,7 @@ steps:
           Get-ChildItem $stagingDevArtifactDirectory -Recurse -Name
         }
 
-        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
-          -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
+        if ($${{ parameters.IncludeRelease }} -eq $true -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
         {
           New-Item -Type Directory $stagingArtifactDirectory/documentation -Force | Out-Null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $stagingArtifactDirectory/documentation
@@ -135,11 +134,11 @@ steps:
 
         Get-ChildItem $stagingArtifactDirectory -Recurse -Name
       }
-    displayName: 'Copy Packages'
+    displayName: "Copy Packages"
 
   - pwsh: |
       eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
-    displayName: 'Copy API extracted files'
+    displayName: "Copy API extracted files"
 
   - task: Powershell@2
     inputs:
@@ -152,13 +151,13 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'packages'
+      ArtifactPath: "$(Build.ArtifactStagingDirectory)"
+      ArtifactName: "packages"
 
   - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
-      ArtifactPath: '$(Agent.TempDirectory)/packages-dev-publish'
-      ArtifactName: 'packages-dev-publish'
+      ArtifactPath: "$(Agent.TempDirectory)/packages-dev-publish"
+      ArtifactName: "packages-dev-publish"
       CustomCondition: eq(variables['SetDevVersion'], 'true')
 
   - template: /eng/common/pipelines/templates/steps/create-apireview.yml

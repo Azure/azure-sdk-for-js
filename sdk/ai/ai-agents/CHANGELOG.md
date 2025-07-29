@@ -1,5 +1,45 @@
 # Release History
 
+## 1.1.0-beta.2 (2025-07-23)
+
+### Bugs Fixed
+
+- Fixed [Github issue](https://github.com/Azure/azure-sdk-for-js/issues/35203) with `messages.create` method type error when upload image file.
+- Fixed [Github issue](https://github.com/Azure/azure-sdk-for-js/issues/34885) with `runs.create` method deserialization of stream event data.
+
+## 1.1.0-beta.1 (2025-07-21)
+
+### Features Added
+
+- Add MCP tool
+- Add Deep Research tool
+- Add Deep Research sample
+- Add back agent tool `SharepointGroundingTool`, `BingCustomSearchTool`, `MicrosoftFabricTool`, `SharepointTool`
+
+### Breaking changes
+
+- The `DeepResearchDetails` type has been updated: the field `deepResearchBingGroundingConnections` has been renamed to `bingGroundingConnections` and the field `deepResearchModel` has been renamed to `model`.
+
+## 1.0.0 (2025-06-29)
+
+- First stable release of Azure AI Agents client library
+
+### Breaking changes
+
+- `AgentsClient` constructor parameter `credential` type  `KeyCredential | TokenCredential` is update to `TokenCredential`
+
+## 1.0.0-beta.6 (2025-06-27)
+
+### Bugs Fixed
+
+- Fixed an issue with event data of `submitToolOutputs` stream mode
+
+## 1.0.0-beta.5 (2025-06-25)
+
+### Bugs Fixed
+
+- Fixed an issue with event data parsing
+
 ## 1.0.0-beta.4 (2025-06-10)
 
 ### Features Added

@@ -49,7 +49,12 @@ export interface Projects {
     projectName: string,
     project: Project,
     options?: ProjectsCreateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<ProjectsCreateResponse>, ProjectsCreateResponse>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProjectsCreateResponse>,
+      ProjectsCreateResponse
+    >
+  >;
   /**
    * Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI
    * developer it's individual container to work on.
@@ -80,7 +85,12 @@ export interface Projects {
     projectName: string,
     project: Project,
     options?: ProjectsUpdateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<ProjectsUpdateResponse>, ProjectsUpdateResponse>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProjectsUpdateResponse>,
+      ProjectsUpdateResponse
+    >
+  >;
   /**
    * Updates a Cognitive Services Project
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

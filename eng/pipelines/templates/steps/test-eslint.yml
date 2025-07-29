@@ -12,6 +12,7 @@ steps:
 
   - pwsh: |
       pnpm run --filter @azure/eslint-plugin-azure-sdk... --filter @azure/monitor-opentelemetry-exporter... build
+      $env:FORCE_COLOR = "1"
       node eng/tools/ci-runner/index.js lint "${{parameters.ServiceDirectory}}"
     displayName: "Build ESLint Plugin and Lint Libraries"
 

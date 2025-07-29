@@ -97,3 +97,23 @@ Implementation:
 Prioritize TypeScript-specific practices over general rules when conflicts occur.
 
 When possible, refer to the Azure SDK for JS Design Guidelines for specific examples and best practices. Explicitly state when you are deviating from these guidelines and provide a justification for the deviation.
+
+## SDK release
+
+There are two tools to help with SDK releases:
+- Check SDK release readiness
+- Release SDK
+
+### Check SDK Release Readiness
+Run `CheckPackageReleaseReadiness` to verify if the package is ready for release. This tool checks:
+- API review status
+- Change log status
+- Package name approval(If package is new and releasing a preview version)
+- Release date is set in release tracker
+
+### Release SDK
+Run `ReleasePackage` to release the package. This tool requires package name and language as inputs. It will:
+- Check if the package is ready for release
+- Identify the release pipeline
+- Trigger the release pipeline.
+User needs to approve the release stage in the pipeline after it is triggered.
