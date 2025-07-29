@@ -118,7 +118,8 @@ describe("snippets", () => {
     const executionTime = (result as any)?.statistics?.query?.executionTime;
     // @ts-preserve-whitespace
     console.log(
-      `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime
+      `Results for query '${kustoQuery}', execution time: ${
+        executionTime == null ? "unknown" : executionTime
       }`,
     );
     // @ts-preserve-whitespace
@@ -353,7 +354,8 @@ describe("snippets", () => {
     const executionTime = (result as any)?.statistics?.query?.executionTime;
     // @ts-preserve-whitespace
     console.log(
-      `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime
+      `Results for query '${kustoQuery}', execution time: ${
+        executionTime == null ? "unknown" : executionTime
       }`,
     );
   });
