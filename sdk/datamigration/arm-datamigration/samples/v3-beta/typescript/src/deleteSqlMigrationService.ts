@@ -22,7 +22,7 @@ async function deleteSqlMigrationService(): Promise<void> {
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const result = await client.sqlMigrationServices.beginDeleteAndWait(
     resourceGroupName,
-    sqlMigrationServiceName
+    sqlMigrationServiceName,
   );
   console.log(result);
 }

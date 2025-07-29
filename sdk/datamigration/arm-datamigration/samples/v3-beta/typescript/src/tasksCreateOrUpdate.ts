@@ -11,10 +11,8 @@
  * @summary The service tasks resource is a nested, proxy-only resource representing work performed by a DMS instance. The PUT method creates a new service task or updates an existing one, although since service tasks have no mutable custom properties, there is little reason to update an existing one.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/ServiceTasks_CreateOrUpdate.json
  */
-import {
-  ProjectTask,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { ProjectTask } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function tasksCreateOrUpdate(): Promise<void> {
@@ -25,8 +23,8 @@ async function tasksCreateOrUpdate(): Promise<void> {
   const parameters: ProjectTask = {
     properties: {
       input: { serverVersion: "NA" },
-      taskType: "Service.Check.OCI"
-    }
+      taskType: "Service.Check.OCI",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
@@ -34,7 +32,7 @@ async function tasksCreateOrUpdate(): Promise<void> {
     groupName,
     serviceName,
     taskName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import { ChangeFeedFactory } from "../src/ChangeFeedFactory.js";
 import { getHost } from "../src/utils/utils.common.js";
 import type { BlobChangeFeedEvent } from "../src/index.js";

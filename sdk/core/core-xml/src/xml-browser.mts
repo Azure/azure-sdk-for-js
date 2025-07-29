@@ -31,6 +31,12 @@ try {
 const doc = document.implementation.createDocument(null, null, null);
 
 const parser = new DOMParser();
+/**
+ * Converts given XML string into JSON
+ * @param str - String containing the XML content to be parsed into JSON
+ * @param opts - Options that govern the parsing of given xml string
+ * `includeRoot` indicates whether the root element is to be included or not in the output
+ */
 export function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
   try {
     const updatedOptions: Required<XmlOptions> = {
@@ -162,7 +168,13 @@ function domToObject(node: Node, options: Required<XmlOptions>): any {
 
 const serializer = new XMLSerializer();
 
-export function stringifyXML(content: unknown, opts: XmlOptions = {}): string {
+/**
+ * Converts given JSON object to XML string
+ * @param obj - JSON object to be converted into XML string
+ * @param opts - Options that govern the XML building of given JSON object
+ * `rootName` indicates the name of the root element in the resulting XML
+ */
+export function stringifyXML(obj: unknown, opts: XmlOptions = {}): string {
   const updatedOptions: Required<XmlOptions> = {
     rootName: opts.rootName ?? "root",
     includeRoot: opts.includeRoot ?? false,
@@ -170,7 +182,7 @@ export function stringifyXML(content: unknown, opts: XmlOptions = {}): string {
     cdataPropName: opts.cdataPropName ?? "__cdata",
     stopNodes: opts.stopNodes ?? [],
   };
-  const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
+  const dom = buildNode(obj, updatedOptions.rootName, updatedOptions)[0];
   return (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
     serializer.serializeToString(dom).replace(/ xmlns=""/g, "")

@@ -2381,6 +2381,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-dell-storage",
+      "projectFolder": "sdk/dell/arm-dell-storage",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-mongodbatlas",
       "projectFolder": "sdk/mongodbatlas/arm-mongodbatlas",
       "versionPolicyName": "management"
@@ -2431,8 +2436,23 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-playwright",
+      "projectFolder": "sdk/playwright/arm-playwright",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-resourcesbicep",
       "projectFolder": "sdk/resources/arm-resourcesbicep",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcesdeployments",
+      "projectFolder": "sdk/resources/arm-resourcesdeployments",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagediscovery",
+      "projectFolder": "sdk/storagediscovery/arm-storagediscovery",
       "versionPolicyName": "management"
     }
   ]

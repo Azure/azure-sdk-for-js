@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { DataMigrationManagementClient } = require("@azure/arm-datamigration");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to Retrieve the Migration Service.
+ * This sample demonstrates how to Retrieve the Database Migration Service
  *
- * @summary Retrieve the Migration Service.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/GetMigrationService.json
+ * @summary Retrieve the Database Migration Service
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/GetSqlMigrationService.json
  */
 async function getMigrationService() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
   const sqlMigrationServiceName = "service1";
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
@@ -27,4 +27,8 @@ async function getMigrationService() {
   console.log(result);
 }
 
-getMigrationService().catch(console.error);
+async function main() {
+  await getMigrationService();
+}
+
+main().catch(console.error);

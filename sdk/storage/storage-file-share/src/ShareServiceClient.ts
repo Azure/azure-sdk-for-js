@@ -30,9 +30,9 @@ import {
   assertResponse,
   removeEmptyString,
 } from "./utils/utils.common.js";
-import { Credential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "@azure/storage-blob";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { Credential } from "@azure/storage-common";
+import { StorageSharedKeyCredential } from "@azure/storage-common";
+import { AnonymousCredential } from "@azure/storage-common";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNodeLike } from "@azure/core-util";
 import { tracingClient } from "./utils/tracing.js";

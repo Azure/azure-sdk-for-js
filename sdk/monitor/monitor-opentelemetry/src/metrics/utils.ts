@@ -43,8 +43,8 @@ import {
   getUserAgent,
 } from "./quickpulse/utils.js";
 import { Logger } from "../shared/logging/logger.js";
-import * as os from "node:os";
-import * as process from "node:process";
+import os from "node:os";
+import process from "node:process";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
@@ -157,7 +157,6 @@ export function isTraceTelemetry(logRecord: LogRecord): boolean {
 }
 
 export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const userAgent = String(getUserAgent(record.attributes as Attributes));
   return userAgent !== null && userAgent.includes("AlwaysOn") ? true : false;
 }

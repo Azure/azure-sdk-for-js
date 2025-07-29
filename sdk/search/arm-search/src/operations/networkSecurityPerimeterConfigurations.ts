@@ -6,17 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces/index.js";
+import { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { SearchManagementClient } from "../searchManagementClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import { SearchManagementClient } from "../searchManagementClient.js";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import type {
+import {
   NetworkSecurityPerimeterConfiguration,
   NetworkSecurityPerimeterConfigurationsListByServiceNextOptionalParams,
   NetworkSecurityPerimeterConfigurationsListByServiceOptionalParams,
@@ -146,7 +145,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param nspConfigName The network security configuration name.
+   * @param nspConfigName The network security perimeter configuration name.
    * @param options The options parameters.
    */
   get(
@@ -169,7 +168,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param nspConfigName The network security configuration name.
+   * @param nspConfigName The network security perimeter configuration name.
    * @param options The options parameters.
    */
   async beginReconcile(
@@ -245,7 +244,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param searchServiceName The name of the Azure AI Search service associated with the specified
    *                          resource group.
-   * @param nspConfigName The network security configuration name.
+   * @param nspConfigName The network security perimeter configuration name.
    * @param options The options parameters.
    */
   async beginReconcileAndWait(

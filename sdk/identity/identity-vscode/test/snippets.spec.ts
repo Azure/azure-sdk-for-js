@@ -31,7 +31,7 @@ describe("snippets", () => {
     useIdentityPlugin(vsCodePlugin);
     // @ts-preserve-whitespace
     // With the plugin enabled above, `DefaultAzureCredential` will use
-    // Visual Studio Code's "Azure Account" extension to authenticate if
+    // Visual Studio Code's "Azure Resources" extension to authenticate if
     // it is available.
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
