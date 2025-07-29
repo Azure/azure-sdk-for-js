@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MonitorQueryLogsContext as Client } from "./index.js";
+import type { MonitorQueryLogsContext as Client, LogsQueryBatchOptions } from "./index.js";
 import type { QueryBody, BatchRequest } from "../models/models.js";
-import type { LogsQueryBatchResult } from "../models/public.js";
+import type { LogsQueryBatchResult, LogsQueryResult } from "../models/public.js";
 import {
   queryBodySerializer,
   queryResultsDeserializer,
@@ -13,15 +13,17 @@ import {
   batchResponseDeserializer,
   convertToLogsBatchResult,
 } from "../models/models.js";
-import type {
-  LogsQueryBatchOptions,
-  ExecuteWithResourceIdOptionalParams,
-  ExecuteOptionalParams,
-} from "./options.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { LogsQueryResult } from "../models/public.js";
+import type {
+  ExecuteWithResourceIdOptionalParams,
+  ExecuteOptionalParams} from "./options.js";
+import type {
+  StreamableMethod,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _batchSend(
   context: Client,
@@ -74,7 +76,7 @@ export function _executeWithResourceIdSend(
   options: ExecuteWithResourceIdOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{resourceId}/query",
+    "/{+resourceId}/query",
     {
       resourceId: resourceId,
     },

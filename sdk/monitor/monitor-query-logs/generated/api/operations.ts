@@ -13,12 +13,12 @@ import {
   BatchResponse,
   batchResponseDeserializer,
 } from "../models/models.js";
+import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   BatchOptionalParams,
   ExecuteWithResourceIdOptionalParams,
   ExecuteOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -78,7 +78,7 @@ export function _executeWithResourceIdSend(
   options: ExecuteWithResourceIdOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{resourceId}/query",
+    "/{+resourceId}/query",
     {
       resourceId: resourceId,
     },

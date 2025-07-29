@@ -49,24 +49,24 @@ export function convertQueryBatch(query: QueryBatch, id: string): InternalQueryB
  * */
 export type QueryTimeInterval =
   | {
-      startTime: Date;
-      endTime: Date;
-    }
+    startTime: Date;
+    endTime: Date;
+  }
   | {
-      startTime: Date;
-      duration: string;
-    }
+    startTime: Date;
+    duration: string;
+  }
   | {
-      duration: string;
-      endTime: Date;
-    }
+    duration: string;
+    endTime: Date;
+  }
   | {
-      duration: string;
-    };
+    duration: string;
+  };
 
 /**
- * The Analytics query. Learn more about the [Analytics query
- * syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
+ * The Analytics query. Learn more about the
+ * [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
  */
 export interface QueryBody {
   /** The query to execute. */
@@ -88,8 +88,8 @@ export function queryBodySerializer(item: QueryBody): any {
     workspaces: !item["workspaces"]
       ? item["workspaces"]
       : item["workspaces"].map((p: any) => {
-          return p;
-        }),
+        return p;
+      }),
   };
 }
 
@@ -321,8 +321,8 @@ export function errorDetailDeserializer(item: {
     resources: !item["resources"]
       ? item["resources"]
       : item["resources"].map((p: any) => {
-          return p;
-        }),
+        return p;
+      }),
     additionalProperties: item["additionalProperties"],
   };
 }
@@ -394,14 +394,14 @@ export interface BatchQueryRequest {
    */
   headers?: Record<string, string>;
   /**
-   * The Analytics query. Learn more about the [Analytics query
-   * syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
+   * The Analytics query. Learn more about the
+   * [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
    */
   body: QueryBody;
-  /** The query path of a single request in a batch, defaults to /query */
-  path?: "/query";
-  /** The method of a single request in a batch, defaults to POST */
-  method?: "POST";
+  /** The path for the batch query request. */
+  path: "/query";
+  /** The method of a single request in a batch. */
+  method: "POST";
   /**
    * Primary Workspace ID of the query. This is the Workspace ID from the Properties
    * blade in the Azure portal.

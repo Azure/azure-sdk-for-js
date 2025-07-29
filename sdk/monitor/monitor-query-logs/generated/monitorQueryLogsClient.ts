@@ -6,20 +6,20 @@ import {
   MonitorQueryLogsContext,
   MonitorQueryLogsClientOptionalParams,
 } from "./api/index.js";
+import { batch, executeWithResourceId, execute } from "./api/operations.js";
+import {
+  BatchOptionalParams,
+  ExecuteWithResourceIdOptionalParams,
+  ExecuteOptionalParams,
+} from "./api/options.js";
 import {
   QueryBody,
   QueryResults,
   BatchRequest,
   BatchResponse,
 } from "./models/models.js";
-import {
-  BatchOptionalParams,
-  ExecuteWithResourceIdOptionalParams,
-  ExecuteOptionalParams,
-} from "./api/options.js";
-import { batch, executeWithResourceId, execute } from "./api/operations.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { MonitorQueryLogsClientOptionalParams } from "./api/monitorQueryLogsContext.js";
 
