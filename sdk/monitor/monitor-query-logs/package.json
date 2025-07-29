@@ -89,7 +89,6 @@
   },
   "//sampleConfiguration": {
     "skipFolder": false,
-    "disableDocsMs": true,
     "productName": "Monitor Query Logs",
     "productSlugs": [
       "azure",
