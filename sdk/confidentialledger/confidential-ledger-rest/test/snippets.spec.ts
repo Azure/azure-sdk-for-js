@@ -119,7 +119,8 @@ describe("snippets", () => {
       },
       contentType: "application/json",
       body: entry,
-    };    const result = await client.path("/app/transactions").post(ledgerEntry);
+    };
+    const result = await client.path("/app/transactions").post(ledgerEntry);
   });
 
   it("ReadmeSampleGetLedgerEntry", async () => {
