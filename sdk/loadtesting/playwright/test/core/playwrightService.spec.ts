@@ -416,6 +416,7 @@ describe("getConnectOptions", () => {
 
   it("should set service connect options with passed values", async () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+    delete process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG];
     const { getConnectOptions } = await import("../../src/core/playwrightService.js");
     await getConnectOptions({
       runId: "1234",
@@ -424,6 +425,17 @@ describe("getConnectOptions", () => {
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(playwrightServiceConfig.runId).to.equal("1234");
     expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
+  });
+
+  it("should throw error when using both getServiceConfig and getConnectOptions with restricted params", async () => {
+    process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] = "true";
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+    await expect(
+      getConnectOptions({
+        runId: "1234",
+      }),
+    ).rejects.toThrow(ServiceErrorMessageConstants.INVALID_PARAM_WITH_SERVICE_CONFIG.message);
+    delete process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG];
   });
 
   it("should set service connect options with fetched token", async () => {

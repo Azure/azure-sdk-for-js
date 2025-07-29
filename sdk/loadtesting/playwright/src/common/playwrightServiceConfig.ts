@@ -11,6 +11,7 @@ import type { PlaywrightServiceAdditionalOptions, OsType } from "./types.js";
 import { getAndSetRunId, getRunName } from "../utils/utils.js";
 import { CIInfoProvider } from "../utils/cIInfoProvider.js";
 import { state } from "./state.js";
+import { ServiceErrorMessageConstants } from "./messages.js";
 
 class PlaywrightServiceConfig {
   public serviceOs: OsType;
@@ -56,7 +57,27 @@ class PlaywrightServiceConfig {
     }
   }
 
-  setOptions = (options?: PlaywrightServiceAdditionalOptions): void => {
+  validateOptions = (options?: PlaywrightServiceAdditionalOptions): void => {
+    if (!options) return;
+
+    const isUsingServiceConfig =
+      process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] === "true";
+    if (isUsingServiceConfig) {
+      if (options.serviceAuthType || options.runId || options.runName) {
+        const errorMessage = ServiceErrorMessageConstants.INVALID_PARAM_WITH_SERVICE_CONFIG.message;
+        throw new Error(errorMessage);
+      }
+      return;
+    }
+  };
+
+  setOptions = (
+    options?: PlaywrightServiceAdditionalOptions,
+    isGetConnectOptions: boolean = false,
+  ): void => {
+    if (isGetConnectOptions) {
+      this.validateOptions(options);
+    }
     if (options?.exposeNetwork) {
       this.exposeNetwork = options.exposeNetwork;
     }

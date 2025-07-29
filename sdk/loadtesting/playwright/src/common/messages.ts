@@ -48,4 +48,8 @@ export const ServiceErrorMessageConstants = {
     key: "FailedToCreateTestRun",
     message: "Failed to create the test run in the Playwright service.",
   },
+  INVALID_PARAM_WITH_SERVICE_CONFIG: {
+    key: "InvalidParamWithServiceConfig",
+    message: `Remove serviceAuth, runID, and runName from getConnectOptions when using getServiceConfig. Configure these options through getServiceConfig instead.`,
+  },
 };
