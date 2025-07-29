@@ -39,12 +39,8 @@ async function main() {
     { duration: Durations.oneHour },
     queryLogsOptions,
   );
-  const executionTime =
-    result.statistics && result.statistics.query && result.statistics.query.executionTime;
 
-  console.log(
-    `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
-  );
+  console.log(`Results for query '${kustoQuery}'`);
 
   if (result.status === LogsQueryResultStatus.Success) {
     const tablesFromResult = result.tables;

@@ -37,14 +37,7 @@ export async function main(): Promise<void> {
     queryLogsOptions,
   );
 
-  const executionTime =
-    result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
-
-  console.log(
-    `Results for query '${kustoQuery}', execution time: ${
-      executionTime == null ? "unknown" : executionTime
-    }`,
-  );
+  console.log(`Results for query '${kustoQuery}'`);
 
   if (result.status === LogsQueryResultStatus.Success) {
     const tablesFromResult: LogsTable[] = result.tables;

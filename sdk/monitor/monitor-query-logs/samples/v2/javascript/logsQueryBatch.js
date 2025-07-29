@@ -45,9 +45,6 @@ async function main() {
   ];
 
   const result = await logsQueryClient.queryBatch(queriesBatch);
-  if (result === null) {
-    throw new Error("No response for query");
-  }
 
   let i = 0;
   for (const response of result) {
