@@ -61,10 +61,10 @@ npx dev-tool run vendored cross-env MONITOR_WORKSPACE_ID="<monitor workspace id>
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[logsquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/samples/v2/typescript/src/logsQuery.ts
-[logsquerybatch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/samples/v2/typescript/src/logsQueryBatch.ts
-[logsquerymultipleworkspaces]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/samples/v2/typescript/src/logsQueryMultipleWorkspaces.ts
-[logsresourcecentricquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/samples/v2/typescript/src/logsResourceCentricQuery.ts
+[logsquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/samples/v1/typescript/src/logsQuery.ts
+[logsquerybatch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/samples/v1/typescript/src/logsQueryBatch.ts
+[logsquerymultipleworkspaces]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts
+[logsresourcecentricquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/samples/v1/typescript/src/logsResourceCentricQuery.ts
 [apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremonitor]: https://learn.microsoft.com/azure/azure-monitor/
