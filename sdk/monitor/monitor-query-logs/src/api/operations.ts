@@ -14,16 +14,9 @@ import {
   convertToLogsBatchResult,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type {
-  ExecuteWithResourceIdOptionalParams,
-  ExecuteOptionalParams} from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { ExecuteWithResourceIdOptionalParams, ExecuteOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _batchSend(
   context: Client,

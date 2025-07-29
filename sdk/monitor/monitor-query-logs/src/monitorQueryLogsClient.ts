@@ -3,7 +3,13 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import type { ExecuteOptionalParams, ExecuteWithResourceIdOptionalParams, LogsQueryBatchOptions, LogsQueryClientOptions, MonitorQueryLogsContext } from "./api/index.js";
+import type {
+  ExecuteOptionalParams,
+  ExecuteWithResourceIdOptionalParams,
+  LogsQueryBatchOptions,
+  LogsQueryClientOptions,
+  MonitorQueryLogsContext,
+} from "./api/index.js";
 import { createMonitorQueryLogs } from "./api/index.js";
 import { batch, executeWithResourceId, execute } from "./api/operations.js";
 import type { LogsQueryBatchResult, LogsQueryResult } from "./models/public.js";
