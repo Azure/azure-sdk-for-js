@@ -452,7 +452,7 @@ You may want to collect metrics beyond what is collected by [instrumentation lib
 
 The OpenTelemetry API offers six metric "instruments" to cover a variety of metric scenarios and you'll need to pick the correct "Aggregation Type" when visualizing metrics in Metrics Explorer. This requirement is true when using the OpenTelemetry Metric API to send metrics and when using an instrumentation library.
 
-The following table shows the recommended aggregation types] for each of the OpenTelemetry Metric Instruments.
+The following table shows the recommended aggregation types for each of the OpenTelemetry Metric Instruments.
 
 | OpenTelemetry Instrument                             | Azure Monitor Aggregation Type                             |
 | ---------------------------------------------------- | ---------------------------------------------------------- |
