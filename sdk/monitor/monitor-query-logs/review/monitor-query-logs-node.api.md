@@ -177,7 +177,7 @@ export interface LogsQuerySuccessfulResult {
 export interface LogsTable {
     columnDescriptors: LogsColumn[];
     name: string;
-    rows: (string | number | boolean | Record<string, unknown> | Date)[][];
+    rows: (string | number | boolean | Record<string, any> | Date)[][];
 }
 
 // @public

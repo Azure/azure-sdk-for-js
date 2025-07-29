@@ -53,7 +53,7 @@ export interface LogsTable {
   /** The list of columns in this table. */
   columnDescriptors: LogsColumn[];
   /** The resulting rows from this query. */
-  rows: (string | number | boolean | Record<string, unknown> | Date)[][];
+  rows: (string | number | boolean | Record<string, any> | Date)[][];
 }
 
 /** The code and message for an error. */
