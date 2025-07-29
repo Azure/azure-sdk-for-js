@@ -7,10 +7,8 @@
  */
 
 export * from "./operations.js";
-export * from "./deployments.js";
 export * from "./providers.js";
 export * from "./providerResourceTypes.js";
 export * from "./resources.js";
 export * from "./resourceGroups.js";
 export * from "./tagsOperations.js";
-export * from "./deploymentOperations.js";

@@ -2449,6 +2449,11 @@
       "packageName": "@azure/arm-resourcesdeployments",
       "projectFolder": "sdk/resources/arm-resourcesdeployments",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagediscovery",
+      "projectFolder": "sdk/storagediscovery/arm-storagediscovery",
+      "versionPolicyName": "management"
     }
   ]
 }

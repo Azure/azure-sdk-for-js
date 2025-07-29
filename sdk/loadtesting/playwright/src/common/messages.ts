@@ -51,5 +51,9 @@ export const ServiceErrorMessageConstants = {
   INVALID_PARAM_WITH_SERVICE_CONFIG: {
     key: "InvalidParamWithServiceConfig",
     message: `Remove serviceAuth, runId, and runName from getConnectOptions when using getServiceConfig. Configure these options through getServiceConfig instead.`,
-  },
+   },
+  INVALID_RUN_ID_FORMAT: {
+    key: "InvalidRunIdFormat",
+    message: "The Run ID must be a valid GUID format. Please provide a valid GUID for the Run ID.",
+   },
 };
