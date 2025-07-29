@@ -68,7 +68,14 @@ export interface FileSASSignatureValues {
    *
    * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
-  identifier?: string;
+  identifier?: string;  
+  
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
 
   /**
    * Optional. The cache-control header for the SAS.
@@ -99,8 +106,13 @@ export interface FileSASSignatureValues {
 export function generateFileSASQueryParameters(
   fileSASSignatureValues: FileSASSignatureValues,
   userDelegationKey: UserDelegationKey,
-  accountName: string
-) : SASQueryParameters;
+  accountName: string,
+): SASQueryParameters;
+
+export function generateFileSASQueryParameters(
+  fileSASSignatureValues: FileSASSignatureValues,
+  sharedKeyCredential: StorageSharedKeyCredential,
+): SASQueryParameters;
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -117,20 +129,18 @@ export function generateFileSASQueryParameters(
  * @param fileSASSignatureValues -
  * @param sharedKeyCredential -
  */
-export function generateFileSASQueryParameters(
-  fileSASSignatureValues: FileSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential,
-): SASQueryParameters
-
 
 export function generateFileSASQueryParameters(
   fileSASSignatureValues: FileSASSignatureValues,
   sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
   accountName?: string,
-): SASQueryParameters{
+): SASQueryParameters {
   accountName;
-  return generateFileSASQueryParametersInternal(fileSASSignatureValues, sharedKeyCredentialOrUserDelegationKey as StorageSharedKeyCredential, accountName)
-    .sasQueryParameters;
+  return generateFileSASQueryParametersInternal(
+    fileSASSignatureValues,
+    sharedKeyCredentialOrUserDelegationKey,
+    accountName,
+  ).sasQueryParameters;
 }
 
 export function generateFileSASQueryParametersInternal(
@@ -138,14 +148,6 @@ export function generateFileSASQueryParametersInternal(
   sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
   accountName?: string,
 ): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
-  if (
-    !fileSASSignatureValues.identifier &&
-    !(fileSASSignatureValues.permissions && fileSASSignatureValues.expiresOn)
-  ) {
-    throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for File SAS generation when 'identifier' is not provided.",
-    );
-  }
   const version = fileSASSignatureValues.version ? fileSASSignatureValues.version : SERVICE_VERSION;
 
   const sharedKeyCredential =
@@ -161,32 +163,35 @@ export function generateFileSASQueryParametersInternal(
     );
   }
 
-  // Version 2020-12-06 adds support for encryptionscope in SAS.
-  if (version >= "2022-02-06") {
-    if (sharedKeyCredential !== undefined) {
-      return generateFileSASQueryParameters2015(fileSASSignatureValues, sharedKeyCredential!);
+  if (sharedKeyCredential !== undefined) {
+    return generateFileSASQueryParametersDefault(fileSASSignatureValues, sharedKeyCredential!);
+  } else {
+    if (version >= "2025-07-05") {
+      return generateFileSASQueryParametersUDK20250705(
+        fileSASSignatureValues,
+        userDelegationKeyCredential!,
+        accountName!,
+      );
     } else {
-      if (version >= "2025-07-05") {
-        return generateBlobSASQueryParametersUDK20250705(
-          blobSASSignatureValues,
-          userDelegationKeyCredential!,
-        );
-      } else {
-        return generateBlobSASQueryParametersUDK20201206(
-          blobSASSignatureValues,
-          userDelegationKeyCredential!,
-        );
-      }
+      throw new RangeError(
+        "'version' must be >= '2025-07-05' when generating user delegation SAS using user delegation key.",
+      );
     }
   }
-
-  return generateFileSASQueryParameters2015(fileSASSignatureValues, sharedKeyCredential!);
 }
 
-export function generateFileSASQueryParameters2015(
+export function generateFileSASQueryParametersDefault(
   fileSASSignatureValues: FileSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential
-): { sasQueryParameters: SASQueryParameters; stringToSign: string }  {
+  sharedKeyCredential: StorageSharedKeyCredential,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
+  if (
+    !fileSASSignatureValues.identifier &&
+    !(fileSASSignatureValues.permissions && fileSASSignatureValues.expiresOn)
+  ) {
+    throw new RangeError(
+      "Must provide 'permissions' and 'expiresOn' for File SAS generation when 'identifier' is not provided.",
+    );
+  }
 
   const version = fileSASSignatureValues.version ? fileSASSignatureValues.version : SERVICE_VERSION;
   let resource: string = "s";
@@ -256,14 +261,18 @@ export function generateFileSASQueryParameters2015(
     ),
     stringToSign: stringToSign,
   };
-
 }
 
-export function generateFileSASQueryParametersUDK2015(
+export function generateFileSASQueryParametersUDK20250705(
   fileSASSignatureValues: FileSASSignatureValues,
   userDelegationKeyCredential: UserDelegationKeyCredential,
-  accountName: string
-): { sasQueryParameters: SASQueryParameters; stringToSign: string }  {
+  accountName: string,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
+  if (!(fileSASSignatureValues.permissions && fileSASSignatureValues.expiresOn)) {
+    throw new RangeError(
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
+    );
+  }
 
   const version = fileSASSignatureValues.version ? fileSASSignatureValues.version : SERVICE_VERSION;
   let resource: string = "s";
@@ -309,8 +318,8 @@ export function generateFileSASQueryParametersUDK2015(
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
-    null, // shared key delegation signed tenant id.
-    null, // shared key delegation signed object id.
+    undefined, // shared key delegation signed tenant id.
+    fileSASSignatureValues.delegatedUserObjectId, 
     fileSASSignatureValues.ipRange ? ipRangeToString(fileSASSignatureValues.ipRange) : "",
     fileSASSignatureValues.protocol,
     version,
@@ -341,10 +350,11 @@ export function generateFileSASQueryParametersUDK2015(
       fileSASSignatureValues.contentEncoding,
       fileSASSignatureValues.contentLanguage,
       fileSASSignatureValues.contentType,
+      userDelegationKeyCredential.userDelegationKey,
+      fileSASSignatureValues.delegatedUserObjectId
     ),
     stringToSign: stringToSign,
   };
-
 }
 
 function getCanonicalName(accountName: string, shareName: string, filePath?: string): string {
