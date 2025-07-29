@@ -1123,6 +1123,9 @@ importers:
       '@rush-temp/monitor-query':
         specifier: file:./projects/monitor-query.tgz
         version: file:projects/monitor-query.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/monitor-query-logs':
+        specifier: file:./projects/monitor-query-logs.tgz
+        version: file:projects/monitor-query-logs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/notification-hubs':
         specifier: file:./projects/notification-hubs.tgz
         version: file:projects/notification-hubs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -3979,6 +3982,10 @@ packages:
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
     resolution: {integrity: sha512-8gKicb8TD2BQr684C4kkahs1dUYsIPR1KCEV1dIrK9r27LcynndRITyctYHGgOohZOzoul7d23j+7mHikwFZNw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    version: 0.0.0
+
+  '@rush-temp/monitor-query-logs@file:projects/monitor-query-logs.tgz':
+    resolution: {integrity: sha512-iDOGII5KxRBHJTs4xJ4zFHZtyMwzi1xhjwW227pJMKni026pdn+G1pSiEDYGsJXHDam5Ovw7OZzWFBx65jMR5Q==, tarball: file:projects/monitor-query-logs.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
@@ -22389,6 +22396,45 @@ snapshots:
       - supports-color
       - terser
       - tsx
+      - yaml
+
+  '@rush-temp/monitor-query-logs@file:projects/monitor-query-logs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@azure/identity': 4.10.2
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
+      '@types/node': 20.19.1
+      '@vitest/browser': 3.2.4(playwright@1.53.1)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.5.0
+      eslint: 9.29.0
+      playwright: 1.53.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
       - yaml
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@6.3.5(@types/node@22.7.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
