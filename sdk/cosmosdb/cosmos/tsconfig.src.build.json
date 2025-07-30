@@ -2,7 +2,6 @@
   "extends": "../../../tsconfig.src.build.json",
   "compilerOptions": {
     "stripInternal": true,
-    "preserveConstEnums": true,
     "removeComments": false,
     "strict": false,
     "noImplicitAny": true,
