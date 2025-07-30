@@ -567,3 +567,64 @@ describe("FileServiceClient Premium", () => {
     assert.ok(getRes.quota);
   });
 });
+
+describe("FileServiceClient SMB", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      ctx.skip();
+    }
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it.only("List share with SMB Directory lease enabled", async function () {
+    let shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClient.getShareClient(shareName);
+    await shareClient.create({
+      protocols: {
+        smbEnabled: true,
+      },
+    });
+
+    const properties = await shareClient.getProperties();
+    assert.deepEqual(properties.enableSmbDirectoryLease, true);
+
+    let gotTheShare = false;
+    for await (const item of serviceClient.listShares()) {
+      if (item.name === shareName){
+        gotTheShare = true;
+        assert.deepEqual(item.properties.enableSmbDirectoryLease, true);
+      }
+    }
+    assert.ok(gotTheShare);
+
+    await shareClient.setProperties({
+      enableSmbDirectoryLease: false
+    });
+
+    const properties1 = await shareClient.getProperties();
+    assert.deepEqual(properties1.enableSmbDirectoryLease, false);
+    
+    gotTheShare = false;
+    for await (const item of serviceClient.listShares()) {
+      if (item.name === shareName){
+        gotTheShare = true;
+        assert.deepEqual(item.properties.enableSmbDirectoryLease, false);
+      }
+    }
+    assert.ok(gotTheShare);
+
+    await shareClient.delete();
+  });
+});

@@ -50,7 +50,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await recorder.stop();
   });
 
-  it.only("userdelegation SAS should work", async function (ctx) {
+  it("userdelegation SAS should work", async function (ctx) {
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let fileServiceClientWithToken: ShareServiceClient;
@@ -68,7 +68,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await fileServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    const sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
+    const sharedKeyCredential = serviceClient["credential"] as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
 
