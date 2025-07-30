@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "noEmit": true,
-    "target": "Es2021",
+    "target": "ES2023",
     "skipLibCheck": true,
     "module": "NodeNext",
     "moduleResolution": "nodenext"
