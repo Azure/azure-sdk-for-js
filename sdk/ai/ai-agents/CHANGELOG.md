@@ -1,5 +1,15 @@
 # Release History
 
+## 1.1.0 (2025-07-31)
+
+### Breaking changes
+
+- Remove MCP tool
+- Remove Deep Research tool
+- Remove Sharepoint tool
+- Remove BingCustomSearch tool
+- Remove MicrosoftFabric tool
+
 ## 1.1.0-beta.3 (2025-07-30)
 
 ### Bugs Fixed
