@@ -191,7 +191,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
     Parameters.roleName,
   ],
@@ -213,7 +213,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -232,9 +232,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],

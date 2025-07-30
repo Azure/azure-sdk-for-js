@@ -28,9 +28,22 @@ export { parseJwt } from "./parseJwt.js";
 
 // const playwrightServiceConfig = new PlaywrightServiceConfig();
 
-export const exitWithFailureMessage = (error: { key: string; message: string }): never => {
+export const exitWithFailureMessage = (
+  error: {
+    key: string;
+    message: string;
+    formatWithErrorDetails?: (errorDetails: string) => string;
+  },
+  errorDetails?: string,
+): never => {
   console.log();
-  console.error(error.message);
+
+  if (error.formatWithErrorDetails && errorDetails) {
+    console.error(error.formatWithErrorDetails(errorDetails));
+  } else {
+    console.error(error.message);
+  }
+
   // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 };
@@ -279,5 +292,21 @@ export async function getRunName(ciInfo: CIInfo): Promise<string> {
   } catch (err) {
     coreLogger.error(`Error in getting git commit message: ${err}.`);
     return "";
+  }
+}
+
+export function extractErrorMessage(responseBody: string): string {
+  if (!responseBody) {
+    return "";
+  }
+
+  try {
+    const errorResponse = JSON.parse(responseBody);
+    if (errorResponse.error && errorResponse.error.message) {
+      return errorResponse.error.message;
+    }
+    return responseBody;
+  } catch (e) {
+    return responseBody;
   }
 }
