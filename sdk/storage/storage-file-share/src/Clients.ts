@@ -422,13 +422,23 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS.
    */
   paidBurstingMaxIops?: number;
+
   /**
    * Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares.
    * Specifies the provisioned number of input/output operations per second (IOPS) of the share. If this is not specified, the provisioned IOPS is set to value calculated based on recommendation formula.
    */
   shareProvisionedIops?: number;
-  /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. */
+
+  /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). 
+   * If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. 
+   */
   shareProvisionedBandwidthMibps?: number;
+
+  /** SMB only, default is true.  
+   * Specifies whether granting of new directory leases for directories present in a share are to be enabled or disabled. An input of true specifies that granting of new directory leases is to be allowed. 
+   * An input of false specifies that granting of new directory leases is to be blocked. 
+   */
+  enableSmbDirectoryLease?: boolean;
 }
 
 /**
