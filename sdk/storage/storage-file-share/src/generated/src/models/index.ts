@@ -60,18 +60,40 @@ export interface CorsRule {
 export interface ShareProtocolSettings {
   /** Settings for SMB protocol. */
   smb?: ShareSmbSettings;
+  /** Settings for NFS protocol. */
+  nfs?: ShareNfsSettings;
 }
 
 /** Settings for SMB protocol. */
 export interface ShareSmbSettings {
   /** Settings for SMB Multichannel. */
   multichannel?: SmbMultichannel;
+  /** Enable or disable encryption in transit. */
+  encryptionInTransit?: ShareSmbSettingsEncryptionInTransit;
 }
 
 /** Settings for SMB multichannel */
 export interface SmbMultichannel {
   /** If SMB multichannel is enabled. */
   enabled?: boolean;
+}
+
+/** Enable or disable encryption in transit. */
+export interface ShareSmbSettingsEncryptionInTransit {
+  /** If encryption in transit is required */
+  required?: boolean;
+}
+
+/** Settings for SMB protocol. */
+export interface ShareNfsSettings {
+  /** Enable or disable encryption in transit. */
+  encryptionInTransit?: ShareNfsSettingsEncryptionInTransit;
+}
+
+/** Enable or disable encryption in transit. */
+export interface ShareNfsSettingsEncryptionInTransit {
+  /** If encryption in transit is required */
+  required?: boolean;
 }
 
 export interface StorageError {

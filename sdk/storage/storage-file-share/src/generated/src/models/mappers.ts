@@ -196,6 +196,14 @@ export const ShareProtocolSettings: coreClient.CompositeMapper = {
           className: "ShareSmbSettings",
         },
       },
+      nfs: {
+        serializedName: "Nfs",
+        xmlName: "NFS",
+        type: {
+          name: "Composite",
+          className: "ShareNfsSettings",
+        },
+      },
     },
   },
 };
@@ -215,6 +223,14 @@ export const ShareSmbSettings: coreClient.CompositeMapper = {
           className: "SmbMultichannel",
         },
       },
+      encryptionInTransit: {
+        serializedName: "EncryptionInTransit",
+        xmlName: "EncryptionInTransit",
+        type: {
+          name: "Composite",
+          className: "ShareSmbSettingsEncryptionInTransit",
+        },
+      },
     },
   },
 };
@@ -229,6 +245,59 @@ export const SmbMultichannel: coreClient.CompositeMapper = {
       enabled: {
         serializedName: "Enabled",
         xmlName: "Enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const ShareSmbSettingsEncryptionInTransit: coreClient.CompositeMapper = {
+  serializedName: "ShareSmbSettingsEncryptionInTransit",
+  type: {
+    name: "Composite",
+    className: "ShareSmbSettingsEncryptionInTransit",
+    modelProperties: {
+      required: {
+        serializedName: "Required",
+        xmlName: "Required",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const ShareNfsSettings: coreClient.CompositeMapper = {
+  serializedName: "ShareNfsSettings",
+  xmlName: "NFS",
+  type: {
+    name: "Composite",
+    className: "ShareNfsSettings",
+    modelProperties: {
+      encryptionInTransit: {
+        serializedName: "EncryptionInTransit",
+        xmlName: "EncryptionInTransit",
+        type: {
+          name: "Composite",
+          className: "ShareNfsSettingsEncryptionInTransit",
+        },
+      },
+    },
+  },
+};
+
+export const ShareNfsSettingsEncryptionInTransit: coreClient.CompositeMapper = {
+  serializedName: "ShareNfsSettingsEncryptionInTransit",
+  type: {
+    name: "Composite",
+    className: "ShareNfsSettingsEncryptionInTransit",
+    modelProperties: {
+      required: {
+        serializedName: "Required",
+        xmlName: "Required",
         type: {
           name: "Boolean",
         },
