@@ -4,8 +4,7 @@ export default azsdkEslint.config([
   { ignores: ["test/manual*"] },
   {
     rules: {
-      "@azure/azure-sdk/ts-naming-options": "warn",
-      "@typescript-eslint/ban-ts-comment": "warn"
+      "@azure/azure-sdk/ts-naming-options": "warn"
     },
   },
 ]);
