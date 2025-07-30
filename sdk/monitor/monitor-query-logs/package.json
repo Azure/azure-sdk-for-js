@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-query-logs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An isomorphic client library for querying Azure Monitor's Logs data sources.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
