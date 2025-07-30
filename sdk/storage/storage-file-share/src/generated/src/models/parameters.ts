@@ -367,6 +367,17 @@ export const shareProvisionedBandwidthMibps: OperationParameter = {
   },
 };
 
+export const enableSmbDirectoryLease: OperationParameter = {
+  parameterPath: ["options", "enableSmbDirectoryLease"],
+  mapper: {
+    serializedName: "x-ms-enable-smb-directory-lease",
+    xmlName: "x-ms-enable-smb-directory-lease",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
 export const shareSnapshot: OperationQueryParameter = {
   parameterPath: ["options", "shareSnapshot"],
   mapper: {

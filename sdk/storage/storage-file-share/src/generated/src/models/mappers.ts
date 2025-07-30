@@ -610,6 +610,13 @@ export const SharePropertiesInternal: coreClient.CompositeMapper = {
           name: "DateTimeRfc1123",
         },
       },
+      enableSmbDirectoryLease: {
+        serializedName: "EnableSmbDirectoryLease",
+        xmlName: "EnableSmbDirectoryLease",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -1872,6 +1879,13 @@ export const ShareGetPropertiesHeaders: coreClient.CompositeMapper = {
         xmlName: "x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time",
         type: {
           name: "DateTimeRfc1123",
+        },
+      },
+      enableSmbDirectoryLease: {
+        serializedName: "x-ms-enable-smb-directory-lease",
+        xmlName: "x-ms-enable-smb-directory-lease",
+        type: {
+          name: "Boolean",
         },
       },
       errorCode: {
