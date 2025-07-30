@@ -83,7 +83,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       const appendStub = vi.spyOn(fileHelper, "appendFileAsync").mockImplementation(async () => {});
       const readStub = vi.spyOn(fileHelper, "readFileAsync").mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
-        async () => Buffer.from("existing content")
+        async () => Buffer.from("existing content"),
       );
       logger["_logToFile"] = true;
 
@@ -112,7 +112,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       const writeStub = vi.spyOn(fileHelper, "writeFileAsync").mockImplementation(async () => {});
       const readStub = vi.spyOn(fileHelper, "readFileAsync").mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
-        async () => Buffer.from("existing content")
+        async () => Buffer.from("existing content"),
       );
       logger["_maxSizeBytes"] = 122;
       logger["_logToFile"] = true;

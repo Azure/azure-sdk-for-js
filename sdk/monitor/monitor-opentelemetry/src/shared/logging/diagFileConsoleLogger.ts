@@ -125,39 +125,39 @@ export class DiagFileConsoleLogger implements DiagLogger {
    */
   private _shouldFilterResourceAttributeWarning(message?: any, args?: any[]): boolean {
     const messagesToFilter = [
-      'Accessing resource attributes before async attributes settled',
-      'Resource attributes being accessed before async attributes finished',
-      'async attributes settled',
-      'Resource attributes accessed before async detection completed'
+      "Accessing resource attributes before async attributes settled",
+      "Resource attributes being accessed before async attributes finished",
+      "async attributes settled",
+      "Resource attributes accessed before async detection completed",
     ];
 
-    if (typeof message === 'string') {
+    if (typeof message === "string") {
       // Filter out warnings about accessing resource attributes before async attributes are settled
-      return messagesToFilter.some(filterText => message.includes(filterText));
+      return messagesToFilter.some((filterText) => message.includes(filterText));
     }
-    
+
     // Check if the message is in the args array
     if (args && Array.isArray(args)) {
       for (const arg of args) {
-        if (typeof arg === 'string') {
-          if (messagesToFilter.some(filterText => arg.includes(filterText))) {
+        if (typeof arg === "string") {
+          if (messagesToFilter.some((filterText) => arg.includes(filterText))) {
             return true;
           }
         }
       }
     }
-    
+
     // Also check if message starts with the warning text (in case it's formatted differently)
-    if (typeof message === 'string') {
-      const messageParts = message.split(' ');
+    if (typeof message === "string") {
+      const messageParts = message.split(" ");
       if (messageParts.length >= 3) {
         const messageStart = `${messageParts[0]} ${messageParts[1]} ${messageParts[2]}`;
-        if (messageStart === 'Accessing resource attributes') {
+        if (messageStart === "Accessing resource attributes") {
           return true;
         }
       }
     }
-    
+
     return false;
   }
 

@@ -207,17 +207,20 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     const vmResource = detectResources({
       detectors: [azureVmDetector],
     });
-    
+
     // Don't wait for VM resource detection to complete during initialization
     // This prevents warnings about accessing resource attributes before async attributes are settled
     if (vmResource.asyncAttributesPending) {
-      void vmResource.waitForAsyncAttributes?.().then(() => {
-        this._resource = this._resource.merge(vmResource);
-        return;
-      }).catch(() => {
-        // Silently ignore VM detection errors to avoid unnecessary warnings
-        // VM detection is optional and failures shouldn't impact core functionality
-      });
+      void vmResource
+        .waitForAsyncAttributes?.()
+        .then(() => {
+          this._resource = this._resource.merge(vmResource);
+          return;
+        })
+        .catch(() => {
+          // Silently ignore VM detection errors to avoid unnecessary warnings
+          // VM detection is optional and failures shouldn't impact core functionality
+        });
     } else {
       // If VM detection completed synchronously, merge immediately
       this._resource = this._resource.merge(vmResource);
