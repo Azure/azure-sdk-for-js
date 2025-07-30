@@ -4,10 +4,12 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Azure Connected Cluster Resource Provider API for onboarding a Kubernetes Cluster to Azure Arc
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridkubernetes/arm-hybridkubernetes) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridkubernetes) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hybridkubernetes?view=azure-node-preview) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridkubernetes/arm-hybridkubernetes)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridkubernetes)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hybridkubernetes?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridkubernetes/arm-hybridkubernetes/samples)
 
 ## Getting started
 
@@ -30,7 +32,7 @@ Install the Azure ConnectedKubernetes client library for JavaScript with `npm`:
 npm install @azure/arm-hybridkubernetes
 ```
 
-### Create and authenticate a `ConnectedKubernetesClient`
+### Create and authenticate a `KubernetesClient`
 
 To create a client object to access the Azure ConnectedKubernetes API, you will need the `endpoint` of your Azure ConnectedKubernetes resource and a `credential`. The Azure ConnectedKubernetes client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure ConnectedKubernetes resource in the [Azure Portal][azure_portal].
@@ -50,35 +52,36 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
+import { KubernetesClient } from "@azure/arm-hybridkubernetes";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ConnectedKubernetesClient(new DefaultAzureCredential(), subscriptionId);
+const client = new KubernetesClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
+import { KubernetesClient } from "@azure/arm-hybridkubernetes";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
-const client = new ConnectedKubernetesClient(credential, subscriptionId);
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new KubernetesClient(credential, subscriptionId);
 ```
+
 
 ### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
-### ConnectedKubernetesClient
+### KubernetesClient
 
-`ConnectedKubernetesClient` is the primary interface for developers using the Azure ConnectedKubernetes client library. Explore the methods on this client object to understand the different features of the Azure ConnectedKubernetes service that you can access.
+`KubernetesClient` is the primary interface for developers using the Azure ConnectedKubernetes client library. Explore the methods on this client object to understand the different features of the Azure ConnectedKubernetes service that you can access.
 
 ## Troubleshooting
 
@@ -96,7 +99,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridkubernetes/arm-hybridkubernetes/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -106,9 +109,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-
-[azure_cli]: https://learn.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
