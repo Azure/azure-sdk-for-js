@@ -38,10 +38,12 @@ if (!$AdditionalParameters['deployMIResources']) {
 
 $MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
 $MIName = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_NAME']
+$MIObjectId = $DeploymentOutputs['IDENTITY_USER_DEFINED_OBJECT_ID']
 $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
+$identityResourceGroup = $DeploymentOutputs['IDENTITY_RESOURCE_GROUP']
+$storageName1 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_1']
 $storageName2 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
-$userDefinedClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
 
 $ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $true
@@ -65,7 +67,7 @@ npm run build
 Pop-Location
 Write-Host "starting azure functions deployment"
 Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
-az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+az functionapp deployment source config-zip -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
 Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
 Write-Host "Deployed function app"
 
@@ -86,21 +88,44 @@ docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/li
 docker push $image
 Write-Host "Deployed image to ACR"
 
+Write-Host "Deploying Azure Container Instance"
+
+az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']) --image $image `
+  --acr-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
+  --assign-identity [system] $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
+  --role "Storage Blob Data Reader" `
+  --cpu "1" `
+  --ports 80 `
+  --ip-address "Public" `
+  --memory "1.0" `
+  --os-type "Linux" `
+  --scope $DeploymentOutputs['IDENTITY_STORAGE_ID_1'] `
+  -e IDENTITY_STORAGE_NAME=$storageName1 `
+  IDENTITY_STORAGE_NAME_2=$storageName2 `
+  IDENTITY_USER_DEFINED_CLIENT_ID=$MIClientId `
+  IDENTITY_USER_DEFINED_OBJECT_ID=$MIObjectId `
+  IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT=80
+
+$aciIP = az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] --query ipAddress.ip --output tsv
+Write-Host "##vso[task.setvariable variable=IDENTITY_ACI_IP;]$aciIP"
+
+Write-Host "Deployed Azure Container Instance"
+
 Write-Host "Configuring kubernetes to use our image"
-az aks update -n $DeploymentOutputs['IDENTITY_AKS_CLUSTER_NAME'] -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --attach-acr $DeploymentOutputs['IDENTITY_ACR_NAME']
+az aks update -n $DeploymentOutputs['IDENTITY_AKS_CLUSTER_NAME'] -g $identityResourceGroup --attach-acr $DeploymentOutputs['IDENTITY_ACR_NAME']
 
 # Get the aks cluster credentials
 Write-Host "Getting AKS credentials"
-az aks get-credentials --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_AKS_CLUSTER_NAME']
+az aks get-credentials --resource-group $identityResourceGroup --name $DeploymentOutputs['IDENTITY_AKS_CLUSTER_NAME']
 
 #Get the aks cluster OIDC issuer
 Write-Host "Getting AKS OIDC issuer"
-$AKS_OIDC_ISSUER = az aks show -n $DeploymentOutputs['IDENTITY_AKS_CLUSTER_NAME'] -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --query "oidcIssuerProfile.issuerUrl" -otsv
+$AKS_OIDC_ISSUER = az aks show -n $DeploymentOutputs['IDENTITY_AKS_CLUSTER_NAME'] -g $identityResourceGroup --query "oidcIssuerProfile.issuerUrl" -otsv
 
 
 # Create the federated identity
 Write-Host "Creating federated identity"
-az identity federated-credential create --name $MIName --identity-name $MIName --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --issuer $AKS_OIDC_ISSUER --subject system:serviceaccount:default:workload-identity-sa --audiences api://AzureADTokenExchange
+az identity federated-credential create --name $MIName --identity-name $MIName --resource-group $identityResourceGroup --issuer $AKS_OIDC_ISSUER --subject system:serviceaccount:default:workload-identity-sa --audiences api://AzureADTokenExchange
 
 # Build the kubernetes deployment yaml
 $kubeConfig = @"
@@ -128,7 +153,7 @@ spec:
     - name: IDENTITY_STORAGE_NAME_2
       value: "$storageName2"
     - name: IDENTITY_USER_DEFINED_CLIENT_ID
-      value: "$userDefinedClientId"
+      value: "$MIClientId"
     - name: IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT
       value: "80"
     ports:
