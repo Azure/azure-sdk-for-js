@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { DataMigrationManagementClient } = require("@azure/arm-datamigration");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to This method updates an existing file.
  *
  * @summary This method updates an existing file.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Files_Update.json
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Files_Update.json
  */
 async function filesUpdate() {
-  const subscriptionId = "fc04246f-04c5-437e-ac5e-206a19e7193f";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "fc04246f-04c5-437e-ac5e-206a19e7193f";
   const groupName = "DmsSdkRg";
   const serviceName = "DmsSdkService";
   const projectName = "DmsSdkProject";
@@ -33,9 +33,13 @@ async function filesUpdate() {
     serviceName,
     projectName,
     fileName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-filesUpdate().catch(console.error);
+async function main() {
+  await filesUpdate();
+}
+
+main().catch(console.error);

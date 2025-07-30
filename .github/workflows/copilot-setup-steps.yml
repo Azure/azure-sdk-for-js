@@ -28,3 +28,9 @@ jobs:
 
       - name: Install library dependencies
         run: rush update
+
+      - name: Install azsdk mcp server
+        shell: pwsh
+        run: |
+          ./eng/common/mcp/azure-sdk-mcp.ps1 -InstallDirectory $HOME/bin
+

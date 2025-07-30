@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  StorageDiscoveryWorkspace,
+  StorageDiscoveryWorkspaceProperties,
+  KnownStorageDiscoverySku,
+  StorageDiscoverySku,
+  StorageDiscoveryScope,
+  KnownStorageDiscoveryResourceType,
+  StorageDiscoveryResourceType,
+  KnownResourceProvisioningState,
+  ResourceProvisioningState,
+  TrackedResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  StorageDiscoveryWorkspaceUpdate,
+  StorageDiscoveryWorkspacePropertiesUpdate,
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  KnownApiVersion,
+} from "./models.js";
