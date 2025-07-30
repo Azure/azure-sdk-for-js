@@ -202,8 +202,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
       console.log("Failed to generate backup log file", err);
     } finally {
       // Store logs
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      writeFileAsync(this._fileFullPath, data);
+      await writeFileAsync(this._fileFullPath, data);
     }
   }
 
