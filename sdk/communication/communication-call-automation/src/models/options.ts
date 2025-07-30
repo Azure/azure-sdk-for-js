@@ -69,7 +69,7 @@ export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptio
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
   /** Gets or sets a list of languages for Language Identification. */
-  speechLanguages?: string[];
+  speechLanguages: string[];
   /** Gets or sets a value indicating if sentiment analysis should be used. */
   enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
@@ -84,7 +84,7 @@ export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptio
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
   /** Gets or sets a list of languages for Language Identification. */
-  speechLanguages?: string[];
+  speechLanguages: string[];
   /** Gets or sets a value indicating if sentiment analysis should be used. */
   enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
@@ -105,7 +105,7 @@ export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecogniz
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
   /** Gets or sets a list of languages for Language Identification. */
-  speechLanguages?: string[];
+  speechLanguages: string[];
   /** Gets or sets a value indicating if sentiment analysis should be used. */
   enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
@@ -397,8 +397,6 @@ export interface StartTranscriptionOptions extends OperationOptions {
   piiRedactionOptions?: PiiRedactionOptions;
   /** Indicating if sentiment analysis should be used. */
   enableSentimentAnalysis?: boolean;
-  /** List of languages for Language Identification. */
-  locales?: string[];
   /** Summarization configuration options. */
   summarizationOptions?: SummarizationOptions;
 }
@@ -480,6 +478,8 @@ export interface StopMediaStreamingOptions extends OperationOptions {
  * Options to update transcription
  */
 export interface UpdateTranscriptionOptions extends OperationOptions {
+  /** Defines Locale for the transcription e,g en-US */
+  locale?: string;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
   /** The value to identify context of the operation. */

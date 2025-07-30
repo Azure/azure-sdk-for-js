@@ -307,7 +307,7 @@ export interface TranscriptionOptions {
   /** Indicating if sentiment analysis should be used. */
   enableSentimentAnalysis?: boolean;
   /** List of languages for Language Identification. */
-  locales?: string[];
+  locales: string[];
   /** Summarization configuration options. */
   summarizationOptions?: SummarizationOptions;
 }

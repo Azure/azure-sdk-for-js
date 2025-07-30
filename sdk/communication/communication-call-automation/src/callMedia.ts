@@ -515,16 +515,20 @@ export class CallMedia {
 
   /**
    * Starts transcription in the call
+   * @param locales - List of languages for Language Identification.
    * @param options - Additional attributes for start transcription.
    */
-  public async startTranscription(options: StartTranscriptionOptions = {}): Promise<void> {
+  public async startTranscription(
+    locales: string[],
+    options: StartTranscriptionOptions = {},
+  ): Promise<void> {
     const startTranscriptionRequest: StartTranscriptionRequest = {
       locale: options.locale,
       operationContext: options.operationContext,
       speechModelEndpointId: options.speechRecognitionModelEndpointId,
       operationCallbackUri: options.operationCallbackUrl,
       piiRedactionOptions: options.piiRedactionOptions,
-      locales: options.locales,
+      locales: locales,
       enableSentimentAnalysis: options.enableSentimentAnalysis,
       summarizationOptions: options.summarizationOptions,
     };
@@ -545,14 +549,10 @@ export class CallMedia {
 
   /**
    * Update transcription language.
-   * @param locale - Defines new locale for transcription.
    */
-  public async updateTranscription(
-    locale: string,
-    options: UpdateTranscriptionOptions = {},
-  ): Promise<void> {
+  public async updateTranscription(options: UpdateTranscriptionOptions = {}): Promise<void> {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
-      locale: locale,
+      locale: options.locale,
       speechModelEndpointId: options.speechRecognitionModelEndpointId,
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,

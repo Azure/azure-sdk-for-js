@@ -43,6 +43,7 @@ import type {
   CallMediaRecognizeSpeechOrDtmfOptions,
   PlayToAllOptions,
   SummarizeCallOptions,
+  UpdateTranscriptionOptions,
 } from "../../src/index.js";
 
 // Current directory imports
@@ -221,6 +222,7 @@ describe("CallMedia Unit Tests", async function () {
     };
     const recognizeOptions: CallMediaRecognizeChoiceOptions = {
       choices: [choice],
+      speechLanguages: ["en-us", "en-au"],
       kind: "callMediaRecognizeChoiceOptions",
     };
 
@@ -240,6 +242,7 @@ describe("CallMedia Unit Tests", async function () {
     const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
+      speechLanguages: ["en-us", "en-au"],
       kind: "callMediaRecognizeSpeechOptions",
       speechRecognitionModelEndpointId: "customModelEndpointId",
     };
@@ -402,7 +405,7 @@ describe("CallMedia Unit Tests", async function () {
       operationContext: "test_operation_context",
     };
 
-    await callMedia.startTranscription(startTranscriptionOptions);
+    await callMedia.startTranscription(["en-us"], startTranscriptionOptions);
     const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -433,13 +436,15 @@ describe("CallMedia Unit Tests", async function () {
 
     callMedia = createMediaClient(mockHttpClient);
     const spy = vi.spyOn(mockHttpClient, "sendRequest");
-    const locale = "en-US";
+    const updateTranscription: UpdateTranscriptionOptions = {
+      locale: "en-US",
+    };
 
-    await callMedia.updateTranscription(locale);
+    await callMedia.updateTranscription(updateTranscription);
     const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
-    assert.equal(data.locale, locale);
+    assert.equal(data.locale, updateTranscription.locale);
     assert.equal(request.method, "POST");
   });
 
@@ -548,6 +553,7 @@ describe("CallMedia Unit Tests", async function () {
     const recognizeOptions: CallMediaRecognizeChoiceOptions = {
       playPrompts: prompts,
       choices: [choice],
+      speechLanguages: ["en-us", "en-au"],
       kind: "callMediaRecognizeChoiceOptions",
     };
 
@@ -579,6 +585,7 @@ describe("CallMedia Unit Tests", async function () {
 
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       playPrompts: prompts,
+      speechLanguages: ["en-us", "en-au"],
       kind: "callMediaRecognizeSpeechOptions",
       speechRecognitionModelEndpointId: "customModelEndpointId",
     };
@@ -612,6 +619,7 @@ describe("CallMedia Unit Tests", async function () {
     const recognizeOptions: CallMediaRecognizeSpeechOrDtmfOptions = {
       playPrompts: prompts,
       maxTonesToCollect: 5,
+      speechLanguages: ["en-us", "en-au"],
       kind: "callMediaRecognizeSpeechOrDtmfOptions",
       speechRecognitionModelEndpointId: "customModelEndpointId",
     };
@@ -1778,6 +1786,7 @@ describe("Call Media Client Live Tests", function () {
       const recognizeSpeechOptionsToTextSource: CallMediaRecognizeSpeechOptions = {
         endSilenceTimeoutInSeconds: 1,
         playPrompts: playMultipleTextSources,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeSpeechOptions",
         initialSilenceTimeoutInSeconds: 5,
       };
@@ -1800,6 +1809,7 @@ describe("Call Media Client Live Tests", function () {
       const recognizeSpeechOptionsMultipleSource: CallMediaRecognizeSpeechOptions = {
         endSilenceTimeoutInSeconds: 1,
         playPrompts: multiplePlaySources,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeSpeechOptions",
         initialSilenceTimeoutInSeconds: 5,
       };
@@ -1822,6 +1832,7 @@ describe("Call Media Client Live Tests", function () {
       const recognizeSpeechOptionsMultiPrompts: CallMediaRecognizeSpeechOptions = {
         endSilenceTimeoutInSeconds: 1,
         playPrompts: multiplePrompts,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeSpeechOptions",
         initialSilenceTimeoutInSeconds: 5,
       };
@@ -1910,6 +1921,7 @@ describe("Call Media Client Live Tests", function () {
         interruptPrompt: true,
         initialSilenceTimeoutInSeconds: 5,
         playPrompts: playMultipleTextSources,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeChoiceOptions",
       };
 
@@ -1933,6 +1945,7 @@ describe("Call Media Client Live Tests", function () {
         interruptPrompt: true,
         initialSilenceTimeoutInSeconds: 10,
         playPrompts: multiplePlaySources,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeChoiceOptions",
       };
 
@@ -1956,6 +1969,7 @@ describe("Call Media Client Live Tests", function () {
         interruptPrompt: true,
         initialSilenceTimeoutInSeconds: 5,
         playPrompts: multiplePrompts,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeChoiceOptions",
       };
 
@@ -2031,6 +2045,7 @@ describe("Call Media Client Live Tests", function () {
         playPrompts: playMultipleTextSources,
         initialSilenceTimeoutInSeconds: 5,
         interruptPrompt: true,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeSpeechOrDtmfOptions",
       };
 
@@ -2056,6 +2071,7 @@ describe("Call Media Client Live Tests", function () {
         playPrompts: multiplePlaySources,
         initialSilenceTimeoutInSeconds: 5,
         interruptPrompt: true,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeSpeechOrDtmfOptions",
       };
 
@@ -2080,6 +2096,7 @@ describe("Call Media Client Live Tests", function () {
         playPrompts: multiplePrompts,
         initialSilenceTimeoutInSeconds: 5,
         interruptPrompt: true,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeSpeechOrDtmfOptions",
       };
 
@@ -2184,6 +2201,7 @@ describe("Call Media Client Live Tests", function () {
         transportUrl: transportUrl,
         transportType: "websocket",
         locale: "en-US",
+        locales: ["en-us", "en-au"],
         startTranscription: false,
         enableIntermediateResults: false,
       };
@@ -2211,7 +2229,7 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(callConnectedEvent);
       callConnection = result.callConnection;
 
-      await callConnection.getCallMedia().startTranscription();
+      await callConnection.getCallMedia().startTranscription(["en-us", "en-au"]);
       const transcriptionStarted = await waitForEvent(
         "TranscriptionStarted",
         callConnectionId,
@@ -2262,6 +2280,7 @@ describe("Call Media Client Live Tests", function () {
         transportUrl: transportUrl,
         transportType: "websocket",
         locale: "en-US",
+        locales: ["en-us", "en-au"],
         startTranscription: false,
         enableIntermediateResults: false,
         enableSentimentAnalysis: true,
@@ -2298,7 +2317,7 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(callConnectedEvent);
       callConnection = result.callConnection;
 
-      await callConnection.getCallMedia().startTranscription();
+      await callConnection.getCallMedia().startTranscription(["en-us", "en-au"]);
       const transcriptionStarted = await waitForEvent(
         "TranscriptionStarted",
         callConnectionId,
@@ -2342,6 +2361,7 @@ describe("Call Media Client Live Tests", function () {
         transportUrl: transportUrl,
         transportType: "websocket",
         locale: "en-US",
+        locales: ["en-us", "en-au"],
         startTranscription: false,
         enableIntermediateResults: false,
       };
@@ -2364,7 +2384,7 @@ describe("Call Media Client Live Tests", function () {
         ? answerCallResult.callConnectionProperties.callConnectionId
         : "";
 
-      await answerCallConnection.getCallMedia().startTranscription();
+      await answerCallConnection.getCallMedia().startTranscription(["en-us", "en-au"]);
       const transcriptionStarted = await waitForEvent(
         "TranscriptionStarted",
         answerCallConnectionId,

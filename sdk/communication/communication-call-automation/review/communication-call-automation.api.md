@@ -247,13 +247,13 @@ export class CallMedia {
     // @deprecated
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, options: CallMediaRecognizeDtmfOptions): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
-    startTranscription(options?: StartTranscriptionOptions): Promise<void>;
+    startTranscription(locales: string[], options?: StartTranscriptionOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
     stopMediaStreaming(options?: StopMediaStreamingOptions): Promise<void>;
     stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
     summarizeCall(options?: SummarizeCallOptions): Promise<void>;
     unhold(targetParticipant: CommunicationIdentifier, options?: UnholdOptions): Promise<void>;
-    updateTranscription(locale: string, options?: UpdateTranscriptionOptions): Promise<void>;
+    updateTranscription(options?: UpdateTranscriptionOptions): Promise<void>;
 }
 
 // @public
@@ -263,7 +263,7 @@ export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptio
     // (undocumented)
     readonly kind: "callMediaRecognizeChoiceOptions";
     speechLanguage?: string;
-    speechLanguages?: string[];
+    speechLanguages: string[];
     speechRecognitionModelEndpointId?: string;
 }
 
@@ -296,7 +296,7 @@ export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptio
     // (undocumented)
     readonly kind: "callMediaRecognizeSpeechOptions";
     speechLanguage?: string;
-    speechLanguages?: string[];
+    speechLanguages: string[];
     speechRecognitionModelEndpointId?: string;
 }
 
@@ -309,7 +309,7 @@ export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecogniz
     readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
     maxTonesToCollect?: number;
     speechLanguage?: string;
-    speechLanguages?: string[];
+    speechLanguages: string[];
     speechRecognitionModelEndpointId?: string;
     stopDtmfTones?: DtmfTone[];
 }
@@ -1559,7 +1559,6 @@ export interface StartRecordingOptions extends OperationOptions {
 export interface StartTranscriptionOptions extends OperationOptions {
     enableSentimentAnalysis?: boolean;
     locale?: string;
-    locales?: string[];
     operationCallbackUrl?: string;
     operationContext?: string;
     piiRedactionOptions?: PiiRedactionOptions;
@@ -1723,7 +1722,7 @@ export interface TranscriptionOptions {
     enableIntermediateResults?: boolean;
     enableSentimentAnalysis?: boolean;
     locale?: string;
-    locales?: string[];
+    locales: string[];
     piiRedactionOptions?: PiiRedactionOptions;
     speechModelEndpointId?: string;
     startTranscription?: boolean;
@@ -1811,6 +1810,7 @@ export interface UnholdOptions extends OperationOptions {
 // @public
 export interface UpdateTranscriptionOptions extends OperationOptions {
     enableSentimentAnalysis?: boolean;
+    locale?: string;
     operationCallbackUrl?: string;
     operationContext?: string;
     piiRedactionOptions?: PiiRedactionOptions;
