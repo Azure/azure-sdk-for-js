@@ -113,7 +113,10 @@ export interface Deployments {
     deployment: PatchResourceTagsAndSku,
     options?: DeploymentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>
+    SimplePollerLike<
+      OperationState<DeploymentsUpdateResponse>,
+      DeploymentsUpdateResponse
+    >
   >;
   /**
    * Update specified deployments associated with the Cognitive Services account.

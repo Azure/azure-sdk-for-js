@@ -29,6 +29,6 @@
     "@azure-rest/ai-anomaly-detector": "next",
     "dotenv": "latest",
     "@azure/core-auth": "^1.3.0",
-    "csv-parse": "^5.0.3"
+    "csv-parse": "^6.0.0"
   }
 }

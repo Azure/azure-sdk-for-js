@@ -8,7 +8,7 @@ import {
   ServiceAuth,
 } from "./constants.js";
 import type { PlaywrightServiceAdditionalOptions, OsType } from "./types.js";
-import { getAndSetRunId, getRunName } from "../utils/utils.js";
+import { getAndSetRunId, getRunName, ValidateRunID } from "../utils/utils.js";
 import { CIInfoProvider } from "../utils/cIInfoProvider.js";
 import { state } from "./state.js";
 
@@ -68,6 +68,7 @@ class PlaywrightServiceConfig {
     }
     if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]) {
       if (options?.runId) {
+        ValidateRunID(options.runId);
         this.runId = options.runId;
         process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = this.runId;
       } else {

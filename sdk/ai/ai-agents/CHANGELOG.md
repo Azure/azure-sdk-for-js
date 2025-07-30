@@ -1,5 +1,12 @@
 # Release History
 
+## 1.1.0-beta.2 (2025-07-23)
+
+### Bugs Fixed
+
+- Fixed [Github issue](https://github.com/Azure/azure-sdk-for-js/issues/35203) with `messages.create` method type error when upload image file.
+- Fixed [Github issue](https://github.com/Azure/azure-sdk-for-js/issues/34885) with `runs.create` method deserialization of stream event data.
+
 ## 1.1.0-beta.1 (2025-07-21)
 
 ### Features Added

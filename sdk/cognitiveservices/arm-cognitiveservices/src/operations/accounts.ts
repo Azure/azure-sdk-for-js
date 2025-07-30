@@ -13,7 +13,11 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient.js";
-import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Account,
@@ -82,7 +86,11 @@ export class AccountsImpl implements Accounts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -102,7 +110,11 @@ export class AccountsImpl implements Accounts {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
+      result = await this._listByResourceGroupNext(
+        resourceGroupName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,7 +126,10 @@ export class AccountsImpl implements Accounts {
     resourceGroupName: string,
     options?: AccountsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Account> {
-    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
+    for await (const page of this.listByResourceGroupPagingPage(
+      resourceGroupName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -123,7 +138,9 @@ export class AccountsImpl implements Accounts {
    * Returns all the resources of a particular type belonging to a subscription.
    * @param options The options parameters.
    */
-  public list(options?: AccountsListOptionalParams): PagedAsyncIterableIterator<Account> {
+  public list(
+    options?: AccountsListOptionalParams,
+  ): PagedAsyncIterableIterator<Account> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -182,7 +199,11 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     options?: AccountsListModelsOptionalParams,
   ): PagedAsyncIterableIterator<AccountModel> {
-    const iter = this.listModelsPagingAll(resourceGroupName, accountName, options);
+    const iter = this.listModelsPagingAll(
+      resourceGroupName,
+      accountName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -194,7 +215,12 @@ export class AccountsImpl implements Accounts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listModelsPagingPage(resourceGroupName, accountName, options, settings);
+        return this.listModelsPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -233,7 +259,11 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     options?: AccountsListModelsOptionalParams,
   ): AsyncIterableIterator<AccountModel> {
-    for await (const page of this.listModelsPagingPage(resourceGroupName, accountName, options)) {
+    for await (const page of this.listModelsPagingPage(
+      resourceGroupName,
+      accountName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -251,7 +281,12 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     account: Account,
     options?: AccountsCreateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<AccountsCreateResponse>, AccountsCreateResponse>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsCreateResponse>,
+      AccountsCreateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -262,7 +297,8 @@ export class AccountsImpl implements Accounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -319,7 +355,12 @@ export class AccountsImpl implements Accounts {
     account: Account,
     options?: AccountsCreateOptionalParams,
   ): Promise<AccountsCreateResponse> {
-    const poller = await this.beginCreate(resourceGroupName, accountName, account, options);
+    const poller = await this.beginCreate(
+      resourceGroupName,
+      accountName,
+      account,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -335,7 +376,12 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     account: Account,
     options?: AccountsUpdateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<AccountsUpdateResponse>, AccountsUpdateResponse>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsUpdateResponse>,
+      AccountsUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -346,7 +392,8 @@ export class AccountsImpl implements Accounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -402,7 +449,12 @@ export class AccountsImpl implements Accounts {
     account: Account,
     options?: AccountsUpdateOptionalParams,
   ): Promise<AccountsUpdateResponse> {
-    const poller = await this.beginUpdate(resourceGroupName, accountName, account, options);
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      accountName,
+      account,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -427,7 +479,8 @@ export class AccountsImpl implements Accounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -478,7 +531,11 @@ export class AccountsImpl implements Accounts {
     accountName: string,
     options?: AccountsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, accountName, options);
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      accountName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -518,7 +575,9 @@ export class AccountsImpl implements Accounts {
    * Returns all the resources of a particular type belonging to a subscription.
    * @param options The options parameters.
    */
-  private _list(options?: AccountsListOptionalParams): Promise<AccountsListResponse> {
+  private _list(
+    options?: AccountsListOptionalParams,
+  ): Promise<AccountsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -635,7 +694,10 @@ export class AccountsImpl implements Accounts {
     nextLink: string,
     options?: AccountsListNextOptionalParams,
   ): Promise<AccountsListNextResponse> {
-    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec,
+    );
   }
 
   /**
@@ -779,7 +841,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -940,7 +1006,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
