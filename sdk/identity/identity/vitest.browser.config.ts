@@ -16,7 +16,7 @@ export default mergeConfig(
           replacement: resolve("./dist/browser/index.js"),
         },
         {
-          find: /^internal\/(.*)$/,
+          find: /^\$internal\/(.*)$/,
           replacement: resolve("./dist/browser/$1"),
         },
       ],

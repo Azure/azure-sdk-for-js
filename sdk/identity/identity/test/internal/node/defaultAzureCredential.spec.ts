@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { DefaultAzureCredential } from "@azure/identity";
 import { describe, it, expect, vi, afterEach } from "vitest";
-import * as createFunctionsDac from "internal/credentials/defaultAzureCredentialFunctions.js";
+import * as createFunctionsDac from "$internal/credentials/defaultAzureCredentialFunctions.js";
 
 describe("DefaultAzureCredential", () => {
   afterEach(() => {

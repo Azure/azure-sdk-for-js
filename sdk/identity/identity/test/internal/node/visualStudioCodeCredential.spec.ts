@@ -12,7 +12,7 @@ describe("VisualStudioCodeCredential (internal)", function () {
     credential = new VisualStudioCodeCredential();
     (credential as any).preparePromise = undefined;
 
-    msalPluginsModule = await import("internal/msal/nodeFlows/msalPlugins.js");
+    msalPluginsModule = await import("$internal/msal/nodeFlows/msalPlugins.js");
   });
 
   afterEach(function () {

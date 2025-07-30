@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IdentityClient, getIdentityClientAuthorityHost } from "internal/client/identityClient.js";
+import { IdentityClient, getIdentityClientAuthorityHost } from "$internal/client/identityClient.js";
 import { IdentityTestContext } from "./httpRequests.js";
 import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
 import { createResponse } from "../../httpRequestsCommon.js";

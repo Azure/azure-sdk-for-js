@@ -5,9 +5,9 @@ import {
   checkTenantId,
   resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
-} from "internal/util/tenantIdUtils.js";
-import { DeveloperSignOnClientId } from "internal/constants.js";
-import { credentialLogger } from "internal/util/logging.js";
+} from "$internal/util/tenantIdUtils.js";
+import { DeveloperSignOnClientId } from "$internal/constants.js";
+import { credentialLogger } from "$internal/util/logging.js";
 import { describe, it, assert } from "vitest";
 
 describe("tenantIdUtils", () => {

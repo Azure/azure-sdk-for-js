@@ -5,7 +5,7 @@
     "paths": {
       "@azure/identity": ["./src/index.ts"],
       "@azure/identity/*": ["./src/*"],
-      "internal/*": ["./src/*"]
+      "$internal/*": ["./src/*"]
     },
     "lib": ["ESNext"]
   },

@@ -6,7 +6,7 @@
     "paths": {
       "@azure/identity": ["./dist/browser/index.d.ts"],
       "@azure/identity/*": ["./dist/browser/*"],
-      "internal/*": ["./dist/browser/*"]
+      "$internal/*": ["./dist/browser/*"]
     },
     "outDir": "${configDir}/dist-test/browser",
     "noEmit": false

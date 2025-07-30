@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/identity";
-import type { CredentialLogger } from "internal/util/logging.js";
+import type { CredentialLogger } from "$internal/util/logging.js";
 import {
   credentialLogger,
   credentialLoggerInstance,
   formatError,
   formatSuccess,
-} from "internal/util/logging.js";
+} from "$internal/util/logging.js";
 import { describe, it, assert } from "vitest";
 
 describe("Identity logging utilities", function () {
