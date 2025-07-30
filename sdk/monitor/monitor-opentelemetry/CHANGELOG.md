@@ -10,6 +10,7 @@
 
 - Add customer statsbeat feature to feature statsbeat.
 - Add multi-ikey feature to feature statsbeat.
+- Silence noisy warnings about expected async attributes not being populated.
 
 ## 1.11.1 (2025-06-09)
 
