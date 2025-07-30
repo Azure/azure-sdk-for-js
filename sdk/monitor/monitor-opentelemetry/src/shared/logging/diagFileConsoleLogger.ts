@@ -149,9 +149,12 @@ export class DiagFileConsoleLogger implements DiagLogger {
     
     // Also check if message starts with the warning text (in case it's formatted differently)
     if (typeof message === 'string') {
-      const messageStart = message.split(' ')[0] + ' ' + message.split(' ')[1] + ' ' + message.split(' ')[2];
-      if (messageStart === 'Accessing resource attributes') {
-        return true;
+      const messageParts = message.split(' ');
+      if (messageParts.length >= 3) {
+        const messageStart = `${messageParts[0]} ${messageParts[1]} ${messageParts[2]}`;
+        if (messageStart === 'Accessing resource attributes') {
+          return true;
+        }
       }
     }
     
