@@ -70,6 +70,10 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public error(message?: any, ...args: any[]): void {
+    // Filter out warnings about accessing resource attributes before async attributes are settled
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
@@ -113,6 +117,45 @@ export class DiagFileConsoleLogger implements DiagLogger {
       // eslint-disable-next-line no-console
       console.log(this._TAG, `Failed to log to file: ${err && err.message}`);
     }
+  }
+
+  /**
+   * Checks if the warning message is related to accessing resource attributes
+   * before async attributes are settled and should be filtered out
+   */
+  private _shouldFilterResourceAttributeWarning(message?: any, args?: any[]): boolean {
+    const messagesToFilter = [
+      'Accessing resource attributes before async attributes settled',
+      'Resource attributes being accessed before async attributes finished',
+      'async attributes settled',
+      'Resource attributes accessed before async detection completed'
+    ];
+
+    if (typeof message === 'string') {
+      // Filter out warnings about accessing resource attributes before async attributes are settled
+      return messagesToFilter.some(filterText => message.includes(filterText));
+    }
+    
+    // Check if the message is in the args array
+    if (args && Array.isArray(args)) {
+      for (const arg of args) {
+        if (typeof arg === 'string') {
+          if (messagesToFilter.some(filterText => arg.includes(filterText))) {
+            return true;
+          }
+        }
+      }
+    }
+    
+    // Also check if message starts with the warning text (in case it's formatted differently)
+    if (typeof message === 'string') {
+      const messageStart = message.split(' ')[0] + ' ' + message.split(' ')[1] + ' ' + message.split(' ')[2];
+      if (messageStart === 'Accessing resource attributes') {
+        return true;
+      }
+    }
+    
+    return false;
   }
 
   private async _storeToDisk(args: any): Promise<void> {
