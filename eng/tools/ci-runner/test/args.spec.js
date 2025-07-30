@@ -26,7 +26,7 @@ describe("parseArgs", () => {
   it("parse -packageInfo", () => {
     const argv = [
       "node",
-      "rush-runner.js",
+      "ci-runner.js",
       "build",
       "template",
       "-packageInfo",
@@ -39,7 +39,7 @@ describe("parseArgs", () => {
   it("parse -changeInfo", () => {
     const argv = [
       "node",
-      "rush-runner.js",
+      "ci-runner.js",
       "build",
       "template",
       "-changeInfo",

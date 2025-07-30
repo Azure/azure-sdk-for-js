@@ -38,8 +38,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 To execute the tests you'll need to run:
 
-1. `rush update`
-2. `rush build -t @azure/api-management-custom-widgets-tools`
+1. `pnpm install`
+2. `pnpm build --filter @azure/api-management-custom-widgets-tools...`
 3. `cd sdk\apimanagement\api-management-custom-widgets-tools`
 4. `npm run test`
 
