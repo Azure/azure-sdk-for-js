@@ -96,6 +96,7 @@ export async function execute({
           localDiagnosticNode,
           requestContext.resourceType,
           requestContext.operationType,
+          requestContext.options,
           retryContext.retryLocationServerIndex,
         );
       } else {
@@ -103,6 +104,7 @@ export async function execute({
           localDiagnosticNode,
           requestContext.resourceType,
           requestContext.operationType,
+          requestContext.options,
         );
       }
       const startTimeUTCInMs = getCurrentTimestampInMs();

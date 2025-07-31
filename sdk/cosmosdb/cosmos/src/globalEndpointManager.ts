@@ -10,6 +10,7 @@ import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal.js";
 import { withMetadataDiagnostics } from "./utils/diagnostics.js";
 import { normalizeEndpoint } from "./utils/checkURL.js";
+import { canApplyExcludedLocations } from "./common/helper.js";
 
 /**
  * @hidden
@@ -35,6 +36,7 @@ export class GlobalEndpointManager {
   private unavailableReadableLocations: Location[] = [];
   private unavailableWriteableLocations: Location[] = [];
   private enableMultipleWriteLocations: boolean;
+  private clientLevelExcludedLocations: Set<string>;
 
   public preferredLocationsCount: number;
   /**
@@ -54,6 +56,9 @@ export class GlobalEndpointManager {
     this.isRefreshing = false;
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
+    this.clientLevelExcludedLocations = new Set(
+      (options.connectionPolicy?.excludedLocations || []).map((loc) => normalizeEndpoint(loc)),
+    );
   }
 
   /**
@@ -130,11 +135,47 @@ export class GlobalEndpointManager {
     return canUse;
   }
 
+  private getEffectiveExcludedLocations(
+    requestOptions: RequestOptions | undefined,
+    resourceType: ResourceType,
+  ): Set<string> {
+    console.log("getEffectiveExcludedLocations", requestOptions, resourceType);
+    if (!canApplyExcludedLocations(resourceType)) {
+      return new Set<string>();
+    }
+
+    if (
+      !requestOptions ||
+      !Object.prototype.hasOwnProperty.call(requestOptions, "excludedLocations") ||
+      requestOptions.excludedLocations === undefined ||
+      requestOptions.excludedLocations === null
+    ) {
+      return this.clientLevelExcludedLocations;
+    }
+
+    return new Set(requestOptions.excludedLocations.map((loc) => normalizeEndpoint(loc)));
+  }
+
+  private filterExcludedLocations(
+    locations: Location[],
+    excludedLocations?: Set<string>,
+  ): Location[] {
+    if (excludedLocations.size === 0) {
+      return locations;
+    }
+    const filteredLocations = locations.filter(
+      (location) => !excludedLocations.has(normalizeEndpoint(location.name)),
+    );
+    return filteredLocations.length > 0 ? filteredLocations : locations;
+  }
+
   public async resolveServiceEndpoint(
     diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
     operationType: OperationType,
-    startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
+    requestOptions?: RequestOptions,
+    startServiceEndpointIndex: number = 0,
+    // Represents the starting index for selecting servers.
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
 
@@ -150,7 +191,6 @@ export class GlobalEndpointManager {
       diagnosticNode.recordEndpointResolution(this.defaultEndpoint);
       return this.defaultEndpoint;
     }
-
     if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
       const resourceResponse = await withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
@@ -171,6 +211,12 @@ export class GlobalEndpointManager {
       ? this.readableLocations
       : this.writeableLocations;
 
+    // Get effective excluded locations (request-level overrides client-level)
+    const excludedLocations = this.getEffectiveExcludedLocations(requestOptions, resourceType);
+
+    // Filter locations based on exclusions
+    const availableLocations = this.filterExcludedLocations(locations, excludedLocations);
+
     let location;
     // If we have preferred locations, try each one in order and use the first available one
     if (
@@ -180,11 +226,13 @@ export class GlobalEndpointManager {
     ) {
       for (let i = startServiceEndpointIndex; i < this.preferredLocations.length; i++) {
         const preferredLocation = this.preferredLocations[i];
-        location = locations.find(
-          (loc) =>
-            loc.unavailable !== true &&
-            normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
-        );
+        if (!excludedLocations.has(normalizeEndpoint(preferredLocation))) {
+          location = availableLocations.find(
+            (loc) =>
+              loc.unavailable !== true &&
+              normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
+          );
+        }
         if (location) {
           break;
         }
