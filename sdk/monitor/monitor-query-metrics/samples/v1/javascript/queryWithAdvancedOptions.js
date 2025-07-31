@@ -75,9 +75,7 @@ async function main() {
       console.log(`Granularity: ${resource.granularity}`);
 
       for (const metric of resource.metrics) {
-        console.log(
-          `\n  Metric: ${metric.name.value} (${metric.name.localizedValue || metric.name.value})`,
-        );
+        console.log(`\n  Metric: ${metric.name})`);
         console.log(`  Unit: ${metric.unit}`);
         console.log(`  Description: ${metric.description || "No description available"}`);
         console.log(`  Time series: ${metric.timeseries.length}`);
@@ -92,7 +90,7 @@ async function main() {
           if (series.metadatavalues && series.metadatavalues.length > 0) {
             console.log("    Metadata filters:");
             for (const metadata of series.metadatavalues) {
-              console.log(`      ${metadata.name?.value}: ${metadata.value}`);
+              console.log(`      ${metadata.name}: ${metadata.value}`);
             }
           }
 

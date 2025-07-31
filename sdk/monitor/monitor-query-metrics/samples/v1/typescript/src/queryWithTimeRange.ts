@@ -70,7 +70,7 @@ export async function main(): Promise<void> {
       console.log(`Namespace: ${resource.namespace}`);
 
       for (const metric of resource.metrics) {
-        console.log(`\n  Metric: ${metric.name.value}`);
+        console.log(`\n  Metric: ${metric.name}`);
         console.log(`  Unit: ${metric.unit}`);
         console.log(`  Time series: ${metric.timeseries.length}`);
 
