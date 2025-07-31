@@ -197,7 +197,7 @@ const result = await metricsClient.queryResources(resourceIds, metricNames, metr
 console.log(`Retrieved ${result.length} resources with advanced filtering`);
 for (const resource of result) {
   for (const metric of resource.metrics) {
-    console.log(`Metric: ${metric.name.value}`);
+    console.log(`Metric: ${metric.name}`);
     console.log(`Time series count: ${metric.timeseries.length}`);
   }
 }
