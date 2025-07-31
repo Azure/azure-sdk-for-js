@@ -4,9 +4,17 @@
 import type { TokenCredential } from "@azure/core-auth";
 import { MetricsClient as InternalMetricsClient } from "./metricsClient.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import { mapToInternalQueryOptions, createMetricsQueryResult, getSubscriptionFromResourceId } from "./utils.js";
-import { KnownMonitorMetricsQueryAudience, type MetricsClientOptions, type MetricsQueryResourcesOptions, type MetricsQueryResult } from "./models.js";
-
+import {
+  mapToInternalQueryOptions,
+  createMetricsQueryResult,
+  getSubscriptionFromResourceId,
+} from "./utils.js";
+import {
+  KnownMonitorMetricsQueryAudience,
+  type MetricsClientOptions,
+  type MetricsQueryResourcesOptions,
+  type MetricsQueryResult,
+} from "./models.js";
 
 /**
  * Client for querying Azure Monitor metrics.
@@ -25,16 +33,17 @@ export class MetricsClient {
   constructor(
     endpoint: string,
     tokenCredential: TokenCredential,
-    options: MetricsClientOptions = {}
+    options: MetricsClientOptions = {},
   ) {
     this._client = new InternalMetricsClient(endpoint, tokenCredential, {
-      ...options, credentials: {
+      ...options,
+      credentials: {
         scopes: options.credentials?.scopes ?? [
           options.audience ?? KnownMonitorMetricsQueryAudience.AzurePublicCloud + "/.default",
         ],
-      }
+      },
     });
-    this.pipeline = this._client.pipeline
+    this.pipeline = this._client.pipeline;
   }
 
   /**
@@ -49,7 +58,7 @@ export class MetricsClient {
     resourceIds: string[],
     metricNames: string[],
     metricNamespace: string,
-    options: MetricsQueryResourcesOptions = {}
+    options: MetricsQueryResourcesOptions = {},
   ): Promise<MetricsQueryResult[]> {
     // Extract subscription ID from the first resource ID
     // Format: /subscriptions/{subscriptionId}/...
@@ -62,20 +71,10 @@ export class MetricsClient {
       metricNamespace,
       metricNames,
       { resourceids: resourceIds },
-      internalOptions
+      internalOptions,
     );
 
     // Convert the response to the expected format
     return (response.values || []).map(createMetricsQueryResult);
   }
 }
-
-// Re-export types that are used in the public API
-export {
-  Metric,
-  MetricUnit,
-  MetricValue,
-  TimeSeriesElement,
-  MetadataValue,
-  LocalizableString,
-} from "./models/models.js";

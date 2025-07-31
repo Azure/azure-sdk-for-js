@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createMetrics,
-  MetricsContext,
-  MetricsClientOptionalParams,
-} from "./api/index.js";
+import type { MetricsContext, MetricsClientOptionalParams } from "./api/index.js";
+import { createMetrics } from "./api/index.js";
 import { queryResources } from "./api/operations.js";
-import { QueryResourcesOptionalParams } from "./api/options.js";
-import { ResourceIdList, MetricResultsResponse } from "./models/models.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { QueryResourcesOptionalParams } from "./api/options.js";
+import type { ResourceIdList, MetricResultsResponse } from "./models/models.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export { MetricsClientOptionalParams } from "./api/metricsContext.js";
 

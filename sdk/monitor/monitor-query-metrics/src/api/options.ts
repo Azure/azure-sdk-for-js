@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface QueryResourcesOptionalParams extends OperationOptions {
@@ -20,6 +20,8 @@ export interface QueryResourcesOptionalParams extends OperationOptions {
    * Defaults to PT1M. Special case for 'FULL' value that returns single datapoint
    * for entire time span requested.
    * *Examples: PT15M, PT1H, P1D, FULL*
+   *
+   * {@link Durations}
    */
   interval?: string;
   /** The list of aggregation types (comma separated) to retrieve. *Examples: average, minimum, maximum* */

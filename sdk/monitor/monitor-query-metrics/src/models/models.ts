@@ -23,9 +23,7 @@ export interface MetricResultsResponse {
   values?: MetricResultsResponseValuesItem[];
 }
 
-export function metricResultsResponseDeserializer(
-  item: any,
-): MetricResultsResponse {
+export function metricResultsResponseDeserializer(item: any): MetricResultsResponse {
   return {
     values: !item["values"]
       ? item["values"]
@@ -149,9 +147,7 @@ export type MetricUnit =
   | "NanoCores"
   | "BitsPerSecond";
 
-export function timeSeriesElementArrayDeserializer(
-  result: Array<TimeSeriesElement>,
-): any[] {
+export function timeSeriesElementArrayDeserializer(result: Array<TimeSeriesElement>): any[] {
   return result.map((item) => {
     return timeSeriesElementDeserializer(item);
   });
@@ -176,15 +172,11 @@ export function timeSeriesElementDeserializer(item: any): TimeSeriesElement {
     metadatavalues: !item["metadatavalues"]
       ? item["metadatavalues"]
       : metadataValueArrayDeserializer(item["metadatavalues"]),
-    data: !item["data"]
-      ? item["data"]
-      : metricValueArrayDeserializer(item["data"]),
+    data: !item["data"] ? item["data"] : metricValueArrayDeserializer(item["data"]),
   };
 }
 
-export function metadataValueArrayDeserializer(
-  result: Array<MetadataValue>,
-): any[] {
+export function metadataValueArrayDeserializer(result: Array<MetadataValue>): any[] {
   return result.map((item) => {
     return metadataValueDeserializer(item);
   });
@@ -200,16 +192,12 @@ export interface MetadataValue {
 
 export function metadataValueDeserializer(item: any): MetadataValue {
   return {
-    name: !item["name"]
-      ? item["name"]
-      : localizableStringDeserializer(item["name"]),
+    name: !item["name"] ? item["name"] : localizableStringDeserializer(item["name"]),
     value: item["value"],
   };
 }
 
-export function metricValueArrayDeserializer(
-  result: Array<MetricValue>,
-): any[] {
+export function metricValueArrayDeserializer(result: Array<MetricValue>): any[] {
   return result.map((item) => {
     return metricValueDeserializer(item);
   });
@@ -253,9 +241,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -278,26 +264,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -311,9 +291,7 @@ export interface ErrorAdditionalInfo {
   readonly info?: any;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
     info: item["info"],

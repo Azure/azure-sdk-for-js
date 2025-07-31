@@ -1,9 +1,12 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import type { QueryResourcesOptionalParams } from "./api/options.js";
-import type { MetricsQueryResourcesOptions, MetricsQueryResult, QueryTimeInterval } from "./models.js";
+import type {
+  MetricsQueryResourcesOptions,
+  MetricsQueryResult,
+  QueryTimeInterval,
+} from "./models.js";
 import type { Metric, MetricResultsResponseValuesItem } from "./models/models.js";
 
 export const getSubscriptionFromResourceId = function (resourceId: string): string {
@@ -11,7 +14,6 @@ export const getSubscriptionFromResourceId = function (resourceId: string): stri
   const subscriptionId: string = resourceId.substring(startPos, resourceId.indexOf("/", startPos));
   return subscriptionId;
 };
-
 
 /**
  * Helper function to convert Date objects to ISO string format
@@ -23,7 +25,9 @@ function dateToISOString(date: Date): string {
 /**
  * Helper function to convert MetricsQueryResourcesOptions to the internal format
  */
-export function mapToInternalQueryOptions(options: MetricsQueryResourcesOptions = {}): QueryResourcesOptionalParams {
+export function mapToInternalQueryOptions(
+  options: MetricsQueryResourcesOptions = {},
+): QueryResourcesOptionalParams {
   if (!options) {
     return {};
   }
@@ -47,7 +51,9 @@ function reconstructTimeInterval(startTime: string, endTime: string): QueryTimeI
 /**
  * Helper function to create MetricsQueryResult from MetricResultsResponseValuesItem
  */
-export function createMetricsQueryResult(item: MetricResultsResponseValuesItem): MetricsQueryResult {
+export function createMetricsQueryResult(
+  item: MetricResultsResponseValuesItem,
+): MetricsQueryResult {
   const timespan = reconstructTimeInterval(item.startTime, item.endTime);
 
   return {
@@ -59,9 +65,8 @@ export function createMetricsQueryResult(item: MetricResultsResponseValuesItem):
     resourceRegion: item.resourceRegion,
     timespan,
     getMetricByName(metricName: string): Metric | undefined {
-      return this.metrics.find(metric =>
-        metric.name.value === metricName ||
-        metric.name.localizedValue === metricName
+      return this.metrics.find(
+        (metric) => metric.name.value === metricName || metric.name.localizedValue === metricName,
       );
     },
   };

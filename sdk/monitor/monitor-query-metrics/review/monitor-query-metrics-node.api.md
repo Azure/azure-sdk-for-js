@@ -4,11 +4,24 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import type { CommonClientOptions } from '@azure/core-client';
-import type { OperationOptions } from '@azure/core-client';
-import { OperationOptions as OperationOptions_2 } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export const Durations: {
+    readonly sevenDays: "P7D";
+    readonly threeDays: "P3D";
+    readonly twoDays: "P2D";
+    readonly oneDay: "P1D";
+    readonly oneHour: "PT1H";
+    readonly fourHours: "PT4H";
+    readonly twentyFourHours: "PT24H";
+    readonly fortyEightHours: "PT48H";
+    readonly thirtyMinutes: "PT30M";
+    readonly fiveMinutes: "PT5M";
+};
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -28,6 +41,13 @@ export interface ErrorDetail {
 // @public
 export interface ErrorResponse {
     error?: ErrorDetail;
+}
+
+// @public
+export enum KnownMonitorMetricsQueryAudience {
+    AzureChina = "https://management.chinacloudapi.cn",
+    AzureGovernment = "https://management.usgovcloudapi.net",
+    AzurePublicCloud = "https://management.azure.com"
 }
 
 // @public
@@ -78,6 +98,7 @@ export interface MetricResultsResponseValuesItem {
 // @public
 export class MetricsClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: MetricsClientOptions);
+    readonly pipeline: Pipeline;
     queryResources(resourceIds: string[], metricNames: string[], metricNamespace: string, options?: MetricsQueryResourcesOptions): Promise<MetricsQueryResult[]>;
 }
 
@@ -87,21 +108,17 @@ export interface MetricsClientOptionalParams extends ClientOptions {
 }
 
 // @public
-export interface MetricsClientOptions extends CommonClientOptions {
+export interface MetricsClientOptions extends MetricsClientOptionalParams {
     audience?: string;
     endpoint?: string;
 }
 
 // @public
-export interface MetricsQueryResourcesOptions extends OperationOptions {
-    aggregation?: string;
+export interface MetricsQueryResourcesOptions extends Omit<QueryResourcesOptionalParams, "startTime" | "endTime"> {
+    // (undocumented)
     endTime?: Date;
-    filter?: string;
-    interval?: string;
-    orderBy?: string;
-    rollUpBy?: string;
+    // (undocumented)
     startTime?: Date;
-    top?: number;
 }
 
 // @public
@@ -130,7 +147,7 @@ export interface MetricValue {
 }
 
 // @public
-export interface QueryResourcesOptionalParams extends OperationOptions_2 {
+export interface QueryResourcesOptionalParams extends OperationOptions {
     aggregation?: string;
     endTime?: string;
     filter?: string;

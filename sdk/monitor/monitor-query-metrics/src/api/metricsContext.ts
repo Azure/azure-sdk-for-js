@@ -3,8 +3,9 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
 export interface MetricsContext extends Client {
   /** The API version to use for this operation. */
@@ -35,9 +36,7 @@ export function createMetrics(
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://metrics.monitor.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://metrics.monitor.azure.com/.default"],
     },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
