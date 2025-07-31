@@ -22,9 +22,7 @@ export class MetricsClient {
     options: MetricsClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
+    const userAgentPrefix = prefixFromOptions;
     this._client = createMetrics(endpointParam, credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
