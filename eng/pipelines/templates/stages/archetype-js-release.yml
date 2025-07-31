@@ -161,6 +161,10 @@ stages:
                         displayName: Increment package version
 
                       - bash: |
+                          npm install -g pnpm
+                        displayName: Install Pnpm
+
+                      - bash: |
                           pnpm install
                         displayName: "Install dependencies"
 
