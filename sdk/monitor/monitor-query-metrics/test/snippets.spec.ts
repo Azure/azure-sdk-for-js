@@ -5,7 +5,6 @@ import { MetricsClient, Durations } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
-import { config } from "dotenv";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", async () => {
@@ -109,9 +108,5 @@ describe("snippets", () => {
 
   it("SetLogLevel", async () => {
     setLogLevel("info");
-  });
-
-  it("DotEnvSample", async () => {
-    config();
   });
 });

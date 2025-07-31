@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Troubleshooting Azure Monitor Query Metrics client library issues
 
 This troubleshooting guide contains instructions to diagnose frequently encountered issues while using the Azure Monitor Query Metrics client library for JavaScript.
@@ -33,9 +35,7 @@ AZURE_LOG_LEVEL = info
 2. Add the following code to the app:
 
 ```ts snippet:DotEnvSample
-import { config } from "dotenv";
-
-config();
+import "dotenv/config";
 ```
 
 #### Logging using setLogLevel
