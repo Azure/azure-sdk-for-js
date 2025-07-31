@@ -75,9 +75,7 @@ export async function main(): Promise<void> {
       console.log(`Granularity: ${resource.granularity}`);
 
       for (const metric of resource.metrics) {
-        console.log(
-          `\n  Metric: ${metric.name})`,
-        );
+        console.log(`\n  Metric: ${metric.name})`);
         console.log(`  Unit: ${metric.unit}`);
         console.log(`  Description: ${metric.description || "No description available"}`);
         console.log(`  Time series: ${metric.timeseries.length}`);
