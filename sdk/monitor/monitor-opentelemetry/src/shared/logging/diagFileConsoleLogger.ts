@@ -80,6 +80,10 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public warn(message?: any, ...args: any[]): void {
+    // Filter out warnings about accessing resource attributes before async attributes are settled
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
@@ -104,6 +108,10 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public async logMessage(message?: any, ...optionalParams: any[]): Promise<void> {
+    // Filter out warnings about accessing resource attributes before async attributes are settled
+    if (this._shouldFilterResourceAttributeWarning(message, optionalParams)) {
+      return;
+    }
     try {
       const args = message ? [message, ...optionalParams] : optionalParams;
       if (this._logToFile) {
@@ -120,8 +128,8 @@ export class DiagFileConsoleLogger implements DiagLogger {
   }
 
   /**
-   * Checks if the warning message is related to accessing resource attributes
-   * before async attributes are settled and should be filtered out
+   * Checks if the warning message should be filtered out to avoid showing
+   * non-actionable warnings to customers
    */
   private _shouldFilterResourceAttributeWarning(message?: any, args?: any[]): boolean {
     const messagesToFilter = [
@@ -129,11 +137,13 @@ export class DiagFileConsoleLogger implements DiagLogger {
       "Resource attributes being accessed before async attributes finished",
       "async attributes settled",
       "Resource attributes accessed before async detection completed",
+      "Module @azure/core-tracing has been loaded before @azure/opentelemetry-instrumentation-azure-sdk",
     ];
 
     if (typeof message === "string") {
-      // Filter out warnings about accessing resource attributes before async attributes are settled
-      return messagesToFilter.some((filterText) => message.includes(filterText));
+      if (messagesToFilter.some((filterText) => message.includes(filterText))) {
+        return true;
+      }
     }
 
     // Check if the message is in the args array
