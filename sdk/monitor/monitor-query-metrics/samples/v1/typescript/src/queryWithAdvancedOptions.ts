@@ -17,7 +17,7 @@ export async function main(): Promise<void> {
   if (resourceIds.length === 0) {
     throw new Error(
       "METRICS_RESOURCE_IDS must be set in the environment for this sample. " +
-      "Provide comma-separated resource IDs."
+        "Provide comma-separated resource IDs.",
     );
   }
 
@@ -55,18 +55,18 @@ export async function main(): Promise<void> {
         top: 5, // Limit to top 5 results
         orderBy: "Count desc", // Order by count descending
         filter: "Computer eq '*'", // Include all computers
-      }
+      },
     );
 
     console.log(`\nSuccessfully retrieved advanced metrics for ${result.length} resources:`);
 
     for (const resource of result) {
       console.log(`\n--- Resource: ${resource.resourceId} ---`);
-      
+
       // Extract time range from timespan
       const timespan = resource.timespan;
       let timeRangeString = "Unknown timespan";
-      if (typeof timespan === 'object' && 'startTime' in timespan && 'endTime' in timespan) {
+      if (typeof timespan === "object" && "startTime" in timespan && "endTime" in timespan) {
         timeRangeString = `${timespan.startTime.toISOString()} to ${timespan.endTime.toISOString()}`;
       }
       console.log(`Time range: ${timeRangeString}`);
@@ -75,7 +75,9 @@ export async function main(): Promise<void> {
       console.log(`Granularity: ${resource.granularity}`);
 
       for (const metric of resource.metrics) {
-        console.log(`\n  Metric: ${metric.name.value} (${metric.name.localizedValue || metric.name.value})`);
+        console.log(
+          `\n  Metric: ${metric.name.value} (${metric.name.localizedValue || metric.name.value})`,
+        );
         console.log(`  Unit: ${metric.unit}`);
         console.log(`  Description: ${metric.description || "No description available"}`);
         console.log(`  Time series: ${metric.timeseries.length}`);
@@ -86,7 +88,7 @@ export async function main(): Promise<void> {
 
         for (const [index, series] of metric.timeseries.entries()) {
           console.log(`\n    Time Series ${index + 1}:`);
-          
+
           if (series.metadatavalues && series.metadatavalues.length > 0) {
             console.log("    Metadata filters:");
             for (const metadata of series.metadatavalues) {
@@ -99,7 +101,9 @@ export async function main(): Promise<void> {
             totalDataPoints += series.data.length;
 
             // Show aggregated statistics for this time series
-            const values = series.data.map(d => d.count || 0).filter(v => v !== null && v !== undefined);
+            const values = series.data
+              .map((d) => d.count || 0)
+              .filter((v) => v !== null && v !== undefined);
             if (values.length > 0) {
               const sum = values.reduce((a, b) => a + b, 0);
               const avg = sum / values.length;
@@ -107,7 +111,7 @@ export async function main(): Promise<void> {
               const min = Math.min(...values);
 
               totalValue += sum;
-              
+
               console.log(`    Statistics:`);
               console.log(`      Total: ${sum}`);
               console.log(`      Average: ${avg.toFixed(2)}`);
@@ -118,8 +122,12 @@ export async function main(): Promise<void> {
             // Show first and last data points
             const firstPoint = series.data[0];
             const lastPoint = series.data[series.data.length - 1];
-            console.log(`    First data point: ${firstPoint.count} at ${new Date(firstPoint.timeStamp).toLocaleString()}`);
-            console.log(`    Last data point: ${lastPoint.count} at ${new Date(lastPoint.timeStamp).toLocaleString()}`);
+            console.log(
+              `    First data point: ${firstPoint.count} at ${new Date(firstPoint.timeStamp).toLocaleString()}`,
+            );
+            console.log(
+              `    Last data point: ${lastPoint.count} at ${new Date(lastPoint.timeStamp).toLocaleString()}`,
+            );
           } else {
             console.log("    No data points in this time series");
           }

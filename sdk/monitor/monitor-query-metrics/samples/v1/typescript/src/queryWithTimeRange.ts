@@ -17,7 +17,7 @@ export async function main(): Promise<void> {
   if (resourceIds.length === 0) {
     throw new Error(
       "METRICS_RESOURCE_IDS must be set in the environment for this sample. " +
-      "Provide comma-separated resource IDs."
+        "Provide comma-separated resource IDs.",
     );
   }
 
@@ -51,18 +51,18 @@ export async function main(): Promise<void> {
         startTime: startTime,
         endTime: endTime,
         interval: Durations.fiveMinutes, // 5-minute intervals
-      }
+      },
     );
 
     console.log(`\nSuccessfully retrieved time-series metrics for ${result.length} resources:`);
 
     for (const resource of result) {
       console.log(`\n--- Resource: ${resource.resourceId} ---`);
-      
+
       // Extract time range from timespan
       const timespan = resource.timespan;
       let timeRangeString = "Unknown timespan";
-      if (typeof timespan === 'object' && 'startTime' in timespan && 'endTime' in timespan) {
+      if (typeof timespan === "object" && "startTime" in timespan && "endTime" in timespan) {
         timeRangeString = `${timespan.startTime.toISOString()} to ${timespan.endTime.toISOString()}`;
       }
       console.log(`Time range: ${timeRangeString}`);
@@ -79,21 +79,22 @@ export async function main(): Promise<void> {
           if (series.metadatavalues) {
             console.log(`    Metadata: ${JSON.stringify(series.metadatavalues)}`);
           }
-          
+
           if (series.data && series.data.length > 0) {
             console.log(`    Data points: ${series.data.length}`);
             console.log("    Sample values:");
-            
+
             // Show first 3 and last 3 data points
-            const samplePoints = series.data.length > 6 
-              ? [...series.data.slice(0, 3), ...series.data.slice(-3)]
-              : series.data;
-              
+            const samplePoints =
+              series.data.length > 6
+                ? [...series.data.slice(0, 3), ...series.data.slice(-3)]
+                : series.data;
+
             for (const point of samplePoints) {
               const timestamp = new Date(point.timeStamp).toLocaleString();
               console.log(`      ${timestamp}: ${point.count} (${metric.unit})`);
             }
-            
+
             if (series.data.length > 6) {
               console.log(`      ... (${series.data.length - 6} more data points)`);
             }

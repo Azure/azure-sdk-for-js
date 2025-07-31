@@ -45,7 +45,7 @@ export interface MetricsClientOptions extends MetricsClientOptionalParams {
 /**
  * Options for querying metrics for multiple resources.
  */
-export interface MetricsQueryResourcesOptions{
+export interface MetricsQueryResourcesOptions {
   /**
    * The start time of the query.
    */

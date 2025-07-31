@@ -44,7 +44,7 @@ describe("Model unit tests", () => {
       const startTime = new Date("2023-01-01T00:00:00Z");
       const endTime = new Date("2023-01-01T01:00:00Z");
       const interval: QueryTimeInterval = { startTime, endTime };
-      
+
       assert.equal(interval.startTime, startTime);
       assert.equal(interval.endTime, endTime);
     });
@@ -52,7 +52,7 @@ describe("Model unit tests", () => {
     it("should accept start time and duration", () => {
       const startTime = new Date("2023-01-01T00:00:00Z");
       const interval: QueryTimeInterval = { startTime, duration: "PT1H" };
-      
+
       assert.equal(interval.startTime, startTime);
       assert.equal(interval.duration, "PT1H");
     });
@@ -60,7 +60,7 @@ describe("Model unit tests", () => {
     it("should accept end time and duration", () => {
       const endTime = new Date("2023-01-01T01:00:00Z");
       const interval: QueryTimeInterval = { endTime, duration: "PT1H" };
-      
+
       assert.equal(interval.endTime, endTime);
       assert.equal(interval.duration, "PT1H");
     });

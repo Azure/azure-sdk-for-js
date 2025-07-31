@@ -22,8 +22,9 @@ export async function main(): Promise<void> {
     throw new Error("METRICS_RESOURCE_IDS environment variable is not set");
   }
 
-  const resourceIds = resourceIdsString.split(",").map(id => id.trim());
-  const metricNamespace = process.env["METRICS_RESOURCE_NAMESPACE"] || "Microsoft.Storage/storageAccounts";
+  const resourceIds = resourceIdsString.split(",").map((id) => id.trim());
+  const metricNamespace =
+    process.env["METRICS_RESOURCE_NAMESPACE"] || "Microsoft.Storage/storageAccounts";
 
   console.log(`Querying metrics for ${resourceIds.length} resources...`);
 
@@ -37,7 +38,7 @@ export async function main(): Promise<void> {
         startTime: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
         endTime: new Date(),
         interval: Durations.fiveMinutes,
-      }
+      },
     );
 
     console.log(`Query completed. Processing results for ${response.length} resources...`);
@@ -45,12 +46,12 @@ export async function main(): Promise<void> {
     for (let i = 0; i < response.length; i++) {
       const metricsQueryResult = response[i];
       const resourceId = resourceIds[i];
-      
+
       console.log(`\n--- Resource: ${resourceId} ---`);
       console.log(`Namespace: ${metricsQueryResult.namespace}`);
       console.log(`Time span: ${metricsQueryResult.timespan}`);
       console.log(`Granularity: ${metricsQueryResult.granularity}`);
-      
+
       if (metricsQueryResult.cost !== undefined) {
         console.log(`Cost: ${metricsQueryResult.cost}`);
       }
@@ -62,7 +63,7 @@ export async function main(): Promise<void> {
 
         for (const timeSeries of metric.timeseries) {
           console.log(`\n    Time Series:`);
-          
+
           if (timeSeries.metadatavalues && timeSeries.metadatavalues.length > 0) {
             console.log(`    Metadata:`);
             for (const metadata of timeSeries.metadatavalues) {
@@ -72,13 +73,13 @@ export async function main(): Promise<void> {
 
           if (timeSeries.data && timeSeries.data.length > 0) {
             console.log(`    Data points: ${timeSeries.data.length}`);
-            
+
             // Show first few data points as examples
             const sampleCount = Math.min(3, timeSeries.data.length);
             for (let j = 0; j < sampleCount; j++) {
               const dataPoint = timeSeries.data[j];
               console.log(`      [${dataPoint.timeStamp}]:`);
-              
+
               if (dataPoint.total !== undefined) {
                 console.log(`        Total: ${dataPoint.total}`);
               }
@@ -95,7 +96,7 @@ export async function main(): Promise<void> {
                 console.log(`        Minimum: ${dataPoint.minimum}`);
               }
             }
-            
+
             if (timeSeries.data.length > sampleCount) {
               console.log(`      ... and ${timeSeries.data.length - sampleCount} more data points`);
             }
