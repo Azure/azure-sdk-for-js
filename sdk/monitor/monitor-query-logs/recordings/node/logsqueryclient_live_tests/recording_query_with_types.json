@@ -1,0 +1,88 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "404",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b88089d8-478c-4c54-b7e1-dca86afc6ac8"
+      },
+      "RequestBody": {
+        "query": "print \u0022hello\u0022, true, make_datetime(\u00222000-01-02 03:04:05Z\u0022), toint(100), long(101), 102.1, dynamic({ \u0022hello\u0022: \u0022world\u0022 })\n      | project \n          stringcolumn=print_0, \n          boolcolumn=print_1,\n          datecolumn=print_2,\n          intcolumn=print_3,\n          longcolumn=print_4,\n          realcolumn=print_5,\n          dynamiccolumn=print_6\n      ",
+        "timespan": "PT5M"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 11 Feb 2022 23:17:19 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "Accept-Encoding",
+          "Accept-Encoding"
+        ],
+        "Via": "1.1 draft-oms-5565f6c877-wgn96",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "tables": [
+          {
+            "name": "PrimaryResult",
+            "columns": [
+              {
+                "name": "stringcolumn",
+                "type": "string"
+              },
+              {
+                "name": "boolcolumn",
+                "type": "bool"
+              },
+              {
+                "name": "datecolumn",
+                "type": "datetime"
+              },
+              {
+                "name": "intcolumn",
+                "type": "int"
+              },
+              {
+                "name": "longcolumn",
+                "type": "long"
+              },
+              {
+                "name": "realcolumn",
+                "type": "real"
+              },
+              {
+                "name": "dynamiccolumn",
+                "type": "dynamic"
+              }
+            ],
+            "rows": [
+              [
+                "hello",
+                true,
+                "2000-01-02T03:04:05Z",
+                100,
+                101,
+                102.1,
+                "{\u0022hello\u0022:\u0022world\u0022}"
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
