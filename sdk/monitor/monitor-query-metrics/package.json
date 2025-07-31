@@ -81,7 +81,6 @@
   },
   "//sampleConfiguration": {
     "skipFolder": false,
-    "disableDocsMs": true,
     "productName": "Monitor Query Metrics",
     "productSlugs": [
       "azure",
