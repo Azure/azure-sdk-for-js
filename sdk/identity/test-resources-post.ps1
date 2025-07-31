@@ -60,16 +60,17 @@ if ($CI) {
 }
 
 # Azure Functions app deployment
-Write-Host "Building the code for functions app"
-Push-Location "$webappRoot/AzureFunctions/RunTest"
-npm install
-npm run build
-Pop-Location
-Write-Host "starting azure functions deployment"
-Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
-az functionapp deployment source config-zip -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
-Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
-Write-Host "Deployed function app"
+# TODO: Skip Azure Functions deployment for timeout error
+# Write-Host "Building the code for functions app"
+# Push-Location "$webappRoot/AzureFunctions/RunTest"
+# npm install
+# npm run build
+# Pop-Location
+# Write-Host "starting azure functions deployment"
+# Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
+# az functionapp deployment source config-zip -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+# Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
+# Write-Host "Deployed function app"
 
 # TODO: The deployment step runs into 504 Gateway Timeout error
 # Write-Host "Deplying Identity Web App"
