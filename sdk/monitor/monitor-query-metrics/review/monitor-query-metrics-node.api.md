@@ -5,9 +5,10 @@
 ```ts
 
 import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { OperationOptions } from '@azure/core-client';
+import { OperationOptions as OperationOptions_2 } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -74,16 +75,45 @@ export interface MetricResultsResponseValuesItem {
     startTime: string;
 }
 
-// @public (undocumented)
+// @public
 export class MetricsClient {
-    constructor(endpointParam: string, credential: TokenCredential, options?: MetricsClientOptionalParams);
-    readonly pipeline: Pipeline;
-    queryResources(subscriptionId: string, metricNamespace: string, metricNames: string[], batchRequest: ResourceIdList, options?: QueryResourcesOptionalParams): Promise<MetricResultsResponse>;
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: MetricsClientOptions);
+    queryResources(resourceIds: string[], metricNames: string[], metricNamespace: string, options?: MetricsQueryResourcesOptions): Promise<MetricsQueryResult[]>;
 }
 
 // @public
 export interface MetricsClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+}
+
+// @public
+export interface MetricsClientOptions extends CommonClientOptions {
+    audience?: string;
+    endpoint?: string;
+}
+
+// @public
+export interface MetricsQueryResourcesOptions extends OperationOptions {
+    aggregation?: string;
+    endTime?: Date;
+    filter?: string;
+    interval?: string;
+    orderBy?: string;
+    rollUpBy?: string;
+    startTime?: Date;
+    top?: number;
+}
+
+// @public
+export interface MetricsQueryResult {
+    cost?: number;
+    getMetricByName(metricName: string): Metric | undefined;
+    granularity?: string;
+    metrics: Metric[];
+    namespace?: string;
+    resourceId?: string;
+    resourceRegion?: string;
+    timespan: QueryTimeInterval;
 }
 
 // @public
@@ -100,7 +130,7 @@ export interface MetricValue {
 }
 
 // @public
-export interface QueryResourcesOptionalParams extends OperationOptions {
+export interface QueryResourcesOptionalParams extends OperationOptions_2 {
     aggregation?: string;
     endTime?: string;
     filter?: string;
@@ -110,6 +140,20 @@ export interface QueryResourcesOptionalParams extends OperationOptions {
     startTime?: string;
     top?: number;
 }
+
+// @public
+export type QueryTimeInterval = {
+    startTime: Date;
+    endTime: Date;
+} | {
+    startTime: Date;
+    duration: string;
+} | {
+    duration: string;
+    endTime: Date;
+} | {
+    duration: string;
+};
 
 // @public
 export interface ResourceIdList {
