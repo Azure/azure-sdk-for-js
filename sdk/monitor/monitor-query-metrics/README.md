@@ -44,14 +44,14 @@ npm install --save @azure/monitor-query-metrics
 
 An authenticated client is required to query Metrics. To authenticate, the following example uses [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential) from the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package.
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient
 import { DefaultAzureCredential } from "@azure/identity";
 import { MetricsClient } from "@azure/monitor-query-metrics";
 
 const credential = new DefaultAzureCredential();
 
 // Create a MetricsClient
-const endpoint = "https://<regional endpoint>";
+const endpoint = " https://<endpoint>.monitor.azure.com/";
 const metricsClient = new MetricsClient(endpoint, credential);
 ```
 
@@ -59,14 +59,14 @@ const metricsClient = new MetricsClient(endpoint, credential);
 
 By default, the library's clients are configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct endpoint and audience value when instantiating a client. For example:
 
-```typescript
+```ts snippet:ReadmeSampleCreateClientSovereign
 import { DefaultAzureCredential } from "@azure/identity";
 import { MetricsClient } from "@azure/monitor-query-metrics";
 
 const credential = new DefaultAzureCredential();
 
 // Create a MetricsClient
-const endpoint = "https://<regional endpoint>";
+const endpoint = " https://<endpoint>.monitor.azure.cn/";
 const metricsClient = new MetricsClient(endpoint, credential, {
   audience: "https://monitor.azure.cn/.default",
 });
@@ -116,42 +116,29 @@ Furthermore:
 - The user must be authorized to read monitoring data at the Azure subscription level. For example, the [Monitoring Reader role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/monitor#monitoring-reader) on the subscription to be queried.
 - The metric namespace containing the metrics to be queried must be provided. For a list of metric namespaces, see [Supported metrics and log categories by resource type][metric_namespaces].
 
-```typescript
+```ts snippet:ReadmeSampleMetricsQueryMultipleResources
 import { DefaultAzureCredential } from "@azure/identity";
-import { MetricsClient, Durations } from "@azure/monitor-query-metrics";
-
-const endpoint = "https://westus3.metrics.monitor.azure.com";
-const credential = new DefaultAzureCredential();
-const client = new MetricsClient(endpoint, credential);
+import { MetricsClient } from "@azure/monitor-query-metrics";
 
 const resourceIds = [
-  "/subscriptions/<id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<resource-name-1>",
-  "/subscriptions/<id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<resource-name-2>"
+  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs",
+  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs2",
 ];
+const metricsNamespace = "Microsoft.OperationalInsights/workspaces";
+const metricNames = ["Heartbeat"];
+const endpoint = "https://westus3.metrics.monitor.azure.com";
 
-const response = await client.queryResources(
-  resourceIds,
-  ["UsedCapacity"],
-  "Microsoft.Storage/storageAccounts",
-  {
-    aggregation: "Average",
-    startTime: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
-    endTime: new Date(),
-    interval: Durations.fiveMinutes,
-  }
-);
+const credential = new DefaultAzureCredential();
+const metricsClient = new MetricsClient(endpoint, credential);
 
-for (const metricsQueryResult of response) {
-  for (const metric of metricsQueryResult.metrics) {
-    console.log(`Metric: ${metric.name.value}`);
-    for (const timeSeries of metric.timeseries) {
-      for (const metricValue of timeSeries.data || []) {
-        if (metricValue.average !== undefined) {
-          console.log(`Average: ${metricValue.average}`);
-        }
-      }
-    }
-  }
+const result = await metricsClient.queryResources(resourceIds, metricNames, metricsNamespace, {
+  aggregation: "Count",
+});
+
+console.log(`Retrieved metrics for ${result.length} resources`);
+for (const resource of result) {
+  console.log(`Resource: ${resource.resourceId}`);
+  console.log(`Metrics: ${resource.metrics.length}`);
 }
 ```
 
@@ -180,33 +167,38 @@ MetricsQueryResult
 
 Example of handling response:
 
-```typescript
+```ts snippet:ReadmeSampleMetricsAdvanced
 import { DefaultAzureCredential } from "@azure/identity";
-import { MetricsClient } from "@azure/monitor-query-metrics";
+import { MetricsClient, Durations } from "@azure/monitor-query-metrics";
+
+const resourceIds = [
+  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs",
+];
+const metricsNamespace = "Microsoft.OperationalInsights/workspaces";
+const metricNames = ["Heartbeat"];
+const endpoint = "https://westus3.metrics.monitor.azure.com";
 
 const credential = new DefaultAzureCredential();
-const client = new MetricsClient("https://<regional endpoint>", credential);
+const metricsClient = new MetricsClient(endpoint, credential);
 
-const metricsUri = process.env.METRICS_RESOURCE_URI;
-const response = await client.queryResources(
-  [metricsUri],
-  ["PublishSuccessCount"],
-  "Microsoft.ServiceBus/namespaces",
-  {
-    aggregation: "Average"
-  }
-);
+const endTime = new Date();
+const startTime = new Date(endTime.getTime() - 60 * 60 * 1000); // 1 hour ago
 
-for (const metricsQueryResult of response) {
-  for (const metric of metricsQueryResult.metrics) {
+const result = await metricsClient.queryResources(resourceIds, metricNames, metricsNamespace, {
+  aggregation: "Count,Average", // Multiple aggregations
+  startTime: startTime,
+  endTime: endTime,
+  interval: Durations.fiveMinutes,
+  top: 10, // Limit results
+  orderBy: "count desc", // Sort by count descending
+  filter: "Computer eq '*'", // Filter criteria
+});
+
+console.log(`Retrieved ${result.length} resources with advanced filtering`);
+for (const resource of result) {
+  for (const metric of resource.metrics) {
     console.log(`Metric: ${metric.name.value}`);
-    for (const timeSeries of metric.timeseries) {
-      for (const metricValue of timeSeries.data || []) {
-        if (metricValue.average !== null) {
-          console.log(`Average: ${metricValue.average}`);
-        }
-      }
-    }
+    console.log(`Time series count: ${metric.timeseries.length}`);
   }
 }
 ```
