@@ -35,6 +35,8 @@ export class OrderByEndpointComponent implements ExecutionContext {
     ) {
       return { result: undefined, headers: response.headers };
     }
+    
+    // Process buffer items (extract payload if needed)
     for (const item of response.result.buffer) {
       if (this.emitRawOrderByPayload) {
         buffer.push(item);
@@ -43,6 +45,13 @@ export class OrderByEndpointComponent implements ExecutionContext {
       }
     }
 
-    return { result: buffer, headers: response.headers };
+    // Preserve the response structure with buffer and partitionKeyRangeMap
+    return { 
+      result: {
+        buffer: buffer,
+        partitionKeyRangeMap: response.result.partitionKeyRangeMap
+      }, 
+      headers: response.headers 
+    };
   }
 }

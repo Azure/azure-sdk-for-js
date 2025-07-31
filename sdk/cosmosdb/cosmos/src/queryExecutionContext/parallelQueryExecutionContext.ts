@@ -4,8 +4,8 @@
 import type { DocumentProducer } from "./documentProducer.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
-import { Response } from "../request/index.js";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { Response } from "../request/index.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 
 /**
  * Provides the ParallelQueryExecutionContext.
