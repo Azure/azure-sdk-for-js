@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 /** The comma separated list of resource IDs to query metrics for. */
 export interface ResourceIdList {
   /** The list of resource IDs to query metrics for. */
@@ -11,7 +13,7 @@ export function resourceIdListSerializer(item: ResourceIdList): any {
   return {
     resourceids: !item["resourceids"]
       ? item["resourceids"]
-      : item["resourceids"].map((p: any) => {
+      : item["resourceids"].map((p: string) => {
           return p;
         }),
   };
@@ -34,7 +36,7 @@ export function metricResultsResponseDeserializer(item: any): MetricResultsRespo
 export function metricResultsResponseValuesItemArrayDeserializer(
   result: Array<MetricResultsResponseValuesItem>,
 ): any[] {
-  return result.map((item) => {
+  return result.map((item: any) => {
     return metricResultsResponseValuesItemDeserializer(item);
   });
 }
@@ -78,7 +80,7 @@ export function metricResultsResponseValuesItemDeserializer(
 }
 
 export function metricArrayDeserializer(result: Array<Metric>): any[] {
-  return result.map((item) => {
+  return result.map((item: any) => {
     return metricDeserializer(item);
   });
 }
@@ -148,7 +150,7 @@ export type MetricUnit =
   | "BitsPerSecond";
 
 export function timeSeriesElementArrayDeserializer(result: Array<TimeSeriesElement>): any[] {
-  return result.map((item) => {
+  return result.map((item: any) => {
     return timeSeriesElementDeserializer(item);
   });
 }
@@ -177,7 +179,7 @@ export function timeSeriesElementDeserializer(item: any): TimeSeriesElement {
 }
 
 export function metadataValueArrayDeserializer(result: Array<MetadataValue>): any[] {
-  return result.map((item) => {
+  return result.map((item: any) => {
     return metadataValueDeserializer(item);
   });
 }
@@ -198,7 +200,7 @@ export function metadataValueDeserializer(item: any): MetadataValue {
 }
 
 export function metricValueArrayDeserializer(result: Array<MetricValue>): any[] {
-  return result.map((item) => {
+  return result.map((item: any) => {
     return metricValueDeserializer(item);
   });
 }
@@ -272,13 +274,13 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
 }
 
 export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
+  return result.map((item: any) => {
     return errorDetailDeserializer(item);
   });
 }
 
 export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
+  return result.map((item: any) => {
     return errorAdditionalInfoDeserializer(item);
   });
 }
