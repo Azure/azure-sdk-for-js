@@ -1465,7 +1465,7 @@ export interface StartMediaStreamingOptions extends OperationOptions {
     operationContext?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface StartRecordingFailed {
     callConnectionId: string;
     correlationId: string;

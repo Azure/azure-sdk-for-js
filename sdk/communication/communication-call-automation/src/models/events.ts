@@ -119,7 +119,7 @@ export {
   RestMediaStreamingStopped,
   RestMediaStreamingFailed,
   RestCreateCallFailed,
-  RestAnswerFailed,
+  RestAnswerFailed
 };
 export interface ResultInformation
   /**
@@ -374,6 +374,7 @@ export interface RecordingStateChanged
   kind: "RecordingStateChanged";
 }
 
+/** Event when StartRecording was failed. */
 export interface StartRecordingFailed {
   /** Call connection ID. */
   callConnectionId: string;
