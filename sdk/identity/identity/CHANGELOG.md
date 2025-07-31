@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fixed deprecation warnings in `AzureCliCredential` and `AzureDeveloperCliCredential`. [#34878](https://github.com/Azure/azure-sdk-for-js/pull/34878)
+- Fixed an issue where `InteractiveBrowserCredential` did not resolve correctly on Mac OS. [#35406](https://github.com/Azure/azure-sdk-for-js/pull/35406)
 
 ### Other Changes
 

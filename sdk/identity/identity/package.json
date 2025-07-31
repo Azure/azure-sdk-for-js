@@ -13,6 +13,9 @@
       "entra",
       "entra-id"
     ],
+    "skip": [
+      "interactiveBrowserCredential.js"
+    ],
     "requiredResources": {
       "Register an app with the Microsoft identity platform": "https://learn.microsoft.com/entra/identity-platform/quickstart-register-app",
       "Set and retrieve a secret from Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/secrets/quick-create-portal"
