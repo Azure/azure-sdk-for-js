@@ -1210,6 +1210,9 @@ importers:
       '@rush-temp/perf-template':
         specifier: file:./projects/perf-template.tgz
         version: file:projects/perf-template.tgz
+      '@rush-temp/planetarycomputer-rest':
+        specifier: file:./projects/planetarycomputer-rest.tgz
+        version: file:projects/planetarycomputer-rest.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/playwright':
         specifier: file:./projects/playwright.tgz
         version: file:projects/playwright.tgz(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -2558,7 +2561,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-wL7aZKklc1l95KbqfUKTg8I1Y3dweC+OXjWutw0NNbeHQT4AyPbea2ZFK1rXLc/SWcjqNnVyo5EVWF5L1UnP2Q==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-iZohujpuN3umlV0OWzZA8SdzsfbgarR5jyGISij/v7jwcUa3KTVi4EHMhFFHiyf4w2zsMj7yO1JsIsIdEfrwTg==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2754,7 +2757,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz':
-    resolution: {integrity: sha512-xJEc0qKFPFTVTQ379v8N+f6MNjSO+B13vzlL6sFH4eJmg4MI1YxCKXMiBBHCVjxlMV+guSsMkLtQr/K29+tTyw==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-rIHgYsZG2QSo1244KrsraoXkDdcR4cP1prdzm+Rp2M/604NLX2y73AlaBcWdtNd8PbI4A8UtSNxKwGx2YzXDWQ==, tarball: file:projects/arm-compute-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid@file:projects/arm-compute-profile-2020-09-01-hybrid.tgz':
@@ -4107,6 +4110,10 @@ packages:
 
   '@rush-temp/perf-template@file:projects/perf-template.tgz':
     resolution: {integrity: sha512-Jbvhqv6tmENlAnzCyWRlzRNKG6dbwP9X/FvkhPpLBLnZEVA8W6EC+OJ3smTVNYbDlTMySM+HocRxdw2CMx3LnA==, tarball: file:projects/perf-template.tgz}
+    version: 0.0.0
+
+  '@rush-temp/planetarycomputer-rest@file:projects/planetarycomputer-rest.tgz':
+    resolution: {integrity: sha512-U+3knlv4BvE0f2ZzxlZRIzfXr2IZbZQOFGqrIikwNOy1Hl/L4YuqHbrsV3z29SvPGDbZfVhJK86xPsqEuOluCw==, tarball: file:projects/planetarycomputer-rest.tgz}
     version: 0.0.0
 
   '@rush-temp/playwright@file:projects/playwright.tgz':
@@ -22909,6 +22916,42 @@ snapshots:
     transitivePeerDependencies:
       - jiti
       - supports-color
+
+  '@rush-temp/planetarycomputer-rest@file:projects/planetarycomputer-rest.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@azure/identity': 4.10.2
+      '@types/node': 20.19.9
+      '@vitest/browser': 3.2.4(playwright@1.54.1)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.6.1
+      eslint: 9.32.0
+      playwright: 1.54.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/playwright@file:projects/playwright.tgz(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
