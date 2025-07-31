@@ -49,13 +49,14 @@ export function getMetricsBatchResourceIds(): string[] {
 }
 
 export function getMetricsBatchNamespace(): string {
-  return env["AZURE_MONITOR_BATCH_NAMESPACE"] ?? "requests/count";
+  return env["AZURE_MONITOR_BATCH_NAMESPACE"] ?? "Microsoft.OperationalInsights/workspaces";
 }
 
 export function getMetricsBatchNames(): string[] {
   const metricNamesString = env["AZURE_MONITOR_BATCH_METRICNAMES"];
   if (!metricNamesString) {
-    return ["requests", "count"];
+    // Common Log Analytics workspace metrics
+    return ["Heartbeat"];
   }
   return metricNamesString.split(" ");
 }
