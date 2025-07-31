@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Commented code in this file can be uncommented once batch is managed by pnpm and starts using the recorder
+// Commented code in this file can be uncommented once batch is managed by rush and starts using the recorder
 
 // import { Context } from "mocha";
 
