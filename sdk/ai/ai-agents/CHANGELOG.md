@@ -2,7 +2,7 @@
 
 ## 1.1.0 (2025-07-31)
 
-For stable version of the client library, the client library now uses version v1 of the AI Foundry [data plane REST APIs](https://learn.microsoft.com/en-us/rest/api/aifoundry/aiagents/operation-groups?view=rest-aifoundry-aiagents-v1).
+For stable version of the client library, the client library now uses version v1 of the AI Foundry [data plane REST APIs](https://learn.microsoft.com/rest/api/aifoundry/aiagents/operation-groups?view=rest-aifoundry-aiagents-v1).
 
 ### Breaking changes
 
