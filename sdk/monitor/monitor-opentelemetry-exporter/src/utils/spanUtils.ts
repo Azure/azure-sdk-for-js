@@ -291,8 +291,9 @@ function createRequestData(span: ReadableSpan): RequestData {
   const requestData: RequestData = {
     id: `${span.spanContext().spanId}`,
     success:
-      span.status.code !== SpanStatusCode.ERROR &&
-      (Number(getHttpStatusCode(span.attributes)) || 0) < 400,
+      span.status.code !== SpanStatusCode.UNSET
+        ? span.status.code === SpanStatusCode.OK
+        : (Number(getHttpStatusCode(span.attributes)) || 0) < 400,
     responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 2,

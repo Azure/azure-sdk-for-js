@@ -10,11 +10,19 @@
 
 - Fix auto-detection of RP environment for azure functions.
 
+### Other Changes
+
+- Respect parent sampling result in ApplicationInsightsSampler.
+
 ## 1.0.0-beta.32 (2025-06-09)
 
 ### Features Added
 
 - Added customer-facing statsbeat preview.
+
+### Features Added
+
+- Add RateLimitedSampler.
 
 ### Other Changes
 
@@ -65,7 +73,7 @@
 ### Other Changes
 
 - Removed faulty span exception exporting logic.
-- Remove applying cloud.* tags to statsbeat telemetry.
+- Remove applying cloud.\* tags to statsbeat telemetry.
 - Correctly capture attach type on statsbeat metrics.
 
 ## 1.0.0-beta.28 (2025-01-28)
@@ -186,7 +194,6 @@
 
 - Update OpenTelemetry dependencies.
 - Add instructions to export Logs in readme.
-
 
 ## 1.0.0-beta.17 (2023-10-09)
 

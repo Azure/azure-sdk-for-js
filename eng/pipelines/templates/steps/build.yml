@@ -48,16 +48,16 @@ steps:
       Artifacts: ${{ parameters.Artifacts }}
 
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'Azure SDK Artifacts'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az account show
-          expiry=`date -u -d "45 minutes" '+%Y-%m-%dT%H:%MZ'`
-          sasToken=$(az storage container generate-sas --account-name azuresdkartifacts --name azure-sdk-for-js-rush-cache --permissions dlrw --auth-mode login --as-user --expiry $expiry --https-only -o tsv)
-          echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: "Azure SDK Artifacts"
+          scriptType: "bash"
+          scriptLocation: "inlineScript"
+          inlineScript: |
+            az account show
+            expiry=`date -u -d "45 minutes" '+%Y-%m-%dT%H:%MZ'`
+            sasToken=$(az storage container generate-sas --account-name azuresdkartifacts --name azure-sdk-for-js-rush-cache --permissions dlrw --auth-mode login --as-user --expiry $expiry --https-only -o tsv)
+            echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
 
   - pwsh: |
       node eng/tools/rush-runner/index.js build "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose -p max
@@ -123,8 +123,7 @@ steps:
           Get-ChildItem $stagingDevArtifactDirectory -Recurse -Name
         }
 
-        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
-          -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
+        if ($${{ parameters.IncludeRelease }} -eq $true -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
         {
           New-Item -Type Directory $stagingArtifactDirectory/documentation -Force | Out-Null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $stagingArtifactDirectory/documentation
@@ -135,11 +134,11 @@ steps:
 
         Get-ChildItem $stagingArtifactDirectory -Recurse -Name
       }
-    displayName: 'Copy Packages'
+    displayName: "Copy Packages"
 
   - pwsh: |
       eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
-    displayName: 'Copy API extracted files'
+    displayName: "Copy API extracted files"
 
   - task: Powershell@2
     inputs:
@@ -152,13 +151,13 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'packages'
+      ArtifactPath: "$(Build.ArtifactStagingDirectory)"
+      ArtifactName: "packages"
 
   - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
-      ArtifactPath: '$(Agent.TempDirectory)/packages-dev-publish'
-      ArtifactName: 'packages-dev-publish'
+      ArtifactPath: "$(Agent.TempDirectory)/packages-dev-publish"
+      ArtifactName: "packages-dev-publish"
       CustomCondition: eq(variables['SetDevVersion'], 'true')
 
   - template: /eng/common/pipelines/templates/steps/create-apireview.yml

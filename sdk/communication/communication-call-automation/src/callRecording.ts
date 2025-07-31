@@ -17,7 +17,7 @@ import type {
 } from "./models/options.js";
 import { communicationIdentifierModelConverter } from "./utli/converters.js";
 import { ContentDownloaderImpl } from "./contentDownloader.js";
-import * as fs from "node:fs";
+import fs from "node:fs";
 import { randomUUID } from "@azure/core-util";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { CallAutomationApiClient } from "./generated/src/index.js";

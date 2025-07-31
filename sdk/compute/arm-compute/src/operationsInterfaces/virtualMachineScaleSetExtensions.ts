@@ -11,14 +11,14 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineScaleSetExtension,
   VirtualMachineScaleSetExtensionsListOptionalParams,
+  VirtualMachineScaleSetExtensionsGetOptionalParams,
+  VirtualMachineScaleSetExtensionsGetResponse,
   VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetExtensionsCreateOrUpdateResponse,
   VirtualMachineScaleSetExtensionUpdate,
   VirtualMachineScaleSetExtensionsUpdateOptionalParams,
   VirtualMachineScaleSetExtensionsUpdateResponse,
   VirtualMachineScaleSetExtensionsDeleteOptionalParams,
-  VirtualMachineScaleSetExtensionsGetOptionalParams,
-  VirtualMachineScaleSetExtensionsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,8 +26,8 @@ import {
 export interface VirtualMachineScaleSetExtensions {
   /**
    * Gets a list of all extensions in a VM scale set.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set containing the extension.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param options The options parameters.
    */
   list(
@@ -36,9 +36,22 @@ export interface VirtualMachineScaleSetExtensions {
     options?: VirtualMachineScaleSetExtensionsListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineScaleSetExtension>;
   /**
+   * The operation to get the extension.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param vmssExtensionName The name of the VM scale set extension.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    vmssExtensionName: string,
+    options?: VirtualMachineScaleSetExtensionsGetOptionalParams,
+  ): Promise<VirtualMachineScaleSetExtensionsGetResponse>;
+  /**
    * The operation to create or update an extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param vmssExtensionName The name of the VM scale set extension.
    * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
    * @param options The options parameters.
@@ -57,8 +70,8 @@ export interface VirtualMachineScaleSetExtensions {
   >;
   /**
    * The operation to create or update an extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set where the extension should be create or updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param vmssExtensionName The name of the VM scale set extension.
    * @param extensionParameters Parameters supplied to the Create VM scale set Extension operation.
    * @param options The options parameters.
@@ -72,8 +85,8 @@ export interface VirtualMachineScaleSetExtensions {
   ): Promise<VirtualMachineScaleSetExtensionsCreateOrUpdateResponse>;
   /**
    * The operation to update an extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set where the extension should be updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param vmssExtensionName The name of the VM scale set extension.
    * @param extensionParameters Parameters supplied to the Update VM scale set Extension operation.
    * @param options The options parameters.
@@ -92,8 +105,8 @@ export interface VirtualMachineScaleSetExtensions {
   >;
   /**
    * The operation to update an extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set where the extension should be updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param vmssExtensionName The name of the VM scale set extension.
    * @param extensionParameters Parameters supplied to the Update VM scale set Extension operation.
    * @param options The options parameters.
@@ -107,8 +120,8 @@ export interface VirtualMachineScaleSetExtensions {
   ): Promise<VirtualMachineScaleSetExtensionsUpdateResponse>;
   /**
    * The operation to delete the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param vmssExtensionName The name of the VM scale set extension.
    * @param options The options parameters.
    */
@@ -120,8 +133,8 @@ export interface VirtualMachineScaleSetExtensions {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set where the extension should be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
    * @param vmssExtensionName The name of the VM scale set extension.
    * @param options The options parameters.
    */
@@ -131,17 +144,4 @@ export interface VirtualMachineScaleSetExtensions {
     vmssExtensionName: string,
     options?: VirtualMachineScaleSetExtensionsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation to get the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set containing the extension.
-   * @param vmssExtensionName The name of the VM scale set extension.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    vmssExtensionName: string,
-    options?: VirtualMachineScaleSetExtensionsGetOptionalParams,
-  ): Promise<VirtualMachineScaleSetExtensionsGetResponse>;
 }

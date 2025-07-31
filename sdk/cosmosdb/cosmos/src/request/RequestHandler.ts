@@ -57,6 +57,7 @@ async function httpRequest(
     }
   }
 
+  let requestTimeout = requestContext.connectionPolicy.requestTimeout;
   // If the request is a read request and partition level failover or circuit breaker is enabled,
   // set a shorter timeout to allow for quicker failover in case of partition unavailability.
   // This is to ensure that read requests can quickly failover to another partition if the current one is unavailable.
@@ -67,14 +68,14 @@ async function httpRequest(
     requestContext.resourceType === ResourceType.item &&
     isReadRequest(requestContext.operationType)
   ) {
-    requestContext.connectionPolicy.requestTimeout = Math.min(
+    requestTimeout = Math.min(
       requestContext.connectionPolicy.requestTimeout,
       Constants.RequestTimeoutForReadsInMs,
     );
   }
   const timeout = setTimeout(() => {
     controller.abort();
-  }, requestContext.connectionPolicy.requestTimeout);
+  }, requestTimeout);
 
   let response: PipelineResponse;
 
