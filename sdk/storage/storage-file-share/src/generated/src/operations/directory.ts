@@ -197,6 +197,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.owner,
     Parameters.group,
     Parameters.fileMode,
+    Parameters.filePropertySemantics,
   ],
   isXML: true,
   serializer: xmlSerializer,

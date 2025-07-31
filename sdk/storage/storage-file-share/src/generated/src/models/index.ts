@@ -1138,6 +1138,10 @@ export interface FileCreateHeaders {
   group?: string;
   /** NFS only. Type of the file or directory. */
   nfsFileType?: NfsFileType;
+  /** If the file has an MD5 hash and the request is to read the full file, this response header is returned so that the client can check for message content integrity. If the request is to read a specified range and the 'x-ms-range-get-content-md5' is set to true, then the request returns an MD5 hash for the range, as long as the range size is less than or equal to 4 MB. If neither of these sets of conditions is true, then no value is returned for the 'Content-MD5' header. */
+  contentMD5?: Uint8Array;
+  /** The number of bytes present in the response body. */
+  contentLength?: number;
   /** Error Code */
   errorCode?: string;
 }
@@ -1868,6 +1872,24 @@ export enum KnownShareTokenIntent {
  */
 export type ShareTokenIntent = string;
 
+/** Known values of {@link FilePropertySemantics} that the service accepts. */
+export enum KnownFilePropertySemantics {
+  /** New */
+  New = "New",
+  /** Restore */
+  Restore = "Restore",
+}
+
+/**
+ * Defines values for FilePropertySemantics. \
+ * {@link KnownFilePropertySemantics} can be used interchangeably with FilePropertySemantics,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **New** \
+ * **Restore**
+ */
+export type FilePropertySemantics = string;
+
 /** Known values of {@link NfsFileType} that the service accepts. */
 export enum KnownNfsFileType {
   /** Regular */
@@ -2556,6 +2578,8 @@ export interface DirectoryCreateOptionalParams
   group?: string;
   /** Optional, NFS only. The file mode of the file or directory */
   fileMode?: string;
+  /** SMB only, default value is New.  New will forcefully add the ARCHIVE attribute flag and alter the permissions specified in x-ms-file-permission to inherit missing permissions from the parent.  Restore will apply changes without further modification. */
+  filePropertySemantics?: FilePropertySemantics;
 }
 
 /** Contains response data for the create operation. */
@@ -2781,8 +2805,16 @@ export interface FileCreateOptionalParams extends coreClient.OperationOptions {
   group?: string;
   /** Optional, NFS only. The file mode of the file or directory */
   fileMode?: string;
+  /** SMB only, default value is New.  New will forcefully add the ARCHIVE attribute flag and alter the permissions specified in x-ms-file-permission to inherit missing permissions from the parent.  Restore will apply changes without further modification. */
+  filePropertySemantics?: FilePropertySemantics;
+  /** Initial data. */
+  body?: coreRestPipeline.RequestBodyType;
   /** Optional, NFS only. Type of the file or directory. */
   nfsFileType?: NfsFileType;
+  /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). */
+  contentMD5?: Uint8Array;
+  /** Specifies the number of bytes being transmitted in the request body. When the x-ms-write header is set to clear, the value of this header must be set to zero. */
+  contentLength?: number;
 }
 
 /** Contains response data for the create operation. */
@@ -2997,10 +3029,10 @@ export interface FileUploadRangeOptionalParams
   fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
-  /** Initial data. */
-  body?: coreRestPipeline.RequestBodyType;
   /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, the File service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). */
   contentMD5?: Uint8Array;
+  /** Initial data. */
+  body?: coreRestPipeline.RequestBodyType;
   /** If the file last write time should be preserved or overwritten */
   fileLastWrittenMode?: FileLastWrittenMode;
 }
