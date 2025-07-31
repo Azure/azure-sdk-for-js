@@ -64,7 +64,7 @@ export const restrictedToPackages = [
  * If the targeted package is one of the restricted packages with a ton of dependents, we only want to run that package
  * and not all of its dependents.
  * @param {string[]} packageNames - An array of strings containing the packages names to run the action on.
- * @param {string} action - The action being performed ("build", "build:test", "build:samples", "unit-test:node", "unit-test:browser"
+ * @param {string} action - The action being performed ("build", "build:test", "build:samples", "test:node", "test:browser"
  * @param {string[]} serviceDirs - An array of strings containing the serviceDirs affected
  * @param {{changedPackages: Set<string>, diff: { changedFiles: string[], changedServices: string[] }} | undefined} [changedInfo=undefined] - information about changed packages
  * @returns {string[]} - An array of workspace filters

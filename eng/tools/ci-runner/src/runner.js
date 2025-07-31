@@ -39,12 +39,12 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
   // Restore assets for packages that are being 'unit-test'-ed in the CI pipeline
   if (
     // 1. eng/tools/ci-runner/index.js is running in CI: "--ci" flag is set
-    // Example: node eng/tools/ci-runner/index.js unit-test:node servicebus template -packages "azure-service-bus,azure-template" --ci
+    // Example: node eng/tools/ci-runner/index.js test:node servicebus template -packages "azure-service-bus,azure-template" --ci
     ciFlag &&
     // 2. Ensure not in "live" or "record" mode (run only in playback mode)
     !["live", "record"].includes(process.env.TEST_MODE) &&
-    // 3. Ensure the action is either 'unit-test:node' or 'unit-test:browser' (unit tests)
-    ["unit-test:node", "unit-test:browser"].includes(action)
+    // 3. Ensure the action is either 'test:node' or 'test:browser' (unit tests)
+    ["test:node", "test:browser"].includes(action)
   ) {
     console.log(`TODO: can we still find a way to list packages?`);
 
