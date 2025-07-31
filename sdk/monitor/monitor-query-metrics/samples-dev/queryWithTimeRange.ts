@@ -41,72 +41,62 @@ export async function main(): Promise<void> {
   console.log(`Interval: ${Durations.fiveMinutes} (5 minutes)`);
   console.log(`Resources: ${resourceIds.length} resources`);
 
-  try {
-    const result = await metricsClient.queryResources(
-      resourceIds,
-      ["Heartbeat"],
-      metricsNamespace,
-      {
-        aggregation: "Count",
-        startTime: startTime,
-        endTime: endTime,
-        interval: Durations.fiveMinutes, // 5-minute intervals
-      },
-    );
+  const result = await metricsClient.queryResources(resourceIds, ["Heartbeat"], metricsNamespace, {
+    aggregation: "Count",
+    startTime: startTime,
+    endTime: endTime,
+    interval: Durations.fiveMinutes, // 5-minute intervals
+  });
 
-    console.log(`\nSuccessfully retrieved time-series metrics for ${result.length} resources:`);
+  console.log(`\nSuccessfully retrieved time-series metrics for ${result.length} resources:`);
 
-    for (const resource of result) {
-      console.log(`\n--- Resource: ${resource.resourceId} ---`);
+  for (const resource of result) {
+    console.log(`\n--- Resource: ${resource.resourceId} ---`);
 
-      // Extract time range from timespan
-      const timespan = resource.timespan;
-      let timeRangeString = "Unknown timespan";
-      if (typeof timespan === "object" && "startTime" in timespan && "endTime" in timespan) {
-        timeRangeString = `${timespan.startTime.toISOString()} to ${timespan.endTime.toISOString()}`;
-      }
-      console.log(`Time range: ${timeRangeString}`);
-      console.log(`Granularity: ${resource.granularity}`);
-      console.log(`Namespace: ${resource.namespace}`);
+    // Extract time range from timespan
+    const timespan = resource.timespan;
+    let timeRangeString = "Unknown timespan";
+    if (typeof timespan === "object" && "startTime" in timespan && "endTime" in timespan) {
+      timeRangeString = `${timespan.startTime.toISOString()} to ${timespan.endTime.toISOString()}`;
+    }
+    console.log(`Time range: ${timeRangeString}`);
+    console.log(`Granularity: ${resource.granularity}`);
+    console.log(`Namespace: ${resource.namespace}`);
 
-      for (const metric of resource.metrics) {
-        console.log(`\n  Metric: ${metric.name}`);
-        console.log(`  Unit: ${metric.unit}`);
-        console.log(`  Time series: ${metric.timeseries.length}`);
+    for (const metric of resource.metrics) {
+      console.log(`\n  Metric: ${metric.name}`);
+      console.log(`  Unit: ${metric.unit}`);
+      console.log(`  Time series: ${metric.timeseries.length}`);
 
-        for (const [index, series] of metric.timeseries.entries()) {
-          console.log(`\n    Time Series ${index + 1}:`);
-          if (series.metadatavalues) {
-            console.log(`    Metadata: ${JSON.stringify(series.metadatavalues)}`);
+      for (const [index, series] of metric.timeseries.entries()) {
+        console.log(`\n    Time Series ${index + 1}:`);
+        if (series.metadatavalues) {
+          console.log(`    Metadata: ${JSON.stringify(series.metadatavalues)}`);
+        }
+
+        if (series.data && series.data.length > 0) {
+          console.log(`    Data points: ${series.data.length}`);
+          console.log("    Sample values:");
+
+          // Show first 3 and last 3 data points
+          const samplePoints =
+            series.data.length > 6
+              ? [...series.data.slice(0, 3), ...series.data.slice(-3)]
+              : series.data;
+
+          for (const point of samplePoints) {
+            const timestamp = new Date(point.timeStamp).toLocaleString();
+            console.log(`      ${timestamp}: ${point.count} (${metric.unit})`);
           }
 
-          if (series.data && series.data.length > 0) {
-            console.log(`    Data points: ${series.data.length}`);
-            console.log("    Sample values:");
-
-            // Show first 3 and last 3 data points
-            const samplePoints =
-              series.data.length > 6
-                ? [...series.data.slice(0, 3), ...series.data.slice(-3)]
-                : series.data;
-
-            for (const point of samplePoints) {
-              const timestamp = new Date(point.timeStamp).toLocaleString();
-              console.log(`      ${timestamp}: ${point.count} (${metric.unit})`);
-            }
-
-            if (series.data.length > 6) {
-              console.log(`      ... (${series.data.length - 6} more data points)`);
-            }
-          } else {
-            console.log("    No data points in this time range");
+          if (series.data.length > 6) {
+            console.log(`      ... (${series.data.length - 6} more data points)`);
           }
+        } else {
+          console.log("    No data points in this time range");
         }
       }
     }
-  } catch (error) {
-    console.error("Error querying metrics with time range:", error);
-    throw error;
   }
 }
 
