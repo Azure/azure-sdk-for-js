@@ -5,7 +5,6 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -114,11 +113,15 @@ export interface MetricsClientOptions extends MetricsClientOptionalParams {
 }
 
 // @public
-export interface MetricsQueryResourcesOptions extends Omit<QueryResourcesOptionalParams, "startTime" | "endTime"> {
-    // (undocumented)
+export interface MetricsQueryResourcesOptions {
+    aggregation?: string;
     endTime?: Date;
-    // (undocumented)
+    filter?: string;
+    interval?: string;
+    orderBy?: string;
+    rollUpBy?: string;
     startTime?: Date;
+    top?: number;
 }
 
 // @public
@@ -144,18 +147,6 @@ export interface MetricValue {
     minimum?: number;
     timeStamp: Date;
     total?: number;
-}
-
-// @public
-export interface QueryResourcesOptionalParams extends OperationOptions {
-    aggregation?: string;
-    endTime?: string;
-    filter?: string;
-    interval?: string;
-    orderBy?: string;
-    rollUpBy?: string;
-    startTime?: string;
-    top?: number;
 }
 
 // @public

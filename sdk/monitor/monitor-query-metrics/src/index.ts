@@ -25,4 +25,4 @@ export {
   ErrorAdditionalInfo,
   KnownVersions,
 } from "./models/index.js";
-export { MetricsClientOptionalParams, QueryResourcesOptionalParams } from "./api/index.js";
+export { MetricsClientOptionalParams } from "./api/index.js";
