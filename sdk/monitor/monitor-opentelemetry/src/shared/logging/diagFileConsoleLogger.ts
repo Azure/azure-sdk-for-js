@@ -129,15 +129,15 @@ export class DiagFileConsoleLogger implements DiagLogger {
    */
   private _shouldFilterResourceAttributeWarning(message?: any, args?: any[]): boolean {
     const messagesToFilter = [
-      "Accessing resource attributes before async attributes settled",
-      "Resource attributes being accessed before async attributes finished",
+      "accessing resource attributes before async attributes settled",
+      "resource attributes being accessed before async attributes finished",
       "async attributes settled",
-      "Resource attributes accessed before async detection completed",
-      "Module @azure/core-tracing has been loaded before @azure/opentelemetry-instrumentation-azure-sdk",
+      "resource attributes accessed before async detection completed",
+      "module @azure/core-tracing has been loaded before @azure/opentelemetry-instrumentation-azure-sdk",
     ];
 
     if (typeof message === "string") {
-      if (messagesToFilter.some((filterText) => message.includes(filterText))) {
+      if (messagesToFilter.some((filterText) => message.toLowerCase().includes(filterText))) {
         return true;
       }
     }
@@ -146,7 +146,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
     if (args && Array.isArray(args)) {
       for (const arg of args) {
         if (typeof arg === "string") {
-          if (messagesToFilter.some((filterText) => arg.includes(filterText))) {
+          if (messagesToFilter.some((filterText) => arg.toLowerCase().includes(filterText))) {
             return true;
           }
         }
