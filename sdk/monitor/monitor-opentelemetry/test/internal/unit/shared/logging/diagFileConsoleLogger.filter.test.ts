@@ -26,13 +26,17 @@ describe("DiagFileConsoleLogger filtering", () => {
   });
 
   it("should filter resource attribute warnings in error and warn methods", () => {
-    // Test messages that should be filtered in error and warn methods
+    // Test messages that should be filtered in error and warn methods (case insensitive)
     const filteredMessages = [
-      "Accessing resource attributes before async attributes settled",
-      "Resource attributes being accessed before async attributes finished",
-      "Resource attributes accessed before async detection completed",
+      "accessing resource attributes before async attributes settled",
+      "resource attributes being accessed before async attributes finished",
+      "resource attributes accessed before async detection completed",
       "async attributes settled",
-      "Module @azure/core-tracing has been loaded before @azure/opentelemetry-instrumentation-azure-sdk",
+      "module @azure/core-tracing has been loaded before @azure/opentelemetry-instrumentation-azure-sdk",
+      // Test case variations to verify case-insensitive matching
+      "Accessing Resource Attributes Before Async Attributes Settled",
+      "RESOURCE ATTRIBUTES BEING ACCESSED BEFORE ASYNC ATTRIBUTES FINISHED",
+      "Module @azure/core-tracing Has Been Loaded Before @azure/opentelemetry-instrumentation-azure-sdk",
     ];
 
     // Test messages that should NOT be filtered
@@ -119,5 +123,40 @@ describe("DiagFileConsoleLogger filtering", () => {
     loggedMessages = []; // Reset
     logger.info("Accessing resource attributes before async attributes settled", []);
     expect(loggedMessages.length).toBeGreaterThan(0); // Should NOT be filtered
+  });
+
+  it("should filter messages in a case-insensitive manner", () => {
+    const testCases = [
+      // Different case variations of the same message
+      "accessing resource attributes before async attributes settled",
+      "ACCESSING RESOURCE ATTRIBUTES BEFORE ASYNC ATTRIBUTES SETTLED",
+      "Accessing Resource Attributes Before Async Attributes Settled",
+      "aCcEsSiNg ReS0uRcE AtTrIbUtEs BeFoRe AsYnC AtTrIbUtEs SeTtLeD",
+      // Mixed case for the core-tracing message
+      "MODULE @azure/core-tracing HAS BEEN LOADED BEFORE @azure/opentelemetry-instrumentation-azure-sdk",
+      "Module @Azure/Core-Tracing Has Been Loaded Before @Azure/Opentelemetry-Instrumentation-Azure-Sdk",
+    ];
+
+    // All these should be filtered in error and warn methods
+    testCases.forEach((message) => {
+      loggedMessages = []; // Reset
+      logger.error(message);
+      expect(loggedMessages).toHaveLength(0); // Should be filtered
+
+      loggedMessages = []; // Reset
+      logger.warn(message);
+      expect(loggedMessages).toHaveLength(0); // Should be filtered
+    });
+
+    // But should NOT be filtered in other methods
+    testCases.forEach((message) => {
+      loggedMessages = []; // Reset
+      logger.info(message);
+      expect(loggedMessages.length).toBeGreaterThan(0); // Should NOT be filtered
+
+      loggedMessages = []; // Reset
+      logger.debug(message);
+      expect(loggedMessages.length).toBeGreaterThan(0); // Should NOT be filtered
+    });
   });
 });
