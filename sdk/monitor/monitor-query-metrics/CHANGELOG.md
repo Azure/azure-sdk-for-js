@@ -5,5 +5,5 @@
 ### Features Added
 
 - Initial release of `@azure/monitor-query-metrics` package
-- This package contains the logs querying functionality split from `@azure/monitor-query`
+- This package contains the metrics querying functionality split from `@azure/monitor-query`
 - Provides `MetricsClient` for querying Azure Monitor Metrics
