@@ -10,7 +10,7 @@ import type {
 } from "@azure/core-rest-pipeline";
 import { isRestError, RestError } from "@azure/core-rest-pipeline";
 import { getErrorMessage } from "@azure/core-util";
-import type { StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
+import { StorageRetryPolicyType, type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
 import { HeaderConstants, URLConstants } from "../utils/constants.js";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
 import { logger } from "../log.js";

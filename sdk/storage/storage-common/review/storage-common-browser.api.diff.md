@@ -33,7 +33,22 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -123,26 +118,16 @@
+@@ -88,14 +83,8 @@
+ // @public
+ export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
+ 
+ // @public
+-export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
+-
+-// @public
+-export const storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
+-
+-// @public
+ export interface StorageRetryOptions {
+     readonly maxRetryDelayInMs?: number;
+     readonly maxTries?: number;
+     readonly retryDelayInMs?: number;
+@@ -129,26 +118,16 @@
      EXPONENTIAL = 0,
      FIXED = 1
  }
