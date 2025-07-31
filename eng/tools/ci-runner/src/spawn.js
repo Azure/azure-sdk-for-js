@@ -17,9 +17,8 @@ function isWindows() {
  * @param {string[]} args - rest of arguments
  */
 function spawnWithLog(cmd, cwd, ...args) {
-  const streamLogArgs = [...args, "--ui=stream"];
-  console.log(`Executing: "${cmd} ${streamLogArgs.join(" ")}" in ${cwd}\n\n`);
-  const proc = spawnSync(cmd, streamLogArgs, { cwd, stdio: "inherit", shell: isWindows() });
+  console.log(`Executing: "${cmd} ${args.join(" ")}" in ${cwd}\n\n`);
+  const proc = spawnSync(cmd, args, { cwd, stdio: "inherit", shell: isWindows() });
   console.log(`\n\n${cmd} exited with code ${proc.status} `);
 
   return proc.status ?? 1;
