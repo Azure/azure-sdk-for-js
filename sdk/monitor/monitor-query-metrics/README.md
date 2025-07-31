@@ -4,6 +4,10 @@ The Azure Monitor Query Metrics client library is used to execute read-only quer
 
 - [Metrics](https://learn.microsoft.com/azure/azure-monitor/essentials/data-platform-metrics) - Collects numeric data from monitored resources into a time series database. Metrics are numerical values that are collected at regular intervals and describe some aspect of a system at a particular time. Metrics are lightweight and capable of supporting near real-time scenarios, making them useful for alerting and fast detection of issues.
 
+## Migrating from @azure/monitor-query advisory ⚠️
+
+Checkout the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-metrics/MIGRATION.md) for detailed instructions on how to update your application code from the original `@azure/monitor-query` package to the `@azure/monitor-query-metrics` library.
+
 **Resources:**
 
 - [Source code][source]
@@ -40,14 +44,14 @@ npm install --save @azure/monitor-query-metrics
 
 An authenticated client is required to query Metrics. To authenticate, the following example uses [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential) from the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package.
 
-```ts snippet:ReadmeSampleCreateClient
+```typescript
 import { DefaultAzureCredential } from "@azure/identity";
 import { MetricsClient } from "@azure/monitor-query-metrics";
 
 const credential = new DefaultAzureCredential();
 
 // Create a MetricsClient
-const endpoint = " https://<endpoint>.monitor.azure.com/";
+const endpoint = "https://<regional endpoint>";
 const metricsClient = new MetricsClient(endpoint, credential);
 ```
 
@@ -55,14 +59,14 @@ const metricsClient = new MetricsClient(endpoint, credential);
 
 By default, the library's clients are configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct endpoint and audience value when instantiating a client. For example:
 
-```ts snippet:ReadmeSampleCreateClientSovereign
+```typescript
 import { DefaultAzureCredential } from "@azure/identity";
 import { MetricsClient } from "@azure/monitor-query-metrics";
 
 const credential = new DefaultAzureCredential();
 
 // Create a MetricsClient
-const endpoint = " https://<endpoint>.monitor.azure.cn/";
+const endpoint = "https://<regional endpoint>";
 const metricsClient = new MetricsClient(endpoint, credential, {
   audience: "https://monitor.azure.cn/.default",
 });
@@ -87,41 +91,124 @@ Each set of metric values is a time series with the following characteristics:
 
 ## Examples
 
-- [Query metrics for multiple resources](#query-metrics-for-multiple-resources)
+- [Metrics query](#metrics-query)
+  - [Handle metrics query response](#handle-metrics-query-response)
 
-### Query metrics for multiple resources
+### Metrics query
 
-To query metrics for multiple Azure resources in a single request, use the `MetricsClient.queryResources` method. This method:
-
-- Calls a different API than the `MetricsClient` methods.
-- Requires a regional endpoint when creating the client. For example, `https://westus3.metrics.monitor.azure.com`.
+To query metrics for one or more Azure resources, use the `queryResources` method of `MetricsClient`. This method requires a regional endpoint when creating the client. For example, `https://westus3.metrics.monitor.azure.com`.
 
 Each Azure resource must reside in:
 
 - The same region as the endpoint specified when creating the client.
 - The same Azure subscription.
 
+The resource IDs must be that of the resources for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
+
+To find the resource ID/URI:
+
+1. Navigate to your resource's page in the Azure portal.
+2. Select the **JSON View** link in the **Overview** section.
+3. Copy the value in the **Resource ID** text box at the top of the JSON view.
+
 Furthermore:
 
 - The user must be authorized to read monitoring data at the Azure subscription level. For example, the [Monitoring Reader role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/monitor#monitoring-reader) on the subscription to be queried.
 - The metric namespace containing the metrics to be queried must be provided. For a list of metric namespaces, see [Supported metrics and log categories by resource type][metric_namespaces].
 
-```ts snippet:ReadmeSampleMetricsQueryMultipleResources
+```typescript
+import { DefaultAzureCredential } from "@azure/identity";
+import { MetricsClient, Durations } from "@azure/monitor-query-metrics";
+
+const endpoint = "https://westus3.metrics.monitor.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new MetricsClient(endpoint, credential);
+
+const resourceIds = [
+  "/subscriptions/<id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<resource-name-1>",
+  "/subscriptions/<id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<resource-name-2>"
+];
+
+const response = await client.queryResources(
+  resourceIds,
+  ["UsedCapacity"],
+  "Microsoft.Storage/storageAccounts",
+  {
+    aggregation: "Average",
+    startTime: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+    endTime: new Date(),
+    interval: Durations.fiveMinutes,
+  }
+);
+
+for (const metricsQueryResult of response) {
+  for (const metric of metricsQueryResult.metrics) {
+    console.log(`Metric: ${metric.name.value}`);
+    for (const timeSeries of metric.timeseries) {
+      for (const metricValue of timeSeries.data || []) {
+        if (metricValue.average !== undefined) {
+          console.log(`Average: ${metricValue.average}`);
+        }
+      }
+    }
+  }
+}
+```
+
+#### Handle metrics query response
+
+The metrics query API returns a list of `MetricsQueryResult` objects. The `MetricsQueryResult` object contains properties such as a list of `Metric`-typed objects, `granularity`, `namespace`, and `timespan`. The `Metric` objects list can be accessed using the `metrics` property. Each `Metric` object in this list contains a list of `TimeSeriesElement` objects. Each `TimeSeriesElement` object contains `data` and `metadatavalues` properties. In visual form, the object hierarchy of the response resembles the following structure:
+
+```text
+MetricsQueryResult
+|---granularity
+|---timespan
+|---cost
+|---namespace
+|---resourceRegion
+|---metrics (list of `Metric` objects)
+    |---id
+    |---type
+    |---name
+    |---unit
+    |---timeseries (list of `TimeSeriesElement` objects)
+        |---metadatavalues
+        |---data (list of data points)
+```
+
+**Note:** Each `MetricsQueryResult` is returned in the same order as the corresponding resource in the `resourceIds` parameter. If multiple different metrics are queried, the metrics are returned in the order of the `metricNames` sent.
+
+Example of handling response:
+
+```typescript
 import { DefaultAzureCredential } from "@azure/identity";
 import { MetricsClient } from "@azure/monitor-query-metrics";
 
-const resourceIds = [
-  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs",
-  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs2",
-];
-const metricsNamespace = "<YOUR_METRICS_NAMESPACE>";
-const metricNames = ["requests", "count"];
-const endpoint = " https://<endpoint>.monitor.azure.com/";
-
 const credential = new DefaultAzureCredential();
-const metricsClient = new MetricsClient(endpoint, credential);
+const client = new MetricsClient("https://<regional endpoint>", credential);
 
-const result = await metricsClient.queryResources(resourceIds, metricNames, metricsNamespace);
+const metricsUri = process.env.METRICS_RESOURCE_URI;
+const response = await client.queryResources(
+  [metricsUri],
+  ["PublishSuccessCount"],
+  "Microsoft.ServiceBus/namespaces",
+  {
+    aggregation: "Average"
+  }
+);
+
+for (const metricsQueryResult of response) {
+  for (const metric of metricsQueryResult.metrics) {
+    console.log(`Metric: ${metric.name.value}`);
+    for (const timeSeries of metric.timeseries) {
+      for (const metricValue of timeSeries.data || []) {
+        if (metricValue.average !== null) {
+          console.log(`Average: ${metricValue.average}`);
+        }
+      }
+    }
+  }
+}
 ```
 
 For an inventory of metrics and dimensions available for each Azure resource type, see [Supported metrics with Azure Monitor](https://learn.microsoft.com/azure/azure-monitor/essentials/metrics-supported).

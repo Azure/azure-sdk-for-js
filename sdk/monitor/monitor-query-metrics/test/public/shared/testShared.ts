@@ -7,14 +7,9 @@ import { createClientLogger } from "@azure/logger";
 import { MetricsClient } from "../../../src/index.js";
 export const loggerForTest = createClientLogger("test");
 
-const replacementForLogsResourceId = env["LOGS_RESOURCE_ID"]?.startsWith("/")
-  ? "/logs-arm-resource-id"
-  : "logs-arm-resource-id";
-
 const envSetupForPlayback: Record<string, string> = {
   MONITOR_WORKSPACE_ID: "workspace-id",
   METRICS_RESOURCE_ID: "metrics-arm-resource-id",
-  LOGS_RESOURCE_ID: replacementForLogsResourceId,
   MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
 };
 
