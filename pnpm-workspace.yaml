@@ -17,4 +17,5 @@ packages:
   - '!sdk/identity/identity/integration/**'
   - '!sdk/identity/identity/test/**'
   - '!sdk/servicebus/service-bus/test/**'
+  - '!sdk/eventhub/event-hubs/test/**'
 
