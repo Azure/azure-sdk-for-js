@@ -3097,6 +3097,20 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+
+  /** Initial data. */
+  body?: HttpRequestBody;
+  
+  /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, 
+   * the File service compares the hash of the content that has arrived with the header value that was sent. 
+   * If the two hashes do not match, the operation will fail with error code 400 (Bad Request). 
+   */
+  contentMD5?: Uint8Array;
+  
+  /** Specifies the number of bytes being transmitted in the request body. 
+   * When the x-ms-write header is set to clear, the value of this header must be set to zero. 
+   */
+  contentLength?: number;
 }
 
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {

@@ -817,6 +817,17 @@ export const fileMode: OperationParameter = {
   },
 };
 
+export const filePropertySemantics: OperationParameter = {
+  parameterPath: ["options", "filePropertySemantics"],
+  mapper: {
+    serializedName: "x-ms-file-property-semantics",
+    xmlName: "x-ms-file-property-semantics",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const include1: OperationQueryParameter = {
   parameterPath: ["options", "include"],
   mapper: {
@@ -1021,6 +1032,17 @@ export const allowSourceTrailingDot: OperationParameter = {
   },
 };
 
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: {
+    serializedName: "body",
+    xmlName: "body",
+    type: {
+      name: "Stream",
+    },
+  },
+};
+
 export const fileContentLength: OperationParameter = {
   parameterPath: "fileContentLength",
   mapper: {
@@ -1122,6 +1144,28 @@ export const nfsFileType: OperationParameter = {
   },
 };
 
+export const contentMD5: OperationParameter = {
+  parameterPath: ["options", "contentMD5"],
+  mapper: {
+    serializedName: "Content-MD5",
+    xmlName: "Content-MD5",
+    type: {
+      name: "ByteArray",
+    },
+  },
+};
+
+export const contentLength: OperationParameter = {
+  parameterPath: ["options", "contentLength"],
+  mapper: {
+    serializedName: "Content-Length",
+    xmlName: "Content-Length",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
 export const range: OperationParameter = {
   parameterPath: ["options", "range"],
   mapper: {
@@ -1167,7 +1211,7 @@ export const contentType2: OperationParameter = {
   },
 };
 
-export const body: OperationParameter = {
+export const body1: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: {
     serializedName: "body",
@@ -1228,7 +1272,7 @@ export const fileRangeWrite: OperationParameter = {
   },
 };
 
-export const contentLength: OperationParameter = {
+export const contentLength1: OperationParameter = {
   parameterPath: "contentLength",
   mapper: {
     serializedName: "Content-Length",
@@ -1236,17 +1280,6 @@ export const contentLength: OperationParameter = {
     xmlName: "Content-Length",
     type: {
       name: "Number",
-    },
-  },
-};
-
-export const contentMD5: OperationParameter = {
-  parameterPath: ["options", "contentMD5"],
-  mapper: {
-    serializedName: "Content-MD5",
-    xmlName: "Content-MD5",
-    type: {
-      name: "ByteArray",
     },
   },
 };
