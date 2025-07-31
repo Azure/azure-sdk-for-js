@@ -237,7 +237,7 @@ For more details, view our [tests](https://github.com/Azure/azure-sdk-for-js/blo
 [azure_subscription]: https://azure.microsoft.com/free/
 [changelog]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-metrics/CHANGELOG.md
 [metric_namespaces]: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/metrics-index#supported-metrics-and-log-categories-by-resource-type
-[msdocs_apiref]: https://learn.microsoft.com/javascript/api/@azure/monitor-query-metrics
+[msdocs_apiref]: https://learn.microsoft.com/javascript/api/@azure/monitor-query
 [package]: https://www.npmjs.com/package/@azure/monitor-query-metrics
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query-metrics/samples
 [source]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-metrics/
