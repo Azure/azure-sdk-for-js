@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { MetricsClient } from "./publicMetricsClient.js";
+export { MetricsClient } from "./metricsClient.js";
 export {
   MetricsQueryResourcesOptions,
   MetricsQueryResult,

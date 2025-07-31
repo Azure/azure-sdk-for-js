@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MetricsClientOptionalParams } from "./metricsClient.js";
+import type { MetricsClientOptionalParams } from "./internalMetricsClient.js";
 import type { Metric } from "./models/models.js";
 
 /**
