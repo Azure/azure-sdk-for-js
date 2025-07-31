@@ -9,8 +9,7 @@ export const loggerForTest = createClientLogger("test");
 
 const envSetupForPlayback: Record<string, string> = {
   MONITOR_WORKSPACE_ID: "workspace-id",
-  METRICS_RESOURCE_ID: "metrics-arm-resource-id",
-  MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
+  METRICS_RESOURCE_ID: "metrics-resource-id"
 };
 
 // const recorderOptions: RecorderStartOptions = {
@@ -39,7 +38,7 @@ export async function createRecorderAndMetricsBatchQueryClient(): Promise<Record
 }
 
 export function getMetricsBatchResourceIds(): string[] {
-  const resourceId: string = assertEnvironmentVariable("LOGS_RESOURCE_ID");
+  const resourceId: string = assertEnvironmentVariable("METRICS_RESOURCE_ID");
   return [resourceId, `${resourceId}2`];
 }
 
