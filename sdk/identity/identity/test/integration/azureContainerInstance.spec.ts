@@ -14,7 +14,7 @@ describe("Azure Container Instance Integration test", function () {
 
     const client = createDefaultHttpClient();
     const request = createPipelineRequest({
-      url: `http://${containerIp}`,
+      url: `http://${containerIp}/managed-identity/user-assigned`,
       method: "GET",
     });
     request.allowInsecureConnection = true;

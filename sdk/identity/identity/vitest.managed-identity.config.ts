@@ -9,7 +9,7 @@ const mergedConfig = mergeConfig(
   defineConfig({
     test: {
       hookTimeout: 500000,
-      testTimeout: 1000000,
+      testTimeout: 500000,
     },
   }),
 );
