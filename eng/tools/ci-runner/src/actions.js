@@ -60,6 +60,7 @@ export function executeActions(
         );
         break;
 
+      case "pack":
       case "lint":
       case "update-snippets":
         exitCode = runInPackageDirs(action, packageDirs);
