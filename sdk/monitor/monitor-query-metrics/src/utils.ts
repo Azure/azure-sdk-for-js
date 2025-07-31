@@ -65,9 +65,7 @@ export function createMetricsQueryResult(
     resourceRegion: item.resourceRegion,
     timespan,
     getMetricByName(metricName: string): Metric | undefined {
-      return this.metrics.find(
-        (metric) => metric.name === metricName,
-      );
+      return this.metrics.find((metric) => metric.name === metricName);
     },
   };
 }
