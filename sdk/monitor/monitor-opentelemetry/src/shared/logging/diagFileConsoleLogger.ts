@@ -156,10 +156,12 @@ export class DiagFileConsoleLogger implements DiagLogger {
     // Also check if message starts with the warning text (in case it's formatted differently)
     if (typeof message === "string") {
       const messageParts = message.split(" ");
-      if (messageParts.length >= 3 &&
-          messageParts[0].toLowerCase() === "accessing" &&
-          messageParts[1].toLowerCase() === "resource" &&
-          messageParts[2].toLowerCase() === "attributes") {
+      if (
+        messageParts.length >= 3 &&
+        messageParts[0].toLowerCase() === "accessing" &&
+        messageParts[1].toLowerCase() === "resource" &&
+        messageParts[2].toLowerCase() === "attributes"
+      ) {
         return true;
       }
     }
