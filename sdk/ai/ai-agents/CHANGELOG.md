@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.0-beta.3 (2025-07-30)
+
+### Bugs Fixed
+
+- Fix method `runs.createAndPoll` missing required parameter `json_schema` but get `jsonSchema`
+
 ## 1.1.0-beta.2 (2025-07-23)
 
 ### Bugs Fixed

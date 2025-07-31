@@ -7,15 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
-  ComputeOperationValue,
+  Operation,
+  OperationsListNextOptionalParams,
   OperationsListOptionalParams,
   OperationsListResponse,
+  OperationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,12 +35,12 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Gets a list of compute operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   public list(
     options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<ComputeOperationValue> {
+  ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -57,29 +60,57 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingPage(
     options?: OperationsListOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<ComputeOperationValue[]> {
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Operation[]> {
     let result: OperationsListResponse;
-    result = await this._list(options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
     options?: OperationsListOptionalParams,
-  ): AsyncIterableIterator<ComputeOperationValue> {
+  ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets a list of compute operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   private _list(
     options?: OperationsListOptionalParams,
   ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    nextLink: string,
+    options?: OperationsListNextOptionalParams,
+  ): Promise<OperationsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
@@ -90,7 +121,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ComputeOperationListResult,
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -98,6 +129,21 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
