@@ -10,8 +10,14 @@ import type { TestContext } from "vitest";
 export const loggerForTest = createClientLogger("test");
 
 // Parse the METRICS_RESOURCE_ID to extract subscription ID and resource group
-function parseResourceId(resourceId: string): { subscriptionId: string; resourceGroup: string; workspaceName: string } {
-  const match = resourceId.match(/\/subscriptions\/([^/]+)\/resourceGroups\/([^/]+)\/providers\/[^/]+\/workspaces\/([^/]+)/);
+function parseResourceId(resourceId: string): {
+  subscriptionId: string;
+  resourceGroup: string;
+  workspaceName: string;
+} {
+  const match = resourceId.match(
+    /\/subscriptions\/([^/]+)\/resourceGroups\/([^/]+)\/providers\/[^/]+\/workspaces\/([^/]+)/,
+  );
   if (!match) {
     throw new Error(`Invalid resource ID format: ${resourceId}`);
   }
@@ -23,12 +29,15 @@ function parseResourceId(resourceId: string): { subscriptionId: string; resource
 }
 
 // Get the actual resource ID from environment or use a default for playback
-const actualResourceId = env["METRICS_RESOURCE_ID"] || "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group/providers/Microsoft.OperationalInsights/workspaces/group-logs";
+const actualResourceId =
+  env["METRICS_RESOURCE_ID"] ||
+  "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group/providers/Microsoft.OperationalInsights/workspaces/group-logs";
 const { subscriptionId, resourceGroup, workspaceName } = parseResourceId(actualResourceId);
 
 const envSetupForPlayback: Record<string, string> = {
   MONITOR_WORKSPACE_ID: "workspace-id",
-  METRICS_RESOURCE_ID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group/providers/Microsoft.OperationalInsights/workspaces/group-logs",
+  METRICS_RESOURCE_ID:
+    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group/providers/Microsoft.OperationalInsights/workspaces/group-logs",
   AZURE_MONITOR_BATCH_ENDPOINT: "https://eastus.metrics.monitor.azure.com/",
   AZURE_MONITOR_BATCH_NAMESPACE: "Microsoft.OperationalInsights/workspaces",
   AZURE_MONITOR_BATCH_METRICNAMES: "Heartbeat",
@@ -64,8 +73,9 @@ const recorderOptions: RecorderStartOptions = {
       // Sanitize full resource ID in request body
       {
         regex: true,
-        target: actualResourceId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), // Escape regex special characters
-        value: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group/providers/Microsoft.OperationalInsights/workspaces/group-logs",
+        target: actualResourceId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), // Escape regex special characters
+        value:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group/providers/Microsoft.OperationalInsights/workspaces/group-logs",
       },
     ],
   },
