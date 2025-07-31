@@ -8,8 +8,8 @@ import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
-import { ClientCertificateCredential } from "../../../src/index.js";
-import { parseCertificate } from "../../../src/credentials/clientCertificateCredential.js";
+import { ClientCertificateCredential } from "@azure/identity";
+import { parseCertificate } from "$internal/credentials/clientCertificateCredential.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const ASSET_PATH = "assets";

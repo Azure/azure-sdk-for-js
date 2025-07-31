@@ -50,7 +50,3 @@ stages:
           - script: |
               pnpm run --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --workspace-concurrency=1 test
             displayName: "Run Unit Tests for Selected Packages"
-
-          - script: |
-              pnpm run --filter @azure/app-configuration --filter @azure/storage-blob --filter @azure-rest/synapse-access-control --workspace-concurrency=1 test:node:esm
-            displayName: "Run Integration Tests for Selected Packages"

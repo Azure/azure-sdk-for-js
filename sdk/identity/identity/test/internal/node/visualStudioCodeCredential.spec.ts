@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VisualStudioCodeCredential } from "../../../src/index.js";
+import { VisualStudioCodeCredential } from "@azure/identity";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("VisualStudioCodeCredential (internal)", function () {
@@ -12,7 +12,7 @@ describe("VisualStudioCodeCredential (internal)", function () {
     credential = new VisualStudioCodeCredential();
     (credential as any).preparePromise = undefined;
 
-    msalPluginsModule = await import("../../../src/msal/nodeFlows/msalPlugins.js");
+    msalPluginsModule = await import("$internal/msal/nodeFlows/msalPlugins.js");
   });
 
   afterEach(function () {

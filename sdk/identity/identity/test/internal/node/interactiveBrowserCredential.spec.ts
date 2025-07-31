@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import type { InteractiveBrowserCredentialNodeOptions } from "../../../src/index.js";
-import { InteractiveBrowserCredential } from "../../../src/index.js";
+import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
+import { InteractiveBrowserCredential } from "@azure/identity";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
