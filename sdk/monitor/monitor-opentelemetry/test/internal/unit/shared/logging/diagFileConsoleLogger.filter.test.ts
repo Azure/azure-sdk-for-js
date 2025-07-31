@@ -25,13 +25,14 @@ describe("DiagFileConsoleLogger filtering", () => {
     vi.restoreAllMocks();
   });
 
-  it("should filter resource attribute warnings in error method only", () => {
-    // Test messages that should be filtered in error method
+  it("should filter resource attribute warnings in error and warn methods", () => {
+    // Test messages that should be filtered in error and warn methods
     const filteredMessages = [
       "Accessing resource attributes before async attributes settled",
       "Resource attributes being accessed before async attributes finished",
       "Resource attributes accessed before async detection completed",
       "async attributes settled",
+      "Module @azure/core-tracing has been loaded before @azure/opentelemetry-instrumentation-azure-sdk",
     ];
 
     // Test messages that should NOT be filtered
@@ -49,21 +50,30 @@ describe("DiagFileConsoleLogger filtering", () => {
       expect(loggedMessages).toHaveLength(0); // Should be filtered (no logs)
     });
 
+    // Test filtering of messages that should be filtered in WARN method
+    filteredMessages.forEach((message) => {
+      loggedMessages = []; // Reset
+      logger.warn(message);
+      expect(loggedMessages).toHaveLength(0); // Should be filtered (no logs)
+    });
+
     // Test filtering of messages that should NOT be filtered in ERROR method
     notFilteredMessages.forEach((message) => {
       loggedMessages = []; // Reset
       logger.error(message);
       expect(loggedMessages.length).toBeGreaterThan(0); // Should NOT be filtered (has logs)
     });
+
+    // Test filtering of messages that should NOT be filtered in WARN method
+    notFilteredMessages.forEach((message) => {
+      loggedMessages = []; // Reset
+      logger.warn(message);
+      expect(loggedMessages.length).toBeGreaterThan(0); // Should NOT be filtered (has logs)
+    });
   });
 
-  it("should NOT filter resource attribute warnings in other log methods", () => {
+  it("should NOT filter resource attribute warnings in other log methods (info, debug, verbose)", () => {
     const warningMessage = "Accessing resource attributes before async attributes settled";
-
-    // Test warn method - should NOT filter
-    loggedMessages = [];
-    logger.warn(warningMessage);
-    expect(loggedMessages.length).toBeGreaterThan(0); // Should NOT be filtered
 
     // Test info method - should NOT filter
     loggedMessages = [];
@@ -94,15 +104,20 @@ describe("DiagFileConsoleLogger filtering", () => {
     expect(loggedMessages.length).toBeGreaterThan(0); // Should NOT be filtered
   });
 
-  it("should filter warnings with additional arguments in error method only", () => {
+  it("should filter warnings with additional arguments in error and warn methods", () => {
     // Test error method with args - should filter
     loggedMessages = []; // Reset
     logger.error("Accessing resource attributes before async attributes settled", []);
     expect(loggedMessages).toHaveLength(0); // Should be filtered even with args
 
-    // Test warn method with args - should NOT filter
+    // Test warn method with args - should also filter now
     loggedMessages = []; // Reset
     logger.warn("Accessing resource attributes before async attributes settled", []);
+    expect(loggedMessages).toHaveLength(0); // Should be filtered even with args
+
+    // Test info method with args - should NOT filter
+    loggedMessages = []; // Reset
+    logger.info("Accessing resource attributes before async attributes settled", []);
     expect(loggedMessages.length).toBeGreaterThan(0); // Should NOT be filtered
   });
 });

@@ -108,10 +108,6 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public async logMessage(message?: any, ...optionalParams: any[]): Promise<void> {
-    // Filter out warnings about accessing resource attributes before async attributes are settled
-    if (this._shouldFilterResourceAttributeWarning(message, optionalParams)) {
-      return;
-    }
     try {
       const args = message ? [message, ...optionalParams] : optionalParams;
       if (this._logToFile) {
