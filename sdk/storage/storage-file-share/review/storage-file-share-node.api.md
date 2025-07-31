@@ -455,6 +455,7 @@ export interface FileAndDirectoryCreateCommonOptions {
     filePermission?: string | FilePermissionInheritType;
     filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
+    filePropertySemantics?: FilePropertySemantics;
     lastWriteTime?: Date | TimeNowType;
     posixProperties?: FilePosixProperties;
 }
@@ -536,6 +537,9 @@ export interface FileCreateHeaders {
 // @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    body?: HttpRequestBody;
+    contentLength?: number;
+    contentMD5?: Uint8Array;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
@@ -894,6 +898,9 @@ export interface FileProperty {
     // (undocumented)
     lastWriteTime?: Date;
 }
+
+// @public
+export type FilePropertySemantics = string;
 
 // @public
 export interface FileRenameHeaders {
@@ -1882,6 +1889,7 @@ export interface ShareGetPropertiesHeaders {
     accessTierTransitionState?: string;
     date?: Date;
     enabledProtocols?: string;
+    enableSmbDirectoryLease?: boolean;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     errorCode?: string;
     etag?: string;
@@ -2019,6 +2027,8 @@ export interface SharePropertiesInternal {
     // (undocumented)
     enabledProtocols?: string;
     // (undocumented)
+    enableSmbDirectoryLease?: boolean;
+    // (undocumented)
     enableSnapshotVirtualDirectoryAccess?: boolean;
     // (undocumented)
     etag: string;
@@ -2067,6 +2077,8 @@ export interface ShareProtocols {
 
 // @public
 export interface ShareProtocolSettings {
+    // Warning: (ae-forgotten-export) The symbol "ShareNfsSettings" needs to be exported by the entry point index.d.ts
+    nfs?: ShareNfsSettings;
     smb?: ShareSmbSettings;
 }
 
@@ -2164,6 +2176,7 @@ export interface ShareSetPropertiesHeaders {
 export interface ShareSetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     accessTier?: ShareAccessTier;
+    enableSmbDirectoryLease?: boolean;
     enableSnapshotVirtualDirectoryAccess?: boolean;
     leaseAccessConditions?: LeaseAccessConditions;
     paidBurstingEnabled?: boolean;
@@ -2192,6 +2205,8 @@ export type ShareSetQuotaResponse = WithResponse<ShareSetQuotaHeaders, ShareSetQ
 
 // @public
 export interface ShareSmbSettings {
+    // Warning: (ae-forgotten-export) The symbol "ShareSmbSettingsEncryptionInTransit" needs to be exported by the entry point index.d.ts
+    encryptionInTransit?: ShareSmbSettingsEncryptionInTransit;
     multichannel?: SmbMultichannel;
 }
 

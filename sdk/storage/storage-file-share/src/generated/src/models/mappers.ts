@@ -4172,6 +4172,20 @@ export const FileCreateHeaders: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      contentMD5: {
+        serializedName: "content-md5",
+        xmlName: "content-md5",
+        type: {
+          name: "ByteArray",
+        },
+      },
+      contentLength: {
+        serializedName: "content-length",
+        xmlName: "content-length",
+        type: {
+          name: "Number",
+        },
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",

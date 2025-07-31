@@ -606,6 +606,7 @@ export {
   Metrics,
   ModeCopyMode,
   NfsFileType,
+  FilePropertySemantics,
   FileSetMetadataHeaders,
   FileStartCopyHeaders,
   FileUploadRangeFromURLHeaders,
