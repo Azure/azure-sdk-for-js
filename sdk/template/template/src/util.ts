@@ -8,6 +8,7 @@
  * object isn't quoted, even though the header is.
  *
  * @param etag - the tag to quote, if it isn't quoted already
+ * @returns quoted etag
  *
  * @internal
  */
