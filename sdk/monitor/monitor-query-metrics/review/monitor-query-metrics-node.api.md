@@ -55,14 +55,8 @@ export enum KnownVersions {
 }
 
 // @public
-export interface LocalizableString {
-    localizedValue?: string;
-    value: string;
-}
-
-// @public
 export interface MetadataValue {
-    name?: LocalizableString;
+    name?: string;
     value?: string;
 }
 
@@ -72,7 +66,7 @@ export interface Metric {
     errorCode?: string;
     errorMessage?: string;
     id: string;
-    name: LocalizableString;
+    name: string;
     timeseries: TimeSeriesElement[];
     type: string;
     unit: MetricUnit;

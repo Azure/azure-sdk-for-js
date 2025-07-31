@@ -15,7 +15,6 @@ export {
   MetricResultsResponse,
   MetricResultsResponseValuesItem,
   Metric,
-  LocalizableString,
   MetricUnit,
   TimeSeriesElement,
   MetadataValue,

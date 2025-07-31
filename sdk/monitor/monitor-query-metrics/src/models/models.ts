@@ -92,7 +92,7 @@ export interface Metric {
   /** The resource type of the metric resource. */
   type: string;
   /** The name and the display name of the metric, i.e. it is localizable string. */
-  name: LocalizableString;
+  name: string;
   /** Detailed description of this metric. */
   description?: string;
   /** 'Success' or the error details on query failures for this metric. */
@@ -119,18 +119,19 @@ export function metricDeserializer(item: any): Metric {
 }
 
 /** The localizable string class. */
-export interface LocalizableString {
+interface LocalizableString {
   /** The invariant value. */
   value: string;
   /** The display name. */
   localizedValue?: string;
 }
 
-export function localizableStringDeserializer(item: any): LocalizableString {
-  return {
+export function localizableStringDeserializer(item: any): string {
+  const deserialized: LocalizableString = {
     value: item["value"],
     localizedValue: item["localizedValue"],
   };
+  return deserialized.localizedValue || deserialized.value;
 }
 
 /** The unit of the metric. */
@@ -187,7 +188,7 @@ export function metadataValueArrayDeserializer(result: Array<MetadataValue>): an
 /** Represents a metric metadata value. */
 export interface MetadataValue {
   /** The name of the metadata. */
-  name?: LocalizableString;
+  name?: string;
   /** The value of the metadata. */
   value?: string;
 }

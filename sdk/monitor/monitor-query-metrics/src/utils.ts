@@ -66,7 +66,7 @@ export function createMetricsQueryResult(
     timespan,
     getMetricByName(metricName: string): Metric | undefined {
       return this.metrics.find(
-        (metric) => metric.name.value === metricName || metric.name.localizedValue === metricName,
+        (metric) => metric.name === metricName,
       );
     },
   };
