@@ -15,6 +15,10 @@ export class AzureSDKReporter extends VerboseReporter {
   protected verbose = false;
 }
 
+export function isInDevopsPipeline() {
+  return process.env["SYSTEM_TEAMPROJECTID"] !== undefined;
+}
+
 export default defineConfig({
   test: {
     testTimeout: 18000,
