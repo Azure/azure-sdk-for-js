@@ -42,7 +42,7 @@ dotenv.config();
 // import { CustomMetricExample } from './09-customMetric';
 
 // 10. Custom traces example
- import { CustomTraceExample } from './10-customTrace';
+// import { CustomTraceExample } from './10-customTrace';
 
 // ============================================================================
 // EXAMPLE RUNNER - Uncomment the corresponding run() call below
@@ -80,8 +80,8 @@ const runExample = async (): Promise<void> => {
   // 9. Custom metrics example
   // await CustomMetricExample.run();
 
-     //10. Custom traces example
-         await CustomTraceExample.run();
+  // 10. Custom traces example
+  // await CustomTraceExample.run();
 
     // ========================================================================
     // Instructions
