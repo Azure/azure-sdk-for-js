@@ -48,7 +48,7 @@ describe("executeActions", () => {
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
       [
         baseDir,
-        "run",
+        "test:node",
         "--filter",
         "@azure/communication-identity",
         "--filter",
@@ -61,7 +61,6 @@ describe("executeActions", () => {
         "@azure/service-bus",
         "--filter",
         "@azure/template",
-        "test:node",
       ],
     ]);
   });

@@ -14,7 +14,7 @@ import { runTestProxyRestore } from "./testProxyRestore.js";
  * @param {string[]} runParams - what parameters to pass
  */
 export function runGlobalAction(action, runParams) {
-  return spawnPnpm(getBaseDir(), "run", ...runParams, action);
+  return spawnPnpm(getBaseDir(), action, ...runParams);
 }
 
 /**
@@ -72,7 +72,7 @@ export function runAllWithDirection(action, filters, extraParams, ciFlag) {
       runTestProxyRestore(parsed);
     }
   }
-  return spawnPnpm(getBaseDir(), "run", ...packages, action, ...extraParams);
+  return spawnPnpm(getBaseDir(), action, ...packages, ...extraParams);
 }
 
 /**
