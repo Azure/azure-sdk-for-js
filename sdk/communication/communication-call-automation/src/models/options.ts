@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
+import type {
+  PhoneNumberIdentifier,
+  CommunicationIdentifier,
+  MicrosoftTeamsAppIdentifier,
+} from "@azure/communication-common";
 import type { OperationOptions } from "@azure/core-client";
 import type {
   MediaStreamingOptions,
@@ -114,6 +118,12 @@ export interface CreateCallOptions extends OperationOptions {
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Options for live transcription. */
   transcriptionOptions?: TranscriptionOptions;
+  /**
+   * Overrides default client source by a MicrosoftTeamsAppIdentifier type source.
+   * Required for creating call with Teams resource account ID.
+   * This is per-operation setting and does not change the client's default source.
+   */
+  teamsAppSource?: MicrosoftTeamsAppIdentifier;
 }
 
 /**
@@ -242,7 +252,9 @@ export type GetParticipantOptions = OperationOptions;
  */
 export interface StartRecordingOptions extends OperationOptions {
   /** The call locator. (Only one of callLocator or callConnectionId to be used) */
-  callLocator: CallLocator;
+  callLocator?: CallLocator;
+  /** The call connectionId. (Only one of callLocator or callConnectionId to be used) */
+  callConnectionId?: string;
   /** The url to send notifications to. */
   recordingStateCallbackEndpointUrl?: string;
   /** The content type of call recording. */
