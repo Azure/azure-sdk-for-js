@@ -16,7 +16,7 @@ A comprehensive collection of Node.js/TypeScript samples demonstrating Azure Mon
 
    ```bash
    git clone <your-repo-url>
-   cd azure-monitor-opentelemetry-samples
+   cd azure-sdk-for-js/sdk/monitor/monitor-opentelemetry/samples-dev
    npm install
    ```
 
@@ -35,7 +35,7 @@ A comprehensive collection of Node.js/TypeScript samples demonstrating Azure Mon
    ```
 
 
-   **Or create `.env` file:**
+   **Or create `.env` file (make a copy from .env.sample or rename to .env):**
 
    ```env
    APPLICATIONINSIGHTS_CONNECTION_STRING=InstrumentationKey=12345678-1234-1234-1234-123456789012;IngestionEndpoint=https://westus2-1.in.applicationinsights.azure.com/
