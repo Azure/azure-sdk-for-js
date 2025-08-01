@@ -10,6 +10,12 @@ import stripJsonComments from "strip-json-comments";
 export const commandInfo = makeCommandInfo(
   "typespec-migrations",
   "list the status of the TypeSpec migrations",
+  {
+    "client-type": {
+      description: "filter by client type (RLC or HLC)",
+      kind: "string",
+    },
+  },
 );
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -96,7 +102,7 @@ async function hasSwaggerFiles(dirPath: string): Promise<boolean> {
   }
 }
 
-export default leafCommand(commandInfo, async () => {
+export default leafCommand(commandInfo, async (options) => {
   const root = await resolveRoot();
   const rushJson = await getRushJson();
   const projects = rushJson.projects;
@@ -106,20 +112,37 @@ export default leafCommand(commandInfo, async () => {
     (project: RushJsonProject) => project.versionPolicyName === "client",
   );
 
-  console.log("# TypeSpec Migration Report");
-  console.log();
-  console.log(`Total projects: ${projects.length}`);
-  console.log(`Client projects: ${clientProjects.length}`);
-  console.log();
+  // Filter by client type if specified
+  const clientTypeFilter = options["client-type"];
+  let filteredProjects = clientProjects;
 
-  // Generate markdown table header
-  console.log("| Package Name | Project Folder | Version Policy | Client Type | TypeSpec Status |");
-  console.log("| --- | --- | --- | --- | --- |");
+  if (clientTypeFilter) {
+    if (clientTypeFilter !== "RLC" && clientTypeFilter !== "HLC") {
+      console.error("Error: client-type must be either 'RLC' or 'HLC'");
+      return false;
+    }
+
+    filteredProjects = clientProjects.filter((project: RushJsonProject) => {
+      const clientType = project.packageName.startsWith("@azure-rest") ? "RLC" : "HLC";
+      return clientType === clientTypeFilter;
+    });
+  }
 
   // Sort projects by package name for consistent output
-  const sortedProjects = clientProjects.sort((a: RushJsonProject, b: RushJsonProject) =>
+  const sortedProjects = filteredProjects.sort((a: RushJsonProject, b: RushJsonProject) =>
     a.packageName.localeCompare(b.packageName),
   );
+
+  // Calculate migration statistics
+  let migratedCount = 0;
+  let notMigratedCount = 0;
+  let naCount = 0;
+
+  const projectStatuses: Array<{
+    project: RushJsonProject;
+    clientType: string;
+    typespecStatus: string;
+  }> = [];
 
   for (const project of sortedProjects) {
     const projectFolder = path.resolve(root, project.projectFolder);
@@ -136,12 +159,49 @@ export default leafCommand(commandInfo, async () => {
     let typespecStatus: string;
     if (hasTypeSpec) {
       typespecStatus = "✅ Migrated";
+      migratedCount++;
     } else if (hasSwagger) {
       typespecStatus = "❌ Not Migrated";
+      notMigratedCount++;
     } else {
       typespecStatus = "N/A";
+      naCount++;
     }
 
+    projectStatuses.push({ project, clientType, typespecStatus });
+  }
+
+  // Calculate completion percentage: (migrated + N/A) / total
+  const totalFiltered = filteredProjects.length;
+  const completedCount = migratedCount + naCount;
+  const completionPercentage =
+    totalFiltered > 0 ? ((completedCount / totalFiltered) * 100).toFixed(2) : "0.00";
+
+  console.log("# TypeSpec Migration Report");
+  console.log();
+  console.log(`Total projects: ${projects.length}`);
+  console.log(`Client projects: ${clientProjects.length}`);
+  if (clientTypeFilter) {
+    console.log(`Filtered by client type (${clientTypeFilter}): ${filteredProjects.length}`);
+  }
+  console.log();
+
+  // Add summary section
+  console.log("## Summary");
+  console.log();
+  console.log(`- ✅ Migrated: ${migratedCount}`);
+  console.log(`- N/A (no migration needed): ${naCount}`);
+  console.log(`- Total Completed (Migrated + N/A): ${migratedCount + naCount}`);
+  console.log(`- ❌ Not Migrated: ${notMigratedCount}`);
+  console.log(`- **Completion percentage: ${completionPercentage}%**`);
+  console.log();
+
+  // Generate markdown table header
+  console.log("| Package Name | Project Folder | Version Policy | Client Type | TypeSpec Status |");
+  console.log("| --- | --- | --- | --- | --- |");
+
+  // Output the table using pre-calculated data
+  for (const { project, clientType, typespecStatus } of projectStatuses) {
     console.log(
       `| ${project.packageName} | ${project.projectFolder} | ${project.versionPolicyName} | ${clientType} | ${typespecStatus} |`,
     );
