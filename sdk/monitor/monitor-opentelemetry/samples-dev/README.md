@@ -51,32 +51,33 @@ A comprehensive collection of Node.js/TypeScript samples demonstrating Azure Mon
 
 | Sample | Description | Key Features |
 |--------|-------------|--------------|
-| [01-basic-connection](./src/examples/01-basic-connection.ts) | Basic Azure Monitor setup with configuration object | Connection string configuration |
-| [02-environment-connection](./src/examples/02-environment-connection.ts) | Connection using environment variables | Environment-based configuration |
-| [03-cloud-role](./src/examples/03-cloud-role.ts) | Cloud role name and instance configuration | Service identification, Application Map |
-| [04-sampling](./src/examples/04-sampling.ts) | Configure sampling to reduce costs | Cost optimization, trace sampling |
-| [05-live-metrics](./src/examples/05-live-metrics.ts) | Enable/disable live metrics streaming | Real-time monitoring |
-| [06-offline-storage](./src/examples/06-offline-storage.ts) | Offline storage and automatic retries | Reliability, data persistence |
-| [07-otlp-exporter](./src/examples/07-otlp-exporter.ts) | Dual export to Azure Monitor and OTLP | Multi-destination telemetry |
-| [08-redact-query-strings](./src/examples/08-redact-query-strings.ts) | Redact sensitive URL parameters | Security, data privacy |
+| [01-basic-connection](./src/01-basic-connection.ts) | Basic Azure Monitor setup with configuration object | Connection string configuration |
+| [02-environment-connection](./src/02-environment-connection.ts) | Connection using environment variables | Environment-based configuration |
+| [03-cloud-role](./src/03-cloud-role.ts) | Cloud role name and instance configuration | Service identification, Application Map |
+| [04-sampling](./src/04-sampling.ts) | Configure sampling to reduce costs | Cost optimization, trace sampling |
+| [05-live-metrics](./src/05-live-metrics.ts) | Enable/disable live metrics streaming | Real-time monitoring |
+| [06-offline-storage](./src/06-offline-storage.ts) | Offline storage and automatic retries | Reliability, data persistence |
+| [07-otlp-exporter](./src/07-otlp-exporter.ts) | Dual export to Azure Monitor and OTLP | Multi-destination telemetry |
+| [08-redact-query-strings](./src/08-redact-query-strings.ts) | Redact sensitive URL parameters | Security, data privacy |
+| [09-custom-metric](./src/09-customMetric.ts) | Custom metrics collection | Custom telemetry, business metrics |
+| [10-custom-trace](./src/10-customTrace.ts) | Custom traces and spans | Custom instrumentation, distributed tracing |
 
 ## 🛠️ Project Structure
 
 ```text
 src/
-├── index.ts                 # Main entry point
-├── examples/               # Individual sample files
-│   ├── 01-basic-connection.ts
-│   ├── 02-environment-connection.ts
-│   ├── 03-cloud-role.ts
-│   ├── 04-sampling.ts
-│   ├── 05-live-metrics.ts
-│   ├── 06-offline-storage.ts
-│   ├── 07-otlp-exporter.ts
-│   └── 08-redact-query-strings.ts
-├── config/                 # Configuration utilities
-│   └── constants.ts
-└── processors/             # Custom processors
+├── index.ts                    # Main entry point
+├── 01-basic-connection.ts      # Basic Azure Monitor setup
+├── 02-environment-connection.ts
+├── 03-cloud-role.ts
+├── 04-sampling.ts
+├── 05-live-metrics.ts
+├── 06-offline-storage.ts
+├── 07-otlp-exporter.ts
+├── 08-redact-query-strings.ts
+├── 09-customMetric.ts          # Custom metrics example
+├── 10-customTrace.ts           # Custom traces example
+└── utils/                      # Utility functions
 ```
 
 ## 🎯 Running Individual Samples
@@ -96,15 +97,15 @@ await BasicConnectionExample.run();
 
 ```bash
 # Run specific sample
-npx ts-node src/examples/01-basic-connection.ts
-npx ts-node src/examples/03-cloud-role.ts
+npx ts-node src/01-basic-connection.ts
+npx ts-node src/03-cloud-role.ts
 ```
 
 ### Method 3: Build and run
 
 ```bash
 npm run build
-node dist/examples/01-basic-connection.js
+node dist/01-basic-connection.js
 ```
 
 ## ⚙️ Configuration Options
