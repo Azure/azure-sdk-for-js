@@ -6,10 +6,7 @@ import { assert, describe, it } from "vitest";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("Azure Container Instance Integration test", function () {
-  it("can authenticate using managed identity", async function (ctx) {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
+  it.skipIf(!isLiveMode())("can authenticate using managed identity", async function (ctx) {
     const containerIp = requireEnvVar("IDENTITY_ACI_IP");
 
     const client = createDefaultHttpClient();
