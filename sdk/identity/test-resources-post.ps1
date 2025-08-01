@@ -94,7 +94,6 @@ Write-Host "Deploying Azure Container Instance"
 az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']) --image $image `
   --acr-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
   --assign-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
-  --role "Storage Blob Data Reader" `
   --cpu "1" `
   --ports 80 `
   --ip-address "Public" `
