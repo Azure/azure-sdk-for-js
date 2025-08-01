@@ -59,6 +59,22 @@ async function getTsconfigFile(projectPath: string, runtime: string): Promise<st
   }
 }
 
+interface ApiJson {
+  metadata: Record<string, unknown>;
+  members: {
+    kind: string;
+    name: string;
+    canonicalReference: string;
+    members: {
+      kind: string;
+      name: string;
+      canonicalReference: string;
+      docComment: string;
+      excerptTokens: { kind: string; text: string; canonicalReference?: string }[];
+    }[];
+  }[];
+}
+
 async function buildExportConfiguration(
   packageJson: { exports: Record<string, Record<string, { types: string }>> },
   projectRoot: string,
@@ -69,11 +85,12 @@ async function buildExportConfiguration(
   const exportEntries: ExportEntry[] = [];
   for (const [pathKey, entry] of Object.entries(exports)) {
     if (pathKey === "./package.json") continue;
-    const baseName = pathKey === "." ? "" : pathKey.replace(/^\.\//, "").replace(/\//g, "-") + "-";
+    const isMainExport = pathKey === ".";
+    const baseName = isMainExport ? "" : pathKey.replace(/^\.\//, "").replace(/\//g, "-") + "-";
     const common = {
       path: pathKey,
-      isSubpath: pathKey !== ".",
-      suppressForgottenExportErrors: pathKey !== ".",
+      isSubpath: !isMainExport,
+      suppressForgottenExportErrors: !isMainExport,
     };
     for (const [key, value] of Object.entries(entry)) {
       if (key === "require") continue;
@@ -176,6 +193,7 @@ async function extractApiForEntry(
   configPath: string,
   pkgPath: string,
   projectInfo: ProjectInfo,
+  dependencies: Record<string, string> = {},
 ): Promise<string> {
   const reportFolder = baseConfig.apiReport?.reportFolder?.replace(
     /<projectFolder>/g,
@@ -197,13 +215,19 @@ async function extractApiForEntry(
   const tempReportFileName = `${path.basename(reportFile, ".api.md")}-${entry.baseName}.api.md`;
   const tempReportPath = path.join(reportDir, tempReportFileName);
 
+  const apiJsonFilePath = baseConfig.docModel?.apiJsonFilePath?.replace(
+    ".api.json",
+    `-${entry.baseName}.api.json`,
+  );
+  if (!apiJsonFilePath) {
+    log.error("API JSON file path is not configured in api-extractor.json");
+    throw new Error("API JSON file path is not configured");
+  }
+
   const docModel: IConfigDocModel = {
     ...baseConfig.docModel,
     enabled: true,
-    apiJsonFilePath: baseConfig.docModel?.apiJsonFilePath?.replace(
-      ".api.json",
-      `-${entry.baseName}.api.json`,
-    ),
+    apiJsonFilePath,
   };
 
   const apiReport: IConfigApiReport = {
@@ -231,6 +255,9 @@ async function extractApiForEntry(
   }
 
   extractApi(newConfig, configPath, pkgPath);
+
+  const apiJson = await loadApiJsonForSubPath(apiJsonFilePath);
+  apiJson.metadata.dependencies = dependencies;
   const content = await readFile(tempReportPath, "utf-8");
   await unlink(tempReportPath);
   return content;
@@ -252,6 +279,11 @@ async function writeRuntimeApiFiles(
       log.info(`Written ${runtime} API ${runtime === "node" ? "file" : "diff"} to ${filename}`);
     }
   }
+}
+
+async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
+  const content = await readFile(fullPath, { encoding: "utf-8" });
+  return JSON.parse(content) as ApiJson;
 }
 
 export default leafCommand(commandInfo, async () => {
@@ -293,6 +325,7 @@ export default leafCommand(commandInfo, async () => {
         configPath,
         pkgPath,
         projectInfo,
+        pkgJson["dependencies"],
       );
 
       if (!runtimeApiFiles["node"]) runtimeApiFiles["node"] = {};
