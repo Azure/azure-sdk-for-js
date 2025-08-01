@@ -3,8 +3,8 @@
 
 import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
 import { createResponse } from "../../httpRequestsCommon.js";
-import { ClientSecretCredential } from "../../../src/index.js";
-import { IdentityTestContext } from "../../httpRequests.js";
+import { ClientSecretCredential } from "@azure/identity";
+import { IdentityTestContext } from "./httpRequests.js";
 import { assertClientCredentials } from "../../authTestUtils.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 

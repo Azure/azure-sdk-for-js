@@ -4,7 +4,7 @@
 /**
  * Current version of the `@azure/ai-agents` package.
  */
-export const SDK_VERSION = `1.1.0-beta.3`;
+export const SDK_VERSION = `1.1.0`;
 
 /**
  * The package name of the `@azure/ai-agents` package.

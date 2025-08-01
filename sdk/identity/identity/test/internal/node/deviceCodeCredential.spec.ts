@@ -5,7 +5,7 @@ import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
-import { DeviceCodeCredential } from "../../../src/index.js";
+import { DeviceCodeCredential } from "@azure/identity";
 import { PublicClientApplication } from "@azure/msal-node";
 import { describe, it, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 
