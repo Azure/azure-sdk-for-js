@@ -258,6 +258,7 @@ async function extractApiForEntry(
 
   const apiJson = await loadApiJsonForSubPath(apiJsonFilePath);
   apiJson.metadata.dependencies = dependencies;
+  await writeFile(apiJsonFilePath, JSON.stringify(apiJson, null, 2));
   const content = await readFile(tempReportPath, "utf-8");
   await unlink(tempReportPath);
   return content;
