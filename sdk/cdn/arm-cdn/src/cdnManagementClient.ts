@@ -85,7 +85,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the CdnManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Azure Subscription ID.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -123,7 +123,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cdn/9.1.1`;
+    const packageDetails = `azsdk-js-arm-cdn/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -177,7 +177,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-01";
+    this.apiVersion = options.apiVersion || "2025-09-01";
     this.afdProfiles = new AfdProfilesImpl(this);
     this.afdCustomDomains = new AfdCustomDomainsImpl(this);
     this.afdEndpoints = new AfdEndpointsImpl(this);
@@ -233,7 +233,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
   /**
    * Check the availability of a resource name. This is needed for resources where name is globally
    * unique, such as a afdx endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param checkEndpointNameAvailabilityInput Input to check.
    * @param options The options parameters.
    */
@@ -330,7 +330,7 @@ const checkEndpointNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CheckEndpointNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.checkEndpointNameAvailabilityInput,

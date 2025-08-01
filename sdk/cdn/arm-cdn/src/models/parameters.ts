@@ -39,6 +39,7 @@ import {
   ProfileUpdateParameters as ProfileUpdateParametersMapper,
   CanMigrateParameters as CanMigrateParametersMapper,
   MigrationParameters as MigrationParametersMapper,
+  CdnMigrationToAfdParameters as CdnMigrationToAfdParametersMapper,
   Endpoint as EndpointMapper,
   EndpointUpdateParameters as EndpointUpdateParametersMapper,
   PurgeParameters as PurgeParametersMapper,
@@ -100,7 +101,7 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String",
+      name: "Uuid",
     },
   },
 };
@@ -109,7 +110,6 @@ export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
       MaxLength: 90,
       MinLength: 1,
     },
@@ -124,7 +124,7 @@ export const resourceGroupName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-02-01",
+    defaultValue: "2025-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -151,17 +151,6 @@ export const profileName: OperationURLParameter = {
       MaxLength: 260,
       MinLength: 1,
     },
-    serializedName: "profileName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const profileName1: OperationURLParameter = {
-  parameterPath: "profileName",
-  mapper: {
     serializedName: "profileName",
     required: true,
     type: {
@@ -379,6 +368,17 @@ export const secretName: OperationURLParameter = {
 export const secret: OperationParameter = {
   parameterPath: "secret",
   mapper: SecretMapper,
+};
+
+export const profileName1: OperationURLParameter = {
+  parameterPath: "profileName",
+  mapper: {
+    serializedName: "profileName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const metrics: OperationQueryParameter = {
@@ -687,6 +687,11 @@ export const migrationParameters: OperationParameter = {
   mapper: MigrationParametersMapper,
 };
 
+export const migrationParameters1: OperationParameter = {
+  parameterPath: "migrationParameters",
+  mapper: CdnMigrationToAfdParametersMapper,
+};
+
 export const endpoint1: OperationParameter = {
   parameterPath: "endpoint",
   mapper: EndpointMapper,
@@ -735,22 +740,6 @@ export const customDomainProperties1: OperationParameter = {
 export const customDomainHttpsParameters: OperationParameter = {
   parameterPath: ["options", "customDomainHttpsParameters"],
   mapper: CustomDomainHttpsParametersMapper,
-};
-
-export const resourceGroupName1: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9_\\-\\(\\)\\.]*[^\\.]$"),
-      MaxLength: 80,
-      MinLength: 1,
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const policyName: OperationURLParameter = {

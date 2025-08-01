@@ -26,9 +26,9 @@ import {
 export interface AfdOrigins {
   /**
    * Lists all of the existing origins within an origin group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param options The options parameters.
    */
@@ -40,9 +40,9 @@ export interface AfdOrigins {
   ): PagedAsyncIterableIterator<AFDOrigin>;
   /**
    * Gets an existing origin within an origin group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin which is unique within the profile.
    * @param options The options parameters.
@@ -56,9 +56,9 @@ export interface AfdOrigins {
   ): Promise<AfdOriginsGetResponse>;
   /**
    * Creates a new origin within the specified origin group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin that is unique within the profile.
    * @param origin Origin properties
@@ -79,9 +79,9 @@ export interface AfdOrigins {
   >;
   /**
    * Creates a new origin within the specified origin group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin that is unique within the profile.
    * @param origin Origin properties
@@ -97,9 +97,9 @@ export interface AfdOrigins {
   ): Promise<AfdOriginsCreateResponse>;
   /**
    * Updates an existing origin within an origin group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin which is unique within the profile.
    * @param originUpdateProperties Origin properties
@@ -120,9 +120,9 @@ export interface AfdOrigins {
   >;
   /**
    * Updates an existing origin within an origin group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin which is unique within the profile.
    * @param originUpdateProperties Origin properties
@@ -138,9 +138,9 @@ export interface AfdOrigins {
   ): Promise<AfdOriginsUpdateResponse>;
   /**
    * Deletes an existing origin within an origin group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin which is unique within the profile.
    * @param options The options parameters.
@@ -154,9 +154,9 @@ export interface AfdOrigins {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing origin within an origin group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param originGroupName Name of the origin group which is unique within the profile.
    * @param originName Name of the origin which is unique within the profile.
    * @param options The options parameters.

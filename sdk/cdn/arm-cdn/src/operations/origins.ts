@@ -50,7 +50,7 @@ export class OriginsImpl implements Origins {
 
   /**
    * Lists all of the existing origins within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -143,7 +143,7 @@ export class OriginsImpl implements Origins {
 
   /**
    * Lists all of the existing origins within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -162,7 +162,7 @@ export class OriginsImpl implements Origins {
 
   /**
    * Gets an existing origin within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin which is unique within the endpoint.
@@ -183,7 +183,7 @@ export class OriginsImpl implements Origins {
 
   /**
    * Creates a new origin within the specified endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin that is unique within the endpoint.
@@ -266,7 +266,7 @@ export class OriginsImpl implements Origins {
 
   /**
    * Creates a new origin within the specified endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin that is unique within the endpoint.
@@ -294,7 +294,7 @@ export class OriginsImpl implements Origins {
 
   /**
    * Updates an existing origin within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin which is unique within the endpoint.
@@ -377,7 +377,7 @@ export class OriginsImpl implements Origins {
 
   /**
    * Updates an existing origin within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin which is unique within the endpoint.
@@ -405,7 +405,7 @@ export class OriginsImpl implements Origins {
 
   /**
    * Deletes an existing origin within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin which is unique within the endpoint.
@@ -477,7 +477,7 @@ export class OriginsImpl implements Origins {
 
   /**
    * Deletes an existing origin within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin which is unique within the endpoint.
@@ -502,7 +502,7 @@ export class OriginsImpl implements Origins {
 
   /**
    * ListByEndpointNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param nextLink The nextLink from the previous successful call to the ListByEndpoint method.
@@ -540,8 +540,8 @@ const listByEndpointOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -562,9 +562,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -595,9 +595,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -629,9 +629,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -654,9 +654,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
     Parameters.originName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -676,9 +676,9 @@ const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

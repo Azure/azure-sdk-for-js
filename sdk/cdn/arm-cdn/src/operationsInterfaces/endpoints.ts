@@ -39,7 +39,7 @@ import {
 export interface Endpoints {
   /**
    * Lists existing CDN endpoints.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The options parameters.
    */
@@ -50,7 +50,7 @@ export interface Endpoints {
   ): PagedAsyncIterableIterator<Endpoint>;
   /**
    * Checks the quota and usage of geo filters and custom domains under the given endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -64,7 +64,7 @@ export interface Endpoints {
   /**
    * Gets an existing CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -78,7 +78,7 @@ export interface Endpoints {
   /**
    * Creates a new CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpoint Endpoint properties
@@ -99,7 +99,7 @@ export interface Endpoints {
   /**
    * Creates a new CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpoint Endpoint properties
@@ -117,7 +117,7 @@ export interface Endpoints {
    * resource group and profile. Only tags can be updated after creating an endpoint. To update origins,
    * use the Update Origin operation. To update origin groups, use the Update Origin group operation. To
    * update custom domains, use the Update Custom Domain operation.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpointUpdateProperties Endpoint update properties
@@ -140,7 +140,7 @@ export interface Endpoints {
    * resource group and profile. Only tags can be updated after creating an endpoint. To update origins,
    * use the Update Origin operation. To update origin groups, use the Update Origin group operation. To
    * update custom domains, use the Update Custom Domain operation.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpointUpdateProperties Endpoint update properties
@@ -156,7 +156,7 @@ export interface Endpoints {
   /**
    * Deletes an existing CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -170,7 +170,7 @@ export interface Endpoints {
   /**
    * Deletes an existing CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -183,7 +183,7 @@ export interface Endpoints {
   ): Promise<void>;
   /**
    * Starts an existing CDN endpoint that is on a stopped state.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -201,7 +201,7 @@ export interface Endpoints {
   >;
   /**
    * Starts an existing CDN endpoint that is on a stopped state.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -214,7 +214,7 @@ export interface Endpoints {
   ): Promise<EndpointsStartResponse>;
   /**
    * Stops an existing running CDN endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -232,7 +232,7 @@ export interface Endpoints {
   >;
   /**
    * Stops an existing running CDN endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -245,7 +245,7 @@ export interface Endpoints {
   ): Promise<EndpointsStopResponse>;
   /**
    * Removes a content from CDN.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param contentFilePaths The path to the content to be purged. Path can be a full URL, e.g.
@@ -262,7 +262,7 @@ export interface Endpoints {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Removes a content from CDN.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param contentFilePaths The path to the content to be purged. Path can be a full URL, e.g.
@@ -279,7 +279,7 @@ export interface Endpoints {
   ): Promise<void>;
   /**
    * Pre-loads a content to CDN. Available for Verizon Profiles.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param contentFilePaths The path to the content to be loaded. Path should be a full URL, e.g.
@@ -295,7 +295,7 @@ export interface Endpoints {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Pre-loads a content to CDN. Available for Verizon Profiles.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param contentFilePaths The path to the content to be loaded. Path should be a full URL, e.g.
@@ -311,7 +311,7 @@ export interface Endpoints {
   ): Promise<void>;
   /**
    * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainProperties Custom domain to be validated.

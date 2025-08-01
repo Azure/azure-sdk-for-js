@@ -52,7 +52,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Lists all of the existing custom domains within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -145,7 +145,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Lists all of the existing custom domains within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -164,7 +164,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Gets an existing custom domain within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -191,7 +191,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Creates a new custom domain within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -274,7 +274,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Creates a new custom domain within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -302,7 +302,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Deletes an existing custom domain within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -374,7 +374,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Deletes an existing custom domain within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -399,7 +399,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Disable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -479,7 +479,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Disable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -504,7 +504,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Enable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -584,7 +584,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * Enable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -609,7 +609,7 @@ export class CustomDomainsImpl implements CustomDomains {
 
   /**
    * ListByEndpointNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param nextLink The nextLink from the previous successful call to the ListByEndpoint method.
@@ -647,8 +647,8 @@ const listByEndpointOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -669,9 +669,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -702,9 +702,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -727,9 +727,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -759,9 +759,9 @@ const disableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -792,9 +792,9 @@ const enableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.customDomainName,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -815,9 +815,9 @@ const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -33,6 +33,13 @@ import {
   ProfilesGenerateSsoUriResponse,
   ProfilesListSupportedOptimizationTypesOptionalParams,
   ProfilesListSupportedOptimizationTypesResponse,
+  ProfilesCdnCanMigrateToAfdOptionalParams,
+  ProfilesCdnCanMigrateToAfdResponse,
+  CdnMigrationToAfdParameters,
+  ProfilesCdnMigrateToAfdOptionalParams,
+  ProfilesCdnMigrateToAfdResponse,
+  ProfilesMigrationAbortOptionalParams,
+  ProfilesMigrationAbortResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +56,7 @@ export interface Profiles {
   /**
    * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a
    * resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -59,7 +66,7 @@ export interface Profiles {
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door Standard or Azure
    * Front Door Premium or CDN profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -72,7 +79,7 @@ export interface Profiles {
   /**
    * Gets an Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified
    * profile name under the specified subscription and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -85,7 +92,7 @@ export interface Profiles {
   /**
    * Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile
    * name under the specified subscription and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param profile Profile properties needed to create a new profile.
@@ -105,7 +112,7 @@ export interface Profiles {
   /**
    * Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile
    * name under the specified subscription and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param profile Profile properties needed to create a new profile.
@@ -120,7 +127,7 @@ export interface Profiles {
   /**
    * Updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
    * specified profile name under the specified subscription and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param profileUpdateParameters Profile properties needed to update an existing profile.
@@ -140,7 +147,7 @@ export interface Profiles {
   /**
    * Updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
    * specified profile name under the specified subscription and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param profileUpdateParameters Profile properties needed to update an existing profile.
@@ -156,7 +163,7 @@ export interface Profiles {
    * Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
    * specified parameters. Deleting a profile will result in the deletion of all of the sub-resources
    * including endpoints, origins and custom domains.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -170,7 +177,7 @@ export interface Profiles {
    * Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
    * specified parameters. Deleting a profile will result in the deletion of all of the sub-resources
    * including endpoints, origins and custom domains.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -182,7 +189,7 @@ export interface Profiles {
   ): Promise<void>;
   /**
    * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param canMigrateParameters Properties needed to check if cdn profile or classic frontdoor can be
    *                             migrated.
    * @param options The options parameters.
@@ -199,7 +206,7 @@ export interface Profiles {
   >;
   /**
    * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param canMigrateParameters Properties needed to check if cdn profile or classic frontdoor can be
    *                             migrated.
    * @param options The options parameters.
@@ -212,7 +219,7 @@ export interface Profiles {
   /**
    * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
    * committed after this.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param migrationParameters Properties needed to migrate the profile.
    * @param options The options parameters.
    */
@@ -229,7 +236,7 @@ export interface Profiles {
   /**
    * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
    * committed after this.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param migrationParameters Properties needed to migrate the profile.
    * @param options The options parameters.
    */
@@ -240,7 +247,7 @@ export interface Profiles {
   ): Promise<ProfilesMigrateResponse>;
   /**
    * Commit the migrated Azure Frontdoor(Standard/Premium) profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The options parameters.
    */
@@ -251,7 +258,7 @@ export interface Profiles {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Commit the migrated Azure Frontdoor(Standard/Premium) profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The options parameters.
    */
@@ -265,7 +272,7 @@ export interface Profiles {
    * used to configure advanced feature capabilities that are not yet available in the Azure portal, such
    * as core reports in a standard profile; rules engine, advanced HTTP reports, and real-time stats and
    * alerts in a premium profile. The SSO URI changes approximately every 10 minutes.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The options parameters.
    */
@@ -277,7 +284,7 @@ export interface Profiles {
   /**
    * Gets the supported optimization types for the current profile. A user can create an endpoint with an
    * optimization type from the listed values.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -287,4 +294,97 @@ export interface Profiles {
     profileName: string,
     options?: ProfilesListSupportedOptimizationTypesOptionalParams,
   ): Promise<ProfilesListSupportedOptimizationTypesResponse>;
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  beginCdnCanMigrateToAfd(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesCdnCanMigrateToAfdOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesCdnCanMigrateToAfdResponse>,
+      ProfilesCdnCanMigrateToAfdResponse
+    >
+  >;
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  beginCdnCanMigrateToAfdAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesCdnCanMigrateToAfdOptionalParams,
+  ): Promise<ProfilesCdnCanMigrateToAfdResponse>;
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. This step prepares the profile
+   * for migration and will be followed by Commit to finalize the migration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  beginCdnMigrateToAfd(
+    resourceGroupName: string,
+    profileName: string,
+    migrationParameters: CdnMigrationToAfdParameters,
+    options?: ProfilesCdnMigrateToAfdOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesCdnMigrateToAfdResponse>,
+      ProfilesCdnMigrateToAfdResponse
+    >
+  >;
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. This step prepares the profile
+   * for migration and will be followed by Commit to finalize the migration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  beginCdnMigrateToAfdAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    migrationParameters: CdnMigrationToAfdParameters,
+    options?: ProfilesCdnMigrateToAfdOptionalParams,
+  ): Promise<ProfilesCdnMigrateToAfdResponse>;
+  /**
+   * Abort the migration to Azure Frontdoor Premium/Standard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  beginMigrationAbort(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationAbortOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesMigrationAbortResponse>,
+      ProfilesMigrationAbortResponse
+    >
+  >;
+  /**
+   * Abort the migration to Azure Frontdoor Premium/Standard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  beginMigrationAbortAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationAbortOptionalParams,
+  ): Promise<ProfilesMigrationAbortResponse>;
 }

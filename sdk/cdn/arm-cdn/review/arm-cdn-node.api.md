@@ -23,6 +23,9 @@ export interface ActivatedResourceReference {
 export type AfdCertificateType = string;
 
 // @public
+export type AfdCipherSuiteSetType = string;
+
+// @public
 export interface AfdCustomDomains {
     beginCreate(resourceGroupName: string, profileName: string, customDomainName: string, customDomain: AFDDomain, options?: AfdCustomDomainsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AfdCustomDomainsCreateResponse>, AfdCustomDomainsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, profileName: string, customDomainName: string, customDomain: AFDDomain, options?: AfdCustomDomainsCreateOptionalParams): Promise<AfdCustomDomainsCreateResponse>;
@@ -112,6 +115,12 @@ export interface AfdCustomDomainsUpdateOptionalParams extends coreClient.Operati
 export type AfdCustomDomainsUpdateResponse = AFDDomain;
 
 // @public
+export type AfdCustomizedCipherSuiteForTls12 = string;
+
+// @public
+export type AfdCustomizedCipherSuiteForTls13 = string;
+
+// @public
 export interface AFDDomain extends ProxyResource {
     azureDnsZone?: ResourceReference;
     readonly deploymentStatus?: DeploymentStatus;
@@ -128,8 +137,16 @@ export interface AFDDomain extends ProxyResource {
 }
 
 // @public
+export interface AFDDomainHttpsCustomizedCipherSuiteSet {
+    cipherSuiteSetForTls12?: AfdCustomizedCipherSuiteForTls12[];
+    cipherSuiteSetForTls13?: AfdCustomizedCipherSuiteForTls13[];
+}
+
+// @public
 export interface AFDDomainHttpsParameters {
     certificateType: AfdCertificateType;
+    cipherSuiteSetType?: AfdCipherSuiteSetType;
+    customizedCipherSuiteSet?: AFDDomainHttpsCustomizedCipherSuiteSet;
     minimumTlsVersion?: AfdMinimumTlsVersion;
     secret?: ResourceReference;
 }
@@ -319,12 +336,7 @@ export interface AFDEndpointUpdateParameters {
 }
 
 // @public
-export interface AfdErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public
-export type AfdMinimumTlsVersion = "TLS10" | "TLS12";
+export type AfdMinimumTlsVersion = "TLS10" | "TLS12" | "TLS13";
 
 // @public
 export interface AFDOrigin extends ProxyResource {
@@ -337,6 +349,7 @@ export interface AFDOrigin extends ProxyResource {
     httpsPort?: number;
     readonly originGroupName?: string;
     originHostHeader?: string;
+    originShieldResource?: OriginShieldResourceProperties;
     priority?: number;
     readonly provisioningState?: AfdProvisioningState;
     sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties;
@@ -345,6 +358,7 @@ export interface AFDOrigin extends ProxyResource {
 
 // @public
 export interface AFDOriginGroup extends ProxyResource {
+    authentication?: OriginAuthenticationProperties;
     readonly deploymentStatus?: DeploymentStatus;
     healthProbeSettings?: HealthProbeParameters;
     loadBalancingSettings?: LoadBalancingSettingsParameters;
@@ -456,6 +470,7 @@ export type AfdOriginGroupsUpdateResponse = AFDOriginGroup;
 
 // @public
 export interface AFDOriginGroupUpdateParameters {
+    authentication?: OriginAuthenticationProperties;
     healthProbeSettings?: HealthProbeParameters;
     loadBalancingSettings?: LoadBalancingSettingsParameters;
     readonly profileName?: string;
@@ -465,6 +480,7 @@ export interface AFDOriginGroupUpdateParameters {
 
 // @public
 export interface AFDOriginGroupUpdatePropertiesParameters {
+    authentication?: OriginAuthenticationProperties;
     healthProbeSettings?: HealthProbeParameters;
     loadBalancingSettings?: LoadBalancingSettingsParameters;
     readonly profileName?: string;
@@ -567,6 +583,7 @@ export interface AFDOriginUpdateParameters {
     httpsPort?: number;
     readonly originGroupName?: string;
     originHostHeader?: string;
+    originShieldResource?: OriginShieldResourceProperties;
     priority?: number;
     sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties;
     weight?: number;
@@ -582,6 +599,7 @@ export interface AFDOriginUpdatePropertiesParameters {
     httpsPort?: number;
     readonly originGroupName?: string;
     originHostHeader?: string;
+    originShieldResource?: OriginShieldResourceProperties;
     priority?: number;
     sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties;
     weight?: number;
@@ -706,19 +724,17 @@ export interface CacheConfiguration {
 }
 
 // @public
-export interface CacheExpirationActionParameters {
+export interface CacheExpirationActionParameters extends DeliveryRuleActionParameters {
     cacheBehavior: CacheBehavior;
     cacheDuration?: string;
     cacheType: CacheType;
-    // (undocumented)
     typeName: "DeliveryRuleCacheExpirationActionParameters";
 }
 
 // @public
-export interface CacheKeyQueryStringActionParameters {
+export interface CacheKeyQueryStringActionParameters extends DeliveryRuleActionParameters {
     queryParameters?: string;
     queryStringBehavior: QueryStringBehavior;
-    // (undocumented)
     typeName: "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters";
 }
 
@@ -744,9 +760,8 @@ export interface CanMigrateResult {
 }
 
 // @public
-export interface CdnCertificateSourceParameters {
+export interface CdnCertificateSourceParameters extends CertificateSourceParameters {
     certificateType: CertificateType;
-    // (undocumented)
     typeName: "CdnCertificateSourceParameters";
 }
 
@@ -827,6 +842,12 @@ export interface CdnManagementClientOptionalParams extends coreClient.ServiceCli
 }
 
 // @public
+export interface CdnMigrationToAfdParameters {
+    migrationEndpointMappings?: MigrationEndpointMapping[];
+    sku: Sku;
+}
+
+// @public
 export interface CdnWebApplicationFirewallPolicy extends TrackedResource {
     customRules?: CustomRuleList;
     readonly endpointLinks?: CdnEndpoint[];
@@ -864,6 +885,17 @@ export interface Certificate {
 
 // @public
 export type CertificateSource = string;
+
+// @public
+export interface CertificateSourceParameters {
+    typeName: "CdnCertificateSourceParameters" | "KeyVaultCertificateSourceParameters";
+}
+
+// @public
+export type CertificateSourceParametersType = string;
+
+// @public (undocumented)
+export type CertificateSourceParametersUnion = CertificateSourceParameters | CdnCertificateSourceParameters | KeyVaultCertificateSourceParameters;
 
 // @public
 export type CertificateType = string;
@@ -929,12 +961,11 @@ export interface CidrIpAddress {
 }
 
 // @public
-export interface ClientPortMatchConditionParameters {
+export interface ClientPortMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: ClientPortOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleClientPortConditionParameters";
 }
 
@@ -996,18 +1027,20 @@ export interface ContinentsResponseCountryOrRegionsItem {
 }
 
 // @public
-export interface CookiesMatchConditionParameters {
+export interface CookiesMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: CookiesOperator;
     selector?: string;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleCookiesConditionParameters";
 }
 
 // @public
 export type CookiesOperator = string;
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface CustomDomain extends ProxyResource {
@@ -1221,31 +1254,42 @@ export type DeleteRule = string;
 
 // @public
 export interface DeliveryRule {
-    actions: DeliveryRuleActionAutoGeneratedUnion[];
+    actions: DeliveryRuleActionUnion[];
     conditions?: DeliveryRuleConditionUnion[];
     name?: string;
     order: number;
 }
 
 // @public
-export type DeliveryRuleAction = string;
-
-// @public
-export interface DeliveryRuleActionAutoGenerated {
+export interface DeliveryRuleAction {
     name: "UrlRedirect" | "UrlSigning" | "OriginGroupOverride" | "UrlRewrite" | "ModifyRequestHeader" | "ModifyResponseHeader" | "CacheExpiration" | "CacheKeyQueryString" | "RouteConfigurationOverride";
 }
 
-// @public (undocumented)
-export type DeliveryRuleActionAutoGeneratedUnion = DeliveryRuleActionAutoGenerated | UrlRedirectAction | UrlSigningAction | OriginGroupOverrideAction | UrlRewriteAction | DeliveryRuleRequestHeaderAction | DeliveryRuleResponseHeaderAction | DeliveryRuleCacheExpirationAction | DeliveryRuleCacheKeyQueryStringAction | DeliveryRuleRouteConfigurationOverrideAction;
+// @public
+export type DeliveryRuleActionName = string;
 
 // @public
-export interface DeliveryRuleCacheExpirationAction extends DeliveryRuleActionAutoGenerated {
+export interface DeliveryRuleActionParameters {
+    typeName: "DeliveryRuleUrlRedirectActionParameters" | "DeliveryRuleUrlSigningActionParameters" | "DeliveryRuleOriginGroupOverrideActionParameters" | "DeliveryRuleUrlRewriteActionParameters" | "DeliveryRuleHeaderActionParameters" | "DeliveryRuleCacheExpirationActionParameters" | "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters" | "DeliveryRuleRouteConfigurationOverrideActionParameters";
+}
+
+// @public
+export type DeliveryRuleActionParametersType = string;
+
+// @public (undocumented)
+export type DeliveryRuleActionParametersUnion = DeliveryRuleActionParameters | UrlRedirectActionParameters | UrlSigningActionParameters | OriginGroupOverrideActionParameters | UrlRewriteActionParameters | HeaderActionParameters | CacheExpirationActionParameters | CacheKeyQueryStringActionParameters | RouteConfigurationOverrideActionParameters;
+
+// @public (undocumented)
+export type DeliveryRuleActionUnion = DeliveryRuleAction | UrlRedirectAction | UrlSigningAction | OriginGroupOverrideAction | UrlRewriteAction | DeliveryRuleRequestHeaderAction | DeliveryRuleResponseHeaderAction | DeliveryRuleCacheExpirationAction | DeliveryRuleCacheKeyQueryStringAction | DeliveryRuleRouteConfigurationOverrideAction;
+
+// @public
+export interface DeliveryRuleCacheExpirationAction extends DeliveryRuleAction {
     name: "CacheExpiration";
     parameters: CacheExpirationActionParameters;
 }
 
 // @public
-export interface DeliveryRuleCacheKeyQueryStringAction extends DeliveryRuleActionAutoGenerated {
+export interface DeliveryRuleCacheKeyQueryStringAction extends DeliveryRuleAction {
     name: "CacheKeyQueryString";
     parameters: CacheKeyQueryStringActionParameters;
 }
@@ -1260,6 +1304,17 @@ export interface DeliveryRuleClientPortCondition extends DeliveryRuleCondition {
 export interface DeliveryRuleCondition {
     name: "RemoteAddress" | "RequestMethod" | "QueryString" | "PostArgs" | "RequestUri" | "RequestHeader" | "RequestBody" | "RequestScheme" | "UrlPath" | "UrlFileExtension" | "UrlFileName" | "HttpVersion" | "Cookies" | "IsDevice" | "SocketAddr" | "ClientPort" | "ServerPort" | "HostName" | "SslProtocol";
 }
+
+// @public
+export interface DeliveryRuleConditionParameters {
+    typeName: "DeliveryRuleRemoteAddressConditionParameters" | "DeliveryRuleRequestMethodConditionParameters" | "DeliveryRuleQueryStringConditionParameters" | "DeliveryRulePostArgsConditionParameters" | "DeliveryRuleRequestUriConditionParameters" | "DeliveryRuleRequestHeaderConditionParameters" | "DeliveryRuleRequestBodyConditionParameters" | "DeliveryRuleRequestSchemeConditionParameters" | "DeliveryRuleUrlPathMatchConditionParameters" | "DeliveryRuleUrlFileExtensionMatchConditionParameters" | "DeliveryRuleUrlFilenameConditionParameters" | "DeliveryRuleHttpVersionConditionParameters" | "DeliveryRuleCookiesConditionParameters" | "DeliveryRuleIsDeviceConditionParameters" | "DeliveryRuleSocketAddrConditionParameters" | "DeliveryRuleClientPortConditionParameters" | "DeliveryRuleServerPortConditionParameters" | "DeliveryRuleHostNameConditionParameters" | "DeliveryRuleSslProtocolConditionParameters";
+}
+
+// @public
+export type DeliveryRuleConditionParametersType = string;
+
+// @public (undocumented)
+export type DeliveryRuleConditionParametersUnion = DeliveryRuleConditionParameters | RemoteAddressMatchConditionParameters | RequestMethodMatchConditionParameters | QueryStringMatchConditionParameters | PostArgsMatchConditionParameters | RequestUriMatchConditionParameters | RequestHeaderMatchConditionParameters | RequestBodyMatchConditionParameters | RequestSchemeMatchConditionParameters | UrlPathMatchConditionParameters | UrlFileExtensionMatchConditionParameters | UrlFileNameMatchConditionParameters | HttpVersionMatchConditionParameters | CookiesMatchConditionParameters | IsDeviceMatchConditionParameters | SocketAddrMatchConditionParameters | ClientPortMatchConditionParameters | ServerPortMatchConditionParameters | HostNameMatchConditionParameters | SslProtocolMatchConditionParameters;
 
 // @public (undocumented)
 export type DeliveryRuleConditionUnion = DeliveryRuleCondition | DeliveryRuleRemoteAddressCondition | DeliveryRuleRequestMethodCondition | DeliveryRuleQueryStringCondition | DeliveryRulePostArgsCondition | DeliveryRuleRequestUriCondition | DeliveryRuleRequestHeaderCondition | DeliveryRuleRequestBodyCondition | DeliveryRuleRequestSchemeCondition | DeliveryRuleUrlPathCondition | DeliveryRuleUrlFileExtensionCondition | DeliveryRuleUrlFileNameCondition | DeliveryRuleHttpVersionCondition | DeliveryRuleCookiesCondition | DeliveryRuleIsDeviceCondition | DeliveryRuleSocketAddrCondition | DeliveryRuleClientPortCondition | DeliveryRuleServerPortCondition | DeliveryRuleHostNameCondition | DeliveryRuleSslProtocolCondition;
@@ -1313,7 +1368,7 @@ export interface DeliveryRuleRequestBodyCondition extends DeliveryRuleCondition 
 }
 
 // @public
-export interface DeliveryRuleRequestHeaderAction extends DeliveryRuleActionAutoGenerated {
+export interface DeliveryRuleRequestHeaderAction extends DeliveryRuleAction {
     name: "ModifyRequestHeader";
     parameters: HeaderActionParameters;
 }
@@ -1343,13 +1398,13 @@ export interface DeliveryRuleRequestUriCondition extends DeliveryRuleCondition {
 }
 
 // @public
-export interface DeliveryRuleResponseHeaderAction extends DeliveryRuleActionAutoGenerated {
+export interface DeliveryRuleResponseHeaderAction extends DeliveryRuleAction {
     name: "ModifyResponseHeader";
     parameters: HeaderActionParameters;
 }
 
 // @public
-export interface DeliveryRuleRouteConfigurationOverrideAction extends DeliveryRuleActionAutoGenerated {
+export interface DeliveryRuleRouteConfigurationOverrideAction extends DeliveryRuleAction {
     name: "RouteConfigurationOverride";
     parameters: RouteConfigurationOverrideActionParameters;
 }
@@ -1741,10 +1796,9 @@ export function getContinuationToken(page: unknown): string | undefined;
 export type HeaderAction = string;
 
 // @public
-export interface HeaderActionParameters {
+export interface HeaderActionParameters extends DeliveryRuleActionParameters {
     headerAction: HeaderAction;
     headerName: string;
-    // (undocumented)
     typeName: "DeliveryRuleHeaderActionParameters";
     value?: string;
 }
@@ -1761,12 +1815,11 @@ export interface HealthProbeParameters {
 export type HealthProbeRequestType = "NotSet" | "GET" | "HEAD";
 
 // @public
-export interface HostNameMatchConditionParameters {
+export interface HostNameMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: HostNameOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleHostNameConditionParameters";
 }
 
@@ -1783,20 +1836,16 @@ export interface HttpErrorRangeParameters {
 export type HttpsRedirect = string;
 
 // @public
-export interface HttpVersionMatchConditionParameters {
+export interface HttpVersionMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: HttpVersionOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleHttpVersionConditionParameters";
 }
 
 // @public
 export type HttpVersionOperator = string;
-
-// @public
-export type IdentityType = string;
 
 // @public
 export interface IpAddressGroup {
@@ -1806,29 +1855,27 @@ export interface IpAddressGroup {
 }
 
 // @public
-export interface IsDeviceMatchConditionParameters {
-    matchValues?: IsDeviceMatchConditionParametersMatchValuesItem[];
+export interface IsDeviceMatchConditionParameters extends DeliveryRuleConditionParameters {
+    matchValues?: IsDeviceMatchValue[];
     negateCondition?: boolean;
     operator: IsDeviceOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleIsDeviceConditionParameters";
 }
 
 // @public
-export type IsDeviceMatchConditionParametersMatchValuesItem = string;
+export type IsDeviceMatchValue = string;
 
 // @public
 export type IsDeviceOperator = string;
 
 // @public
-export interface KeyVaultCertificateSourceParameters {
+export interface KeyVaultCertificateSourceParameters extends CertificateSourceParameters {
     deleteRule: DeleteRule;
     resourceGroupName: string;
     secretName: string;
     secretVersion?: string;
     subscriptionId: string;
-    // (undocumented)
     typeName: "KeyVaultCertificateSourceParameters";
     updateRule: UpdateRule;
     vaultName: string;
@@ -1841,9 +1888,12 @@ export interface KeyVaultSigningKeyParameters {
     secretVersion: string;
     subscriptionId: string;
     // (undocumented)
-    typeName: "KeyVaultSigningKeyParameters";
+    typeName: KeyVaultSigningKeyParametersType;
     vaultName: string;
 }
+
+// @public
+export type KeyVaultSigningKeyParametersType = string;
 
 // @public
 export enum KnownActionType {
@@ -1858,6 +1908,30 @@ export enum KnownAfdCertificateType {
     AzureFirstPartyManagedCertificate = "AzureFirstPartyManagedCertificate",
     CustomerCertificate = "CustomerCertificate",
     ManagedCertificate = "ManagedCertificate"
+}
+
+// @public
+export enum KnownAfdCipherSuiteSetType {
+    Customized = "Customized",
+    TLS102019 = "TLS10_2019",
+    TLS122022 = "TLS12_2022",
+    TLS122023 = "TLS12_2023"
+}
+
+// @public
+export enum KnownAfdCustomizedCipherSuiteForTls12 {
+    DHERSAAES128GCMSHA256 = "DHE_RSA_AES128_GCM_SHA256",
+    DHERSAAES256GCMSHA384 = "DHE_RSA_AES256_GCM_SHA384",
+    EcdheRSAAES128GCMSHA256 = "ECDHE_RSA_AES128_GCM_SHA256",
+    EcdheRSAAES128SHA256 = "ECDHE_RSA_AES128_SHA256",
+    EcdheRSAAES256GCMSHA384 = "ECDHE_RSA_AES256_GCM_SHA384",
+    EcdheRSAAES256SHA384 = "ECDHE_RSA_AES256_SHA384"
+}
+
+// @public
+export enum KnownAfdCustomizedCipherSuiteForTls13 {
+    TLSAES128GCMSHA256 = "TLS_AES_128_GCM_SHA256",
+    TLSAES256GCMSHA384 = "TLS_AES_256_GCM_SHA384"
 }
 
 // @public
@@ -1921,6 +1995,12 @@ export enum KnownCertificateSource {
 }
 
 // @public
+export enum KnownCertificateSourceParametersType {
+    CdnCertificateSourceParameters = "CdnCertificateSourceParameters",
+    KeyVaultCertificateSourceParameters = "KeyVaultCertificateSourceParameters"
+}
+
+// @public
 export enum KnownCertificateType {
     Dedicated = "Dedicated",
     Shared = "Shared"
@@ -1952,6 +2032,14 @@ export enum KnownCookiesOperator {
     LessThan = "LessThan",
     LessThanOrEqual = "LessThanOrEqual",
     RegEx = "RegEx"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
 }
 
 // @public
@@ -1996,7 +2084,7 @@ export enum KnownDeleteRule {
 }
 
 // @public
-export enum KnownDeliveryRuleAction {
+export enum KnownDeliveryRuleActionName {
     CacheExpiration = "CacheExpiration",
     CacheKeyQueryString = "CacheKeyQueryString",
     ModifyRequestHeader = "ModifyRequestHeader",
@@ -2006,6 +2094,41 @@ export enum KnownDeliveryRuleAction {
     UrlRedirect = "UrlRedirect",
     UrlRewrite = "UrlRewrite",
     UrlSigning = "UrlSigning"
+}
+
+// @public
+export enum KnownDeliveryRuleActionParametersType {
+    DeliveryRuleCacheExpirationActionParameters = "DeliveryRuleCacheExpirationActionParameters",
+    DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters",
+    DeliveryRuleHeaderActionParameters = "DeliveryRuleHeaderActionParameters",
+    DeliveryRuleOriginGroupOverrideActionParameters = "DeliveryRuleOriginGroupOverrideActionParameters",
+    DeliveryRuleRouteConfigurationOverrideActionParameters = "DeliveryRuleRouteConfigurationOverrideActionParameters",
+    DeliveryRuleUrlRedirectActionParameters = "DeliveryRuleUrlRedirectActionParameters",
+    DeliveryRuleUrlRewriteActionParameters = "DeliveryRuleUrlRewriteActionParameters",
+    DeliveryRuleUrlSigningActionParameters = "DeliveryRuleUrlSigningActionParameters"
+}
+
+// @public
+export enum KnownDeliveryRuleConditionParametersType {
+    DeliveryRuleClientPortConditionParameters = "DeliveryRuleClientPortConditionParameters",
+    DeliveryRuleCookiesConditionParameters = "DeliveryRuleCookiesConditionParameters",
+    DeliveryRuleHostNameConditionParameters = "DeliveryRuleHostNameConditionParameters",
+    DeliveryRuleHttpVersionConditionParameters = "DeliveryRuleHttpVersionConditionParameters",
+    DeliveryRuleIsDeviceConditionParameters = "DeliveryRuleIsDeviceConditionParameters",
+    DeliveryRulePostArgsConditionParameters = "DeliveryRulePostArgsConditionParameters",
+    DeliveryRuleQueryStringConditionParameters = "DeliveryRuleQueryStringConditionParameters",
+    DeliveryRuleRemoteAddressConditionParameters = "DeliveryRuleRemoteAddressConditionParameters",
+    DeliveryRuleRequestBodyConditionParameters = "DeliveryRuleRequestBodyConditionParameters",
+    DeliveryRuleRequestHeaderConditionParameters = "DeliveryRuleRequestHeaderConditionParameters",
+    DeliveryRuleRequestMethodConditionParameters = "DeliveryRuleRequestMethodConditionParameters",
+    DeliveryRuleRequestSchemeConditionParameters = "DeliveryRuleRequestSchemeConditionParameters",
+    DeliveryRuleRequestUriConditionParameters = "DeliveryRuleRequestUriConditionParameters",
+    DeliveryRuleServerPortConditionParameters = "DeliveryRuleServerPortConditionParameters",
+    DeliveryRuleSocketAddrConditionParameters = "DeliveryRuleSocketAddrConditionParameters",
+    DeliveryRuleSslProtocolConditionParameters = "DeliveryRuleSslProtocolConditionParameters",
+    DeliveryRuleUrlFileExtensionMatchConditionParameters = "DeliveryRuleUrlFileExtensionMatchConditionParameters",
+    DeliveryRuleUrlFilenameConditionParameters = "DeliveryRuleUrlFilenameConditionParameters",
+    DeliveryRuleUrlPathMatchConditionParameters = "DeliveryRuleUrlPathMatchConditionParameters"
 }
 
 // @public
@@ -2101,15 +2224,7 @@ export enum KnownHttpVersionOperator {
 }
 
 // @public
-export enum KnownIdentityType {
-    Application = "application",
-    Key = "key",
-    ManagedIdentity = "managedIdentity",
-    User = "user"
-}
-
-// @public
-export enum KnownIsDeviceMatchConditionParametersMatchValuesItem {
+export enum KnownIsDeviceMatchValue {
     Desktop = "Desktop",
     Mobile = "Mobile"
 }
@@ -2117,6 +2232,11 @@ export enum KnownIsDeviceMatchConditionParametersMatchValuesItem {
 // @public
 export enum KnownIsDeviceOperator {
     Equal = "Equal"
+}
+
+// @public
+export enum KnownKeyVaultSigningKeyParametersType {
+    KeyVaultSigningKeyParameters = "KeyVaultSigningKeyParameters"
 }
 
 // @public
@@ -2180,7 +2300,7 @@ export enum KnownManagedRuleEnabledState {
 export enum KnownManagedServiceIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -2251,6 +2371,12 @@ export enum KnownOptimizationType {
     GeneralWebDelivery = "GeneralWebDelivery",
     LargeFileDownload = "LargeFileDownload",
     VideoOnDemandMediaStreaming = "VideoOnDemandMediaStreaming"
+}
+
+// @public
+export enum KnownOriginAuthenticationType {
+    SystemAssignedIdentity = "SystemAssignedIdentity",
+    UserAssignedIdentity = "UserAssignedIdentity"
 }
 
 // @public
@@ -2453,7 +2579,7 @@ export enum KnownRequestHeaderOperator {
 }
 
 // @public
-export enum KnownRequestMethodMatchConditionParametersMatchValuesItem {
+export enum KnownRequestMethodMatchValue {
     Delete = "DELETE",
     GET = "GET",
     Head = "HEAD",
@@ -2469,7 +2595,7 @@ export enum KnownRequestMethodOperator {
 }
 
 // @public
-export enum KnownRequestSchemeMatchConditionParametersMatchValuesItem {
+export enum KnownRequestSchemeMatchValue {
     Http = "HTTP",
     Https = "HTTPS"
 }
@@ -2943,7 +3069,7 @@ export interface ManagedServiceIdentity {
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
+        [propertyName: string]: UserAssignedIdentity | null;
     };
 }
 
@@ -3032,6 +3158,12 @@ export interface MigrateResult {
     readonly id?: string;
     readonly migratedProfileResourceId?: ResourceReference;
     readonly type?: string;
+}
+
+// @public
+export interface MigrationEndpointMapping {
+    migratedFrom?: string;
+    migratedTo?: string;
 }
 
 // @public
@@ -3126,6 +3258,16 @@ export interface Origin extends ProxyResource {
 }
 
 // @public
+export interface OriginAuthenticationProperties {
+    scope?: string;
+    type?: OriginAuthenticationType;
+    userAssignedIdentity?: ResourceReference;
+}
+
+// @public
+export type OriginAuthenticationType = string;
+
+// @public
 export interface OriginGroup extends ProxyResource {
     healthProbeSettings?: HealthProbeParameters;
     origins?: ResourceReference[];
@@ -3148,15 +3290,14 @@ export interface OriginGroupOverride {
 }
 
 // @public
-export interface OriginGroupOverrideAction extends DeliveryRuleActionAutoGenerated {
+export interface OriginGroupOverrideAction extends DeliveryRuleAction {
     name: "OriginGroupOverride";
     parameters: OriginGroupOverrideActionParameters;
 }
 
 // @public
-export interface OriginGroupOverrideActionParameters {
+export interface OriginGroupOverrideActionParameters extends DeliveryRuleActionParameters {
     originGroup: ResourceReference;
-    // (undocumented)
     typeName: "DeliveryRuleOriginGroupOverrideActionParameters";
 }
 
@@ -3329,6 +3470,14 @@ export interface OriginsGetOptionalParams extends coreClient.OperationOptions {
 export type OriginsGetResponse = Origin;
 
 // @public
+export interface OriginShieldResourceProperties {
+    enabled?: boolean;
+    originIngressRateThreshold?: number;
+    originRequestRateThreshold?: number;
+    region?: string;
+}
+
+// @public
 export interface OriginsListByEndpointNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -3478,13 +3627,12 @@ export interface PolicySettings {
 export type PolicySettingsDefaultCustomBlockResponseStatusCode = number;
 
 // @public
-export interface PostArgsMatchConditionParameters {
+export interface PostArgsMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: PostArgsOperator;
     selector?: string;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRulePostArgsConditionParameters";
 }
 
@@ -3540,12 +3688,18 @@ export type ProfileResourceState = string;
 export interface Profiles {
     beginCanMigrate(resourceGroupName: string, canMigrateParameters: CanMigrateParameters, options?: ProfilesCanMigrateOptionalParams): Promise<SimplePollerLike<OperationState<ProfilesCanMigrateResponse>, ProfilesCanMigrateResponse>>;
     beginCanMigrateAndWait(resourceGroupName: string, canMigrateParameters: CanMigrateParameters, options?: ProfilesCanMigrateOptionalParams): Promise<ProfilesCanMigrateResponse>;
+    beginCdnCanMigrateToAfd(resourceGroupName: string, profileName: string, options?: ProfilesCdnCanMigrateToAfdOptionalParams): Promise<SimplePollerLike<OperationState<ProfilesCdnCanMigrateToAfdResponse>, ProfilesCdnCanMigrateToAfdResponse>>;
+    beginCdnCanMigrateToAfdAndWait(resourceGroupName: string, profileName: string, options?: ProfilesCdnCanMigrateToAfdOptionalParams): Promise<ProfilesCdnCanMigrateToAfdResponse>;
+    beginCdnMigrateToAfd(resourceGroupName: string, profileName: string, migrationParameters: CdnMigrationToAfdParameters, options?: ProfilesCdnMigrateToAfdOptionalParams): Promise<SimplePollerLike<OperationState<ProfilesCdnMigrateToAfdResponse>, ProfilesCdnMigrateToAfdResponse>>;
+    beginCdnMigrateToAfdAndWait(resourceGroupName: string, profileName: string, migrationParameters: CdnMigrationToAfdParameters, options?: ProfilesCdnMigrateToAfdOptionalParams): Promise<ProfilesCdnMigrateToAfdResponse>;
     beginCreate(resourceGroupName: string, profileName: string, profile: Profile, options?: ProfilesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ProfilesCreateResponse>, ProfilesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, profileName: string, profile: Profile, options?: ProfilesCreateOptionalParams): Promise<ProfilesCreateResponse>;
     beginDelete(resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams): Promise<void>;
     beginMigrate(resourceGroupName: string, migrationParameters: MigrationParameters, options?: ProfilesMigrateOptionalParams): Promise<SimplePollerLike<OperationState<ProfilesMigrateResponse>, ProfilesMigrateResponse>>;
     beginMigrateAndWait(resourceGroupName: string, migrationParameters: MigrationParameters, options?: ProfilesMigrateOptionalParams): Promise<ProfilesMigrateResponse>;
+    beginMigrationAbort(resourceGroupName: string, profileName: string, options?: ProfilesMigrationAbortOptionalParams): Promise<SimplePollerLike<OperationState<ProfilesMigrationAbortResponse>, ProfilesMigrationAbortResponse>>;
+    beginMigrationAbortAndWait(resourceGroupName: string, profileName: string, options?: ProfilesMigrationAbortOptionalParams): Promise<ProfilesMigrationAbortResponse>;
     beginMigrationCommit(resourceGroupName: string, profileName: string, options?: ProfilesMigrationCommitOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginMigrationCommitAndWait(resourceGroupName: string, profileName: string, options?: ProfilesMigrationCommitOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, profileName: string, profileUpdateParameters: ProfileUpdateParameters, options?: ProfilesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ProfilesUpdateResponse>, ProfilesUpdateResponse>>;
@@ -3572,6 +3726,36 @@ export interface ProfilesCanMigrateOptionalParams extends coreClient.OperationOp
 
 // @public
 export type ProfilesCanMigrateResponse = CanMigrateResult;
+
+// @public
+export interface ProfilesCdnCanMigrateToAfdHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ProfilesCdnCanMigrateToAfdOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProfilesCdnCanMigrateToAfdResponse = CanMigrateResult;
+
+// @public
+export interface ProfilesCdnMigrateToAfdHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ProfilesCdnMigrateToAfdOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProfilesCdnMigrateToAfdResponse = MigrateResult;
 
 // @public
 export interface ProfilesCreateHeaders {
@@ -3690,6 +3874,21 @@ export interface ProfilesMigrateOptionalParams extends coreClient.OperationOptio
 export type ProfilesMigrateResponse = MigrateResult;
 
 // @public
+export interface ProfilesMigrationAbortHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ProfilesMigrationAbortOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ProfilesMigrationAbortResponse = ProfilesMigrationAbortHeaders;
+
+// @public
 export interface ProfilesMigrationCommitHeaders {
     // (undocumented)
     location?: string;
@@ -3753,12 +3952,11 @@ export type QueryStringBehavior = string;
 export type QueryStringCachingBehavior = "IgnoreQueryString" | "BypassCaching" | "UseQueryString" | "NotSet";
 
 // @public
-export interface QueryStringMatchConditionParameters {
+export interface QueryStringMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: QueryStringOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleQueryStringConditionParameters";
 }
 
@@ -3816,12 +4014,11 @@ export interface RateLimitRuleList {
 export type RedirectType = string;
 
 // @public
-export interface RemoteAddressMatchConditionParameters {
+export interface RemoteAddressMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: RemoteAddressOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleRemoteAddressConditionParameters";
 }
 
@@ -3829,12 +4026,11 @@ export interface RemoteAddressMatchConditionParameters {
 export type RemoteAddressOperator = string;
 
 // @public
-export interface RequestBodyMatchConditionParameters {
+export interface RequestBodyMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: RequestBodyOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleRequestBodyConditionParameters";
 }
 
@@ -3842,13 +4038,12 @@ export interface RequestBodyMatchConditionParameters {
 export type RequestBodyOperator = string;
 
 // @public
-export interface RequestHeaderMatchConditionParameters {
+export interface RequestHeaderMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: RequestHeaderOperator;
     selector?: string;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleRequestHeaderConditionParameters";
 }
 
@@ -3856,41 +4051,38 @@ export interface RequestHeaderMatchConditionParameters {
 export type RequestHeaderOperator = string;
 
 // @public
-export interface RequestMethodMatchConditionParameters {
-    matchValues?: RequestMethodMatchConditionParametersMatchValuesItem[];
+export interface RequestMethodMatchConditionParameters extends DeliveryRuleConditionParameters {
+    matchValues?: RequestMethodMatchValue[];
     negateCondition?: boolean;
     operator: RequestMethodOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleRequestMethodConditionParameters";
 }
 
 // @public
-export type RequestMethodMatchConditionParametersMatchValuesItem = string;
+export type RequestMethodMatchValue = string;
 
 // @public
 export type RequestMethodOperator = string;
 
 // @public
-export interface RequestSchemeMatchConditionParameters {
-    matchValues?: RequestSchemeMatchConditionParametersMatchValuesItem[];
+export interface RequestSchemeMatchConditionParameters extends DeliveryRuleConditionParameters {
+    matchValues?: RequestSchemeMatchValue[];
     negateCondition?: boolean;
     operator: "Equal";
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleRequestSchemeConditionParameters";
 }
 
 // @public
-export type RequestSchemeMatchConditionParametersMatchValuesItem = string;
+export type RequestSchemeMatchValue = string;
 
 // @public
-export interface RequestUriMatchConditionParameters {
+export interface RequestUriMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: RequestUriOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleRequestUriConditionParameters";
 }
 
@@ -4022,10 +4214,9 @@ export interface Route extends ProxyResource {
 }
 
 // @public
-export interface RouteConfigurationOverrideActionParameters {
+export interface RouteConfigurationOverrideActionParameters extends DeliveryRuleActionParameters {
     cacheConfiguration?: CacheConfiguration;
     originGroupOverride?: OriginGroupOverride;
-    // (undocumented)
     typeName: "DeliveryRuleRouteConfigurationOverrideActionParameters";
 }
 
@@ -4148,7 +4339,7 @@ export interface RouteUpdatePropertiesParameters {
 
 // @public
 export interface Rule extends ProxyResource {
-    actions?: DeliveryRuleActionAutoGeneratedUnion[];
+    actions?: DeliveryRuleActionUnion[];
     conditions?: DeliveryRuleConditionUnion[];
     readonly deploymentStatus?: DeploymentStatus;
     matchProcessingBehavior?: MatchProcessingBehavior;
@@ -4335,7 +4526,7 @@ export type RulesUpdateResponse = Rule;
 
 // @public
 export interface RuleUpdateParameters {
-    actions?: DeliveryRuleActionAutoGeneratedUnion[];
+    actions?: DeliveryRuleActionUnion[];
     conditions?: DeliveryRuleConditionUnion[];
     matchProcessingBehavior?: MatchProcessingBehavior;
     order?: number;
@@ -4344,7 +4535,7 @@ export interface RuleUpdateParameters {
 
 // @public
 export interface RuleUpdatePropertiesParameters {
-    actions?: DeliveryRuleActionAutoGeneratedUnion[];
+    actions?: DeliveryRuleActionUnion[];
     conditions?: DeliveryRuleConditionUnion[];
     matchProcessingBehavior?: MatchProcessingBehavior;
     order?: number;
@@ -4574,12 +4765,11 @@ export interface SecurityPolicyWebApplicationFirewallParameters extends Security
 }
 
 // @public
-export interface ServerPortMatchConditionParameters {
+export interface ServerPortMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: ServerPortOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleServerPortConditionParameters";
 }
 
@@ -4613,12 +4803,11 @@ export interface Sku {
 export type SkuName = string;
 
 // @public
-export interface SocketAddrMatchConditionParameters {
+export interface SocketAddrMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: SocketAddrOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleSocketAddrConditionParameters";
 }
 
@@ -4629,12 +4818,11 @@ export type SocketAddrOperator = string;
 export type SslProtocol = string;
 
 // @public
-export interface SslProtocolMatchConditionParameters {
+export interface SslProtocolMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: SslProtocol[];
     negateCondition?: boolean;
     operator: SslProtocolOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleSslProtocolConditionParameters";
 }
 
@@ -4658,10 +4846,10 @@ export interface SupportedOptimizationTypesListResult {
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
-    createdByType?: IdentityType;
+    createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: IdentityType;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
@@ -4682,12 +4870,11 @@ export type TransformType = string;
 export type UpdateRule = string;
 
 // @public
-export interface UrlFileExtensionMatchConditionParameters {
+export interface UrlFileExtensionMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: UrlFileExtensionOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleUrlFileExtensionMatchConditionParameters";
 }
 
@@ -4695,12 +4882,11 @@ export interface UrlFileExtensionMatchConditionParameters {
 export type UrlFileExtensionOperator = string;
 
 // @public
-export interface UrlFileNameMatchConditionParameters {
+export interface UrlFileNameMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: UrlFileNameOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleUrlFilenameConditionParameters";
 }
 
@@ -4708,12 +4894,11 @@ export interface UrlFileNameMatchConditionParameters {
 export type UrlFileNameOperator = string;
 
 // @public
-export interface UrlPathMatchConditionParameters {
+export interface UrlPathMatchConditionParameters extends DeliveryRuleConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
     operator: UrlPathOperator;
     transforms?: Transform[];
-    // (undocumented)
     typeName: "DeliveryRuleUrlPathMatchConditionParameters";
 }
 
@@ -4721,49 +4906,46 @@ export interface UrlPathMatchConditionParameters {
 export type UrlPathOperator = string;
 
 // @public
-export interface UrlRedirectAction extends DeliveryRuleActionAutoGenerated {
+export interface UrlRedirectAction extends DeliveryRuleAction {
     name: "UrlRedirect";
     parameters: UrlRedirectActionParameters;
 }
 
 // @public
-export interface UrlRedirectActionParameters {
+export interface UrlRedirectActionParameters extends DeliveryRuleActionParameters {
     customFragment?: string;
     customHostname?: string;
     customPath?: string;
     customQueryString?: string;
     destinationProtocol?: DestinationProtocol;
     redirectType: RedirectType;
-    // (undocumented)
     typeName: "DeliveryRuleUrlRedirectActionParameters";
 }
 
 // @public
-export interface UrlRewriteAction extends DeliveryRuleActionAutoGenerated {
+export interface UrlRewriteAction extends DeliveryRuleAction {
     name: "UrlRewrite";
     parameters: UrlRewriteActionParameters;
 }
 
 // @public
-export interface UrlRewriteActionParameters {
+export interface UrlRewriteActionParameters extends DeliveryRuleActionParameters {
     destination: string;
     preserveUnmatchedPath?: boolean;
     sourcePattern: string;
-    // (undocumented)
     typeName: "DeliveryRuleUrlRewriteActionParameters";
 }
 
 // @public
-export interface UrlSigningAction extends DeliveryRuleActionAutoGenerated {
+export interface UrlSigningAction extends DeliveryRuleAction {
     name: "UrlSigning";
     parameters: UrlSigningActionParameters;
 }
 
 // @public
-export interface UrlSigningActionParameters {
+export interface UrlSigningActionParameters extends DeliveryRuleActionParameters {
     algorithm?: Algorithm;
     parameterNameOverride?: UrlSigningParamIdentifier[];
-    // (undocumented)
     typeName: "DeliveryRuleUrlSigningActionParameters";
 }
 
@@ -4777,7 +4959,7 @@ export interface UrlSigningKey {
 export interface UrlSigningKeyParameters extends SecretParameters {
     keyId: string;
     secretSource: ResourceReference;
-    secretVersion?: string;
+    secretVersion: string;
     type: "UrlSigningKey";
 }
 

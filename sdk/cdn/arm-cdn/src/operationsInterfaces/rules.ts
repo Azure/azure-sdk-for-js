@@ -26,9 +26,9 @@ import {
 export interface Rules {
   /**
    * Lists all of the existing delivery rules within a rule set.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param options The options parameters.
    */
@@ -40,9 +40,9 @@ export interface Rules {
   ): PagedAsyncIterableIterator<Rule>;
   /**
    * Gets an existing delivery rule within a rule set.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -56,9 +56,9 @@ export interface Rules {
   ): Promise<RulesGetResponse>;
   /**
    * Creates a new delivery rule within the specified rule set.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param rule The delivery rule properties.
@@ -76,9 +76,9 @@ export interface Rules {
   >;
   /**
    * Creates a new delivery rule within the specified rule set.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param rule The delivery rule properties.
@@ -94,9 +94,9 @@ export interface Rules {
   ): Promise<RulesCreateResponse>;
   /**
    * Updates an existing delivery rule within a rule set.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param ruleUpdateProperties Delivery rule properties
@@ -114,9 +114,9 @@ export interface Rules {
   >;
   /**
    * Updates an existing delivery rule within a rule set.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param ruleUpdateProperties Delivery rule properties
@@ -132,9 +132,9 @@ export interface Rules {
   ): Promise<RulesUpdateResponse>;
   /**
    * Deletes an existing delivery rule within a rule set.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -148,9 +148,9 @@ export interface Rules {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing delivery rule within a rule set.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.

@@ -47,7 +47,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
   /**
    * Get log report for AFD profile
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param metrics Array of LogMetric
@@ -87,7 +87,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
   /**
    * Get log analytics ranking report for AFD profile
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param rankings Array of LogRanking
@@ -124,7 +124,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
   /**
    * Get all available location names for AFD log analytics report.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param options The options parameters.
@@ -142,7 +142,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
   /**
    * Get all endpoints and custom domains available for AFD log report
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param options The options parameters.
@@ -160,7 +160,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
   /**
    * Get Waf related log analytics report for AFD profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param metrics Array of WafMetric
@@ -194,7 +194,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
   /**
    * Get WAF log analytics charts for AFD profile
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param metrics Array of WafMetric
@@ -240,7 +240,7 @@ const getLogAnalyticsMetricsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MetricsResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -272,7 +272,7 @@ const getLogAnalyticsRankingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RankingsResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -301,7 +301,7 @@ const getLogAnalyticsLocationsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ContinentsResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -322,7 +322,7 @@ const getLogAnalyticsResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourcesResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -343,7 +343,7 @@ const getWafLogAnalyticsMetricsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WafMetricsResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -373,7 +373,7 @@ const getWafLogAnalyticsRankingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WafRankingsResponse,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [

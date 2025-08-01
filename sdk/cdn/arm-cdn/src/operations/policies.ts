@@ -50,7 +50,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * Lists all of the protection policies within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public list(
@@ -112,7 +112,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * Lists all of the protection policies within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _list(
@@ -127,7 +127,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * Retrieve protection policy with specified name within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param options The options parameters.
    */
@@ -144,7 +144,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * Create or update policy with specified rule set name within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param cdnWebApplicationFirewallPolicy Policy to be created.
    * @param options The options parameters.
@@ -221,7 +221,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * Create or update policy with specified rule set name within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param cdnWebApplicationFirewallPolicy Policy to be created.
    * @param options The options parameters.
@@ -244,7 +244,7 @@ export class PoliciesImpl implements Policies {
   /**
    * Update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the
    * specified subscription and resource group
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param cdnWebApplicationFirewallPolicyPatchParameters CdnWebApplicationFirewallPolicy parameters to
    *                                                       be patched.
@@ -323,7 +323,7 @@ export class PoliciesImpl implements Policies {
   /**
    * Update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the
    * specified subscription and resource group
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param cdnWebApplicationFirewallPolicyPatchParameters CdnWebApplicationFirewallPolicy parameters to
    *                                                       be patched.
@@ -346,7 +346,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * Deletes Policy
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param options The options parameters.
    */
@@ -363,7 +363,7 @@ export class PoliciesImpl implements Policies {
 
   /**
    * ListNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -396,7 +396,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -416,7 +416,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
@@ -447,7 +447,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -479,7 +479,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -500,7 +500,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
@@ -520,8 +520,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

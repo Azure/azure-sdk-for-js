@@ -47,9 +47,9 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Lists existing AzureFrontDoor secrets.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   public listByProfile(
@@ -132,9 +132,9 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Lists existing AzureFrontDoor secrets.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   private _listByProfile(
@@ -150,9 +150,9 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Gets an existing Secret within a profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param options The options parameters.
    */
@@ -170,9 +170,9 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Creates a new Secret within the specified profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param secret The Secret properties.
    * @param options The options parameters.
@@ -246,9 +246,9 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Creates a new Secret within the specified profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param secret The Secret properties.
    * @param options The options parameters.
@@ -272,9 +272,9 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Deletes an existing Secret within profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param options The options parameters.
    */
@@ -338,9 +338,9 @@ export class SecretsImpl implements Secrets {
 
   /**
    * Deletes an existing Secret within profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param secretName Name of the Secret under the profile.
    * @param options The options parameters.
    */
@@ -361,9 +361,9 @@ export class SecretsImpl implements Secrets {
 
   /**
    * ListByProfileNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
    */
@@ -390,7 +390,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecretListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -398,7 +398,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -411,7 +411,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Secret,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -419,7 +419,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.secretName,
   ],
   headerParameters: [Parameters.accept],
@@ -442,7 +442,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Secret,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.secret,
@@ -451,7 +451,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.secretName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -467,7 +467,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -475,7 +475,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.secretName,
   ],
   headerParameters: [Parameters.accept],
@@ -489,14 +489,14 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SecretListResult,
     },
     default: {
-      bodyMapper: Mappers.AfdErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],

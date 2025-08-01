@@ -28,7 +28,7 @@ import {
 export interface CustomDomains {
   /**
    * Lists all of the existing custom domains within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -41,7 +41,7 @@ export interface CustomDomains {
   ): PagedAsyncIterableIterator<CustomDomain>;
   /**
    * Gets an existing custom domain within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -56,7 +56,7 @@ export interface CustomDomains {
   ): Promise<CustomDomainsGetResponse>;
   /**
    * Creates a new custom domain within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -78,7 +78,7 @@ export interface CustomDomains {
   >;
   /**
    * Creates a new custom domain within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -95,7 +95,7 @@ export interface CustomDomains {
   ): Promise<CustomDomainsCreateResponse>;
   /**
    * Deletes an existing custom domain within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -110,7 +110,7 @@ export interface CustomDomains {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing custom domain within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -125,7 +125,7 @@ export interface CustomDomains {
   ): Promise<void>;
   /**
    * Disable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -145,7 +145,7 @@ export interface CustomDomains {
   >;
   /**
    * Disable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -160,7 +160,7 @@ export interface CustomDomains {
   ): Promise<CustomDomainsDisableCustomHttpsResponse>;
   /**
    * Enable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.
@@ -180,7 +180,7 @@ export interface CustomDomains {
   >;
   /**
    * Enable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainName Name of the custom domain within an endpoint.

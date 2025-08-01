@@ -32,7 +32,7 @@ import {
 export interface LogAnalytics {
   /**
    * Get log report for AFD profile
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param metrics Array of LogMetric
@@ -56,7 +56,7 @@ export interface LogAnalytics {
   ): Promise<LogAnalyticsGetLogAnalyticsMetricsResponse>;
   /**
    * Get log analytics ranking report for AFD profile
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param rankings Array of LogRanking
@@ -78,7 +78,7 @@ export interface LogAnalytics {
   ): Promise<LogAnalyticsGetLogAnalyticsRankingsResponse>;
   /**
    * Get all available location names for AFD log analytics report.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param options The options parameters.
@@ -90,7 +90,7 @@ export interface LogAnalytics {
   ): Promise<LogAnalyticsGetLogAnalyticsLocationsResponse>;
   /**
    * Get all endpoints and custom domains available for AFD log report
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param options The options parameters.
@@ -102,7 +102,7 @@ export interface LogAnalytics {
   ): Promise<LogAnalyticsGetLogAnalyticsResourcesResponse>;
   /**
    * Get Waf related log analytics report for AFD profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param metrics Array of WafMetric
@@ -122,7 +122,7 @@ export interface LogAnalytics {
   ): Promise<LogAnalyticsGetWafLogAnalyticsMetricsResponse>;
   /**
    * Get WAF log analytics charts for AFD profile
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group. which is unique within the resource group.
    * @param metrics Array of WafMetric

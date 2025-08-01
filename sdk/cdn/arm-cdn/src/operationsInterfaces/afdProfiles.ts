@@ -30,9 +30,9 @@ import {
 export interface AfdProfiles {
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   listResourceUsage(
@@ -42,7 +42,7 @@ export interface AfdProfiles {
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Check the availability of an afdx endpoint name, and return the globally unique endpoint host name.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
    *                    within the resource group.
    * @param checkEndpointNameAvailabilityInput Input to check.
@@ -57,9 +57,9 @@ export interface AfdProfiles {
   /**
    * Validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in
    * DNS.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param checkHostNameAvailabilityInput Custom domain to be validated.
    * @param options The options parameters.
    */
@@ -71,7 +71,7 @@ export interface AfdProfiles {
   ): Promise<AfdProfilesCheckHostNameAvailabilityResponse>;
   /**
    * Validate a Secret in the profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
    *                    within the resource group.
    * @param validateSecretInput The Secret source.
@@ -85,7 +85,7 @@ export interface AfdProfiles {
   ): Promise<AfdProfilesValidateSecretResponse>;
   /**
    * Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
    *                    within the resource group.
    * @param profileUpgradeParameters Profile upgrade input parameter.
@@ -104,7 +104,7 @@ export interface AfdProfiles {
   >;
   /**
    * Upgrade a profile from Standard_AzureFrontDoor to Premium_AzureFrontDoor.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
    *                    within the resource group.
    * @param profileUpgradeParameters Profile upgrade input parameter.

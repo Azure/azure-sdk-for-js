@@ -26,7 +26,7 @@ import {
 export interface Origins {
   /**
    * Lists all of the existing origins within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -39,7 +39,7 @@ export interface Origins {
   ): PagedAsyncIterableIterator<Origin>;
   /**
    * Gets an existing origin within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin which is unique within the endpoint.
@@ -54,7 +54,7 @@ export interface Origins {
   ): Promise<OriginsGetResponse>;
   /**
    * Creates a new origin within the specified endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin that is unique within the endpoint.
@@ -76,7 +76,7 @@ export interface Origins {
   >;
   /**
    * Creates a new origin within the specified endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin that is unique within the endpoint.
@@ -93,7 +93,7 @@ export interface Origins {
   ): Promise<OriginsCreateResponse>;
   /**
    * Updates an existing origin within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin which is unique within the endpoint.
@@ -115,7 +115,7 @@ export interface Origins {
   >;
   /**
    * Updates an existing origin within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin which is unique within the endpoint.
@@ -132,7 +132,7 @@ export interface Origins {
   ): Promise<OriginsUpdateResponse>;
   /**
    * Deletes an existing origin within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin which is unique within the endpoint.
@@ -147,7 +147,7 @@ export interface Origins {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing origin within an endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param originName Name of the origin which is unique within the endpoint.

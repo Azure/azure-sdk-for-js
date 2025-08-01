@@ -50,6 +50,13 @@ import {
   ProfilesGenerateSsoUriResponse,
   ProfilesListSupportedOptimizationTypesOptionalParams,
   ProfilesListSupportedOptimizationTypesResponse,
+  ProfilesCdnCanMigrateToAfdOptionalParams,
+  ProfilesCdnCanMigrateToAfdResponse,
+  CdnMigrationToAfdParameters,
+  ProfilesCdnMigrateToAfdOptionalParams,
+  ProfilesCdnMigrateToAfdResponse,
+  ProfilesMigrationAbortOptionalParams,
+  ProfilesMigrationAbortResponse,
   ProfilesListNextResponse,
   ProfilesListByResourceGroupNextResponse,
   ProfilesListResourceUsageNextResponse,
@@ -126,7 +133,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a
    * resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -196,7 +203,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door Standard or Azure
    * Front Door Premium or CDN profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -293,7 +300,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a
    * resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -309,7 +316,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Gets an Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified
    * profile name under the specified subscription and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -328,7 +335,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile
    * name under the specified subscription and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param profile Profile properties needed to create a new profile.
@@ -402,7 +409,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile
    * name under the specified subscription and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param profile Profile properties needed to create a new profile.
@@ -426,7 +433,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
    * specified profile name under the specified subscription and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param profileUpdateParameters Profile properties needed to update an existing profile.
@@ -505,7 +512,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
    * specified profile name under the specified subscription and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param profileUpdateParameters Profile properties needed to update an existing profile.
@@ -530,7 +537,7 @@ export class ProfilesImpl implements Profiles {
    * Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
    * specified parameters. Deleting a profile will result in the deletion of all of the sub-resources
    * including endpoints, origins and custom domains.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -595,7 +602,7 @@ export class ProfilesImpl implements Profiles {
    * Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
    * specified parameters. Deleting a profile will result in the deletion of all of the sub-resources
    * including endpoints, origins and custom domains.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -615,7 +622,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param canMigrateParameters Properties needed to check if cdn profile or classic frontdoor can be
    *                             migrated.
    * @param options The options parameters.
@@ -687,7 +694,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param canMigrateParameters Properties needed to check if cdn profile or classic frontdoor can be
    *                             migrated.
    * @param options The options parameters.
@@ -708,7 +715,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
    * committed after this.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param migrationParameters Properties needed to migrate the profile.
    * @param options The options parameters.
    */
@@ -780,7 +787,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
    * committed after this.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param migrationParameters Properties needed to migrate the profile.
    * @param options The options parameters.
    */
@@ -799,7 +806,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Commit the migrated Azure Frontdoor(Standard/Premium) profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The options parameters.
    */
@@ -862,7 +869,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * Commit the migrated Azure Frontdoor(Standard/Premium) profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The options parameters.
    */
@@ -884,7 +891,7 @@ export class ProfilesImpl implements Profiles {
    * used to configure advanced feature capabilities that are not yet available in the Azure portal, such
    * as core reports in a standard profile; rules engine, advanced HTTP reports, and real-time stats and
    * alerts in a premium profile. The SSO URI changes approximately every 10 minutes.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The options parameters.
    */
@@ -902,7 +909,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Gets the supported optimization types for the current profile. A user can create an endpoint with an
    * optimization type from the listed values.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -921,7 +928,7 @@ export class ProfilesImpl implements Profiles {
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door Standard or Azure
    * Front Door Premium or CDN profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param options The options parameters.
@@ -935,6 +942,289 @@ export class ProfilesImpl implements Profiles {
       { resourceGroupName, profileName, options },
       listResourceUsageOperationSpec,
     );
+  }
+
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  async beginCdnCanMigrateToAfd(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesCdnCanMigrateToAfdOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesCdnCanMigrateToAfdResponse>,
+      ProfilesCdnCanMigrateToAfdResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ProfilesCdnCanMigrateToAfdResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, options },
+      spec: cdnCanMigrateToAfdOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProfilesCdnCanMigrateToAfdResponse,
+      OperationState<ProfilesCdnCanMigrateToAfdResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  async beginCdnCanMigrateToAfdAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesCdnCanMigrateToAfdOptionalParams,
+  ): Promise<ProfilesCdnCanMigrateToAfdResponse> {
+    const poller = await this.beginCdnCanMigrateToAfd(
+      resourceGroupName,
+      profileName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. This step prepares the profile
+   * for migration and will be followed by Commit to finalize the migration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  async beginCdnMigrateToAfd(
+    resourceGroupName: string,
+    profileName: string,
+    migrationParameters: CdnMigrationToAfdParameters,
+    options?: ProfilesCdnMigrateToAfdOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesCdnMigrateToAfdResponse>,
+      ProfilesCdnMigrateToAfdResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ProfilesCdnMigrateToAfdResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, migrationParameters, options },
+      spec: cdnMigrateToAfdOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProfilesCdnMigrateToAfdResponse,
+      OperationState<ProfilesCdnMigrateToAfdResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. This step prepares the profile
+   * for migration and will be followed by Commit to finalize the migration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  async beginCdnMigrateToAfdAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    migrationParameters: CdnMigrationToAfdParameters,
+    options?: ProfilesCdnMigrateToAfdOptionalParams,
+  ): Promise<ProfilesCdnMigrateToAfdResponse> {
+    const poller = await this.beginCdnMigrateToAfd(
+      resourceGroupName,
+      profileName,
+      migrationParameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Abort the migration to Azure Frontdoor Premium/Standard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  async beginMigrationAbort(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationAbortOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesMigrationAbortResponse>,
+      ProfilesMigrationAbortResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ProfilesMigrationAbortResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, options },
+      spec: migrationAbortOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ProfilesMigrationAbortResponse,
+      OperationState<ProfilesMigrationAbortResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Abort the migration to Azure Frontdoor Premium/Standard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  async beginMigrationAbortAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationAbortOptionalParams,
+  ): Promise<ProfilesMigrationAbortResponse> {
+    const poller = await this.beginMigrationAbort(
+      resourceGroupName,
+      profileName,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -954,7 +1244,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -971,7 +1261,7 @@ export class ProfilesImpl implements Profiles {
 
   /**
    * ListResourceUsageNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
    *                    which is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
@@ -1282,6 +1572,98 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const cdnCanMigrateToAfdOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/cdnCanMigrateToAfd",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CanMigrateResult,
+    },
+    201: {
+      bodyMapper: Mappers.CanMigrateResult,
+    },
+    202: {
+      bodyMapper: Mappers.CanMigrateResult,
+    },
+    204: {
+      bodyMapper: Mappers.CanMigrateResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const cdnMigrateToAfdOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/cdnMigrateToAfd",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MigrateResult,
+    },
+    201: {
+      bodyMapper: Mappers.MigrateResult,
+    },
+    202: {
+      bodyMapper: Mappers.MigrateResult,
+    },
+    204: {
+      bodyMapper: Mappers.MigrateResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.migrationParameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const migrationAbortOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/migrationAbort",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ProfilesMigrationAbortHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ProfilesMigrationAbortHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ProfilesMigrationAbortHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ProfilesMigrationAbortHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1336,8 +1718,8 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.nextLink,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

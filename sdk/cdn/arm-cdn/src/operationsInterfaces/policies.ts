@@ -26,7 +26,7 @@ import {
 export interface Policies {
   /**
    * Lists all of the protection policies within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   list(
@@ -35,7 +35,7 @@ export interface Policies {
   ): PagedAsyncIterableIterator<CdnWebApplicationFirewallPolicy>;
   /**
    * Retrieve protection policy with specified name within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param options The options parameters.
    */
@@ -46,7 +46,7 @@ export interface Policies {
   ): Promise<PoliciesGetResponse>;
   /**
    * Create or update policy with specified rule set name within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param cdnWebApplicationFirewallPolicy Policy to be created.
    * @param options The options parameters.
@@ -64,7 +64,7 @@ export interface Policies {
   >;
   /**
    * Create or update policy with specified rule set name within a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param cdnWebApplicationFirewallPolicy Policy to be created.
    * @param options The options parameters.
@@ -78,7 +78,7 @@ export interface Policies {
   /**
    * Update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the
    * specified subscription and resource group
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param cdnWebApplicationFirewallPolicyPatchParameters CdnWebApplicationFirewallPolicy parameters to
    *                                                       be patched.
@@ -98,7 +98,7 @@ export interface Policies {
   /**
    * Update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the
    * specified subscription and resource group
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param cdnWebApplicationFirewallPolicyPatchParameters CdnWebApplicationFirewallPolicy parameters to
    *                                                       be patched.
@@ -112,7 +112,7 @@ export interface Policies {
   ): Promise<PoliciesUpdateResponse>;
   /**
    * Deletes Policy
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param policyName The name of the CdnWebApplicationFirewallPolicy.
    * @param options The options parameters.
    */

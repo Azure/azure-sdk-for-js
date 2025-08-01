@@ -66,7 +66,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Lists existing CDN endpoints.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The options parameters.
    */
@@ -150,7 +150,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Checks the quota and usage of geo filters and custom domains under the given endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -243,7 +243,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Lists existing CDN endpoints.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param options The options parameters.
    */
@@ -261,7 +261,7 @@ export class EndpointsImpl implements Endpoints {
   /**
    * Gets an existing CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -281,7 +281,7 @@ export class EndpointsImpl implements Endpoints {
   /**
    * Creates a new CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpoint Endpoint properties
@@ -356,7 +356,7 @@ export class EndpointsImpl implements Endpoints {
   /**
    * Creates a new CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpoint Endpoint properties
@@ -384,7 +384,7 @@ export class EndpointsImpl implements Endpoints {
    * resource group and profile. Only tags can be updated after creating an endpoint. To update origins,
    * use the Update Origin operation. To update origin groups, use the Update Origin group operation. To
    * update custom domains, use the Update Custom Domain operation.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpointUpdateProperties Endpoint update properties
@@ -467,7 +467,7 @@ export class EndpointsImpl implements Endpoints {
    * resource group and profile. Only tags can be updated after creating an endpoint. To update origins,
    * use the Update Origin operation. To update origin groups, use the Update Origin group operation. To
    * update custom domains, use the Update Custom Domain operation.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpointUpdateProperties Endpoint update properties
@@ -493,7 +493,7 @@ export class EndpointsImpl implements Endpoints {
   /**
    * Deletes an existing CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -558,7 +558,7 @@ export class EndpointsImpl implements Endpoints {
   /**
    * Deletes an existing CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -580,7 +580,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Starts an existing CDN endpoint that is on a stopped state.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -652,7 +652,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Starts an existing CDN endpoint that is on a stopped state.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -674,7 +674,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Stops an existing running CDN endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -746,7 +746,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Stops an existing running CDN endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -768,7 +768,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Removes a content from CDN.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param contentFilePaths The path to the content to be purged. Path can be a full URL, e.g.
@@ -842,7 +842,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Removes a content from CDN.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param contentFilePaths The path to the content to be purged. Path can be a full URL, e.g.
@@ -869,7 +869,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Pre-loads a content to CDN. Available for Verizon Profiles.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param contentFilePaths The path to the content to be loaded. Path should be a full URL, e.g.
@@ -942,7 +942,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Pre-loads a content to CDN. Available for Verizon Profiles.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param contentFilePaths The path to the content to be loaded. Path should be a full URL, e.g.
@@ -968,7 +968,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainProperties Custom domain to be validated.
@@ -995,7 +995,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * Checks the quota and usage of geo filters and custom domains under the given endpoint.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
@@ -1014,7 +1014,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * ListByProfileNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
@@ -1033,7 +1033,7 @@ export class EndpointsImpl implements Endpoints {
 
   /**
    * ListResourceUsageNext
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
@@ -1092,8 +1092,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1124,8 +1124,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -1157,8 +1157,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -1181,8 +1181,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1212,8 +1212,8 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1243,8 +1243,8 @@ const stopOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1267,8 +1267,8 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -1292,8 +1292,8 @@ const loadContentOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -1316,8 +1316,8 @@ const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -1339,8 +1339,8 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1360,8 +1360,8 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.nextLink,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1381,9 +1381,9 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.endpointName,
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
