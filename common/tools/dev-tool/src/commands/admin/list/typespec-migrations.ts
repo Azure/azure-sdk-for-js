@@ -113,7 +113,7 @@ export default leafCommand(commandInfo, async (options) => {
   );
 
   // Filter by client type if specified
-  const clientTypeFilter = options["client-type"];
+  const clientTypeFilter = options["client-type"]?.toUpperCase();
   let filteredProjects = clientProjects;
 
   if (clientTypeFilter) {
