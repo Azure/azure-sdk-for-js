@@ -80,6 +80,13 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
           className: "TranscriptionOptionsInternal",
         },
       },
+      teamsAppSource: {
+        serializedName: "teamsAppSource",
+        type: {
+          name: "Composite",
+          className: "MicrosoftTeamsAppIdentifierModel",
+        },
+      },
     },
   },
 };
@@ -129,6 +136,13 @@ export const CommunicationIdentifierModel: coreClient.CompositeMapper = {
           className: "MicrosoftTeamsAppIdentifierModel",
         },
       },
+      teamsExtensionUser: {
+        serializedName: "teamsExtensionUser",
+        type: {
+          name: "Composite",
+          className: "TeamsExtensionUserIdentifierModel",
+        },
+      },
     },
   },
 };
@@ -157,6 +171,18 @@ export const PhoneNumberIdentifierModel: coreClient.CompositeMapper = {
       value: {
         serializedName: "value",
         required: true,
+        type: {
+          name: "String",
+        },
+      },
+      isAnonymous: {
+        serializedName: "isAnonymous",
+        type: {
+          name: "Boolean",
+        },
+      },
+      assertedId: {
+        serializedName: "assertedId",
         type: {
           name: "String",
         },
@@ -200,6 +226,42 @@ export const MicrosoftTeamsAppIdentifierModel: coreClient.CompositeMapper = {
     modelProperties: {
       appId: {
         serializedName: "appId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      cloud: {
+        serializedName: "cloud",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TeamsExtensionUserIdentifierModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TeamsExtensionUserIdentifierModel",
+    modelProperties: {
+      userId: {
+        serializedName: "userId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceId: {
+        serializedName: "resourceId",
         required: true,
         type: {
           name: "String",
@@ -1766,6 +1828,12 @@ export const StartCallRecordingRequest: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CallLocator",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        type: {
+          name: "String",
         },
       },
       recordingStateCallbackUri: {
@@ -3396,6 +3464,53 @@ export const HoldFailed: coreClient.CompositeMapper = {
     name: "Composite",
     className: "HoldFailed",
     modelProperties: {
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "ResultInformation",
+        },
+      },
+    },
+  },
+};
+
+export const StartRecordingFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StartRecordingFailed",
+    modelProperties: {
+      recordingId: {
+        serializedName: "recordingId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       callConnectionId: {
         serializedName: "callConnectionId",
         type: {

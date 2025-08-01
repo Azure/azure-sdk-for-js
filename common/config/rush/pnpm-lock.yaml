@@ -1126,6 +1126,9 @@ importers:
       '@rush-temp/monitor-query-logs':
         specifier: file:./projects/monitor-query-logs.tgz
         version: file:projects/monitor-query-logs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/monitor-query-metrics':
+        specifier: file:./projects/monitor-query-metrics.tgz
+        version: file:projects/monitor-query-metrics.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/notification-hubs':
         specifier: file:./projects/notification-hubs.tgz
         version: file:projects/notification-hubs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -1542,16 +1545,8 @@ packages:
     resolution: {integrity: sha512-R5Af+4jtZZII2snLomaddMyElFtTCBRZp2qERPlP8PuISLU87eFYFM7xWzxjNd0yeiyQUBkamx/ZhOC8eWhCHA==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/storage-blob@12.28.0':
-    resolution: {integrity: sha512-VhQHITXXO03SURhDiGuHhvc/k/sD2WvJUS7hqhiVNbErVCuQoLtWql7r97fleBlIRKHJaa9R7DpBjfE0pfLYcA==}
-    engines: {node: '>=20.0.0'}
-
   '@azure/storage-common@12.0.0':
     resolution: {integrity: sha512-QyEWXgi4kdRo0wc1rHum9/KnaWZKCdQGZK1BjU4fFL6Jtedp7KLbQihgTTVxldFy1z1ZPtuDPx8mQ5l3huPPbA==}
-    engines: {node: '>=20.0.0'}
-
-  '@azure/storage-file-datalake@12.27.0':
-    resolution: {integrity: sha512-FxZsVKtwfvUhi6XmAs46xKZpWtWwOdJUoj60JbLmilOlEPKUFvpi2Hgsb71oz6vPAYwls5tUlSQUZ/K3YkHNfQ==}
     engines: {node: '>=20.0.0'}
 
   '@azure/storage-file-share@12.28.0':
@@ -2558,7 +2553,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-language-text@file:projects/ai-language-text.tgz':
-    resolution: {integrity: sha512-qvv3/t2gD8bZBP2DLubQolVIiPmEwC+6j+0gV1D0/r1J5j5DwMnus+cqY3cygxbQSlLDQH94199N2ftEh0B2Gg==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-YP/7FYp4XTGKpV2AbKRh1WMCfXHnXSqQ33ih/SS/afLrUDNs8Yn966Xc71PWstHYabfGaXNSpqhHZrxh2fMdwA==, tarball: file:projects/ai-language-text.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-metrics-advisor@file:projects/ai-metrics-advisor.tgz':
@@ -2566,7 +2561,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-KrpwHQYScUNjiv+750xVwihxC4TxqYC9QCtDVLH1PWGhKbrwm+SXf87qVdYWmZh/5z0FAXi+tkT+UCk/OdLW/A==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-yt8LRFSTMBE7IbrknL1zHXig5JUSjP2Fi90PvKN0yiGtd6u+IX1gdOIo4q3ooeeA9UmPaGC4v/UfGUfnUELbfg==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2574,7 +2569,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz':
-    resolution: {integrity: sha512-VkgfZLkKWh1zIl+b6tv8dUVIvHDyFzMItZ3a3ojeJYrJz03xrPPe1bJ57yldyPrFPGINnt0MXcgDgDCyM02Gww==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-kc3nk3J3KdGN78GqvlTkVW5U+2WsdC8tPkZOtVSuDSNdZruZmJNLNezjKrrFJJYBn9acPGrr2MfKG0/nOSJBAg==, tarball: file:projects/ai-translation-document.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-translation-text@file:projects/ai-translation-text.tgz':
@@ -2594,7 +2589,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/api-management-custom-widgets-tools@file:projects/api-management-custom-widgets-tools.tgz':
-    resolution: {integrity: sha512-rHUtmF322STaRIHDPvgRyOGYdMgiZ7eHxIah455L5KDtudh+ge0LuamPCx9dS0xdeeg4bT/TKbnGk2jkcSX+LQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-/ElSiARYPWRRiCb7saU8flvrJh4ecAzkse/7I2M2mX9RVPZnIsmlMlAlbxMtR58iG/EO7Z07TaLsIp02/hPHKA==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     version: 0.0.0
 
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz':
@@ -3870,7 +3865,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz':
-    resolution: {integrity: sha512-IW69ZVrOKl/OEdNMu8WFMf5h1m5M8jnMXG8yKOwb7/73n32jpQHygG/BrEH/Z6IizwaQmyeiggb293wjrI80qw==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-Xg8S9TSzD+xc2xFNzjpBMNfnRQlXN8q6nRBkcdfMYSu0HiaXldAyhmjF80yBQi9YJelxHGI3OjxVGatz2AIxpw==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-table@file:projects/eventhubs-checkpointstore-table.tgz':
@@ -3978,7 +3973,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz':
-    resolution: {integrity: sha512-ye53RJeHglBs2A8/zhglixvTenyG6mPTJ56fUPOmY2W4T1jeB5Kdd+VNtJvvWXQRI2PYz8ItVxcO+9aHMSZm5Q==, tarball: file:projects/microsoft-playwright-testing.tgz}
+    resolution: {integrity: sha512-k7EhoGfMGlope8DUAcdlkevyoJ3JPplD2KlDiyvhq4JkfFELs5WS6tSyerlT8aamYom/qTfKraXi93Dt78m9sg==, tarball: file:projects/microsoft-playwright-testing.tgz}
     version: 0.0.0
 
   '@rush-temp/mock-hub@file:projects/mock-hub.tgz':
@@ -3999,6 +3994,10 @@ packages:
 
   '@rush-temp/monitor-query-logs@file:projects/monitor-query-logs.tgz':
     resolution: {integrity: sha512-iDOGII5KxRBHJTs4xJ4zFHZtyMwzi1xhjwW227pJMKni026pdn+G1pSiEDYGsJXHDam5Ovw7OZzWFBx65jMR5Q==, tarball: file:projects/monitor-query-logs.tgz}
+    version: 0.0.0
+
+  '@rush-temp/monitor-query-metrics@file:projects/monitor-query-metrics.tgz':
+    resolution: {integrity: sha512-JFbYe7Jr89ojjZgwH+gKg6u4tK5STo6cHfD2Wnj6vqjU8/y3ZroKqHBryE1kiDz7iCJEih4OEcpbnJJquUrC7Q==, tarball: file:projects/monitor-query-metrics.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
@@ -4102,15 +4101,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-storage-blob@file:projects/perf-storage-blob.tgz':
-    resolution: {integrity: sha512-7uBbn5G1Epb2pq2/At1m4A34lixLWcUiydAx97aoQjJT908bqJq0B4gTTrJIGG3hn1wQf9GJ5O6LgYZD/zN6Hg==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-IVC7KG+i6vmjdFDNyFZkm1Tn6ECVi+TpFSz3fa136/84aJ8YaW9UCjLKtjMFcJq9Njird4c5LBDv8ls86VsG1A==, tarball: file:projects/perf-storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-datalake@file:projects/perf-storage-file-datalake.tgz':
-    resolution: {integrity: sha512-5FX6rhJ4xO4TwxKDnUFXdkUfWmXmjtyoYhA0PsGZQkEc6TpZPH8grs5kFtPBa9uX7OnSkvPXlOxSl5eSDiR+fA==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-DaoFyvNtdbBlSI6j9vgYVz6R/PddrDpaFIITI5pnYuKXIWsgrJUSZojIE42tkFnPFJJpmLrtNELoYidQLMznGg==, tarball: file:projects/perf-storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-storage-file-share@file:projects/perf-storage-file-share.tgz':
-    resolution: {integrity: sha512-eiZtjEzB6Jk2mTmTqueFvOljifO4LmhMbNy2b5v8uGYbM755jOvBjlCD4cnAyNdkwjlXwxZTWD4nUd08dhRlkw==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-AjjT4Ne9afSLQCs+6NODvXhzStVtetTjkTAGA3/d5HpisQvyKfkNBgcO1g9g/ioQH9d6S76yOgeZLYNOK5n1RA==, tarball: file:projects/perf-storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-template@file:projects/perf-template.tgz':
@@ -4142,7 +4141,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/quantum-jobs@file:projects/quantum-jobs.tgz':
-    resolution: {integrity: sha512-9oiNIKqviqPgZKeZ08zAqpLBg8JkLaw6/78niHMUYaQp4T4yiHbbkMKVYJ9hteppkvIhEXl2KRgvVDjG9oNyYw==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-qQTMoB8nt8uu9DKB9mCAPqHeCNjG1AiAI1YYwSJkGkTiY7rCt+VT4Eop8+eafsZ/eU71IO0OrEblGmKT4CNheQ==, tarball: file:projects/quantum-jobs.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-avro@file:projects/schema-registry-avro.tgz':
@@ -4166,11 +4165,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-blob-changefeed@file:projects/storage-blob-changefeed.tgz':
-    resolution: {integrity: sha512-wX12apURQHkO3LP2QB4YGq5ZM565kw985KDE1P9HZpLwJWDxNcyJY+eQLpbmTx+Nr5Zm9dz6DJhCv7gvyoWcvw==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-Q4NmUaup7YQSzyNJ/4mSHmU48NDNNxsHr7/ny5kaIIP1upDvZbN73fTJ+xueO2+3t3FpmKQcwP1tLmHoP/feUw==, tarball: file:projects/storage-blob-changefeed.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-blob@file:projects/storage-blob.tgz':
-    resolution: {integrity: sha512-L/LxaZu8uTqM/RdsXpIVOWCt7H9ZMCopOldSBpotf93JLzBVW823G3allhCuFHC8VCHqtzo9MXZoee3pP/Traw==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-01zwLAv60hmKjOPkej3PUbk0sIWeyYC+6hEXZH/3LNBNZi0iQFdLXPhvQzOz/gLBVZd3mxl10g6zYYt/y/IrWw==, tarball: file:projects/storage-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-common@file:projects/storage-common.tgz':
@@ -4178,11 +4177,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-file-datalake@file:projects/storage-file-datalake.tgz':
-    resolution: {integrity: sha512-SCB0E+KIYw4JJQlUr7W9DrNLwPo72x0Tsc3Fhnn8vI1SaxjedvGYxCjN1AfYL1Rg9zhUmkGKO8VXsrT9MLw6ew==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-DNecUhKkrpmHNRfs+dx2AwPsVIM1MQJFP4mItkER+j3MBerAOPUooeBDHAlQ5vG1GmehmcUhX7Y66rzQUW02cA==, tarball: file:projects/storage-file-datalake.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-file-share@file:projects/storage-file-share.tgz':
-    resolution: {integrity: sha512-UJsJrR8yu5LlPGTYr2Ixx/txObKEQ4KMV5A87VHK9QE4h+/FmEnhj/KiaHntfLgLZqYJbDYuHxYJwZQeRMk/jQ==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-C/BNGmlyAsueu3RFZzoDXvm9llwXzZQ6Bjf4YjfnPmfIAmaTTgIxbkMCllNitXWA64nOYkR7UdtZokcCvAv0GA==, tarball: file:projects/storage-file-share.tgz}
     version: 0.0.0
 
   '@rush-temp/storage-internal-avro@file:projects/storage-internal-avro.tgz':
@@ -4190,7 +4189,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/storage-queue@file:projects/storage-queue.tgz':
-    resolution: {integrity: sha512-VGCwo+XHmPEQVFuUq1cq3tqRL0AP5OZ1HW6aW8s0q/Cz3BANXeYnTJe1YcJU0+xpj4MRxV/cydQKGq4CmGAtxg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-Sr1lCiwuTEypLiqRyCmbEY95CT7YVhBGnzK1M8wohOvAcb4cyEUFow9Qj+qu2mDn7mF07fXMji/ngEOfXdu2cw==, tarball: file:projects/storage-queue.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-access-control-1@file:projects/synapse-access-control-1.tgz':
@@ -7111,6 +7110,11 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  typescript@5.9.2:
+    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   uc.micro@2.1.0:
     resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
 
@@ -7934,25 +7938,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/storage-blob@12.28.0':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.10.0
-      '@azure/core-client': 1.10.0
-      '@azure/core-http-compat': 2.3.0
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.0
-      '@azure/core-tracing': 1.3.0
-      '@azure/core-util': 1.13.0
-      '@azure/core-xml': 1.5.0
-      '@azure/logger': 1.3.0
-      '@azure/storage-common': 12.0.0
-      events: 3.3.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/storage-common@12.0.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -7962,25 +7947,6 @@ snapshots:
       '@azure/core-tracing': 1.3.0
       '@azure/core-util': 1.13.0
       '@azure/logger': 1.3.0
-      events: 3.3.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/storage-file-datalake@12.27.0':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.10.0
-      '@azure/core-client': 1.10.0
-      '@azure/core-http-compat': 2.3.0
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.22.0
-      '@azure/core-tracing': 1.3.0
-      '@azure/core-util': 1.13.0
-      '@azure/core-xml': 1.5.0
-      '@azure/logger': 1.3.0
-      '@azure/storage-blob': 12.28.0
-      '@azure/storage-common': 12.0.0
       events: 3.3.0
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -9403,7 +9369,6 @@ snapshots:
       '@azure/arm-cognitiveservices': 7.6.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.10.2
-      '@azure/storage-blob': 12.28.0
       '@types/node': 20.19.9
       '@types/unzipper': 0.10.11
       '@vitest/browser': 3.2.4(playwright@1.54.1)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
@@ -9482,7 +9447,6 @@ snapshots:
     dependencies:
       '@azure/identity': 4.10.2
       '@azure/opentelemetry-instrumentation-azure-sdk': 1.0.0-beta.7
-      '@azure/storage-blob': 12.28.0
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.57.2(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 2.0.1(@opentelemetry/api@1.9.0)
@@ -9563,7 +9527,6 @@ snapshots:
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.2
-      '@azure/storage-blob': 12.28.0
       '@types/node': 20.19.9
       '@vitest/browser': 3.2.4(playwright@1.54.1)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
@@ -9755,7 +9718,6 @@ snapshots:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure/identity': 4.10.2
-      '@azure/storage-blob': 12.28.0
       '@types/node': 20.19.9
       '@vitest/browser': 3.2.4(playwright@1.54.1)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
@@ -20876,7 +20838,7 @@ snapshots:
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)':
     dependencies:
-      '@_ts/max': typescript@5.8.3
+      '@_ts/max': typescript@5.9.2
       '@_ts/min': typescript@4.2.4
       '@arethetypeswrong/cli': 0.17.4
       '@azure/identity': 4.10.2
@@ -21229,7 +21191,6 @@ snapshots:
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz(rollup@4.46.2)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.2
-      '@azure/storage-blob': 12.28.0
       '@rollup/plugin-inject': 5.0.5(rollup@4.46.2)
       '@types/chai-as-promised': 8.0.2
       '@types/debug': 4.1.12
@@ -22239,7 +22200,6 @@ snapshots:
   '@rush-temp/microsoft-playwright-testing@file:projects/microsoft-playwright-testing.tgz(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.2
-      '@azure/storage-blob': 12.28.0
       '@playwright/test': 1.54.1
       '@types/debug': 4.1.12
       '@types/node': 20.19.9
@@ -22443,6 +22403,45 @@ snapshots:
       - yaml
 
   '@rush-temp/monitor-query-logs@file:projects/monitor-query-logs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@azure/identity': 4.10.2
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
+      '@types/node': 20.19.9
+      '@vitest/browser': 3.2.4(playwright@1.54.1)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.6.1
+      eslint: 9.32.0
+      playwright: 1.54.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/monitor-query-metrics@file:projects/monitor-query-metrics.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.2
       '@opentelemetry/api': 1.9.0
@@ -22917,7 +22916,6 @@ snapshots:
 
   '@rush-temp/perf-storage-blob@file:projects/perf-storage-blob.tgz':
     dependencies:
-      '@azure/storage-blob': 12.28.0
       '@types/node': 20.19.9
       dotenv: 16.6.1
       eslint: 9.32.0
@@ -22929,7 +22927,6 @@ snapshots:
 
   '@rush-temp/perf-storage-file-datalake@file:projects/perf-storage-file-datalake.tgz':
     dependencies:
-      '@azure/storage-file-datalake': 12.27.0
       '@types/node': 20.19.9
       dotenv: 16.6.1
       eslint: 9.32.0
@@ -22941,7 +22938,6 @@ snapshots:
 
   '@rush-temp/perf-storage-file-share@file:projects/perf-storage-file-share.tgz':
     dependencies:
-      '@azure/storage-file-share': 12.28.0
       '@types/node': 20.19.9
       dotenv: 16.6.1
       eslint: 9.32.0
@@ -23187,7 +23183,6 @@ snapshots:
   '@rush-temp/quantum-jobs@file:projects/quantum-jobs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.2
-      '@azure/storage-blob': 12.28.0
       '@types/node': 20.19.9
       '@vitest/browser': 3.2.4(playwright@1.54.1)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
@@ -23443,7 +23438,6 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.10.2
-      '@azure/storage-blob': 12.28.0
       '@types/node': 20.19.9
       '@vitest/browser': 3.2.4(playwright@1.54.1)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
@@ -23591,7 +23585,6 @@ snapshots:
   '@rush-temp/storage-file-share@file:projects/storage-file-share.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.2
-      '@azure/storage-blob': 12.28.0
       '@types/node': 20.19.9
       '@vitest/browser': 3.2.4(playwright@1.54.1)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
       '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
@@ -27404,6 +27397,8 @@ snapshots:
   typescript@5.8.2: {}
 
   typescript@5.8.3: {}
+
+  typescript@5.9.2: {}
 
   uc.micro@2.1.0: {}
 

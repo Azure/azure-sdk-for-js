@@ -170,10 +170,10 @@
 # AzureSdkOwners:  @KarishmaGhiya @maorleger
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @maorleger @timovv
+/sdk/keyvault/ @maorleger @timovv @Azure/azure-sdk-write-keyvault
 
 # ServiceLabel: %KeyVault
-# AzureSdkOwners:  @maorleger @timovv
+# AzureSdkOwners:  @maorleger @timovv @Azure/azure-sdk-write-keyvault
 
 # PRLabel: %OpenTelemetryInstrumentation
 /sdk/instrumentation/ @maorleger
@@ -1345,7 +1345,7 @@
 #/<NotInRepo>/          @madhurinms
 
 # ServiceLabel: %KeyVault %Service Attention
-#/<NotInRepo>/          @cheathamb36 @chen-karen @vickm
+#/<NotInRepo>/          @cheathamb36 @chen-karen @vickm @Azure/azure-sdk-write-keyvault
 
 # ServiceLabel: %Kubernetes Configuration %Service Attention
 #/<NotInRepo>/          @NarayanThiru

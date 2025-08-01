@@ -4,8 +4,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import type { AbortError } from "@azure/abort-controller";
-import type { DeviceCodePromptCallback } from "../../../src/index.js";
-import { DeviceCodeCredential } from "../../../src/index.js";
+import type { DeviceCodePromptCallback } from "@azure/identity";
+import { DeviceCodeCredential } from "@azure/identity";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
