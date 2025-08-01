@@ -23,7 +23,7 @@ class RedactQueryStringProcessor {
         return Promise.resolve();
     }
 
-    onEnd(span: any) {
+    onEnd(span: Span) {
         // Import semantic conventions inside the method
         const {
             SEMATTRS_HTTP_ROUTE,
