@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { leafCommand, makeCommandInfo } from "../../../framework/command";
-import { readFile, readdir, stat } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { resolveRoot } from "../../../util/resolveProject";
 import path from "node:path";
 import stripJsonComments from "strip-json-comments";
