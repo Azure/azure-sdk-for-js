@@ -18,11 +18,9 @@ export const commandInfo = makeCommandInfo(
   },
 );
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _rushJson: any = undefined;
+let _rushJson: { projects: RushJsonProject[] } | undefined = undefined;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function getRushJson(): Promise<any> {
+async function getRushJson(): Promise<{ projects: RushJsonProject[] }> {
   if (_rushJson) return _rushJson;
 
   const rushJsonText = await readFile(
