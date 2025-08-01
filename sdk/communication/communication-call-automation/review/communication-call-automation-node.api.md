@@ -140,7 +140,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted | StartRecordingFailed | MoveParticipantSucceeded | MoveParticipantFailed | TranscriptionCallSummaryUpdate;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted | StartRecordingFailed | MoveParticipantSucceeded | MoveParticipantFailed | TranscriptionCallSummaryUpdated;
 
 // @public
 export interface CallConnected
@@ -1667,10 +1667,10 @@ export interface TextSource extends PlaySource {
 export type Tone = string;
 
 // @public (undocumented)
-export interface TranscriptionCallSummaryUpdate {
+export interface TranscriptionCallSummaryUpdated {
     callConnectionId?: string;
     correlationId?: string;
-    kind: "TranscriptionCallSummaryUpdate";
+    kind: "TranscriptionCallSummaryUpdated";
     operationContext?: string;
     resultInformation?: ResultInformation;
     serverCallId?: string;
@@ -1722,7 +1722,7 @@ export interface TranscriptionOptions {
     enableIntermediateResults?: boolean;
     enableSentimentAnalysis?: boolean;
     locale?: string;
-    locales: string[];
+    locales?: string[];
     piiRedactionOptions?: PiiRedactionOptions;
     speechModelEndpointId?: string;
     startTranscription?: boolean;

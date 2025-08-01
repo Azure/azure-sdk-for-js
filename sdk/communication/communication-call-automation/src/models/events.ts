@@ -85,7 +85,7 @@ export type CallAutomationEvent =
   | StartRecordingFailed
   | MoveParticipantSucceeded
   | MoveParticipantFailed
-  | TranscriptionCallSummaryUpdate;
+  | TranscriptionCallSummaryUpdated;
 export {
   RestAddParticipantSucceeded,
   RestAddParticipantFailed,
@@ -1022,7 +1022,7 @@ export interface MoveParticipantFailed {
   kind: "MoveParticipantFailed";
 }
 
-export interface TranscriptionCallSummaryUpdate {
+export interface TranscriptionCallSummaryUpdated {
   /**
    * Defines the result for TranscriptionUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1039,5 +1039,5 @@ export interface TranscriptionCallSummaryUpdate {
   /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
-  kind: "TranscriptionCallSummaryUpdate";
+  kind: "TranscriptionCallSummaryUpdated";
 }

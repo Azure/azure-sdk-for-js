@@ -43,7 +43,7 @@ import type {
   StartRecordingFailed,
   MoveParticipantSucceeded,
   MoveParticipantFailed,
-  TranscriptionCallSummaryUpdate,
+  TranscriptionCallSummaryUpdated,
 } from "./models/events.js";
 
 import { CloudEventMapper } from "./models/mapper.js";
@@ -160,8 +160,8 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.TranscriptionFailed":
       callbackEvent = { kind: "TranscriptionFailed" } as TranscriptionFailed;
       break;
-    case "Microsoft.Communication.TranscriptionCallSummaryUpdate":
-      callbackEvent = { kind: "TranscriptionCallSummaryUpdate" } as TranscriptionCallSummaryUpdate;
+    case "Microsoft.Communication.TranscriptionCallSummaryUpdated":
+      callbackEvent = { kind: "TranscriptionCallSummaryUpdated" } as TranscriptionCallSummaryUpdated;
       break;
     case "Microsoft.Communication.CreateCallFailed":
       callbackEvent = { kind: "CreateCallFailed" } as CreateCallFailed;
