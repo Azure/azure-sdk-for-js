@@ -3,10 +3,14 @@
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
-  OperationStatusResult,
-  PublicCloudConnector,
-  PublicCloudConnectorUpdate,
-} from "../../models/models.js";
+  testPermissions,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/publicCloudConnectors/operations.js";
 import {
   PublicCloudConnectorsTestPermissionsOptionalParams,
   PublicCloudConnectorsListBySubscriptionOptionalParams,
@@ -17,14 +21,10 @@ import {
   PublicCloudConnectorsGetOptionalParams,
 } from "../../api/publicCloudConnectors/options.js";
 import {
-  testPermissions,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/publicCloudConnectors/operations.js";
+  PublicCloudConnector,
+  PublicCloudConnectorUpdate,
+  OperationStatusResult,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

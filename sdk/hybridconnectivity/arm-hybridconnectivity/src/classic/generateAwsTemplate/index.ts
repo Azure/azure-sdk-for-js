@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
-import { GenerateAwsTemplateRequest } from "../../models/models.js";
-import { GenerateAwsTemplatePostOptionalParams } from "../../api/generateAwsTemplate/options.js";
 import { post } from "../../api/generateAwsTemplate/operations.js";
+import { GenerateAwsTemplatePostOptionalParams } from "../../api/generateAwsTemplate/options.js";
+import { GenerateAwsTemplateRequest, GenerateAwsTemplateResponse } from "../../models/models.js";
 
 /** Interface representing a GenerateAwsTemplate operations. */
 export interface GenerateAwsTemplateOperations {
@@ -12,7 +12,7 @@ export interface GenerateAwsTemplateOperations {
   post: (
     generateAwsTemplateRequest: GenerateAwsTemplateRequest,
     options?: GenerateAwsTemplatePostOptionalParams,
-  ) => Promise<Record<string, any>>;
+  ) => Promise<GenerateAwsTemplateResponse>;
 }
 
 function _getGenerateAwsTemplate(context: HybridConnectivityManagementAPIContext) {

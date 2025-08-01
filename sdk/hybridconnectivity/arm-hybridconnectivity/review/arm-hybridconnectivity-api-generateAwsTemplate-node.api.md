@@ -12,7 +12,7 @@ export interface GenerateAwsTemplatePostOptionalParams extends OperationOptions 
 }
 
 // @public
-export function post(context: HybridConnectivityManagementAPIContext, generateAwsTemplateRequest: GenerateAwsTemplateRequest, options?: GenerateAwsTemplatePostOptionalParams): Promise<Record<string, any>>;
+export function post(context: HybridConnectivityManagementAPIContext, generateAwsTemplateRequest: GenerateAwsTemplateRequest, options?: GenerateAwsTemplatePostOptionalParams): Promise<GenerateAwsTemplateResponse>;
 
 // (No @packageDocumentation comment for this package)
 

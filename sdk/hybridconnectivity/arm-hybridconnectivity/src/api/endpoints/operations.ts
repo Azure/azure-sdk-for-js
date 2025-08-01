@@ -21,6 +21,11 @@ import {
   managedProxyResourceDeserializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListIngressGatewayCredentialsOptionalParams,
   EndpointsListCredentialsOptionalParams,
@@ -30,11 +35,6 @@ import {
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -52,11 +52,11 @@ export function _listManagedProxyDetailsSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listManagedProxyDetails{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listManagedProxyDetails{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,11 +115,11 @@ export function _listIngressGatewayCredentialsSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listIngressGatewayCredentials{?api-version,expiresin}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listIngressGatewayCredentials{?api%2Dversion,expiresin}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
       expiresin: options?.expiresin,
     },
     {
@@ -179,11 +179,11 @@ export function _listCredentialsSend(
   options: EndpointsListCredentialsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listCredentials{?api-version,expiresin}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/listCredentials{?api%2Dversion,expiresin}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
       expiresin: options?.expiresin,
     },
     {
@@ -233,10 +233,10 @@ export function _listSend(
   options: EndpointsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints{?api%2Dversion}",
     {
       resourceUri: resourceUri,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -284,11 +284,11 @@ export function _$deleteSend(
   options: EndpointsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -338,11 +338,11 @@ export function _updateSend(
   options: EndpointsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -390,11 +390,11 @@ export function _createOrUpdateSend(
   options: EndpointsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -449,11 +449,11 @@ export function _getSend(
   options: EndpointsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api-version}",
+    "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -35,6 +35,16 @@ export interface AwsCloudProfileUpdate {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export type CloudNativeType = string;
 
 // @public
@@ -112,7 +122,7 @@ export interface EndpointsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -136,7 +146,7 @@ export interface ExtensionResource extends Resource {
 
 // @public
 export interface GenerateAwsTemplateOperations {
-    post: (generateAwsTemplateRequest: GenerateAwsTemplateRequest, options?: GenerateAwsTemplatePostOptionalParams) => Promise<Record<string, any>>;
+    post: (generateAwsTemplateRequest: GenerateAwsTemplateRequest, options?: GenerateAwsTemplatePostOptionalParams) => Promise<GenerateAwsTemplateResponse>;
 }
 
 // @public
@@ -147,6 +157,10 @@ export interface GenerateAwsTemplatePostOptionalParams extends OperationOptions 
 export interface GenerateAwsTemplateRequest {
     connectorId: string;
     solutionTypes?: SolutionTypeSettings[];
+}
+
+// @public
+export interface GenerateAwsTemplateResponse {
 }
 
 // @public
@@ -169,6 +183,7 @@ export class HybridConnectivityManagementAPI {
 // @public
 export interface HybridConnectivityManagementAPIOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -591,7 +606,8 @@ export interface SolutionConfigurationUpdate extends ProxyResource {
 }
 
 // @public
-export interface SolutionSettings extends Record<string, string> {
+export interface SolutionSettings {
+    additionalProperties?: Record<string, string>;
 }
 
 // @public

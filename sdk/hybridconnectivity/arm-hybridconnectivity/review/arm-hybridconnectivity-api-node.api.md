@@ -20,6 +20,7 @@ export interface HybridConnectivityManagementAPIContext extends Client {
 // @public
 export interface HybridConnectivityManagementAPIOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // (No @packageDocumentation comment for this package)
