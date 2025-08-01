@@ -625,6 +625,9 @@ importers:
       '@rush-temp/arm-pineconevectordb':
         specifier: file:./projects/arm-pineconevectordb.tgz
         version: file:projects/arm-pineconevectordb.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/arm-placeholder':
+        specifier: file:./projects/arm-placeholder.tgz
+        version: file:projects/arm-placeholder.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-planetarycomputer':
         specifier: file:./projects/arm-planetarycomputer.tgz
         version: file:projects/arm-planetarycomputer.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -2558,7 +2561,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-wL7aZKklc1l95KbqfUKTg8I1Y3dweC+OXjWutw0NNbeHQT4AyPbea2ZFK1rXLc/SWcjqNnVyo5EVWF5L1UnP2Q==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-iZohujpuN3umlV0OWzZA8SdzsfbgarR5jyGISij/v7jwcUa3KTVi4EHMhFFHiyf4w2zsMj7yO1JsIsIdEfrwTg==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -2754,7 +2757,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz':
-    resolution: {integrity: sha512-xJEc0qKFPFTVTQ379v8N+f6MNjSO+B13vzlL6sFH4eJmg4MI1YxCKXMiBBHCVjxlMV+guSsMkLtQr/K29+tTyw==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-rIHgYsZG2QSo1244KrsraoXkDdcR4cP1prdzm+Rp2M/604NLX2y73AlaBcWdtNd8PbI4A8UtSNxKwGx2YzXDWQ==, tarball: file:projects/arm-compute-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid@file:projects/arm-compute-profile-2020-09-01-hybrid.tgz':
@@ -3327,6 +3330,10 @@ packages:
 
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz':
     resolution: {integrity: sha512-Alv+1wJ/XUREDynNGiyVlyj7qtybzP7Z3R38XLvxICGdiS8J/ZDn4Y/Qm6xkh2QxN1BG0PbOOEB6NBnqheg92w==, tarball: file:projects/arm-pineconevectordb.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-placeholder@file:projects/arm-placeholder.tgz':
+    resolution: {integrity: sha512-cY8Dgzl1cHjQIjL60bcta1ifESzQAqRd4D2i+igNC+oa29OI8WW3ON6MwNots06+apHIgVh6XUZ0F21vicANIw==, tarball: file:projects/arm-placeholder.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-planetarycomputer@file:projects/arm-planetarycomputer.tgz':
@@ -7100,6 +7107,11 @@ packages:
 
   typescript@5.8.3:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  typescript@5.9.2:
+    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -16333,6 +16345,42 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/arm-placeholder@file:projects/arm-placeholder.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@azure/identity': 4.10.2
+      '@types/node': 20.19.9
+      '@vitest/browser': 3.2.4(playwright@1.54.1)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.6.1
+      eslint: 9.32.0
+      playwright: 1.54.1
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/arm-planetarycomputer@file:projects/arm-planetarycomputer.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.2
@@ -20826,7 +20874,7 @@ snapshots:
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)':
     dependencies:
-      '@_ts/max': typescript@5.8.3
+      '@_ts/max': typescript@5.9.2
       '@_ts/min': typescript@4.2.4
       '@arethetypeswrong/cli': 0.17.4
       '@azure/identity': 4.10.2
@@ -27274,7 +27322,7 @@ snapshots:
       resolve-import: 2.0.0
       rimraf: 6.0.1
       sync-content: 2.0.1
-      typescript: 5.8.3
+      typescript: 5.9.2
       walk-up-path: 4.0.0
 
   tslib@2.8.1: {}
@@ -27346,6 +27394,8 @@ snapshots:
   typescript@5.8.2: {}
 
   typescript@5.8.3: {}
+
+  typescript@5.9.2: {}
 
   uc.micro@2.1.0: {}
 
