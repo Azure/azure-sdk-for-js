@@ -8,12 +8,13 @@
 /**
  * Custom span processor that redacts query strings from HTTP attributes
  */
+import { Span, Context } from '@opentelemetry/api';
 class RedactQueryStringProcessor {
     forceFlush() {
         return Promise.resolve();
     }
 
-    onStart(span: any, parentContext: any) {
+    onStart(span: Span, parentContext: Context) {
         // No action needed on span start
         return;
     }
