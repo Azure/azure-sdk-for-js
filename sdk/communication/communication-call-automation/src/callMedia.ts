@@ -519,7 +519,6 @@ export class CallMedia {
    * @param options - Additional attributes for start transcription.
    */
   public async startTranscription(
-    locales: string[],
     options: StartTranscriptionOptions = {},
   ): Promise<void> {
     const startTranscriptionRequest: StartTranscriptionRequest = {
@@ -528,7 +527,7 @@ export class CallMedia {
       speechModelEndpointId: options.speechRecognitionModelEndpointId,
       operationCallbackUri: options.operationCallbackUrl,
       piiRedactionOptions: options.piiRedactionOptions,
-      locales: locales,
+      locales: options.locales,
       enableSentimentAnalysis: options.enableSentimentAnalysis,
       summarizationOptions: options.summarizationOptions,
     };
@@ -550,9 +549,9 @@ export class CallMedia {
   /**
    * Update transcription language.
    */
-  public async updateTranscription(options: UpdateTranscriptionOptions = {}): Promise<void> {
+  public async updateTranscription(locale: string, options: UpdateTranscriptionOptions = {}): Promise<void> {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
-      locale: options.locale,
+      locale: locale,
       speechModelEndpointId: options.speechRecognitionModelEndpointId,
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,

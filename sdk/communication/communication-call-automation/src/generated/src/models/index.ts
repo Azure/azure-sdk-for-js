@@ -1494,6 +1494,7 @@ export interface TranscriptionFailed {
 export interface TranscriptionUpdate {
   transcriptionStatus?: TranscriptionStatus;
   transcriptionStatusDetails?: TranscriptionStatusDetails;
+  /** Optional message providing additional context about the transcription update. */
   message?: string;
 }
 
@@ -1551,7 +1552,7 @@ export interface TranscriptionUpdated {
   resultInformation?: ResultInformation;
 }
 
-export interface TranscriptionCallSummaryUpdate {
+export interface TranscriptionCallSummaryUpdated {
   /**
    * Defines the result for TranscriptionUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2228,8 +2229,8 @@ export enum KnownTranscriptionStatus {
   TranscriptionUpdated = "transcriptionUpdated",
   /** TranscriptionStopped */
   TranscriptionStopped = "transcriptionStopped",
-  /** CallSummaryUpdate */
-  CallSummaryUpdate = "callSummaryUpdate",
+  /** CallSummaryUpdated */
+  CallSummaryUpdated = "callSummaryUpdated",
   /** UnspecifiedError */
   UnspecifiedError = "unspecifiedError",
 }
@@ -2244,7 +2245,7 @@ export enum KnownTranscriptionStatus {
  * **transcriptionResumed** \
  * **transcriptionUpdated** \
  * **transcriptionStopped** \
- * **callSummaryUpdate** \
+ * **callSummaryUpdated** \
  * **unspecifiedError**
  */
 export type TranscriptionStatus = string;

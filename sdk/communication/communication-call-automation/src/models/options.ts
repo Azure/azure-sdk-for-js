@@ -317,11 +317,6 @@ export type PauseRecordingOptions = OperationOptions;
 export type GetRecordingPropertiesOptions = OperationOptions;
 
 /**
- * Options to get recording result.
- */
-export type GetRecordingResultOptions = OperationOptions;
-
-/**
  * Options to resume recording.
  */
 export type ResumeRecordingOptions = OperationOptions;
@@ -399,6 +394,8 @@ export interface StartTranscriptionOptions extends OperationOptions {
   enableSentimentAnalysis?: boolean;
   /** Summarization configuration options. */
   summarizationOptions?: SummarizationOptions;
+  /** Gets or sets a list of languages for Language Identification. */
+  locales?: string[];
 }
 
 /**

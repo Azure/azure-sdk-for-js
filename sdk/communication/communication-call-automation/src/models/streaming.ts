@@ -3,6 +3,7 @@
 
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import type { SentimentAnalysisResult, TranscriptionResultState } from "../generated/src/index.js";
+import { PiiRedactionOptions } from "./models.js";
 
 /**
  * Audio streaming data.
@@ -69,6 +70,10 @@ export interface TranscriptionMetadata {
   correlationId: string;
   /** The custom speech recognition model endpoint id.*/
   speechRecognitionModelEndpointId: string;
+  /** Enable sentiment analysis.*/
+  enableSentimentAnalysis: boolean;
+  /** PII Redaction options. */
+  PiiRedactionOptions?: PiiRedactionOptions;
 }
 
 /**

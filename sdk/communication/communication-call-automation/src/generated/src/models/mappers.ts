@@ -4341,10 +4341,10 @@ export const TranscriptionUpdated: coreClient.CompositeMapper = {
   },
 };
 
-export const TranscriptionCallSummaryUpdate: coreClient.CompositeMapper = {
+export const TranscriptionCallSummaryUpdated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TranscriptionCallSummaryUpdate",
+    className: "TranscriptionCallSummaryUpdated",
     modelProperties: {
       transcriptionUpdate: {
         serializedName: "transcriptionUpdate",

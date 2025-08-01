@@ -247,13 +247,13 @@ export class CallMedia {
     // @deprecated
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, options: CallMediaRecognizeDtmfOptions): Promise<void>;
     startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<void>;
-    startTranscription(locales: string[], options?: StartTranscriptionOptions): Promise<void>;
+    startTranscription(options?: StartTranscriptionOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
     stopMediaStreaming(options?: StopMediaStreamingOptions): Promise<void>;
     stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
     summarizeCall(options?: SummarizeCallOptions): Promise<void>;
     unhold(targetParticipant: CommunicationIdentifier, options?: UnholdOptions): Promise<void>;
-    updateTranscription(options?: UpdateTranscriptionOptions): Promise<void>;
+    updateTranscription(locale: string, options?: UpdateTranscriptionOptions): Promise<void>;
 }
 
 // @public
@@ -628,9 +628,6 @@ export type GetParticipantOptions = OperationOptions;
 
 // @public
 export type GetRecordingPropertiesOptions = OperationOptions;
-
-// @public
-export type GetRecordingResultOptions = OperationOptions;
 
 // @public
 export type HangUpOptions = OperationOptions;
@@ -1559,6 +1556,7 @@ export interface StartRecordingOptions extends OperationOptions {
 export interface StartTranscriptionOptions extends OperationOptions {
     enableSentimentAnalysis?: boolean;
     locale?: string;
+    locales?: string[];
     operationCallbackUrl?: string;
     operationContext?: string;
     piiRedactionOptions?: PiiRedactionOptions;
@@ -1712,7 +1710,9 @@ extends Omit<RestTranscriptionFailed, "callConnectionId" | "serverCallId" | "cor
 export interface TranscriptionMetadata {
     callConnectionId: string;
     correlationId: string;
+    enableSentimentAnalysis: boolean;
     locale: string;
+    PiiRedactionOptions?: PiiRedactionOptions;
     speechRecognitionModelEndpointId: string;
     subscriptionId: string;
 }
@@ -1761,7 +1761,6 @@ extends Omit<RestTranscriptionStopped, "callConnectionId" | "serverCallId" | "co
 
 // @public (undocumented)
 export interface TranscriptionUpdate {
-    // (undocumented)
     message?: string;
     // Warning: (ae-forgotten-export) The symbol "TranscriptionStatus" needs to be exported by the entry point index.d.ts
     //
