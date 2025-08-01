@@ -381,8 +381,10 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
   if ($null -eq $ReleaseDate) {
     $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
   }
-  Push-Location "$EngDir/tools/versioning"
+  Push-Location "$EngDir/tools/eng-package-utils"
   Confirm-NodeInstallation
+  npm install
+  Push-Location "$EngDir/tools/versioning"
   npm install
   $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
   node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate `

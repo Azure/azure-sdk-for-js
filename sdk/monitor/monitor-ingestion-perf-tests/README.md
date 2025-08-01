@@ -2,7 +2,7 @@
 
 ### Guide
 
-1. Build the monitor-ingestion perf tests package `rush build -t perf-monitor-ingestion`.
+1. Build the monitor-ingestion perf tests package `pnpm build --filter perf-monitor-ingestion...`.
 2. Copy the `sample.env` file and name it as `.env`.
 3. Create the necessary test resources (either using the `New-TestResources.ps1` script or by following [this guide])
 4. Run the tests as follows:

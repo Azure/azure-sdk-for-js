@@ -108,7 +108,7 @@
     "@azure-tools/test-perf": "^1.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@azure/storage-blob": "^12.28.0",
+    "@azure/storage-blob": "12.27.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.7.0",

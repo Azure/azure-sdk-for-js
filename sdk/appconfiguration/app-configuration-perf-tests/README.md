@@ -1,6 +1,6 @@
 ### Guide
 
-1. Build the app-config perf tests package `rush build -t perf-app-configuration`.
+1. Build the app-config perf tests package `pnpm build --filter perf-app-configuration...`.
 2. Copy the `sample.env` file and name it as `.env`.
 3. Create a App Configuration resource and populate the `.env` file with `APPCONFIG_CONNECTION_STRING` variable.
 4. Run the tests as follows

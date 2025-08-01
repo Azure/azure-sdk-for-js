@@ -15,8 +15,8 @@ Extra environment variables you can use:
 - `ACCOUNT_KEY`: masterkey for testing (default is the emulators default key)
 ### Running tests
 #### Using command line
-- Running all tests: `rushx test`
-- Running individual test case: `rushx integration-test:node -g "<test case name>"`
+- Running all tests: `npm run test`
+- Running individual test case: `npm run test:node -g "<test case name>"`
 #### Using VSCode
 - VSCode test configuration is stored in `.vscode/lauch.json`
 - Running individual test case: Open the test file and select the test name. Go to `Run and Debug` explorer in VSCode. Select `Test: Selected Test Case` from configuration selector and press run button.

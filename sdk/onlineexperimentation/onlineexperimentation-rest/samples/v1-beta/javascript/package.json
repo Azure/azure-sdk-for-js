@@ -2,7 +2,7 @@
   "name": "@azure-samples/onlineexperimentation-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "A description of your services client library samples for JavaScript (Beta)",
+  "description": "Azure Online Experimentation REST client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
   },

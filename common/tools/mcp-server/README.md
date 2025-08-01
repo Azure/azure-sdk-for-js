@@ -30,7 +30,7 @@ The MCP server can be enabled by adding the following entry under the root ./.vs
 
 The [MCP inspector](https://github.com/modelcontextprotocol/inspector) is a developer tool for testing and debugging MCP servers. It can be used to test the MCP server functionality without the non-determinism of an LLM.
 
-To use the MCP inspector, simply run `rushx start:inspect` from this directory and navigate to `http://localhost:<port>` in your web browser. The port number will be displayed in the console output.
+To use the MCP inspector, simply run `npm run start:inspect` from this directory and navigate to `http://localhost:<port>` in your web browser. The port number will be displayed in the console output.
 
 ## Key Concepts
 

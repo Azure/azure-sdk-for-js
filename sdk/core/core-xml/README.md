@@ -23,7 +23,7 @@ XML parsing is mostly delegated to the browser and `xml2js`.
 
 ## Examples
 
-Examples can be found in the `samples-dev` folder and can be ran using `rushx execute:samples`.
+Examples can be found in the `samples-dev` folder and can be ran using `npm run execute:samples`.
 
 ## Next steps
 
