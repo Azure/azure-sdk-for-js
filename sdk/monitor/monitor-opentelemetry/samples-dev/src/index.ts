@@ -59,29 +59,29 @@ const runExample = async (): Promise<void> => {
     // 2. Connection using environment variable
     // await EnvironmentConnectionExample.run();
 
-  // 3. Cloud role name and instance configuration
-  // await CloudRoleExample.run();
+    // 3. Cloud role name and instance configuration
+    // await CloudRoleExample.run();
 
-  // 4. Sampling configuration
-  // await SamplingExample.run();
+    // 4. Sampling configuration
+    // await SamplingExample.run();
 
-  // 5. Live metrics configuration
-  // await LiveMetricsExample.run();
+    // 5. Live metrics configuration
+    // await LiveMetricsExample.run();
 
-  // 6. Offline storage configuration
-  // await OfflineStorageExample.run();
+    // 6. Offline storage configuration
+    // await OfflineStorageExample.run();
 
-  // 7. OTLP exporter configuration
-  // await OtlpExporterExample.run();
+    // 7. OTLP exporter configuration
+    // await OtlpExporterExample.run();
 
-  // 8. Redact URL query strings
-  // await RedactQueryStringExample.run();
+    // 8. Redact URL query strings
+    // await RedactQueryStringExample.run();
 
-  // 9. Custom metrics example
-  // await CustomMetricExample.run();
+    // 9. Custom metrics example
+    // await CustomMetricExample.run();
 
-  // 10. Custom traces example
-  // await CustomTraceExample.run();
+    // 10. Custom traces example
+    // await CustomTraceExample.run();
 
     // ========================================================================
     // Instructions
