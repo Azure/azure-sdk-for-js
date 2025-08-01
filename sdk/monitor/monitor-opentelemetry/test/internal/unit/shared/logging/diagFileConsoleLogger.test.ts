@@ -79,9 +79,12 @@ describe("Library/DiagFileConsoleLogger", () => {
       );
       logger["_maxSizeBytes"] = 122;
 
-      const writeStub = vi.spyOn(fileHelper, "writeFileAsync");
-      const appendStub = vi.spyOn(fileHelper, "appendFileAsync");
-      const readStub = vi.spyOn(fileHelper, "readFileAsync");
+      const writeStub = vi.spyOn(fileHelper, "writeFileAsync").mockImplementation(async () => {});
+      const appendStub = vi.spyOn(fileHelper, "appendFileAsync").mockImplementation(async () => {});
+      const readStub = vi.spyOn(fileHelper, "readFileAsync").mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async () => Buffer.from("existing content"),
+      );
       logger["_logToFile"] = true;
 
       await logger["logMessage"]("backupTestMessage");
@@ -106,8 +109,11 @@ describe("Library/DiagFileConsoleLogger", () => {
           // Fake file size check
           123,
       );
-      const writeStub = vi.spyOn(fileHelper, "writeFileAsync");
-      const readStub = vi.spyOn(fileHelper, "readFileAsync");
+      const writeStub = vi.spyOn(fileHelper, "writeFileAsync").mockImplementation(async () => {});
+      const readStub = vi.spyOn(fileHelper, "readFileAsync").mockImplementation(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async () => Buffer.from("existing content"),
+      );
       logger["_maxSizeBytes"] = 122;
       logger["_logToFile"] = true;
       await logger["logMessage"]("backupTestMessage");
@@ -139,7 +145,7 @@ describe("Library/DiagFileConsoleLogger", () => {
           ] as any,
       );
       logger["_maxHistory"] = 0;
-      const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync");
+      const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync").mockImplementation(async () => {});
       await logger["_fileCleanupTask"]();
       expect(unlinkStub).toHaveBeenCalledTimes(2);
     });
@@ -156,7 +162,7 @@ describe("Library/DiagFileConsoleLogger", () => {
           ] as any,
       );
       logger["_maxHistory"] = 1;
-      const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync");
+      const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync").mockImplementation(async () => {});
       await logger["_fileCleanupTask"]();
       expect(unlinkStub).toHaveBeenCalledTimes(1);
       assert.ok(
