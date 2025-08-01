@@ -13,8 +13,8 @@ export class CloudRoleExample {
         const { useAzureMonitor } = require('@azure/monitor-opentelemetry');
         const { resourceFromAttributes } = require('@opentelemetry/resources');
         const { ATTR_SERVICE_NAME } = require('@opentelemetry/semantic-conventions');
-        const { ATTR_SERVICE_NAMESPACE, ATTR_SERVICE_INSTANCE_ID } =
-            await require('@opentelemetry/semantic-conventions/incubating');
+        const semanticConventionsIncubating = await require('@opentelemetry/semantic-conventions/incubating');
+        const { ATTR_SERVICE_NAMESPACE, ATTR_SERVICE_INSTANCE_ID } = semanticConventionsIncubating;
 
         try {
             // Create a new Resource object with custom resource attributes
