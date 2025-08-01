@@ -11,7 +11,14 @@ import {
 } from "./utils/index.js";
 import type { QueueServiceClient } from "../src/index.js";
 import { QueueClient } from "../src/index.js";
-import type { RestError } from "@azure/core-rest-pipeline";
+import type {
+  Pipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  RestError,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
@@ -274,5 +281,52 @@ describe("QueueClient - Verify Name Properties", () => {
     const newClient = new QueueClient(`https://customdomain.com/${queueName}`);
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
     assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
+  });
+});
+
+describe("QueueClient", () => {
+  let queueServiceClient: QueueServiceClient;
+  let queueName: string;
+  let queueClient: QueueClient;
+
+  let recorder: Recorder;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    queueServiceClient = getQSU(recorder);
+    queueName = recorder.variable("queue", getUniqueName("queue"));
+    queueClient = queueServiceClient.getQueueClient(queueName);
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  function XMSVersioninjectorPolicy(version: string): PipelinePolicy {
+    return {
+      name: "XMSVersioninjectorPolicy",
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+        request.headers.set("x-ms-version", version);
+        return next(request);
+      },
+    };
+  }
+
+  it("Invalid service version", async () => {
+    const injector = XMSVersioninjectorPolicy(`3025-01-01`);
+
+    const pipeline: Pipeline = (queueClient as any).storageClientContext.pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
+    try {
+      await queueClient.create();
+    } catch (err) {
+      assert.ok(
+        (err as any).message.startsWith(
+          "The provided service version is not enabled on this storage account. Please see",
+        ),
+      );
+    }
   });
 });

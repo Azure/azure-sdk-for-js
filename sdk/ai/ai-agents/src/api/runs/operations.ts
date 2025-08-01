@@ -14,7 +14,6 @@ import {
   threadRunDeserializer,
   _agentsPagedResultThreadRunDeserializer,
   toolOutputArraySerializer,
-  toolApprovalArraySerializer,
 } from "../../models/models.js";
 import type {
   RunsCancelRunOptionalParams,
@@ -109,9 +108,6 @@ export function _submitToolOutputsToRunSend(
     },
     body: {
       tool_outputs: toolOutputs.length > 0 ? toolOutputArraySerializer(toolOutputs) : undefined,
-      tool_approvals: !options?.toolApprovals
-        ? options?.toolApprovals
-        : toolApprovalArraySerializer(options?.toolApprovals),
       stream: options?.stream ?? false,
     },
   });
