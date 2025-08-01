@@ -77,7 +77,7 @@ resource blobRoleCluster 'Microsoft.Authorization/roleAssignments@2022-04-01' = 
 }
 
 resource blobRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  scope: storageAccount2
+  scope: storageAccountUserAssigned
   name: guid(resourceGroup().id, blobOwner, userAssignedIdentity.id)
   properties: {
     principalId: userAssignedIdentity.properties.principalId
@@ -128,7 +128,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   }
 }
 
-resource storageAccount2 'Microsoft.Storage/storageAccounts@2021-08-01' = {
+resource storageAccountUserAssigned 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   name: '${uniqueString(resourceGroup().id)}2'
   location: location
   sku: {
@@ -185,8 +185,8 @@ resource web 'Microsoft.Web/sites@2022-09-01' = {
           value: storageAccount.name
         }
         {
-          name: 'IDENTITY_STORAGE_NAME_2'
-          value: storageAccount2.name
+          name: 'IDENTITY_STORAGE_NAME_USER_ASSIGNED'
+          value: storageAccountUserAssigned.name
         }
         {
           name: 'IDENTITY_USER_DEFINED_CLIENT_ID'
@@ -226,8 +226,8 @@ resource azureFunction 'Microsoft.Web/sites@2022-09-01' = {
           value: storageAccount.name
         }
         {
-          name: 'IDENTITY_STORAGE_NAME_2'
-          value: storageAccount2.name
+          name: 'IDENTITY_STORAGE_NAME_USER_ASSIGNED'
+          value: storageAccountUserAssigned.name
         }
         {
           name: 'IDENTITY_USER_DEFINED_CLIENT_ID'
@@ -345,9 +345,9 @@ output IdentityUserDefinedClientId string = userAssignedIdentity.properties.clie
 output IdentityUserDefinedObjectId string = userAssignedIdentity.properties.principalId
 output IdentityUserDefinedIdentityName string = userAssignedIdentity.name
 output IdentityStorageName1 string = storageAccount.name
-output IdentityStorageName2 string = storageAccount2.name
+output IdentityStorageNameUserAssigned string = storageAccountUserAssigned.name
 output IdentityStorageId1 string = storageAccount.id
-output IdentityStorageId2 string = storageAccount2.id
+output IdentityStorageIdUserAssigned string = storageAccountUserAssigned.id
 output IdentityFunctionName string = azureFunction.name
 output IdentityAksClusterName string = kubernetesCluster.name
 output IdentityAksPodName string = 'javascript-test-app'

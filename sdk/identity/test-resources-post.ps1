@@ -43,7 +43,7 @@ $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
 $identityResourceGroup = $DeploymentOutputs['IDENTITY_RESOURCE_GROUP']
 $storageName1 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_1']
-$storageName2 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
+$storageNameUserAssigned = $DeploymentOutputs['IDENTITY_STORAGE_NAME_USER_ASSIGNED']
 
 $ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $true
@@ -93,18 +93,15 @@ Write-Host "Deploying Azure Container Instance"
 
 az container create -g $identityResourceGroup -n $($DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME']) --image $image `
   --acr-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
-  --assign-identity [system] $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
+  --assign-identity $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY'] `
   --role "Storage Blob Data Reader" `
   --cpu "1" `
   --ports 80 `
   --ip-address "Public" `
   --memory "1.0" `
   --os-type "Linux" `
-  --scope $DeploymentOutputs['IDENTITY_STORAGE_ID_1'] `
-  -e IDENTITY_STORAGE_NAME=$storageName1 `
-  IDENTITY_STORAGE_NAME_2=$storageName2 `
+  -e IDENTITY_STORAGE_NAME_USER_ASSIGNED=$storageNameUserAssigned `
   IDENTITY_USER_DEFINED_CLIENT_ID=$MIClientId `
-  IDENTITY_USER_DEFINED_OBJECT_ID=$MIObjectId `
   IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT=80
 
 $aciIP = az container show -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_CONTAINER_INSTANCE_NAME'] --query ipAddress.ip --output tsv
@@ -151,8 +148,8 @@ spec:
   - name: $podName
     image: $image
     env:
-    - name: IDENTITY_STORAGE_NAME_2
-      value: "$storageName2"
+    - name: IDENTITY_STORAGE_NAME_USER_ASSIGNED
+      value: "$storageNameUserAssigned"
     - name: IDENTITY_USER_DEFINED_CLIENT_ID
       value: "$MIClientId"
     - name: IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT
