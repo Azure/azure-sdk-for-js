@@ -38,7 +38,7 @@
   "private": true,
   "prettier": "../eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@_ts/max": "npm:typescript@5.8.2",
+    "@_ts/max": "npm:typescript@latest",
     "@_ts/min": "npm:typescript@~4.2.4",
     "@arethetypeswrong/cli": "^0.17.4",
     "@azure/identity": "^4.9.0",

@@ -3837,7 +3837,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
-    resolution: {integrity: sha512-WyXuuYnl+IieuLMldz1Oho4+hokGN3aE7dSSJwtLie88sfG2995C0AmYQo1Uspyv1lAWGSGEvxpek0B/FkbZRg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-k3KyI1/vC2jLxt0YkbIvS1lhez5N/EI1k9ux3S2A6Y8fQ5bJfgMT/zhyoFiDJVmjUlwV0Xfa/wArJJWq+79Xzg==, tarball: file:projects/dev-tool.tgz}
     version: 0.0.0
 
   '@rush-temp/developer-devcenter@file:projects/developer-devcenter.tgz':
@@ -4241,7 +4241,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ts-http-runtime@file:projects/ts-http-runtime.tgz':
-    resolution: {integrity: sha512-Exffuw+bhyJzHtOHA1I1nqNntxOyPKwPTa0DQ/kRDfsnxFnANq04Bz6kMIxieiPK59zcNTPQQwNK3ojnBM3Amw==, tarball: file:projects/ts-http-runtime.tgz}
+    resolution: {integrity: sha512-Zoh0HMDCb/HMPnx8Hx/eA5ikPezD2EbFXFZSL+YCNAW2zMSx48c4Qi6t2eUYU1wPdqLs/kbqdya4BsQsQGbxUg==, tarball: file:projects/ts-http-runtime.tgz}
     version: 0.0.0
 
   '@rush-temp/vite-plugin-browser-test-map@file:projects/vite-plugin-browser-test-map.tgz':
@@ -7107,6 +7107,11 @@ packages:
 
   typescript@5.8.3:
     resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  typescript@5.9.2:
+    resolution: {integrity: sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -20869,7 +20874,7 @@ snapshots:
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz(@types/debug@4.1.12)(@vitest/browser@3.2.4)':
     dependencies:
-      '@_ts/max': typescript@5.8.2
+      '@_ts/max': typescript@5.9.2
       '@_ts/min': typescript@4.2.4
       '@arethetypeswrong/cli': 0.17.4
       '@azure/identity': 4.10.2
@@ -24098,7 +24103,7 @@ snapshots:
       playwright: 1.54.1
       tslib: 2.8.1
       tsx: 4.20.3
-      typescript: 5.8.2
+      typescript: 5.8.3
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -27317,7 +27322,7 @@ snapshots:
       resolve-import: 2.0.0
       rimraf: 6.0.1
       sync-content: 2.0.1
-      typescript: 5.8.3
+      typescript: 5.9.2
       walk-up-path: 4.0.0
 
   tslib@2.8.1: {}
@@ -27389,6 +27394,8 @@ snapshots:
   typescript@5.8.2: {}
 
   typescript@5.8.3: {}
+
+  typescript@5.9.2: {}
 
   uc.micro@2.1.0: {}
 
