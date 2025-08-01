@@ -47,9 +47,13 @@ export function executeActions(
       case "test":
       case "unit-test":
       case "integration-test":
-        if (actionComponents[1] === "browser") {
+        if (actionComponents[0] === "test" && actionComponents[1] === "browser") {
           // test:browser will clean and build package so we cannot have it running concurrently.
           // Otherwise, a package may fail to build when its dependency hasn't finish building yet.
+          extraParams.push("--concurrency=1");
+        }
+        if (actionComponents[0] === "test" && actionComponents[1] === "node") {
+          // test-proxy issue when concurrent tests are running?
           extraParams.push("--concurrency=1");
         }
         exitCode = runAllWithDirection(

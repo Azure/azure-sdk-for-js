@@ -61,6 +61,7 @@ describe("executeActions", () => {
         "@azure/service-bus",
         "--filter",
         "@azure/template",
+        "--concurrency=1",
       ],
     ]);
   });
