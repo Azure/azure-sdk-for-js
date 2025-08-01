@@ -7,7 +7,7 @@
 
 export class EnvironmentConnectionExample {
     static async run() {
-        const { useAzureMonitor } = await require('@azure/monitor-opentelemetry');
+        const { useAzureMonitor } = await import('@azure/monitor-opentelemetry');
 
         try {
             // Check if the environment variable is set
