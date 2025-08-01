@@ -35,7 +35,7 @@ export class CustomMetricExample {
     }
 
     async function setupRoutes(): Promise<void> {
-      await app.get("/", async (_req: any, res: any) => {
+      await app.get("/", async (_req: Request, res: Response) => {
         await metricExport().then(() => {
           res.send("Metrics sent to Azure Monitor");
         });
