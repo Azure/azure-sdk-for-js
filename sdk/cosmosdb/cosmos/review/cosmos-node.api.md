@@ -476,6 +476,7 @@ export interface ConnectionPolicy {
     enablePartitionLevelCircuitBreaker?: boolean;
     enablePartitionLevelFailover?: boolean;
     endpointRefreshRateInMs?: number;
+    excludedLocations?: string[];
     preferredLocations?: string[];
     requestTimeout?: number;
     retryOptions?: RetryOptions;
@@ -1322,7 +1323,7 @@ export class GlobalEndpointManager {
     preferredLocationsCount: number;
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
-    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number): Promise<string>;
+    resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, requestOptions?: RequestOptions, startServiceEndpointIndex?: number): Promise<string>;
 }
 
 // @public (undocumented)
@@ -2116,6 +2117,8 @@ export interface RequestOptions extends SharedOptions {
     contentResponseOnWriteEnabled?: boolean;
     disableAutomaticIdGeneration?: boolean;
     enableScriptLogging?: boolean;
+    // (undocumented)
+    excludedLocations?: string[];
     indexingDirective?: string;
     offerThroughput?: number;
     offerType?: string;
