@@ -12,9 +12,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function organizationsGetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "4DEBE8B4-8BA4-42F8-AE50-FBEF318751D1";
+  const subscriptionId = "61641157-140c-4b97-b365-30ff76d9f82e";
   const client = new ObservabilityEvalClient(credential, subscriptionId);
-  const result = await client.organizations.get("rgopenapi", "test-organization-1");
+  const result = await client.organizations.get("yashika-rg-arize", "test-org-1");
   console.log(result);
 }
 
