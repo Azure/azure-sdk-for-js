@@ -1,6 +1,6 @@
 # Azure Monitor OpenTelemetry Samples
 
-A comprehensive collection of Node.js/TypeScript samples demonstrating Azure Monitor OpenTelemetry configuration patterns. Based on the official [Microsoft Azure Monitor OpenTelemetry Configuration Documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-configuration?tabs=nodejs).
+A comprehensive collection of Node.js/TypeScript samples demonstrating Azure Monitor OpenTelemetry configuration patterns. Based on the official [Microsoft Azure Monitor OpenTelemetry Configuration Documentation](https://learn.microsoft.com/azure/azure-monitor/app/opentelemetry-configuration?tabs=nodejs).
 
 ## 🚀 Quick Start
 
@@ -51,16 +51,16 @@ A comprehensive collection of Node.js/TypeScript samples demonstrating Azure Mon
 
 | Sample | Description | Key Features |
 |--------|-------------|--------------|
-| [01-basic-connection](./src/01-basic-connection.ts) | Basic Azure Monitor setup with configuration object | Connection string configuration |
-| [02-environment-connection](./src/02-environment-connection.ts) | Connection using environment variables | Environment-based configuration |
-| [03-cloud-role](./src/03-cloud-role.ts) | Cloud role name and instance configuration | Service identification, Application Map |
-| [04-sampling](./src/04-sampling.ts) | Configure sampling to reduce costs | Cost optimization, trace sampling |
-| [05-live-metrics](./src/05-live-metrics.ts) | Enable/disable live metrics streaming | Real-time monitoring |
-| [06-offline-storage](./src/06-offline-storage.ts) | Offline storage and automatic retries | Reliability, data persistence |
-| [07-otlp-exporter](./src/07-otlp-exporter.ts) | Dual export to Azure Monitor and OTLP | Multi-destination telemetry |
-| [08-redact-query-strings](./src/08-redact-query-strings.ts) | Redact sensitive URL parameters | Security, data privacy |
-| [09-custom-metric](./src/09-customMetric.ts) | Custom metrics collection | Custom telemetry, business metrics |
-| [10-custom-trace](./src/10-customTrace.ts) | Custom traces and spans | Custom instrumentation, distributed tracing |
+| [01-basic-connection](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/01-basic-connection.ts) | Basic Azure Monitor setup with configuration object | Connection string configuration |
+| [02-environment-connection](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/02-environment-connection.ts) | Connection using environment variables | Environment-based configuration |
+| [03-cloud-role](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/03-cloud-role.ts) | Cloud role name and instance configuration | Service identification, Application Map |
+| [04-sampling](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/04-sampling.ts) | Configure sampling to reduce costs | Cost optimization, trace sampling |
+| [05-live-metrics](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/05-live-metrics.ts) | Enable/disable live metrics streaming | Real-time monitoring |
+| [06-offline-storage](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/06-offline-storage.ts) | Offline storage and automatic retries | Reliability, data persistence |
+| [07-otlp-exporter](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/07-otlp-exporter.ts) | Dual export to Azure Monitor and OTLP | Multi-destination telemetry |
+| [08-redact-query-strings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/08-redact-query-strings.ts) | Redact sensitive URL parameters | Security, data privacy |
+| [09-custom-metric](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/09-customMetric.ts) | Custom metrics collection | Custom telemetry, business metrics |
+| [10-custom-trace](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/10-customTrace.ts) | Custom traces and spans | Custom instrumentation, distributed tracing |
 
 ## 🛠️ Project Structure
 
@@ -196,11 +196,11 @@ After running the samples, view your telemetry data in:
 
 ## 📖 Additional Resources
 
-- [Azure Monitor OpenTelemetry Documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-configuration?tabs=nodejs)
+- [Azure Monitor OpenTelemetry Documentation](https://learn.microsoft.com/azure/azure-monitor/app/opentelemetry-configuration?tabs=nodejs)
 - [OpenTelemetry JavaScript Documentation](https://opentelemetry.io/docs/languages/js/)
-- [Azure Application Insights Overview](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
-- [Application Map Documentation](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-map)
-- [Sampling in Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/sampling)
+- [Azure Application Insights Overview](https://learn.microsoft.com/azure/azure-monitor/app/app-insights-overview)
+- [Application Map Documentation](https://learn.microsoft.com/azure/azure-monitor/app/app-map)
+- [Sampling in Application Insights](https://learn.microsoft.com/azure/azure-monitor/app/sampling)
 
 ## 🤝 Contributing
 
@@ -213,13 +213,13 @@ After running the samples, view your telemetry data in:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Azure/azure-sdk-for-js/blob/main/LICENSE) file for details.
 
 ## 🔗 Related Projects
 
-- [Azure Monitor OpenTelemetry for .NET](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=net)
-- [Azure Monitor OpenTelemetry for Java](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=java)
-- [Azure Monitor OpenTelemetry for Python](https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=python)
+- [Azure Monitor OpenTelemetry for .NET](https://learn.microsoft.com/azure/azure-monitor/app/opentelemetry-enable?tabs=net)
+- [Azure Monitor OpenTelemetry for Java](https://learn.microsoft.com/azure/azure-monitor/app/opentelemetry-enable?tabs=java)
+- [Azure Monitor OpenTelemetry for Python](https://learn.microsoft.com/azure/azure-monitor/app/opentelemetry-enable?tabs=python)
 
 ---
 
