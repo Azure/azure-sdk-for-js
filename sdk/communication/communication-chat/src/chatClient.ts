@@ -41,6 +41,62 @@ import { getSignalingClient } from "./signaling/signalingClient.js";
 import { logger } from "./models/logger.js";
 import { tracingClient } from "./generated/src/tracing.js";
 
+/**
+ * Options to configure polling behavior.
+ */
+export interface PollingOptions {
+  /**
+   * Indicates whether polling is enabled.
+   * It is necessary to set this to true to enable polling.
+   * If not set, polling will not be started.
+   */
+  enabled?: boolean;
+  /**
+   * The interval in seconds at which to poll for messages.
+   * Must be between 10 and 600 seconds.
+   * Default is 20 seconds.
+   */
+  intervalInSec?: number;
+  /**
+   * Indicates whether adaptive polling is enabled.
+   * If true, the client will switch between fast and slow polling modes based on message activity.
+   */
+  adaptivePolling?: boolean;
+  /**
+   * The interval in seconds for fast polling mode.
+   * Must be between 1 and 600 seconds.
+   * Default is 5 seconds.
+   */
+  fast?: number;
+  /**
+   * The interval in seconds for slow polling mode.
+   * Must be between 10 and 600 seconds.
+   * Default is 60 seconds.
+   */
+  slow?: number;
+}
+
+/**
+ * Options for starting realtime notifications.
+ * If threadsIds is provided, the client will poll for messages in those threads.
+ * If pollingOptions is provided, it will configure the polling behavior.
+ */
+export interface StartRealtimeNotificationsOptions {
+  /**
+   * List of thread IDs to poll for messages.
+   * If provided, the client will poll for messages in these threads.
+   * The maximum number of threads that can be polled is 10.
+   * If this is not provided, the client will only use realtime notifications.
+   */
+  threadsIds?: string[];
+  /**
+   * Options to configure polling behavior.
+   * If provided, the client will poll for messages in the specified threads.
+   * If not provided, polling will not be started.
+   */
+  pollingOptions?: PollingOptions;
+}
+
 declare interface InternalChatClientOptions extends ChatClientOptions {
   signalingClientOptions?: SignalingClientOptions;
 }
@@ -55,7 +111,41 @@ export class ChatClient {
   private readonly signalingClient: SignalingClient | undefined = undefined;
   private readonly emitter = new EventEmitter();
   private isRealtimeNotificationsStarted: boolean = false;
+  private isRealtimeNotificationsConnected: boolean = false;
+  private messagesDetected: [string, string][] = [];
+  /* Map to store threads with polling enabled.
+   * The key is the thread ID and the value is the ChatThreadClient instance.*/
+  private threadsWithPolling: Map<string, ChatThreadClient> = new Map();
 
+  /* Indicates if polling is active
+   * If true, the client will poll for messages in the specified threads.*/
+  private isPollingEnable: boolean = false;
+  /* Flag to indicate if polling is running.
+   * This is used to prevent multiple polling loops from running at the same time.
+  */
+  private isPollingRunning: boolean = false;
+
+  private adaptivePolling: boolean = false;
+
+  private lastTimeRTNWorked: Date | null = null;
+
+  private fastPollCounter: number = 0;
+
+  private pollingMode: Map<string, number> = new Map([
+    ["default", 20000],
+    ["slow", 60000],
+    ["fast", 5000],
+  ]);
+
+  private currentPollingMode: string = "default";
+  /**
+   * Variables to manage adaptive polling.
+   * pollingTimestamp is used to track the last time polling was done.
+   * pollingTimeOutHandle is used to clear the timeout for polling.
+   */
+  private pollingTimestamp: Date | null = null;
+  private pollingTimeOutHandle: NodeJS.Timeout | null = null;
+  private pollingTimeOutInterruption: boolean = false;
   /**
    * Creates an instance of the ChatClient for a given resource and user.
    *
@@ -230,33 +320,120 @@ export class ChatClient {
   /**
    * Start receiving realtime notifications.
    * Call this function before subscribing to any event.
+   * To add polling for messages as a backup mechanism, its necessary to add options parameter with the pollingThreadsIDs array.
+   * @param options - Options for starting realtime notifications.
    */
-  public async startRealtimeNotifications(): Promise<void> {
+  public async startRealtimeNotifications(options?: StartRealtimeNotificationsOptions): Promise<void> {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are not supported in node js.");
     }
-
     if (this.isRealtimeNotificationsStarted) {
       return;
     }
-
     this.isRealtimeNotificationsStarted = true;
     await this.signalingClient.start();
     this.subscribeToSignalingEvents();
+
+    // 1. No polling if parameter is undefined or null
+    if (options === undefined || options === null) {
+      logger.info(
+        "No polling options provided. Realtime notifications will be used without polling.",
+      );
+      return;
+    }
+
+    // 2. If options has values, use custom polling values
+    const { threadsIds, pollingOptions } = options;
+    if (threadsIds !== undefined && threadsIds.length > 0 && threadsIds.length <= 10 && pollingOptions?.enabled === true) {
+      console.info("Chat threads provided");
+      // Fetch all chat threads to validate the provided thread IDs
+      for (const threadId of threadsIds) {
+        try {
+          const chatThreadClient = this.getChatThreadClient(threadId);
+          this.threadsWithPolling.set(threadId, chatThreadClient);
+        } catch (error) {
+          logger.error(`Error fetching thread ${threadId}:`, error);
+        }
+      }
+      // Check if we found any matching threads
+      if (this.threadsWithPolling.size === 0) {
+        logger.warning("No matching chat threads found for the provided threadsIds. Polling will not be started.");
+        return;
+
+      }
+      // Check and configure polling options
+      if (pollingOptions !== undefined) {
+        if (
+          pollingOptions.intervalInSec !== undefined &&
+          pollingOptions.intervalInSec >= 10 &&
+          pollingOptions.intervalInSec <= 600) {
+          this.pollingMode.set("default", pollingOptions.intervalInSec * 1000);
+        } else {
+          logger.info("Using default value of 20 seconds.");
+        }
+        if (pollingOptions.adaptivePolling !== undefined && pollingOptions.adaptivePolling === true) {
+          if (
+            pollingOptions.slow !== undefined &&
+            pollingOptions.slow >= 10 &&
+            pollingOptions.slow <= 600
+          ) {
+            this.pollingMode.set("slow", pollingOptions.slow * 1000);
+          } else {
+            logger.info("Using default value of 60 seconds.");
+          }
+          if (
+            pollingOptions.fast !== undefined &&
+            pollingOptions.fast >= 1 &&
+            pollingOptions.fast <= 600
+          ) {
+            this.pollingMode.set("fast", pollingOptions.fast * 1000);
+          } else {
+            logger.info("Using default value of 5 seconds.");
+          }
+        }
+      }
+    } else {
+      logger.warning(
+        "No valid ThreadsIds provided or enabled has not been set as true in polling options. Polling will not be started.");
+      return;
+
+    }
+
+    // Enable adaptive polling if specified
+    this.adaptivePolling = !!pollingOptions?.adaptivePolling;
+    this.startPolling();
   }
 
   /**
    * Stop receiving realtime notifications.
    * This function would unsubscribe to all events.
+   * This function will also stop polling for messages if it was started.
    */
   public async stopRealtimeNotifications(): Promise<void> {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are not supported in node js.");
     }
-
     this.isRealtimeNotificationsStarted = false;
     await this.signalingClient.stop();
     this.emitter.removeAllListeners();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    this.stopPolling();
+  }
+  /**
+   * Stop polling for messages.
+   * This will set isPollingEnable to false, stopping the polling loop.
+   */
+  public stopPolling(): void {
+    this.isPollingEnable = false;
+  }
+
+  /**
+   * Update the polling frequency value for a specific key.
+   * @param pollingMode - The key for the polling frequency to update.
+   */
+  private updatePollingMode(pollingMode: "default" | "fast" | "slow"): void {
+    this.currentPollingMode = pollingMode;
+    console.log("Update Polling with frequency:", this.pollingMode.get(this.currentPollingMode));
   }
 
   /**
@@ -463,13 +640,44 @@ export class ChatClient {
     this.signalingClient.on("connectionChanged", (payload) => {
       if (payload === ConnectionState.Connected) {
         this.emitter.emit("realTimeNotificationConnected");
+        if (this.adaptivePolling && this.isPollingEnable) {
+          this.isRealtimeNotificationsConnected = true; // RTN is back, set the flag to true
+        }
       } else if (payload === ConnectionState.Disconnected) {
         this.emitter.emit("realTimeNotificationDisconnected");
+        if (this.adaptivePolling && this.isPollingEnable) {
+          this.isRealtimeNotificationsConnected = false; // RTN is gone, set the flag to false
+        }
       }
     });
 
     this.signalingClient.on("chatMessageReceived", (payload) => {
       this.emitter.emit("chatMessageReceived", payload);
+      if (this.isPollingEnable) {
+        this.lastTimeRTNWorked = new Date();
+        if (this.adaptivePolling && this.currentPollingMode !== "default") {
+          // Interrupt current polling and switch to Default mode
+          if (this.pollingTimeOutHandle !== null) {
+            clearTimeout(this.pollingTimeOutHandle);
+            this.pollingTimeOutHandle = null;
+            this.isPollingRunning = false; // Reset polling running state
+          }
+          this.pollingTimeOutInterruption = true;
+          this.updatePollingMode("default");
+          // Schedule a new poll with Default interval
+          this.pollingTimeOutHandle = setTimeout(
+            () => this.startPolling(),
+            this.pollingMode.get("default") ?? 20000,
+          );
+          console.log(
+            "Polling interrupted and rescheduled with Default interval due to chatMessageReceived.",
+          );
+        }
+        if (this.threadsWithPolling.has(payload.threadId)) {
+          this.messagesDetected.push([payload.id, payload.threadId]);
+          console.log("Message Stored:", payload.id);
+        }
+      }
     });
 
     this.signalingClient.on("chatMessageEdited", (payload) => {
@@ -507,5 +715,124 @@ export class ChatClient {
     this.signalingClient.on("participantsRemoved", (payload) => {
       this.emitter.emit("participantsRemoved", payload);
     });
+  }
+
+  /**
+   * Start polling for messages in specified threads.
+   * @param threadsWithPolling - List of thread IDs to poll for messages.
+   * @param pollingFrequency - Frequency (in milliseconds) to poll for messages.
+   */
+  private async startPolling(): Promise<void> {
+    if (this.isPollingRunning) return;
+    this.isPollingEnable = true;
+    this.isPollingRunning = true;
+    const waitTime = this.pollingMode.get(this.currentPollingMode) ?? 20000;
+    await new Promise((resolve) => setTimeout(resolve, waitTime));
+    const poll = async (): Promise<void> => {
+      if (!this.isPollingEnable) {
+        this.isPollingRunning = false;
+        return;
+      }
+      try {
+        // Check the last time RTN worked and update the polling frequency accordingly.
+        // Iterate through the threadsWithPolling map and poll for messages in each thread.
+        const returnTime = this.pollingMode.get(this.currentPollingMode) ?? 20000;
+        let startTime = new Date(Date.now() - returnTime);
+        for (const [key, chatThread] of this.threadsWithPolling) {
+          try {
+            // if this.pollingTimestamp is not null, we will use it as start time.
+            if (this.pollingTimeOutInterruption) {
+              console.log("Using special start time.");
+              startTime = this.pollingTimestamp ?? startTime;
+            }
+            this.pollingTimeOutInterruption = false; // Reset the interruption flag after using it
+            const timestamp = Date.now();
+            const messages = chatThread.listMessages({ startTime: startTime });
+            const messagesArray = [];
+            for await (const message of messages) {
+              if (message.createdOn.getTime() < timestamp) {
+                // If the message is older than the start time, skip it.
+                messagesArray.push(message);
+              }
+            }
+            for (let i = messagesArray.length - 1; i >= 0; i--) {
+              const message = messagesArray[i];
+              const exists = this.messagesDetected.some(
+                ([id, threadId]) => id === message.id && threadId === key,
+              );
+              /* If the message is not already detected, emit the event and add it to messagesDetected array.*/
+              if (!exists) {
+                this.emitter.emit("chatMessageReceived", {
+                  id: message.id,
+                  threadId: key,
+                  sender: message.sender,
+                  senderDisplayName: message.senderDisplayName,
+                  createdOn: message.createdOn,
+                  content: message.content,
+                  metadata: message.metadata,
+                  type: message.type
+                });
+                this.messagesDetected.push([message.id, key]);
+              }
+            }
+            /**
+             * Check if the last time RTN worked is more than the polling interval.
+             * If so, switch to Emergency polling mode.
+             */
+            if (this.adaptivePolling) {
+              console.log("Checking adaptive polling conditions...");
+              if (
+                (Date.now() - (this.lastTimeRTNWorked?.getTime() ?? 0) >
+                  (this.pollingMode.get(this.currentPollingMode) ?? 20000) &&
+                  this.currentPollingMode === "default") ||
+                this.isRealtimeNotificationsConnected === false
+              ) {
+                console.log("No new messages detected, switching to fast polling mode.");
+                this.updatePollingMode("fast");
+                this.fastPollCounter = 0;
+              } else {
+                if (
+                  this.currentPollingMode === "fast" &&
+                  this.fastPollCounter < 3 &&
+                  messagesArray.length === 0
+                ) {
+                  console.log("No new messages found, switching to slow polling mode.");
+                  this.updatePollingMode("slow");
+                  this.fastPollCounter = 0; // Reset the fast poll counter
+                } else {
+                  this.fastPollCounter++;
+                }
+              }
+              this.pollingTimestamp = new Date(); // Update the polling timestamp
+            }
+          } catch (error) {
+            logger.error("Error in polling messages: ", error);
+          }
+        }
+      } catch (err) {
+        logger.error("Polling loop error: ", err);
+      }
+
+      // Schedule the next poll only after this one finishes
+      if (this.isPollingEnable) {
+        this.messagesDetected = []; // Clear the messagesDetected array after each poll
+        const pollingInterval = this.pollingMode.get(this.currentPollingMode) ?? 20000;
+        logger.info(
+          "Schedule Polling with frequency:",
+          pollingInterval / 1000 + " seconds",
+        );
+        logger.info(
+          "Schedule Polling with frequency:",
+          pollingInterval / 1000 + " seconds",
+        );
+        this.pollingTimeOutHandle = setTimeout(
+          poll,
+          pollingInterval,
+        );
+      } else {
+        this.isPollingRunning = false;
+      }
+    };
+    poll();
   }
 }

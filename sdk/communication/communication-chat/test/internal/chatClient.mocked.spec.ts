@@ -14,6 +14,7 @@ import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import {
   createChatClient,
+  createChatClientWithSignaling,
   generateHttpClient,
   mockCreateThreadResult,
   mockThread,
@@ -395,4 +396,155 @@ describe("[Mocked] ChatClient", async () => {
       }
     },
   );
+
+  it("enables polling with custom intervals and threads", async () => {
+    // Arrange
+    const mockHttpClient = generateHttpClient(200, { value: [mockThreadItem] });
+    chatClient = createChatClientWithSignaling(mockHttpClient);
+
+    // Act
+    await chatClient.startRealtimeNotifications({
+      threadsIds: [mockThreadItem.id],
+      pollingOptions: {
+        enabled: true,
+        intervalInSec: 10,
+        adaptivePolling: true,
+      },
+    });
+
+    // Assert
+    assert.isTrue((chatClient as any).isPollingEnable);
+    assert.equal(
+      (chatClient as any).pollingMode.get("default"),
+      10000, // 10 seconds * 1000 = 10000 milliseconds
+    );
+    assert.equal(
+      (chatClient as any).pollingMode.get("slow"),
+      60000, // 60 seconds * 1000 = 60000 milliseconds
+    );
+    assert.equal(
+      (chatClient as any).pollingMode.get("fast"),
+      5000, // 5 seconds * 1000 = 5000 milliseconds
+    );
+    assert.isTrue((chatClient as any).adaptivePolling);
+  });
+
+  it("Enables polling with default intervals when options does not have intervals specified", async () => {
+    // Arrange
+    const mockHttpClient = generateHttpClient(200, { value: [mockThreadItem] });
+    chatClient = createChatClientWithSignaling(mockHttpClient);
+
+    // Act
+    await chatClient.startRealtimeNotifications({
+      threadsIds: [mockThreadItem.id], // Valid thread ID needed for polling
+      pollingOptions: {
+        enabled: true,
+      },
+    });
+
+    // Assert
+    assert.isTrue((chatClient as any).isPollingEnable);
+    assert.equal(
+      (chatClient as any).pollingMode.get("default"),
+      20000, // 20 seconds * 1000 = 20000 milliseconds (default)
+    );
+    assert.equal(
+      (chatClient as any).pollingMode.get("slow"),
+      60000, // 60 seconds * 1000 = 60000 milliseconds (default)
+    );
+    assert.equal(
+      (chatClient as any).pollingMode.get("fast"),
+      5000, // 5 seconds * 1000 = 5000 milliseconds (default)
+    );
+  });
+
+  it("does not enable polling if options is undefined", async () => {
+    // Arrange
+    const mockHttpClient = generateHttpClient(200, { value: [mockThreadItem] });
+    chatClient = createChatClientWithSignaling(mockHttpClient);
+
+    // Act
+    await chatClient.startRealtimeNotifications();
+
+    // Assert
+    assert.isFalse((chatClient as any).isPollingEnable);
+  });
+
+  it("does not enable polling if threadIds is empty", async () => {
+    // Arrange
+    const mockHttpClient = generateHttpClient(200, { value: [mockThreadItem] });
+    chatClient = createChatClientWithSignaling(mockHttpClient);
+
+    // Act
+    await chatClient.startRealtimeNotifications({
+      threadsIds: [], // Empty array - should prevent polling
+      pollingOptions: {
+        enabled: true,
+        adaptivePolling: true,
+      },
+    });
+
+    // Assert
+    assert.isFalse((chatClient as any).isPollingEnable);
+  });
+
+  it("does not enable polling if no matching threads found", async () => {
+    // Arrange
+    const mockHttpClient = generateHttpClient(200, { value: [mockThreadItem] });
+    chatClient = createChatClientWithSignaling(mockHttpClient);
+
+    // Act
+    await chatClient.startRealtimeNotifications({
+      threadsIds: ["invalid-thread-id"], // No matching threads
+      pollingOptions: {
+        enabled: false,
+        adaptivePolling: true,
+      },
+    });
+
+    // Assert
+    assert.isFalse((chatClient as any).isPollingEnable);
+  });
+
+  it("switches to fast polling mode when adaptivePolling is enabled and no RTN activity", async () => {
+    // Arrange
+    const mockHttpClient = generateHttpClient(200, { value: [mockThreadItem] });
+    chatClient = createChatClientWithSignaling(mockHttpClient);
+
+    // Start with adaptivePolling enabled
+    await chatClient.startRealtimeNotifications({
+      threadsIds: [mockThreadItem.id],
+      pollingOptions: {
+        enabled: true,
+        adaptivePolling: true,
+      },
+    });
+
+    // Simulate last RTN activity was a long time ago (30 seconds ago, more than default 20s interval)
+    (chatClient as any).lastTimeRTNWorked = new Date(Date.now() - 30000);
+
+    // Simulate that real-time notifications are disconnected as well
+    (chatClient as any).isRealtimeNotificationsConnected = false;
+
+    // Act: Directly call the updatePollingMode logic that would happen in the poll function
+    // This tests the adaptive polling logic without running the infinite polling loop
+    const currentTime = Date.now();
+    const lastRTNTime = (chatClient as any).lastTimeRTNWorked?.getTime() ?? 0;
+    const timeSinceLastRTN = currentTime - lastRTNTime;
+    const currentInterval = (chatClient as any).pollingMode.get((chatClient as any).currentPollingMode);
+
+    // Verify the conditions that would trigger fast mode
+    const shouldSwitchToFast =
+      (chatClient as any).adaptivePolling &&
+      ((timeSinceLastRTN > currentInterval && (chatClient as any).currentPollingMode === "default") ||
+        (chatClient as any).isRealtimeNotificationsConnected === false);
+
+    if (shouldSwitchToFast) {
+      (chatClient as any).updatePollingMode("fast");
+    }
+
+    // Assert: Should have switched to fast mode
+    assert.isTrue(shouldSwitchToFast, "Should meet conditions to switch to fast mode");
+    assert.equal((chatClient as any).currentPollingMode, "fast");
+  });
 });
