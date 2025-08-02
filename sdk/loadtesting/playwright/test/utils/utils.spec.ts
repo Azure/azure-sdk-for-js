@@ -615,14 +615,18 @@ describe("Service Utils", () => {
       expect(isValidGuid(null as unknown as string)).toBe(false);
     });
   });
-  it("should exit with failure message when invalid GUID is provided in runId", () => {
+  it("should throw error when invalid GUID is provided in runId", () => {
     const invalidGuid = "not-a-valid-guid";
-    const exitStub = vi.mocked(process.exit).mockImplementation(() => {
-      throw new Error();
-    });
 
-    expect(() => ValidateRunID(invalidGuid)).toThrow();
-    expect(exitStub).toHaveBeenCalledWith(1);
+    expect(() => ValidateRunID(invalidGuid)).toThrow(
+      "The Run ID must be a valid GUID format. Please provide a valid GUID for the Run ID.",
+    );
+  });
+
+  it("should not throw error when valid GUID is provided in runId", () => {
+    const validGuid = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+
+    expect(() => ValidateRunID(validGuid)).not.toThrow();
   });
   it("should return null for an invalid service URL", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
