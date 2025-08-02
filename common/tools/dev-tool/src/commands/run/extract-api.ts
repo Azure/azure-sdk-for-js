@@ -200,7 +200,6 @@ async function extractApiForEntry(
   configPath: string,
   pkgPath: string,
   projectInfo: ProjectInfo,
-  dependencies: Record<string, string> = {},
 ): Promise<string> {
   const baseReportFolder = baseConfig.apiReport?.reportFolder || `<projectFolder>/review`;
   const reportFolder = resolveTemplate(baseReportFolder, projectInfo);
@@ -257,9 +256,6 @@ async function extractApiForEntry(
 
   extractApi(newConfig, configPath, pkgPath);
 
-  const apiJson = await loadApiJsonForSubPath(apiJsonFilePath);
-  apiJson.metadata.dependencies = dependencies;
-  await writeFile(apiJsonFilePath, JSON.stringify(apiJson, null, 2));
   const content = await readFile(tempReportPath, "utf-8");
   await unlink(tempReportPath);
   return content;
@@ -292,10 +288,6 @@ async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
   return JSON.parse(content) as ApiJson;
 }
 
-/**
- *
- * @returns the full path of -augmented.api.json file.
- */
 async function buildMergedApiJson(
   unscopedPackageName: string,
   reportTempDir: string,
@@ -386,10 +378,8 @@ export default leafCommand(commandInfo, async () => {
         configPath,
         pkgPath,
         projectInfo,
-        pkgJson["dependencies"],
       );
 
-      // Store node content
       runtimeApiFiles.node ??= {};
       runtimeApiFiles.node[exportPath] = nodeContent;
 
@@ -406,7 +396,6 @@ export default leafCommand(commandInfo, async () => {
     const unscoped = getUnscopedPackageName(projectInfo.name);
     await writeRuntimeApiFiles(runtimeApiFiles, reviewDir, unscoped);
 
-    // Build merged API JSON for tooling consumption (only for node runtime)
     if (baseConfig.docModel?.enabled) {
       const reportTempDir = path.join(projectInfo.path, "temp");
       const nodeExports = exports.filter((e) => e.runtime === "node");
@@ -415,7 +404,7 @@ export default leafCommand(commandInfo, async () => {
         reportTempDir,
         nodeExports,
         pkgJson["dependencies"] || {},
-        true, // useMerged = true to overwrite the main file
+        true,
       );
     }
   } else {
