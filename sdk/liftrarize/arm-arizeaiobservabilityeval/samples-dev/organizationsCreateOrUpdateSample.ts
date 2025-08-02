@@ -12,27 +12,27 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function organizationsCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "4DEBE8B4-8BA4-42F8-AE50-FBEF318751D1";
+  const subscriptionId = "61641157-140c-4b97-b365-30ff76d9f82e";
   const client = new ObservabilityEvalClient(credential, subscriptionId);
-  const result = await client.organizations.createOrUpdate("rgopenapi", "test-organization-1", {
+  const result = await client.organizations.createOrUpdate("yashika-rg-arize", "test-org-1", {
     properties: {
       marketplace: {
-        subscriptionId: "meaowktoejxwfqomc",
+        subscriptionId: "61641157-140c-4b97-b365-30ff76d9f82e",
         subscriptionStatus: "PendingFulfillmentStart",
         offerDetails: {
-          publisherId: "flrya",
-          offerId: "hwhtxmtmmlwsu",
-          planId: "jozklohkdpng",
-          planName: "clnynwt",
-          termUnit: "cbfktammjyqewljjjaokakilog",
-          termId: "iugvvvoggusxuz",
+          publisherId: "arizeai1657829589668",
+          offerId: "arize-liftr-0",
+          planId: "liftr-test-0",
+          planName: "Liftr Test 0",
+          termUnit: "P1M",
+          termId: "gmz7xq9ge3py",
         },
       },
       user: {
-        firstName: "aorfffgdmglvzdvfvdyjohtnblzsfw",
-        lastName: "tojbqzk",
-        emailAddress: "btables@arize.com",
-        upn: "xzvwwbjpqakqqyfudyp",
+        firstName: "",
+        lastName: "",
+        emailAddress: "yashikajain@microsoft.com",
+        upn: "yashikajain@microsoft.com",
         phoneNumber: "akbqdbs",
       },
       partnerProperties: { description: "this is a great description" },
@@ -46,7 +46,7 @@ async function organizationsCreateOrUpdateGeneratedByMaximumSetRule(): Promise<v
     },
     identity: { type: "None", userAssignedIdentities: {} },
     tags: {},
-    location: "gigxuxdonjfmqnljxcgctfwqapllu",
+    location: "East US",
   });
   console.log(result);
 }
