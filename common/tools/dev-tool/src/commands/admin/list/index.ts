@@ -10,4 +10,5 @@ export default subCommand(commandInfo, {
   "service-folders": () => import("./service-folders"),
   "esm-migrations": () => import("./esm-migrations"),
   "snippets-migrations": () => import("./snippets-migrations"),
+  "typespec-migrations": () => import("./typespec-migrations"),
 });
