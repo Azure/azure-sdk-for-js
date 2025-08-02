@@ -45,6 +45,8 @@ export class CustomMetricExample {
     await setupRoutes();
     app.listen(PORT);
     console.log(`Listening on http://localhost:${PORT}`);
-    console.log('Custom metrics example is running. Visit http://localhost:8080 to trigger metrics.');
+    console.log(
+      "Custom metrics example is running. Visit http://localhost:8080 to trigger metrics.",
+    );
   }
 }

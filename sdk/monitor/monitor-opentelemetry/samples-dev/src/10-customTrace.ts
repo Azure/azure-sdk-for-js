@@ -23,21 +23,21 @@ export class CustomTraceExample {
           process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
       },
     };
-    
+
     useAzureMonitor(options);
 
-    console.log('🔍 Custom Trace Example');
-    console.log('Generating custom traces and spans...');
+    console.log("🔍 Custom Trace Example");
+    console.log("Generating custom traces and spans...");
 
     try {
       await CustomTraceExample.generateTraces();
-      console.log('✅ Custom traces generated successfully');
-      console.log('📊 Check Azure Application Insights to see the traces');
-      
+      console.log("✅ Custom traces generated successfully");
+      console.log("📊 Check Azure Application Insights to see the traces");
+
       // Wait a bit for traces to be sent
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
-      console.error('❌ Error generating custom traces:', error);
+      console.error("❌ Error generating custom traces:", error);
       throw error;
     } finally {
       await shutdownAzureMonitor();
@@ -49,7 +49,7 @@ export class CustomTraceExample {
     const tracer = trace.getTracer("testTracer");
     // Create a span. A span must be closed.
     const parentSpan = tracer.startSpan("main");
-    
+
     try {
       for (let i = 0; i < 10; i += 1) {
         CustomTraceExample.doWork(parentSpan);

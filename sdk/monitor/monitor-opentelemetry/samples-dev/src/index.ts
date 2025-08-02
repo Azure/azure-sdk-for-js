@@ -7,7 +7,7 @@
  */
 
 // Load environment variables from .env file if it exists
-import * as dotenv from 'dotenv';
+import * as dotenv from "dotenv";
 dotenv.config();
 
 // ============================================================================
@@ -49,63 +49,63 @@ dotenv.config();
 // ============================================================================
 
 const runExample = async (): Promise<void> => {
-    console.log('🚀 Azure Monitor OpenTelemetry Samples\n');
+  console.log("🚀 Azure Monitor OpenTelemetry Samples\n");
 
-    // Uncomment one of the following examples to run:
+  // Uncomment one of the following examples to run:
 
-    // 1. Basic connection with environment variable
-    // await BasicConnectionExample.run();
+  // 1. Basic connection with environment variable
+  // await BasicConnectionExample.run();
 
-    // 2. Connection using environment variable
-    // await EnvironmentConnectionExample.run();
+  // 2. Connection using environment variable
+  // await EnvironmentConnectionExample.run();
 
-    // 3. Cloud role name and instance configuration
-    // await CloudRoleExample.run();
+  // 3. Cloud role name and instance configuration
+  // await CloudRoleExample.run();
 
-    // 4. Sampling configuration
-    // await SamplingExample.run();
+  // 4. Sampling configuration
+  // await SamplingExample.run();
 
-    // 5. Live metrics configuration
-    // await LiveMetricsExample.run();
+  // 5. Live metrics configuration
+  // await LiveMetricsExample.run();
 
-    // 6. Offline storage configuration
-    // await OfflineStorageExample.run();
+  // 6. Offline storage configuration
+  // await OfflineStorageExample.run();
 
-    // 7. OTLP exporter configuration
-    // await OtlpExporterExample.run();
+  // 7. OTLP exporter configuration
+  // await OtlpExporterExample.run();
 
-    // 8. Redact URL query strings
-    // await RedactQueryStringExample.run();
+  // 8. Redact URL query strings
+  // await RedactQueryStringExample.run();
 
-    // 9. Custom metrics example
-    // await CustomMetricExample.run();
+  // 9. Custom metrics example
+  // await CustomMetricExample.run();
 
-    // 10. Custom traces example
-    // await CustomTraceExample.run();
+  // 10. Custom traces example
+  // await CustomTraceExample.run();
 
-    // ========================================================================
-    // Instructions
-    // ========================================================================
-    console.log('💡 Tip: Uncomment one set of lines (import + await) above to see it in action!');
-    console.log('📚 Each example is self-contained and can be copied to your own projects.');
-    console.log('🔧 To run an example:');
-    console.log('   1. Uncomment the import statement at the top');
-    console.log('   2. Uncomment the corresponding await statement above');
-    console.log('   3. Run: npm run dev');
+  // ========================================================================
+  // Instructions
+  // ========================================================================
+  console.log("💡 Tip: Uncomment one set of lines (import + await) above to see it in action!");
+  console.log("📚 Each example is self-contained and can be copied to your own projects.");
+  console.log("🔧 To run an example:");
+  console.log("   1. Uncomment the import statement at the top");
+  console.log("   2. Uncomment the corresponding await statement above");
+  console.log("   3. Run: npm run dev");
 };
 
 // Handle graceful shutdown
-process.on('SIGINT', () => {
-    console.log('\n👋 Shutting down gracefully...');
-    process.exit(0);
+process.on("SIGINT", () => {
+  console.log("\n👋 Shutting down gracefully...");
+  process.exit(0);
 });
 
-process.on('SIGTERM', () => {
-    console.log('\n👋 Shutting down gracefully...');
-    process.exit(0);
+process.on("SIGTERM", () => {
+  console.log("\n👋 Shutting down gracefully...");
+  process.exit(0);
 });
 
-runExample().catch(error => {
-    console.error('❌ Error running example:', error);
-    process.exit(1);
+runExample().catch((error) => {
+  console.error("❌ Error running example:", error);
+  process.exit(1);
 });
