@@ -50,6 +50,9 @@ export class PlaywrightServiceApiCall {
       const errorMessage = extractErrorMessage(response?.bodyAsText ?? "");
       exitWithFailureMessage(ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN, errorMessage);
     }
+    console.log(
+      "Test run created successfully, please visit https://aka.ms/pww/docs/activitylog for more details.",
+    );
     return response.bodyAsText ? JSON.parse(response.bodyAsText) : {};
   }
 }

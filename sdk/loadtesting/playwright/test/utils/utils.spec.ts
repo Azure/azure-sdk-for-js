@@ -148,11 +148,11 @@ describe("Service Utils", () => {
 
   it("should return service base url with query params and should escape runID", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -160,11 +160,11 @@ describe("Service Utils", () => {
 
   it("should escape special character in runId", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -327,7 +327,7 @@ describe("Service Utils", () => {
 
     const exitStub = vi.mocked(process.exit);
     process.env["PLAYWRIGHT_SERVICE_URL"] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/wrong-id/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/wrong-id/browsers";
     const result = localPopulateValuesFromServiceUrl();
 
     expect(result).to.deep.equal({
@@ -571,7 +571,7 @@ describe("Service Utils", () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
       await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");
     process.env["PLAYWRIGHT_SERVICE_URL"] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
 
     const result = localPopulateValuesFromServiceUrl();
     expect(result).to.deep.equal({
