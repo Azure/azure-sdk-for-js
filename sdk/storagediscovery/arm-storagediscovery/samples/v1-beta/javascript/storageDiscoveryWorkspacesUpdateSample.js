@@ -19,7 +19,7 @@ async function updateAStorageDiscoveryWorkspace() {
     "Sample-Storage-Workspace",
     {
       properties: {
-        sku: "Premium",
+        sku: "Free",
         workspaceRoots: ["/subscriptions/b79cb3ba-745e-5d9a-8903-4a02327a7e09"],
         description: "Updated Sample Storage Discovery Workspace",
         scopes: [
