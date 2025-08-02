@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { arrayToArrayBuffer } from "./arrayBuffer.js";
 import { isWebReadableStream } from "./typeGuards.js";
 
 /**
@@ -14,8 +15,10 @@ function drain(stream: ReadableStream<Uint8Array>): Promise<Blob> {
 async function toBlobPart(
   source: ReadableStream<Uint8Array> | Blob | Uint8Array,
 ): Promise<BlobPart> {
-  if (source instanceof Blob || source instanceof Uint8Array) {
+  if (source instanceof Blob) {
     return source;
+  } else if ("buffer" in source) {
+    return new Blob([arrayToArrayBuffer(source)]);
   }
 
   if (isWebReadableStream(source)) {

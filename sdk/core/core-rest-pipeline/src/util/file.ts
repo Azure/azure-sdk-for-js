@@ -171,10 +171,17 @@ export function createFile(
       size: content.byteLength,
       name,
       arrayBuffer: async () => content.buffer,
-      stream: () => new Blob([content]).stream(),
+      stream: () => new Blob([toArrayBuffer(content)]).stream(),
       [rawContent]: () => content,
     } as File & RawContent;
   } else {
-    return new File([content], name, options);
+    return new File([toArrayBuffer(content)], name, options);
   }
+}
+
+function toArrayBuffer(array: Uint8Array): ArrayBuffer {
+  if (array.buffer instanceof ArrayBuffer) {
+    return array.buffer;
+  }
+  return new Uint8Array(array).buffer;
 }

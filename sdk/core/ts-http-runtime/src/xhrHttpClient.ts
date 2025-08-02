@@ -12,6 +12,7 @@ import type {
 import { createHttpHeaders } from "./httpHeaders.js";
 import { RestError } from "./restError.js";
 import { isReadableStream } from "./util/typeGuards.js";
+import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
 
 /**
  * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.
@@ -70,7 +71,13 @@ class XhrHttpClient implements HttpClient {
       throw new Error("streams are not supported in XhrHttpClient.");
     }
 
-    xhr.send(body === undefined ? null : body);
+    if (body instanceof ArrayBuffer) {
+      xhr.send(body);
+    } else if (typeof body === "object" && body && "buffer" in body) {
+      xhr.send(arrayBufferViewToArrayBuffer(body));
+    } else {
+      xhr.send(body === undefined ? null : body);
+    }
 
     if (xhr.responseType === "blob") {
       return new Promise((resolve, reject) => {

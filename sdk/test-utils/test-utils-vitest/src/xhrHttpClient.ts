@@ -85,7 +85,17 @@ class XhrHttpClient implements HttpClient {
       throw new Error("Streams are not supported by xhrHttpClient.");
     }
 
-    xhr.send(body === undefined ? null : body);
+    if (body instanceof ArrayBuffer) {
+      xhr.send(body);
+    } else if (body instanceof SharedArrayBuffer) {
+      const arrayBuffer = new ArrayBuffer(body.byteLength);
+      const arrayBufferView = new Uint8Array(arrayBuffer);
+      const sourceView = new Uint8Array(body);
+      arrayBufferView.set(sourceView);
+      xhr.send(arrayBufferView);
+    } else {
+      xhr.send(body === undefined ? null : (body as Blob | FormData | string));
+    }
 
     if (xhr.responseType === "blob") {
       return new Promise((resolve, reject) => {
