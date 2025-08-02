@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig.samples.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-sse": ["./dist/browser/index.d.ts"],
+      "@azure/core-sse/*": ["./dist/browser/*"],
+      "@azure-rest/core-client": ["../core-client-rest/dist/browser/index.d.ts"],
+      "@azure-rest/core-client/*": ["../core-client-rest/dist/browser/*"]
+    },
+    "skipLibCheck": true
+  }
+}
