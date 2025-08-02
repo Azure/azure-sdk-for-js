@@ -22,10 +22,12 @@ import {
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
   MuteParticipantsRequest as MuteParticipantsRequestMapper,
   CancelAddParticipantRequest as CancelAddParticipantRequestMapper,
+  MoveParticipantsRequest as MoveParticipantsRequestMapper,
   PlayRequest as PlayRequestMapper,
   StartTranscriptionRequest as StartTranscriptionRequestMapper,
   StopTranscriptionRequest as StopTranscriptionRequestMapper,
   UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
+  SummarizeCallRequest as SummarizeCallRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
@@ -80,7 +82,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-06-15",
+    defaultValue: "2025-08-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -165,6 +167,11 @@ export const cancelAddParticipantRequest: OperationParameter = {
   mapper: CancelAddParticipantRequestMapper,
 };
 
+export const moveParticipantRequest: OperationParameter = {
+  parameterPath: "moveParticipantRequest",
+  mapper: MoveParticipantsRequestMapper,
+};
+
 export const participantRawId: OperationURLParameter = {
   parameterPath: "participantRawId",
   mapper: {
@@ -206,6 +213,11 @@ export const stopTranscriptionRequest: OperationParameter = {
 export const updateTranscriptionRequest: OperationParameter = {
   parameterPath: "updateTranscriptionRequest",
   mapper: UpdateTranscriptionRequestMapper,
+};
+
+export const summarizeCallRequest: OperationParameter = {
+  parameterPath: "summarizeCallRequest",
+  mapper: SummarizeCallRequestMapper,
 };
 
 export const recognizeRequest: OperationParameter = {

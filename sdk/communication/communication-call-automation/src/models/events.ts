@@ -43,7 +43,7 @@ import {
   MediaStreamingFailed as RestMediaStreamingFailed,
 } from "../generated/src/models/index.js";
 
-import type { CallParticipant } from "./models.js";
+import type { CallParticipant, TranscriptionUpdate } from "./models.js";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
@@ -82,7 +82,10 @@ export type CallAutomationEvent =
   | MediaStreamingStopped
   | MediaStreamingFailed
   | PlayStarted
-  | StartRecordingFailed;
+  | StartRecordingFailed
+  | MoveParticipantSucceeded
+  | MoveParticipantFailed
+  | TranscriptionCallSummaryUpdated;
 export {
   RestAddParticipantSucceeded,
   RestAddParticipantFailed,
@@ -374,7 +377,6 @@ export interface RecordingStateChanged
   kind: "RecordingStateChanged";
 }
 
-/** Event when StartRecording was failed. */
 export interface StartRecordingFailed {
   /** Call connection ID. */
   callConnectionId: string;
@@ -978,4 +980,64 @@ export interface AnswerFailed
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "AnswerFailed";
+}
+
+/** The participant successfully moved event. */
+export interface MoveParticipantSucceeded {
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used this to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** The participant in the call. */
+  participant?: CommunicationIdentifier;
+  /** kind of this event. */
+  kind: "MoveParticipantSucceeded";
+}
+
+/** The failed to move participant event. */
+export interface MoveParticipantFailed {
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Used this to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code/sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** The participant in the call. */
+  participant?: CommunicationIdentifier;
+  /** kind of this event. */
+  kind: "MoveParticipantFailed";
+}
+
+export interface TranscriptionCallSummaryUpdated {
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  transcriptionUpdate?: TranscriptionUpdate;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "TranscriptionCallSummaryUpdated";
 }
