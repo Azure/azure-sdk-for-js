@@ -6,7 +6,7 @@
     { "path": "./tsconfig.snippets.json" }
   ],
   "compilerOptions": {
-    // "composiite" should be inherited from tsconfig.lib.json (via tsconfig.src.json),
+    // "composite" should be inherited from tsconfig.lib.json (via tsconfig.src.json),
     // but without setting it here *.d.ts files are not generated and extract-api fails.
     "composite": true
   },
