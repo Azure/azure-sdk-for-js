@@ -1639,6 +1639,9 @@
 # PRLabel: %Mgmt
 sdk/storagediscovery/arm-storagediscovery/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+sdk/placeholder/arm-placeholder/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
