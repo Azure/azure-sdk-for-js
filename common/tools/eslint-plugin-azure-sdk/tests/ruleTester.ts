@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as path from "node:path";
+import path from "node:path";
 import * as vitest from "vitest";
 import { RuleTester } from "@typescript-eslint/rule-tester";
 

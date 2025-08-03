@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import type { ConnectOptions } from "@playwright/test";
-import type { ServiceAuth, ServiceOS } from "./constants.js";
+import type { ServiceAuth, ServiceOS, SDKLanguage } from "./constants.js";
 import type { TokenCredential } from "@azure/identity";
+import { CIInfo } from "../utils/cIInfoProvider.js";
 
 // Public APIs
 
@@ -163,7 +164,6 @@ export type AuthenticationType = (typeof ServiceAuth)[keyof typeof ServiceAuth];
 // Internal APIs
 
 export type JwtPayload = {
-  aid?: string;
   iss?: string;
   sub?: string;
   aud?: string[] | string;
@@ -174,8 +174,7 @@ export type JwtPayload = {
 };
 
 export type AccessTokenClaims = JwtPayload & {
-  aid?: string;
-  accountId?: string;
+  pwid?: string;
 };
 
 export type VersionInfo = {
@@ -187,4 +186,22 @@ export type VersionInfo = {
 export type PackageManager = {
   runCommand: (command: string, args: string) => string;
   getVersionFromStdout: (stdout: string) => string;
+};
+
+export type RunConfig = {
+  framework?: RunFramework;
+  sdkLanguage?: (typeof SDKLanguage)[keyof typeof SDKLanguage];
+  maxWorkers?: number;
+};
+
+export type RunFramework = {
+  name?: string;
+  version?: string;
+  runnerName?: string;
+};
+
+export type TestRunCreatePayload = {
+  displayName: string;
+  config?: RunConfig;
+  ciConfig?: CIInfo;
 };

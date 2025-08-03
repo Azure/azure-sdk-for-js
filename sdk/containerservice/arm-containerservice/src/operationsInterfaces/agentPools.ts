@@ -138,12 +138,7 @@ export interface AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsDeleteResponse>,
-      AgentPoolsDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
   /**
    * Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

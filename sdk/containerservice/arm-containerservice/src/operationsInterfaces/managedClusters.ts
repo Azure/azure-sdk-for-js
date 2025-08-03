@@ -82,9 +82,7 @@ export interface ManagedClusters {
    * Gets a list of managed clusters in the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: ManagedClustersListOptionalParams,
-  ): PagedAsyncIterableIterator<ManagedCluster>;
+  list(options?: ManagedClustersListOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
   /**
    * Lists managed clusters in the specified subscription and resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -300,10 +298,7 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedClustersDeleteResponse>,
-      ManagedClustersDeleteResponse
-    >
+    SimplePollerLike<OperationState<ManagedClustersDeleteResponse>, ManagedClustersDeleteResponse>
   >;
   /**
    * Deletes a managed cluster.
@@ -472,10 +467,7 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersStopOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedClustersStopResponse>,
-      ManagedClustersStopResponse
-    >
+    SimplePollerLike<OperationState<ManagedClustersStopResponse>, ManagedClustersStopResponse>
   >;
   /**
    * This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster
@@ -504,10 +496,7 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersStartOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedClustersStartResponse>,
-      ManagedClustersStartResponse
-    >
+    SimplePollerLike<OperationState<ManagedClustersStartResponse>, ManagedClustersStartResponse>
   >;
   /**
    * See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details

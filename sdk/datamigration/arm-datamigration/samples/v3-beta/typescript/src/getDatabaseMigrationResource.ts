@@ -24,7 +24,7 @@ async function getDatabaseMigrationResource(): Promise<void> {
   const result = await client.databaseMigrationsSqlVm.get(
     resourceGroupName,
     sqlVirtualMachineName,
-    targetDbName
+    targetDbName,
   );
   console.log(result);
 }

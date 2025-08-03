@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes a vault.
  *
  * @summary Deletes a vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/DeleteVault.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/DeleteVault.json
  */
 async function deleteRecoveryServicesVault() {
   const subscriptionId =
@@ -31,7 +29,7 @@ async function deleteRecoveryServicesVault() {
 }
 
 async function main() {
-  deleteRecoveryServicesVault();
+  await deleteRecoveryServicesVault();
 }
 
 main().catch(console.error);

@@ -62,6 +62,7 @@ export async function execute({
           endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
             requestContext.globalEndpointManager,
             requestContext.operationType,
+            requestContext.globalPartitionEndpointManager,
           ),
           resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
             requestContext.connectionPolicy.retryOptions ?? {},
@@ -80,6 +81,8 @@ export async function execute({
             requestContext.resourceType,
             requestContext.operationType,
             requestContext.connectionPolicy.enableEndpointDiscovery,
+            requestContext.connectionPolicy.enablePartitionLevelFailover,
+            requestContext.globalPartitionEndpointManager,
           ),
         };
       }
@@ -104,6 +107,18 @@ export async function execute({
       const startTimeUTCInMs = getCurrentTimestampInMs();
       const correlatedActivityId =
         requestContext.headers[Constants.HttpHeaders.CorrelatedActivityId];
+
+      if (requestContext.globalPartitionEndpointManager) {
+        // Try partition level location override
+        // This is used to override the partition level location for the request
+        // if there has been a partition level failover
+        requestContext =
+          await requestContext.globalPartitionEndpointManager.tryAddPartitionLevelLocationOverride(
+            requestContext,
+            localDiagnosticNode,
+          );
+      }
+
       try {
         const response = await executeRequest(localDiagnosticNode, requestContext);
         response.headers[Constants.ThrottleRetryCount] =
@@ -121,8 +136,8 @@ export async function execute({
         if (correlatedActivityId) {
           headers[Constants.HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
         }
+
         if (
-          err.code === StatusCodes.ENOTFOUND ||
           err.code === "REQUEST_SEND_ERROR" ||
           (err.code === StatusCodes.Forbidden &&
             (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
@@ -146,6 +161,7 @@ export async function execute({
           localDiagnosticNode,
           retryContext,
           requestContext.endpoint,
+          requestContext,
         );
         if (!results) {
           headers[Constants.ThrottleRetryCount] =

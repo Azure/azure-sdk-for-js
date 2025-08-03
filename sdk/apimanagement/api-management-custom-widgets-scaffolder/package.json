@@ -13,7 +13,7 @@
     "create-apimanagement-widget": "bin/execute.cjs"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "keywords": [
     "azure",
@@ -37,8 +37,8 @@
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
     "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "lint": "eslint package.json api-extractor.json src test --ignore-pattern templates",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion] --ignore-pattern templates",
+    "lint": "eslint package.json src test --ignore-pattern templates",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion] --ignore-pattern templates",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
@@ -52,7 +52,7 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/inquirer": "^9.0.7",
     "@types/mustache": "^4.2.1",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/yargs": "^17.0.32",
     "@types/yargs-parser": "^21.0.3",
     "@vitest/coverage-istanbul": "^3.0.9",
@@ -82,7 +82,7 @@
       "commonjs"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "./tsconfig.src.build.json"
   },
   "exports": {
     "./package.json": "./package.json",

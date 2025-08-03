@@ -15,8 +15,8 @@
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
@@ -44,7 +44,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-common/",
   "sideEffects": false,
@@ -66,7 +66,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "~4.3.0",
     "@azure/logger": "^1.1.4",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
@@ -91,7 +91,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "exports": {
     "./package.json": "./package.json",

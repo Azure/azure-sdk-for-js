@@ -3,7 +3,7 @@
   "version": "1.1.0-beta.1",
   "description": "A generated SDK for MongoClusterManagementClient.",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -29,7 +29,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "type": "module",
   "keywords": [
@@ -82,7 +82,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/arm-network": "^33.2.0",
     "@azure/identity": "^4.10.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",

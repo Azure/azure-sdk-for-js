@@ -21,25 +21,25 @@ import {
 import { createLroSpec } from "../lroImpl.js";
 import {
   DiskEncryptionSet,
-  DiskEncryptionSetsListByResourceGroupNextOptionalParams,
-  DiskEncryptionSetsListByResourceGroupOptionalParams,
-  DiskEncryptionSetsListByResourceGroupResponse,
   DiskEncryptionSetsListNextOptionalParams,
   DiskEncryptionSetsListOptionalParams,
   DiskEncryptionSetsListResponse,
+  DiskEncryptionSetsListByResourceGroupNextOptionalParams,
+  DiskEncryptionSetsListByResourceGroupOptionalParams,
+  DiskEncryptionSetsListByResourceGroupResponse,
   DiskEncryptionSetsListAssociatedResourcesNextOptionalParams,
   DiskEncryptionSetsListAssociatedResourcesOptionalParams,
   DiskEncryptionSetsListAssociatedResourcesResponse,
+  DiskEncryptionSetsGetOptionalParams,
+  DiskEncryptionSetsGetResponse,
   DiskEncryptionSetsCreateOrUpdateOptionalParams,
   DiskEncryptionSetsCreateOrUpdateResponse,
   DiskEncryptionSetUpdate,
   DiskEncryptionSetsUpdateOptionalParams,
   DiskEncryptionSetsUpdateResponse,
-  DiskEncryptionSetsGetOptionalParams,
-  DiskEncryptionSetsGetResponse,
   DiskEncryptionSetsDeleteOptionalParams,
-  DiskEncryptionSetsListByResourceGroupNextResponse,
   DiskEncryptionSetsListNextResponse,
+  DiskEncryptionSetsListByResourceGroupNextResponse,
   DiskEncryptionSetsListAssociatedResourcesNextResponse,
 } from "../models/index.js";
 
@@ -57,8 +57,62 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
   }
 
   /**
+   * Lists all the disk encryption sets under a subscription.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: DiskEncryptionSetsListOptionalParams,
+  ): PagedAsyncIterableIterator<DiskEncryptionSet> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    options?: DiskEncryptionSetsListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DiskEncryptionSet[]> {
+    let result: DiskEncryptionSetsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: DiskEncryptionSetsListOptionalParams,
+  ): AsyncIterableIterator<DiskEncryptionSet> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Lists all the disk encryption sets under a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -126,62 +180,8 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
   }
 
   /**
-   * Lists all the disk encryption sets under a subscription.
-   * @param options The options parameters.
-   */
-  public list(
-    options?: DiskEncryptionSetsListOptionalParams,
-  ): PagedAsyncIterableIterator<DiskEncryptionSet> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *listPagingPage(
-    options?: DiskEncryptionSetsListOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<DiskEncryptionSet[]> {
-    let result: DiskEncryptionSetsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: DiskEncryptionSetsListOptionalParams,
-  ): AsyncIterableIterator<DiskEncryptionSet> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists all resources that are encrypted with this disk encryption set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
    *                              can't be changed after the disk encryption set is created. Supported characters for the name are
    *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
@@ -266,8 +266,52 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
   }
 
   /**
+   * Lists all the disk encryption sets under a subscription.
+   * @param options The options parameters.
+   */
+  private _list(
+    options?: DiskEncryptionSetsListOptionalParams,
+  ): Promise<DiskEncryptionSetsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Lists all the disk encryption sets under a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: DiskEncryptionSetsListByResourceGroupOptionalParams,
+  ): Promise<DiskEncryptionSetsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Gets information about a disk encryption set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
+   *                              can't be changed after the disk encryption set is created. Supported characters for the name are
+   *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    diskEncryptionSetName: string,
+    options?: DiskEncryptionSetsGetOptionalParams,
+  ): Promise<DiskEncryptionSetsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, diskEncryptionSetName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Creates or updates a disk encryption set
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
    *                              can't be changed after the disk encryption set is created. Supported characters for the name are
    *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
@@ -340,6 +384,7 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -347,7 +392,7 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
 
   /**
    * Creates or updates a disk encryption set
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
    *                              can't be changed after the disk encryption set is created. Supported characters for the name are
    *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
@@ -372,7 +417,7 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
 
   /**
    * Updates (patches) a disk encryption set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
    *                              can't be changed after the disk encryption set is created. Supported characters for the name are
    *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
@@ -445,6 +490,7 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -452,7 +498,7 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
 
   /**
    * Updates (patches) a disk encryption set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
    *                              can't be changed after the disk encryption set is created. Supported characters for the name are
    *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
@@ -476,27 +522,8 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
   }
 
   /**
-   * Gets information about a disk encryption set.
-   * @param resourceGroupName The name of the resource group.
-   * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
-   *                              can't be changed after the disk encryption set is created. Supported characters for the name are
-   *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    diskEncryptionSetName: string,
-    options?: DiskEncryptionSetsGetOptionalParams,
-  ): Promise<DiskEncryptionSetsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, diskEncryptionSetName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Deletes a disk encryption set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
    *                              can't be changed after the disk encryption set is created. Supported characters for the name are
    *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
@@ -553,6 +580,7 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -560,7 +588,7 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
 
   /**
    * Deletes a disk encryption set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
    *                              can't be changed after the disk encryption set is created. Supported characters for the name are
    *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
@@ -580,33 +608,8 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
   }
 
   /**
-   * Lists all the disk encryption sets under a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: DiskEncryptionSetsListByResourceGroupOptionalParams,
-  ): Promise<DiskEncryptionSetsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all the disk encryption sets under a subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: DiskEncryptionSetsListOptionalParams,
-  ): Promise<DiskEncryptionSetsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
    * Lists all resources that are encrypted with this disk encryption set.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
    *                              can't be changed after the disk encryption set is created. Supported characters for the name are
    *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
@@ -620,23 +623,6 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
     return this.client.sendOperationRequest(
       { resourceGroupName, diskEncryptionSetName, options },
       listAssociatedResourcesOperationSpec,
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: DiskEncryptionSetsListByResourceGroupNextOptionalParams,
-  ): Promise<DiskEncryptionSetsListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -656,8 +642,25 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
   }
 
   /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: DiskEncryptionSetsListByResourceGroupNextOptionalParams,
+  ): Promise<DiskEncryptionSetsListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
+    );
+  }
+
+  /**
    * ListAssociatedResourcesNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
    *                              can't be changed after the disk encryption set is created. Supported characters for the name are
    *                              a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
@@ -680,6 +683,63 @@ export class DiskEncryptionSetsImpl implements DiskEncryptionSets {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskEncryptionSetList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskEncryptionSetList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskEncryptionSet,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.diskEncryptionSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
   httpMethod: "PUT",
@@ -744,27 +804,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskEncryptionSet,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.diskEncryptionSetName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
   httpMethod: "DELETE",
@@ -784,42 +823,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName,
   ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskEncryptionSetList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskEncryptionSetList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -844,26 +847,6 @@ const listAssociatedResourcesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiskEncryptionSetList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -877,8 +860,28 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiskEncryptionSetList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -896,8 +899,8 @@ const listAssociatedResourcesNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName,
   ],

@@ -26,6 +26,7 @@ import {
   functionCallModelsToSkip,
   systemRoleModelsToSkip,
   toolsModelsToSkip,
+  modelsNotSupportedInGA,
 } from "../utils/models.js";
 import "../../src/types/index.js";
 import { assertMathResponseOutput, type MathResponse } from "../utils/structuredOutputUtils.js";
@@ -36,12 +37,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
     { chatCompletion: "true" },
     {
       clientOptions: { maxRetries: 0 },
-      deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
-      modelsToSkip: [
-        { name: "gpt-4o-audio-preview" },
-        { name: "gpt-4o-mini-audio-preview" },
-        { name: "o3-mini" /** Unsupported with this API version */ },
-      ],
+      modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "gpt-4o-mini-audio-preview" }],
     },
   );
   const pirateMessages = [
@@ -85,19 +81,21 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
     describe("returns completions across all models", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
             messages: pirateMessages,
           }),
         validate: assertChatCompletions,
-        modelsListToSkip: systemRoleModelsToSkip,
+        modelsListToSkip: [...systemRoleModelsToSkip, ...modelsNotSupportedInGA],
       });
     });
 
     describe("calls functions", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deploymentName) => {
           const weatherMessages: ChatCompletionMessageParam[] = [
             { role: "user", content: "What's the weather like in Boston?" },
@@ -130,13 +128,14 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
           });
         },
         validate: (result) => assertChatCompletions(result, { functions: true }),
-        modelsListToSkip: functionCallModelsToSkip,
+        modelsListToSkip: [...functionCallModelsToSkip, ...modelsNotSupportedInGA],
       });
     });
 
     describe("doesn't call tools if toolChoice is set to none", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
@@ -148,13 +147,14 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
           assertChatCompletions(res, { functions: false });
           assert.isUndefined(res.choices[0].message?.tool_calls);
         },
-        modelsListToSkip: toolsModelsToSkip,
+        modelsListToSkip: [...toolsModelsToSkip, ...modelsNotSupportedInGA],
       });
     });
 
     describe("calls a specific tool if its name is specified", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
@@ -198,7 +198,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
           assert.equal(toolCalls[0].function.name, getCurrentWeather.name);
           assert.isUndefined(res.choices[0].message?.function_call);
         },
-        modelsListToSkip: toolsModelsToSkip,
+        modelsListToSkip: [...toolsModelsToSkip, ...modelsNotSupportedInGA],
       });
     });
 
@@ -219,6 +219,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
       };
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
@@ -234,7 +235,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
           const argument = toolCalls[0].function.arguments;
           assert.isTrue(argument?.includes("assetName"));
         },
-        modelsListToSkip: toolsModelsToSkip,
+        modelsListToSkip: [...toolsModelsToSkip, ...modelsNotSupportedInGA],
       });
     });
 
@@ -243,6 +244,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
         clientsAndDeploymentsInfo: filterClientsAndDeployments(clientsAndDeploymentsInfo, {
           jsonObjectResponse: "true",
         }),
+        apiVersion,
         run: (client, deploymentName) =>
           client.chat.completions.create({
             model: deploymentName,
@@ -267,6 +269,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
         },
         modelsListToSkip: [
           { name: "gpt-4", version: "vision-preview" }, // response_format extra fields not permitted
+          ...modelsNotSupportedInGA,
         ],
       });
     });
@@ -276,6 +279,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
+          apiVersion,
           run: (client, model) =>
             client.chat.completions.create({
               model: model,
@@ -298,6 +302,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
+          apiVersion,
           run: (client, model) =>
             client.chat.completions.create({
               model: model,
@@ -327,6 +332,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
     describe("returns completions across all models", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deploymentName) =>
           bufferAsyncIterable(
             await client.chat.completions.create({
@@ -344,13 +350,14 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
             // reason. This should be fixed in the API.
             allowEmptyId: true,
           }),
-        modelsListToSkip: systemRoleModelsToSkip,
+        modelsListToSkip: [...systemRoleModelsToSkip, ...modelsNotSupportedInGA],
       });
     });
 
     describe("calls functions", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deploymentName) =>
           bufferAsyncIterable(
             await client.chat.completions.create({
@@ -367,13 +374,14 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
             // reason. This should be fixed in the API.
             allowEmptyChoices: true,
           }),
-        modelsListToSkip: functionCallModelsToSkip,
+        modelsListToSkip: [...functionCallModelsToSkip, ...modelsNotSupportedInGA],
       });
     });
 
     describe("calls toolCalls", async () => {
       await testWithDeployments({
         clientsAndDeploymentsInfo,
+        apiVersion,
         run: async (client, deploymentName) =>
           bufferAsyncIterable(
             await client.chat.completions.create({
@@ -390,7 +398,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
             // reason. This should be fixed in the API.
             allowEmptyChoices: true,
           }),
-        modelsListToSkip: toolsModelsToSkip,
+        modelsListToSkip: [...toolsModelsToSkip, ...modelsNotSupportedInGA],
       });
     });
 
@@ -399,6 +407,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
+          apiVersion,
           run: async (client, model) =>
             bufferAsyncIterable(
               await client.chat.completions.create({
@@ -425,6 +434,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
       async (config) => {
         await testWithDeployments({
           clientsAndDeploymentsInfo,
+          apiVersion,
           run: async (client, model) =>
             bufferAsyncIterable(
               await client.chat.completions.create({
@@ -458,6 +468,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
           clientsAndDeploymentsInfo: filterClientsAndDeployments(clientsAndDeploymentsInfo, {
             jsonSchemaResponse: "true",
           }),
+          apiVersion,
           run: async (client, deploymentName) => {
             const step = z.object({
               explanation: z.string(),
@@ -469,7 +480,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
               final_answer: z.string(),
             });
 
-            return client.beta.chat.completions.parse({
+            return client.chat.completions.parse({
               model: deploymentName,
               messages: [
                 {
@@ -489,6 +500,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
           modelsListToSkip: [
             ...systemRoleModelsToSkip,
             { name: "gpt-4", version: "vision-preview" }, // response_format not supported
+            ...modelsNotSupportedInGA,
           ],
         });
       });

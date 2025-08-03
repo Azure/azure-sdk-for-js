@@ -1,7 +1,7 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
-  "version": "4.3.7",
+  "version": "4.4.1",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -50,8 +50,8 @@
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package &&  dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
@@ -60,7 +60,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-amqp/README.md",
   "sideEffects": false,
@@ -87,7 +87,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@rollup/plugin-inject": "^5.0.5",
     "@types/debug": "^4.1.12",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/ws": "^8.5.10",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
@@ -115,7 +115,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "module": "./dist/esm/index.js"
 }

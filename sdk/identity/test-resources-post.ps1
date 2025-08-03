@@ -129,6 +129,8 @@ spec:
       value: "$storageName2"
     - name: IDENTITY_USER_DEFINED_CLIENT_ID
       value: "$userDefinedClientId"
+    - name: IDENTITY_FUNCTIONS_CUSTOMHANDLER_PORT
+      value: "80"
     ports:
     - containerPort: 80
   nodeSelector:

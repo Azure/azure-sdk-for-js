@@ -19,7 +19,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "sideEffects": false,
   "main": "./dist/commonjs/index.js",
@@ -77,8 +77,8 @@
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples/**/*.ts\" \"*.{js,json}\"",
-    "lint": "eslint package.json api-extractor.json src",
-    "lint:fix": "eslint package.json api-extractor.json src --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src",
+    "lint:fix": "eslint package.json src --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
@@ -122,7 +122,7 @@
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",

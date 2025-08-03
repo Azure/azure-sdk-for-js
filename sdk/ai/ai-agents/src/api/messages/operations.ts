@@ -3,6 +3,7 @@
 
 import { AgentsContext as Client } from "../index.js";
 import {
+  agentV1ErrorDeserializer,
   MessageRole,
   MessageInputContent,
   messageInputContentSerializer,
@@ -37,11 +38,11 @@ export function _updateMessageSend(
   options: MessagesUpdateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages/{messageId}{?api%2Dversion}",
+    "/threads/{threadId}/messages/{messageId}{?api-version}",
     {
       threadId: threadId,
       messageId: messageId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -63,7 +64,9 @@ export async function _updateMessageDeserialize(
 ): Promise<ThreadMessage> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadMessageDeserializer(result.body);
@@ -87,11 +90,11 @@ export function _getMessageSend(
   options: MessagesGetMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages/{messageId}{?api%2Dversion}",
+    "/threads/{threadId}/messages/{messageId}{?api-version}",
     {
       threadId: threadId,
       messageId: messageId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +114,9 @@ export async function _getMessageDeserialize(
 ): Promise<ThreadMessage> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadMessageDeserializer(result.body);
@@ -134,11 +139,11 @@ export function _listMessagesSend(
   options: MessagesListMessagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages{?run_id,api%2Dversion,limit,order,after,before}",
+    "/threads/{threadId}/messages{?run_id,api-version,limit,order,after,before}",
     {
       threadId: threadId,
       run_id: options?.runId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -191,10 +196,10 @@ export function _createMessageSend(
   options: MessagesCreateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages{?api%2Dversion}",
+    "/threads/{threadId}/messages{?api-version}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -223,7 +228,9 @@ export async function _createMessageDeserialize(
 ): Promise<ThreadMessage> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadMessageDeserializer(result.body);

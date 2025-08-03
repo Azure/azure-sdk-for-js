@@ -13,12 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import type {
   LoadBalancer,
@@ -58,11 +54,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     resourceName: string,
     options?: LoadBalancersListByManagedClusterOptionalParams,
   ): PagedAsyncIterableIterator<LoadBalancer> {
-    const iter = this.listByManagedClusterPagingAll(
-      resourceGroupName,
-      resourceName,
-      options,
-    );
+    const iter = this.listByManagedClusterPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
         return iter.next();
@@ -93,11 +85,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     let result: LoadBalancersListByManagedClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByManagedCluster(
-        resourceGroupName,
-        resourceName,
-        options,
-      );
+      result = await this._listByManagedCluster(resourceGroupName, resourceName, options);
       const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -207,10 +195,7 @@ export class LoadBalancersImpl implements LoadBalancers {
     loadBalancerName: string,
     options?: LoadBalancersDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<LoadBalancersDeleteResponse>,
-      LoadBalancersDeleteResponse
-    >
+    SimplePollerLike<OperationState<LoadBalancersDeleteResponse>, LoadBalancersDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -222,8 +207,7 @@ export class LoadBalancersImpl implements LoadBalancers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -367,7 +351,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

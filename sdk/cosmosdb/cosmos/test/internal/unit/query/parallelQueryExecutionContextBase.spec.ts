@@ -342,6 +342,7 @@ describe("parallelQueryExecutionContextBase", () => {
       await (context as any).fillBufferFromBufferQueue();
 
       assert.equal(context["buffer"].length, 2);
+      assert.equal(context["respHeaders"]["x-ms-request-charge"], "3.5");
     });
   });
 
@@ -430,6 +431,60 @@ describe("parallelQueryExecutionContextBase", () => {
         expect(releaseSpy).toHaveBeenCalledTimes(2);
         assert.equal(context["buffer"].length, 0);
       }
+    });
+  });
+
+  // Test for RU consumption when initial response from document processors is empty
+  describe("parallelQueryExecutionContextBase RU Consumption", () => {
+    it("should correctly compute RU when initial response from document processors is empty", async () => {
+      const tempOptions: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 2 };
+      const tempClientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
+
+      const mockPartitionKeyRange1 = createMockPartitionKeyRange("0", "", "AA");
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("1", "AA", "BB");
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("2", "BB", "FF");
+
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+      vi.spyOn(tempClientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+      } as unknown as QueryIterator<PartitionKeyRange>);
+
+      vi.spyOn(tempClientContext, "queryFeed").mockResolvedValue({
+        result: [] as unknown as Resource, // Add result to mimic expected structure
+        headers: {
+          "x-ms-request-charge": "3.5", // Example RU charge
+          "x-ms-continuation": "token-for-next-page", // Continuation token for pagination
+        },
+        code: 200, // Optional status code
+      });
+
+      const tempContext = new TestParallelQueryExecutionContext(
+        tempClientContext,
+        collectionLink,
+        query,
+        tempOptions,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+      );
+      await (tempContext as any).bufferDocumentProducers(createDummyDiagnosticNode());
+
+      // Call fillBufferFromBufferQueue
+      await (tempContext as any).fillBufferFromBufferQueue();
+      const result = await (tempContext as any).drainBufferedItems();
+
+      assert.equal(result.result.length, 0);
+      assert.equal(result.headers["x-ms-request-charge"], "7.0");
+
+      await (tempContext as any).bufferDocumentProducers(createDummyDiagnosticNode());
+      await (tempContext as any).fillBufferFromBufferQueue();
+      const result2 = await (tempContext as any).drainBufferedItems();
+
+      assert.equal(result2.result.length, 0);
+      assert.equal(result2.headers["x-ms-request-charge"], "7.0");
     });
   });
 });
