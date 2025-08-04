@@ -1468,8 +1468,8 @@ packages:
     resolution: {integrity: sha512-Uth4vz0j+fkXCkbvutChUj03PDCokjbC6Wk9JT8hHEUtpy/EurNKAseb3+gO6Zi9VYBvwt61pgbzn1ovk942Qg==}
     engines: {node: '>=20.0.0'}
 
-  '@azure/identity@4.11.0-beta.1':
-    resolution: {integrity: sha512-WOwnWpjTrRUacxcYgPf4ohXNduBx+Dat+yUn3IvDrprER0H/At7JqwC6YucIan/JDw50hvNZbhxTv1cEwSQN1Q==}
+  '@azure/identity@4.11.0':
+    resolution: {integrity: sha512-GkbNnd3mrsL1gX3BxIblhahCfFEViLTfNMFgfSo4wPSH2ipw4duc1TtOPVOf8Wt6XTnjZROZRAvYqjJBWXV39g==}
     engines: {node: '>=20.0.0'}
 
   '@azure/identity@4.3.0':
@@ -3918,7 +3918,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity-vscode@file:projects/identity-vscode.tgz':
-    resolution: {integrity: sha512-Sl7+Ta8+8D4Ppy7LQzRAlvUEBXrROpDxdPpbg4AtM1P7OVJ8+IAV5Kg3E31ebpcxjbdVBIQhlDLLhRWCsRb9vw==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-KLf5Wvx+Znt4hlWGfqGYl6azJ7W3m/dV3He/mNsLIvxyGIO0tIbB4SDppQtBpfLnbeYXQpP996hr+K0HLtXtww==, tarball: file:projects/identity-vscode.tgz}
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
@@ -7743,7 +7743,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/identity@4.11.0-beta.1':
+  '@azure/identity@4.11.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.0
@@ -21545,7 +21545,7 @@ snapshots:
 
   '@rush-temp/identity-vscode@file:projects/identity-vscode.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
-      '@azure/identity': 4.11.0-beta.1
+      '@azure/identity': 4.11.0
       '@azure/msal-node': 3.6.4
       '@azure/msal-node-extensions': 1.5.18
       '@types/node': 20.19.9
