@@ -30,13 +30,13 @@ Follow these steps to run your existing Playwright test suite with the service.
 
    - Select the menu button in the upper-left corner of the portal, and then select Create a resource.
 
-     ![Create a resource in Azure portal](https://github.com/Azure/playwright-workspaces/blob/main/media/how-to-manage-playwright-workspace/azure-portal-create-resource.png?raw=true)
+     ![Create a resource in Azure portal](https://aka.ms/pww/docs/createurlsnapshot)
 
    - Enter **Playwright Workspaces** in the search box.
 
    - Select the **Playwright Workspaces** card, and then select **Create**.
 
-     ![Search for Playwright Workspaces in Azure Marketplace](https://github.com/Azure/playwright-workspaces/blob/main/media/how-to-manage-playwright-workspace/azure-portal-search-playwright-resource.png?raw=true)
+     ![Search for Playwright Workspaces in Azure Marketplace](https://aka.ms/pww/docs/searchurlsnapshot)
 
    - Provide the following information to configure a new Playwright workspace:
 
@@ -58,7 +58,7 @@ Follow these steps to run your existing Playwright test suite with the service.
 
    - To view the new workspace, select **Go to resource**.
 
-     ![Deployment complete - Go to resource](https://github.com/Azure/playwright-workspaces/blob/main/media/how-to-manage-playwright-workspace/create-resource-deployment-complete.png?raw=true)
+     ![Deployment complete - Go to resource](https://aka.ms/pww/docs/deploymenturlsnapshot)
 
 ### Install Azure Playwright package
 
