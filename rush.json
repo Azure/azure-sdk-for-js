@@ -554,6 +554,11 @@
       "packageName": "@azure/monitor-ingestion",
       "projectFolder": "sdk/monitor/monitor-ingestion",
       "versionPolicyName": "client"
+    },    
+    {
+      "packageName": "@azure/monitor-query-metrics",
+      "projectFolder": "sdk/monitor/monitor-query-metrics",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/dev-tool",

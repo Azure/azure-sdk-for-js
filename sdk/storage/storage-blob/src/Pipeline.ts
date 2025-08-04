@@ -44,7 +44,10 @@ import {
   StorageBlobLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants.js";
-import { getCachedDefaultHttpClient } from "@azure/storage-common";
+import {
+  getCachedDefaultHttpClient,
+  storageRequestFailureDetailsParserPolicy,
+} from "@azure/storage-common";
 import { storageBrowserPolicy } from "./policies/StorageBrowserPolicyV2.js";
 import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2.js";
 import { storageSharedKeyCredentialPolicy } from "./policies/StorageSharedKeyCredentialPolicyV2.js";
@@ -308,6 +311,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
+    corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);
     if (downlevelResults) {

@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import type { AccessToken, TokenCredential } from "../../../src/index.js";
-import { DeviceCodeCredential, UsernamePasswordCredential } from "../../../src/index.js";
+import type { AccessToken, TokenCredential } from "@azure/identity";
+import { DeviceCodeCredential, UsernamePasswordCredential } from "@azure/identity";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -15,8 +15,8 @@ import {
   createEmptyPipeline,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { DeveloperSignOnClientId } from "../../../src/constants.js";
-import { IdentityClient } from "../../../src/client/identityClient.js";
+import { DeveloperSignOnClientId } from "$internal/constants.js";
+import { IdentityClient } from "$internal/client/identityClient.js";
 import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
