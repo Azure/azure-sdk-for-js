@@ -46,6 +46,7 @@ import {
   storageSharedKeyCredentialPolicy,
   StorageBrowserPolicyFactory,
   storageCorrectContentLengthPolicy,
+  storageRequestFailureDetailsParserPolicy,
 } from "@azure/storage-common";
 import {
   StorageOAuthScopes,
@@ -53,7 +54,6 @@ import {
   StorageQueueLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants.js";
-import {} from "@azure/storage-common";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -312,6 +312,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
+    corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);
     if (downlevelResults) {
