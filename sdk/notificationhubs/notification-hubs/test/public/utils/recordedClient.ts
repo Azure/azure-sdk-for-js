@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { env } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { NotificationHubsClientContext } from "../../../src/api/index.js";
 import { createClientContext } from "../../../src/api/index.js";
-import { isBrowser } from "@azure/core-util";
+import { vi } from "vitest";
 
 const replaceableVariables: { [k: string]: string } = {
   // Used in record and playback modes
@@ -32,6 +32,13 @@ const recorderOptions: RecorderStartOptions = {
 export async function createRecordedClientContext(
   recorder: Recorder,
 ): Promise<NotificationHubsClientContext> {
+  const dummyTimeForPlayback = ["2024-04-16T22:06:17.401Z", "2024-04-16T22:06:17Z"];
+  if (isPlaybackMode()) {
+    // In playback mode, we need to set the system time to a fixed value to ensure consistent results
+    // This is because the server might return different timestamps based on the current time
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(dummyTimeForPlayback[0])); // for the first request that is made in the test
+  }
   await recorder.start(recorderOptions);
   await recorder.addSanitizers(
     {
@@ -41,27 +48,32 @@ export async function createRecordedClientContext(
           value: "class=REDACTED",
         },
       ],
+      bodySanitizers: [
+        {
+          // "Sanitizing the updated time in the response body",
+          regex: true,
+          target: "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z",
+          value: dummyTimeForPlayback[0],
+        },
+        {
+          // "Sanitizing the updated time in the response body",
+          regex: true,
+          target: "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z",
+          value: dummyTimeForPlayback[1],
+        },
+      ],
+      generalSanitizers: [
+        // looks like the registration id is dynamic, redacting it instead
+        {
+          regex: true,
+          target: "registrations/(?<secret>.*?)?api-version=",
+          value: "registration-id-redacted",
+          groupForReplace: "secret",
+        },
+      ],
     },
     ["record", "playback"],
   );
-  if (isBrowser) {
-    // there are timestamps in the body, so do not match body
-    await recorder.setMatcher("BodilessMatcher");
-    await recorder.addSanitizers(
-      {
-        // looks like the registration id is dynamic, redacting it instead
-        generalSanitizers: [
-          {
-            regex: true,
-            target: "registrations/(?<secret>.*?)?api-version=",
-            value: "registration-id-redacted",
-            groupForReplace: "secret",
-          },
-        ],
-      },
-      ["record", "playback"],
-    );
-  }
 
   if (!env.NOTIFICATION_HUB_CONNECTION_STRING || !env.NOTIFICATION_HUB_NAME) {
     throw new Error(
