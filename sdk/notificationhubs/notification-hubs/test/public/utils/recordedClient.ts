@@ -39,7 +39,7 @@ export async function createRecordedClientContext(
   const dummyTimeForPlayback = ["2024-04-16T22:06:17.401Z", "2024-04-16T22:06:17Z"];
   if (isPlaybackMode()) {
     // In playback mode, we need to set the system time to a fixed value to ensure consistent results
-    // This is because the server might return different timestamps based on the current time
+    // This is because the src code uses new Date().toISOString(), to set current time
     vi.useFakeTimers();
     vi.setSystemTime(new Date(dummyTimeForPlayback[0])); // for the first request that is made in the test
   }
