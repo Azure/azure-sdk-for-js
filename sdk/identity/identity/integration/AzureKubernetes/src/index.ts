@@ -9,9 +9,8 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
-const storageAccount2 = requireEnvVar("IDENTITY_STORAGE_NAME_2");
+const storageAccountUserAssigned = requireEnvVar("IDENTITY_STORAGE_NAME_USER_ASSIGNED");
 const userAssignedClientId = requireEnvVar("IDENTITY_USER_DEFINED_CLIENT_ID");
-const azureClientId = requireEnvVar("IDENTITY_USER_DEFINED_CLIENT_ID");
 
 // Test storage access with a credential
 async function testStorageAccess(credential: TokenCredential, storageAccount: string): Promise<void> {
@@ -42,7 +41,7 @@ app.get("/", (req: express.Request, res: express.Response) => {
 app.get("/managed-identity/user-assigned", async (req: express.Request, res: express.Response) => {
   try {
     const credential = new ManagedIdentityCredential({ clientId: userAssignedClientId });
-    await testStorageAccess(credential, storageAccount2);
+    await testStorageAccess(credential, storageAccountUserAssigned);
 
     res.json({ success: true });
   } catch (error: any) {
@@ -61,10 +60,10 @@ app.get("/managed-identity/user-assigned", async (req: express.Request, res: exp
 app.get("/workload-identity", async (req: express.Request, res: express.Response) => {
   try {
     const credential = new WorkloadIdentityCredential({
-      clientId: azureClientId
+      clientId: userAssignedClientId
     });
 
-    await testStorageAccess(credential, storageAccount2);
+    await testStorageAccess(credential, storageAccountUserAssigned);
 
     res.json({ success: true });
   } catch (error: any) {

@@ -10,15 +10,15 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Snapshot,
-  SnapshotsListByResourceGroupOptionalParams,
   SnapshotsListOptionalParams,
+  SnapshotsListByResourceGroupOptionalParams,
+  SnapshotsGetOptionalParams,
+  SnapshotsGetResponse,
   SnapshotsCreateOrUpdateOptionalParams,
   SnapshotsCreateOrUpdateResponse,
   SnapshotUpdate,
   SnapshotsUpdateOptionalParams,
   SnapshotsUpdateResponse,
-  SnapshotsGetOptionalParams,
-  SnapshotsGetResponse,
   SnapshotsDeleteOptionalParams,
   GrantAccessData,
   SnapshotsGrantAccessOptionalParams,
@@ -30,15 +30,6 @@ import {
 /** Interface representing a Snapshots. */
 export interface Snapshots {
   /**
-   * Lists snapshots under a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: SnapshotsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Snapshot>;
-  /**
    * Lists snapshots under a subscription.
    * @param options The options parameters.
    */
@@ -46,8 +37,30 @@ export interface Snapshots {
     options?: SnapshotsListOptionalParams,
   ): PagedAsyncIterableIterator<Snapshot>;
   /**
+   * Lists snapshots under a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: SnapshotsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<Snapshot>;
+  /**
+   * Gets information about a snapshot.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
+   *                     length is 80 characters.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    snapshotName: string,
+    options?: SnapshotsGetOptionalParams,
+  ): Promise<SnapshotsGetResponse>;
+  /**
    * Creates or updates a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -67,7 +80,7 @@ export interface Snapshots {
   >;
   /**
    * Creates or updates a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -82,7 +95,7 @@ export interface Snapshots {
   ): Promise<SnapshotsCreateOrUpdateResponse>;
   /**
    * Updates (patches) a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -102,7 +115,7 @@ export interface Snapshots {
   >;
   /**
    * Updates (patches) a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -116,21 +129,8 @@ export interface Snapshots {
     options?: SnapshotsUpdateOptionalParams,
   ): Promise<SnapshotsUpdateResponse>;
   /**
-   * Gets information about a snapshot.
-   * @param resourceGroupName The name of the resource group.
-   * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
-   *                     length is 80 characters.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    snapshotName: string,
-    options?: SnapshotsGetOptionalParams,
-  ): Promise<SnapshotsGetResponse>;
-  /**
    * Deletes a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -143,7 +143,7 @@ export interface Snapshots {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -156,7 +156,7 @@ export interface Snapshots {
   ): Promise<void>;
   /**
    * Grants access to a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -176,7 +176,7 @@ export interface Snapshots {
   >;
   /**
    * Grants access to a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -191,7 +191,7 @@ export interface Snapshots {
   ): Promise<SnapshotsGrantAccessResponse>;
   /**
    * Revokes access to a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
@@ -204,7 +204,7 @@ export interface Snapshots {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revokes access to a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
    *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.

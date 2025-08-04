@@ -45,13 +45,14 @@ describe("PlaywrightServiceConfig", () => {
   it("should set service config object with values from env variables", () => {
     process.env[InternalEnvironmentVariables.MPT_SERVICE_OS] = "windows";
     process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] = "runName";
-    process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = "runId";
+    process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] =
+      "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
     process.env[InternalEnvironmentVariables.MPT_API_VERSION] = "api-version";
 
     const playwrightServiceConfig = new PlaywrightServiceConfig();
 
     expect(playwrightServiceConfig.serviceOs).to.equal("windows");
-    expect(playwrightServiceConfig.runId).to.equal("runId");
+    expect(playwrightServiceConfig.runId).to.equal("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
     expect(playwrightServiceConfig.runName).to.equal("runName");
     expect(playwrightServiceConfig.apiVersion).to.equal("api-version");
 
@@ -65,7 +66,7 @@ describe("PlaywrightServiceConfig", () => {
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     playwrightServiceConfig.setOptions({
       os: "windows",
-      runId: "runId",
+      runId: "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
       runName: "runName",
       slowMo: 100,
       timeout: 200,
@@ -74,13 +75,15 @@ describe("PlaywrightServiceConfig", () => {
     });
 
     expect(playwrightServiceConfig.serviceOs).to.equal("windows");
-    expect(playwrightServiceConfig.runId).to.equal("runId");
+    expect(playwrightServiceConfig.runId).to.equal("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
     expect(playwrightServiceConfig.runName).to.equal("runName");
     expect(playwrightServiceConfig.slowMo).to.equal(100);
     expect(playwrightServiceConfig.timeout).to.equal(200);
     expect(playwrightServiceConfig.exposeNetwork).to.equal("localhost");
     expect(playwrightServiceConfig.apiVersion).to.equal("sample");
-    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal("runId");
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(
+      "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
+    );
     expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_OS]).to.equal("windows");
     expect(process.env[InternalEnvironmentVariables.MPT_API_VERSION]).to.equal("sample");
 
@@ -141,10 +144,12 @@ describe("PlaywrightServiceConfig", () => {
   it("should set runId from options if provided and environment variable is not set", () => {
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     playwrightServiceConfig.setOptions({
-      runId: "custom-run-id",
+      runId: "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
     });
-    expect(playwrightServiceConfig.runId).to.equal("custom-run-id");
-    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal("custom-run-id");
+    expect(playwrightServiceConfig.runId).to.equal("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(
+      "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
+    );
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
   it("should generate runId if not provided in options and environment variable is not set", () => {
@@ -159,15 +164,29 @@ describe("PlaywrightServiceConfig", () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
   it("should use runId from environment variable if already set", () => {
-    process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = "existing-run-id";
+    process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] =
+      "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     playwrightServiceConfig.setOptions({
-      runId: "option-run-id",
+      runId: "b6b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
     });
-    expect(playwrightServiceConfig.runId).to.equal("existing-run-id");
+    expect(playwrightServiceConfig.runId).to.equal("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
     expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(
-      "existing-run-id",
+      "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
     );
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+  });
+  it("should accept valid GUID in runId from options", () => {
+    const playwrightServiceConfig = new PlaywrightServiceConfig();
+    const validGuid = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+
+    playwrightServiceConfig.setOptions({
+      runId: validGuid,
+    });
+
+    expect(playwrightServiceConfig.runId).to.equal(validGuid);
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(validGuid);
+
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
 });

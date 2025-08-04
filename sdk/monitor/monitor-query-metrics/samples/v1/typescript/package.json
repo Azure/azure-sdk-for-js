@@ -1,0 +1,39 @@
+{
+  "name": "@azure-samples/monitor-query-metrics-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Monitor Query Metrics client library samples for TypeScript",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/monitor/monitor-query-metrics"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query-metrics",
+  "dependencies": {
+    "@azure/monitor-query-metrics": "latest",
+    "dotenv": "latest",
+    "@azure/identity": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "~5.8.2",
+    "rimraf": "latest"
+  }
+}

@@ -70,12 +70,20 @@ export class DiagFileConsoleLogger implements DiagLogger {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public error(message?: any, ...args: any[]): void {
+    // Filter out warnings about accessing resource attributes before async attributes are settled
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public warn(message?: any, ...args: any[]): void {
+    // Filter out warnings about accessing resource attributes before async attributes are settled
+    if (this._shouldFilterResourceAttributeWarning(message, args)) {
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
@@ -113,6 +121,52 @@ export class DiagFileConsoleLogger implements DiagLogger {
       // eslint-disable-next-line no-console
       console.log(this._TAG, `Failed to log to file: ${err && err.message}`);
     }
+  }
+
+  /**
+   * Checks if the warning message should be filtered out to avoid showing
+   * non-actionable warnings to customers
+   */
+  private _shouldFilterResourceAttributeWarning(message?: any, args?: any[]): boolean {
+    const messagesToFilter = [
+      "accessing resource attributes before async attributes settled",
+      "resource attributes being accessed before async attributes finished",
+      "async attributes settled",
+      "resource attributes accessed before async detection completed",
+      "module @azure/core-tracing has been loaded before @azure/opentelemetry-instrumentation-azure-sdk",
+    ];
+
+    if (typeof message === "string") {
+      if (messagesToFilter.some((filterText) => message.toLowerCase().includes(filterText))) {
+        return true;
+      }
+    }
+
+    // Check if the message is in the args array
+    if (args && Array.isArray(args)) {
+      for (const arg of args) {
+        if (typeof arg === "string") {
+          if (messagesToFilter.some((filterText) => arg.toLowerCase().includes(filterText))) {
+            return true;
+          }
+        }
+      }
+    }
+
+    // Also check if message starts with the warning text (in case it's formatted differently)
+    if (typeof message === "string") {
+      const messageParts = message.split(" ");
+      if (
+        messageParts.length >= 3 &&
+        messageParts[0].toLowerCase() === "accessing" &&
+        messageParts[1].toLowerCase() === "resource" &&
+        messageParts[2].toLowerCase() === "attributes"
+      ) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private async _storeToDisk(args: any): Promise<void> {
@@ -159,8 +213,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
       console.log("Failed to generate backup log file", err);
     } finally {
       // Store logs
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      writeFileAsync(this._fileFullPath, data);
+      await writeFileAsync(this._fileFullPath, data);
     }
   }
 
