@@ -161,7 +161,9 @@ export function parseCallAutomationEvent(
       callbackEvent = { kind: "TranscriptionFailed" } as TranscriptionFailed;
       break;
     case "Microsoft.Communication.TranscriptionCallSummaryUpdated":
-      callbackEvent = { kind: "TranscriptionCallSummaryUpdated" } as TranscriptionCallSummaryUpdated;
+      callbackEvent = {
+        kind: "TranscriptionCallSummaryUpdated",
+      } as TranscriptionCallSummaryUpdated;
       break;
     case "Microsoft.Communication.CreateCallFailed":
       callbackEvent = { kind: "CreateCallFailed" } as CreateCallFailed;

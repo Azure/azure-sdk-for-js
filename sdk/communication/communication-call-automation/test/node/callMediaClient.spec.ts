@@ -405,7 +405,7 @@ describe("CallMedia Unit Tests", async function () {
       operationContext: "test_operation_context",
     };
 
-    await callMedia.startTranscription(["en-us"], startTranscriptionOptions);
+    await callMedia.startTranscription(startTranscriptionOptions);
     const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
@@ -437,14 +437,14 @@ describe("CallMedia Unit Tests", async function () {
     callMedia = createMediaClient(mockHttpClient);
     const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const updateTranscription: UpdateTranscriptionOptions = {
-      locale: "en-US",
+      operationContext: "test_operation_context",
     };
 
-    await callMedia.updateTranscription(updateTranscription);
+    await callMedia.updateTranscription("en-US", updateTranscription);
     const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
-    assert.equal(data.locale, updateTranscription.locale);
+    assert.equal(data.locale, "en-US");
     assert.equal(request.method, "POST");
   });
 
@@ -2229,7 +2229,12 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(callConnectedEvent);
       callConnection = result.callConnection;
 
-      await callConnection.getCallMedia().startTranscription(["en-us", "en-au"]);
+      const startTranscriptionOptions: StartTranscriptionOptions = {
+        operationContext: "startTranscriptionContext",
+        locales: ["en-us", "en-au"],
+      };
+
+      await callConnection.getCallMedia().startTranscription(startTranscriptionOptions);
       const transcriptionStarted = await waitForEvent(
         "TranscriptionStarted",
         callConnectionId,
@@ -2317,7 +2322,11 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(callConnectedEvent);
       callConnection = result.callConnection;
 
-      await callConnection.getCallMedia().startTranscription(["en-us", "en-au"]);
+      const startTranscriptionOptions: StartTranscriptionOptions = {
+        operationContext: "startTranscriptionContext",
+        locales: ["en-us", "en-au"],
+      };
+      await callConnection.getCallMedia().startTranscription(startTranscriptionOptions);
       const transcriptionStarted = await waitForEvent(
         "TranscriptionStarted",
         callConnectionId,
@@ -2384,7 +2393,11 @@ describe("Call Media Client Live Tests", function () {
         ? answerCallResult.callConnectionProperties.callConnectionId
         : "";
 
-      await answerCallConnection.getCallMedia().startTranscription(["en-us", "en-au"]);
+      const startTranscriptionOptions: StartTranscriptionOptions = {
+        operationContext: "startTranscriptionContext",
+        locales: ["en-us", "en-au"],
+      };
+      await answerCallConnection.getCallMedia().startTranscription(startTranscriptionOptions);
       const transcriptionStarted = await waitForEvent(
         "TranscriptionStarted",
         answerCallConnectionId,

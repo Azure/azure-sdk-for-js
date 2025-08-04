@@ -461,9 +461,9 @@ export interface StartTranscriptionRequest {
 
 /** PII redaction configuration options. */
 export interface PiiRedactionOptionsInternal {
-  /** Gets or sets a value indicating whether PII redaction is enabled. */
+  /** Value indicating if PII redaction is enabled. */
   enable?: boolean;
-  /** Gets or sets the type of PII redaction to be used. */
+  /** Value indicating the PII redaction type to be used. */
   redactionType?: RedactionType;
 }
 
@@ -546,9 +546,12 @@ export interface RecognizeOptions {
   targetParticipant: CommunicationIdentifierModel;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
-  /** Gets or sets a list of languages for Language Identification. */
+  /**
+   * List of locales for Language Identification.
+   * Supports upto 4 locales in the format: ["en-us", "fr-fr", "hi-in"] etc.
+   */
   speechLanguages?: string[];
-  /** Gets or sets a value indicating if sentiment analysis should be used. */
+  /** Value indicating if sentiment analysis should be used. */
   enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
@@ -902,7 +905,9 @@ export interface ResultInformation {
 }
 
 export interface SipDiagnosticInfo {
+  /** Represents the diagnostic code returned by the SIP service, used for identifying specific issues or statuses. */
   code?: number;
+  /** Message associated with the code for diagnosing. */
   message?: string;
 }
 
@@ -1603,9 +1608,12 @@ export interface WebSocketTranscriptionOptions
   enableIntermediateResults?: boolean;
   /** PII redaction configuration options. */
   piiRedactionOptions?: PiiRedactionOptionsInternal;
-  /** Indicating if sentiment analysis should be used. */
+  /** Indicating if sentiment analysis should be enabled. */
   enableSentimentAnalysis?: boolean;
-  /** List of languages for Language Identification. */
+  /**
+   * List of locales for Language Identification.
+   * Supports upto 4 locales in the format: ["en-us", "fr-fr", "hi-in"] etc.
+   */
   locales?: string[];
   /** Summarization configuration options. */
   summarizationOptions?: SummarizationOptionsInternal;

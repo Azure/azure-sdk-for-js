@@ -68,9 +68,12 @@ export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptio
   choices: RecognitionChoice[];
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
-  /** Gets or sets a list of languages for Language Identification. */
+  /**
+   * List of locales for Language Identification.
+   * Supports upto 4 locales in the format: ["en-us", "fr-fr", "hi-in"] etc.
+   */
   speechLanguages: string[];
-  /** Gets or sets a value indicating if sentiment analysis should be used. */
+  /** Value indicating if sentiment analysis should be used. */
   enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
@@ -83,9 +86,12 @@ export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptio
   endSilenceTimeoutInSeconds?: number;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
-  /** Gets or sets a list of languages for Language Identification. */
+  /**
+   * List of locales for Language Identification.
+   * Supports upto 4 locales in the format: ["en-us", "fr-fr", "hi-in"] etc.
+   */
   speechLanguages: string[];
-  /** Gets or sets a value indicating if sentiment analysis should be used. */
+  /** Value indicating if sentiment analysis should be used. */
   enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;

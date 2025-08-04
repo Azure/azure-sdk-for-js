@@ -304,9 +304,12 @@ export interface TranscriptionOptions {
   enableIntermediateResults?: boolean;
   /** PII redaction configuration options. */
   piiRedactionOptions?: PiiRedactionOptions;
-  /** Indicating if sentiment analysis should be used. */
+  /** Indicating if sentiment analysis should be enabled. */
   enableSentimentAnalysis?: boolean;
-  /** List of languages for Language Identification. */
+  /**
+   * List of locales for Language Identification.
+   * Supports upto 4 locales in the format: ["en-us", "fr-fr", "hi-in"] etc.
+   */
   locales?: string[];
   /** Summarization configuration options. */
   summarizationOptions?: SummarizationOptions;
@@ -314,9 +317,9 @@ export interface TranscriptionOptions {
 
 /** PII redaction configuration options. */
 export interface PiiRedactionOptions {
-  /** Gets or sets a value indicating whether PII redaction is enabled. */
+  /** Value indicating if PII redaction is enabled. */
   enable?: boolean;
-  /** Gets or sets the type of PII redaction to be used. */
+  /** Value indicating the PII redaction type to be used. */
   redactionType?: RedactionType;
 }
 

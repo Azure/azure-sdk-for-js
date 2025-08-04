@@ -518,9 +518,7 @@ export class CallMedia {
    * @param locales - List of languages for Language Identification.
    * @param options - Additional attributes for start transcription.
    */
-  public async startTranscription(
-    options: StartTranscriptionOptions = {},
-  ): Promise<void> {
+  public async startTranscription(options: StartTranscriptionOptions = {}): Promise<void> {
     const startTranscriptionRequest: StartTranscriptionRequest = {
       locale: options.locale,
       operationContext: options.operationContext,
@@ -549,7 +547,10 @@ export class CallMedia {
   /**
    * Update transcription language.
    */
-  public async updateTranscription(locale: string, options: UpdateTranscriptionOptions = {}): Promise<void> {
+  public async updateTranscription(
+    locale: string,
+    options: UpdateTranscriptionOptions = {},
+  ): Promise<void> {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
       locale: locale,
       speechModelEndpointId: options.speechRecognitionModelEndpointId,
