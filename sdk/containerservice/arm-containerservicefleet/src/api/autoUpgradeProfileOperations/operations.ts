@@ -7,9 +7,9 @@ import {
   GenerateResponse,
   generateResponseDeserializer,
 } from "../../models/models.js";
-import { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -62,7 +62,7 @@ export async function _generateUpdateRunDeserialize(
   return generateResponseDeserializer(result.body);
 }
 
-/** A long-running resource action. */
+/** Generates an update run for a given auto upgrade profile. */
 export function generateUpdateRun(
   context: Client,
   resourceGroupName: string,

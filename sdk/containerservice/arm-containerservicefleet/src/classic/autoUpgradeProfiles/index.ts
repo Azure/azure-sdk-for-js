@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
-import { AutoUpgradeProfile } from "../../models/models.js";
-import {
-  AutoUpgradeProfilesListByFleetOptionalParams,
-  AutoUpgradeProfilesDeleteOptionalParams,
-  AutoUpgradeProfilesCreateOrUpdateOptionalParams,
-  AutoUpgradeProfilesGetOptionalParams,
-} from "../../api/autoUpgradeProfiles/options.js";
 import {
   listByFleet,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/autoUpgradeProfiles/operations.js";
+import {
+  AutoUpgradeProfilesListByFleetOptionalParams,
+  AutoUpgradeProfilesDeleteOptionalParams,
+  AutoUpgradeProfilesCreateOrUpdateOptionalParams,
+  AutoUpgradeProfilesGetOptionalParams,
+} from "../../api/autoUpgradeProfiles/options.js";
+import { AutoUpgradeProfile } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
