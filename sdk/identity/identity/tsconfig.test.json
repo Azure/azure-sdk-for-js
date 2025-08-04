@@ -1,4 +1,11 @@
 {
-  "extends": ["./tsconfig.src.json", "../../../tsconfig.test.base.json"],
-  "exclude": ["test/manual*"]
+  "references": [
+    {
+      "path": "./tsconfig.test.node.json"
+    },
+    {
+      "path": "./tsconfig.browser.config.json"
+    }
+  ],
+  "files": []
 }

@@ -243,11 +243,11 @@ describe("getServiceConfig", () => {
     );
     localGetServiceConfig(samplePlaywrightConfigInput, {
       os: ServiceOS.WINDOWS,
-      runId: "1234",
+      runId: "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
-    expect(playwrightServiceConfig.runId).to.equal("1234");
+    expect(playwrightServiceConfig.runId).to.equal("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
   });
 
   it("should set service global setup and teardown for entra authentication", async () => {
@@ -416,14 +416,26 @@ describe("getConnectOptions", () => {
 
   it("should set service connect options with passed values", async () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
+    delete process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG];
     const { getConnectOptions } = await import("../../src/core/playwrightService.js");
     await getConnectOptions({
-      runId: "1234",
+      runId: "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
       os: ServiceOS.WINDOWS,
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    expect(playwrightServiceConfig.runId).to.equal("1234");
+    expect(playwrightServiceConfig.runId).to.equal("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
     expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
+  });
+
+  it("should throw error when using both getServiceConfig and getConnectOptions with restricted params", async () => {
+    process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] = "true";
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+    await expect(
+      getConnectOptions({
+        runId: "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
+      }),
+    ).rejects.toThrow(ServiceErrorMessageConstants.INVALID_PARAM_WITH_SERVICE_CONFIG.message);
+    delete process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG];
   });
 
   it("should set service connect options with fetched token", async () => {

@@ -1,5 +1,29 @@
 # Release History
 
+## 12.29.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.28.0 (2025-07-22)
+
+### Features Added
+
+- Includes all features released in 12.28.0-beta.1.
+
+## 12.29.0-beta.1 (2025-06-16)
+
+### Features Added
+
+- Added support for service version 2025-11-05.
+- Added ShareErrorCode.ShareSnapshotNotFound.
+- Added more useful error message when the SDK encounters an x-ms-version mis-match issue.
+
 ## 12.28.0-beta.1 (2025-05-20)
 
 ### Features Added

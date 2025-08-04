@@ -68,7 +68,7 @@ export async function main(): Promise<void> {
     },
     {
       type: "image_url",
-      image_url: {
+      imageUrl: {
         url: imageDataUrl,
         detail: "high",
       },

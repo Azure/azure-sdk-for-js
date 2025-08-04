@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceCodeCredential, VisualStudioCodeCredential } from "../../../src/index.js";
+import { DeviceCodeCredential, VisualStudioCodeCredential } from "@azure/identity";
 import { describe, it, assert, expect } from "vitest";
 
 describe("Plugin API", function () {

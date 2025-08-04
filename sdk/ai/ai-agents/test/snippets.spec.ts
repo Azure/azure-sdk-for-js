@@ -19,7 +19,6 @@ import {
   MessageTextContent,
   RequiredToolCall,
   ThreadRun,
-  DeepResearchToolDefinition,
 } from "../src/index.js";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -170,32 +169,6 @@ describe("snippets", function () {
       tools: [bingTool.definition],
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
-  });
-
-  it("DeepResearch", async function () {
-    const bingConnectionId = process.env["AZURE_BING_CONNECTION_ID"] || "<connection-name>";
-    const deepResearchModelDeploymentName =
-      process.env["DEEP_RESEARCH_MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
-    const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
-    // Create Deep Research tool definition
-    const deepResearchTool: DeepResearchToolDefinition = {
-      type: "deep_research",
-      deepResearch: {
-        deepResearchModel: deepResearchModelDeploymentName,
-        deepResearchBingGroundingConnections: [
-          {
-            connectionId: bingConnectionId,
-          },
-        ],
-      },
-    };
-    // Create agent with the Deep Research tool
-    const agent = await client.createAgent(modelDeploymentName, {
-      name: "my-agent",
-      instructions: "You are a helpful Agent that assists in researching scientific topics.",
-      tools: [deepResearchTool],
-    });
-    console.log(`Created agent, ID: ${agent.id}`);
   });
 
   it("AISearch", async function () {
@@ -359,21 +332,6 @@ describe("snippets", function () {
     console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
-  it("createAgentWithFabric", async function () {
-    const connectionId = process.env["FABRIC_CONNECTION_ID"] || "<connection-name>";
-    // @ts-preserve-whitespace
-    // Initialize agent Microsoft Fabric tool with the connection id
-    const fabricTool = ToolUtility.createFabricTool(connectionId);
-    // @ts-preserve-whitespace
-    // Create agent with the Microsoft Fabric tool and process assistant run
-    const agent = await client.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [fabricTool.definition],
-    });
-    console.log(`Created agent, agent ID : ${agent.id}`);
-  });
-
   it("createThread", async function () {
     const thread = await client.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
@@ -488,7 +446,7 @@ describe("snippets", function () {
       },
       {
         type: "image_file",
-        image_file: {
+        imageFile: {
           file_id: imageFile.id,
           detail: "high",
         },
@@ -512,7 +470,7 @@ describe("snippets", function () {
       },
       {
         type: "image_url",
-        image_url: {
+        imageUrl: {
           url: imageUrl,
           detail: "high",
         },
@@ -552,7 +510,7 @@ describe("snippets", function () {
       },
       {
         type: "image_url",
-        image_url: {
+        imageUrl: {
           url: imageDataUrl,
           detail: "high",
         },

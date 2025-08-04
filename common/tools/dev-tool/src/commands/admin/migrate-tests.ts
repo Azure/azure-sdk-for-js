@@ -160,11 +160,6 @@ async function updatePackageJson(projectFolder: string, packageName: string): Pr
     delete packageJson.scripts["build:node"];
     delete packageJson.scripts["minify"];
 
-    packageJson.scripts["test:node:esm"] = "dev-tool run test:vitest --esm";
-    if (packageJson.scripts["test:node"].includes("--no-test-proxy")) {
-      packageJson.scripts["test:node:esm"] += " --no-test-proxy";
-    }
-
     if (
       packageName.startsWith("@azure-tests/perf-") ||
       packageName === "@azure/dev-tool" ||

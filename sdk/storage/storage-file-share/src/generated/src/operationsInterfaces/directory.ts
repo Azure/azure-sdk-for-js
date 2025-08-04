@@ -24,7 +24,7 @@ import {
   DirectoryForceCloseHandlesOptionalParams,
   DirectoryForceCloseHandlesResponse,
   DirectoryRenameOptionalParams,
-  DirectoryRenameResponse
+  DirectoryRenameResponse,
 } from "../models/index.js";
 
 /** Interface representing a Directory. */
@@ -34,7 +34,7 @@ export interface Directory {
    * @param options The options parameters.
    */
   create(
-    options?: DirectoryCreateOptionalParams
+    options?: DirectoryCreateOptionalParams,
   ): Promise<DirectoryCreateResponse>;
   /**
    * Returns all system properties for the specified directory, and can also be used to check the
@@ -43,7 +43,7 @@ export interface Directory {
    * @param options The options parameters.
    */
   getProperties(
-    options?: DirectoryGetPropertiesOptionalParams
+    options?: DirectoryGetPropertiesOptionalParams,
   ): Promise<DirectoryGetPropertiesResponse>;
   /**
    * Removes the specified empty directory. Note that the directory must be empty before it can be
@@ -51,21 +51,21 @@ export interface Directory {
    * @param options The options parameters.
    */
   delete(
-    options?: DirectoryDeleteOptionalParams
+    options?: DirectoryDeleteOptionalParams,
   ): Promise<DirectoryDeleteResponse>;
   /**
    * Sets properties on the directory.
    * @param options The options parameters.
    */
   setProperties(
-    options?: DirectorySetPropertiesOptionalParams
+    options?: DirectorySetPropertiesOptionalParams,
   ): Promise<DirectorySetPropertiesResponse>;
   /**
    * Updates user defined metadata for the specified directory.
    * @param options The options parameters.
    */
   setMetadata(
-    options?: DirectorySetMetadataOptionalParams
+    options?: DirectorySetMetadataOptionalParams,
   ): Promise<DirectorySetMetadataResponse>;
   /**
    * Returns a list of files or directories under the specified share or directory. It lists the contents
@@ -73,14 +73,14 @@ export interface Directory {
    * @param options The options parameters.
    */
   listFilesAndDirectoriesSegment(
-    options?: DirectoryListFilesAndDirectoriesSegmentOptionalParams
+    options?: DirectoryListFilesAndDirectoriesSegmentOptionalParams,
   ): Promise<DirectoryListFilesAndDirectoriesSegmentResponse>;
   /**
    * Lists handles for directory.
    * @param options The options parameters.
    */
   listHandles(
-    options?: DirectoryListHandlesOptionalParams
+    options?: DirectoryListHandlesOptionalParams,
   ): Promise<DirectoryListHandlesResponse>;
   /**
    * Closes all handles open for given directory.
@@ -90,7 +90,7 @@ export interface Directory {
    */
   forceCloseHandles(
     handleId: string,
-    options?: DirectoryForceCloseHandlesOptionalParams
+    options?: DirectoryForceCloseHandlesOptionalParams,
   ): Promise<DirectoryForceCloseHandlesResponse>;
   /**
    * Renames a directory
@@ -99,6 +99,6 @@ export interface Directory {
    */
   rename(
     renameSource: string,
-    options?: DirectoryRenameOptionalParams
+    options?: DirectoryRenameOptionalParams,
   ): Promise<DirectoryRenameResponse>;
 }

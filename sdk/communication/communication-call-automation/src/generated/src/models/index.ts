@@ -38,6 +38,8 @@ export interface CreateCallRequest {
   mediaStreamingOptions?: MediaStreamingOptionsInternalUnion;
   /** Transcription Options. */
   transcriptionOptions?: TranscriptionOptionsInternalUnion;
+  /** The identifier of the source for creating call with Teams resource account ID. */
+  teamsAppSource?: MicrosoftTeamsAppIdentifierModel;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
@@ -54,6 +56,8 @@ export interface CommunicationIdentifierModel {
   microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
   /** The Microsoft Teams application. */
   microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
+  /** The Microsoft Teams Extension user. */
+  teamsExtensionUser?: TeamsExtensionUserIdentifierModel;
 }
 
 /** A user that got created with an Azure Communication Services resource. */
@@ -64,13 +68,17 @@ export interface CommunicationUserIdentifierModel {
 
 /** A phone number. */
 export interface PhoneNumberIdentifierModel {
-  /** The phone number in E.164 format. */
+  /** The phone number, usually in E.164 format. */
   value: string;
+  /** True if the phone number is anonymous. By default false if missing. If the phone number is anonymous, the value will be the string 'anonymous'. */
+  isAnonymous?: boolean;
+  /** The asserted Id of the phone number. An asserted Id gets generated when the same phone number joins the same call more than once. */
+  assertedId?: string;
 }
 
 /** A Microsoft Teams user. */
 export interface MicrosoftTeamsUserIdentifierModel {
-  /** The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user. */
+  /** The Id of the Microsoft Teams user. If not anonymous, this is the Entra ID object Id of the user. */
   userId: string;
   /** True if the Microsoft Teams user is anonymous. By default false if missing. */
   isAnonymous?: boolean;
@@ -83,6 +91,18 @@ export interface MicrosoftTeamsAppIdentifierModel {
   /** The Id of the Microsoft Teams application. */
   appId: string;
   /** The cloud that the Microsoft Teams application belongs to. By default 'public' if missing. */
+  cloud?: CommunicationCloudEnvironmentModel;
+}
+
+/** A Microsoft Teams Phone user who is using a Communication Services resource to extend their Teams Phone set up. */
+export interface TeamsExtensionUserIdentifierModel {
+  /** The Id of the Microsoft Teams Extension user, i.e. the Entra ID object Id of the user. */
+  userId: string;
+  /** The tenant Id of the Microsoft Teams Extension user. */
+  tenantId: string;
+  /** The Communication Services resource Id. */
+  resourceId: string;
+  /** The cloud that the Microsoft Teams Extension user belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
@@ -657,8 +677,10 @@ export interface CancelAddParticipantResponse {
 
 /** The request payload start for call recording operation with call locator. */
 export interface StartCallRecordingRequest {
-  /** The call locator. */
-  callLocator: CallLocator;
+  /** The call locator. (Only one of callLocator or callConnectionId to be used) */
+  callLocator?: CallLocator;
+  /** The call connection Id. (Only one of callLocator or callConnectionId to be used) */
+  callConnectionId?: string;
   /** The uri to send notifications to. */
   recordingStateCallbackUri?: string;
   /** The content type of call recording. */
@@ -1236,6 +1258,24 @@ export interface HoldFailed {
   resultInformation?: ResultInformation;
 }
 
+export interface StartRecordingFailed {
+  /**
+   * The call recording Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recordingId?: string;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+}
+
 export interface TranscriptionFailed {
   /**
    * Defines the result for TranscriptionUpdate with the current status and the details about the status
@@ -1358,6 +1398,8 @@ export enum KnownCommunicationIdentifierModelKind {
   MicrosoftTeamsUser = "microsoftTeamsUser",
   /** MicrosoftTeamsApp */
   MicrosoftTeamsApp = "microsoftTeamsApp",
+  /** TeamsExtensionUser */
+  TeamsExtensionUser = "teamsExtensionUser",
 }
 
 /**
@@ -1369,7 +1411,8 @@ export enum KnownCommunicationIdentifierModelKind {
  * **communicationUser** \
  * **phoneNumber** \
  * **microsoftTeamsUser** \
- * **microsoftTeamsApp**
+ * **microsoftTeamsApp** \
+ * **teamsExtensionUser**
  */
 export type CommunicationIdentifierModelKind = string;
 

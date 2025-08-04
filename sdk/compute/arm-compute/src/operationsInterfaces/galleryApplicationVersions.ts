@@ -11,13 +11,13 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GalleryApplicationVersion,
   GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
+  GalleryApplicationVersionsGetOptionalParams,
+  GalleryApplicationVersionsGetResponse,
   GalleryApplicationVersionsCreateOrUpdateOptionalParams,
   GalleryApplicationVersionsCreateOrUpdateResponse,
   GalleryApplicationVersionUpdate,
   GalleryApplicationVersionsUpdateOptionalParams,
   GalleryApplicationVersionsUpdateResponse,
-  GalleryApplicationVersionsGetOptionalParams,
-  GalleryApplicationVersionsGetResponse,
   GalleryApplicationVersionsDeleteOptionalParams,
 } from "../models/index.js";
 
@@ -26,11 +26,9 @@ import {
 export interface GalleryApplicationVersions {
   /**
    * List gallery Application Versions in a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from
-   *                               which the Application Versions are to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param options The options parameters.
    */
   listByGalleryApplication(
@@ -40,15 +38,26 @@ export interface GalleryApplicationVersions {
     options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
   ): PagedAsyncIterableIterator<GalleryApplicationVersion>;
   /**
+   * Retrieves information about a gallery Application Version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    galleryApplicationVersionName: string,
+    options?: GalleryApplicationVersionsGetOptionalParams,
+  ): Promise<GalleryApplicationVersionsGetResponse>;
+  /**
    * Create or update a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version is to be created.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be created.
-   *                                      Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits
-   *                                      must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application
    *                                  Version operation.
    * @param options The options parameters.
@@ -68,14 +77,10 @@ export interface GalleryApplicationVersions {
   >;
   /**
    * Create or update a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version is to be created.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be created.
-   *                                      Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits
-   *                                      must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application
    *                                  Version operation.
    * @param options The options parameters.
@@ -90,14 +95,10 @@ export interface GalleryApplicationVersions {
   ): Promise<GalleryApplicationVersionsCreateOrUpdateResponse>;
   /**
    * Update a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version is to be updated.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be updated.
-   *                                      Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits
-   *                                      must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version
    *                                  operation.
    * @param options The options parameters.
@@ -117,14 +118,10 @@ export interface GalleryApplicationVersions {
   >;
   /**
    * Update a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version is to be updated.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be updated.
-   *                                      Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits
-   *                                      must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version
    *                                  operation.
    * @param options The options parameters.
@@ -138,30 +135,11 @@ export interface GalleryApplicationVersions {
     options?: GalleryApplicationVersionsUpdateOptionalParams,
   ): Promise<GalleryApplicationVersionsUpdateResponse>;
   /**
-   * Retrieves information about a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version resides.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    galleryName: string,
-    galleryApplicationName: string,
-    galleryApplicationVersionName: string,
-    options?: GalleryApplicationVersionsGetOptionalParams,
-  ): Promise<GalleryApplicationVersionsGetResponse>;
-  /**
    * Delete a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version resides.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param options The options parameters.
    */
   beginDelete(
@@ -173,12 +151,10 @@ export interface GalleryApplicationVersions {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version resides.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param options The options parameters.
    */
   beginDeleteAndWait(

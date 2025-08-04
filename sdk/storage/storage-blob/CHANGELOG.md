@@ -1,10 +1,34 @@
 # Release History
 
+## 12.29.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.28.0 (2025-07-22)
+
+### Features Added
+
+- Includes all features released in 12.28.0-beta.2.
+
+## 12.29.0-beta.1 (2025-06-16)
+
+### Features Added
+
+- Added support for service version 2025-11-05.
+- AppendBlobClient. appendBlockFromURL (), BlobClient.startCopyFromURL(), syncCopyFromURL(), BlockBlobClient.stageBlockFromURL() and PageBlobClient.uploadPagesFromURL() will now return CopySourceStatusCode, CopySourceErrorCode, and CopySourceErrorMessage as part of error responses.
+- Added more useful error message when the SDK encounters an x-ms-version mis-match issue.
+
 ## 12.28.0-beta.2 (2025-05-20)
 
 ### Features Added
 
-- Includes all features released in 12.26.0-beta.2.
+- Includes all features released in 12.28.0-beta.1.
 
 ## 12.28.0-beta.1 (2025-05-20)
 

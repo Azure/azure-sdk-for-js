@@ -28,9 +28,7 @@ export interface Snapshots {
    * Gets a list of snapshots in the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: SnapshotsListOptionalParams,
-  ): PagedAsyncIterableIterator<Snapshot>;
+  list(options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Lists snapshots in the specified subscription and resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

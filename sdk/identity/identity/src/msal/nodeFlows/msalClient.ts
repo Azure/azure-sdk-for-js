@@ -779,7 +779,7 @@ export function createMsalClient(
     return {
       openBrowser: async (url) => {
         const open = await import("open");
-        await open.default(url, { wait: true, newInstance: true });
+        await open.default(url, { newInstance: true });
       },
       scopes,
       authority: calculateRequestAuthority(options),
@@ -868,7 +868,6 @@ export function createMsalClient(
       `Attempting to acquire token using brokered authentication with useDefaultBrokerAccount: ${useDefaultBrokerAccount}`,
     );
     const response = await getBrokeredTokenInternal(scopes, useDefaultBrokerAccount, options);
-    ensureValidMsalToken(scopes, response, options);
     ensureValidMsalToken(scopes, response, options);
     state.cachedAccount = response?.account ?? null;
 

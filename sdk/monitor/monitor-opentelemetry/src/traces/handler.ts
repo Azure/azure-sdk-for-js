@@ -3,8 +3,11 @@
 
 import type { RequestOptions } from "node:http";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
-import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
-import type { BufferConfig } from "@opentelemetry/sdk-trace-base";
+import {
+  AzureMonitorTraceExporter,
+  RateLimitedSampler,
+} from "@azure/monitor-opentelemetry-exporter";
+import type { BufferConfig, Sampler } from "@opentelemetry/sdk-trace-base";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type {
   HttpInstrumentationConfig,
@@ -36,7 +39,7 @@ export class TraceHandler {
   private _config: InternalConfig;
   private _metricHandler: MetricHandler;
   private _azureFunctionsHook: AzureFunctionsHook;
-  private _aiSampler: ApplicationInsightsSampler;
+  private _sampler: Sampler;
 
   /**
    * Initializes a new instance of the TraceHandler class.
@@ -47,7 +50,14 @@ export class TraceHandler {
     this._config = config;
     this._metricHandler = metricHandler;
     this._instrumentations = [];
-    this._aiSampler = new ApplicationInsightsSampler(this._config.samplingRatio);
+    // Check sampler precedence
+    if (this._config.tracesPerSecond && this._config.tracesPerSecond >= 0) {
+      // If tracesPerSecond is set, use RateLimitedSampler
+      this._sampler = new RateLimitedSampler(this._config.tracesPerSecond);
+    } else {
+      // Otherwise, use PercentageSampler with samplingRatio
+      this._sampler = new ApplicationInsightsSampler(this._config.samplingRatio);
+    }
     this._azureExporter = new AzureMonitorTraceExporter(this._config.azureMonitorExporterOptions);
     const bufferConfig: BufferConfig = {
       maxExportBatchSize: 512,
@@ -61,8 +71,8 @@ export class TraceHandler {
     this._initializeInstrumentations();
   }
 
-  public getSampler(): ApplicationInsightsSampler {
-    return this._aiSampler;
+  public getSampler(): Sampler {
+    return this._sampler;
   }
 
   public getBatchSpanProcessor(): BatchSpanProcessor {
