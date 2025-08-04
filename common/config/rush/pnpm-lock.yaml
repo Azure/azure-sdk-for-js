@@ -1492,6 +1492,10 @@ packages:
     resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.32':
+    resolution: {integrity: sha512-Tk5Tv8KwHhKCQlXET/7ZLtjBv1Zi4lmPTadKTQ9KCURRJWdt+6hu5ze52Tlp2pVeg3mg+MRQ9vhWvVNXMZAp/A==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/msal-browser@3.28.1':
     resolution: {integrity: sha512-OHHEWMB5+Zrix8yKvLVzU3rKDFvh7SOzAzXfICD7YgUXLxfHpTPX2pzOotrri1kskwhHqIj4a5LvhZlIqE7C7g==}
     engines: {node: '>=0.8.0'}
@@ -2276,12 +2280,6 @@ packages:
     peerDependencies:
       '@opentelemetry/api': '>=1.4.0 <1.10.0'
 
-  '@opentelemetry/sdk-logs@0.57.2':
-    resolution: {integrity: sha512-TXFHJ5c+BKggWbdEQ/inpgIzEmS2BGQowLE9UhsMd7YYlUfBQJ4uax0VF/B5NYigdM/75OoJGhAV3upEhK+3gg==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.4.0 <1.10.0'
-
   '@opentelemetry/sdk-metrics@2.0.0':
     resolution: {integrity: sha512-Bvy8QDjO05umd0+j+gDeWcTaVa1/R2lDj/eOvjzpm8VQj1K1vVZJuyjThpV5/lSHyYW2JaHF2IQ7Z8twJFAhjA==}
     engines: {node: ^18.19.0 || >=20.6.0}
@@ -2562,7 +2560,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-inference@file:projects/ai-inference.tgz':
-    resolution: {integrity: sha512-wW+WR2dg97F6/F0ZxAPBQq1npaeNP9Ol6ZK5Ak6VhaHpvQTQsMQOCoLzLc5FNqByRlJ10mfAmwf559vs2C173A==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-qqztynr/+X3uhAhLPuCaubYBYhb4ZewENIiflKwHE9pa0yMyvudrP18Zq6e0CrMR+3e8PEFQ0O0P0l4LGE0+3A==, tarball: file:projects/ai-inference.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-language-conversations@file:projects/ai-language-conversations.tgz':
@@ -2578,7 +2576,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
-    resolution: {integrity: sha512-yt8LRFSTMBE7IbrknL1zHXig5JUSjP2Fi90PvKN0yiGtd6u+IX1gdOIo4q3ooeeA9UmPaGC4v/UfGUfnUELbfg==, tarball: file:projects/ai-projects.tgz}
+    resolution: {integrity: sha512-onNaVxwXruiS/WJ0uq8Hp5lbyScz2PK84Ey/BJxdGRbIFJzSIYVHgkq4vOgnYKVbHr+47iG17aUU0+oAek/KwA==, tarball: file:projects/ai-projects.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -4006,19 +4004,19 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-8gKicb8TD2BQr684C4kkahs1dUYsIPR1KCEV1dIrK9r27LcynndRITyctYHGgOohZOzoul7d23j+7mHikwFZNw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-U6DkK6KCrMEbF68HlLB+r3AJ9LQq48AMRQYtmX4bdiodjm1TIIPF9YD4qnjfs1eF8D723DRT/DisrFEvnyb/mw==, tarball: file:projects/monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query-logs@file:projects/monitor-query-logs.tgz':
-    resolution: {integrity: sha512-iDOGII5KxRBHJTs4xJ4zFHZtyMwzi1xhjwW227pJMKni026pdn+G1pSiEDYGsJXHDam5Ovw7OZzWFBx65jMR5Q==, tarball: file:projects/monitor-query-logs.tgz}
+    resolution: {integrity: sha512-6hb9MB3sis2d69EIHSrAlgVXCvSa+962BBHKBYEYCDydnUi3aaFL5mAPg8b9ujqMDEQxQOV0s/hRcGCMvdlyCA==, tarball: file:projects/monitor-query-logs.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query-metrics@file:projects/monitor-query-metrics.tgz':
-    resolution: {integrity: sha512-JFbYe7Jr89ojjZgwH+gKg6u4tK5STo6cHfD2Wnj6vqjU8/y3ZroKqHBryE1kiDz7iCJEih4OEcpbnJJquUrC7Q==, tarball: file:projects/monitor-query-metrics.tgz}
+    resolution: {integrity: sha512-wauQutF6Eq3tr1IX09IovLJNQaYb3jQNHhVt38w2MxrIRdx/PVuuwk+/nLVpzqI4gOkANy+BNK8nKZ4JYJZG1A==, tarball: file:projects/monitor-query-metrics.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
-    resolution: {integrity: sha512-EOniWeZyOnUzL1Jvi6fbPVMrhzt6gIQSt/8rPZ9TNr+xt5bnZUdmjipr7GjFPjUZeJjB3wE6JGlkxo98NKWx1Q==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-Zcst2gi3jAKbto5TEM+rZQFPKC3AB38FUXcPfO91rMhH9hRPE2TziXWExLpOyddcOtxIxzMIBy4mY3x57m1/Kw==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
@@ -4098,7 +4096,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
-    resolution: {integrity: sha512-IvhdNRTRrR4nsbpkcBC/pD9+v0zcZm6b1wBMmwb+Y9F+LWdhJEqR+lPTo/qs4jOoSMZitkrG/ajTDDpH5/1g4g==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-a34btTU90FQ+DhYvb2FopCJFPIXSLDIbg5m0J5KT41PB2s7GviQowCrOfJH+RWaRd7NJ1SusHYq/u18/F6q8aA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-query@file:projects/perf-monitor-query.tgz':
@@ -7825,6 +7823,23 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.32':
+    dependencies:
+      '@azure/core-auth': 1.10.0
+      '@azure/core-client': 1.10.0
+      '@azure/core-rest-pipeline': 1.22.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.200.0
+      '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.36.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/msal-browser@3.28.1':
     dependencies:
       '@azure/msal-common': 14.16.0
@@ -8761,13 +8776,6 @@ snapshots:
       '@opentelemetry/api-logs': 0.200.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.0)
-
-  '@opentelemetry/sdk-logs@0.57.2(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/api-logs': 0.57.2
-      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/resources': 1.30.1(@opentelemetry/api@1.9.0)
 
   '@opentelemetry/sdk-metrics@2.0.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -22412,6 +22420,7 @@ snapshots:
   '@rush-temp/monitor-query-logs@file:projects/monitor-query-logs.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.2
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.32
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
@@ -22451,6 +22460,7 @@ snapshots:
   '@rush-temp/monitor-query-metrics@file:projects/monitor-query-metrics.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
     dependencies:
       '@azure/identity': 4.10.2
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.32
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
@@ -22860,8 +22870,8 @@ snapshots:
   '@rush-temp/perf-monitor-opentelemetry@file:projects/perf-monitor-opentelemetry.tgz':
     dependencies:
       '@opentelemetry/api': 1.9.0
-      '@opentelemetry/api-logs': 0.57.2
-      '@opentelemetry/sdk-logs': 0.57.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/api-logs': 0.200.0
+      '@opentelemetry/sdk-logs': 0.200.0(@opentelemetry/api@1.9.0)
       '@types/node': 20.19.9
       dotenv: 16.6.1
       eslint: 9.32.0
