@@ -17,31 +17,28 @@ dotenv.config();
 // 1. Basic connection with environment variable
 // import { BasicConnectionExample } from './01-basic-connection';
 
-// 2. Connection using environment variable
-// import { EnvironmentConnectionExample } from './02-environment-connection';
-
-// 3. Cloud role name and instance configuration
+// 2. Cloud role name and instance configuration
 // import { CloudRoleExample } from './03-cloud-role';
 
-// 4. Sampling configuration
+// 3. Sampling configuration
 // import { SamplingExample } from './04-sampling';
 
-// 5. Live metrics stream
+// 4. Live metrics stream
 // import { LiveMetricsExample } from './05-live-metrics';
 
-// 6. Offline storage configuration
+// 5. Offline storage configuration
 // import { OfflineStorageExample } from './06-offline-storage';
 
-// 7. OTLP exporter configuration
+// 6. OTLP exporter configuration
 // import { OtlpExporterExample } from './07-otlp-exporter';
 
-// 8. Redact URL query strings
+// 7. Redact URL query strings
 // import { RedactQueryStringExample } from './08-redact-query-strings';
 
-// 9. Custom metrics example
+// 8. Custom metrics example
 // import { CustomMetricExample } from './09-customMetric';
 
-// 10. Custom traces example
+// 9. Custom traces example
 // import { CustomTraceExample } from './10-customTrace';
 
 // ============================================================================
@@ -56,31 +53,28 @@ const runExample = async (): Promise<void> => {
   // 1. Basic connection with environment variable
   // await BasicConnectionExample.run();
 
-  // 2. Connection using environment variable
-  // await EnvironmentConnectionExample.run();
-
-  // 3. Cloud role name and instance configuration
+  // 2. Cloud role name and instance configuration
   // await CloudRoleExample.run();
 
-  // 4. Sampling configuration
+  // 3. Sampling configuration
   // await SamplingExample.run();
 
-  // 5. Live metrics configuration
+  // 4. Live metrics configuration
   // await LiveMetricsExample.run();
 
-  // 6. Offline storage configuration
+  // 5. Offline storage configuration
   // await OfflineStorageExample.run();
 
-  // 7. OTLP exporter configuration
+  // 6. OTLP exporter configuration
   // await OtlpExporterExample.run();
 
-  // 8. Redact URL query strings
+  // 7. Redact URL query strings
   // await RedactQueryStringExample.run();
 
-  // 9. Custom metrics example
+  // 8. Custom metrics example
   // await CustomMetricExample.run();
 
-  // 10. Custom traces example
+  // 9. Custom traces example
   // await CustomTraceExample.run();
 
   // ========================================================================
