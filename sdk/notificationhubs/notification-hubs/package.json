@@ -13,7 +13,8 @@
         "path": "src/utils/constants.ts",
         "prefix": "SDK_VERSION"
       }
-    ]
+    ],
+    "test": "test"
   },
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {

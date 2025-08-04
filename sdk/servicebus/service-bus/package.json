@@ -54,7 +54,8 @@
         "path": "src/util/constants.ts",
         "prefix": "version"
       }
-    ]
+    ],
+    "test": "test"
   },
   "//sampleConfiguration": {
     "productName": "Azure Service Bus",

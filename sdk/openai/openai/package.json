@@ -142,7 +142,8 @@
     "productSlugs": [
       "azure",
       "azure-cognitive-services",
-      "azure-openai"
+      "azure-openai",
+      "openai"
     ],
     "requiredResources": {
       "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource"
