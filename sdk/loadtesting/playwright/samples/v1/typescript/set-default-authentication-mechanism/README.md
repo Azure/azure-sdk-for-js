@@ -11,9 +11,9 @@ This guide will walk you through the steps to integrate your Playwright project 
 
 ### Setup Azure Playwright workspace
 
-Make sure you have set up your Azure Playwright workspace by following these steps
+Make sure you have set up your Playwright Workspace in Azure App Testing by following these steps:
 
-- [Create a workspace](https://github.com/Azure/playwright-workspaces/blob/main/quickstart-run-end-to-end-tests.md#create-a-workspace)
+- [Create a workspace](https://aka.ms/pww/docs/create)
 
 ### Install Azure Playwright package
 
@@ -58,13 +58,13 @@ The service configuration serves to:
 
 1. In the [Azure portal](https://portal.azure.com/), copy the command under **Add region endpoint in your set up**.
 
-    ![Set workspace endpoint](https://github.com/Azure/playwright-workspaces/blob/main/media/quickstart-run-end-to-end-tests/copy-service-endpoint-url.png?raw=true)
+    ![Set workspace endpoint](https://aka.ms/pww/docs/copyurlsnapshot)
 
     The endpoint URL corresponds to the workspace region. You might see a different endpoint URL in the Azure portal, depending on the region you selected when creating the workspace.
 
 ### Generate Access Token
 
-To generate an access token for your Azure Playwright workspace, follow the detailed instructions in [How to Manage Access Tokens](https://github.com/Azure/playwright-workspaces/blob/main/how-to-manage-access-tokens.md).
+To generate an access token for your Playwright workspace, follow the detailed instructions in [How to Manage Access Tokens](https://aka.ms/pww/docs/manage-access-tokens).
 
 Once you have generated the access token, copy it for use in the next step.
 

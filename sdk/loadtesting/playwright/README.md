@@ -81,7 +81,7 @@ The service configuration serves to:
 
 1. In the [Azure portal](https://portal.azure.com/), copy the command under **Add region endpoint in your set up**.
 
-    ![Set workspace endpoint](https://github.com/Azure/playwright-workspaces/blob/main/media/quickstart-run-end-to-end-tests/copy-service-endpoint-url.png?raw=true)
+    ![Set workspace endpoint](https://aka.ms/pww/docs/copyurlsnapshot)
 
     The endpoint URL corresponds to the workspace region. You might see a different endpoint URL in the Azure portal, depending on the region you selected when creating the workspace.
 
