@@ -2,7 +2,9 @@
 
 ## 2.0.0 (2025-08-05)
 
-All the features shipped as part of 2.0.0-beta.1 will be GA with this version. The most important feature is providing `vsCodePlugin` compatible with `@azure/identity` v4.11.0
+### Other Changes
+
+All the features shipped as part of 2.0.0-beta.1 will be GA with this version. The most important feature is providing `vsCodePlugin` compatible with `@azure/identity` v4.11.0.
 
 ## 2.0.0-beta.1 (2025-07-17)
 
