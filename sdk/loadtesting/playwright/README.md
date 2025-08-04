@@ -30,7 +30,7 @@ Follow these steps to run your existing Playwright test suite with the service.
 
    - Select the menu button in the upper-left corner of the portal, and then select Create a resource.
 
-     ![Create a resource in Azure portal](https://github.com/Azure/playwright-workspaces/blob/main/media/how-to-manage-playwright-workspace/azure-portal-create-resource.png?raw=true)
+     ![Create a resource in Azure portal](https://aka.ms/pww/docs/createurlsnapshot)
 
    - Enter **Playwright Workspaces** in the search box.
 
