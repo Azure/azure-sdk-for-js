@@ -19,7 +19,7 @@ pnpm create @azure/playwright
 - [Quickstart: Set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/pww/docs/ci)
 - [Explore features and benefits](https://aka.ms/pww/docs/about)
 - [View Azure Playwright service demo](https://youtu.be/GenC1jAeTZE)
-- [Documentation](https://aka.ms/pww/docs/docs) 
+- [Documentation](https://aka.ms/pww/docs) 
 - [Pricing](https://aka.ms/pww/docs/pricing)
 - [Share feedback](https://aka.ms/pww/docs/feedback)
 
