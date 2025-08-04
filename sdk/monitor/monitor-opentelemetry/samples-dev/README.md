@@ -52,15 +52,14 @@ A comprehensive collection of Node.js/TypeScript samples demonstrating Azure Mon
 | Sample | Description | Key Features |
 |--------|-------------|--------------|
 | [01-basic-connection](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/01-basic-connection.ts) | Basic Azure Monitor setup with configuration object | Connection string configuration |
-| [02-environment-connection](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/02-environment-connection.ts) | Connection using environment variables | Environment-based configuration |
-| [03-cloud-role](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/03-cloud-role.ts) | Cloud role name and instance configuration | Service identification, Application Map |
-| [04-sampling](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/04-sampling.ts) | Configure sampling to reduce costs | Cost optimization, trace sampling |
-| [05-live-metrics](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/05-live-metrics.ts) | Enable/disable live metrics streaming | Real-time monitoring |
-| [06-offline-storage](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/06-offline-storage.ts) | Offline storage and automatic retries | Reliability, data persistence |
-| [07-otlp-exporter](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/07-otlp-exporter.ts) | Dual export to Azure Monitor and OTLP | Multi-destination telemetry |
-| [08-redact-query-strings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/08-redact-query-strings.ts) | Redact sensitive URL parameters | Security, data privacy |
-| [09-custom-metric](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/09-customMetric.ts) | Custom metrics collection | Custom telemetry, business metrics |
-| [10-custom-trace](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/10-customTrace.ts) | Custom traces and spans | Custom instrumentation, distributed tracing |
+| [02-cloud-role](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/02-cloud-role.ts) | Cloud role name and instance configuration | Service identification, Application Map |
+| [03-sampling](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/03-sampling.ts) | Configure sampling to reduce costs | Cost optimization, trace sampling |
+| [04-live-metrics](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/04-live-metrics.ts) | Enable/disable live metrics streaming | Real-time monitoring |
+| [05-offline-storage](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/05-offline-storage.ts) | Offline storage and automatic retries | Reliability, data persistence |
+| [06-otlp-exporter](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/06-otlp-exporter.ts) | Dual export to Azure Monitor and OTLP | Multi-destination telemetry |
+| [07-redact-query-strings](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/07-redact-query-strings.ts) | Redact sensitive URL parameters | Security, data privacy |
+| [08-custom-metric](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/08-customMetric.ts) | Custom metrics collection | Custom telemetry, business metrics |
+| [09-custom-trace](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-opentelemetry/samples-dev/src/09-customTrace.ts) | Custom traces and spans | Custom instrumentation, distributed tracing |
 
 ## 🛠️ Project Structure
 
@@ -68,15 +67,14 @@ A comprehensive collection of Node.js/TypeScript samples demonstrating Azure Mon
 src/
 ├── index.ts                    # Main entry point
 ├── 01-basic-connection.ts      # Basic Azure Monitor setup
-├── 02-environment-connection.ts
-├── 03-cloud-role.ts
-├── 04-sampling.ts
-├── 05-live-metrics.ts
-├── 06-offline-storage.ts
-├── 07-otlp-exporter.ts
-├── 08-redact-query-strings.ts
-├── 09-customMetric.ts          # Custom metrics example
-├── 10-customTrace.ts           # Custom traces example
+├── 02-cloud-role.ts
+├── 03-sampling.ts
+├── 04-live-metrics.ts
+├── 05-offline-storage.ts
+├── 06-otlp-exporter.ts
+├── 07-redact-query-strings.ts
+├── 08-customMetric.ts          # Custom metrics example
+├── 09-customTrace.ts           # Custom traces example
 └── utils/                      # Utility functions
 ```
 
@@ -98,7 +96,7 @@ await BasicConnectionExample.run();
 ```bash
 # Run specific sample
 npx ts-node src/01-basic-connection.ts
-npx ts-node src/03-cloud-role.ts
+npx ts-node src/02-cloud-role.ts
 ```
 
 ### Method 3: Build and run
