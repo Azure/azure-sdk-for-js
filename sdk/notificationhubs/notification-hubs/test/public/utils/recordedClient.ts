@@ -32,6 +32,10 @@ const recorderOptions: RecorderStartOptions = {
 export async function createRecordedClientContext(
   recorder: Recorder,
 ): Promise<NotificationHubsClientContext> {
+  // The following hardcoded timestamps are used to ensure deterministic playback in tests.
+  // [0]: "2024-04-16T22:06:17.401Z" is used for API responses that include milliseconds in the timestamp.
+  // [1]: "2024-04-16T22:06:17Z" is used for API responses that omit milliseconds.
+  // These values were chosen arbitrarily and do not correspond to any specific event; they simply provide a fixed reference time for playback mode.
   const dummyTimeForPlayback = ["2024-04-16T22:06:17.401Z", "2024-04-16T22:06:17Z"];
   if (isPlaybackMode()) {
     // In playback mode, we need to set the system time to a fixed value to ensure consistent results
