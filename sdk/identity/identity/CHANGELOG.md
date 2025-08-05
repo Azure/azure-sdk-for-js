@@ -1,14 +1,10 @@
 # Release History
 
-## 4.11.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.11.1 (2025-08-05)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed an issue in which `AzurePowerShellCredential` command is not parsed correctly. [#35469](https://github.com/Azure/azure-sdk-for-js/pull/35469)
 
 ## 4.11.0 (2025-08-05)
 
