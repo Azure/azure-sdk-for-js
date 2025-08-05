@@ -6,8 +6,6 @@
 
 - Added support for authentication using Entra ID for the service.
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Updated all README documents for better clarity and accuracy.
