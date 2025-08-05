@@ -37,7 +37,7 @@ export function base64UrlEncodeByteArray(value: Uint8Array): string {
  * Decodes a base64 string into a byte array.
  * @param value - the base64 string to decode
  */
-export function base64DecodeString(value: string): Uint8Array {
+export function base64DecodeString(value: string): Uint8Array<ArrayBuffer> {
   return Buffer.from(value, "base64");
 }
 
@@ -55,13 +55,13 @@ function fixPadding(unpadded: string): string {
  * Decodes a base64url string into a byte array.
  * @param value - the base64url string to decode
  */
-export function base64UrlDecodeString(value: string): Uint8Array {
+export function base64UrlDecodeString(value: string): Uint8Array<ArrayBuffer> {
   const encoded = value.replace(/-/g, "+").replace(/_/g, "/");
   const paddedEncoded = fixPadding(encoded);
   return base64DecodeString(paddedEncoded);
 }
 
-export function hexToByteArray(value: string): Uint8Array {
+export function hexToByteArray(value: string): Uint8Array<ArrayBuffer> {
   if (value.length % 2 !== 0) {
     throw new Error("base64FromHex: Input must be a multiple of 2 characters");
   }

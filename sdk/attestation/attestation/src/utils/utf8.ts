@@ -7,9 +7,9 @@ const encoder = typeof Buffer === "undefined" ? new TextEncoder() : undefined;
 
 const decode: (buffer: ArrayBuffer) => string = decoder
   ? (buffer) => decoder.decode(buffer)
-  : (buffer) => (buffer as Buffer).toString("ascii");
+  : (buffer) => (buffer as unknown as Buffer).toString("ascii");
 
-const encode: (str: string) => Uint8Array = encoder
+const encode: (str: string) => Uint8Array<ArrayBuffer> = encoder
   ? (str) => encoder.encode(str)
   : (str) => Buffer.from(str, "utf8");
 
@@ -18,7 +18,7 @@ const encode: (str: string) => Uint8Array = encoder
  * @param content - The utf8 string to convert.
  * @internal
  */
-export function stringToBytes(content: string): Uint8Array {
+export function stringToBytes(content: string): Uint8Array<ArrayBuffer> {
   return encode(content);
 }
 
@@ -28,5 +28,5 @@ export function stringToBytes(content: string): Uint8Array {
  * @internal
  */
 export function bytesToString(content: Uint8Array): string {
-  return decode(content);
+  return decode(content.buffer as ArrayBuffer);
 }

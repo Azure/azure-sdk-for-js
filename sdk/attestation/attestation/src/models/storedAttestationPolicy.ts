@@ -43,5 +43,5 @@ export class StoredAttestationPolicy {
   /**
    * Stored attestation policy, utf8 encoded.
    */
-  attestationPolicy: Uint8Array;
+  attestationPolicy: Uint8Array<ArrayBuffer>;
 }

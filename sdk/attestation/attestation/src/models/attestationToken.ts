@@ -254,9 +254,9 @@ export class AttestationTokenImpl implements AttestationToken {
   }
 
   private _token: string;
-  private _headerBytes: Uint8Array;
+  private _headerBytes: Uint8Array<ArrayBuffer>;
   private _header: any;
-  private _bodyBytes: Uint8Array;
+  private _bodyBytes: Uint8Array<ArrayBuffer>;
   private _body: any;
   //    private _signature: Uint8Array;
 
