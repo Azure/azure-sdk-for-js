@@ -1,5 +1,11 @@
 # Release History
 
+### 1.12.1 ()
+
+### Bugs Fixed
+
+- Fix declaration of the preview customer statsbeat enablement environment variable.
+
 ## 1.12.0 (2025-08-04)
 
 ### Features Added
