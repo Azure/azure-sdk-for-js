@@ -4846,7 +4846,12 @@ export class ShareFileClient extends StorageClient {
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data]);
+        let browserBlob;
+        if (data instanceof Blob) {
+          browserBlob = data;
+        } else {
+          browserBlob = new Blob([data as ArrayBuffer | ArrayBufferView<ArrayBuffer>]);
+        }
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
