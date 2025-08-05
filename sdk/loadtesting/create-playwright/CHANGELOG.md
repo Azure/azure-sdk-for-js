@@ -10,8 +10,6 @@
 
 - Updated all README documents for better clarity and accuracy.
 
-### Other Changes
-
 ## 1.0.0-beta.1 (2025-06-30)
 
 ### Features Added
