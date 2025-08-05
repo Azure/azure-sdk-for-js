@@ -168,13 +168,6 @@ export enum KnownImpact {
 }
 
 // @public
-export enum KnownRisk {
-    Error = "Error",
-    None = "None",
-    Warning = "Warning"
-}
-
-// @public
 export enum KnownScenario {
     Alerts = "Alerts"
 }
@@ -363,7 +356,6 @@ export interface ResourceRecommendationBase extends Resource {
         [propertyName: string]: Record<string, unknown>;
     };
     resourceMetadata?: ResourceMetadata;
-    risk?: Risk;
     shortDescription?: ShortDescription;
     suppressionIds?: string[];
 }
@@ -373,9 +365,6 @@ export interface ResourceRecommendationBaseListResult {
     nextLink?: string;
     value?: ResourceRecommendationBase[];
 }
-
-// @public
-export type Risk = string;
 
 // @public
 export type Scenario = string;

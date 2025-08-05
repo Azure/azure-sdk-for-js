@@ -38,7 +38,9 @@ export class OperationsImpl implements Operations {
    * Lists all the available Advisor REST API operations.
    * @param options The options parameters.
    */
-  public list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationEntity> {
+  public list(
+    options?: OperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<OperationEntity> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -90,7 +92,9 @@ export class OperationsImpl implements Operations {
    * Lists all the available Advisor REST API operations.
    * @param options The options parameters.
    */
-  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
+  private _list(
+    options?: OperationsListOptionalParams,
+  ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -103,7 +107,10 @@ export class OperationsImpl implements Operations {
     nextLink: string,
     options?: OperationsListNextOptionalParams,
   ): Promise<OperationsListNextResponse> {
-    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
