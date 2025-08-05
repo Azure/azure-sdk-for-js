@@ -159,7 +159,7 @@ export class WebPubSubProtobufProtocolBase {
         throw new TypeError(`kind is not supported: ${message.kind}`);
     }
 
-    return UpstreamMessage.encode(upstream).finish();
+    return (UpstreamMessage.encode(upstream).finish() as Uint8Array<ArrayBuffer>).buffer;
   }
 
   private static _getIMessageData(
