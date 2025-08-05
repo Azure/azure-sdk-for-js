@@ -79,7 +79,7 @@ async function buildExportConfiguration(
   for (const [pathKey, entry] of Object.entries(exports)) {
     if (pathKey === "./package.json") continue;
     const isMainExport = pathKey === ".";
-    const baseName = isMainExport ? "" : pathKey.replace(/^\.\//, "").replace(/\//g, "-") + "-";
+    const baseName = isMainExport ? "" : pathKey.replace(/^\.\//, "").replace(/\//g, "-");
     const common = {
       path: pathKey,
       isSubpath: !isMainExport,
