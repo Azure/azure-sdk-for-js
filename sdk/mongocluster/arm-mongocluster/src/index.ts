@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -62,6 +63,15 @@ export {
   AuthConfigProperties,
   KnownAuthenticationMode,
   AuthenticationMode,
+  EncryptionProperties,
+  CustomerManagedKeyEncryptionProperties,
+  KeyEncryptionKeyIdentity,
+  KnownKeyEncryptionKeyIdentityType,
+  KeyEncryptionKeyIdentityType,
+  ManagedServiceIdentity,
+  KnownManagedServiceIdentityType,
+  ManagedServiceIdentityType,
+  UserAssignedIdentity,
   Resource,
   SystemData,
   KnownCreatedByType,
@@ -145,3 +155,4 @@ export {
   UsersOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

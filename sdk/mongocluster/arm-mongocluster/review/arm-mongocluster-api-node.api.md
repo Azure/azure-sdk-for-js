@@ -14,6 +14,7 @@ export function createMongoClusterManagement(credential: TokenCredential, subscr
 // @public
 export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
