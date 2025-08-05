@@ -19,9 +19,9 @@ export class AIProjectClient {
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
     static fromEndpoint(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
+    getAzureOpenAIClient(options?: AzureOpenAIClientOptions): Promise<AzureOpenAI>;
     getEndpointUrl(): string;
     readonly indexes: IndexesOperations;
-    readonly inference: InferenceOperations;
     readonly pipeline: Pipeline;
     readonly telemetry: TelemetryOperations;
 }
@@ -395,7 +395,7 @@ export interface Sku {
 
 // @public
 export interface TelemetryOperations {
-    getConnectionString: () => Promise<string>;
+    getApplicationInsightsConnectionString: () => Promise<string>;
 }
 
 // (No @packageDocumentation comment for this package)
