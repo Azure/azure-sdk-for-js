@@ -53,7 +53,7 @@ export class StreamingData {
           speechRecognitionModelEndpointId:
             jsonObject.transcriptionMetadata.speechRecognitionModelEndpointId,
           enableSentimentAnalysis: jsonObject.transcriptionMetadata.enableSentimentAnalysis,
-          PiiRedactionOptions: jsonObject.transcriptionMetadata.PiiRedactionOptions,
+          piiRedactionOptions: jsonObject.transcriptionMetadata.piiRedactionOptions,
         };
         StreamingData.streamingKind = kind;
         return transcriptionMetadata;

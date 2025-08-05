@@ -73,7 +73,7 @@ export interface TranscriptionMetadata {
   /** Enable sentiment analysis.*/
   enableSentimentAnalysis: boolean;
   /** PII Redaction options. */
-  PiiRedactionOptions?: PiiRedactionOptions;
+  piiRedactionOptions?: PiiRedactionOptions;
 }
 
 /**

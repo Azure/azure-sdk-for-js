@@ -1712,7 +1712,7 @@ export interface TranscriptionMetadata {
     correlationId: string;
     enableSentimentAnalysis: boolean;
     locale: string;
-    PiiRedactionOptions?: PiiRedactionOptions;
+    piiRedactionOptions?: PiiRedactionOptions;
     speechRecognitionModelEndpointId: string;
     subscriptionId: string;
 }
