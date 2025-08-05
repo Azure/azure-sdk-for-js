@@ -4231,7 +4231,7 @@ export class BlockBlobClient extends BlobClient {
    * @param options -
    */
   public async uploadData(
-    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
+    data: Buffer | Blob | ArrayBuffer | ArrayBufferView<ArrayBuffer>,
     options: BlockBlobParallelUploadOptions = {},
   ): Promise<BlobUploadCommonResponse> {
     return tracingClient.withSpan("BlockBlobClient-uploadData", options, async (updatedOptions) => {
@@ -4242,17 +4242,22 @@ export class BlockBlobClient extends BlobClient {
         } else if (data instanceof ArrayBuffer) {
           buffer = Buffer.from(data);
         } else {
-          data = data as ArrayBufferView;
+          data = data as ArrayBufferView<ArrayBuffer>;
           buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
         }
 
         return this.uploadSeekableInternal(
-          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
+          (offset: number, size: number): Buffer => buffer.subarray(offset, offset + size),
           buffer.byteLength,
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data]);
+        let browserBlob;
+        if (data instanceof Blob) {
+          browserBlob = data;
+        } else {
+          browserBlob = new Blob([data as ArrayBuffer | ArrayBufferView<ArrayBuffer>]);
+        }
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -4282,7 +4287,7 @@ export class BlockBlobClient extends BlobClient {
    * @returns Response data for the Blob Upload operation.
    */
   public async uploadBrowserData(
-    browserData: Blob | ArrayBuffer | ArrayBufferView,
+    browserData: Blob | ArrayBuffer | ArrayBufferView<ArrayBuffer>,
     options: BlockBlobParallelUploadOptions = {},
   ): Promise<BlobUploadCommonResponse> {
     return tracingClient.withSpan(
