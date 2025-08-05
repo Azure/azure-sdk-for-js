@@ -12,7 +12,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "typedoc": "^0.26.3",
+    "typedoc": "^0.28.9",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
