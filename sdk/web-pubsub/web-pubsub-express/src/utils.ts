@@ -42,7 +42,7 @@ export function getHttpHeader(req: IncomingMessage, key: string): string | undef
   return value[0];
 }
 
-export function readRequestBody(req: IncomingMessage): Promise<Buffer> {
+export function readRequestBody(req: IncomingMessage): Promise<Buffer<ArrayBuffer>> {
   return new Promise(function (resolve, reject) {
     const chunks: any = [];
     req.on("data", function (chunk) {
