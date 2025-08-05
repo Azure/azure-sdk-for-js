@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureFleetClient } from "@azure/arm-computefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureFleetClient } = require("@azure/arm-computefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to create a Fleet
+ * This sample demonstrates how to update a Fleet
  *
- * @summary create a Fleet
- * x-ms-original-file: 2024-11-01/Fleets_CreateOrUpdate.json
+ * @summary update a Fleet
+ * x-ms-original-file: 2024-11-01/Fleets_Update.json
  */
-async function fleetsCreateOrUpdate(): Promise<void> {
+async function fleetsUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
-  const result = await client.fleets.createOrUpdate("rgazurefleet", "testFleet", {
+  const result = await client.fleets.update("rgazurefleet", "testFleet", {
+    identity: { type: "UserAssigned", userAssignedIdentities: {} },
+    tags: {},
     properties: {
       spotPriorityProfile: {
         capacity: 20,
@@ -61,7 +63,7 @@ async function fleetsCreateOrUpdate(): Promise<void> {
               winRM: {
                 listeners: [
                   {
-                    protocol: "Https",
+                    protocol: "Http",
                     certificateUrl: "https://myVaultName.vault.azure.net/secrets/myCertName",
                   },
                 ],
@@ -278,7 +280,7 @@ async function fleetsCreateOrUpdate(): Promise<void> {
                   provisionAfterExtensions: ["nftzosroolbcwmpupujzqwqe"],
                   suppressFailures: true,
                   protectedSettingsFromKeyVault: {
-                    secretUrl: "https://myvaultName.vault.azure.net/secrets/secret/mySecretName",
+                    secretUrl: "https://myVaultName.vault.azure.net/secrets/secret/mySecretName",
                     sourceVault: {
                       id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
                     },
@@ -334,13 +336,6 @@ async function fleetsCreateOrUpdate(): Promise<void> {
         platformFaultDomainCount: 1,
       },
     },
-    zones: ["zone1", "zone2"],
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: { key9851: {} },
-    },
-    tags: { key3518: "luvrnuvsgdpbuofdskkcoqhfh" },
-    location: "westus",
     plan: {
       name: "jwgrcrnrtfoxn",
       publisher: "iozjbiqqckqm",
@@ -352,100 +347,8 @@ async function fleetsCreateOrUpdate(): Promise<void> {
   console.log(result);
 }
 
-/**
- * This sample demonstrates how to create a Fleet
- *
- * @summary create a Fleet
- * x-ms-original-file: 2024-11-01/Fleets_CreateOrUpdate_MinimumSet.json
- */
-async function fleetsCreateOrUpdateMinimumSet(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
-  const client = new AzureFleetClient(credential, subscriptionId);
-  const result = await client.fleets.createOrUpdate("rgazurefleet", "testFleet", {
-    properties: {
-      spotPriorityProfile: {
-        capacity: 2,
-        minCapacity: 1,
-        evictionPolicy: "Delete",
-        allocationStrategy: "PriceCapacityOptimized",
-        maintain: true,
-      },
-      regularPriorityProfile: {
-        capacity: 2,
-        minCapacity: 1,
-        allocationStrategy: "LowestPrice",
-      },
-      vmSizesProfile: [
-        { name: "Standard_D2s_v3" },
-        { name: "Standard_D4s_v3" },
-        { name: "Standard_E2s_v3" },
-      ],
-      computeProfile: {
-        baseVirtualMachineProfile: {
-          storageProfile: {
-            imageReference: {
-              publisher: "canonical",
-              offer: "0001-com-ubuntu-server-focal",
-              sku: "20_04-lts-gen2",
-              version: "latest",
-            },
-            osDisk: {
-              caching: "ReadWrite",
-              createOption: "FromImage",
-              osType: "Linux",
-              managedDisk: { storageAccountType: "Standard_LRS" },
-            },
-          },
-          osProfile: {
-            computerNamePrefix: "prefix",
-            adminUsername: "azureuser",
-            adminPassword: "TestPassword$0",
-            linuxConfiguration: { disablePasswordAuthentication: false },
-          },
-          networkProfile: {
-            networkInterfaceConfigurations: [
-              {
-                name: "vmNameTest",
-                properties: {
-                  primary: true,
-                  enableAcceleratedNetworking: false,
-                  ipConfigurations: [
-                    {
-                      name: "vmNameTest",
-                      properties: {
-                        subnet: {
-                          id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}",
-                        },
-                        primary: true,
-                        loadBalancerBackendAddressPools: [
-                          {
-                            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}",
-                          },
-                        ],
-                      },
-                    },
-                  ],
-                  enableIPForwarding: true,
-                },
-              },
-            ],
-            networkApiVersion: "2022-07-01",
-          },
-        },
-        computeApiVersion: "2023-09-01",
-        platformFaultDomainCount: 1,
-      },
-    },
-    tags: { key: "fleets-test" },
-    location: "eastus2euap",
-  });
-  console.log(result);
-}
-
-async function main(): Promise<void> {
-  await fleetsCreateOrUpdate();
-  await fleetsCreateOrUpdateMinimumSet();
+async function main() {
+  await fleetsUpdate();
 }
 
 main().catch(console.error);

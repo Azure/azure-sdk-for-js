@@ -70,6 +70,13 @@ export interface ApplicationProfile {
 // @public
 export type ArchitectureType = string;
 
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
 // @public (undocumented)
 export class AzureFleetClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: AzureFleetClientOptionalParams);
@@ -81,7 +88,11 @@ export class AzureFleetClient {
 // @public
 export interface AzureFleetClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BaseVirtualMachineProfile {
@@ -175,6 +186,26 @@ export type DomainNameLabelScopeTypes = string;
 // @public
 export interface EncryptionIdentity {
     userAssignedIdentityResourceId?: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -287,7 +318,7 @@ export enum KnownAcceleratorManufacturer {
 
 // @public
 export enum KnownAcceleratorType {
-    FPGA = "FPGA",
+    Fpga = "FPGA",
     GPU = "GPU"
 }
 
@@ -346,7 +377,7 @@ export enum KnownDiffDiskPlacement {
 // @public
 export enum KnownDiskControllerTypes {
     NVMe = "NVMe",
-    SCSI = "SCSI"
+    Scsi = "SCSI"
 }
 
 // @public
@@ -531,6 +562,11 @@ export enum KnownStorageAccountTypes {
 }
 
 // @public
+export enum KnownVersions {
+    V20241101 = "2024-11-01"
+}
+
+// @public
 export enum KnownVMAttributeSupport {
     Excluded = "Excluded",
     Included = "Included",
@@ -643,8 +679,8 @@ export type OperatingSystemTypes = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -899,7 +935,7 @@ export interface VirtualMachineScaleSetDataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
     deleteOption?: DiskDeleteOptionTypes;
-    diskIOPSReadWrite?: number;
+    diskIopsReadWrite?: number;
     diskMBpsReadWrite?: number;
     diskSizeGB?: number;
     lun: number;

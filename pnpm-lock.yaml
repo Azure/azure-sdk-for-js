@@ -631,7 +631,7 @@ importers:
         version: 4.10.2
       '@azure/monitor-opentelemetry':
         specifier: ^1.11.1
-        version: link:../../monitor/monitor-opentelemetry
+        version: 1.12.0
       '@azure/monitor-opentelemetry-exporter':
         specifier: ^1.0.0-beta.31
         version: link:../../monitor/monitor-opentelemetry-exporter
@@ -837,7 +837,7 @@ importers:
         version: 4.10.2
       '@azure/monitor-opentelemetry':
         specifier: ^1.11.1
-        version: link:../../monitor/monitor-opentelemetry
+        version: 1.12.0
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: 1.0.0-beta.7
         version: 1.0.0-beta.7
@@ -5066,7 +5066,7 @@ importers:
   sdk/computefleet/arm-computefleet:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.2
+        specifier: ^2.3.1
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -5078,13 +5078,13 @@ importers:
         specifier: ^3.1.0
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.18.2
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-util':
-        specifier: ^1.11.0
+        specifier: ^1.12.0
         version: link:../../core/core-util
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
@@ -5106,7 +5106,7 @@ importers:
         specifier: ^3.0.0
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: ^4.2.1
+        specifier: ^4.9.0
         version: 4.10.2
       '@types/node':
         specifier: ^20.0.0
@@ -5124,7 +5124,7 @@ importers:
         specifier: ^9.9.0
         version: 9.27.0
       playwright:
-        specifier: ^1.49.1
+        specifier: ^1.52.0
         version: 1.52.0
       typescript:
         specifier: ~5.8.2
@@ -17614,7 +17614,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
         specifier: ^1.11.1
-        version: link:../monitor-opentelemetry
+        version: 1.12.0
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -28295,6 +28295,14 @@ packages:
     resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.33':
+    resolution: {integrity: sha512-tp57Rny5x4K0/mhD674xx3gOifE2pD7fBxlo7ULEJRE4fygNcCutvo/iYqcHe+fIQseD11dLLKUWaPoJ9Bl4qA==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/monitor-opentelemetry@1.12.0':
+    resolution: {integrity: sha512-wVLj0NzJVkocuQzENJgtgOK8K2lAahu0a8QpE1LtIkbRE01NF9s5cxWYwc9Jcp//ZNE6AVmnlqWUwa/vp/RS/Q==}
+    engines: {node: '>=20.0.0'}
+
   '@azure/msal-browser@3.28.1':
     resolution: {integrity: sha512-OHHEWMB5+Zrix8yKvLVzU3rKDFvh7SOzAzXfICD7YgUXLxfHpTPX2pzOotrri1kskwhHqIj4a5LvhZlIqE7C7g==}
     engines: {node: '>=0.8.0'}
@@ -33774,6 +33782,57 @@ snapshots:
       '@azure/core-client': 1.9.4
       '@azure/core-lro': 2.7.2
       '@azure/core-rest-pipeline': 1.20.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.33':
+    dependencies:
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.4
+      '@azure/core-rest-pipeline': 1.20.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.200.0
+      '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 2.0.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.33.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/monitor-opentelemetry@1.12.0':
+    dependencies:
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.4
+      '@azure/core-rest-pipeline': 1.20.0
+      '@azure/logger': 1.2.0
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.33
+      '@azure/opentelemetry-instrumentation-azure-sdk': 1.0.0-beta.7
+      '@microsoft/applicationinsights-web-snippet': 1.2.1
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.200.0
+      '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-bunyan': 0.46.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-http': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-mongodb': 0.53.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-mysql': 0.46.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-pg': 0.52.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-redis': 0.47.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-redis-4': 0.47.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-winston': 0.45.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resource-detector-azure': 0.7.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 2.0.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-node': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.33.1
+      '@opentelemetry/winston-transport': 0.11.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
