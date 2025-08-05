@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -10,10 +11,19 @@ import {
 export { AzureFleetClient } from "./azureFleetClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   Fleet,
   FleetProperties,
-  ProvisioningState,
   KnownProvisioningState,
+  ProvisioningState,
   SpotPriorityProfile,
   KnownEvictionPolicy,
   EvictionPolicy,
@@ -172,23 +182,19 @@ export {
   ApiError,
   ApiErrorBase,
   InnerError,
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
+  KnownVersions,
 } from "./models/index.js";
+export { AzureFleetClientOptionalParams } from "./api/index.js";
 export {
-  AzureFleetClientOptionalParams,
-  OperationsListOptionalParams,
-  FleetsGetOptionalParams,
-  FleetsCreateOrUpdateOptionalParams,
-  FleetsUpdateOptionalParams,
-  FleetsDeleteOptionalParams,
-  FleetsListByResourceGroupOptionalParams,
-  FleetsListBySubscriptionOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
-} from "./api/index.js";
+  FleetsListBySubscriptionOptionalParams,
+  FleetsListByResourceGroupOptionalParams,
+  FleetsDeleteOptionalParams,
+  FleetsUpdateOptionalParams,
+  FleetsCreateOrUpdateOptionalParams,
+  FleetsGetOptionalParams,
+} from "./api/fleets/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export { FleetsOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };
