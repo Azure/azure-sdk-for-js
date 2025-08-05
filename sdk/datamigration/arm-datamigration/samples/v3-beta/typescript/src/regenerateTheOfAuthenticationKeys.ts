@@ -11,10 +11,8 @@
  * @summary Regenerate a new set of Authentication Keys for Self Hosted Integration Runtime.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/RegenAuthKeysMigrationService.json
  */
-import {
-  RegenAuthKeys,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { RegenAuthKeys } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function regenerateTheOfAuthenticationKeys(): Promise<void> {
@@ -27,7 +25,7 @@ async function regenerateTheOfAuthenticationKeys(): Promise<void> {
   const result = await client.sqlMigrationServices.regenerateAuthKeys(
     resourceGroupName,
     sqlMigrationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

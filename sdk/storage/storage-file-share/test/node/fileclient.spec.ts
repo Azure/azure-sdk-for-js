@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { Buffer } from "node:buffer";
-import * as fs from "node:fs";
-import * as path from "node:path";
+import fs from "node:fs";
+import path from "node:path";
 import { Duplex } from "node:stream";
 import * as zlib from "zlib";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
@@ -450,8 +450,7 @@ describe("FileClient Node.js only", () => {
     assert.equal(await bodyToString(range2, 512), "b".repeat(512));
   });
 
-  // [Copy source error code] Feature is pending on service side, skip test case for now.
-  it.skip("uploadRangeFromURL - should fail with copy source error message", async function () {
+  it("uploadRangeFromURL - should fail with copy source error message", async function () {
     await fileClient.create(1024);
 
     const fileContent = "a".repeat(512) + "b".repeat(512);
@@ -489,8 +488,7 @@ describe("FileClient Node.js only", () => {
     }
   });
 
-  // [Copy source error code] Feature is pending on service side, skip the test case for now.
-  it.skip("startCopyFromURL - should fail with copy source error message", async function () {
+  it("startCopyFromURL - should fail with copy source error message", async function () {
     await fileClient.create(1024);
 
     // Get a SAS for fileURL

@@ -27,6 +27,13 @@ import type { Tags } from "../src/models.js";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
+import {
+  Pipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 
 expect.extend({ toSupportTracing });
 
@@ -1105,5 +1112,61 @@ describe("ContainerClient - Verify Name Properties", () => {
       containerName,
       "Container name is not the same as the one provided.",
     );
+  });
+});
+
+function XMSVersioninjectorPolicy(version: string): PipelinePolicy {
+  return {
+    name: "XMSVersioninjectorPolicy",
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      request.headers.set("x-ms-version", version);
+      return next(request);
+    },
+  };
+}
+
+describe("Version error test", () => {
+  let blobServiceClient: BlobServiceClient;
+  let containerName: string;
+  let containerClient: ContainerClient;
+
+  let recorder: Recorder;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        uriSanitizers,
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-encryption-key"],
+        },
+      },
+      ["playback", "record"],
+    );
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("Invalid service version", async () => {
+    const injector = XMSVersioninjectorPolicy(`3025-01-01`);
+
+    const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
+    try {
+      await containerClient.create();
+    } catch (err) {
+      assert.ok(
+        (err as any).message.startsWith(
+          "The provided service version is not enabled on this storage account. Please see",
+        ),
+      );
+    }
   });
 });

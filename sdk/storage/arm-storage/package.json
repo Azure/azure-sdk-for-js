@@ -51,9 +51,7 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE",
-    "review/*",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -85,7 +83,7 @@
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

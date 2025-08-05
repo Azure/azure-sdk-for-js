@@ -982,6 +982,37 @@ describe("spanUtils.ts", () => {
           expectedBaseData,
         );
       });
+      it("Request Envelope success value should be set to false if HTTP > 400 with SpanStatus to UNSET", () => {
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+
+        span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 });
+        span.setStatus({
+          code: SpanStatusCode.UNSET,
+        });
+        span.end();
+        const readableSpan = spanToReadableSpan(span);
+
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+        assert.strictEqual(envelope.data!.baseData!.success, false);
+      });
+      it("Request Envelope should not override user set SpanStatus", () => {
+        const spanOptions: SpanOptions = {
+          kind: SpanKind.SERVER,
+        };
+        const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+
+        span.setAttributes({ [ATTR_HTTP_RESPONSE_STATUS_CODE]: 404 });
+        span.setStatus({
+          code: SpanStatusCode.OK,
+        });
+        span.end();
+        const readableSpan = spanToReadableSpan(span);
+        const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+        assert.strictEqual(envelope.data!.baseData!.success, true);
+      });
     });
 
     describe("createDepenedencyData", () => {

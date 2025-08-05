@@ -18,16 +18,17 @@ import {
   ServiceTasksUpdateOptionalParams,
   ServiceTasksUpdateResponse,
   ServiceTasksCancelOptionalParams,
-  ServiceTasksCancelResponse
+  ServiceTasksCancelResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServiceTasks. */
 export interface ServiceTasks {
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of service level tasks owned by a service resource. Some tasks may have a
-   * status of Unknown, which indicates that an error occurred while querying the status of that task.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of service level tasks owned by a service resource. Some tasks
+   * may have a status of Unknown, which indicates that an error occurred while querying the status of
+   * that task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -35,12 +36,13 @@ export interface ServiceTasks {
   list(
     groupName: string,
     serviceName: string,
-    options?: ServiceTasksListOptionalParams
+    options?: ServiceTasksListOptionalParams,
   ): PagedAsyncIterableIterator<ProjectTask>;
   /**
    * The service tasks resource is a nested, proxy-only resource representing work performed by a DMS
-   * instance. The PUT method creates a new service task or updates an existing one, although since
-   * service tasks have no mutable custom properties, there is little reason to update an existing one.
+   * (classic) instance. The PUT method creates a new service task or updates an existing one, although
+   * since service tasks have no mutable custom properties, there is little reason to update an existing
+   * one.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param taskName Name of the Task
@@ -52,11 +54,11 @@ export interface ServiceTasks {
     serviceName: string,
     taskName: string,
     parameters: ProjectTask,
-    options?: ServiceTasksCreateOrUpdateOptionalParams
+    options?: ServiceTasksCreateOrUpdateOptionalParams,
   ): Promise<ServiceTasksCreateOrUpdateResponse>;
   /**
    * The service tasks resource is a nested, proxy-only resource representing work performed by a DMS
-   * instance. The GET method retrieves information about a service task.
+   * (classic) instance. The GET method retrieves information about a service task.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param taskName Name of the Task
@@ -66,11 +68,11 @@ export interface ServiceTasks {
     groupName: string,
     serviceName: string,
     taskName: string,
-    options?: ServiceTasksGetOptionalParams
+    options?: ServiceTasksGetOptionalParams,
   ): Promise<ServiceTasksGetResponse>;
   /**
    * The service tasks resource is a nested, proxy-only resource representing work performed by a DMS
-   * instance. The DELETE method deletes a service task, canceling it first if it's running.
+   * (classic) instance. The DELETE method deletes a service task, canceling it first if it's running.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param taskName Name of the Task
@@ -80,12 +82,12 @@ export interface ServiceTasks {
     groupName: string,
     serviceName: string,
     taskName: string,
-    options?: ServiceTasksDeleteOptionalParams
+    options?: ServiceTasksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The service tasks resource is a nested, proxy-only resource representing work performed by a DMS
-   * instance. The PATCH method updates an existing service task, but since service tasks have no mutable
-   * custom properties, there is little reason to do so.
+   * (classic) instance. The PATCH method updates an existing service task, but since service tasks have
+   * no mutable custom properties, there is little reason to do so.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param taskName Name of the Task
@@ -97,11 +99,11 @@ export interface ServiceTasks {
     serviceName: string,
     taskName: string,
     parameters: ProjectTask,
-    options?: ServiceTasksUpdateOptionalParams
+    options?: ServiceTasksUpdateOptionalParams,
   ): Promise<ServiceTasksUpdateResponse>;
   /**
    * The service tasks resource is a nested, proxy-only resource representing work performed by a DMS
-   * instance. This method cancels a service task if it's currently queued or running.
+   * (classic) instance. This method cancels a service task if it's currently queued or running.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param taskName Name of the Task
@@ -111,6 +113,6 @@ export interface ServiceTasks {
     groupName: string,
     serviceName: string,
     taskName: string,
-    options?: ServiceTasksCancelOptionalParams
+    options?: ServiceTasksCancelOptionalParams,
   ): Promise<ServiceTasksCancelResponse>;
 }

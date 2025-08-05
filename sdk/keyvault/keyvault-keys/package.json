@@ -119,7 +119,7 @@
       "browser"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "exports": {
     "./package.json": "./package.json",

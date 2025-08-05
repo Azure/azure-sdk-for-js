@@ -35,22 +35,25 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
-import type { StorageRetryOptions } from "@azure/storage-blob";
-import { StorageRetryPolicyFactory } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "@azure/storage-blob";
-import { AnonymousCredential } from "@azure/storage-blob";
+import type { StorageRetryOptions } from "@azure/storage-common";
+import {
+  StorageRetryPolicyFactory,
+  StorageSharedKeyCredential,
+  AnonymousCredential,
+  getCachedDefaultHttpClient,
+  storageBrowserPolicy,
+  storageRetryPolicy,
+  storageSharedKeyCredentialPolicy,
+  StorageBrowserPolicyFactory,
+  storageCorrectContentLengthPolicy,
+  storageRequestFailureDetailsParserPolicy,
+} from "@azure/storage-common";
 import {
   StorageOAuthScopes,
   StorageQueueLoggingAllowedHeaderNames,
   StorageQueueLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants.js";
-import { getCachedDefaultHttpClient } from "@azure/storage-common";
-import { storageBrowserPolicy } from "@azure/storage-blob";
-import { storageRetryPolicy } from "@azure/storage-blob";
-import { storageSharedKeyCredentialPolicy } from "@azure/storage-blob";
-import { StorageBrowserPolicyFactory } from "@azure/storage-blob";
-import { storageCorrectContentLengthPolicy } from "@azure/storage-blob";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -309,6 +312,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
+    corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);
     if (downlevelResults) {

@@ -26,7 +26,7 @@
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

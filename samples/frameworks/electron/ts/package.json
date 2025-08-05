@@ -18,7 +18,7 @@
     "@types/qs": "^6.9.18",
     "babel": "^6.23.0",
     "electron": "^35.0.0",
-    "typescript": "^5.8.2",
+    "typescript": "~5.9.2",
     "webpack": "^5.98.0"
   },
   "dependencies": {

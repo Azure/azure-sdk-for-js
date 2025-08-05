@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-xml",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "type": "module",
@@ -101,7 +101,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "module": "./dist/esm/index.js"
 }

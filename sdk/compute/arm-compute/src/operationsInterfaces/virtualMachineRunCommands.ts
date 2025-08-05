@@ -15,14 +15,14 @@ import {
   VirtualMachineRunCommandsListByVirtualMachineOptionalParams,
   VirtualMachineRunCommandsGetOptionalParams,
   VirtualMachineRunCommandsGetResponse,
+  VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
+  VirtualMachineRunCommandsGetByVirtualMachineResponse,
   VirtualMachineRunCommandsCreateOrUpdateOptionalParams,
   VirtualMachineRunCommandsCreateOrUpdateResponse,
   VirtualMachineRunCommandUpdate,
   VirtualMachineRunCommandsUpdateOptionalParams,
   VirtualMachineRunCommandsUpdateResponse,
   VirtualMachineRunCommandsDeleteOptionalParams,
-  VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
-  VirtualMachineRunCommandsGetByVirtualMachineResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ import {
 export interface VirtualMachineRunCommands {
   /**
    * Lists all available run commands for a subscription in a location.
-   * @param location The location upon which run commands is queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   list(
@@ -39,8 +39,8 @@ export interface VirtualMachineRunCommands {
   ): PagedAsyncIterableIterator<RunCommandDocumentBase>;
   /**
    * The operation to get all run commands of a Virtual Machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
    * @param options The options parameters.
    */
   listByVirtualMachine(
@@ -50,7 +50,7 @@ export interface VirtualMachineRunCommands {
   ): PagedAsyncIterableIterator<VirtualMachineRunCommand>;
   /**
    * Gets specific run command for a subscription in a location.
-   * @param location The location upon which run commands is queried.
+   * @param location The name of Azure region.
    * @param commandId The command id.
    * @param options The options parameters.
    */
@@ -60,10 +60,23 @@ export interface VirtualMachineRunCommands {
     options?: VirtualMachineRunCommandsGetOptionalParams,
   ): Promise<VirtualMachineRunCommandsGetResponse>;
   /**
+   * The operation to get the run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param options The options parameters.
+   */
+  getByVirtualMachine(
+    resourceGroupName: string,
+    vmName: string,
+    runCommandName: string,
+    options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
+  ): Promise<VirtualMachineRunCommandsGetByVirtualMachineResponse>;
+  /**
    * The operation to create or update the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be created or updated.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param runCommand Parameters supplied to the Create Virtual Machine RunCommand operation.
    * @param options The options parameters.
    */
@@ -81,9 +94,9 @@ export interface VirtualMachineRunCommands {
   >;
   /**
    * The operation to create or update the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be created or updated.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param runCommand Parameters supplied to the Create Virtual Machine RunCommand operation.
    * @param options The options parameters.
    */
@@ -96,9 +109,9 @@ export interface VirtualMachineRunCommands {
   ): Promise<VirtualMachineRunCommandsCreateOrUpdateResponse>;
   /**
    * The operation to update the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be updated.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param runCommand Parameters supplied to the Update Virtual Machine RunCommand operation.
    * @param options The options parameters.
    */
@@ -116,9 +129,9 @@ export interface VirtualMachineRunCommands {
   >;
   /**
    * The operation to update the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be updated.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param runCommand Parameters supplied to the Update Virtual Machine RunCommand operation.
    * @param options The options parameters.
    */
@@ -131,9 +144,9 @@ export interface VirtualMachineRunCommands {
   ): Promise<VirtualMachineRunCommandsUpdateResponse>;
   /**
    * The operation to delete the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be deleted.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   beginDelete(
@@ -144,9 +157,9 @@ export interface VirtualMachineRunCommands {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the run command should be deleted.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the VirtualMachine
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -155,17 +168,4 @@ export interface VirtualMachineRunCommands {
     runCommandName: string,
     options?: VirtualMachineRunCommandsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation to get the run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the run command.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param options The options parameters.
-   */
-  getByVirtualMachine(
-    resourceGroupName: string,
-    vmName: string,
-    runCommandName: string,
-    options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
-  ): Promise<VirtualMachineRunCommandsGetByVirtualMachineResponse>;
 }
