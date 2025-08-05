@@ -1,12 +1,16 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2025-08-06)
 
 ### Features Added
+
+- Added support for authentication using Entra ID for the service.
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Updated all README documents for better clarity and accuracy.
 
 ### Other Changes
 
