@@ -24,7 +24,7 @@ export function encodeByteArray(value: Uint8Array): string {
  * Decodes a base64 string into a byte array.
  * @param value - the base64 string to decode
  */
-function decodeStringFromBase64(value: string): Uint8Array {
+function decodeStringFromBase64(value: string): Uint8Array<ArrayBuffer> {
   return Buffer.from(value, "base64");
 }
 
@@ -42,7 +42,7 @@ function fixPadding(unpadded: string): string {
  * Decodes a base64url string into a byte array.
  * @param value - the base64url string to decode
  */
-export function decodeString(value: string): Uint8Array {
+export function decodeString(value: string): Uint8Array<ArrayBuffer> {
   const encoded = value.replace(/-/g, "+").replace(/_/g, "/");
   const paddedEncoded = fixPadding(encoded);
   return decodeStringFromBase64(paddedEncoded);

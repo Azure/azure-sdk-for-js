@@ -18,7 +18,7 @@ import { isReadableStream } from "../util/typeGuards.js";
 import type { HttpResponse, RequestParameters } from "./common.js";
 import type { PartDescriptor } from "./multipart.js";
 import { buildMultipartBody } from "./multipart.js";
-import { arrayBufferViewToArrayBuffer } from "../util/arrayBuffer.js";
+import { arrayBufferViewToUint8ArrayOfArrayBuffer } from "../util/arrayBuffer.js";
 
 /**
  * Helper function to send request used by the client
@@ -168,7 +168,7 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (ArrayBuffer.isView(body)) {
-    return { body: arrayBufferViewToArrayBuffer(body) };
+    return { body: arrayBufferViewToUint8ArrayOfArrayBuffer(body) };
   }
 
   const firstType = contentType.split(";")[0];

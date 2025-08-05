@@ -28,5 +28,5 @@ export function stringToBytes(content: string): Uint8Array<ArrayBuffer> {
  * @internal
  */
 export function bytesToString(content: Uint8Array): string {
-  return decode(content.buffer as ArrayBuffer);
+  return decode(content as any);
 }

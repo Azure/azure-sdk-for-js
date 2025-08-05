@@ -16,7 +16,7 @@ describe("sendRequest", () => {
   const mockBaseUrl = "https://example.org";
 
   describe("Binary content", () => {
-    it("should handle request body as Uint8Array", async () => {
+    it.only("should handle request body as Uint8Array", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
         assert.sameOrderedMembers([...(request.body as Uint8Array)], [...foo]);

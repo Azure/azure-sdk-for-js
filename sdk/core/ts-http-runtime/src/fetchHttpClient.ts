@@ -12,7 +12,7 @@ import type {
 import { RestError } from "./restError.js";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
-import { arrayBufferViewToArrayBuffer } from "./util/arrayBuffer.js";
+import { arrayBufferViewToUint8ArrayOfArrayBuffer } from "./util/arrayBuffer.js";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -248,7 +248,7 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
   } else if (body instanceof Blob) {
     return { streaming: false, body };
   } else if (typeof body === "object" && body && "buffer" in body) {
-    return { streaming: false, body: arrayBufferViewToArrayBuffer(body) };
+    return { streaming: false, body: arrayBufferViewToUint8ArrayOfArrayBuffer(body) };
   } else {
     return { streaming: false, body: JSON.stringify(body) };
   }
