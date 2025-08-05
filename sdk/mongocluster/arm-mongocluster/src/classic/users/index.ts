@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import { User } from "../../models/models.js";
+import { listByMongoCluster, $delete, createOrUpdate, get } from "../../api/users/operations.js";
 import {
   UsersListByMongoClusterOptionalParams,
   UsersDeleteOptionalParams,
   UsersCreateOrUpdateOptionalParams,
   UsersGetOptionalParams,
 } from "../../api/users/options.js";
-import { listByMongoCluster, $delete, createOrUpdate, get } from "../../api/users/operations.js";
+import { User } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
