@@ -11,42 +11,30 @@ describe("Types Constants", () => {
       assert.strictEqual(typeof APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW, "string");
       assert.strictEqual(
         APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
-        "APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW"
+        "APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW",
       );
     });
 
     it("should be usable as an environment variable key", () => {
       // Save original value
       const originalValue = process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
-      
+
       try {
         // Test setting the environment variable
         process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "True";
-        assert.strictEqual(
-          process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW],
-          "True"
-        );
+        assert.strictEqual(process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW], "True");
 
         // Test checking for undefined
         delete process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
-        assert.strictEqual(
-          process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW],
-          undefined
-        );
+        assert.strictEqual(process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW], undefined);
 
         // Test setting to false
         process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "false";
-        assert.strictEqual(
-          process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW],
-          "false"
-        );
+        assert.strictEqual(process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW], "false");
 
         // Test case sensitivity
         process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "true";
-        assert.notStrictEqual(
-          process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW],
-          "True"
-        );
+        assert.notStrictEqual(process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW], "True");
       } finally {
         // Restore original value
         if (originalValue !== undefined) {
@@ -62,20 +50,17 @@ describe("Types Constants", () => {
       const constantValue = APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW;
       assert.ok(constantValue);
       assert.strictEqual(constantValue.length > 0, true);
-      
+
       // Verify it can be used in object property access
       const testObj: Record<string, string> = {};
       testObj[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "test";
-      assert.strictEqual(
-        testObj[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW],
-        "test"
-      );
+      assert.strictEqual(testObj[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW], "test");
     });
 
     it("should match expected runtime behavior patterns", () => {
       // Save original value
       const originalValue = process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
-      
+
       try {
         // Test the exact pattern used in the codebase
         process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "True";
@@ -94,7 +79,8 @@ describe("Types Constants", () => {
 
         // Test case sensitivity (should be false for lowercase "true")
         process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "true";
-        const isCaseSensitive = process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] === "True";
+        const isCaseSensitive =
+          process.env[APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] === "True";
         assert.strictEqual(isCaseSensitive, false);
       } finally {
         // Restore original value
