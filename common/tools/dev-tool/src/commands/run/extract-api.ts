@@ -22,14 +22,6 @@ import { existsSync } from "node:fs";
 export const commandInfo = makeCommandInfo(
   "extract-api",
   "Runs api-extractor multiple times for all exports.",
-  {
-    "merge-subpath-exports": {
-      shortName: "mse",
-      kind: "boolean",
-      default: true,
-      description: "whether to include subpath export APIs.",
-    },
-  },
 );
 
 const log = createPrinter("extract-api");
@@ -100,7 +92,7 @@ async function buildExportConfiguration(
         ...common,
         runtime,
         tsconfigPath: await getTsconfigFile(projectRoot, runtime),
-        baseName: baseName + runtime,
+        baseName,
         mainEntryPointFilePath: path.resolve(projectRoot, value.types),
       });
     }
@@ -194,6 +186,11 @@ function resolveTemplate(template: string, projectInfo: ProjectInfo): string {
     .replace(/<unscopedPackageName>/g, getUnscopedPackageName(projectInfo.name));
 }
 
+function createNameWithRuntime(entry: ExportEntry): string {
+  const baseName = entry.baseName ? `${entry.baseName}-` : "";
+  return `${baseName}${entry.runtime}`;
+}
+
 async function extractApiForEntry(
   entry: ExportEntry,
   baseConfig: IConfigFile,
@@ -214,14 +211,14 @@ async function extractApiForEntry(
     throw new Error("API report file name is not configured");
   }
   const reportDir = path.resolve(reportFolder);
-  const tempReportFileName = `${path.basename(reportFile, ".api.md")}-${entry.baseName}.api.md`;
+  const tempReportFileName = `${path.basename(reportFile, ".api.md")}-${createNameWithRuntime(entry)}.api.md`;
   const tempReportPath = path.join(reportDir, tempReportFileName);
 
   const baseApiJsonPath =
     baseConfig.docModel?.apiJsonFilePath || `<projectFolder>/temp/<unscopedPackageName>.api.json`;
   const apiJsonFilePath = resolveTemplate(baseApiJsonPath, projectInfo).replace(
     ".api.json",
-    `-${entry.baseName}.api.json`,
+    `-${createNameWithRuntime(entry)}.api.json`,
   );
 
   const docModel: IConfigDocModel = {
@@ -291,14 +288,19 @@ async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
 async function buildMergedApiJson(
   unscopedPackageName: string,
   reportTempDir: string,
-  exports: ExportEntry[] | undefined,
+  exports: ExportEntry[],
   dependencies: Record<string, string>,
   useMerged: boolean = false,
 ): Promise<string | undefined> {
   const mainNodeExport = exports?.find((e) => !e.isSubpath && e.runtime === "node");
-  const mainApiJsonPath = mainNodeExport
-    ? path.join(reportTempDir, `${unscopedPackageName}-${mainNodeExport.baseName}.api.json`)
-    : path.join(reportTempDir, `${unscopedPackageName}.api.json`);
+  if (!mainNodeExport) {
+    log.debug("No main node export found, skipping API JSON merge");
+    return;
+  }
+  const mainApiJsonPath = path.join(
+    reportTempDir,
+    `${unscopedPackageName}-${createNameWithRuntime(mainNodeExport)}.api.json`,
+  );
 
   if (!existsSync(mainApiJsonPath)) {
     log.debug(`Main API JSON file ${mainApiJsonPath} not found, skipping merge`);
@@ -308,16 +310,16 @@ async function buildMergedApiJson(
   const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
   apiJson.metadata.dependencies = dependencies;
 
-  // Only merge subpath exports for the same runtime (node)
-  const targetRuntime = mainNodeExport?.runtime || "node";
-  for (const subpath of exports?.filter((p) => p.isSubpath && p.runtime === targetRuntime) ?? []) {
-    const p = path.join(reportTempDir, `${unscopedPackageName}-${subpath.baseName}.api.json`);
+  for (const subpath of exports) {
+    if (!subpath.isSubpath || subpath.runtime !== mainNodeExport.runtime) continue;
+    const nameWithRuntime = createNameWithRuntime(subpath);
+    const p = path.join(reportTempDir, `${unscopedPackageName}-${nameWithRuntime}.api.json`);
     if (!existsSync(p)) {
       log.debug(`${p} not there`);
       continue;
     }
 
-    log.debug(`loading api package for "${subpath.baseName}"`);
+    log.debug(`loading api package for "${nameWithRuntime}"`);
     const subpathApiJson = await loadApiJsonForSubPath(p);
     const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
     if (!entryPoint) {
