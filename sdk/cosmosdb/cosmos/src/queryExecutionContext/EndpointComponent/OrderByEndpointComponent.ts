@@ -27,6 +27,8 @@ export class OrderByEndpointComponent implements ExecutionContext {
 
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
     const buffer: any[] = [];
+    const orderByItemsArray: any[][] = []; // Store order by items for each item
+
     const response = await this.executionContext.fetchMore(diagnosticNode);
     if (
       response === undefined ||
@@ -35,23 +37,30 @@ export class OrderByEndpointComponent implements ExecutionContext {
     ) {
       return { result: undefined, headers: response.headers };
     }
-    
-    // Process buffer items (extract payload if needed)
-    for (const item of response.result.buffer) {
+
+    const rawBuffer = response.result.buffer;
+
+    // Process buffer items and collect order by items for each item
+    for (let i = 0; i < rawBuffer.length; i++) {
+      const item = rawBuffer[i];
+
       if (this.emitRawOrderByPayload) {
         buffer.push(item);
       } else {
         buffer.push(item.payload);
       }
+      orderByItemsArray.push(item.orderByItems);
     }
 
-    // Preserve the response structure with buffer and partitionKeyRangeMap
-    return { 
+    // Preserve the response structure with buffer, partitionKeyRangeMap, and all order by items
+    return {
       result: {
         buffer: buffer,
-        partitionKeyRangeMap: response.result.partitionKeyRangeMap
-      }, 
-      headers: response.headers 
+        partitionKeyRangeMap: response.result.partitionKeyRangeMap,
+        // Pass all order by items - pipeline will determine which one to use based on page boundaries
+        ...(orderByItemsArray.length > 0 && { orderByItemsArray: orderByItemsArray }),
+      },
+      headers: response.headers,
     };
   }
 }

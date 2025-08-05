@@ -52,44 +52,46 @@ describe("Queries", { timeout: 10000 }, () => {
       forceQueryPlan: true, // Force the query plan to be used
       maxDegreeOfParallelism: 3, // Use parallel query execution
     };
-    
+
     // Create a partitioned container
     const database = await client.databases.createIfNotExists({ id: "test-db-partitioned" });
     const containerResponse = await database.database.containers.createIfNotExists({
       id: "test-container-partitioned",
       partitionKey: { paths: ["/partitionKey"] }, // Explicit partition key
-      throughput: 16000 // Higher throughput to ensure multiple partitions
+      throughput: 16000, // Higher throughput to ensure multiple partitions
     });
     const partitionedContainer = containerResponse.container;
-    
+
     console.log("Created partitioned container");
-    
+
     // Insert test data across multiple partition key values to force multiple partitions
     const partitionKeys = ["partition-A", "partition-B", "partition-C", "partition-D"];
     for (let i = 0; i < 80; i++) {
       const partitionKey = partitionKeys[i % partitionKeys.length];
-      await partitionedContainer.items.create({ 
-        id: `item-${i}`, 
-        value: i, 
+      await partitionedContainer.items.create({
+        id: `item-${i}`,
+        value: i,
         partitionKey: partitionKey,
-        description: `Item ${i} in ${partitionKey}`
+        description: `Item ${i} in ${partitionKey}`,
       });
     }
-    
+
     console.log("Inserted 80 items across 4 partition keys");
-    
+
     const queryIterator = partitionedContainer.items.query(query, queryOptions);
     let totalItems = 0;
     let pageCount = 0;
-    
-    while(queryIterator.hasMoreResults()){
+
+    while (queryIterator.hasMoreResults()) {
       const result = await queryIterator.fetchNext();
       totalItems += result.resources.length;
       pageCount++;
-      
-      console.log(`Page ${pageCount}: Retrieved ${result.resources.length} items (Total: ${totalItems})`);
+
+      console.log(
+        `Page ${pageCount}: Retrieved ${result.resources.length} items (Total: ${totalItems})`,
+      );
       console.log("continuation token:", result.continuationToken ? "Present" : "None");
-      
+
       if (result.continuationToken) {
         try {
           const tokenObj = JSON.parse(result.continuationToken);
@@ -104,11 +106,10 @@ describe("Queries", { timeout: 10000 }, () => {
           console.log("  - Could not parse continuation token");
         }
       }
-      
     }
-    
+
     console.log(`\nSummary: Retrieved ${totalItems} total items across ${pageCount} pages`);
-    
+
     // Clean up
     await database.database.delete();
   });
@@ -121,45 +122,47 @@ describe("Queries", { timeout: 10000 }, () => {
       forceQueryPlan: true, // Force the query plan to be used
       maxDegreeOfParallelism: 3, // Use parallel query execution
     };
-    
+
     // Create a partitioned container
     const database = await client.databases.createIfNotExists({ id: "test-db-partitioned" });
     const containerResponse = await database.database.containers.createIfNotExists({
       id: "test-container-partitioned",
       partitionKey: { paths: ["/partitionKey"] }, // Explicit partition key
-      throughput: 16000 // Higher throughput to ensure multiple partitions
+      throughput: 16000, // Higher throughput to ensure multiple partitions
     });
     const partitionedContainer = containerResponse.container;
-    
+
     console.log("Created partitioned container");
-    
+
     // Insert test data across multiple partition key values to force multiple partitions
     const partitionKeys = ["partition-A", "partition-B", "partition-C", "partition-D"];
     for (let i = 0; i < 80; i++) {
       const partitionKey = partitionKeys[i % partitionKeys.length];
-      await partitionedContainer.items.create({ 
-        id: `item-${i}`, 
-        value: i, 
+      await partitionedContainer.items.create({
+        id: `item-${i}`,
+        value: i,
         partitionKey: partitionKey,
-        description: `Item ${i} in ${partitionKey}`
+        description: `Item ${i} in ${partitionKey}`,
       });
     }
-    
+
     console.log("Inserted 80 items across 4 partition keys");
-    
+
     const queryIterator = partitionedContainer.items.query(query, queryOptions);
     let totalItems = 0;
     let pageCount = 0;
     let br = 0;
-    while(queryIterator.hasMoreResults() && br < 10){
+    while (queryIterator.hasMoreResults() && br < 10) {
       br++;
       const result = await queryIterator.fetchNext();
       totalItems += result.resources.length;
       pageCount++;
-      
-      console.log(`Page ${pageCount}: Retrieved ${result.resources.length} items (Total: ${totalItems})`);
+
+      console.log(
+        `Page ${pageCount}: Retrieved ${result.resources.length} items (Total: ${totalItems})`,
+      );
       console.log("continuation token:", result.continuationToken ? "Present" : "None");
-      
+
       if (result.continuationToken) {
         try {
           const tokenObj = JSON.parse(result.continuationToken);
@@ -174,13 +177,11 @@ describe("Queries", { timeout: 10000 }, () => {
           console.log("  - Could not parse continuation token");
         }
       }
-      
     }
-    
+
     console.log(`\nSummary: Retrieved ${totalItems} total items across ${pageCount} pages`);
-    
+
     // Clean up
     await database.database.delete();
   });
-
 });

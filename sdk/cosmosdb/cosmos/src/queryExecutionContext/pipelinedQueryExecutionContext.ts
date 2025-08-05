@@ -34,6 +34,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
   private continuationTokenManager: ContinuationTokenManager;
+  private orderByItemsArray: any[][] | undefined;
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
@@ -167,39 +168,39 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       }
     }
     this.fetchBuffer = [];
-    
+
     // Detect if this is an ORDER BY query for continuation token management
-    const isOrderByQuery = (Array.isArray(sortOrders) && sortOrders.length > 0);
-    
+    const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
+
     // Initialize continuation token manager with ORDER BY awareness
     this.continuationTokenManager = new ContinuationTokenManager(
       this.collectionLink,
       this.options.continuationToken,
-      isOrderByQuery
+      isOrderByQuery,
     );
   }
 
   public hasMoreResults(): boolean {
     // For enableQueryControl mode, we have more results if:
     // 1. There are items in the fetch buffer, OR
-    // 2. There are unprocessed ranges in the partition key range map, OR  
+    // 2. There are unprocessed ranges in the partition key range map, OR
     // 3. The endpoint has more results
     if (this.options.enableQueryControl) {
       const hasBufferedItems = this.fetchBuffer.length > 0;
       const hasUnprocessedRanges = this.continuationTokenManager.hasUnprocessedRanges();
       const endpointHasMore = this.endpoint.hasMoreResults();
-      
+
       console.log("hasBufferedItems:", hasBufferedItems);
       console.log("hasUnprocessedRanges:", hasUnprocessedRanges);
       console.log("endpointHasMore:", endpointHasMore);
-      
+
       const result = hasBufferedItems || hasUnprocessedRanges || endpointHasMore;
       console.log("hasMoreResults result:", result);
       console.log("=== END hasMoreResults DEBUG ===");
-      
+
       return result;
     }
-    
+
     // Default behavior for non-enableQueryControl mode
     const result = this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
     console.log("hasMoreResults (default mode) result:", result);
@@ -227,7 +228,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       } else {
         const response = await this.endpoint.fetchMore(diagnosticNode);
         let bufferedResults;
-        
+
         // Handle both old format (just array) and new format (with buffer property)
         if (Array.isArray(response.result)) {
           // Old format - result is directly the array
@@ -239,9 +240,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           // Handle undefined/null case
           bufferedResults = response.result;
         }
-        
+
         mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-        if (response === undefined || response.result === undefined || bufferedResults === undefined) {
+        if (
+          response === undefined ||
+          response.result === undefined ||
+          bufferedResults === undefined
+        ) {
           if (this.fetchBuffer.length > 0) {
             const temp = this.fetchBuffer;
             this.fetchBuffer = [];
@@ -277,167 +282,175 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private async _enableQueryControlFetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<Response<any>> {
-      
-      if(this.continuationTokenManager.hasUnprocessedRanges() && this.fetchBuffer.length > 0) {
-        const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
-        if (endIndex === 0) {
-          // If no items can be processed from current ranges, we need to fetch more from endpoint
-          console.log("Clearing ranges and fetching from endpoint instead");
-          this.continuationTokenManager.clearRangeMappings();
-          this.fetchBuffer = [];
-          const response = await this.endpoint.fetchMore(diagnosticNode);
-          if (!response || !response.result || !response.result.buffer) {
-            console.log("No more results from endpoint");
-            return { result: [], headers: response?.headers || getInitialHeader() };
-          }
-          
-          const bufferedResults = response.result.buffer;
-          const partitionKeyRangeMap = response.result.partitionKeyRangeMap;
-          // Update the continuation token manager with new ranges
-          this.continuationTokenManager.clearRangeMappings();
-          if (partitionKeyRangeMap) {
-            for (const [rangeId, mapping] of partitionKeyRangeMap) {
-              this.continuationTokenManager.updatePartitionRangeMapping(rangeId, mapping);
-            }
-          }
-          this.fetchBuffer = bufferedResults || [];
-          
-          if (this.fetchBuffer.length === 0) {
-            console.log("Still no items in buffer after endpoint fetch");
-            return { result: [], headers: response.headers };
-          }
-          
-          const { endIndex: newEndIndex } = this.fetchBufferEndIndexForCurrentPage();
-          const temp = this.fetchBuffer.slice(0, newEndIndex);
-          this.fetchBuffer = this.fetchBuffer.slice(newEndIndex);
-          return { result: temp, headers: response.headers };
-        }
-        
-        const temp = this.fetchBuffer.slice(0, endIndex);
-        this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-        
-        // Update range indexes and remove exhausted ranges with sliding window logic
-        console.log("Updating processed ranges with sliding window logic:", processedRanges);
-        const partitionKeyRangeMap = this.continuationTokenManager.getPartitionKeyRangeMap();
-        const compositeContinuationToken = this.continuationTokenManager.getCompositeContinuationToken();
-        
-        processedRanges.forEach(rangeId => {
-          const rangeValue = partitionKeyRangeMap.get(rangeId);
-          if (rangeValue) {
-            const originalStartIndex = rangeValue.indexes[0];
-            const originalEndIndex = rangeValue.indexes[1];
-            
-            // Find how many items from this range were actually consumed
-            let itemsConsumed = 0;
-            for (const mapping of compositeContinuationToken.rangeMappings) {
-              if (mapping.partitionKeyRange.id === rangeValue.partitionKeyRange.id &&
-                  mapping.indexes[0] === originalStartIndex) {
-                itemsConsumed = mapping.indexes[1] - mapping.indexes[0] + 1;
-                break;
-              }
-            }
-            
-            // Update the range's start index to reflect consumed items
-            const newStartIndex = originalStartIndex + itemsConsumed;
-            rangeValue.indexes[0] = newStartIndex;
-            
-            console.log(`Updated range ${rangeId} indexes: [${originalStartIndex}, ${originalEndIndex}] -> [${newStartIndex}, ${originalEndIndex}] (consumed ${itemsConsumed} items)`);
-            
-            // Check if this range has been fully consumed
-            const isContinuationTokenExhausted = !rangeValue.continuationToken || 
-                                               rangeValue.continuationToken === "" ||
-                                               rangeValue.continuationToken === "null";
-            
-            const isRangeFullyConsumed = rangeValue.indexes[0] > rangeValue.indexes[1];
-            
-            if (isContinuationTokenExhausted || isRangeFullyConsumed) {
-              console.log(`Removing exhausted range ${rangeId} from sliding window (startIndex: ${newStartIndex} > endIndex: ${originalEndIndex})`);
-              // TODO: remove the actual range ere
-              this.continuationTokenManager.removePartitionRangeMapping(rangeId);
-            } else {
-              console.log(`Range ${rangeId} still has data, keeping in sliding window with updated indexes [${newStartIndex}, ${originalEndIndex}]`);
-            }
-          }
-        });
-        console.log(`Sliding window now contains ${this.continuationTokenManager.getPartitionKeyRangeMap().size} active ranges`);
-        console.log("Returning items:", temp.length, "compositeContinuationToken:", this.continuationTokenManager.getTokenString());
-        console.log("=== HEADERS DEBUG ===");
-        console.log("this.fetchMoreRespHeaders:", this.fetchMoreRespHeaders);
-        console.log("this.fetchMoreRespHeaders[Constants.HttpHeaders.Continuation]:", this.fetchMoreRespHeaders[Constants.HttpHeaders.Continuation]);
-        console.log("Constants.HttpHeaders.Continuation value:", Constants.HttpHeaders.Continuation);
-        console.log("=== END HEADERS DEBUG ===");
-        return { result: temp, headers: this.fetchMoreRespHeaders };
-      } else {        
+    if (this.continuationTokenManager.hasUnprocessedRanges() && this.fetchBuffer.length > 0) {
+      const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
+      if (endIndex === 0) {
+        // If no items can be processed from current ranges, we need to fetch more from endpoint
+        console.log("Clearing ranges and fetching from endpoint instead");
+        this.continuationTokenManager.clearRangeMappings();
         this.fetchBuffer = [];
-
         const response = await this.endpoint.fetchMore(diagnosticNode);
-        console.log("Fetched more results from endpoint", JSON.stringify(response));
-
-        // Handle case where there are no more results from endpoint
-        if (!response || !response.result) {
+        if (!response || !response.result || !response.result.buffer) {
           console.log("No more results from endpoint");
           return { result: [], headers: response?.headers || getInitialHeader() };
         }
-        
-        // Handle different response formats - ORDER BY vs Parallel queries
-        let bufferedResults: any[] = [];
-        let partitionKeyRangeMap: Map<string, QueryRangeMapping> | undefined;
-        
-        if (response.result && response.result.buffer && response.result.partitionKeyRangeMap) {
-          // Parallel query format: response.result has buffer and partitionKeyRangeMap properties
-          console.log("Parallel query response format detected - result has buffer property");
-          bufferedResults = response.result.buffer;
-          partitionKeyRangeMap = response.result.partitionKeyRangeMap;
-        } else {
-          console.log("Unexpected response format", response.result);
-          return { result: [], headers: response.headers };
+
+        const bufferedResults = response.result.buffer;
+        const partitionKeyRangeMap = response.result.partitionKeyRangeMap;
+
+        // Capture order by items array for ORDER BY queries if available
+        if (response.result.orderByItemsArray) {
+          this.orderByItemsArray = response.result.orderByItemsArray;
+          console.log("Captured orderByItemsArray for ORDER BY continuation token");
         }
-        
-        // Update the token manager with the new partition key range map (for parallel queries only)
+
+        // Update the continuation token manager with new ranges
+        this.continuationTokenManager.clearRangeMappings();
         if (partitionKeyRangeMap) {
           for (const [rangeId, mapping] of partitionKeyRangeMap) {
             this.continuationTokenManager.updatePartitionRangeMapping(rangeId, mapping);
           }
         }
-        
         this.fetchBuffer = bufferedResults || [];
-        
-        console.log("Fetched new results, fetchBuffer.length:", this.fetchBuffer.length);
-      
+
         if (this.fetchBuffer.length === 0) {
-          console.log("No items in buffer, returning empty result");
-          return { result: [], headers: this.fetchMoreRespHeaders };
+          console.log("Still no items in buffer after endpoint fetch");
+          return { result: [], headers: response.headers };
         }
-        
-        const { endIndex } = this.fetchBufferEndIndexForCurrentPage();
-        const temp = this.fetchBuffer.slice(0, endIndex);
-        this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-        return { result: temp, headers: this.fetchMoreRespHeaders };
+
+        const { endIndex: newEndIndex } = this.fetchBufferEndIndexForCurrentPage();
+        const temp = this.fetchBuffer.slice(0, newEndIndex);
+        this.fetchBuffer = this.fetchBuffer.slice(newEndIndex);
+        return { result: temp, headers: response.headers };
       }
+
+      const temp = this.fetchBuffer.slice(0, endIndex);
+      this.fetchBuffer = this.fetchBuffer.slice(endIndex);
+
+      // Update range indexes and remove exhausted ranges with sliding window logic
+      console.log("Updating processed ranges with sliding window logic:", processedRanges);
+      // Remove the processed ranges
+      processedRanges.forEach((rangeId) => {
+        this.continuationTokenManager.removePartitionRangeMapping(rangeId);
+      });
+      console.log(
+        `Sliding window now contains ${this.continuationTokenManager.getPartitionKeyRangeMap().size} active ranges`,
+      );
+      console.log(
+        "Returning items:",
+        temp.length,
+        "compositeContinuationToken:",
+        this.continuationTokenManager.getTokenString(),
+      );
+      console.log("=== HEADERS DEBUG ===");
+      console.log("this.fetchMoreRespHeaders:", this.fetchMoreRespHeaders);
+      console.log(
+        "this.fetchMoreRespHeaders[Constants.HttpHeaders.Continuation]:",
+        this.fetchMoreRespHeaders[Constants.HttpHeaders.Continuation],
+      );
+      console.log("Constants.HttpHeaders.Continuation value:", Constants.HttpHeaders.Continuation);
+      console.log("=== END HEADERS DEBUG ===");
+      return { result: temp, headers: this.fetchMoreRespHeaders };
+    } else {
+      this.fetchBuffer = [];
+
+      const response = await this.endpoint.fetchMore(diagnosticNode);
+      console.log("Fetched more results from endpoint", JSON.stringify(response));
+
+      // Handle case where there are no more results from endpoint
+      if (!response || !response.result) {
+        console.log("No more results from endpoint");
+        return { result: [], headers: response?.headers || getInitialHeader() };
+      }
+
+      // Handle different response formats - ORDER BY vs Parallel queries
+      let bufferedResults: any[] = [];
+      let partitionKeyRangeMap: Map<string, QueryRangeMapping> | undefined;
+
+      if (response.result && response.result.buffer && response.result.partitionKeyRangeMap) {
+        // Parallel query format: response.result has buffer and partitionKeyRangeMap properties
+        console.log("Parallel query response format detected - result has buffer property");
+        bufferedResults = response.result.buffer;
+        partitionKeyRangeMap = response.result.partitionKeyRangeMap;
+
+        // Capture order by items array for ORDER BY queries if available
+        if (response.result.orderByItemsArray) {
+          this.orderByItemsArray = response.result.orderByItemsArray;
+          console.log("Captured orderByItemsArray for ORDER BY continuation token");
+        }
+      } else {
+        console.log("Unexpected response format", response.result);
+        return { result: [], headers: response.headers };
+      }
+
+      // Update the token manager with the new partition key range map (for parallel queries only)
+      if (partitionKeyRangeMap) {
+        for (const [rangeId, mapping] of partitionKeyRangeMap) {
+          this.continuationTokenManager.updatePartitionRangeMapping(rangeId, mapping);
+        }
+      }
+
+      this.fetchBuffer = bufferedResults || [];
+
+      console.log("Fetched new results, fetchBuffer.length:", this.fetchBuffer.length);
+
+      if (this.fetchBuffer.length === 0) {
+        console.log("No items in buffer, returning empty result");
+        return { result: [], headers: this.fetchMoreRespHeaders };
+      }
+
+      const { endIndex } = this.fetchBufferEndIndexForCurrentPage();
+      const temp = this.fetchBuffer.slice(0, endIndex);
+      this.fetchBuffer = this.fetchBuffer.slice(endIndex);
+      return { result: temp, headers: this.fetchMoreRespHeaders };
+    }
   }
 
   private fetchBufferEndIndexForCurrentPage(): { endIndex: number; processedRanges: string[] } {
     console.log("=== fetchBufferEndIndexForCurrentPage START ===");
     console.log("Current buffer size:", this.fetchBuffer.length);
     console.log("Page size:", this.pageSize);
-    
+
     // Validate state before processing (Phase 4 enhancement)
     if (this.fetchBuffer.length === 0) {
       console.warn("fetchBuffer is empty, returning endIndex 0");
       return { endIndex: 0, processedRanges: [] };
     }
-    
+
     // Use the ContinuationTokenManager to process ranges for the current page
+    // First get the endIndex to determine which order by items to use
     const result = this.continuationTokenManager.processRangesForCurrentPage(
       this.pageSize,
-      this.fetchBuffer.length
+      this.fetchBuffer.length,
     );
+
+    // Extract order by items from the last item on the page for ORDER BY queries
+    let lastOrderByItemsForPage: any[] | undefined;
+    if (this.orderByItemsArray && result.endIndex > 0) {
+      const lastItemIndexOnPage = result.endIndex - 1;
+      if (lastItemIndexOnPage < this.orderByItemsArray.length) {
+        lastOrderByItemsForPage = this.orderByItemsArray[lastItemIndexOnPage];
+        console.log(
+          `Extracted order by items from page position ${lastItemIndexOnPage} for continuation token`,
+        );
+      }
+    }
+
+    // Now re-process with the correct order by items and page results
+    const pageResults = this.fetchBuffer.slice(0, result.endIndex);
+    const finalResult = this.continuationTokenManager.processRangesForCurrentPage(
+      this.pageSize,
+      this.fetchBuffer.length,
+      lastOrderByItemsForPage,
+      pageResults,
+    );
+
     // Update response headers with the continuation token
     this.continuationTokenManager.updateResponseHeaders(this.fetchMoreRespHeaders);
-    
-    return result;
+
+    return finalResult;
   }
 
   private calculateVectorSearchBufferSize(queryInfo: QueryInfo, options: FeedOptions): number {

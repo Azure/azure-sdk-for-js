@@ -6,7 +6,7 @@
  * @internal
  */
 export class OrderByQueryContinuationToken {
-  /** 
+  /**
    * Property name constants for serialization
    */
   public static readonly CompositeToken = "compositeToken";
@@ -34,13 +34,7 @@ export class OrderByQueryContinuationToken {
    */
   public readonly skipCount: number;
 
-
-  constructor(
-    compositeToken: string,
-    orderByItems: any[],
-    rid: string,
-    skipCount: number
-  ) {
+  constructor(compositeToken: string, orderByItems: any[], rid: string, skipCount: number) {
     this.compositeToken = compositeToken;
     this.orderByItems = orderByItems;
     this.rid = rid;
