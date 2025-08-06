@@ -10,7 +10,7 @@
 
 - Updated all README documents for better clarity and accuracy.
 - Enhanced invalid parameter handling when using service configuration.
-- Updated error message for patch test run API failures.
+- Improved error handling.
 - Added GUID validation for RunID parameter.
 
 ## 1.0.0-beta.1 (2025-06-30)
