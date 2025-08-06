@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import { PrivateEndpointConnectionResource } from "../../models/models.js";
-import {
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
-} from "../../api/privateEndpointConnections/options.js";
 import {
   $delete,
   create,
   get,
   listByMongoCluster,
 } from "../../api/privateEndpointConnections/operations.js";
+import {
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+} from "../../api/privateEndpointConnections/options.js";
+import { PrivateEndpointConnectionResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
