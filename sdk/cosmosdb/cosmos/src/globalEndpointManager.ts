@@ -222,8 +222,6 @@ export class GlobalEndpointManager {
       excludedLocations,
     );
 
-    this.preferredLocationsCount = availableLocations.length;
-
     let location;
     // If we have preferred locations, try each one in order and use the first available one
     if (
@@ -231,6 +229,8 @@ export class GlobalEndpointManager {
       availableLocations.length > 0 &&
       startServiceEndpointIndex < availableLocations.length
     ) {
+      this.preferredLocationsCount = availableLocations.length;
+
       for (let i = startServiceEndpointIndex; i < availableLocations.length; i++) {
         const preferredLocation = availableLocations[i];
         location = locations.find(
