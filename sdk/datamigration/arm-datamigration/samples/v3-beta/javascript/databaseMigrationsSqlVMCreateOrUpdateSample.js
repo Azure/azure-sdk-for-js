@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { DataMigrationManagementClient } = require("@azure/arm-datamigration");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to Create or Update Database Migration resource.
+ * This sample demonstrates how to Create a new database migration to a given SQL VM.
  *
- * @summary Create or Update Database Migration resource.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/SqlVmCreateOrUpdateDatabaseMigrationMAX.json
+ * @summary Create a new database migration to a given SQL VM.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlVmCreateOrUpdateDatabaseMigrationMAX.json
  */
 async function createOrUpdateDatabaseMigrationResourceWithMaximumParameters() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
   const sqlVirtualMachineName = "testvm";
   const targetDbName = "db1";
   const parameters = {
@@ -63,22 +63,21 @@ async function createOrUpdateDatabaseMigrationResourceWithMaximumParameters() {
     resourceGroupName,
     sqlVirtualMachineName,
     targetDbName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
-
-createOrUpdateDatabaseMigrationResourceWithMaximumParameters().catch(console.error);
 
 /**
- * This sample demonstrates how to Create or Update Database Migration resource.
+ * This sample demonstrates how to Create a new database migration to a given SQL VM.
  *
- * @summary Create or Update Database Migration resource.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/SqlVmCreateOrUpdateDatabaseMigrationMIN.json
+ * @summary Create a new database migration to a given SQL VM.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlVmCreateOrUpdateDatabaseMigrationMIN.json
  */
 async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
   const sqlVirtualMachineName = "testvm";
   const targetDbName = "db1";
   const parameters = {
@@ -99,10 +98,6 @@ async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters() {
       kind: "SqlVm",
       migrationService:
         "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/testagent",
-      offlineConfiguration: {
-        lastBackupName: "last_backup_file_name",
-        offline: true,
-      },
       scope:
         "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm",
       sourceDatabaseName: "aaa",
@@ -122,9 +117,14 @@ async function createOrUpdateDatabaseMigrationResourceWithMinimumParameters() {
     resourceGroupName,
     sqlVirtualMachineName,
     targetDbName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-createOrUpdateDatabaseMigrationResourceWithMinimumParameters().catch(console.error);
+async function main() {
+  await createOrUpdateDatabaseMigrationResourceWithMaximumParameters();
+  await createOrUpdateDatabaseMigrationResourceWithMinimumParameters();
+}
+
+main().catch(console.error);

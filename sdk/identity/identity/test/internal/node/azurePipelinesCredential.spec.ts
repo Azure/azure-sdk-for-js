@@ -3,7 +3,7 @@
 
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { handleOidcResponse } from "../../../src/credentials/azurePipelinesCredential.js";
+import { handleOidcResponse } from "$internal/credentials/azurePipelinesCredential.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
 describe("AzurePipelinesCredential (internal)", function () {

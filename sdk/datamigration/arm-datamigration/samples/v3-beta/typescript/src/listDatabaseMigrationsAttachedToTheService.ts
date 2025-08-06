@@ -21,9 +21,9 @@ async function listDatabaseMigrationsAttachedToTheService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.sqlMigrationServices.listMigrations(
+  for await (const item of client.sqlMigrationServices.listMigrations(
     resourceGroupName,
-    sqlMigrationServiceName
+    sqlMigrationServiceName,
   )) {
     resArray.push(item);
   }

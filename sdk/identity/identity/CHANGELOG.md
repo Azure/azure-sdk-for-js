@@ -1,6 +1,6 @@
 # Release History
 
-## 4.11.0-beta.2 (Unreleased)
+## 4.11.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,21 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.11.1 (2025-08-05)
+
+### Bugs Fixed
+
+- Fixed an issue in which `AzurePowerShellCredential` command is not parsed correctly. [#35469](https://github.com/Azure/azure-sdk-for-js/pull/35469)
+
+## 4.11.0 (2025-08-05)
+
+- All the features shipped as part of 4.11.0-beta.1 will be GA with this version. The most important features include single credential selection in `DefaultAzureCredential` via `AZURE_TOKEN_CREDENTIALS` environment variable, broker authentication support through `VisualStudioCodeCredential`, and signed-in Windows account support in `DefaultAzureCredential`.
+
+### Bugs Fixed
+
+- Fixed deprecation warnings in `AzureCliCredential` and `AzureDeveloperCliCredential`. [#34878](https://github.com/Azure/azure-sdk-for-js/pull/34878)
+- Fixed an issue where `InteractiveBrowserCredential` did not resolve correctly on Mac OS. [#35406](https://github.com/Azure/azure-sdk-for-js/pull/35406)
 
 ## 4.11.0-beta.1 (2025-07-17)
 

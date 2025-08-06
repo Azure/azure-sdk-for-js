@@ -142,6 +142,8 @@ export interface IdentityUpdate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
+  /** Enum to configure regional restrictions on identity assignment, as necessary. */
+  isolationScope?: IsolationScope;
 }
 
 /** Describes a system assigned identity resource. */
@@ -199,6 +201,8 @@ export interface Identity extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
+  /** Enum to configure regional restrictions on identity assignment, as necessary. */
+  isolationScope?: IsolationScope;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -210,7 +214,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -224,6 +228,24 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link IsolationScope} that the service accepts. */
+export enum KnownIsolationScope {
+  /** None */
+  None = "None",
+  /** Regional */
+  Regional = "Regional",
+}
+
+/**
+ * Defines values for IsolationScope. \
+ * {@link KnownIsolationScope} can be used interchangeably with IsolationScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Regional**
+ */
+export type IsolationScope = string;
 
 /** Optional parameters. */
 export interface SystemAssignedIdentitiesGetByScopeOptionalParams
@@ -251,14 +273,16 @@ export interface UserAssignedIdentitiesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type UserAssignedIdentitiesListBySubscriptionResponse = UserAssignedIdentitiesListResult;
+export type UserAssignedIdentitiesListBySubscriptionResponse =
+  UserAssignedIdentitiesListResult;
 
 /** Optional parameters. */
 export interface UserAssignedIdentitiesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type UserAssignedIdentitiesListByResourceGroupResponse = UserAssignedIdentitiesListResult;
+export type UserAssignedIdentitiesListByResourceGroupResponse =
+  UserAssignedIdentitiesListResult;
 
 /** Optional parameters. */
 export interface UserAssignedIdentitiesCreateOrUpdateOptionalParams
@@ -290,14 +314,16 @@ export interface UserAssignedIdentitiesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type UserAssignedIdentitiesListBySubscriptionNextResponse = UserAssignedIdentitiesListResult;
+export type UserAssignedIdentitiesListBySubscriptionNextResponse =
+  UserAssignedIdentitiesListResult;
 
 /** Optional parameters. */
 export interface UserAssignedIdentitiesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type UserAssignedIdentitiesListByResourceGroupNextResponse = UserAssignedIdentitiesListResult;
+export type UserAssignedIdentitiesListByResourceGroupNextResponse =
+  UserAssignedIdentitiesListResult;
 
 /** Optional parameters. */
 export interface FederatedIdentityCredentialsListOptionalParams
@@ -309,21 +335,24 @@ export interface FederatedIdentityCredentialsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type FederatedIdentityCredentialsListResponse = FederatedIdentityCredentialsListResult;
+export type FederatedIdentityCredentialsListResponse =
+  FederatedIdentityCredentialsListResult;
 
 /** Optional parameters. */
 export interface FederatedIdentityCredentialsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type FederatedIdentityCredentialsCreateOrUpdateResponse = FederatedIdentityCredential;
+export type FederatedIdentityCredentialsCreateOrUpdateResponse =
+  FederatedIdentityCredential;
 
 /** Optional parameters. */
 export interface FederatedIdentityCredentialsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type FederatedIdentityCredentialsGetResponse = FederatedIdentityCredential;
+export type FederatedIdentityCredentialsGetResponse =
+  FederatedIdentityCredential;
 
 /** Optional parameters. */
 export interface FederatedIdentityCredentialsDeleteOptionalParams
@@ -334,7 +363,8 @@ export interface FederatedIdentityCredentialsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type FederatedIdentityCredentialsListNextResponse = FederatedIdentityCredentialsListResult;
+export type FederatedIdentityCredentialsListNextResponse =
+  FederatedIdentityCredentialsListResult;
 
 /** Optional parameters. */
 export interface ManagedServiceIdentityClientOptionalParams

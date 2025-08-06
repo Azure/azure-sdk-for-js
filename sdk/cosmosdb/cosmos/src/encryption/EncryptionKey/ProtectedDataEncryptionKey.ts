@@ -15,8 +15,6 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
 
   public encryptedValue: Buffer;
 
-  public name: string;
-
   public constructor(
     name: string,
     keyEncryptionKey: KeyEncryptionKey,

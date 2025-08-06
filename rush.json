@@ -546,8 +546,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/monitor-query-logs",
+      "projectFolder": "sdk/monitor/monitor-query-logs",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/monitor-ingestion",
       "projectFolder": "sdk/monitor/monitor-ingestion",
+      "versionPolicyName": "client"
+    },    
+    {
+      "packageName": "@azure/monitor-query-metrics",
+      "projectFolder": "sdk/monitor/monitor-query-metrics",
       "versionPolicyName": "client"
     },
     {
@@ -2448,6 +2458,11 @@
     {
       "packageName": "@azure/arm-resourcesdeployments",
       "projectFolder": "sdk/resources/arm-resourcesdeployments",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagediscovery",
+      "projectFolder": "sdk/storagediscovery/arm-storagediscovery",
       "versionPolicyName": "management"
     }
   ]

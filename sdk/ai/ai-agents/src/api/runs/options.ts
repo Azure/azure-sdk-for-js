@@ -3,6 +3,7 @@
 
 import type {
   ToolDefinitionUnion,
+  ToolResources,
   AgentsResponseFormatOption,
   ThreadMessageOptions,
   TruncationObject,
@@ -64,6 +65,8 @@ export interface RunsCreateRunOptionalParams extends OperationOptions, PollingOp
   additionalMessages?: ThreadMessageOptions[] | null;
   /** The overridden list of enabled tools that the agent should use to run the thread. */
   tools?: ToolDefinitionUnion[] | null;
+  /** The overridden enabled tool resources that the agent should use to run the thread. */
+  toolResources?: ToolResources | null;
   /**
    * If `true`, returns a stream of events that happen during the Run as server-sent events,
    * terminating when the Run enters a terminal state with a `data: [DONE]` message.

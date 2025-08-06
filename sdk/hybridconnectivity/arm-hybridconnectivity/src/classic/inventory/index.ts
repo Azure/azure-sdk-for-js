@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
-import { InventoryResource } from "../../models/models.js";
+import { listBySolutionConfiguration, get } from "../../api/inventory/operations.js";
 import {
   InventoryListBySolutionConfigurationOptionalParams,
   InventoryGetOptionalParams,
 } from "../../api/inventory/options.js";
-import { listBySolutionConfiguration, get } from "../../api/inventory/operations.js";
+import { InventoryResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Inventory operations. */

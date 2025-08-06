@@ -377,8 +377,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("updatePagesFromURL - should fail with source error message", async function () {
+  it("updatePagesFromURL - should fail with source error message", async function () {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 

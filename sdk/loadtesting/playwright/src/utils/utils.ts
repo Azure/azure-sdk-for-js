@@ -28,9 +28,22 @@ export { parseJwt } from "./parseJwt.js";
 
 // const playwrightServiceConfig = new PlaywrightServiceConfig();
 
-export const exitWithFailureMessage = (error: { key: string; message: string }): never => {
+export const exitWithFailureMessage = (
+  error: {
+    key: string;
+    message: string;
+    formatWithErrorDetails?: (errorDetails: string) => string;
+  },
+  errorDetails?: string,
+): never => {
   console.log();
-  console.error(error.message);
+
+  if (error.formatWithErrorDetails && errorDetails) {
+    console.error(error.formatWithErrorDetails(errorDetails));
+  } else {
+    console.error(error.message);
+  }
+
   // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 };
@@ -65,6 +78,14 @@ export const getServiceBaseURL = (): string | undefined => {
   return process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
 };
 
+export const isValidGuid = (guid: string | null | undefined): boolean => {
+  if (!guid) {
+    return false;
+  }
+  const guidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return guidRegex.test(guid);
+};
+
 export const getAndSetRunId = (): string => {
   const runId = randomUUID();
   process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = runId;
@@ -82,6 +103,13 @@ export const validateServiceUrl = (): void => {
   }
 };
 
+export const ValidateRunID = (runID: string): void => {
+  const isValidRunID = isValidGuid(runID);
+  if (!isValidRunID) {
+    const errorMessage = ServiceErrorMessageConstants.INVALID_RUN_ID_FORMAT.message;
+    throw new Error(errorMessage);
+  }
+};
 export const validateMptPAT = (
   validationFailureCallback: (error: { key: string; message: string }) => void,
 ): void => {
@@ -266,5 +294,21 @@ export async function getRunName(ciInfo: CIInfo): Promise<string> {
   } catch (err) {
     coreLogger.error(`Error in getting git commit message: ${err}.`);
     return "";
+  }
+}
+
+export function extractErrorMessage(responseBody: string): string {
+  if (!responseBody) {
+    return "";
+  }
+
+  try {
+    const errorResponse = JSON.parse(responseBody);
+    if (errorResponse.error && errorResponse.error.message) {
+      return errorResponse.error.message;
+    }
+    return responseBody;
+  } catch (e) {
+    return responseBody;
   }
 }

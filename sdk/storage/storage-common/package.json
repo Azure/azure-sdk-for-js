@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "sideEffects": false,
   "author": "Microsoft Corporation",
-  "version": "12.0.0-beta.2",
+  "version": "12.1.0",
   "description": "Azure Storage Common Client Library for JavaScript",
   "license": "MIT",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -65,12 +65,12 @@
     "@vitest/coverage-istanbul": "^3.0.6",
     "eslint": "^9.9.0",
     "playwright": "^1.51.0",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.6"
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the federated identity credential.
  *
  * @summary Gets the federated identity credential.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2023-01-31/examples/FederatedIdentityCredentialGet.json
+ * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2024-11-30/examples/FederatedIdentityCredentialGet.json
  */
 async function federatedIdentityCredentialGet(): Promise<void> {
   const subscriptionId =
@@ -30,13 +28,13 @@ async function federatedIdentityCredentialGet(): Promise<void> {
   const result = await client.federatedIdentityCredentials.get(
     resourceGroupName,
     resourceName,
-    federatedIdentityCredentialResourceName
+    federatedIdentityCredentialResourceName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  federatedIdentityCredentialGet();
+  await federatedIdentityCredentialGet();
 }
 
 main().catch(console.error);

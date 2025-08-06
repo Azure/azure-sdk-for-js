@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.33 ()
+## 1.0.0-beta.33 (2025-08-04)
 
 ### Features Added
 
@@ -19,6 +19,10 @@
 ### Features Added
 
 - Added customer-facing statsbeat preview.
+
+### Features Added
+
+- Add RateLimitedSampler.
 
 ### Other Changes
 

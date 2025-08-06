@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BrokerCredential } from "../../../src/credentials/brokerCredential.js";
-import { DeveloperSignOnClientId } from "../../../src/constants.js";
-import { createMsalClient } from "../../../src/msal/nodeFlows/msalClient.js";
+import { BrokerCredential } from "$internal/credentials/brokerCredential.js";
+import { DeveloperSignOnClientId } from "$internal/constants.js";
+import { createMsalClient } from "$internal/msal/nodeFlows/msalClient.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import type { MockInstance } from "vitest";
 import {
   resolveTenantId,
   resolveAdditionallyAllowedTenantIds,
   processMultiTenantRequest,
-} from "../../../src/util/tenantIdUtils.js";
+} from "$internal/util/tenantIdUtils.js";
 
-vi.mock("../../../src/msal/nodeFlows/msalClient.js", () => ({
+vi.mock("$internal/msal/nodeFlows/msalClient.js", () => ({
   createMsalClient: vi.fn(),
 }));
 
-vi.mock("../../../src/util/tenantIdUtils.js", () => ({
+vi.mock("$internal/util/tenantIdUtils.js", () => ({
   resolveTenantId: vi.fn(),
   resolveAdditionallyAllowedTenantIds: vi.fn(),
   processMultiTenantRequest: vi.fn(),

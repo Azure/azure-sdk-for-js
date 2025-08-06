@@ -8,7 +8,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 import { FileContents } from "./static-helpers/multipartHelpers.js";
 export * from "./models/streamingModels.js";
-export * from "./utils.js";
+export * from "./utils/utils.js";
 export { AgentsClient } from "./agentsClient.js";
 export {
   ToolDefinition,
@@ -22,11 +22,6 @@ export {
   BingGroundingToolDefinition,
   BingGroundingSearchToolParameters,
   BingGroundingSearchConfiguration,
-  MicrosoftFabricToolDefinition,
-  FabricDataAgentToolParameters,
-  ToolConnection,
-  SharepointToolDefinition,
-  SharepointGroundingToolParameters,
   AzureAISearchToolDefinition,
   OpenApiToolDefinition,
   OpenApiFunctionDefinition,
@@ -38,14 +33,8 @@ export {
   OpenApiConnectionSecurityScheme,
   OpenApiManagedAuthDetails,
   OpenApiManagedSecurityScheme,
-  BingCustomSearchToolDefinition,
-  BingCustomSearchToolParameters,
-  BingCustomSearchConfiguration,
   ConnectedAgentToolDefinition,
   ConnectedAgentDetails,
-  DeepResearchToolDefinition,
-  DeepResearchDetails,
-  DeepResearchBingGroundingConnection,
   AzureFunctionToolDefinition,
   AzureFunctionDefinition,
   AzureFunctionBinding,
@@ -153,8 +142,6 @@ export {
   RunStepFunctionToolCall,
   RunStepFunctionToolCallDetails,
   RunStepOpenAPIToolCall,
-  RunStepDeepResearchToolCall,
-  RunStepDeepResearchToolCallDetails,
   RunStepError,
   RunStepErrorCode,
   RunStepCompletionUsage,

@@ -14,7 +14,7 @@
     }
   ],
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "ES2023",
     "moduleResolution": "nodenext",
     "module": "NodeNext"
   }

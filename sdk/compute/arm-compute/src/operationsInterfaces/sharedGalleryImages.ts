@@ -19,7 +19,7 @@ import {
 export interface SharedGalleryImages {
   /**
    * List shared gallery images by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param options The options parameters.
    */
@@ -30,7 +30,7 @@ export interface SharedGalleryImages {
   ): PagedAsyncIterableIterator<SharedGalleryImage>;
   /**
    * Get a shared gallery image by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param galleryImageName The name of the Shared Gallery Image Definition from which the Image
    *                         Versions are to be listed.

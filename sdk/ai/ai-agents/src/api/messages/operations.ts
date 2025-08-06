@@ -38,11 +38,11 @@ export function _updateMessageSend(
   options: MessagesUpdateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages/{messageId}{?api%2Dversion}",
+    "/threads/{threadId}/messages/{messageId}{?api-version}",
     {
       threadId: threadId,
       messageId: messageId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -90,11 +90,11 @@ export function _getMessageSend(
   options: MessagesGetMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages/{messageId}{?api%2Dversion}",
+    "/threads/{threadId}/messages/{messageId}{?api-version}",
     {
       threadId: threadId,
       messageId: messageId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -139,11 +139,11 @@ export function _listMessagesSend(
   options: MessagesListMessagesOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages{?run_id,api%2Dversion,limit,order,after,before}",
+    "/threads/{threadId}/messages{?run_id,api-version,limit,order,after,before}",
     {
       threadId: threadId,
       run_id: options?.runId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -196,10 +196,10 @@ export function _createMessageSend(
   options: MessagesCreateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/messages{?api%2Dversion}",
+    "/threads/{threadId}/messages{?api-version}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
