@@ -625,6 +625,9 @@ importers:
       '@rush-temp/arm-pineconevectordb':
         specifier: file:./projects/arm-pineconevectordb.tgz
         version: file:projects/arm-pineconevectordb.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
+      '@rush-temp/arm-placeholder':
+        specifier: file:./projects/arm-placeholder.tgz
+        version: file:projects/arm-placeholder.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@rush-temp/arm-planetarycomputer':
         specifier: file:./projects/arm-planetarycomputer.tgz
         version: file:projects/arm-planetarycomputer.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
@@ -3345,6 +3348,10 @@ packages:
 
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz':
     resolution: {integrity: sha512-PcdrnKkLKCHC9qvQbo3l3+ehkZeRNI33u07/So8Sy/BFXRYqE9FT1lxNKKEJiiXEWINXr/bQMx09t9t17IT8ng==, tarball: file:projects/arm-pineconevectordb.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-placeholder@file:projects/arm-placeholder.tgz':
+    resolution: {integrity: sha512-cY8Dgzl1cHjQIjL60bcta1ifESzQAqRd4D2i+igNC+oa29OI8WW3ON6MwNots06+apHIgVh6XUZ0F21vicANIw==, tarball: file:projects/arm-placeholder.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-planetarycomputer@file:projects/arm-planetarycomputer.tgz':
@@ -16333,6 +16340,42 @@ snapshots:
       dotenv: 16.6.1
       eslint: 9.32.0
       playwright: 1.54.2
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-placeholder@file:projects/arm-placeholder.tgz(@types/debug@4.1.12)(tsx@4.20.3)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)':
+    dependencies:
+      '@azure/identity': 4.10.2
+      '@types/node': 20.19.9
+      '@vitest/browser': 3.2.4(playwright@1.54.1)(vite@7.0.6(@types/node@20.19.9)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      '@vitest/coverage-istanbul': 3.2.4(vitest@3.2.4)
+      dotenv: 16.6.1
+      eslint: 9.32.0
+      playwright: 1.54.1
       tslib: 2.8.1
       typescript: 5.8.3
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.9)(@vitest/browser@3.2.4)(tsx@4.20.3)(yaml@2.8.0)

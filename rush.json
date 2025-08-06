@@ -2464,6 +2464,11 @@
       "packageName": "@azure/arm-storagediscovery",
       "projectFolder": "sdk/storagediscovery/arm-storagediscovery",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-placeholder",
+      "projectFolder": "sdk/placeholder/arm-placeholder",
+      "versionPolicyName": "management"
     }
   ]
 }
