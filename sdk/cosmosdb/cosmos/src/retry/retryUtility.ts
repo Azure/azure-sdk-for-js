@@ -96,14 +96,15 @@ export async function execute({
           localDiagnosticNode,
           requestContext.resourceType,
           requestContext.operationType,
-          requestContext.options,
           retryContext.retryLocationServerIndex,
+          requestContext.options,
         );
       } else {
         requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
           localDiagnosticNode,
           requestContext.resourceType,
           requestContext.operationType,
+          0,
           requestContext.options,
         );
       }

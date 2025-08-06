@@ -176,9 +176,8 @@ export class GlobalEndpointManager {
     diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
     operationType: OperationType,
-    requestOptions?: RequestOptions,
-    startServiceEndpointIndex: number = 0,
-    // Represents the starting index for selecting servers.
+    startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
+    requestOptions?: RequestOptions, // add to support request-level excluded region(location) overrides
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
 

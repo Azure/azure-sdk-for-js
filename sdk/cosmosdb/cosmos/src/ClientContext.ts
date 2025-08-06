@@ -152,6 +152,7 @@ export class ClientContext {
         diagnosticNode,
         request.resourceType,
         request.operationType,
+        0,
         options,
       );
       const response = await executePlugins(
@@ -367,7 +368,6 @@ export class ClientContext {
         diagnosticNode,
         request.resourceType,
         request.operationType,
-        options,
       );
       const response = await executePlugins(
         diagnosticNode,
@@ -431,7 +431,6 @@ export class ClientContext {
         diagnosticNode,
         request.resourceType,
         request.operationType,
-        options,
       );
       const response = await executePlugins(
         diagnosticNode,
@@ -491,7 +490,6 @@ export class ClientContext {
         diagnosticNode,
         request.resourceType,
         request.operationType,
-        options,
       );
       const response = await executePlugins(
         diagnosticNode,
@@ -598,7 +596,6 @@ export class ClientContext {
         diagnosticNode,
         request.resourceType,
         request.operationType,
-        options,
       );
       const response = await executePlugins(
         diagnosticNode,
@@ -659,7 +656,6 @@ export class ClientContext {
         diagnosticNode,
         request.resourceType,
         request.operationType,
-        options,
       );
       const response = await executePlugins(
         diagnosticNode,
