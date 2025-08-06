@@ -32,7 +32,7 @@ stages:
             displayName: "Install library dependencies"
 
           - script: |
-              pnpm run --filter @azure/eslint-plugin-azure-sdk... build
+              pnpm build --filter @azure/eslint-plugin-azure-sdk...
             displayName: "Build ESLint Plugin"
 
           - script: |
@@ -40,13 +40,13 @@ stages:
             displayName: "Build packages to enable typed checking"
 
           - script: |
-              pnpm run lint
+              pnpm lint
             displayName: "Lint All Packages"
 
           - script: |
-              pnpm run build
+              pnpm build
             displayName: "Build All Packages"
 
           - script: |
-              pnpm run --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --workspace-concurrency=1 test
+              pnpm test --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --workspace-concurrency=1
             displayName: "Run Unit Tests for Selected Packages"

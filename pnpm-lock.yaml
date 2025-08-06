@@ -434,6 +434,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -449,8 +450,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/agrifood/agrifood-farming-rest:
@@ -728,6 +732,7 @@ importers:
         version: 4.10.2
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.33
+        specifier: 1.0.0-beta.33
         version: link:../../monitor/monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: 1.0.0-beta.7
@@ -836,6 +841,7 @@ importers:
         specifier: ^4.3.0
         version: 4.10.2
       '@azure/monitor-opentelemetry':
+        specifier: ^1.12.0
         specifier: ^1.12.0
         version: link:../../monitor/monitor-opentelemetry
       '@azure/opentelemetry-instrumentation-azure-sdk':
@@ -7172,6 +7178,9 @@ importers:
       '@azure-rest/core-client':
         specifier: ^2.3.1
         version: link:../../core/core-client-rest
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
@@ -7181,9 +7190,18 @@ importers:
       '@azure/core-lro':
         specifier: ^3.1.0
         version: link:../../core/core-lro
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       '@azure/core-util':
         specifier: ^1.12.0
         version: link:../../core/core-util
@@ -7209,7 +7227,12 @@ importers:
       '@azure/eslint-plugin-azure-sdk':
         specifier: ^3.0.0
         version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: ^3.0.0
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
+        specifier: ^4.9.0
+        version: link:../../identity/identity
         specifier: ^4.9.0
         version: link:../../identity/identity
       '@types/node':
@@ -7227,7 +7250,11 @@ importers:
       eslint:
         specifier: ^9.9.0
         version: 9.27.0
+      eslint:
+        specifier: ^9.9.0
+        version: 9.27.0
       playwright:
+        specifier: ^1.52.0
         specifier: ^1.52.0
         version: 1.52.0
       typescript:
@@ -7288,6 +7315,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -7303,8 +7331,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/databoundaries/arm-databoundaries:
@@ -8614,6 +8645,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -8629,8 +8661,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/deviceupdate/arm-deviceupdate:
@@ -10339,6 +10374,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -10351,8 +10387,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid:
@@ -12259,11 +12298,14 @@ importers:
         version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: ^1.20.0
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-util':
         specifier: ^1.12.0
+        specifier: ^1.12.0
         version: link:../../core/core-util
       '@azure/logger':
+        specifier: ^1.2.0
         specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
@@ -12288,11 +12330,14 @@ importers:
       '@azure/identity':
         specifier: ^4.9.0
         version: link:../../identity/identity
+        specifier: ^4.9.0
+        version: link:../../identity/identity
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.1
       '@vitest/browser':
         specifier: ^3.0.9
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
@@ -12305,12 +12350,16 @@ importers:
         version: 9.27.0
       playwright:
         specifier: ^1.52.0
+        specifier: ^1.52.0
         version: 1.52.0
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/hybridcontainerservice/arm-hybridcontainerservice:
@@ -12425,6 +12474,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -12437,8 +12487,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/hybridnetwork/arm-hybridnetwork:
@@ -12760,6 +12813,8 @@ importers:
       '@azure/identity':
         specifier: ^4.11.0
         version: link:../identity
+        specifier: ^4.11.0
+        version: link:../identity
       '@azure/msal-node':
         specifier: ^3.2.2
         version: 3.5.3
@@ -12928,6 +12983,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -12943,8 +12999,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/informatica/arm-informaticadatamanagement:
@@ -14504,6 +14563,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -14516,8 +14576,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/labservices/arm-labservices:
@@ -17000,6 +17063,7 @@ importers:
     dependencies:
       '@azure-rest/core-client':
         specifier: ^2.3.1
+        specifier: ^2.3.1
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
@@ -17039,6 +17103,8 @@ importers:
         specifier: ^3.0.0
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
+        specifier: ^4.9.0
+        version: link:../../identity/identity
         specifier: ^4.9.0
         version: link:../../identity/identity
       '@types/node':
@@ -17402,6 +17468,7 @@ importers:
         version: link:../../core/logger
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.33
+        specifier: 1.0.0-beta.33
         version: link:../monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0-beta.7
@@ -17607,6 +17674,7 @@ importers:
         specifier: ^1.0.0
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
+        specifier: ^1.12.0
         specifier: ^1.12.0
         version: link:../monitor-opentelemetry
       '@opentelemetry/api':
@@ -18679,6 +18747,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -18691,8 +18760,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/notificationhubs/arm-notificationhubs:
@@ -19523,6 +19595,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -19538,8 +19611,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/planetarycomputer/arm-planetarycomputer:
@@ -19892,6 +19968,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -19904,8 +19981,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/policy/arm-policy-profile-2020-09-01-hybrid:
@@ -20014,6 +20094,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -20026,8 +20107,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/portal/arm-portal:
@@ -21181,6 +21265,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -21193,8 +21278,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/recoveryservices/arm-recoveryservices:
@@ -21577,6 +21665,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.9
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.9
         version: 3.2.3(vitest@3.2.3)
@@ -21589,8 +21678,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.9
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/redisenterprise/arm-redisenterprisecache:
@@ -24543,6 +24635,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-common':
         specifier: ^12.1.0
+        specifier: ^12.1.0
         version: link:../storage-common
       events:
         specifier: ^3.0.0
@@ -24758,6 +24851,7 @@ importers:
       '@vitest/browser':
         specifier: ^3.0.6
         version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
+        version: 3.2.3(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(playwright@1.52.0)(vite@6.3.5(@types/node@20.19.1)(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.3)
       '@vitest/coverage-istanbul':
         specifier: ^3.0.6
         version: 3.2.3(vitest@3.2.3)
@@ -24770,8 +24864,11 @@ importers:
       typescript:
         specifier: ~5.8.2
         version: 5.8.3
+        specifier: ~5.8.2
+        version: 5.8.3
       vitest:
         specifier: ^3.0.6
+        version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
         version: 3.2.3(@types/debug@4.1.12)(@types/node@20.19.1)(@vitest/browser@3.2.3)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.1)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.3)(yaml@2.8.0)
 
   sdk/storage/storage-file-datalake:
@@ -24808,8 +24905,10 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.29.0
+        specifier: ^12.29.0
         version: link:../storage-blob
       '@azure/storage-common':
+        specifier: ^12.1.0
         specifier: ^12.1.0
         version: link:../storage-common
       events:
@@ -24929,6 +25028,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
+        specifier: ^12.1.0
         specifier: ^12.1.0
         version: link:../storage-common
       events:
@@ -25100,6 +25200,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
+        specifier: ^12.1.0
         specifier: ^12.1.0
         version: link:../storage-common
       tslib:
