@@ -139,7 +139,6 @@ export class GlobalEndpointManager {
     requestOptions: RequestOptions | undefined,
     resourceType: ResourceType,
   ): Set<string> {
-    console.log("getEffectiveExcludedLocations", requestOptions, resourceType);
     if (!canApplyExcludedLocations(resourceType)) {
       return new Set<string>();
     }
@@ -153,20 +152,24 @@ export class GlobalEndpointManager {
       return this.clientLevelExcludedLocations;
     }
 
+    if (requestOptions.excludedLocations.length === 0) {
+      return new Set<string>();
+    }
+
     return new Set(requestOptions.excludedLocations.map((loc) => normalizeEndpoint(loc)));
   }
 
   private filterExcludedLocations(
-    locations: Location[],
+    preferredLocations: string[],
     excludedLocations?: Set<string>,
-  ): Location[] {
+  ): string[] {
     if (excludedLocations.size === 0) {
-      return locations;
+      return preferredLocations;
     }
-    const filteredLocations = locations.filter(
-      (location) => !excludedLocations.has(normalizeEndpoint(location.name)),
+    const filteredLocations = preferredLocations.filter(
+      (location) => !excludedLocations.has(normalizeEndpoint(location)),
     );
-    return filteredLocations.length > 0 ? filteredLocations : locations;
+    return filteredLocations.length > 0 ? filteredLocations : preferredLocations;
   }
 
   public async resolveServiceEndpoint(
@@ -215,24 +218,27 @@ export class GlobalEndpointManager {
     const excludedLocations = this.getEffectiveExcludedLocations(requestOptions, resourceType);
 
     // Filter locations based on exclusions
-    const availableLocations = this.filterExcludedLocations(locations, excludedLocations);
+    const availableLocations = this.filterExcludedLocations(
+      this.preferredLocations,
+      excludedLocations,
+    );
+
+    this.preferredLocationsCount = availableLocations.length;
 
     let location;
     // If we have preferred locations, try each one in order and use the first available one
     if (
-      this.preferredLocations &&
-      this.preferredLocations.length > 0 &&
-      startServiceEndpointIndex < this.preferredLocations.length
+      availableLocations &&
+      availableLocations.length > 0 &&
+      startServiceEndpointIndex < availableLocations.length
     ) {
-      for (let i = startServiceEndpointIndex; i < this.preferredLocations.length; i++) {
-        const preferredLocation = this.preferredLocations[i];
-        if (!excludedLocations.has(normalizeEndpoint(preferredLocation))) {
-          location = availableLocations.find(
-            (loc) =>
-              loc.unavailable !== true &&
-              normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
-          );
-        }
+      for (let i = startServiceEndpointIndex; i < availableLocations.length; i++) {
+        const preferredLocation = availableLocations[i];
+        location = locations.find(
+          (loc) =>
+            loc.unavailable !== true &&
+            normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
+        );
         if (location) {
           break;
         }

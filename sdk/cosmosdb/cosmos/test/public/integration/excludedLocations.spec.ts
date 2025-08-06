@@ -7,6 +7,7 @@ import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
 import { PluginOn } from "../../../src/index.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
+import { StatusCodes } from "../../../src/common/statusCodes.js";
 
 const endpoint = "https://excludedregiontest.documents.azure.com/";
 
@@ -140,20 +141,49 @@ const readPartitionKeyRangesResponse = {
   diagnostics: getEmptyCosmosDiagnostics(),
 };
 
+const ServiceUnavailableResponse = {
+  code: StatusCodes.ServiceUnavailable,
+  result: {},
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
+const TimeoutResponse = {
+  code: "TimeoutError",
+  result: {},
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
+const SuccessResponse = {
+  code: StatusCodes.Created,
+  result: {},
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
+const SuccessReadResponse = {
+  code: StatusCodes.Ok,
+  result: {},
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
 describe("Excluded Region tests", { timeout: 30000 }, () => {
-  it("Client-level excludedLocations should be honoured if request-level is not set", async () => {
+  it("Client-level excludedLocations with East US excluded", async () => {
     let requestIndex = 0;
     let lastEndpointCalled = "";
     const responses = [
       databaseAccountResponse,
-      collectionResponse,
-      readPartitionKeyRangesResponse,
-      {
-        code: 201,
-        result: { id: "item2", _partitionKey: "cat2" },
-        headers: {},
-        diagnostics: getEmptyCosmosDiagnostics(),
-      }, // upsert
+
+      SuccessReadResponse,
+
+      ServiceUnavailableResponse,
+      SuccessReadResponse,
+
+      TimeoutResponse,
+      TimeoutResponse,
+      SuccessReadResponse,
     ];
     const options: CosmosClientOptions = {
       endpoint,
@@ -173,7 +203,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
             lastEndpointCalled = context.endpoint;
           }
           requestIndex++;
-          if (response.code > 400) {
+          if (response.code === "TimeoutError" || response.code > 400) {
             throw response;
           }
           return response;
@@ -184,19 +214,109 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
       ...options,
       plugins,
     } as any);
-    // No request-level excludedLocations, so client-level exclusion applies
     const writeEndpoint = await client.getWriteEndpoint();
     assert.equal(
       writeEndpoint,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
       "Should use client-level excluded region",
     );
-    await client.database("foo").container("foo").items.upsert({ id: "foo", _partitionKey: "bar" });
+
+    await client.database("foo").container("foo").item("id", "sample1").read();
+    assert.equal(
+      lastEndpointCalled,
+      "https://excludedregiontest-australiaeast.documents.azure.com:443/",
+      "Should use client-level excluded region",
+    );
+
+    await client.database("foo").container("foo").item("id", "sample1").read();
+    assert.equal(
+      lastEndpointCalled,
+      "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Should use client-level excluded region",
+    );
+
+    await client.database("foo").container("foo").item("id", "sample1").read();
+    assert.equal(
+      lastEndpointCalled,
+      "https://excludedregiontest-australiaeast.documents.azure.com:443/",
+      "Should use client-level excluded region",
+    );
+
+    client.dispose();
+  });
+
+  it("Client-level excludedLocations with Australia East excluded", async () => {
+    let requestIndex = 0;
+    let lastEndpointCalled = "";
+    const responses = [
+      databaseAccountResponse,
+
+      SuccessReadResponse,
+
+      ServiceUnavailableResponse,
+      SuccessReadResponse,
+
+      TimeoutResponse,
+      TimeoutResponse,
+      SuccessReadResponse,
+    ];
+    const options: CosmosClientOptions = {
+      endpoint,
+      key: masterKey,
+      connectionPolicy: {
+        preferredLocations: ["East US", "Australia East", "West US"],
+        excludedLocations: ["Australia East"],
+      },
+    };
+    const plugins: PluginConfig[] = [
+      {
+        on: PluginOn.request,
+        plugin: async (context, diagNode) => {
+          assert.isDefined(diagNode, "DiagnosticsNode should not be undefined or null");
+          const response = responses[requestIndex];
+          if (context.endpoint) {
+            lastEndpointCalled = context.endpoint;
+          }
+          requestIndex++;
+          if (response.code === "TimeoutError" || response.code > 400) {
+            throw response;
+          }
+          return response;
+        },
+      },
+    ];
+    const client = new CosmosClient({
+      ...options,
+      plugins,
+    } as any);
+    const writeEndpoint = await client.getWriteEndpoint();
+    assert.equal(
+      writeEndpoint,
+      "https://excludedregiontest-eastus.documents.azure.com:443/",
+      "Should use client-level excluded region",
+    );
+
+    await client.database("foo").container("foo").item("id", "sample1").read();
     assert.equal(
       lastEndpointCalled,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
       "Should use client-level excluded region",
     );
+
+    await client.database("foo").container("foo").item("id", "sample1").read();
+    assert.equal(
+      lastEndpointCalled,
+      "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Should use client-level excluded region",
+    );
+
+    await client.database("foo").container("foo").item("id", "sample1").read();
+    assert.equal(
+      lastEndpointCalled,
+      "https://excludedregiontest-eastus.documents.azure.com:443/",
+      "Should use client-level excluded region",
+    );
+
     client.dispose();
   });
 
@@ -205,14 +325,15 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     let lastEndpointCalled = "";
     const responses = [
       databaseAccountResponse,
-      collectionResponse,
-      readPartitionKeyRangesResponse,
-      {
-        code: 201,
-        result: { id: "item4", _partitionKey: "cat4" },
-        headers: {},
-        diagnostics: getEmptyCosmosDiagnostics(),
-      }, // upsert
+
+      SuccessReadResponse,
+
+      ServiceUnavailableResponse,
+      SuccessReadResponse,
+
+      TimeoutResponse,
+      TimeoutResponse,
+      SuccessReadResponse,
     ];
     const options: CosmosClientOptions = {
       endpoint,
@@ -243,24 +364,52 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
       ...options,
       plugins,
     } as any);
-    // Exclude "Australia East" at request level, so "East US" should be used
     const writeEndpoint = await client.getWriteEndpoint();
     assert.equal(
       writeEndpoint,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
-      "Should use client-level excluded region",
+      "Should use request-level excluded region",
     );
+
     await client
       .database("foo")
       .container("foo")
-      .items.upsert({ id: "foo", _partitionKey: "bar" }, {
-        excludedLocations: ["East US", "Australia East"],
+      .item("id", "sample1")
+      .read({
+        excludedLocations: ["Australia East"],
       } as any);
     assert.equal(
       lastEndpointCalled,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
       "Should use request-level excluded region",
     );
+
+    await client
+      .database("foo")
+      .container("foo")
+      .item("id", "sample1")
+      .read({
+        excludedLocations: ["Australia East"],
+      } as any);
+    assert.equal(
+      lastEndpointCalled,
+      "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Should use request-level excluded region",
+    );
+
+    await client
+      .database("foo")
+      .container("foo")
+      .item("id", "sample1")
+      .read({
+        excludedLocations: ["Australia East"],
+      } as any);
+    assert.equal(
+      lastEndpointCalled,
+      "https://excludedregiontest-eastus.documents.azure.com:443/",
+      "Should use request-level excluded region",
+    );
+
     client.dispose();
   });
 });
