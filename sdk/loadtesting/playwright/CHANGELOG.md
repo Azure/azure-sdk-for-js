@@ -1,14 +1,15 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2025-08-06)
 
 ### Features Added
 
-### Breaking Changes
+- Added Support for activity log.
 
 ### Bugs Fixed
 
-### Other Changes
+- Updated all README documents for better clarity and accuracy.
+- Improved error handling.
 
 ## 1.0.0-beta.1 (2025-06-30)
 

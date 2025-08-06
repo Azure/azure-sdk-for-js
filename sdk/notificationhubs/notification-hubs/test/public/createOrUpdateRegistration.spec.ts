@@ -21,7 +21,6 @@ describe("createRegistrationId()", () => {
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
-    await recorder.setMatcher("BodilessMatcher");
     context = await createRecordedClientContext(recorder);
 
     registrationId = await createRegistrationId(context);

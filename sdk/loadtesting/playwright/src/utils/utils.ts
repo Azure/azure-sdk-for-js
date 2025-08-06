@@ -104,8 +104,10 @@ export const validateServiceUrl = (): void => {
 };
 
 export const ValidateRunID = (runID: string): void => {
-  if (!isValidGuid(runID)) {
-    exitWithFailureMessage(ServiceErrorMessageConstants.INVALID_RUN_ID_FORMAT);
+  const isValidRunID = isValidGuid(runID);
+  if (!isValidRunID) {
+    const errorMessage = ServiceErrorMessageConstants.INVALID_RUN_ID_FORMAT.message;
+    throw new Error(errorMessage);
   }
 };
 export const validateMptPAT = (
