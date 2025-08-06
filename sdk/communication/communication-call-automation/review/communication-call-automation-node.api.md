@@ -1712,6 +1712,7 @@ export interface TranscriptionMetadata {
     correlationId: string;
     enableSentimentAnalysis: boolean;
     locale: string;
+    locales: string[];
     piiRedactionOptions?: PiiRedactionOptions;
     speechRecognitionModelEndpointId: string;
     subscriptionId: string;
