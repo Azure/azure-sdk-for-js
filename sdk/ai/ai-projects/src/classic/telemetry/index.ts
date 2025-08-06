@@ -12,7 +12,8 @@ export interface TelemetryOperations {
 function _getTelemetry(connections: ConnectionsOperations): TelemetryOperations {
   const telemetryOperations = createTelemetryOperations(connections);
   return {
-    getApplicationInsightsConnectionString: () => telemetryOperations.getApplicationInsightsConnectionString(),
+    getApplicationInsightsConnectionString: () =>
+      telemetryOperations.getApplicationInsightsConnectionString(),
   };
 }
 export function _getTelemetryOperations(connections: ConnectionsOperations): TelemetryOperations {

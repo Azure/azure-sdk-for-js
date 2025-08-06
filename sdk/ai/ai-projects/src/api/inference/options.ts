@@ -24,4 +24,4 @@ export interface AzureOpenAIClientOptions {
 }
 
 /** Options for getting the Azure OpenAI client. */
-export interface GetAzureOpenAIClientOptions extends AzureOpenAIClientOptions { }
+export interface GetAzureOpenAIClientOptions extends AzureOpenAIClientOptions {}

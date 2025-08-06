@@ -30,13 +30,13 @@ export async function main(): Promise<void> {
   });
   const response = await tracer.startActiveSpan("chatCompletions", async (span) => {
     const res = await client.chat.completions.create({
-        model: deploymentName,
-        messages: [
-          {
-            role: "system",
-            content: "You are a helpful assistant. You will talk like a pirate.",
-          }, // System role not supported for some models
-          { role: "user", content: "How many feet are in a mile?" },
+      model: deploymentName,
+      messages: [
+        {
+          role: "system",
+          content: "You are a helpful assistant. You will talk like a pirate.",
+        }, // System role not supported for some models
+        { role: "user", content: "How many feet are in a mile?" },
       ],
     });
     span.end();
