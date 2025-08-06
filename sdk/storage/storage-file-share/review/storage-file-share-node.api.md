@@ -537,12 +537,13 @@ export interface FileCreateHeaders {
 // @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
-    body?: HttpRequestBody;
+    content?: HttpRequestBody;
     contentLength?: number;
     contentMD5?: Uint8Array;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
+    onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 // @public
