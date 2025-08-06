@@ -15,21 +15,20 @@ pnpm create @azure/playwright
 ```
 
 ## Useful Links
-- [Quickstart: Run end-to-end tests at scale](https://aka.ms/mpt/quickstart)
-- [Quickstart: Set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/mpt/ci)
-- [Explore features and benefits](https://aka.ms/mpt/about)
-- [View Azure Playwright service demo](https://youtu.be/GenC1jAeTZE)
-- [Documentation](https://aka.ms/mpt/docs) 
-- [Pricing](https://aka.ms/mpt/pricing)
-- [Share feedback](https://aka.ms/mpt/feedback)
+- [Quickstart: Run end-to-end tests at scale](https://aka.ms/pww/docs/quickstart)
+- [Quickstart: Set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/pww/docs/ci)
+- [Explore features and benefits](https://aka.ms/pww/docs/about)
+- [Documentation](https://aka.ms/pww/docs) 
+- [Pricing](https://aka.ms/pww/docs/pricing)
+- [Share feedback](https://aka.ms/pww/docs/feedback)
 
 ## Next steps
 
-- Run tests in a [CI/CD pipeline.](https://aka.ms/mpt/configure-pipeline)
+- Run tests in a [CI/CD pipeline.](https://aka.ms/pww/docs/configure-pipeline)
 
-- Learn how to [manage access](https://aka.ms/mpt/manage-access) to the created workspace.
+- Learn how to [manage access](https://aka.ms/pww/docs/manage-access) to the created workspace.
 
-- Experiment with different number of workers to [determine the optimal configuration of your test suite](https://aka.ms/mpt/parallelism).
+- Experiment with different number of workers to [determine the optimal configuration of your test suite](https://aka.ms/pww/docs/parallelism).
 
 ## Contributing
 

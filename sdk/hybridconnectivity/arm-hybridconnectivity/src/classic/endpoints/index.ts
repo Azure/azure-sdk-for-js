@@ -3,12 +3,15 @@
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
-  EndpointResource,
-  EndpointAccessResource,
-  IngressGatewayResource,
-  ManagedProxyRequest,
-  ManagedProxyResource,
-} from "../../models/models.js";
+  listManagedProxyDetails,
+  listIngressGatewayCredentials,
+  listCredentials,
+  list,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/endpoints/operations.js";
 import {
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListIngressGatewayCredentialsOptionalParams,
@@ -20,15 +23,12 @@ import {
   EndpointsGetOptionalParams,
 } from "../../api/endpoints/options.js";
 import {
-  listManagedProxyDetails,
-  listIngressGatewayCredentials,
-  listCredentials,
-  list,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/endpoints/operations.js";
+  EndpointResource,
+  EndpointAccessResource,
+  IngressGatewayResource,
+  ManagedProxyRequest,
+  ManagedProxyResource,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Endpoints operations. */

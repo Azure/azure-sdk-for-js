@@ -28,7 +28,7 @@ export function createMongoClusterManagement(
   subscriptionId: string,
   options: MongoClusterManagementClientOptionalParams = {},
 ): MongoClusterManagementContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl = options.endpoint ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-mongocluster/1.1.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -44,7 +44,7 @@ export function createMongoClusterManagement(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-04-01-preview";
+  const apiVersion = options.apiVersion ?? "2025-07-01-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

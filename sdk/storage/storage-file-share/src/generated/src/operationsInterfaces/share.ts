@@ -41,7 +41,7 @@ import {
   ShareGetStatisticsOptionalParams,
   ShareGetStatisticsResponse,
   ShareRestoreOptionalParams,
-  ShareRestoreResponse
+  ShareRestoreResponse,
 } from "../models/index.js";
 
 /** Interface representing a Share. */
@@ -58,7 +58,7 @@ export interface Share {
    * @param options The options parameters.
    */
   getProperties(
-    options?: ShareGetPropertiesOptionalParams
+    options?: ShareGetPropertiesOptionalParams,
   ): Promise<ShareGetPropertiesResponse>;
   /**
    * Operation marks the specified share or share snapshot for deletion. The share or share snapshot and
@@ -72,7 +72,7 @@ export interface Share {
    * @param options The options parameters.
    */
   acquireLease(
-    options?: ShareAcquireLeaseOptionalParams
+    options?: ShareAcquireLeaseOptionalParams,
   ): Promise<ShareAcquireLeaseResponse>;
   /**
    * The Lease Share operation establishes and manages a lock on a share, or the specified snapshot for
@@ -82,7 +82,7 @@ export interface Share {
    */
   releaseLease(
     leaseId: string,
-    options?: ShareReleaseLeaseOptionalParams
+    options?: ShareReleaseLeaseOptionalParams,
   ): Promise<ShareReleaseLeaseResponse>;
   /**
    * The Lease Share operation establishes and manages a lock on a share, or the specified snapshot for
@@ -92,7 +92,7 @@ export interface Share {
    */
   changeLease(
     leaseId: string,
-    options?: ShareChangeLeaseOptionalParams
+    options?: ShareChangeLeaseOptionalParams,
   ): Promise<ShareChangeLeaseResponse>;
   /**
    * The Lease Share operation establishes and manages a lock on a share, or the specified snapshot for
@@ -102,7 +102,7 @@ export interface Share {
    */
   renewLease(
     leaseId: string,
-    options?: ShareRenewLeaseOptionalParams
+    options?: ShareRenewLeaseOptionalParams,
   ): Promise<ShareRenewLeaseResponse>;
   /**
    * The Lease Share operation establishes and manages a lock on a share, or the specified snapshot for
@@ -110,14 +110,14 @@ export interface Share {
    * @param options The options parameters.
    */
   breakLease(
-    options?: ShareBreakLeaseOptionalParams
+    options?: ShareBreakLeaseOptionalParams,
   ): Promise<ShareBreakLeaseResponse>;
   /**
    * Creates a read-only snapshot of a share.
    * @param options The options parameters.
    */
   createSnapshot(
-    options?: ShareCreateSnapshotOptionalParams
+    options?: ShareCreateSnapshotOptionalParams,
   ): Promise<ShareCreateSnapshotResponse>;
   /**
    * Create a permission (a security descriptor).
@@ -126,7 +126,7 @@ export interface Share {
    */
   createPermission(
     sharePermission: SharePermission,
-    options?: ShareCreatePermissionOptionalParams
+    options?: ShareCreatePermissionOptionalParams,
   ): Promise<ShareCreatePermissionResponse>;
   /**
    * Returns the permission (security descriptor) for a given key
@@ -135,42 +135,42 @@ export interface Share {
    */
   getPermission(
     filePermissionKey: string,
-    options?: ShareGetPermissionOptionalParams
+    options?: ShareGetPermissionOptionalParams,
   ): Promise<ShareGetPermissionResponse>;
   /**
    * Sets properties for the specified share.
    * @param options The options parameters.
    */
   setProperties(
-    options?: ShareSetPropertiesOptionalParams
+    options?: ShareSetPropertiesOptionalParams,
   ): Promise<ShareSetPropertiesResponse>;
   /**
    * Sets one or more user-defined name-value pairs for the specified share.
    * @param options The options parameters.
    */
   setMetadata(
-    options?: ShareSetMetadataOptionalParams
+    options?: ShareSetMetadataOptionalParams,
   ): Promise<ShareSetMetadataResponse>;
   /**
    * Returns information about stored access policies specified on the share.
    * @param options The options parameters.
    */
   getAccessPolicy(
-    options?: ShareGetAccessPolicyOptionalParams
+    options?: ShareGetAccessPolicyOptionalParams,
   ): Promise<ShareGetAccessPolicyResponse>;
   /**
    * Sets a stored access policy for use with shared access signatures.
    * @param options The options parameters.
    */
   setAccessPolicy(
-    options?: ShareSetAccessPolicyOptionalParams
+    options?: ShareSetAccessPolicyOptionalParams,
   ): Promise<ShareSetAccessPolicyResponse>;
   /**
    * Retrieves statistics related to the share.
    * @param options The options parameters.
    */
   getStatistics(
-    options?: ShareGetStatisticsOptionalParams
+    options?: ShareGetStatisticsOptionalParams,
   ): Promise<ShareGetStatisticsResponse>;
   /**
    * Restores a previously deleted Share.
