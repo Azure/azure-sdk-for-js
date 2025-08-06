@@ -22,3 +22,6 @@ export interface AzureOpenAIClientOptions {
   /** The connection secret options to use for the Azure OpenAI client. */
   connectionSecretOptions?: ConnectionsGetWithCredentialsOptionalParams;
 }
+
+/** Options for getting the Azure OpenAI client. */
+export interface GetAzureOpenAIClientOptions extends AzureOpenAIClientOptions { }

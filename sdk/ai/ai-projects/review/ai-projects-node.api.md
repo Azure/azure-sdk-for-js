@@ -19,7 +19,7 @@ export class AIProjectClient {
     readonly datasets: DatasetsOperations;
     readonly deployments: DeploymentsOperations;
     static fromEndpoint(endpoint: string, credential: TokenCredential, options?: AIProjectClientOptionalParams): AIProjectClient;
-    getAzureOpenAIClient(options?: AzureOpenAIClientOptions): Promise<AzureOpenAI>;
+    getAzureOpenAIClient(options?: GetAzureOpenAIClientOptions): Promise<AzureOpenAI>;
     getEndpointUrl(): string;
     readonly indexes: IndexesOperations;
     readonly pipeline: Pipeline;
@@ -262,6 +262,10 @@ export interface FileDatasetVersion extends DatasetVersion {
 // @public
 export interface FolderDatasetVersion extends DatasetVersion {
     type: "uri_folder";
+}
+
+// @public
+export interface GetAzureOpenAIClientOptions extends AzureOpenAIClientOptions {
 }
 
 // @public

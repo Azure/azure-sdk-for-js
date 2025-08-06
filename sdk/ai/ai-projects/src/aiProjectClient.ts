@@ -11,7 +11,7 @@ import { DatasetsOperations, _getDatasetsOperations } from "./classic/datasets/i
 import { ConnectionsOperations, _getConnectionsOperations } from "./classic/connections/index.js";
 import { InferenceOperations, _getInferenceOperations } from "./classic/inference/index.js";
 import { TelemetryOperations, _getTelemetryOperations } from "./classic/telemetry/index.js";
-import { AzureOpenAIClientOptions } from "./api/inference/options.js";
+import { GetAzureOpenAIClientOptions } from "./api/inference/options.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -30,7 +30,7 @@ export { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
  * @property {IndexesOperations} indexes - The operation groups for indexes
  * @property {DatasetsOperations} datasets - The operation groups for datasets
  * @property {ConnectionsOperations} connections - The operation groups for connections
- * @property {getAzureOpenAIClient} getAzureOpenAIClient - get the Azure OpenAI client for the project
+ * @method {getAzureOpenAIClient} getAzureOpenAIClient - get the Azure OpenAI client for the project
  * @property {TelemetryOperations} telemetry - The operation groups for telemetry
  */
 export class AIProjectClient {
@@ -102,7 +102,7 @@ export class AIProjectClient {
    * Gets the Azure OpenAI client for the project.
    * @returns The Azure OpenAI client for the project.
    */
-  public getAzureOpenAIClient(options?: AzureOpenAIClientOptions): Promise<AzureOpenAI> {
+  public getAzureOpenAIClient(options?: GetAzureOpenAIClientOptions): Promise<AzureOpenAI> {
     return this._inference.azureOpenAI(options);
   }
 
