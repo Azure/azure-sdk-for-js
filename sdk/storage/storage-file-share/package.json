@@ -26,7 +26,7 @@
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "test:node": "dev-tool run test:vitest -- test/fileserviceclient.spec.ts",
+    "test:node": "dev-tool run test:vitest -- test/node/highlevel.node.spec.ts",
     "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
   },
