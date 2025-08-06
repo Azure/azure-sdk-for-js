@@ -3099,7 +3099,7 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
   leaseAccessConditions?: LeaseAccessConditions;
 
   /** Initial data. */
-  body?: HttpRequestBody;
+  content?: HttpRequestBody;
   
   /** An MD5 hash of the content. This hash is used to verify the integrity of the data during transport. When the Content-MD5 header is specified, 
    * the File service compares the hash of the content that has arrived with the header value that was sent. 
@@ -3108,9 +3108,14 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
   contentMD5?: Uint8Array;
   
   /** Specifies the number of bytes being transmitted in the request body. 
-   * When the x-ms-write header is set to clear, the value of this header must be set to zero. 
+   * When the content option is not set, the value of contengLength must be set to zero. 
    */
   contentLength?: number;
+
+  /**
+   * Progress updating event handler.
+   */
+  onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -4124,6 +4129,10 @@ export class ShareFileClient extends StorageClient {
         group: updatedOptions.posixProperties?.group,
         fileMode: toOctalFileMode(updatedOptions.posixProperties?.fileMode),
         nfsFileType: updatedOptions.posixProperties?.fileType,
+        requestOptions: {
+          onUploadProgress: updatedOptions.onProgress,
+        },
+        body: updatedOptions.content,
         ...this.shareClientConfig,
       });
 
