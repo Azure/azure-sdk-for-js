@@ -15,12 +15,10 @@ export const processUtils = {
   execFile(
     file: string,
     params: string[],
-    options?: Omit<childProcess.ExecFileOptionsWithStringEncoding, "shell">,
+    options?: childProcess.ExecFileOptionsWithStringEncoding,
   ): Promise<string | Buffer> {
     return new Promise((resolve, reject) => {
-      const args = [...params];
-      const command = [file, ...args].join(" ");
-      childProcess.exec(command, options, (error, stdout, stderr) => {
+      childProcess.execFile(file, params, options, (error, stdout, stderr) => {
         if (Buffer.isBuffer(stdout)) {
           stdout = stdout.toString("utf8");
         }

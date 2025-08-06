@@ -25,13 +25,13 @@ describe("executeActions", () => {
 
   it("should pass global actions directly to", () => {
     executeActions("purge", [], [], "");
-    assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [[baseDir, "run", "purge"]]);
+    assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [[baseDir, "purge"]]);
   });
 
   it("should run build commands for affected packages", () => {
     executeActions("build", ["appconfiguration"], [], "azure-app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
-      [baseDir, "run", "--filter", "...@azure/app-configuration...", "build"],
+      [baseDir, "build", "--filter", "...@azure/app-configuration..."],
     ]);
   });
 
@@ -41,10 +41,8 @@ describe("executeActions", () => {
     assert.deepEqual(vi.mocked(spawnPnpmRun).mock.calls, [[packageDir, "lint"]]);
   });
 
-  it.only("should run test for those impacted by non-restricted package", () => {
+  it("should run test for those impacted by non-restricted package", () => {
     executeActions("test:node", ["core", "communication"], [], "azure-communication-identity");
-    const packageDir = pathJoin(baseDir, "sdk/appconfiguration/app-configuration");
-    const executeScript = pathJoin(baseDir, "common/scripts/install-run-rush.js");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
       [
         baseDir,
@@ -61,7 +59,6 @@ describe("executeActions", () => {
         "@azure/service-bus",
         "--filter",
         "@azure/template",
-        "--concurrency=1",
       ],
     ]);
   });
@@ -69,7 +66,7 @@ describe("executeActions", () => {
   it("should handle arbitrary run commands", () => {
     executeActions("foo", ["appconfiguration"], [], "azure-app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
-      [baseDir, "run", "--filter", "@azure/app-configuration...", "foo"],
+      [baseDir, "foo", "--filter", "@azure/app-configuration..."],
     ]);
   });
 
@@ -77,7 +74,7 @@ describe("executeActions", () => {
     const runArgs = ["--logLevel", "info"];
     executeActions("build", ["appconfiguration"], runArgs, "azure-app-configuration");
     assert.deepEqual(vi.mocked(spawnPnpm).mock.calls, [
-      [baseDir, "run", "--filter", "...@azure/app-configuration...", "build", ...runArgs],
+      [baseDir, "build", "--filter", "...@azure/app-configuration...", ...runArgs],
     ]);
   });
 

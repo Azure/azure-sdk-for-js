@@ -118,7 +118,7 @@ jobs:
         displayName: "Install library dependencies"
 
       - script: |
-          pnpm run --filter ${{parameters.PackageName}}... build
+          pnpm build --filter ${{parameters.PackageName}}...
         displayName: "Build libraries"
 
       - script: |
@@ -332,7 +332,7 @@ jobs:
       # Retry for 30 seconds, since this command may fail with error.
       - pwsh: |
           for ($i=0; $i -lt 30; $i++) {
-            pnpm run purge
+            pnpm purge
             if ($lastexitcode -eq 0) {
               break
             }

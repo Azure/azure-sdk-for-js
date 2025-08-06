@@ -56,7 +56,7 @@ steps:
   # Retry for 30 seconds.
   - pwsh: |
       for ($i=0; $i -lt 30; $i++) {
-        pnpm run purge
+        pnpm purge
         if ($lastexitcode -eq 0) {
           break
         }
