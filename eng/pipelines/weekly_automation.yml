@@ -52,7 +52,7 @@ jobs:
     displayName: "Install Pnpm"
 
   - script: |
-      pnpm run purge
+      pnpm purge
       git clean -xdf
     displayName: "Reset workspace"
 
