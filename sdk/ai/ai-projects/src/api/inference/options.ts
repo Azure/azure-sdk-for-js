@@ -11,7 +11,7 @@ export interface AzureOpenAIClientOptions {
   /**
    * The Azure OpenAI api-version to use when creating the client.
    *  See "Data plane - Inference" row in the table at
-   *  https://learn.microsoft.com/azure/ai-services/openai/reference#api-specs. If not provided,
+   *  https://learn.microsoft.com/azure/ai-foundry/openai/reference#api-specs. If not provided,
    *  you must set the environment variable `OPENAI_API_VERSION` instead.
    */
   apiVersion?: string;
