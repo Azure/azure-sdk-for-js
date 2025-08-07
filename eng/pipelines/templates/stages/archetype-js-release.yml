@@ -147,12 +147,12 @@ stages:
                           PackageName: ${{ artifact.name }}
 
                       - bash: |
-                          npm install
+                          npm ci
                         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
                         displayName: Install eng-package-utils tool dependencies
 
                       - bash: |
-                          npm install
+                          npm ci
                         workingDirectory: ./eng/tools/versioning
                         displayName: Install versioning tool dependencies
 

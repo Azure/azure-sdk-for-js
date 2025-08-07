@@ -50,7 +50,7 @@ steps:
       ServiceDirectories: $(ChangedServicesCsv)
 
   - script: |
-      npm install
+      npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
     displayName: "Install eng-package-utils dependencies"
 
