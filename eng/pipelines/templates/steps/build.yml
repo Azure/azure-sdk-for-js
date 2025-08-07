@@ -43,7 +43,7 @@ steps:
 
   - script: |
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
-      pnpm install
+      pnpm install --no-frozen-lockfile
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
 

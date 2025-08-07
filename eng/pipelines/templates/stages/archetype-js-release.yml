@@ -165,7 +165,7 @@ stages:
                         displayName: Install Pnpm
 
                       - bash: |
-                          pnpm install
+                          pnpm install --no-frozen-lockfile
                         displayName: "Install dependencies"
 
                       # Disabled until packages can be updated to support ES2019 syntax.
