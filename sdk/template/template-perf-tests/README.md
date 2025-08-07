@@ -1,6 +1,6 @@
 ## Setting up the perf project
 
-1. Build the template perf test project `rush build -t perf-template`.
+1. Build the template perf test project `pnpm build --filter perf-template...`.
 2. Navigate to `cd sdk/template/perf-tests/template`.
 
 ## Environment setup

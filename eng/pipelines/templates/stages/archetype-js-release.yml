@@ -148,6 +148,11 @@ stages:
 
                       - bash: |
                           npm install
+                        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
+                        displayName: Install eng-package-utils tool dependencies
+
+                      - bash: |
+                          npm install
                         workingDirectory: ./eng/tools/versioning
                         displayName: Install versioning tool dependencies
 
@@ -156,7 +161,11 @@ stages:
                         displayName: Increment package version
 
                       - bash: |
-                          node common/scripts/install-run-rush.js install
+                          npm install -g pnpm
+                        displayName: Install Pnpm
+
+                      - bash: |
+                          pnpm install
                         displayName: "Install dependencies"
 
                       # Disabled until packages can be updated to support ES2019 syntax.

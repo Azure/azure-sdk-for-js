@@ -1,10 +1,10 @@
 # Azure Online Experimentation REST client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for Azure Online Experimentation in common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Online Experimentation REST in some common scenarios.
 
-| **File Name**                                                 | **Description**                                                                                      |
-| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| [experimentMetricsManagement.js][experimentmetricsmanagement] | Demonstrates how to manage experiment metrics using the Online Experimentation REST client for Azure. |
+| **File Name**                                                 | **Description**                                                            |
+| ------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [experimentMetricsManagement.js][experimentmetricsmanagement] | Demonstrates the use of a ConfigurationClient to retrieve a setting value. |
 
 ## Prerequisites
 
@@ -40,6 +40,11 @@ Alternatively, run a single sample with the correct environment variables set (s
 npx dev-tool run vendored cross-env AZURE_ONLINEEXPERIMENTATION_ENDPOINT="<azure onlineexperimentation endpoint>" node experimentMetricsManagement.js
 ```
 
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
 [experimentmetricsmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/onlineexperimentation/onlineexperimentation-rest/samples/v1-beta/javascript/experimentMetricsManagement.js
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/onlineexperimentation?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/onlineexperimentation-rest/README.md

@@ -10,7 +10,7 @@ Steps to run this sample:
 
 ```bash
 cd <repo-path>/sdk/identity/identity
-rush build -t @azure/identity
+pnpm build --filter @azure/identity...
 ```
 
 3. Make sure you have an App Registration on your Microsoft Entra ID. This App Registration must:

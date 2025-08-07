@@ -4,43 +4,12 @@
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { resolveProject, resolveRoot } from "../../util/resolveProject";
-import stripJsonComments from "strip-json-comments";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { vendoredWithOptions } from "../run/vendored";
+import { getRushJson, RushJsonProject } from "../../util/synthesizedRushJson";
 
 const log = createPrinter("migrate-tests");
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _rushJson: any = undefined;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function getRushJson(): Promise<any> {
-  if (_rushJson) return _rushJson;
-
-  const rushJsonText = await readFile(resolve(__dirname, "../../../../../../rush.json"), "utf-8");
-
-  return (_rushJson = JSON.parse(stripJsonComments(rushJsonText)));
-}
-
-/**
- * The shape of a rush.json `projects` entry.
- */
-export interface RushJsonProject {
-  /**
-   * The name of the package.
-   */
-  packageName: string;
-  /**
-   * The path to the project, relative to the monorepo root.
-   */
-  projectFolder: string;
-
-  /**
-   * The version policy name.
-   */
-  versionPolicyName: string;
-}
 
 export const commandInfo = makeCommandInfo(
   "migrate-tests",

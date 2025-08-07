@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { leafCommand, makeCommandInfo } from "../../../framework/command";
-import { readFile, readdir } from "node:fs/promises";
+import { readdir } from "node:fs/promises";
 import { resolveRoot } from "../../../util/resolveProject";
 import path from "node:path";
-import stripJsonComments from "strip-json-comments";
+import { getRushJson, type RushJsonProject } from "../../../util/synthesizedRushJson";
 
 export const commandInfo = makeCommandInfo(
   "typespec-migrations",
@@ -17,38 +17,6 @@ export const commandInfo = makeCommandInfo(
     },
   },
 );
-
-let _rushJson: { projects: RushJsonProject[] } | undefined = undefined;
-
-async function getRushJson(): Promise<{ projects: RushJsonProject[] }> {
-  if (_rushJson) return _rushJson;
-
-  const rushJsonText = await readFile(
-    path.resolve(__dirname, "../../../../../../../rush.json"),
-    "utf-8",
-  );
-
-  return (_rushJson = JSON.parse(stripJsonComments(rushJsonText)));
-}
-
-/**
- * The shape of a rush.json `projects` entry.
- */
-export interface RushJsonProject {
-  /**
-   * The name of the package.
-   */
-  packageName: string;
-  /**
-   * The path to the project, relative to the monorepo root.
-   */
-  projectFolder: string;
-
-  /**
-   * The version policy name.
-   */
-  versionPolicyName: string;
-}
 
 /**
  * Recursively checks if a directory contains a tsp-location.yaml file

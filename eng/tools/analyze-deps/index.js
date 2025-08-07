@@ -1,18 +1,24 @@
-const Buffer = require("buffer").Buffer;
-const fs = require("fs");
-const path = require("path");
-const process = require("process");
-const util = require("util");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-const argparse = require("argparse");
-const Handlebars = require("handlebars");
-const jju = require("jju");
-const tar = require("tar");
-const yaml = require("js-yaml");
+// @ts-check
 
-const readdir = util.promisify(fs.readdir);
-const readFile = util.promisify(fs.readFile);
-const writeFile = util.promisify(fs.writeFile);
+import { Buffer } from "node:buffer";
+import { readdir, readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import process from "node:process";
+import util from "node:util";
+import { fileURLToPath } from "node:url";
+
+import argparse from "argparse";
+import Handlebars from "handlebars";
+import json5 from "json5";
+import tar from "tar";
+import yaml from "js-yaml";
+import { getPackageJsons } from "@azure-tools/eng-package-utils";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const appendPackageData = (data, pkgSrc, pkgJson) => {
   data[pkgJson.name] = {
@@ -20,18 +26,18 @@ const appendPackageData = (data, pkgSrc, pkgJson) => {
     ver: pkgJson.version,
     run: pkgJson.dependencies,
     dev: pkgJson.devDependencies,
-    peer: pkgJson.peerDependencies
+    peer: pkgJson.peerDependencies,
   };
 };
 
-const getRushPackages = async (rushPath) => {
-  const baseDir = path.dirname(rushPath);
-  const rushJson = jju.parse(await readFile(rushPath, "utf8"));
+const getRepoPackages = async (workspaceDir) => {
+  const pkgs = await getPackageJsons(workspaceDir);
   const packageData = {};
 
-  for (const proj of rushJson.projects) {
-    const projDir = path.join(baseDir, proj.projectFolder);
-    const packageJson = jju.parse(await readFile(path.join(projDir, "package.json"), "utf8"));
+  for (const projName of Object.keys(pkgs)) {
+    const proj = pkgs[projName];
+    const projDir = path.join(workspaceDir, proj.projectFolder);
+    const packageJson = proj.json;
     appendPackageData(packageData, projDir, packageJson);
   }
 
@@ -57,9 +63,9 @@ const readCompressedFile = async (archivePath, filePath, encoding) => {
             data.push(c);
           });
         }
-      }
+      },
     },
-    [filePath]
+    [filePath],
   );
 
   if (data) {
@@ -76,8 +82,8 @@ const getTarballPackages = async (tarballDir) => {
   for (const file of files) {
     const filePath = path.join(tarballDir, file);
     if (path.extname(filePath).toLowerCase() === ".tgz") {
-      const packageJson = jju.parse(
-        await readCompressedFile(filePath, "package/package.json", "utf8")
+      const packageJson = json5.parse(
+        await readCompressedFile(filePath, "package/package.json", "utf8"),
       );
       appendPackageData(packageData, filePath, packageJson);
     }
@@ -93,7 +99,10 @@ const render = async (context, dest) => {
   context.build_url = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECT}/_build/results?buildId=${process.env.BUILD_BUILDID}`;
   context.commit = process.env.BUILD_SOURCEVERSION;
   context.isfork = process.env.SYSTEM_PULLREQUEST_ISFORK === "True";
-  context.isrelease = process.env.SYSTEM_HOSTTYPE === "release" || process.env.SYSTEM_HOSTTYPE === "deployment" || process.env.RELEASE_RELEASENAME != null;
+  context.isrelease =
+    process.env.SYSTEM_HOSTTYPE === "release" ||
+    process.env.SYSTEM_HOSTTYPE === "deployment" ||
+    process.env.RELEASE_RELEASENAME != null;
   context.rel_url = process.env.RELEASE_RELEASEWEBURL || context.build_url;
   context.release = process.env.RELEASE_RELEASENAME || context.build;
   context.repo = context.isfork ? process.env.BUILD_REPOSITORY_NAME : `Azure/${context.repo_name}`;
@@ -123,21 +132,21 @@ const render = async (context, dest) => {
     sorted: (c) => (typeof c.sort === "function" ? c.sort() : Object.entries(c).sort()),
     sub: (a, b) => a - b,
     title: (s) => new Handlebars.SafeString(s ? s.replace(/\b\S/g, (t) => t.toUpperCase()) : ""),
-    truncate: (s, len) => new Handlebars.SafeString(s.substr(0, len))
+    truncate: (s, len) => new Handlebars.SafeString(s.substr(0, len)),
   });
 
   const template = await readFile("deps.html.hbs", "utf8");
   return writeFile(dest, Handlebars.compile(template)(context));
 };
 
-const appendDependencyData = (dependencies, dep, spec, package, depType) => {
+const appendDependencyData = (dependencies, dep, spec, pkg, depType) => {
   if (!dependencies[dep]) {
     dependencies[dep] = {};
   }
   if (!dependencies[dep][spec]) {
     dependencies[dep][spec] = [];
   }
-  dependencies[dep][spec].push([package, depType]);
+  dependencies[dep][spec].push([pkg, depType]);
 };
 
 const constructDeps = (pkgs) => {
@@ -158,19 +167,17 @@ const constructDeps = (pkgs) => {
   return dependencies;
 };
 
-const dumpRushPackages = (rushPackages, internalPackages, external) => {
+const dumpRepoPackages = (repoPackages, internalPackages, external) => {
   const dumpData = {};
-  for (const [pkgName, pkgInfo] of Object.entries(rushPackages)) {
+  for (const [pkgName, pkgInfo] of Object.entries(repoPackages)) {
     var newDep = [];
     if (external) {
-      newDep = Object.entries(pkgInfo.run || {})
-        .map(([name, version]) => ({ name, version }));
-    }
-    else {
+      newDep = Object.entries(pkgInfo.run || {}).map(([name, version]) => ({ name, version }));
+    } else {
       for (var name in pkgInfo.run) {
         if (internalPackages.includes(name)) {
           version = pkgInfo.run[name];
-          newDep.push({ name, version })
+          newDep.push({ name, version });
         }
       }
     }
@@ -178,14 +185,14 @@ const dumpRushPackages = (rushPackages, internalPackages, external) => {
     dumpData[`${pkgName}:${pkgInfo.ver}`] = {
       name: pkgName,
       version: pkgInfo.ver,
-      type: 'internal',
-      deps: newDep
+      type: "internal",
+      deps: newDep,
     };
   }
   return dumpData;
 };
 
-const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId, external) => {
+const resolveRepoPackageDeps = (packages, internalPackages, pnpmLock, pkgId, external) => {
   const yamlKey = `@rush-temp/${packages[pkgId].name.replace(/@[a-z]*\//i, "")}`;
   const packageKey = pnpmLock.dependencies[yamlKey];
   const resolvedDeps = pnpmLock.packages[packageKey].dependencies;
@@ -202,71 +209,72 @@ const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId, ext
           packages[depId] = {
             name: dep.name,
             version: dep.version,
-            type: 'internalbinary',
-            deps: []
+            type: "internalbinary",
+            deps: [],
           };
-        }
-        else if (external) {
+        } else if (external) {
           packages[depId] = {
             name: dep.name,
             version: dep.version,
-            type: 'external',
-            deps: []
+            type: "external",
+            deps: [],
           };
         }
       }
-
     } else {
       // Local linked projects are not listed here, so pull the version from the local package.json
-      const depInfo = Object.values(packages).find(pkgInfo => pkgInfo.name == dep.name);
+      const depInfo = Object.values(packages).find((pkgInfo) => pkgInfo.name == dep.name);
       if (depInfo) {
         dep.version = depInfo.version;
       }
     }
-
   }
 };
 
 const main = async () => {
   const parser = new argparse.ArgumentParser({
     prog: "analyze-deps",
-    description: "Analyze dependencies in NodeJS packages."
+    description: "Analyze dependencies in NodeJS packages.",
   });
   parser.add_argument("--verbose", { help: "verbose output", action: "store_true" });
-  parser.add_argument("--external", { help: "include external dependencies in the graph data", action: "store_true" });
+  parser.add_argument("--external", {
+    help: "include external dependencies in the graph data",
+    action: "store_true",
+  });
   parser.add_argument("--out", { metavar: "FILE", help: "write HTML-formatted report to FILE" });
-  parser.add_argument("--dump", { metavar: "FILE", help: "write JSONP-formatted dependency data to FILE" });
+  parser.add_argument("--dump", {
+    metavar: "FILE",
+    help: "write JSONP-formatted dependency data to FILE",
+  });
   parser.add_argument("--packdir", {
     metavar: "DIR",
-    help: "analyze packed tarballs in DIR rather than source packages in this repository"
+    help: "analyze packed tarballs in DIR rather than source packages in this repository",
   });
   try {
-
-
     const args = parser.parse_args();
 
     const context = {
       packages: {},
       dependencies: {},
       external: [],
-      inconsistent: []
+      inconsistent: [],
     };
 
-    const rushPackages = await getRushPackages(path.resolve(`${__dirname}/../../../rush.json`));
+    const repoPackages = await getRepoPackages(path.resolve(`${__dirname}/../../../`));
     context.packages = args.packdir
       ? await getTarballPackages(path.resolve(args.packdir))
-      : rushPackages;
+      : repoPackages;
     context.dependencies = constructDeps(context.packages);
-    context.external = Object.keys(context.dependencies).filter((p) => !(p in rushPackages));
+    context.external = Object.keys(context.dependencies).filter((p) => !(p in repoPackages));
     context.inconsistent = Object.keys(context.dependencies).filter(
-      (p) => Object.keys(context.dependencies[p]).length > 1
+      (p) => Object.keys(context.dependencies[p]).length > 1,
     );
 
     if (args.verbose) {
       console.log("Packages analyzed:");
-      for (const package of Object.keys(context.packages).sort()) {
-        const info = context.packages[package];
-        console.log(`${package} ${info.ver}`);
+      for (const pkg of Object.keys(context.packages).sort()) {
+        const info = context.packages[pkg];
+        console.log(`${pkg} ${info.ver}`);
         console.log(`  from ${info.src}`);
       }
 
@@ -303,7 +311,7 @@ const main = async () => {
     if (context.inconsistent.length > 0) {
       if (!args.verbose) {
         console.log(
-          "Incompatible dependency versions detected in libraries, run this script with --verbose for details"
+          "Incompatible dependency versions detected in libraries, run this script with --verbose for details",
         );
       }
     } else {
@@ -315,20 +323,18 @@ const main = async () => {
     }
 
     if (args.dump) {
-      const internalPackages = Object.keys(rushPackages);
-      const dumpData = dumpRushPackages(context.packages, internalPackages, args.external);
-      const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../common/config/rush/pnpm-lock.yaml`));
+      const internalPackages = Object.keys(repoPackages);
+      const dumpData = dumpRepoPackages(context.packages, internalPackages, args.external);
+      const pnpmLock = await readPnpmLock(path.resolve(`${__dirname}/../../../pnpm-lock.yaml`));
       for (const pkgId of Object.keys(dumpData)) {
-        resolveRushPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
+        resolveRepoPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
       }
       await writeFile(`${args.dump}/data.js`, "const data = " + JSON.stringify(dumpData) + ";");
       await writeFile(`${args.dump}/arcdata.json`, JSON.stringify(dumpData));
     }
-  }
-  catch (ex) {
+  } catch (ex) {
     console.error(ex);
-  }
-  finally {
+  } finally {
   }
 };
 

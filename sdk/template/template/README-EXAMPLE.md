@@ -179,8 +179,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 This module's tests are a mixture of live and unit tests, which require you to have an Azure App Configuration instance. To execute the tests you'll need to run:
 
-1. `rush update`
-2. `rush build -t @azure/app-configuration`
+1. `pnpm install`
+2. `pnpm build --filter @azure/app-configuration...`
 3. Create a .env file with these contents in the `sdk\appconfiguration\app-configuration` folder:
 4. `cd sdk\appconfiguration\app-configuration`
 5. `npm run test`.

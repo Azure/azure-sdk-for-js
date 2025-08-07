@@ -219,8 +219,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 This module's tests are a mixture of live and unit tests, which require you to have an Azure Monitor instance. To execute the tests, you'll need to run:
 
-1. `rush update`
-2. `rush build -t @azure/monitor-query-metrics`
+1. `pnpm install`
+2. `pnpm build --filter @azure/monitor-query-metrics...`
 3. `cd into sdk/monitor/monitor-query-metrics`
 4. Copy the `sample.env` file to `.env`
 5. Open the `.env` file in an editor and fill in the values.
