@@ -213,12 +213,20 @@ export class AzurePowerShellCredential implements TokenCredential {
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
+      const scope = typeof scopes === "string" ? scopes : scopes[0];
+
+      const claimsValue = options.claims;
+      if (claimsValue && claimsValue.trim()) {
+        const error = new CredentialUnavailableError(`Failed to get token. Please run 'Connect-AzAccount -- ClaimsChallenge ${claimsValue}' to authenticate.`);
+        logger.getToken.info(formatError(scope, error));
+        throw error;
+      }
+      
       const tenantId = processMultiTenantRequest(
         this.tenantId,
         options,
         this.additionallyAllowedTenantIds,
       );
-      const scope = typeof scopes === "string" ? scopes : scopes[0];
       if (tenantId) {
         checkTenantId(logger, tenantId);
       }

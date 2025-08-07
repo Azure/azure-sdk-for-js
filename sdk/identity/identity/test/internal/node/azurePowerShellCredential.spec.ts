@@ -83,6 +83,85 @@ describe("AzurePowerShellCredential", function () {
     assert.equal(error?.message, powerShellPublicErrorMessages.installed);
   });
 
+  it("throws an expected error when claims challenge is provided", async function () {
+    const credential = new AzurePowerShellCredential();
+    const claimsChallenge = "urn:microsoft:req1";
+
+    let error: Error | null = null;
+    try {
+      await credential.getToken(scope, { claims: claimsChallenge });
+    } catch (e: any) {
+      error = e;
+    }
+
+    assert.ok(error);
+    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(
+      error?.message,
+      `Failed to get token. Please run 'Connect-AzAccount -- ClaimsChallenge ${claimsChallenge}' to authenticate.`,
+    );
+  });
+
+  it("does not throw error when claims is empty string", async function () {
+    const tokenResponse = {
+      Token: "token",
+      ExpiresOn: "2021-04-21T20:52:16+00:00",
+      TenantId: "tenant-id",
+      Type: "Bearer",
+    };
+
+    vi.spyOn(processUtils, "execFile")
+      .mockResolvedValueOnce("")
+      .mockResolvedValueOnce(JSON.stringify(tokenResponse));
+
+    const credential = new AzurePowerShellCredential();
+
+    // Should not throw an error for empty claims
+    const token = await credential.getToken(scope, { claims: "" });
+    assert.equal(token?.token, tokenResponse.Token);
+    assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());
+  });
+
+  it("does not throw error when claims is whitespace only", async function () {
+    const tokenResponse = {
+      Token: "token",
+      ExpiresOn: "2021-04-21T20:52:16+00:00",
+      TenantId: "tenant-id",
+      Type: "Bearer",
+    };
+
+    vi.spyOn(processUtils, "execFile")
+      .mockResolvedValueOnce("")
+      .mockResolvedValueOnce(JSON.stringify(tokenResponse));
+
+    const credential = new AzurePowerShellCredential();
+
+    // Should not throw an error for whitespace-only claims
+    const token = await credential.getToken(scope, { claims: "   " });
+    assert.equal(token?.token, tokenResponse.Token);
+    assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());
+  });
+
+  it("does not throw error when claims is undefined", async function () {
+    const tokenResponse = {
+      Token: "token",
+      ExpiresOn: "2021-04-21T20:52:16+00:00",
+      TenantId: "tenant-id",
+      Type: "Bearer",
+    };
+
+    vi.spyOn(processUtils, "execFile")
+      .mockResolvedValueOnce("")
+      .mockResolvedValueOnce(JSON.stringify(tokenResponse));
+
+    const credential = new AzurePowerShellCredential();
+
+    // Should not throw an error for undefined claims
+    const token = await credential.getToken(scope, { claims: undefined });
+    assert.equal(token?.token, tokenResponse.Token);
+    assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());
+  });
+
   it("throws an expected error if PowerShell isn't installed", async function () {
     const stub = vi.spyOn(processUtils, "execFile");
     stub.mockImplementationOnce(() => {
