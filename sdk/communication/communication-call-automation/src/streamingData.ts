@@ -53,7 +53,7 @@ export class StreamingData {
           speechRecognitionModelEndpointId:
             jsonObject.transcriptionMetadata.speechRecognitionModelEndpointId,
           enableSentimentAnalysis: jsonObject.transcriptionMetadata.enableSentimentAnalysis,
-          PiiRedactionOptions: jsonObject.transcriptionMetadata.PiiRedactionOptions,
+          piiRedactionOptions: jsonObject.transcriptionMetadata.piiRedactionOptions,
         };
         StreamingData.streamingKind = kind;
         return transcriptionMetadata;
@@ -74,7 +74,7 @@ export class StreamingData {
           ),
           participant: createIdentifierFromRawId(jsonObject.transcriptionData.participantRawID),
           resultState: jsonObject.transcriptionData.resultStatus,
-          SentimentAnalysisResult: jsonObject.transcriptionData.sentimentAnalysisResult,
+          sentimentAnalysisResult: jsonObject.transcriptionData.sentimentAnalysisResult,
           languageIdentified: jsonObject.transcriptionData.languageIdentified,
         };
         StreamingData.streamingKind = kind;

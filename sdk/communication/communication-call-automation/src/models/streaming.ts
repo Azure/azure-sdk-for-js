@@ -71,9 +71,9 @@ export interface TranscriptionMetadata {
   /** The custom speech recognition model endpoint id.*/
   speechRecognitionModelEndpointId: string;
   /** Enable sentiment analysis.*/
-  enableSentimentAnalysis: boolean;
+  enableSentimentAnalysis?: boolean;
   /** PII Redaction options. */
-  PiiRedactionOptions?: PiiRedactionOptions;
+  piiRedactionOptions?: PiiRedactionOptions;
 }
 
 /**
@@ -97,7 +97,7 @@ export interface TranscriptionData {
   /** State of the result of transcription. */
   resultState: TranscriptionResultState;
   /** Sentiment analysis result. */
-  SentimentAnalysisResult: SentimentAnalysisResult;
+  sentimentAnalysisResult: SentimentAnalysisResult;
   /** The identified language for a spoken phrase. */
   languageIdentified: string;
 }

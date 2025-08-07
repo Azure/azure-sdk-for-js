@@ -2444,15 +2444,15 @@ export const ResultInformation: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      sipCode: {
-        serializedName: "sipCode",
+      sipDetails: {
+        serializedName: "sipDetails",
         type: {
           name: "Composite",
           className: "SipDiagnosticInfo",
         },
       },
-      q850Cause: {
-        serializedName: "q850Cause",
+      q850Details: {
+        serializedName: "q850Details",
         type: {
           name: "Composite",
           className: "SipDiagnosticInfo",
@@ -4190,8 +4190,8 @@ export const TranscriptionUpdate: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      message: {
-        serializedName: "message",
+      transcriptionMessage: {
+        serializedName: "transcriptionMessage",
         type: {
           name: "String",
         },

@@ -546,10 +546,7 @@ export interface RecognizeOptions {
   targetParticipant: CommunicationIdentifierModel;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
-  /**
-   * List of locales for Language Identification.
-   * Supports upto 4 locales in the format: ["en-us", "fr-fr", "hi-in"] etc.
-   */
+  /** Speech languages for language identification and recognition. Example: ["en-us", "fr-fr", "hi-in"] etc.. */
   speechLanguages?: string[];
   /** Value indicating if sentiment analysis should be used. */
   enableSentimentAnalysis?: boolean;
@@ -891,17 +888,17 @@ export interface ResultInformation {
   /** Detail message that describes the current result. */
   message?: string;
   /**
-   * Sip code from SBC. This can be helpful to troubleshoot PSTN call if this result was unexpected.
+   * Sip response from SBC. This can be helpful to troubleshoot PSTN call if this result was unexpected.
    * This is only applicable for PSTN calls and will be null if SBC/Carrier does not provide this information.
    * Do not solely rely on this information for troubleshooting, as it may not always be available.
    */
-  sipCode?: SipDiagnosticInfo;
+  sipDetails?: SipDiagnosticInfo;
   /**
-   * Q850 cause code from SBC. This can be helpful to troubleshoot call issues if this result was unexpected.
+   * Q850 cause from SBC. This can be helpful to troubleshoot call issues if this result was unexpected.
    * This is only applicable for PSTN calls and will be null if SBC/Carrier does not provide this information.
    * Do not solely rely on this information for troubleshooting, as it may not always be available.
    */
-  q850Cause?: SipDiagnosticInfo;
+  q850Details?: SipDiagnosticInfo;
 }
 
 export interface SipDiagnosticInfo {
@@ -1500,7 +1497,7 @@ export interface TranscriptionUpdate {
   transcriptionStatus?: TranscriptionStatus;
   transcriptionStatusDetails?: TranscriptionStatusDetails;
   /** Optional message providing additional context about the transcription update. */
-  message?: string;
+  transcriptionMessage?: string;
 }
 
 export interface TranscriptionStarted {
@@ -1610,10 +1607,7 @@ export interface WebSocketTranscriptionOptions
   piiRedactionOptions?: PiiRedactionOptionsInternal;
   /** Indicating if sentiment analysis should be enabled. */
   enableSentimentAnalysis?: boolean;
-  /**
-   * List of locales for Language Identification.
-   * Supports upto 4 locales in the format: ["en-us", "fr-fr", "hi-in"] etc.
-   */
+  /** Specifies the list of locales for language identification and transcription. Example: ["en-us", "fr-fr", "hi-in"] etc. */
   locales?: string[];
   /** Summarization configuration options. */
   summarizationOptions?: SummarizationOptionsInternal;
