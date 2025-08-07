@@ -64,6 +64,8 @@ export interface TranscriptionMetadata {
   subscriptionId: string;
   /** The target locale in which the translated text needs to be.*/
   locale: string;
+  /** The list of locale.*/
+  locales: string[];
   /** call connection Id.*/
   callConnectionId: string;
   /** correlation Id.*/
