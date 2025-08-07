@@ -3,22 +3,22 @@
 
 import { HybridConnectivityManagementAPIContext as Client } from "../index.js";
 import {
+  errorResponseDeserializer,
   SolutionTypeResource,
   solutionTypeResourceDeserializer,
-  errorResponseDeserializer,
   _SolutionTypeResourceListResult,
   _solutionTypeResourceListResultDeserializer,
 } from "../../models/models.js";
-import {
-  SolutionTypesListBySubscriptionOptionalParams,
-  SolutionTypesListByResourceGroupOptionalParams,
-  SolutionTypesGetOptionalParams,
-} from "./options.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  SolutionTypesListBySubscriptionOptionalParams,
+  SolutionTypesListByResourceGroupOptionalParams,
+  SolutionTypesGetOptionalParams,
+} from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -33,10 +33,10 @@ export function _listBySubscriptionSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/solutionTypes{?api-version}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/solutionTypes{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -88,11 +88,11 @@ export function _listByResourceGroupSend(
   },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes{?api-version}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -144,12 +144,12 @@ export function _getSend(
   options: SolutionTypesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes/{solutionType}{?api-version}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridConnectivity/solutionTypes/{solutionType}{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       solutionType: solutionType,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

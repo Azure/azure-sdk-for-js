@@ -18,7 +18,7 @@ import {
   ServiceGetPropertiesOptionalParams,
   ServiceGetPropertiesResponse,
   ServiceListSharesSegmentOptionalParams,
-  ServiceListSharesSegmentResponse
+  ServiceListSharesSegmentResponse,
 } from "../models/index.js";
 
 /** Class containing Service operations. */
@@ -41,11 +41,11 @@ export class ServiceImpl implements Service {
    */
   setProperties(
     properties: FileServiceProperties,
-    options?: ServiceSetPropertiesOptionalParams
+    options?: ServiceSetPropertiesOptionalParams,
   ): Promise<ServiceSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { properties, options },
-      setPropertiesOperationSpec
+      setPropertiesOperationSpec,
     );
   }
 
@@ -55,11 +55,11 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   getProperties(
-    options?: ServiceGetPropertiesOptionalParams
+    options?: ServiceGetPropertiesOptionalParams,
   ): Promise<ServiceGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getPropertiesOperationSpec
+      getPropertiesOperationSpec,
     );
   }
 
@@ -69,11 +69,11 @@ export class ServiceImpl implements Service {
    * @param options The options parameters.
    */
   listSharesSegment(
-    options?: ServiceListSharesSegmentOptionalParams
+    options?: ServiceListSharesSegmentOptionalParams,
   ): Promise<ServiceListSharesSegmentResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listSharesSegmentOperationSpec
+      listSharesSegmentOperationSpec,
     );
   }
 }
@@ -85,30 +85,30 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     202: {
-      headersMapper: Mappers.ServiceSetPropertiesHeaders
+      headersMapper: Mappers.ServiceSetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceSetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceSetPropertiesExceptionHeaders,
+    },
   },
   requestBody: Parameters.properties,
   queryParameters: [
     Parameters.restype,
     Parameters.comp,
-    Parameters.timeoutInSeconds
+    Parameters.timeoutInSeconds,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.version,
-    Parameters.fileRequestIntent
+    Parameters.fileRequestIntent,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -116,26 +116,26 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FileServiceProperties,
-      headersMapper: Mappers.ServiceGetPropertiesHeaders
+      headersMapper: Mappers.ServiceGetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceGetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceGetPropertiesExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.restype,
     Parameters.comp,
-    Parameters.timeoutInSeconds
+    Parameters.timeoutInSeconds,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.fileRequestIntent,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const listSharesSegmentOperationSpec: coreClient.OperationSpec = {
   path: "/",
@@ -143,12 +143,12 @@ const listSharesSegmentOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ListSharesResponse,
-      headersMapper: Mappers.ServiceListSharesSegmentHeaders
+      headersMapper: Mappers.ServiceListSharesSegmentHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.ServiceListSharesSegmentExceptionHeaders
-    }
+      headersMapper: Mappers.ServiceListSharesSegmentExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
@@ -156,14 +156,14 @@ const listSharesSegmentOperationSpec: coreClient.OperationSpec = {
     Parameters.prefix,
     Parameters.marker,
     Parameters.maxResults,
-    Parameters.include
+    Parameters.include,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.fileRequestIntent,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
