@@ -136,6 +136,21 @@ export class AzureCliCredential implements TokenCredential {
     scopes: string | string[],
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
+    const scope = typeof scopes === "string" ? scopes : scopes[0];
+    const claimsValue = options.claims;
+    if (claimsValue && claimsValue.trim()) {
+      let loginCmd = `az login --claims-challenge ${claimsValue} --scope ${scope}`;
+
+      const tenantIdFromOptions = options.tenantId;
+      if (tenantIdFromOptions) {
+        loginCmd += ` --tenant ${tenantIdFromOptions}`;
+      }
+
+      const error = new CredentialUnavailableError(`Failed to get token. Run '${loginCmd}' to authenticate.`);
+      logger.getToken.info(formatError(scope, error));
+      throw error;
+    }
+    
     const tenantId = processMultiTenantRequest(
       this.tenantId,
       options,
@@ -147,7 +162,6 @@ export class AzureCliCredential implements TokenCredential {
     if (this.subscription) {
       checkSubscription(logger, this.subscription);
     }
-    const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
 
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
@@ -195,8 +209,8 @@ export class AzureCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-                (err as Error).message || "Unknown error while trying to retrieve the access token",
-              );
+              (err as Error).message || "Unknown error while trying to retrieve the access token",
+            );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
