@@ -1236,24 +1236,6 @@ export enum KnownSecretSourceType {
  */
 export type SecretSourceType = string;
 
-/** Known values of {@link AzureResourceType} that the service accepts. */
-export enum KnownAzureResourceType {
-  /** KeyVault */
-  KeyVault = "KeyVault",
-  /** AppConfig */
-  AppConfig = "AppConfig",
-}
-
-/**
- * Defines values for AzureResourceType. \
- * {@link KnownAzureResourceType} can be used interchangeably with AzureResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **KeyVault** \
- * **AppConfig**
- */
-export type AzureResourceType = string;
-
 /** Known values of {@link SecretType} that the service accepts. */
 export enum KnownSecretType {
   /** RawValue */
@@ -1301,6 +1283,8 @@ export enum KnownAccessKeyPermissions {
  * **Manage**
  */
 export type AccessKeyPermissions = string;
+/** Defines values for AzureResourceType. */
+export type AzureResourceType = "KeyVault" | "AppConfig";
 
 /** Optional parameters. */
 export interface ConnectorListDryrunOptionalParams

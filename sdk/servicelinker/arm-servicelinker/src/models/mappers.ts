@@ -1331,7 +1331,8 @@ export const AzureResourcePropertiesBase: coreClient.CompositeMapper = {
         serializedName: "type",
         required: true,
         type: {
-          name: "String",
+          name: "Enum",
+          allowedValues: ["KeyVault", "AppConfig"],
         },
       },
     },
