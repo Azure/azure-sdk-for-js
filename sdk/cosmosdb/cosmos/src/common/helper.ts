@@ -539,3 +539,18 @@ export function validateClientEncryptionPolicy(
     );
   }
 }
+
+/**
+ * Checks if excluded locations can be applied to the given resource type
+ * Based on Python SDK implementation - only certain resource types support excluded locations
+ * @param resourceType - The resource type to check
+ * @returns true if excluded locations can be applied, false otherwise
+ */
+export function canApplyExcludedLocations(resourceType: ResourceType): boolean {
+  const supportedResourceTypes = new Set([
+    ResourceType.item, // Documents
+    ResourceType.container, // Collections/Containers
+    ResourceType.partitionkey, // Partition key operations
+  ]);
+  return supportedResourceTypes.has(resourceType);
+}
