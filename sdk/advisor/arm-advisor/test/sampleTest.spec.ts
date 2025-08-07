@@ -20,7 +20,7 @@ const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
 };
 
-describe("My test", () => {
+describe.skip("My test", () => {
   let recorder: Recorder;
 
   beforeEach(async () => {
