@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Track CLIENT_READONLY and CLIENT_TIMEOUT customer statsbeat.
+- Track CLIENT_READONLY and CLIENT_TIMEOUT customer SDK Stats.
 
 ### Bugs Fixed
 
@@ -18,7 +18,7 @@
 
 ### Features Added
 
-- Added customer-facing statsbeat preview.
+- Added customer-facing SDK Stats preview.
 
 ### Features Added
 

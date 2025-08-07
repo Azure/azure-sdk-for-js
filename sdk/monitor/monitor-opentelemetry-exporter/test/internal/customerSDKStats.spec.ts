@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { CustomerStatsbeatMetrics } from "../../src/export/statsbeat/customerStatsbeat.js";
+import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
 import { DropCode, RetryCode, TelemetryType } from "../../src/export/statsbeat/types.js";
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 
@@ -59,8 +59,8 @@ function createMockEnvelopes(count: number, telemetryType: TelemetryType): Envel
   return envelopes;
 }
 
-describe("CustomerStatsbeatMetrics", () => {
-  let customerStatsbeatMetrics: CustomerStatsbeatMetrics;
+describe("CustomerSDKStatsMetrics", () => {
+  let customerSDKStatsMetrics: CustomerSDKStatsMetrics;
   const mockOptions = {
     instrumentationKey: "00000000-0000-0000-0000-000000000000", // Valid GUID format
     endpointUrl: "https://test.endpoint.com",
@@ -68,25 +68,25 @@ describe("CustomerStatsbeatMetrics", () => {
 
   beforeEach(() => {
     // Use getInstance to get the singleton
-    customerStatsbeatMetrics = CustomerStatsbeatMetrics.getInstance(mockOptions);
+    customerSDKStatsMetrics = CustomerSDKStatsMetrics.getInstance(mockOptions);
   });
 
   afterEach(async () => {
     // Clean up singleton instance
-    await CustomerStatsbeatMetrics.shutdown();
+    await CustomerSDKStatsMetrics.shutdown();
   });
 
   describe("countDroppedItems", () => {
     it("should store drop.reason for CLIENT_EXCEPTION drop code", () => {
       const exceptionMessage = "Network connection timeout";
 
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(5, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
         exceptionMessage,
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
 
       const dropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
@@ -101,12 +101,12 @@ describe("CustomerStatsbeatMetrics", () => {
     });
 
     it("should not store drop.reason for CLIENT_EXCEPTION when message not provided", () => {
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
 
       const dropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
@@ -123,13 +123,13 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should store appropriate drop.reason for non-CLIENT_EXCEPTION drop codes", () => {
       const exceptionMessage = "Some error message";
 
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.NON_RETRYABLE_STATUS_CODE,
         exceptionMessage,
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
 
       const dropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
@@ -146,18 +146,18 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should aggregate counts for same drop code and exception message", () => {
       const exceptionMessage = "Repeated error";
 
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
         exceptionMessage,
       );
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
         exceptionMessage,
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
 
       const dropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
@@ -172,18 +172,18 @@ describe("CustomerStatsbeatMetrics", () => {
     });
 
     it("should create separate entries for different telemetry types", () => {
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
         "Error A",
       );
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(3, TelemetryType.DEPENDENCY),
         DropCode.CLIENT_EXCEPTION,
         "Error B",
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemDropCount.size).toBe(2);
 
       const traceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
@@ -210,13 +210,13 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should store retry.reason for CLIENT_EXCEPTION retry code", () => {
       const exceptionMessage = "Retry due to connection error";
 
-      customerStatsbeatMetrics.countRetryItems(
+      customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
         exceptionMessage,
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
 
       const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
@@ -231,12 +231,12 @@ describe("CustomerStatsbeatMetrics", () => {
     });
 
     it("should not store retry.reason for CLIENT_EXCEPTION when message not provided", () => {
-      customerStatsbeatMetrics.countRetryItems(
+      customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
 
       const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
@@ -253,13 +253,13 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should not store retry.reason for non-CLIENT_EXCEPTION retry codes", () => {
       const exceptionMessage = "Some retry message";
 
-      customerStatsbeatMetrics.countRetryItems(
+      customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(4, TelemetryType.TRACE),
         RetryCode.RETRYABLE_STATUS_CODE,
         exceptionMessage,
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
 
       const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
@@ -276,18 +276,18 @@ describe("CustomerStatsbeatMetrics", () => {
     it("should aggregate counts for same retry code and retry reason", () => {
       const exceptionMessage = "Connection timeout";
 
-      customerStatsbeatMetrics.countRetryItems(
+      customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
         exceptionMessage,
       );
-      customerStatsbeatMetrics.countRetryItems(
+      customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
         exceptionMessage,
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
 
       const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
@@ -305,12 +305,12 @@ describe("CustomerStatsbeatMetrics", () => {
   describe("Observable Callbacks", () => {
     it("should include drop.reason in drop count metrics when present", () => {
       // Add entries with different scenarios
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
         "Test error",
       );
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.NON_RETRYABLE_STATUS_CODE,
       );
@@ -320,8 +320,8 @@ describe("CustomerStatsbeatMetrics", () => {
       };
 
       // Call the item drop callback
-      const callback = (customerStatsbeatMetrics as any).itemDropCallback.bind(
-        customerStatsbeatMetrics,
+      const callback = (customerSDKStatsMetrics as any).itemDropCallback.bind(
+        customerSDKStatsMetrics,
       );
       callback(mockObservableResult);
 
@@ -344,12 +344,12 @@ describe("CustomerStatsbeatMetrics", () => {
 
     it("should include retry.reason in retry count metrics when present", () => {
       // Add entries with different scenarios
-      customerStatsbeatMetrics.countRetryItems(
+      customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(4, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
         "Retry error",
       );
-      customerStatsbeatMetrics.countRetryItems(
+      customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(1, TelemetryType.TRACE),
         RetryCode.RETRYABLE_STATUS_CODE,
       );
@@ -359,8 +359,8 @@ describe("CustomerStatsbeatMetrics", () => {
       };
 
       // Call the item retry callback
-      const callback = (customerStatsbeatMetrics as any).itemRetryCallback.bind(
-        customerStatsbeatMetrics,
+      const callback = (customerSDKStatsMetrics as any).itemRetryCallback.bind(
+        customerSDKStatsMetrics,
       );
       callback(mockObservableResult);
 
@@ -382,18 +382,18 @@ describe("CustomerStatsbeatMetrics", () => {
     });
 
     it("should reset counts to zero after observation", () => {
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(5, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
         "Test error",
       );
-      customerStatsbeatMetrics.countRetryItems(
+      customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
         "Retry error",
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
 
       const traceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       const traceDropReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
@@ -408,11 +408,11 @@ describe("CustomerStatsbeatMetrics", () => {
       };
 
       // Call the callbacks
-      const dropCallback = (customerStatsbeatMetrics as any).itemDropCallback.bind(
-        customerStatsbeatMetrics,
+      const dropCallback = (customerSDKStatsMetrics as any).itemDropCallback.bind(
+        customerSDKStatsMetrics,
       );
-      const retryCallback = (customerStatsbeatMetrics as any).itemRetryCallback.bind(
-        customerStatsbeatMetrics,
+      const retryCallback = (customerSDKStatsMetrics as any).itemRetryCallback.bind(
+        customerSDKStatsMetrics,
       );
 
       dropCallback(mockObservableResult);
@@ -433,14 +433,14 @@ describe("CustomerStatsbeatMetrics", () => {
       const testErrorMessage = "Network connection failed";
 
       // Count dropped items with CLIENT_EXCEPTION and exception message
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(5, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
         testErrorMessage,
       );
 
       // Verify the internal counter stores the telemetry_type
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
 
       const integrationDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
@@ -457,8 +457,8 @@ describe("CustomerStatsbeatMetrics", () => {
         observe: vi.fn(),
       };
 
-      const dropCallback = (customerStatsbeatMetrics as any).itemDropCallback.bind(
-        customerStatsbeatMetrics,
+      const dropCallback = (customerSDKStatsMetrics as any).itemDropCallback.bind(
+        customerSDKStatsMetrics,
       );
       dropCallback(mockObservableResult);
       // Should observe the metric with drop.reason attribute
@@ -479,14 +479,14 @@ describe("CustomerStatsbeatMetrics", () => {
       const testErrorMessage = "Connection timeout during retry";
 
       // Count retry items with CLIENT_EXCEPTION and exception message
-      customerStatsbeatMetrics.countRetryItems(
+      customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
         testErrorMessage,
       );
 
       // Verify the internal counter stores the exception message in the nested Map structure
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemRetryCount.size).toBe(1);
 
       const retryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
@@ -503,8 +503,8 @@ describe("CustomerStatsbeatMetrics", () => {
         observe: vi.fn(),
       };
 
-      const retryCallback = (customerStatsbeatMetrics as any).itemRetryCallback.bind(
-        customerStatsbeatMetrics,
+      const retryCallback = (customerSDKStatsMetrics as any).itemRetryCallback.bind(
+        customerSDKStatsMetrics,
       );
       retryCallback(mockObservableResult);
       // Should observe the metric with retry.reason attribute
@@ -525,13 +525,13 @@ describe("CustomerStatsbeatMetrics", () => {
       const testErrorMessage = "Some error message";
 
       // Test dropped items with non-CLIENT_EXCEPTION code
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.NON_RETRYABLE_STATUS_CODE,
         testErrorMessage,
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
 
       const nonClientExceptionDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
@@ -550,8 +550,8 @@ describe("CustomerStatsbeatMetrics", () => {
         observe: vi.fn(),
       };
 
-      const dropCallback = (customerStatsbeatMetrics as any).itemDropCallback.bind(
-        customerStatsbeatMetrics,
+      const dropCallback = (customerSDKStatsMetrics as any).itemDropCallback.bind(
+        customerSDKStatsMetrics,
       );
       dropCallback(mockObservableResult);
       expect(mockObservableResult.observe).toHaveBeenCalledWith(
@@ -571,12 +571,12 @@ describe("CustomerStatsbeatMetrics", () => {
       const error2 = "Authentication failed";
 
       // Add two different CLIENT_EXCEPTION errors
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
         error1,
       );
-      customerStatsbeatMetrics.countRetryItems(
+      customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         RetryCode.CLIENT_EXCEPTION,
         error2,
@@ -587,11 +587,11 @@ describe("CustomerStatsbeatMetrics", () => {
       };
 
       // Call both callbacks
-      const dropCallback = (customerStatsbeatMetrics as any).itemDropCallback.bind(
-        customerStatsbeatMetrics,
+      const dropCallback = (customerSDKStatsMetrics as any).itemDropCallback.bind(
+        customerSDKStatsMetrics,
       );
-      const retryCallback = (customerStatsbeatMetrics as any).itemRetryCallback.bind(
-        customerStatsbeatMetrics,
+      const retryCallback = (customerSDKStatsMetrics as any).itemRetryCallback.bind(
+        customerSDKStatsMetrics,
       );
 
       dropCallback(mockObservableResult);
@@ -628,18 +628,18 @@ describe("CustomerStatsbeatMetrics", () => {
       const testErrorMessage = "Repeated connection error";
 
       // Add the same error twice
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
         testErrorMessage,
       );
-      customerStatsbeatMetrics.countDroppedItems(
+      customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(3, TelemetryType.TRACE),
         DropCode.CLIENT_EXCEPTION,
         testErrorMessage,
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemDropCount.size).toBe(1);
 
       const aggregateDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
@@ -656,8 +656,8 @@ describe("CustomerStatsbeatMetrics", () => {
         observe: vi.fn(),
       };
 
-      const dropCallback = (customerStatsbeatMetrics as any).itemDropCallback.bind(
-        customerStatsbeatMetrics,
+      const dropCallback = (customerSDKStatsMetrics as any).itemDropCallback.bind(
+        customerSDKStatsMetrics,
       );
       dropCallback(mockObservableResult);
       expect(mockObservableResult.observe).toHaveBeenCalledWith(
@@ -676,20 +676,20 @@ describe("CustomerStatsbeatMetrics", () => {
 
   describe("countSuccessfulItems", () => {
     it("should track successful items correctly", () => {
-      customerStatsbeatMetrics.countSuccessfulItems(
+      customerSDKStatsMetrics.countSuccessfulItems(
         createMockEnvelopes(10, TelemetryType.CUSTOM_EVENT),
       );
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemSuccessCount.size).toBe(1);
       expect(counter.totalItemSuccessCount.get(TelemetryType.CUSTOM_EVENT)).toBe(10);
     });
 
     it("should aggregate counts for same telemetry type", () => {
-      customerStatsbeatMetrics.countSuccessfulItems(createMockEnvelopes(5, TelemetryType.TRACE));
-      customerStatsbeatMetrics.countSuccessfulItems(createMockEnvelopes(3, TelemetryType.TRACE));
+      customerSDKStatsMetrics.countSuccessfulItems(createMockEnvelopes(5, TelemetryType.TRACE));
+      customerSDKStatsMetrics.countSuccessfulItems(createMockEnvelopes(3, TelemetryType.TRACE));
 
-      const counter = (customerStatsbeatMetrics as any).customerStatsbeatCounter;
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
       expect(counter.totalItemSuccessCount.size).toBe(1);
       expect(counter.totalItemSuccessCount.get(TelemetryType.TRACE)).toBe(8);
     });

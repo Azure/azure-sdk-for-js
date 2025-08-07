@@ -203,11 +203,11 @@ describe("FileSystemPersist", () => {
   });
 
   describe("#CLIENT_READONLY scenarios", () => {
-    let mockCustomerStatsbeat: any;
+    let mockCustomerSDKStats: any;
     let originalOSFileProtection: boolean;
 
     beforeEach(() => {
-      mockCustomerStatsbeat = {
+      mockCustomerSDKStats = {
         countDroppedItems: vi.fn(),
       };
 
@@ -223,12 +223,12 @@ describe("FileSystemPersist", () => {
     });
 
     it("should have CLIENT_READONLY logic implemented", () => {
-      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerStatsbeat);
+      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerSDKStats);
       expect(persister).toBeDefined();
       expect(DropCode.CLIENT_READONLY).toBeDefined();
 
       // Verify that our mock is properly set up
-      expect(mockCustomerStatsbeat.countDroppedItems).toBeDefined();
+      expect(mockCustomerSDKStats.countDroppedItems).toBeDefined();
     });
 
     it("should track CLIENT_READONLY when permission errors occur", async () => {
@@ -247,7 +247,7 @@ describe("FileSystemPersist", () => {
         .spyOn(helpersMod, "confirmDirExists")
         .mockRejectedValue(error);
 
-      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerStatsbeat);
+      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerSDKStats);
 
       const result = await persister.push([envelope]);
 
@@ -255,7 +255,7 @@ describe("FileSystemPersist", () => {
       expect(result).toBe(false);
 
       // Should have called countDroppedItems with CLIENT_READONLY
-      expect(mockCustomerStatsbeat.countDroppedItems).toHaveBeenCalledWith(
+      expect(mockCustomerSDKStats.countDroppedItems).toHaveBeenCalledWith(
         [envelope],
         DropCode.CLIENT_READONLY,
       );

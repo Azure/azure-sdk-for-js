@@ -9,7 +9,7 @@ import { FileAccessControl } from "./fileAccessControl.js";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers.js";
 import type { AzureMonitorExporterOptions } from "../../../config.js";
 import { readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
-import type { CustomerStatsbeatMetrics } from "../../../export/statsbeat/customerStatsbeat.js";
+import type { CustomerSDKStatsMetrics } from "../../../export/statsbeat/customerSDKStats.js";
 import { DropCode } from "../../../export/statsbeat/types.js";
 import type { TelemetryItem as Envelope } from "../../../generated/index.js";
 
@@ -33,7 +33,7 @@ export class FileSystemPersist implements PersistentStorage {
   constructor(
     instrumentationKey: string,
     private _options?: AzureMonitorExporterOptions,
-    private _customerStatsbeatMetrics?: CustomerStatsbeatMetrics,
+    private _customerSDKStatsMetrics?: CustomerSDKStatsMetrics,
   ) {
     this._instrumentationKey = instrumentationKey;
     if (this._options?.disableOfflineStorage) {
@@ -154,7 +154,7 @@ export class FileSystemPersist implements PersistentStorage {
     } catch (error: any) {
       // Check if error is due to permission/readonly issues
       if (error?.code === "EACCES" || error?.code === "EPERM") {
-        this._customerStatsbeatMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_READONLY);
+        this._customerSDKStatsMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_READONLY);
         diag.warn(
           `Permission denied while checking/creating directory: ${this._tempDirectory}`,
           error?.message,
@@ -168,8 +168,8 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       const size = await getShallowDirectorySize(this._tempDirectory);
       if (size > this.maxBytesOnDisk) {
-        // If the directory size exceeds the max limit, we send customer statsbeat and warn the user
-        this._customerStatsbeatMetrics?.countDroppedItems(
+        // If the directory size exceeds the max limit, we send customer SDK Stats and warn the user
+        this._customerSDKStatsMetrics?.countDroppedItems(
           envelopes,
           DropCode.CLIENT_PERSISTENCE_CAPACITY,
         );
@@ -191,8 +191,8 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await writeFile(fileFullPath, payload, { mode: 0o600 });
     } catch (writeError: any) {
-      // If the envelopes cannot be written to disk, we send customer statsbeat and warn the user
-      this._customerStatsbeatMetrics?.countDroppedItems(
+      // If the envelopes cannot be written to disk, we send customer SDK Stats and warn the user
+      this._customerSDKStatsMetrics?.countDroppedItems(
         envelopes,
         DropCode.CLIENT_EXCEPTION,
         writeError?.message,
