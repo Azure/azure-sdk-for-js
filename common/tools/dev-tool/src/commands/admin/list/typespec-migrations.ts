@@ -18,7 +18,6 @@ export const commandInfo = makeCommandInfo(
   },
 );
 
-
 /**
  * Recursively checks if a directory contains a tsp-location.yaml file
  */
