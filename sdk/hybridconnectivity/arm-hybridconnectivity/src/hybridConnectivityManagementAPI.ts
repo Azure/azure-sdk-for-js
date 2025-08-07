@@ -6,31 +6,31 @@ import {
   HybridConnectivityManagementAPIContext,
   HybridConnectivityManagementAPIOptionalParams,
 } from "./api/index.js";
+import { EndpointsOperations, _getEndpointsOperations } from "./classic/endpoints/index.js";
 import {
-  SolutionTypesOperations,
-  _getSolutionTypesOperations,
-} from "./classic/solutionTypes/index.js";
+  GenerateAwsTemplateOperations,
+  _getGenerateAwsTemplateOperations,
+} from "./classic/generateAwsTemplate/index.js";
 import { InventoryOperations, _getInventoryOperations } from "./classic/inventory/index.js";
-import {
-  SolutionConfigurationsOperations,
-  _getSolutionConfigurationsOperations,
-} from "./classic/solutionConfigurations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   PublicCloudConnectorsOperations,
   _getPublicCloudConnectorsOperations,
 } from "./classic/publicCloudConnectors/index.js";
 import {
-  GenerateAwsTemplateOperations,
-  _getGenerateAwsTemplateOperations,
-} from "./classic/generateAwsTemplate/index.js";
-import {
   ServiceConfigurationsOperations,
   _getServiceConfigurationsOperations,
 } from "./classic/serviceConfigurations/index.js";
-import { EndpointsOperations, _getEndpointsOperations } from "./classic/endpoints/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  SolutionConfigurationsOperations,
+  _getSolutionConfigurationsOperations,
+} from "./classic/solutionConfigurations/index.js";
+import {
+  SolutionTypesOperations,
+  _getSolutionTypesOperations,
+} from "./classic/solutionTypes/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { HybridConnectivityManagementAPIOptionalParams } from "./api/hybridConnectivityManagementAPIContext.js";
 

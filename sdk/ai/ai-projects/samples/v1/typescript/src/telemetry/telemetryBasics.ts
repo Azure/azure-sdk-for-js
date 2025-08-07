@@ -16,7 +16,7 @@ export async function main(): Promise<void> {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());
 
   // get connection string for application insights
-  const connectionString = await project.telemetry.getConnectionString();
+  const connectionString = await project.telemetry.getApplicationInsightsConnectionString();
   console.log("Connection string for telemetry: ", connectionString);
 }
 
