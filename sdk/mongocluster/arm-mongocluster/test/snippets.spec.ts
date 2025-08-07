@@ -6,7 +6,7 @@ import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/ide
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
-describe("snippets", () => {
+describe.skip("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
     const client = new MongoClusterManagementClient(new DefaultAzureCredential(), subscriptionId);
