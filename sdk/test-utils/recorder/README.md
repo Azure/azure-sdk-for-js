@@ -23,38 +23,28 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
 
 ## Index
 
-- [Azure @azure-tools/test-recorder library for JavaScript](#azure-azure-toolstest-recorder-library-for-javascript)
-  - [Index](#index)
-  - [Key concepts](#key-concepts)
-  - [Getting started](#getting-started)
-    - [Installing the package](#installing-the-package)
-    - [Configuring your project](#configuring-your-project)
-      - [package.json scripts](#packagejson-scripts)
-    - [TEST\_MODE](#test_mode)
-  - [Onboard to asset-sync workflow](#onboard-to-asset-sync-workflow)
-  - [Using the `Recorder`](#using-the-recorder)
-    - [Recorder#variable()](#recordervariable)
-    - [Environment variables](#environment-variables)
-    - [`@azure-tools/test-credential` package and the NoOpCredential](#azure-toolstest-credential-package-and-the-noopcredential)
-  - [Examples](#examples)
-    - [How to record](#how-to-record)
-    - [Securing Sensitive Data](#securing-sensitive-data)
-      - [`RecorderStartOptions`](#recorderstartoptions)
-      - [`envSetupForPlayback`](#envsetupforplayback)
-      - [Sanitizers](#sanitizers)
-    - [How to playback](#how-to-playback)
-    - [Update existing recordings](#update-existing-recordings)
-    - [Skipping tests](#skipping-tests)
-    - [Supporting parallelism](#supporting-parallelism)
-    - [Isomorphic tests](#isomorphic-tests)
-  - [Troubleshooting](#troubleshooting)
-    - [Logging](#logging)
-    - [Enabling detailed logging with `test-proxy-debug`](#enabling-detailed-logging-with-test-proxy-debug)
-      - [Example Output](#example-output)
-    - [Common Issues](#common-issues)
-  - [Frequently Asked Questions (FAQs)](#frequently-asked-questions-faqs)
-    - [Next steps](#next-steps)
-    - [Contributing](#contributing)
+- [Key concepts](#key-concepts)
+- [Getting started](#getting-started)
+  - [Installing the package](#installing-the-package)
+  - [Configuring your project](#configuring-your-project)
+  - [TEST_MODE](#test_mode)
+- [Onboard to asset-sync workflow](#onboard-to-asset---sync-workflow)
+- [Using the `Recorder`](#using-the-recorder)
+  - [Recorder#variable()](#recordervariable)
+  - [Environment Variables](#environment-variables)
+  - [`@azure-tools/test-credential` package and the NoOpCredential](#azure-toolstest-credential-package-and-the-noopcredential)
+- [Examples](#examples)
+  - [How to record](#how-to-record)
+  - [How to playback](#how-to-playback)
+  - [Update existing recordings](#update-existing-recordings)
+  - [Skipping tests](#skipping-tests)
+  - [Securing sensitive data](#securing-sensitive-data)
+  - [Supporting parallelism](#supporting-parallelism)
+  - [Isomorphic tests](#isomorphic-tests)
+- [Troubleshooting](#troubleshooting)
+- [Frequently Asked Questions (FAQs)](#frequently-asked-questions-faqs)
+- [Next steps](#next-steps)
+- [Contributing](#contributing)
 
 ## Key concepts
 
@@ -84,7 +74,7 @@ From this point forward, we'll assume that you're developing (perhaps contributi
   // ... more of your package.json properties
 }
 ```
-Do `pnpm install` and `pnpm build -r` to install and build the latest dependencies.
+Do `pnpm install` and `pnpm build --filter @azure-tools/test-recorder...` to install and build the latest dependencies.
 
 And you're ready! Now you can use the test recorder in your code, as shown below:
 
@@ -121,11 +111,11 @@ Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-j
 By using recorder with your clients, the requests are redirected to the test-proxy tool to either save them or replay them.
 Interactions with the test-proxy tool vary based on what the `TEST_MODE` environment variable is.
 
-| TEST_MODE  | What?                                                                                                                                                                                                                 |
-| :--------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TEST_MODE  | What?                                                                                                                                                                                           |
+| :--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `record`   | Stores network requests with the help of test-proxy tool in JSON files managed through the [Asset Sync Workflow](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_WORKFLOW.md). |
-| `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service                                                                                  |
-| `live`     | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer                                                                                |
+| `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service                                                            |
+| `live`     | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer                                                          |
 
 ## Onboard to asset-sync workflow
 
@@ -424,6 +414,20 @@ Since new resources are likely to get accumulated because some tests would crash
 
 ## Troubleshooting
 
+### 🤖 The test recording agent
+
+We have developed a GitHub Copilot agent which will help you debug recorded test issues. It is based on a custom prompt that provides special information about recordings, and can
+
+- Help you with your sanitizer configuration
+- Help determine whether you have asset sync set up properly
+- Check your recordings for secrets
+
+To get started, say `/test-recording <...query>` to Copilot Chat in Agent mode. Claude Sonnet 4 is the recommended model. For example:
+
+```
+/test-recording my tests are failing in playback mode, but passing in recording mode. Please help fix them!
+```
+
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see logs from the recorder client, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling the `setLogLevel` function in the `@azure/logger` package.
@@ -440,9 +444,9 @@ This flag enables detailed logging of request and response modifications perform
 
 #### Example Output
 
-| Central sanitizer from test proxy                                                                                                                           | User registered sanitizer                                                                                                                                   |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <details open>  <summary>Output 1</summary> <img src="https://github.com/user-attachments/assets/57a3fbae-b22c-43d8-9e9c-83a59afc3dd5" height=90></details> | <details open> <summary>Output 2</summary><img src="https://github.com/user-attachments/assets/23e7a24f-1048-43fe-9c9c-8dac31d7e0d7" height=180> </details> |
+| Central sanitizer from test proxy | User registered sanitizer |
+|-----------------|-----------------|
+| <details open>  <summary>Output 1</summary> <img src="https://github.com/user-attachments/assets/57a3fbae-b22c-43d8-9e9c-83a59afc3dd5" height=90></details>      | <details open> <summary>Output 2</summary><img src="https://github.com/user-attachments/assets/23e7a24f-1048-43fe-9c9c-8dac31d7e0d7" height=180> </details>         |
 
 ### Common Issues
 
