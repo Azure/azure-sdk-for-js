@@ -22,13 +22,15 @@ export default createRule<Options, MessageIds>({
   create(context) {
     const filename = context.getFilename();
 
-    const isTestFile = /\.(test|spec)\.[jt]sx?$/.test(filename) || /__tests__/.test(filename);
-
+    const isTestFile =
+      /\.(test|spec)\.[jt]sx?$/.test(filename) ||
+      /__tests__/.test(filename) ||
+      /[/\\](test|tests)[/\\]/.test(filename);
     if (!isTestFile) {
       return {};
     }
 
-    const projectRoot = process.cwd(); // Assumes ESLint is run from project root
+    const projectRoot = context.getCwd();
     const srcDir = resolve(projectRoot, "src");
     const fileDir = dirname(filename);
 
