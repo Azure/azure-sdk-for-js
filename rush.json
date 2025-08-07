@@ -554,7 +554,7 @@
       "packageName": "@azure/monitor-ingestion",
       "projectFolder": "sdk/monitor/monitor-ingestion",
       "versionPolicyName": "client"
-    },    
+    },
     {
       "packageName": "@azure/monitor-query-metrics",
       "projectFolder": "sdk/monitor/monitor-query-metrics",
@@ -2464,6 +2464,11 @@
       "packageName": "@azure/arm-storagediscovery",
       "projectFolder": "sdk/storagediscovery/arm-storagediscovery",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/planetarycomputer-rest",
+      "projectFolder": "sdk/planetarycomputer/planetarycomputer-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
