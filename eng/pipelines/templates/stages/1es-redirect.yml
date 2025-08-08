@@ -44,7 +44,7 @@ extends:
       codeql:
         compiled:
           enabled: false
-          justificationForDisabling: "To reduce redundant CG runs across all our pipeline jobs we are disabling and only running in our main build job."
+          justificationForDisabling: "Codeql times out the normal build jobs so we only run it in our aggregate-reports pipeline."
       componentgovernance:
         enabled: false
         justificationForDisabling: "To reduce redundant CG runs across all our pipeline jobs we are disabling and only running in our main build job."
