@@ -99,7 +99,10 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
     name: string,
     options?: RecommendationMetadataGetOptionalParams,
   ): Promise<RecommendationMetadataGetResponse> {
-    return this.client.sendOperationRequest({ name, options }, getOperationSpec);
+    return this.client.sendOperationRequest(
+      { name, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -121,7 +124,10 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
     nextLink: string,
     options?: RecommendationMetadataListNextOptionalParams,
   ): Promise<RecommendationMetadataListNextResponse> {
-    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
