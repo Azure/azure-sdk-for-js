@@ -20,7 +20,7 @@ import type { BreezeResponse } from "../../utils/breezeUtils.js";
 import { isRetriable } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
-  ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
 import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
@@ -64,7 +64,7 @@ export abstract class BaseSender {
         endpointUrl: options.endpointUrl,
         disableOfflineStorage: this.disableOfflineStorage,
       });
-      if (process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW]) {
+      if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW]) {
         this.customerSDKStatsMetrics = CustomerSDKStatsMetrics.getInstance({
           instrumentationKey: options.instrumentationKey,
           endpointUrl: options.endpointUrl,

@@ -6,7 +6,7 @@ import { diag } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import {
   RetriableRestErrorTypes,
-  ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
 } from "../../src/Declarations/Constants.js";
 import type { SenderResult } from "../../src/types.js";
 
@@ -687,9 +687,9 @@ describe("BaseSender", () => {
 
     beforeEach(() => {
       // Save original environment variable
-      originalEnv = process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
+      originalEnv = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
       // Set environment variable to enable Customer SDK Stats metrics
-      process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "true";
+      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "true";
 
       testSender = new TestBaseSender({
         endpointUrl: "https://example.com",
@@ -706,9 +706,9 @@ describe("BaseSender", () => {
     afterEach(() => {
       // Restore original environment variable
       if (originalEnv === undefined) {
-        delete process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
+        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
       } else {
-        process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = originalEnv;
+        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = originalEnv;
       }
     });
 
