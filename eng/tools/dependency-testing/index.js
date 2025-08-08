@@ -103,7 +103,7 @@ async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
  * This inserts the package.json from the templates into the test folder.
  * It computes the different versions of the dependencies/ dev-dep in this package.json
  * depending on the type of version testing being done.
- * @param {*} repoRoot  - root of the repository given as input
+ * @param {*} normalizedRoot  - root of the repository given as input
  * @param {*} packageJsonContents - the package's package.json contents
  * @param {*} targetPackagePath - path for the package for which the min/max testing is being run
  * @param {*} targetPackageName - name of the package for which the min/max testing is being run
@@ -112,7 +112,7 @@ async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
  * @returns
  */
 async function insertPackageJson(
-  repoRoot,
+  normalizedRoot,
   packageJsonContents,
   targetPackagePath,
   targetPackageName,
@@ -140,7 +140,7 @@ async function insertPackageJson(
     depList[pkg] = await findAppropriateVersion(
       pkg,
       packageJsonContents.dependencies[pkg],
-      repoRoot,
+      normalizedRoot,
       versionType,
     );
     if (packageJsonContents.dependencies[pkg] !== depList[pkg]) {
@@ -161,7 +161,7 @@ async function insertPackageJson(
       testPackageJson.devDependencies[pkg] = await findAppropriateVersion(
         pkg,
         packageVersion,
-        repoRoot,
+        normalizedRoot,
         versionType,
       );
       console.log("packagejson version = " + packageJsonContents.devDependencies[pkg]);
@@ -181,11 +181,11 @@ async function insertPackageJson(
 /**
  * Verifies if a package is a utility or not. We don't want to run min-max testing for utilities
  * @param {*} pkg - the package that you want to verify
- * @param {*} repoRoot - root of the repository given as input
+ * @param {*} normalizedRoot - root of the repository given as input
  * @returns {Promise<boolean>}- true or false
  */
-async function isPackageAUtility(pkg, repoRoot) {
-  let thisPackage = await getPackageFromPnpm(repoRoot, pkg);
+async function isPackageAUtility(pkg, normalizedRoot) {
+  let thisPackage = await getPackageFromPnpm(normalizedRoot, pkg);
   if (thisPackage && thisPackage.versionPolicyName === "utility") {
     console.log(`${thisPackage.packageName} utility`);
     return true;
@@ -198,13 +198,13 @@ async function isPackageAUtility(pkg, repoRoot) {
  * Decides the appropriate versions to be pinned of the dependencies or dev-dep in the package.json
  * @param {*} pkg - the package which is a dependency or dev-dependency of the targetPackage. We want to decide what version this package should be pinned to.
  * @param {*} packageJsonDepVersion - the dependency version range of the {package} in the targetPackage's package.json
- * @param {*} repoRoot - root of the repository given as input
+ * @param {*} normalizedRoot - root of the repository given as input
  * @param {*} versionType - min or max or same
  * @returns
  */
-async function findAppropriateVersion(pkg, packageJsonDepVersion, repoRoot, versionType) {
+async function findAppropriateVersion(pkg, packageJsonDepVersion, normalizedRoot, versionType) {
   console.log("checking " + pkg + " = " + packageJsonDepVersion);
-  let isUtility = await isPackageAUtility(pkg, repoRoot);
+  let isUtility = await isPackageAUtility(pkg, normalizedRoot);
   if (isUtility) {
     return packageJsonDepVersion;
   }
@@ -224,7 +224,7 @@ async function findAppropriateVersion(pkg, packageJsonDepVersion, repoRoot, vers
         console.warn(
           `No matching semver min version found on npm for package ${pkg} with version ${packageJsonDepVersion}. Replacing with local version`,
         );
-        let version = await getPackageVersion(repoRoot, pkg);
+        let version = await getPackageVersion(normalizedRoot, pkg);
         console.log(version);
         return version;
       }
@@ -238,7 +238,7 @@ async function findAppropriateVersion(pkg, packageJsonDepVersion, repoRoot, vers
         console.warn(
           `No matching semver max version found on npm for package ${pkg} with version ${packageJsonDepVersion}. Replacing with local version`,
         );
-        let version = await getPackageVersion(repoRoot, pkg);
+        let version = await getPackageVersion(normalizedRoot, pkg);
         console.log(version);
         return version;
       }
@@ -248,13 +248,13 @@ async function findAppropriateVersion(pkg, packageJsonDepVersion, repoRoot, vers
   }
 }
 
-async function getPackageVersion(repoRoot, pkg) {
-  let thisPackage = await getPackageFromPnpm(repoRoot, pkg);
+async function getPackageVersion(normalizedRoot, pkg) {
+  let thisPackage = await getPackageFromPnpm(normalizedRoot, pkg);
   if (!thisPackage) {
     throw new Error(`Package is not found in pnpm workspace for artifact ${pkg}`);
   }
   console.log(thisPackage);
-  let thisPackagePath = path.join(repoRoot, thisPackage.projectFolder);
+  let thisPackagePath = path.join(normalizedRoot, thisPackage.projectFolder);
   let thisPackageJsonPath = path.join(thisPackagePath, "package.json");
   let thisPackageJsonContents = await readFileJson(thisPackageJsonPath);
   console.log(thisPackageJsonContents);
@@ -281,9 +281,9 @@ function fromDir(startPath, filter, resList) {
   return resList;
 }
 
-function copyRepoFile(repoRoot, relativePath, fileName, targetPackagePath, testFolder) {
+function copyRepoFile(normalizedRoot, relativePath, fileName, targetPackagePath, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
-  const sourcePath = path.join(repoRoot, relativePath, fileName);
+  const sourcePath = path.join(normalizedRoot, relativePath, fileName);
   const destPath = path.join(testPath, fileName);
   console.log(`copying file from ${sourcePath} to ${destPath}`);
   fs.copyFileSync(sourcePath, destPath);
@@ -370,43 +370,50 @@ async function getVersions(packageName) {
   }
 }
 
-async function getPackageFromPnpm(repoRoot, packageName) {
-  const listPackagesCommandExec = new Promise(async (res, rej) => {
-    const pnpmProcess = crossSpawn("pnpm", ["list", "--recursive", "--json", "--depth=1"], {
-      stdout: "inherit",
-      cwd: repoRoot,
-    });
-    let stdOut = "";
-    let stdErr = "";
-    pnpmProcess.stdout.on("data", (data) => (stdOut = stdOut + data.toString()));
-    pnpmProcess.stderr.on("data", (data) => (stdErr = stdErr + data.toString()));
-    pnpmProcess.on("close", (code) => {
-      console.log(`pnpm list --recursive --json --depth=1 process exit code: ${code}`);
-      if (code !== 0) {
-        rej(`Process exits with code ${code}`);
-        return;
-      }
-      res({ code, stdOut, stdErr });
-    });
-  });
+let results = undefined;
 
-  const listPackagesCommand = await listPackagesCommandExec;
-  const pnpmPackages = JSON.parse(listPackagesCommand.stdOut);
-  const results = {
-    projects: [],
-  };
-
-  for (const pkg of pnpmPackages) {
-    if (pkg.path.startsWith(repoRoot)) {
-      const projectFolder = pkg.path.slice(repoRoot.length + 1);
-      const packageJsonPath = path.join(pkg.path, "package.json");
-      const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
-      results.projects.push({
-        packageName: pkg.name,
-        projectFolder,
-        versionPolicyName: packageJson["sdk-type"] || "unknown",
+async function getPackageFromPnpm(normalizedRoot, packageName) {
+  if (results === undefined) {
+    const listPackagesCommandExec = new Promise(async (res, rej) => {
+      const pnpmProcess = crossSpawn(
+        "pnpm",
+        ["list", "--recursive", "--json", "--depth=1", "--only-projects"],
+        {
+          stdout: "inherit",
+          cwd: normalizedRoot,
+        },
+      );
+      let stdOut = "";
+      let stdErr = "";
+      pnpmProcess.stdout.on("data", (data) => (stdOut = stdOut + data.toString()));
+      pnpmProcess.stderr.on("data", (data) => (stdErr = stdErr + data.toString()));
+      pnpmProcess.on("close", (code) => {
+        console.log(`pnpm list --recursive --json --depth=1 process exit code: ${code}`);
+        if (code !== 0) {
+          rej(`Process exits with code ${code}`);
+          return;
+        }
+        res({ code, stdOut, stdErr });
       });
+    });
+
+    const listPackagesCommand = await listPackagesCommandExec;
+    const pnpmPackages = JSON.parse(listPackagesCommand.stdOut);
+    const projects = [];
+
+    for (const pkg of pnpmPackages) {
+      if (pkg.path.startsWith(normalizedRoot)) {
+        const projectFolder = pkg.path.slice(normalizedRoot.length);
+        const packageJsonPath = path.join(pkg.path, "package.json");
+        const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
+        projects.push({
+          packageName: pkg.name,
+          projectFolder,
+          versionPolicyName: packageJson["sdk-type"] || "unknown",
+        });
+      }
     }
+    results = { projects };
   }
 
   return results.projects.find((project) => project.packageName === packageName);
@@ -419,16 +426,26 @@ async function main(argv) {
   const sourceDir = argv["source-dir"];
   const testFolder = argv["test-folder"];
   const dryRun = argv["dry-run"];
-
   let packageName = artifactName;
   if (!artifactName.startsWith("@")) {
     packageName = artifactName.replace(/"?([a-z]*)"?-/i, "@$1/");
   }
-  const targetPackage = await getPackageFromPnpm(repoRoot, packageName);
+  const normalizedRoot = path.normalize(path.join(process.cwd(), repoRoot));
+  console.dir({
+    artifactName,
+    repoRoot,
+    normalizedRoot,
+    versionType,
+    sourceDir,
+    testFolder,
+    dryRun,
+  });
+
+  const targetPackage = await getPackageFromPnpm(normalizedRoot, packageName);
   if (!targetPackage) {
     throw new Error(`Package is not found in pnpm workspace for artifact ${artifactName}`);
   }
-  const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
+  const targetPackagePath = path.join(normalizedRoot, targetPackage.projectFolder);
 
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 

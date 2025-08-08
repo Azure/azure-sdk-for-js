@@ -123,9 +123,8 @@ jobs:
 
       - pwsh: |
           npm install
-          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
-        displayName: "Get package path"
+        displayName: "Install dependencies for eng-package-utils"
 
       - script: |
           npm install
@@ -139,6 +138,11 @@ jobs:
         displayName: "Re-run Pnpm install"
         workingDirectory: $(Build.SourcesDirectory)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+
+      - pwsh: |
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
+        displayName: "Get package path"
 
       - script: |
           pnpm run build
