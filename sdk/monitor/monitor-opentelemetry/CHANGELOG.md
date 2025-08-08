@@ -1,5 +1,11 @@
 # Release History
 
+## 1.12.1 ()
+
+### Other Changes
+
+- Change customer statsbeat feature name to customer SDK Stats.
+
 ## 1.12.0 (2025-08-04)
 
 ### Features Added
