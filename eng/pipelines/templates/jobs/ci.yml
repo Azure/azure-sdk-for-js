@@ -32,6 +32,19 @@ jobs:
     ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
       timeoutInMinutes: 240
 
+    # Only run CG and codeql on internal build job
+    ${{ if eq(variables['System.TeamProject'], 'internal') }}:
+      templateContext:
+        sdl:
+          componentgovernance:
+            enabled: true
+          codeql:
+            # Exclude api management custom widgets repo and test files from CodeQL analysis
+            excludePathPatterns: "sdk/apimanagement/api-management-custom-widgets-tools, sdk/apimanagement/api-management-custom-widgets-scaffolder, sdk/**/test/**/*.ts"
+            binaryLanguages: javascript # Need to specify the language because we clone after the codeql initialize step
+            compiled:
+              enabled: true
+
     pool:
       name: $(LINUXPOOL)
       image: $(LINUXVMIMAGE)
