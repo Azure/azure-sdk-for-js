@@ -10,7 +10,7 @@ This library provides a `TokenCredential` implementation for testing Azure SDK p
 
 Add this library as a dev dependency in your project.
 
-> rush add -p @azure-tools/test-credential --dev
+> pnpm add --filter=@azure-tools/test-credential -D
 
 ## Key concepts
 

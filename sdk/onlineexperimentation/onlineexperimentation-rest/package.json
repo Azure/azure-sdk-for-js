@@ -104,7 +104,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "//sampleConfiguration": {
-    "productName": "A description of your services",
+    "productName": "Azure Online Experimentation REST",
     "productSlugs": [
       "azure"
     ],

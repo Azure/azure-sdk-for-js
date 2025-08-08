@@ -4,8 +4,7 @@
 import { leafCommand, makeCommandInfo } from "../../../framework/command";
 import path from "node:path";
 import { resolveRoot } from "../../../util/resolveProject";
-import { readFile } from "node:fs/promises";
-import stripJsonComments from "strip-json-comments";
+import { getRushJson, type RushJsonProject } from "../../../util/synthesizedRushJson";
 
 export const commandInfo = makeCommandInfo("packages", "list packages defined in the monorepo", {
   paths: {
@@ -20,16 +19,41 @@ export const commandInfo = makeCommandInfo("packages", "list packages defined in
     kind: "string",
     shortName: "s",
   },
+  task: {
+    description: "a .js/.ts file default-exporting a function to run on each listed package",
+    kind: "string",
+    shortName: "t",
+  },
+});
 
-  // use --task option to provide code file to be executed for each package. For example,
-  // the following code adds missing "tsx" dev dependency whereever it is used.
-  /*
+export async function getProjects(service?: string): Promise<RushJsonProject[]> {
+  const rushJson = await getRushJson();
+
+  return service
+    ? rushJson.projects.filter((p: RushJsonProject) =>
+        p.projectFolder.startsWith(`sdk/${service}/`),
+      )
+    : rushJson.projects;
+}
+
+async function echoPackage(project: RushJsonProject, paths: boolean, cwd: string, root: string) {
+  if (paths) {
+    console.log(path.relative(cwd, path.resolve(root, project.projectFolder)) || ".");
+  } else {
+    console.log(project.packageName);
+  }
+}
+
+// use --task option to provide code file to be executed for each package. For example,
+// the following code adds missing "tsx" dev dependency whereever it is used.
+/*
+```ts
 import path from "node:path";
 import { writeFile } from "node:fs/promises";
 import { resolveProject } from "../../../../util/resolveProject";
-import { RushJsonProject } from "../packages";
+import { RushJsonProject } from "../../../../util/synthesizedRushJson";
 
-export default async function IdentifyPackage(
+export default async function listPackageCallback(
   project: RushJsonProject,
   _paths: boolean,
   _cwd: string,
@@ -53,61 +77,8 @@ export default async function IdentifyPackage(
     }
   }
 }
-*/
-  task: {
-    description: "a .js/.ts file default-exporting a function to run on each listed package",
-    kind: "string",
-    shortName: "t",
-  },
-});
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _rushJson: any = undefined;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function getRushJson(): Promise<any> {
-  if (_rushJson) return _rushJson;
-
-  const rushJsonText = await readFile(
-    path.resolve(__dirname, "../../../../../../../rush.json"),
-    "utf-8",
-  );
-
-  return (_rushJson = JSON.parse(stripJsonComments(rushJsonText)));
-}
-
-/**
- * The shape of a rush.json `projects` entry.
- */
-export interface RushJsonProject {
-  /**
-   * The name of the package.
-   */
-  packageName: string;
-  /**
-   * The path to the project, relative to the monorepo root.
-   */
-  projectFolder: string;
-}
-
-export async function getProjects(service?: string): Promise<RushJsonProject[]> {
-  const rushJson = await getRushJson();
-
-  return service
-    ? rushJson.projects.filter((p: RushJsonProject) =>
-        p.projectFolder.startsWith(`sdk/${service}/`),
-      )
-    : rushJson.projects;
-}
-
-async function echoPackage(project: RushJsonProject, paths: boolean, cwd: string, root: string) {
-  if (paths) {
-    console.log(path.relative(cwd, path.resolve(root, project.projectFolder)) || ".");
-  } else {
-    console.log(project.packageName);
-  }
-}
-
+```
+  */
 export default leafCommand(commandInfo, async ({ paths, service, task }) => {
   const cwd = process.cwd();
   const root = await resolveRoot();

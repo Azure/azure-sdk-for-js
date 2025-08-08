@@ -2,7 +2,7 @@
 
 > see https://aka.ms/autorest
 
-Run `rushx generate:client` to generate code.
+Run `npm run generate:client` to generate code.
 
 ## Configuration
 

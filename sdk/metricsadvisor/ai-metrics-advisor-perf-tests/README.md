@@ -1,6 +1,6 @@
 ### Guide
 
-1. Build the ai-metrics-advisor perf tests package `rush build -t perf-ai-metrics-advisor`.
+1. Build the ai-metrics-advisor perf tests package `pnpm build --filter perf-ai-metrics-advisor...`.
 2. Copy the `sample.env` file and name it as `.env`.
 3. Create a metrics advisor client account and populate the `.env` file with the values of variables specified from the `sample.env`
 4. Run the tests as follows:
