@@ -1,12 +1,18 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @file Rule to disallow relative imports from src/ in test files.
+ */
+
 import { TSESTree } from "@typescript-eslint/utils";
-import { resolve, dirname } from "node:path";
 import { createRule } from "../utils/ruleCreator.js";
 
 type Options = [];
 type MessageIds = "invalidImport";
 
 export default createRule<Options, MessageIds>({
-  name: "no-invalid-test-imports",
+  name: "ts-no-invalid-test-imports",
   meta: {
     type: "problem",
     docs: {
@@ -20,42 +26,43 @@ export default createRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const filename = context.getFilename();
-
+    const filename = context.filename;
     const isTestFile =
-      /\.(test|spec)\.[jt]sx?$/.test(filename) ||
-      /__tests__/.test(filename) ||
-      /[/\\](test|tests)[/\\]/.test(filename);
+      /\.(test|spec)\.[jt]sx?$/.test(filename) || /[/\\](test|tests)[/\\]/.test(filename);
     if (!isTestFile) {
       return {};
     }
 
-    const projectRoot = context.getCwd();
-    const srcDir = resolve(projectRoot, "src");
-    const fileDir = dirname(filename);
+    function isRelativeImportIntoSrc(raw: string): boolean {
+      if (!raw.startsWith(".")) {
+        return false;
+      } // only relative imports considered
+      const segs = raw.split(/[\\/]+/); // split on / or \\ for cross-platform paths
+      let i = 0;
+      // Skip leading current-dir markers
+      while (i < segs.length && segs[i] === ".") {
+        i++;
+      }
+      let sawParent = false;
+      while (i < segs.length && segs[i] === "..") {
+        sawParent = true;
+        i++;
+      }
+      if (!sawParent) {
+        return false;
+      } // must climb at least one level
+      // Now if the next segment is exactly "src" we consider it disallowed
+      return i < segs.length && segs[i] === "src";
+    }
 
     return {
       ImportDeclaration(node: TSESTree.ImportDeclaration) {
         const importPath = node.source.value;
-
         if (typeof importPath !== "string") {
           return;
         }
-
-        // Only inspect relative imports
-        if (!importPath.startsWith(".")) {
-          return;
-        }
-
-        // Resolve the actual path of the import
-        const resolvedPath = resolve(fileDir, importPath);
-
-        // Check if resolved path is under src/
-        if (resolvedPath.startsWith(srcDir)) {
-          context.report({
-            node,
-            messageId: "invalidImport",
-          });
+        if (isRelativeImportIntoSrc(importPath)) {
+          context.report({ node, messageId: "invalidImport" });
         }
       },
     };
