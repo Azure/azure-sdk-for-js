@@ -5,6 +5,7 @@ export default azsdkEslint.config([
   {
     rules: {
       "@azure/azure-sdk/ts-naming-options": "warn",
+      "@azure/azure-sdk/ts-no-invalid-test-imports": "error",
     },
   },
 ]);

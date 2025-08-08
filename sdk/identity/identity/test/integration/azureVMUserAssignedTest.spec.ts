@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { ManagedIdentityCredential } from "../../src/index.js";
+import { ManagedIdentityCredential } from "@azure/identity";
 import { describe, it, assert } from "vitest";
 
 describe("AzureVM UserAssigned Integration test", function () {
