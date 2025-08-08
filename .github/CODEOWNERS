@@ -1644,7 +1644,11 @@ sdk/storagediscovery/arm-storagediscovery/ @qiaozha @MaryGao
 ###########
 /.vscode/ @mikeharder @deyaaeldeen @jeremymeng
 /common/ @mikeharder @deyaaeldeen @jeremymeng
-/common/config/rush/pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
+/package.json @jeremymeng @Azure/azure-sdk-js-dev
+/turbo.json @jeremymeng @Azure/azure-sdk-js-dev
+/pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
+/pnpm-workspace.yaml @jeremymeng @Azure/azure-sdk-js-dev
+
 # Smoke Tests
 /common/smoke-test/ @mikeharder @jeremymeng @deyaaeldeen @benbp
 
