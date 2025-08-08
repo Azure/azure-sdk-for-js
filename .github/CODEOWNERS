@@ -1667,7 +1667,7 @@ sdk/storagediscovery/arm-storagediscovery/ @qiaozha @MaryGao
 
 /rush.json @mikeharder @jeremymeng @Azure/azure-sdk-js-dev
 
-/tsconfig.*.json @mikeharder @Azure/azure-sdk-for-js-core
+/tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
 /**/tsconfig.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
