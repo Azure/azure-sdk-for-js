@@ -1,0 +1,21 @@
+{
+  "name": "@azure-tools/ci-runner",
+  "type": "module",
+  "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
+  "scripts": {
+    "build": "npm run format && npm run lint && npm run typecheck && npm run test",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore index.js \"src/**/*.js\" \"test/**/*.js\"",
+    "typecheck": "tsc",
+    "lint": "eslint index.js src test",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-istanbul": "^3.1.1",
+    "eslint": "^9.9.0",
+    "prettier": "3.3.3",
+    "vitest": "^3.1.1",
+    "typescript": "~5.8.2"
+  }
+}
