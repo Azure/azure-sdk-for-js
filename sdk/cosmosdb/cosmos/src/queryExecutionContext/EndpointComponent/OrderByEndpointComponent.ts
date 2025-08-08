@@ -27,18 +27,40 @@ export class OrderByEndpointComponent implements ExecutionContext {
 
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
     const buffer: any[] = [];
+    const orderByItemsArray: any[][] = []; // Store order by items for each item
+
     const response = await this.executionContext.fetchMore(diagnosticNode);
-    if (response === undefined || response.result === undefined) {
+    if (
+      response === undefined ||
+      response.result === undefined ||
+      response.result.buffer === undefined
+    ) {
       return { result: undefined, headers: response.headers };
     }
-    for (const item of response.result) {
+
+    const rawBuffer = response.result.buffer;
+
+    // Process buffer items and collect order by items for each item
+    for (let i = 0; i < rawBuffer.length; i++) {
+      const item = rawBuffer[i];
+
       if (this.emitRawOrderByPayload) {
         buffer.push(item);
       } else {
         buffer.push(item.payload);
       }
+      orderByItemsArray.push(item.orderByItems);
     }
 
-    return { result: buffer, headers: response.headers };
+    // Preserve the response structure with buffer, partitionKeyRangeMap, and all order by items
+    return {
+      result: {
+        buffer: buffer,
+        partitionKeyRangeMap: response.result.partitionKeyRangeMap,
+        // Pass all order by items - pipeline will determine which one to use based on page boundaries
+        ...(orderByItemsArray.length > 0 && { orderByItemsArray: orderByItemsArray }),
+      },
+      headers: response.headers,
+    };
   }
 }

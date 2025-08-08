@@ -22,11 +22,15 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     const buffer: any[] = [];
     const response = await this.executionContext.fetchMore(diagnosticNode);
     mergeHeaders(aggregateHeaders, response.headers);
-    if (response === undefined || response.result === undefined) {
+    if (
+      response === undefined ||
+      response.result === undefined ||
+      response.result.buffer === undefined
+    ) {
       return { result: undefined, headers: response.headers };
     }
 
-    for (const item of response.result) {
+    for (const item of response.result.buffer) {
       if (this.offset > 0) {
         this.offset--;
       } else if (this.limit > 0) {

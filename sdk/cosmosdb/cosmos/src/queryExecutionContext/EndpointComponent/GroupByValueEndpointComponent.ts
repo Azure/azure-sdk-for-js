@@ -46,14 +46,18 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     const response = await this.executionContext.fetchMore(diagnosticNode);
     mergeHeaders(aggregateHeaders, response.headers);
 
-    if (response === undefined || response.result === undefined) {
+    if (
+      response === undefined ||
+      response.result === undefined ||
+      response.result.buffer === undefined
+    ) {
       if (this.aggregators.size > 0) {
         return this.generateAggregateResponse(aggregateHeaders);
       }
       return { result: undefined, headers: aggregateHeaders };
     }
 
-    for (const item of response.result as GroupByResult[]) {
+    for (const item of response.result.buffer as GroupByResult[]) {
       if (item) {
         let grouping: string = emptyGroup;
         let payload: any = item;

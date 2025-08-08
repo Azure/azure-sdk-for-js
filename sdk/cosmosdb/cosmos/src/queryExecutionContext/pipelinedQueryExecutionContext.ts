@@ -19,6 +19,9 @@ import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent.js";
+import { ContinuationTokenManager } from "./ContinuationTokenManager.js";
+import type { QueryRangeMapping } from "./QueryRangeMapping.js";
+import { Constants } from "../common/index.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -30,7 +33,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private static DEFAULT_PAGE_SIZE = 10;
   private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
-
+  private continuationTokenManager: ContinuationTokenManager;
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
@@ -164,14 +167,52 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       }
     }
     this.fetchBuffer = [];
+
+    // Detect if this is an ORDER BY query for continuation token management
+    const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
+
+    // Initialize continuation token manager with ORDER BY awareness
+    this.continuationTokenManager = new ContinuationTokenManager(
+      this.collectionLink,
+      this.options.continuationToken,
+      isOrderByQuery,
+    );
   }
 
   public hasMoreResults(): boolean {
-    return this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
-  }
+    // For enableQueryControl mode, we have more results if:
+    // 1. There are items in the fetch buffer, OR
+    // 2. There are unprocessed ranges in the partition key range map, OR
+    // 3. The endpoint has more results
+    if (this.options.enableQueryControl) {
+      const hasBufferedItems = this.fetchBuffer.length > 0;
+      const hasUnprocessedRanges = this.continuationTokenManager.hasUnprocessedRanges();
+      const endpointHasMore = this.endpoint.hasMoreResults();
 
+      console.log("hasBufferedItems:", hasBufferedItems);
+      console.log("hasUnprocessedRanges:", hasUnprocessedRanges);
+      console.log("endpointHasMore:", endpointHasMore);
+
+      const result = hasBufferedItems || hasUnprocessedRanges || endpointHasMore;
+      console.log("hasMoreResults result:", result);
+      console.log("=== END hasMoreResults DEBUG ===");
+
+      return result;
+    }
+
+    // Default behavior for non-enableQueryControl mode
+    const result = this.fetchBuffer.length !== 0 || this.endpoint.hasMoreResults();
+    console.log("hasMoreResults (default mode) result:", result);
+    console.log("=== END hasMoreResults DEBUG ===");
+    return result;
+  }
+  // TODO: make contract of fetchMore to be consistent as other internal ones
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     this.fetchMoreRespHeaders = getInitialHeader();
+    console.log("fetchMore Options", this.options.enableQueryControl);
+    if (this.options.enableQueryControl) {
+      return this._enableQueryControlFetchMoreImplementation(diagnosticNode);
+    }
     return this._fetchMoreImplementation(diagnosticNode);
   }
 
@@ -185,8 +226,26 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         return { result: temp, headers: this.fetchMoreRespHeaders };
       } else {
         const response = await this.endpoint.fetchMore(diagnosticNode);
+        let bufferedResults;
+
+        // Handle both old format (just array) and new format (with buffer property)
+        if (Array.isArray(response.result)) {
+          // Old format - result is directly the array
+          bufferedResults = response.result;
+        } else if (response.result && response.result.buffer) {
+          // New format - result has buffer property
+          bufferedResults = response.result.buffer;
+        } else {
+          // Handle undefined/null case
+          bufferedResults = response.result;
+        }
+
         mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-        if (response === undefined || response.result === undefined) {
+        if (
+          response === undefined ||
+          response.result === undefined ||
+          bufferedResults === undefined
+        ) {
           if (this.fetchBuffer.length > 0) {
             const temp = this.fetchBuffer;
             this.fetchBuffer = [];
@@ -195,19 +254,19 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             return { result: undefined, headers: this.fetchMoreRespHeaders };
           }
         }
-        this.fetchBuffer.push(...response.result);
-
-        if (this.options.enableQueryControl) {
-          if (this.fetchBuffer.length >= this.pageSize) {
-            const temp = this.fetchBuffer.slice(0, this.pageSize);
-            this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
-            return { result: temp, headers: this.fetchMoreRespHeaders };
-          } else {
-            const temp = this.fetchBuffer;
-            this.fetchBuffer = [];
-            return { result: temp, headers: this.fetchMoreRespHeaders };
-          }
-        }
+        this.fetchBuffer.push(...bufferedResults);
+        // TODO: This section can be removed
+        // if (this.options.enableQueryControl) {
+        //   if (this.fetchBuffer.length >= this.pageSize) {
+        //     const temp = this.fetchBuffer.slice(0, this.pageSize);
+        //     this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
+        //     return { result: temp, headers: this.fetchMoreRespHeaders };
+        //   } else {
+        //     const temp = this.fetchBuffer;
+        //     this.fetchBuffer = [];
+        //     return { result: temp, headers: this.fetchMoreRespHeaders };
+        //   }
+        // }
         // Recursively fetch more results to ensure the pageSize number of results are returned
         // to maintain compatibility with the previous implementation
         return this._fetchMoreImplementation(diagnosticNode);
@@ -218,6 +277,96 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (err) {
         throw err;
       }
+    }
+  }
+
+  private async _enableQueryControlFetchMoreImplementation(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<Response<any>> {
+    if (this.fetchBuffer.length > 0 && this.continuationTokenManager.hasUnprocessedRanges()) {
+      const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
+      const temp = this.fetchBuffer.slice(0, endIndex);
+      this.fetchBuffer = this.fetchBuffer.slice(endIndex);
+
+      // Remove the processed ranges
+      this.removeProcessedRanges(processedRanges);
+
+      // Update headers before returning processed page
+      // TODO: instead of passing header add a method here to update the header
+      this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
+
+      return { result: temp, headers: this.fetchMoreRespHeaders };
+    } else {
+      this.fetchBuffer = [];
+      const response = await this.endpoint.fetchMore(diagnosticNode);
+      console.log("Fetched more results from endpoint", JSON.stringify(response));
+
+      // Handle case where there are no more results from endpoint
+      if (!response || !response.result) {
+        return this.createEmptyResultWithHeaders(response?.headers);
+      }
+
+      // Process response and update continuation token manager
+      if (!this.processEndpointResponse(response)) {
+        return this.createEmptyResultWithHeaders(response.headers);
+      }
+
+      // Return empty result if no items were buffered
+      if (this.fetchBuffer.length === 0) {
+        return this.createEmptyResultWithHeaders(this.fetchMoreRespHeaders);
+      }
+
+      const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
+
+      const temp = this.fetchBuffer.slice(0, endIndex);
+      this.fetchBuffer = this.fetchBuffer.slice(endIndex);
+      this.removeProcessedRanges(processedRanges);
+      this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
+
+      return { result: temp, headers: this.fetchMoreRespHeaders };
+    }
+  }
+
+  private fetchBufferEndIndexForCurrentPage(): { endIndex: number; processedRanges: string[] } {
+    if (this.fetchBuffer.length === 0) {
+      return { endIndex: 0, processedRanges: [] };
+    }
+    const result = this.continuationTokenManager.processRangesForCurrentPage(
+      this.pageSize,
+      this.fetchBuffer.length,
+      this.fetchBuffer.slice(0, this.fetchBuffer.length),
+    );
+    return result;
+  }
+
+  private removeProcessedRanges(processedRanges: string[]): void {
+    processedRanges.forEach((rangeId) => {
+      this.continuationTokenManager.removePartitionRangeMapping(rangeId);
+    });
+  }
+
+  private createEmptyResultWithHeaders(headers?: CosmosHeaders): Response<any> {
+    const hdrs = headers || getInitialHeader();
+    this.continuationTokenManager.setContinuationTokenInHeaders(hdrs);
+    return { result: [], headers: hdrs };
+  }
+
+  private processEndpointResponse(response: Response<any>): boolean {
+    if (response.result.buffer) {
+      // Update the token manager with the new partition key range map
+      this.fetchBuffer = response.result.buffer;
+      if (response.result.partitionKeyRangeMap) {
+        this.continuationTokenManager.setPartitionKeyRangeMap(response.result.partitionKeyRangeMap);
+      }
+      // Capture order by items array for ORDER BY queries if available
+      if (response.result.orderByItemsArray) {
+        this.continuationTokenManager.setOrderByItemsArray(response.result.orderByItemsArray);
+      }
+      return true;
+    } else {
+      // Unexpected format; still attempt to attach continuation header (likely none)
+      this.continuationTokenManager.setContinuationTokenInHeaders(response.headers);
+      return false;
     }
   }
 

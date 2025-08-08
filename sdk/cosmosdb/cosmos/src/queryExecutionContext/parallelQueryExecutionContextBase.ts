@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
-import type { ClientContext } from "../ClientContext.js";
 import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
@@ -10,15 +9,21 @@ import type { FeedOptions, Response } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
 import { QueryRange } from "../routing/QueryRange.js";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider.js";
-import type { CosmosHeaders } from "./CosmosHeaders.js";
-import { DocumentProducer } from "./documentProducer.js";
+import type { CosmosHeaders } from "../index.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
-import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import { DocumentProducer } from "./documentProducer.js";
+import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { ClientContext } from "../ClientContext.js";
+import type { QueryRangeMapping } from "./QueryRangeMapping.js";
+import {
+  TargetPartitionRangeManager,
+  QueryExecutionContextType,
+} from "./TargetPartitionRangeManager.js";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -43,6 +48,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   // TODO: update type of buffer from any --> generic can be used here
   private buffer: any[];
+  // a data structure  to hold indexes of buffer wrt to partition key ranges, like index 0-21 belong to partition key range 1, index 22-45 belong to partition key range 2, etc.
+  // along partition key range it will also hold continuation token for that partition key range
+  // patch id + doc range + continuation token
+  // e.g. { 0: { indexes: [0, 21], continuationToken: "token" } }
+  private patchToRangeMapping: Map<string, QueryRangeMapping> = new Map();
+  private patchCounter: number = 0;
   private sem: any;
   private diagnosticNodeWrapper: {
     consumed: boolean;
@@ -121,22 +132,67 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         );
 
         let filteredPartitionKeyRanges = [];
+        let continuationTokens: string[] = [];
         // The document producers generated from filteredPartitionKeyRanges
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
 
         if (this.requestContinuation) {
-          throw new Error("Continuation tokens are not yet supported for cross partition queries");
+          // Determine the query type based on the context and continuation token
+          const queryType = this.getQueryType();
+          let rangeManager: TargetPartitionRangeManager;
+
+          if (queryType === QueryExecutionContextType.OrderBy) {
+            console.log("Using ORDER BY query range strategy");
+            rangeManager = TargetPartitionRangeManager.createForOrderByQuery({
+              maxDegreeOfParallelism: maxDegreeOfParallelism,
+              quereyInfo: this.partitionedQueryExecutionInfo,
+            });
+          } else {
+            console.log("Using Parallel query range strategy");
+            rangeManager = TargetPartitionRangeManager.createForParallelQuery({
+              maxDegreeOfParallelism: maxDegreeOfParallelism,
+              quereyInfo: this.partitionedQueryExecutionInfo,
+            });
+          }
+
+          console.log("Filtering partition ranges using continuation token");
+          const filterResult = await rangeManager.filterPartitionRanges(
+            targetPartitionRanges,
+            this.requestContinuation,
+          );
+
+          filteredPartitionKeyRanges = filterResult.filteredRanges;
+          continuationTokens = filterResult.continuationToken || [];
+          const filteringConditions = filterResult.filteringConditions || [];
+
+          filteredPartitionKeyRanges.forEach((partitionTargetRange: any, index: number) => {
+            // TODO: any partitionTargetRange
+            // no async callback
+            const continuationToken = continuationTokens ? continuationTokens[index] : undefined;
+            const filterCondition = filteringConditions ? filteringConditions[index] : undefined;
+
+            targetPartitionQueryExecutionContextList.push(
+              this._createTargetPartitionQueryExecutionContext(
+                partitionTargetRange,
+                continuationToken,
+                undefined, // startEpk
+                undefined, // endEpk
+                false, // populateEpkRangeHeaders
+                filterCondition,
+              ),
+            );
+          });
         } else {
           filteredPartitionKeyRanges = targetPartitionRanges;
+          // TODO: updat continuations later
+          filteredPartitionKeyRanges.forEach((partitionTargetRange: any) => {
+            // TODO: any partitionTargetRange
+            // no async callback
+            targetPartitionQueryExecutionContextList.push(
+              this._createTargetPartitionQueryExecutionContext(partitionTargetRange, undefined),
+            );
+          });
         }
-        // Create one documentProducer for each partitionTargetRange
-        filteredPartitionKeyRanges.forEach((partitionTargetRange: any) => {
-          // TODO: any partitionTargetRange
-          // no async callback
-          targetPartitionQueryExecutionContextList.push(
-            this._createTargetPartitionQueryExecutionContext(partitionTargetRange, undefined),
-          );
-        });
 
         // Fill up our priority queue with documentProducers
         targetPartitionQueryExecutionContextList.forEach((documentProducer): void => {
@@ -163,6 +219,22 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     dp1: DocumentProducer,
     dp2: DocumentProducer,
   ): number;
+
+  /**
+   * Determines the query execution context type based on available information
+   * @returns The detected query execution context type
+   */
+  protected getQueryType(): QueryExecutionContextType {
+    const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
+    const queryType = isOrderByQuery
+      ? QueryExecutionContextType.OrderBy
+      : QueryExecutionContextType.Parallel;
+
+    console.log(
+      `Detected query type from sort orders: ${queryType} (sortOrders: ${this.sortOrders?.length || 0})`,
+    );
+    return queryType;
+  }
 
   private _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
     mergeHeaders(this.respHeaders, headers);
@@ -288,6 +360,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     startEpk?: string,
     endEpk?: string,
     populateEpkRangeHeaders?: boolean,
+    filterCondition?: string,
   ): DocumentProducer {
     let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo.rewrittenQuery;
     let sqlQuerySpec: SqlQuerySpec;
@@ -302,7 +375,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     if (rewrittenQuery) {
       sqlQuerySpec = JSON.parse(JSON.stringify(sqlQuerySpec));
       // We hardcode the formattable filter to true for now
-      rewrittenQuery = rewrittenQuery.replace(formatPlaceHolder, "true");
+      rewrittenQuery = filterCondition
+        ? rewrittenQuery.replace(formatPlaceHolder, filterCondition)
+        : rewrittenQuery.replace(formatPlaceHolder, "true");
       sqlQuerySpec["query"] = rewrittenQuery;
     }
 
@@ -336,19 +411,27 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         if (this.buffer.length === 0) {
           this.sem.leave();
           return resolve({
-            result: this.state === ParallelQueryExecutionContextBase.STATES.ended ? undefined : [],
+            result: {
+              buffer:
+                this.state === ParallelQueryExecutionContextBase.STATES.ended ? undefined : [],
+              partitionKeyRangeMap: this.patchToRangeMapping,
+            },
             headers: this._getAndResetActiveResponseHeaders(),
           });
         }
         // draing the entire buffer object and return that in result of return object
         const bufferedResults = this.buffer;
         this.buffer = [];
+        // reset the patchToRangeMapping
+        const patchToRangeMapping = this.patchToRangeMapping;
+        this.patchToRangeMapping = new Map<string, QueryRangeMapping>();
+        this.patchCounter = 0;
 
         // release the lock before returning
         this.sem.leave();
-        // invoke the callback on the item
+
         return resolve({
-          result: bufferedResults,
+          result: { buffer: bufferedResults, partitionKeyRangeMap: patchToRangeMapping },
           headers: this._getAndResetActiveResponseHeaders(),
         });
       });
@@ -416,12 +499,25 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             try {
               const headers = await documentProducer.bufferMore(diagnosticNode);
               this._mergeWithActiveResponseHeaders(headers);
-              // if buffer of document producer is filled, add it to the buffered document producers queue
+
+              // Always track this document producer in patchToRangeMapping, even if it has no results
+              // This ensures we maintain a record of all partition ranges that were scanned
               const nextItem = documentProducer.peakNextItem();
               if (nextItem !== undefined) {
                 this.bufferedDocumentProducersQueue.enq(documentProducer);
-              } else if (documentProducer.hasMoreResults()) {
-                this.unfilledDocumentProducersQueue.enq(documentProducer);
+              } else {
+                // Track document producer with no results in patchToRangeMapping
+                // This represents a scanned partition that yielded no results
+                this.patchToRangeMapping.set(this.patchCounter.toString(), {
+                  indexes: [-1, -1], // Special marker for empty result set
+                  partitionKeyRange: documentProducer.targetPartitionKeyRange,
+                  continuationToken: documentProducer.continuationToken,
+                });
+                this.patchCounter++;
+
+                if (documentProducer.hasMoreResults()) {
+                  this.unfilledDocumentProducersQueue.enq(documentProducer);
+                }
               }
             } catch (err) {
               if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
@@ -487,18 +583,36 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           resolve();
           return;
         }
-
         try {
           if (isOrderBy) {
+            let documentProducer; // used to track the last document producer
             while (
               this.unfilledDocumentProducersQueue.isEmpty() &&
               this.bufferedDocumentProducersQueue.size() > 0
             ) {
-              const documentProducer = this.bufferedDocumentProducersQueue.deq();
+              documentProducer = this.bufferedDocumentProducersQueue.deq();
               const { result, headers } = await documentProducer.fetchNextItem();
               this._mergeWithActiveResponseHeaders(headers);
+
               if (result) {
                 this.buffer.push(result);
+                if (
+                  documentProducer.targetPartitionKeyRange.id !==
+                  this.patchToRangeMapping.get(this.patchCounter.toString())?.partitionKeyRange?.id
+                ) {
+                  this.patchCounter++;
+                  this.patchToRangeMapping.set(this.patchCounter.toString(), {
+                    indexes: [this.buffer.length - 1, this.buffer.length - 1],
+                    partitionKeyRange: documentProducer.targetPartitionKeyRange,
+                    continuationToken: documentProducer.continuationToken,
+                  });
+                } else {
+                  const currentPatch = this.patchToRangeMapping.get(this.patchCounter.toString());
+                  if (currentPatch) {
+                    currentPatch.indexes[1] = this.buffer.length - 1;
+                    currentPatch.continuationToken = documentProducer.continuationToken;
+                  }
+                }
               }
               if (documentProducer.peakNextItem() !== undefined) {
                 this.bufferedDocumentProducersQueue.enq(documentProducer);
@@ -513,9 +627,23 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               const documentProducer = this.bufferedDocumentProducersQueue.deq();
               const { result, headers } = await documentProducer.fetchBufferedItems();
               this._mergeWithActiveResponseHeaders(headers);
-              if (result) {
+              if (result && result.length > 0) {
                 this.buffer.push(...result);
+                // add a marker to buffer stating the partition key range and continuation token
+                this.patchToRangeMapping.set(this.patchCounter.toString(), {
+                  indexes: [this.buffer.length - result.length, this.buffer.length - 1],
+                  partitionKeyRange: documentProducer.targetPartitionKeyRange,
+                  continuationToken: documentProducer.continuationToken,
+                });
+              } else {
+                // Document producer returned empty results - still track it in patchToRangeMapping
+                this.patchToRangeMapping.set(this.patchCounter.toString(), {
+                  indexes: [-1, -1], // Special marker for empty result set
+                  partitionKeyRange: documentProducer.targetPartitionKeyRange,
+                  continuationToken: documentProducer.continuationToken,
+                });
               }
+              this.patchCounter++;
               if (documentProducer.hasMoreResults()) {
                 this.unfilledDocumentProducersQueue.enq(documentProducer);
               }
