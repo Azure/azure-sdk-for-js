@@ -65,7 +65,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * - {@link AzureCliCredential}
  * - {@link AzurePowerShellCredential}
  * - {@link AzureDeveloperCliCredential}
- * - {@link BrokerCredential} - A broker-enabled instance of {@link InteractiveBrowserCredential}
+ * - {@link BrokerCredential}
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
