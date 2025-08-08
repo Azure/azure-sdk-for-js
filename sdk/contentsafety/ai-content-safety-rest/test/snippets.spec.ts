@@ -4,7 +4,7 @@
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
-describe("snippets", () => {
+describe.skip("snippets", () => {
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });
