@@ -3,13 +3,16 @@
 
 import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import {
-  MongoCluster,
-  MongoClusterUpdate,
-  ListConnectionStringsResult,
-  CheckNameAvailabilityRequest,
-  CheckNameAvailabilityResponse,
-  PromoteReplicaRequest,
-} from "../../models/models.js";
+  promote,
+  checkNameAvailability,
+  listConnectionStrings,
+  list,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/mongoClusters/operations.js";
 import {
   MongoClustersPromoteOptionalParams,
   MongoClustersCheckNameAvailabilityOptionalParams,
@@ -22,16 +25,13 @@ import {
   MongoClustersGetOptionalParams,
 } from "../../api/mongoClusters/options.js";
 import {
-  promote,
-  checkNameAvailability,
-  listConnectionStrings,
-  list,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/mongoClusters/operations.js";
+  MongoCluster,
+  MongoClusterUpdate,
+  ListConnectionStringsResult,
+  CheckNameAvailabilityRequest,
+  CheckNameAvailabilityResponse,
+  PromoteReplicaRequest,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

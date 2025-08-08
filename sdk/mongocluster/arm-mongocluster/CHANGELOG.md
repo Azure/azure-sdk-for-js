@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.1 (2025-07-23)
+## 1.1.0-beta.2 (2025-08-08)
 Compared with version 1.0.1
 
 ### Features Added
@@ -26,6 +26,7 @@ Compared with version 1.0.1
   - Added Interface UsersGetOptionalParams
   - Added Interface UsersListByMongoClusterOptionalParams
   - Interface MongoCluster has a new optional parameter identity
+  - Interface MongoClusterManagementClientOptionalParams has a new optional parameter cloudSetting
   - Interface MongoClusterProperties has a new optional parameter authConfig
   - Interface MongoClusterProperties has a new optional parameter dataApi
   - Interface MongoClusterProperties has a new optional parameter encryption
@@ -36,6 +37,7 @@ Compared with version 1.0.1
   - Interface StorageProperties has a new optional parameter throughput
   - Interface StorageProperties has a new optional parameter type
   - Added Type Alias AuthenticationMode
+  - Added Type Alias AzureSupportedClouds
   - Added Type Alias DataApiMode
   - Added Type Alias EntraPrincipalType
   - Added Type Alias IdentityProviderType
@@ -44,6 +46,7 @@ Compared with version 1.0.1
   - Added Type Alias ManagedServiceIdentityType
   - Added Type Alias StorageType
   - Added Type Alias UserRole
+  - Added Enum AzureClouds
   - Added Enum KnownAuthenticationMode
   - Added Enum KnownDataApiMode
   - Added Enum KnownEntraPrincipalType
