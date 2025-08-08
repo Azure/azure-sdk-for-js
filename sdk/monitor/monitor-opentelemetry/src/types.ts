@@ -190,7 +190,7 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.moni
 export const AzureMonitorSampleRate = "microsoft.sample_rate";
 
 /**
- * Enables the preview version of customer-facing Statsbeat.
+ * Enables the preview version of customer-facing SDK Stats.
  * @internal
  */
 export declare const APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =

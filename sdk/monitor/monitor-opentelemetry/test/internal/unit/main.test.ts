@@ -450,7 +450,7 @@ describe("Main functions", () => {
     const features = Number(output["feature"] || 0);
     assert.ok(
       features & StatsbeatFeature.CUSTOMER_SDKSTATS,
-      "CUSTOMER_STATSBEAT feature should be detected when env var is 'True'",
+      "CUSTOMER_SDKSTATS feature should be detected when env var is 'True'",
     );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should also be set");
     void shutdownAzureMonitor();
@@ -472,7 +472,7 @@ describe("Main functions", () => {
     const features = Number(output["feature"] || 0);
     assert.ok(
       !(features & StatsbeatFeature.CUSTOMER_SDKSTATS),
-      "CUSTOMER_STATSBEAT feature should not be detected when env var is not 'True'",
+      "CUSTOMER_SDKSTATS feature should not be detected when env var is not 'True'",
     );
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
     void shutdownAzureMonitor();
