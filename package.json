@@ -35,6 +35,8 @@
     "pnpm": ">=10.12.1"
   },
   "pnpm": {
-    "overrides": {}
+    "overrides": {
+      "typescript": "~5.8.2"
+    }
   }
 }
