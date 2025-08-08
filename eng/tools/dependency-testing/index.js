@@ -374,7 +374,7 @@ async function getPackageFromPnpm(repoRoot, packageName) {
   const listPackagesCommandExec = new Promise(async (res, rej) => {
     const pnpmProcess = crossSpawn("pnpm", ["list", "--recursive", "--json", "--depth=1"], {
       stdout: "inherit",
-      cwd: repoRoot
+      cwd: repoRoot,
     });
     let stdOut = "";
     let stdErr = "";
@@ -397,9 +397,9 @@ async function getPackageFromPnpm(repoRoot, packageName) {
   };
 
   for (const pkg of pnpmPackages) {
-    if (pkg.path.startsWith(workspaceRoot)) {
-      const projectFolder = pkg.path.slice(workspaceRoot.length + 1);
-      const packageJsonPath = join(pkg.path, "package.json");
+    if (pkg.path.startsWith(repoRoot)) {
+      const projectFolder = pkg.path.slice(repoRoot.length + 1);
+      const packageJsonPath = path.join(pkg.path, "package.json");
       const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
       results.projects.push({
         packageName: pkg.name,
