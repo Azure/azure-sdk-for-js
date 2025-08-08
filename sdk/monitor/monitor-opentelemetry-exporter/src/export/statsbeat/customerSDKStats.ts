@@ -8,9 +8,9 @@ import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk
 import type { AzureMonitorExporterOptions } from "../../index.js";
 import * as ai from "../../utils/constants/applicationinsights.js";
 import { StatsbeatMetrics } from "./statsbeatMetrics.js";
-import type { CustomerStatsbeatProperties, StatsbeatOptions } from "./types.js";
-import { CustomerStatsbeat, DropCode, RetryCode } from "./types.js";
-import { CustomStatsbeatCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./types.js";
+import type { CustomerSDKStatsProperties, StatsbeatOptions } from "./types.js";
+import { CustomerSDKStats, DropCode, RetryCode } from "./types.js";
+import { CustomSDKStatsCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./types.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { BreezePerformanceCounterNames } from "../../types.js";
@@ -18,21 +18,21 @@ import type { MetricsData } from "../../generated/index.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 
 /**
- * Class that handles customer-facing statsbeat metrics
+ * Class that handles customer-facing SDK Stats metrics
  * These metrics are sent to the customer's breeze endpoint
  *
- * Implements a singleton pattern to ensure only one set of customer statsbeat metrics
+ * Implements a singleton pattern to ensure only one set of customer SDK Stats metrics
  * is exported every 15 minutes, regardless of the number of exporters or senders.
  */
-export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
-  private static _instance: CustomerStatsbeatMetrics | undefined;
+export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
+  private static _instance: CustomerSDKStatsMetrics | undefined;
 
   private statsCollectionInterval: number = 900000; // 15 minutes
-  private customerStatsbeatMeter: Meter;
-  private customerStatsbeatMeterProvider: MeterProvider;
-  private customerStatsbeatExporter: AzureMonitorStatsbeatExporter;
-  private customerStatsbeatCounter: CustomerStatsbeat;
-  private customerStatsbeatMetricReader: PeriodicExportingMetricReader;
+  private customerSDKStatsMeter: Meter;
+  private customerSDKStatsMeterProvider: MeterProvider;
+  private customerSDKStatsExporter: AzureMonitorStatsbeatExporter;
+  private customerSDKStatsCounter: CustomerSDKStats;
+  private customerSDKStatsMetricReader: PeriodicExportingMetricReader;
   private isInitialized: boolean = false;
 
   // Custom dimensions
@@ -45,8 +45,8 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   private itemDropCountGauge: ObservableGauge;
   private itemRetryCountGauge: ObservableGauge;
 
-  // Customer statsbeat properties
-  private customerProperties: CustomerStatsbeatProperties;
+  // Customer SDK Stats properties
+  private customerProperties: CustomerSDKStatsProperties;
 
   private constructor(options: StatsbeatOptions) {
     super();
@@ -54,34 +54,34 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
       connectionString: `InstrumentationKey=${options.instrumentationKey};IngestionEndpoint=${options.endpointUrl}`,
     };
 
-    this.customerStatsbeatExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
-    // Exports Customer Statsbeat every 15 minutes
+    this.customerSDKStatsExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
+    // Exports Customer SDK Stats every 15 minutes
     const customerMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
-      exporter: this.customerStatsbeatExporter,
+      exporter: this.customerSDKStatsExporter,
       exportIntervalMillis: options.networkCollectionInterval || this.statsCollectionInterval,
     };
-    this.customerStatsbeatMetricReader = new PeriodicExportingMetricReader(
+    this.customerSDKStatsMetricReader = new PeriodicExportingMetricReader(
       customerMetricReaderOptions,
     );
-    this.customerStatsbeatMeterProvider = new MeterProvider({
-      readers: [this.customerStatsbeatMetricReader],
+    this.customerSDKStatsMeterProvider = new MeterProvider({
+      readers: [this.customerSDKStatsMetricReader],
     });
 
-    this.customerStatsbeatMeter = this.customerStatsbeatMeterProvider.getMeter(
-      "Azure Monitor Customer Statsbeat",
+    this.customerSDKStatsMeter = this.customerSDKStatsMeterProvider.getMeter(
+      "Azure Monitor Customer SDK Stats",
     );
 
     this.language = STATSBEAT_LANGUAGE;
     this.version = ai.packageVersion;
 
-    this.itemSuccessCountGauge = this.customerStatsbeatMeter.createObservableGauge(
-      CustomStatsbeatCounter.ITEM_SUCCESS_COUNT,
+    this.itemSuccessCountGauge = this.customerSDKStatsMeter.createObservableGauge(
+      CustomSDKStatsCounter.ITEM_SUCCESS_COUNT,
     );
-    this.itemDropCountGauge = this.customerStatsbeatMeter.createObservableGauge(
-      CustomStatsbeatCounter.ITEM_DROP_COUNT,
+    this.itemDropCountGauge = this.customerSDKStatsMeter.createObservableGauge(
+      CustomSDKStatsCounter.ITEM_DROP_COUNT,
     );
-    this.itemRetryCountGauge = this.customerStatsbeatMeter.createObservableGauge(
-      CustomStatsbeatCounter.ITEM_RETRY_COUNT,
+    this.itemRetryCountGauge = this.customerSDKStatsMeter.createObservableGauge(
+      CustomSDKStatsCounter.ITEM_RETRY_COUNT,
     );
 
     if (!this.isInitialized) {
@@ -89,8 +89,8 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     }
     this.isInitialized = true;
 
-    // Initialize the single customer statsbeat counter
-    this.customerStatsbeatCounter = new CustomerStatsbeat();
+    // Initialize the single customer SDK Stats counter
+    this.customerSDKStatsCounter = new CustomerSDKStats();
 
     this.customerProperties = {
       language: this.language,
@@ -100,15 +100,15 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   /**
-   * Get singleton instance of CustomerStatsbeatMetrics
-   * @param options - Configuration options for customer statsbeat metrics
+   * Get singleton instance of CustomerSDKStatsMetrics
+   * @param options - Configuration options for customer SDK Stats metrics
    * @returns The singleton instance
    */
-  public static getInstance(options: StatsbeatOptions): CustomerStatsbeatMetrics {
-    if (!CustomerStatsbeatMetrics._instance) {
-      CustomerStatsbeatMetrics._instance = new CustomerStatsbeatMetrics(options);
+  public static getInstance(options: StatsbeatOptions): CustomerSDKStatsMetrics {
+    if (!CustomerSDKStatsMetrics._instance) {
+      CustomerSDKStatsMetrics._instance = new CustomerSDKStatsMetrics(options);
     }
-    return CustomerStatsbeatMetrics._instance;
+    return CustomerSDKStatsMetrics._instance;
   }
 
   /**
@@ -116,47 +116,47 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * Used for cleanup and complete shutdown
    */
   public static shutdown(): Promise<void> | undefined {
-    if (CustomerStatsbeatMetrics._instance) {
-      const shutdownPromise = CustomerStatsbeatMetrics._instance.shutdown();
-      CustomerStatsbeatMetrics._instance = undefined;
+    if (CustomerSDKStatsMetrics._instance) {
+      const shutdownPromise = CustomerSDKStatsMetrics._instance.shutdown();
+      CustomerSDKStatsMetrics._instance = undefined;
       return shutdownPromise;
     }
     return undefined;
   }
 
   /**
-   * Shuts down the customer statsbeat metrics provider
+   * Shuts down the customer SDK Stats metrics provider
    * @returns Promise<void>
    */
   public shutdown(): Promise<void> {
-    return this.customerStatsbeatMeterProvider.shutdown();
+    return this.customerSDKStatsMeterProvider.shutdown();
   }
 
   /**
-   * Initializes the customer statsbeat metrics
+   * Initializes the customer SDK Stats metrics
    * Sets up the resource provider and adds observable callbacks for each metric
    * @returns Promise<void>
    */
   private async initialize(): Promise<void> {
     try {
       await super.getResourceProvider();
-      this.customerStatsbeatMeter.addBatchObservableCallback(this.itemSuccessCallback.bind(this), [
+      this.customerSDKStatsMeter.addBatchObservableCallback(this.itemSuccessCallback.bind(this), [
         this.itemSuccessCountGauge,
       ]);
-      this.customerStatsbeatMeter.addBatchObservableCallback(this.itemDropCallback.bind(this), [
+      this.customerSDKStatsMeter.addBatchObservableCallback(this.itemDropCallback.bind(this), [
         this.itemDropCountGauge,
       ]);
-      this.customerStatsbeatMeter.addBatchObservableCallback(this.itemRetryCallback.bind(this), [
+      this.customerSDKStatsMeter.addBatchObservableCallback(this.itemRetryCallback.bind(this), [
         this.itemRetryCountGauge,
       ]);
     } catch (error) {
-      diag.debug("Call to get the resource provider failed for customer statsbeat metrics.");
+      diag.debug("Call to get the resource provider failed for customer SDK Stats metrics.");
     }
   }
 
   // Observable gauge callbacks
   private itemSuccessCallback(observableResult: BatchObservableResult): void {
-    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
+    const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     const attributes = { ...this.customerProperties, telemetry_type: TelemetryType.UNKNOWN };
 
     // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
@@ -170,8 +170,8 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private itemDropCallback(observableResult: BatchObservableResult): void {
-    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    const baseAttributes: CustomerStatsbeatProperties & {
+    const counter: CustomerSDKStats = this.customerSDKStatsCounter;
+    const baseAttributes: CustomerSDKStatsProperties & {
       "drop.code": DropCode | number;
       telemetry_type: TelemetryType;
     } = {
@@ -205,8 +205,8 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private itemRetryCallback(observableResult: BatchObservableResult): void {
-    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
-    const baseAttributes: CustomerStatsbeatProperties & {
+    const counter: CustomerSDKStats = this.customerSDKStatsCounter;
+    const baseAttributes: CustomerSDKStatsProperties & {
       "retry.code": RetryCode | number;
       telemetry_type: TelemetryType;
     } = {
@@ -246,7 +246,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
    * @param telemetry_type - The type of telemetry being tracked
    */
   public countSuccessfulItems(envelopes: Envelope[]): void {
-    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
+    const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
 
     // Get the current count for this telemetry type, or 0 if it doesn't exist
@@ -269,7 +269,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     dropCode: DropCode | number,
     exceptionMessage?: string,
   ): void {
-    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
+    const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
 
     for (const envelope of envelopes) {
@@ -425,7 +425,7 @@ export class CustomerStatsbeatMetrics extends StatsbeatMetrics {
     retryCode: RetryCode | number,
     exceptionMessage?: string,
   ): void {
-    const counter: CustomerStatsbeat = this.customerStatsbeatCounter;
+    const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
 
     for (const envelope of envelopes) {
