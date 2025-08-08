@@ -11,6 +11,9 @@ importers:
 
   .:
     devDependencies:
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       cspell:
         specifier: ^8.19.4
         version: 8.19.4
@@ -150,18 +153,12 @@ importers:
       builtin-modules:
         specifier: ^3.1.0
         version: 3.3.0
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
       eslint:
         specifier: ^9.9.0
         version: 9.32.0
       mkdirp:
         specifier: ^3.0.1
         version: 3.0.1
-      rimraf:
-        specifier: ^5.0.5
-        version: 5.0.10
       typescript-eslint:
         specifier: ~8.34.0
         version: 8.34.1(eslint@9.32.0)(typescript@5.8.3)
