@@ -25,8 +25,8 @@ export default function createClient(
   credentials: TokenCredential | KeyCredential,
   { apiVersion = "2023-10-01", ...options }: ContentSafetyClientOptions = {},
 ): ContentSafetyClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/contentsafety`;
-  const userAgentInfo = `azsdk-js-ai-content-safety-rest/1.0.2`;
+  const endpointUrl = options.endpoint ?? `${endpointParam}/contentsafety`;
+  const userAgentInfo = `azsdk-js-@azure-rest/ai-content-safety/2.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -40,11 +40,18 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      scopes: options.credentials?.scopes ?? [
+        "https://cognitiveservices.azure.com/.default",
+      ],
+      apiKeyHeaderName:
+        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as ContentSafetyClient;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as ContentSafetyClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

@@ -1,14 +1,13 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 2.0.0-beta.1 (2025-08-08)
+Compared with version 1.0.1
 
 ### Features Added
+  - Added Interface ImageData
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Removed Interface ImageData_2
 
 ## 1.0.1 (2025-02-10)
 
