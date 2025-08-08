@@ -121,6 +121,12 @@ jobs:
           pnpm build --filter ${{parameters.PackageName}}...
         displayName: "Build libraries"
 
+      - pwsh: |
+          npm install
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
+        displayName: "Get package path"
+
       - script: |
           npm install
           node index.js --artifact-name "${{parameters.PackageName}}" --version-type $(DependencyVersion) --source-dir "$(Build.SourcesDirectory)" --test-folder "test/public"
@@ -129,7 +135,7 @@ jobs:
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - script: |
-          pnpm install
+          pnpm install --no-frozen-lockfile
         displayName: "Re-run Pnpm install"
         workingDirectory: $(Build.SourcesDirectory)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
@@ -139,12 +145,6 @@ jobs:
         displayName: "Build test package"
         workingDirectory: $(PackageTestPath)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
-
-      - pwsh: |
-          npm install
-          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
-        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
-        displayName: "Get package path"
 
       - ${{ if eq('true', parameters.UseFederatedAuth) }}:
         - task: AzurePowerShell@5
