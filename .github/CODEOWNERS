@@ -328,7 +328,7 @@
 
 # PRLabel: %Microsoft Playwright Testing
 # ServiceLabel: %Microsoft Playwright Testing
-/sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
+/sdk/playwrighttesting/ @puagarwa @ShreyaAnand
 
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing
@@ -1074,12 +1074,12 @@
 /sdk/workloads/arm-workloadssapvirtualinstance/ @qiaozha @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
+/sdk/monitor/monitor-ingestion/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
 /sdk/monitor/monitor-opentelemetry @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber @lzchen @jeremydvoss
 /sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber @lzchen @jeremydvoss
 
-/sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
+/sdk/monitor/monitor-query/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/monitor-query-metrics/ @Azure/azure-sdk-write-monitor-query-metrics
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
