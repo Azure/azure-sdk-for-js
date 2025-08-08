@@ -75,12 +75,13 @@ export interface AnswerFailed {
 }
 
 // @public
-export interface AudioData {
+interface AudioData_2 {
     data: string;
     isSilent?: boolean;
     participant?: CommunicationIdentifier | undefined;
     timestamp?: Date;
 }
+export { AudioData_2 as AudioData }
 
 // @public
 export type AudioFormat = string;
@@ -727,7 +728,7 @@ export interface MuteParticipantResult {
 
 // @public
 export interface OutStreamingData {
-    audioData?: AudioData;
+    audioData?: AudioData_2;
     kind: MediaKind;
     stopAudio?: StopAudio;
 }
@@ -880,7 +881,8 @@ export type RecordingFormat = "mp3" | "mp4" | "wav";
 export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
 
 // @public
-export type RecordingState = string;
+type RecordingState_2 = string;
+export { RecordingState_2 as RecordingState }
 
 // @public
 export interface RecordingStateChanged {
@@ -896,7 +898,7 @@ export interface RecordingStateChanged {
     serverCallId: string;
     startDateTime?: Date;
     // (undocumented)
-    state?: RecordingState;
+    state?: RecordingState_2;
 }
 
 // @public
@@ -906,7 +908,7 @@ export interface RecordingStateResult {
     // (undocumented)
     recordingKind: RecordingKind_2;
     // (undocumented)
-    recordingState: RecordingState;
+    recordingState: RecordingState_2;
 }
 
 // @public
@@ -1112,7 +1114,7 @@ export class StreamingData {
 export type StreamingDataKind = "AudioData" | "AudioMetadata" | "TranscriptionData" | "TranscriptionMetadata" | "DtmfData";
 
 // @public (undocumented)
-export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata | DtmfData;
+export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata | DtmfData;
 
 // @public
 export interface SummarizationOptions {

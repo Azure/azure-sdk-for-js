@@ -40,6 +40,8 @@ export interface CreateCallRequest {
   transcriptionOptions?: TranscriptionOptionsInternalUnion;
   /** The identifier of the source for creating call with Teams resource account ID. */
   teamsAppSource?: MicrosoftTeamsAppIdentifierModel;
+  /** Enables loopback audio functionality for the call. */
+  enableLoopbackAudio?: boolean;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
@@ -125,7 +127,7 @@ export interface TranscriptionOptionsInternal {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   transportType: "websocket";
   /** Specifies the Locale used for transcription, e.g., en-CA or en-AU. */
-  locale: string;
+  locale?: string;
 }
 
 /** Properties of a call connection */
@@ -228,6 +230,8 @@ export interface AnswerCallRequest {
   mediaStreamingOptions?: MediaStreamingOptionsInternalUnion;
   /** Transcription Options. */
   transcriptionOptions?: TranscriptionOptionsInternalUnion;
+  /** Enables loopback audio functionality for the call. */
+  enableLoopbackAudio?: boolean;
 }
 
 /** The request payload for redirecting the call. */
@@ -260,6 +264,8 @@ export interface ConnectRequest {
   mediaStreamingOptions?: MediaStreamingOptionsInternalUnion;
   /** Transcription Options. */
   transcriptionOptions?: TranscriptionOptionsInternalUnion;
+  /** Enables loopback audio functionality for the call. */
+  enableLoopbackAudio?: boolean;
 }
 
 /** The locator used for joining or taking action on a call */
@@ -299,6 +305,60 @@ export interface CustomCallingContextInternal {
   voipHeaders?: { [propertyName: string]: string };
   /** Custom calling context SIP headers */
   sipHeaders?: { [propertyName: string]: string };
+  /** Custom calling context TeamsPhoneCallDetails */
+  teamsPhoneCallDetails?: TeamsPhoneCallDetailsInternal;
+}
+
+/** The call details which will be sent to the target */
+export interface TeamsPhoneCallDetailsInternal {
+  /** Container for details relating to the original caller of the call */
+  teamsPhoneCallerDetails?: TeamsPhoneCallerDetailsInternal;
+  /** Container for details relating to the entity responsible for the creation of these call details */
+  teamsPhoneSourceDetails?: TeamsPhoneSourceDetailsInternal;
+  /** Id to exclusively identify this call session. IVR will use this for their telemetry/reporting. */
+  sessionId?: string;
+  /** The intent of the call */
+  intent?: string;
+  /** A very short description (max 48 chars) of the reason for the call. To be displayed in Teams CallNotification */
+  callTopic?: string;
+  /** A summary of the call thus far. It will be displayed on a side panel in the Teams UI */
+  callContext?: string;
+  /** Url for fetching the transcript of the call */
+  transcriptUrl?: string;
+  /** Sentiment of the call thus far */
+  callSentiment?: string;
+  /** Recommendations for resolving the issue based on the customer's intent and interaction history */
+  suggestedActions?: string;
+}
+
+/** Container for details relating to the original caller of the call */
+export interface TeamsPhoneCallerDetailsInternal {
+  /** Caller's ID */
+  caller: CommunicationIdentifierModel;
+  /** Caller's name */
+  name: string;
+  /** Caller's phone number */
+  phoneNumber: string;
+  /** Caller's record ID (ex in CRM) */
+  recordId?: string;
+  /** Caller's screen pop URL */
+  screenPopUrl?: string;
+  /** Flag indicating whether the caller was authenticated */
+  isAuthenticated?: boolean;
+  /** A set of key value pairs (max 10, any additional entries would be ignored) which a bot author wants to pass to the Teams Client for display to the agent */
+  additionalCallerInformation?: { [propertyName: string]: string };
+}
+
+/** Container for details relating to the entity responsible for the creation of these call details */
+export interface TeamsPhoneSourceDetailsInternal {
+  /** ID of the source entity passing along the call details (ex. Application Instance ID of - CQ/AA) */
+  source: CommunicationIdentifierModel;
+  /** Language of the source entity passing along the call details, passed in the ISO-639 standard */
+  language: string;
+  /** Status of the source entity passing along the call details */
+  status: string;
+  /** Intended targets of the source entity passing along the call details */
+  intendedTargets?: { [propertyName: string]: CommunicationIdentifierModel };
 }
 
 /** The response payload for transferring the call. */
@@ -389,6 +449,30 @@ export interface StartTranscriptionRequest {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
+  /** PII redaction configuration options. */
+  piiRedactionOptions?: PiiRedactionOptionsInternal;
+  /** Indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
+  /** List of languages for Language Identification. */
+  locales?: string[];
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptionsInternal;
+}
+
+/** PII redaction configuration options. */
+export interface PiiRedactionOptionsInternal {
+  /** Value indicating if PII redaction is enabled. */
+  enable?: boolean;
+  /** Value indicating the PII redaction type to be used. */
+  redactionType?: RedactionType;
+}
+
+/** Configuration options for call summarization. */
+export interface SummarizationOptionsInternal {
+  /** Indicating whether end call summary should be enabled. */
+  enableEndCallSummary?: boolean;
+  /** Locale for summarization (e.g., en-US). */
+  locale?: string;
 }
 
 export interface StopTranscriptionRequest {
@@ -413,6 +497,24 @@ export interface UpdateTranscriptionRequest {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
+  /** PII redaction configuration options. */
+  piiRedactionOptions?: PiiRedactionOptionsInternal;
+  /** Indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptionsInternal;
+}
+
+export interface SummarizeCallRequest {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptionsInternal;
 }
 
 export interface RecognizeRequest {
@@ -444,6 +546,10 @@ export interface RecognizeOptions {
   targetParticipant: CommunicationIdentifierModel;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
+  /** Speech languages for language identification and recognition. Example: ["en-us", "fr-fr", "hi-in"] etc.. */
+  speechLanguages?: string[];
+  /** Value indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
   /** Defines configurations for DTMF. */
@@ -675,6 +781,31 @@ export interface CancelAddParticipantResponse {
   operationContext?: string;
 }
 
+/** The request payload for moving participant to the call. */
+export interface MoveParticipantsRequest {
+  /** The participant to Move. */
+  targetParticipants: CommunicationIdentifierModel[];
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall: string;
+}
+
+/** The response payload for moving participants to the call. */
+export interface MoveParticipantsResponse {
+  /** List of current participants in the call. */
+  participants?: CallParticipantInternal[];
+  /** The operation context provided by client. */
+  operationContext?: string;
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+}
+
 /** The request payload start for call recording operation with call locator. */
 export interface StartCallRecordingRequest {
   /** The call locator. (Only one of callLocator or callConnectionId to be used) */
@@ -755,6 +886,25 @@ export interface ResultInformation {
   /** Subcode of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
   subCode?: number;
   /** Detail message that describes the current result. */
+  message?: string;
+  /**
+   * Sip response from SBC. This can be helpful to troubleshoot PSTN call if this result was unexpected.
+   * This is only applicable for PSTN calls and will be null if SBC/Carrier does not provide this information.
+   * Do not solely rely on this information for troubleshooting, as it may not always be available.
+   */
+  sipDetails?: SipDiagnosticInfo;
+  /**
+   * Q850 cause from SBC. This can be helpful to troubleshoot call issues if this result was unexpected.
+   * This is only applicable for PSTN calls and will be null if SBC/Carrier does not provide this information.
+   * Do not solely rely on this information for troubleshooting, as it may not always be available.
+   */
+  q850Details?: SipDiagnosticInfo;
+}
+
+export interface SipDiagnosticInfo {
+  /** Represents the diagnostic code returned by the SIP service, used for identifying specific issues or statuses. */
+  code?: number;
+  /** Message associated with the code for diagnosing. */
   message?: string;
 }
 
@@ -956,6 +1106,42 @@ export interface ConnectFailed {
   resultInformation?: ResultInformation;
 }
 
+/** Moving the participant successfully event. */
+export interface MoveParticipantSucceeded {
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** Participant */
+  participant?: CommunicationIdentifierModel;
+}
+
+/** Moving the participant failed event. */
+export interface MoveParticipantFailed {
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** Participant */
+  participant?: CommunicationIdentifierModel;
+}
+
 export interface RecordingStateChanged {
   /** Call connection ID. */
   callConnectionId?: string;
@@ -1076,6 +1262,15 @@ export interface ChoiceResult {
   recognizedPhrase?: string;
   /** The confidence level of the recognized speech, if available, ranges from 0.0 to 1.0 */
   confidence?: number;
+  /** The identified language for a spoken phrase. */
+  languageIdentified?: string;
+  /** Gets or sets the sentiment analysis result. */
+  sentimentAnalysisResult?: SentimentAnalysisResult;
+}
+
+export interface SentimentAnalysisResult {
+  /** Gets or sets the value of the sentiment detected (positive, negative, neutral, mixed). */
+  sentiment?: string;
 }
 
 /** The speech status as a result. */
@@ -1084,6 +1279,10 @@ export interface SpeechResult {
   speech?: string;
   /** The confidence level of the recognized speech, if available, ranges from 0.0 to 1.0. */
   confidence?: number;
+  /** The identified language. */
+  languageIdentified?: string;
+  /** Gets or sets the sentiment analysis result. */
+  sentimentAnalysisResult?: SentimentAnalysisResult;
 }
 
 export interface RecognizeFailed {
@@ -1297,6 +1496,8 @@ export interface TranscriptionFailed {
 export interface TranscriptionUpdate {
   transcriptionStatus?: TranscriptionStatus;
   transcriptionStatusDetails?: TranscriptionStatusDetails;
+  /** Optional message providing additional context about the transcription update. */
+  transcriptionMessage?: string;
 }
 
 export interface TranscriptionStarted {
@@ -1353,6 +1554,24 @@ export interface TranscriptionUpdated {
   resultInformation?: ResultInformation;
 }
 
+export interface TranscriptionCallSummaryUpdated {
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+}
+
 /** Represents the options for WebSocket transport. */
 export interface WebSocketMediaStreamingOptions
   extends MediaStreamingOptionsInternal {
@@ -1384,6 +1603,14 @@ export interface WebSocketTranscriptionOptions
   startTranscription?: boolean;
   /** Enables intermediate results for the transcribed speech. */
   enableIntermediateResults?: boolean;
+  /** PII redaction configuration options. */
+  piiRedactionOptions?: PiiRedactionOptionsInternal;
+  /** Indicating if sentiment analysis should be enabled. */
+  enableSentimentAnalysis?: boolean;
+  /** Specifies the list of locales for language identification and transcription. Example: ["en-us", "fr-fr", "hi-in"] etc. */
+  locales?: string[];
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptionsInternal;
 }
 
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
@@ -1658,6 +1885,21 @@ export enum KnownVoiceKind {
  * **female**
  */
 export type VoiceKind = string;
+
+/** Known values of {@link RedactionType} that the service accepts. */
+export enum KnownRedactionType {
+  /** MaskWithCharacter */
+  MaskWithCharacter = "maskWithCharacter",
+}
+
+/**
+ * Defines values for RedactionType. \
+ * {@link KnownRedactionType} can be used interchangeably with RedactionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **maskWithCharacter**
+ */
+export type RedactionType = string;
 
 /** Known values of {@link RecognizeInputType} that the service accepts. */
 export enum KnownRecognizeInputType {
@@ -1989,6 +2231,8 @@ export enum KnownTranscriptionStatus {
   TranscriptionUpdated = "transcriptionUpdated",
   /** TranscriptionStopped */
   TranscriptionStopped = "transcriptionStopped",
+  /** CallSummaryUpdated */
+  CallSummaryUpdated = "callSummaryUpdated",
   /** UnspecifiedError */
   UnspecifiedError = "unspecifiedError",
 }
@@ -2003,6 +2247,7 @@ export enum KnownTranscriptionStatus {
  * **transcriptionResumed** \
  * **transcriptionUpdated** \
  * **transcriptionStopped** \
+ * **callSummaryUpdated** \
  * **unspecifiedError**
  */
 export type TranscriptionStatus = string;
@@ -2039,6 +2284,10 @@ export enum KnownTranscriptionStatusDetails {
   ServiceTimeout = "serviceTimeout",
   /** TranscriptionLocaleUpdated */
   TranscriptionLocaleUpdated = "transcriptionLocaleUpdated",
+  /** CallSummarySuccess */
+  CallSummarySuccess = "callSummarySuccess",
+  /** CallSummaryFailure */
+  CallSummaryFailure = "callSummaryFailure",
 }
 
 /**
@@ -2060,7 +2309,9 @@ export enum KnownTranscriptionStatusDetails {
  * **tooManyRequests** \
  * **forbidden** \
  * **serviceTimeout** \
- * **transcriptionLocaleUpdated**
+ * **transcriptionLocaleUpdated** \
+ * **callSummarySuccess** \
+ * **callSummaryFailure**
  */
 export type TranscriptionStatusDetails = string;
 
@@ -2203,6 +2454,18 @@ export type CallConnectionCancelAddParticipantResponse =
   CancelAddParticipantResponse;
 
 /** Optional parameters. */
+export interface CallConnectionMoveParticipantsOptionalParams
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
+
+/** Contains response data for the moveParticipants operation. */
+export type CallConnectionMoveParticipantsResponse = MoveParticipantsResponse;
+
+/** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2230,6 +2493,10 @@ export interface CallMediaStopTranscriptionOptionalParams
 
 /** Optional parameters. */
 export interface CallMediaUpdateTranscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaSummarizeCallOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */

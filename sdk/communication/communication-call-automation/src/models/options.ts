@@ -24,6 +24,8 @@ import type {
   ChannelAffinity,
   CallIntelligenceOptions,
   CustomCallingContext,
+  PiiRedactionOptions,
+  SummarizationOptions,
 } from "./models.js";
 
 /** Options to configure the recognize operation. */
@@ -66,6 +68,13 @@ export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptio
   choices: RecognitionChoice[];
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
+  /**
+   * List of locales for Language Identification.
+   * Supports upto 4 locales in the format: ["en-us", "fr-fr", "hi-in"] etc.
+   */
+  speechLanguages?: string[];
+  /** Value indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
   readonly kind: "callMediaRecognizeChoiceOptions";
@@ -77,6 +86,13 @@ export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptio
   endSilenceTimeoutInSeconds?: number;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
+  /**
+   * List of locales for Language Identification.
+   * Supports upto 4 locales in the format: ["en-us", "fr-fr", "hi-in"] etc.
+   */
+  speechLanguages?: string[];
+  /** Value indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
   readonly kind: "callMediaRecognizeSpeechOptions";
@@ -94,6 +110,10 @@ export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecogniz
   maxTonesToCollect?: number;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
+  /** Gets or sets a list of languages for Language Identification. */
+  speechLanguages?: string[];
+  /** Gets or sets a value indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
   readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
@@ -124,6 +144,9 @@ export interface CreateCallOptions extends OperationOptions {
    * This is per-operation setting and does not change the client's default source.
    */
   teamsAppSource?: MicrosoftTeamsAppIdentifier;
+
+  /** Enables loopback audio functionality for the call. */
+  enableLoopbackAudio?: boolean;
 }
 
 /**
@@ -138,6 +161,8 @@ export interface AnswerCallOptions extends OperationOptions {
   transcriptionOptions?: TranscriptionOptions;
   /** The operation context. */
   operationContext?: string;
+  /** Enables loopback audio functionality for the call. */
+  enableLoopbackAudio?: boolean;
 }
 
 /**
@@ -369,6 +394,14 @@ export interface StartTranscriptionOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
+  /** PII redaction configuration options. */
+  piiRedactionOptions?: PiiRedactionOptions;
+  /** Indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptions;
+  /** Gets or sets a list of languages for Language Identification. */
+  locales?: string[];
 }
 
 /**
@@ -418,6 +451,8 @@ export interface ConnectCallOptions extends OperationOptions {
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Options for live transcription. */
   transcriptionOptions?: TranscriptionOptions;
+  /** Enables loopback audio functionality for the call. */
+  enableLoopbackAudio?: boolean;
 }
 
 /** Options for start media streaming request. */
@@ -446,6 +481,8 @@ export interface StopMediaStreamingOptions extends OperationOptions {
  * Options to update transcription
  */
 export interface UpdateTranscriptionOptions extends OperationOptions {
+  /** Defines Locale for the transcription e,g en-US */
+  locale?: string;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
   /** The value to identify context of the operation. */
@@ -455,4 +492,36 @@ export interface UpdateTranscriptionOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
+  /** PII redaction configuration options. */
+  piiRedactionOptions?: PiiRedactionOptions;
+  /** Indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptions;
+}
+
+/** Options to move participants. */
+export interface MoveParticipantsOptions extends OperationOptions {
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+}
+
+/**
+ * Options for summarize call details.
+ */
+export interface SummarizeCallOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+  /** Configuration options for call summarization. */
+  summarizationOptions?: SummarizationOptions;
 }
