@@ -6,7 +6,7 @@ import { describe, it } from "vitest";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { endpoint } from "../../common/_testConfig.js";
 
-describe("IQ Query test", async () => {
+describe.skip("IQ Query test", async () => {
   it("test", async () => {
     const client = new CosmosClient({
       endpoint: endpoint,

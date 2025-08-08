@@ -27,9 +27,40 @@ export class ContinuationTokenManager {
   ) {
     this.isOrderByQuery = isOrderByQuery;
     if (initialContinuationToken) {
-      // Parse existing continuation token for resumption
-      this.compositeContinuationToken =
-        CompositeQueryContinuationTokenClass.fromString(initialContinuationToken);
+      try {
+        // Parse existing continuation token for resumption
+        console.log(`Parsing continuation token for ${isOrderByQuery ? 'ORDER BY' : 'parallel'} query`);
+        
+        if (this.isOrderByQuery) {
+          // For ORDER BY queries, the continuation token might be an OrderByQueryContinuationToken
+          const parsedToken = JSON.parse(initialContinuationToken);
+          
+          // Check if this is an ORDER BY continuation token with compositeToken
+          if (parsedToken.compositeToken && parsedToken.orderByItems !== undefined) {
+            console.log("Detected ORDER BY continuation token with composite token");
+            this.orderByQueryContinuationToken = parsedToken as OrderByQueryContinuationToken;
+            
+            // Extract the inner composite token
+            this.compositeContinuationToken = 
+              CompositeQueryContinuationTokenClass.fromString(parsedToken.compositeToken);
+          }
+        } else {
+          // For parallel queries, expect a CompositeQueryContinuationToken directly
+          console.log("Parsing parallel query continuation token as composite token");
+          this.compositeContinuationToken =
+            CompositeQueryContinuationTokenClass.fromString(initialContinuationToken);
+        }
+        
+        console.log(`Successfully parsed ${isOrderByQuery ? 'ORDER BY' : 'parallel'} continuation token`);
+      } catch (error) {
+        console.warn(`Failed to parse continuation token: ${error.message}, initializing empty token`);
+        // Fallback to empty continuation token if parsing fails
+        this.compositeContinuationToken = new CompositeQueryContinuationTokenClass(
+          this.collectionLink,
+          [],
+          undefined,
+        );
+      }
     } else {
       // Initialize new composite continuation token
       this.compositeContinuationToken = new CompositeQueryContinuationTokenClass(
@@ -76,10 +107,20 @@ export class ContinuationTokenManager {
   }
 
   /**
-   * Adds or updates a range mapping in the partition key range map
+   * Adds a range mapping to the partition key range map
+   * Does not allow updates to existing keys - only new additions
+   * @param rangeId - Unique identifier for the partition range
+   * @param mapping - The QueryRangeMapping to add
    */
   public updatePartitionRangeMapping(rangeId: string, mapping: QueryRangeMapping): void {
-    this.partitionKeyRangeMap.set(rangeId, mapping);
+    if (!this.partitionKeyRangeMap.has(rangeId)) {
+      this.partitionKeyRangeMap.set(rangeId, mapping);
+    } else {
+      console.warn(
+        ` Attempted to update existing range mapping for rangeId: ${rangeId}. ` +
+        `Updates are not allowed - only new additions. The existing mapping will be preserved.`
+      );
+    }
   }
 
   /**
@@ -90,30 +131,29 @@ export class ContinuationTokenManager {
   }
 
   /**
-   * Removes exhausted ranges from the composite continuation token range mappings
+   * Removes exhausted(fully drained) ranges from the composite continuation token range mappings
    */
   private removeExhaustedRangesFromCompositeContinuationToken(): void {
-    const originalLength = this.compositeContinuationToken.rangeMappings.length;
+    // Validate composite continuation token and range mappings array
+    if (!this.compositeContinuationToken?.rangeMappings?.length) {
+      return;
+    }
 
     // Filter out exhausted ranges from the composite continuation token
     this.compositeContinuationToken.rangeMappings =
       this.compositeContinuationToken.rangeMappings.filter((mapping) => {
+        // Check if mapping is valid
+        if (!mapping) {
+          return false;
+        }
         // Check if this mapping has an exhausted continuation token
         const isExhausted = this.isPartitionExhausted(mapping.continuationToken);
 
         if (isExhausted) {
-          console.log(
-            `Removing exhausted range mapping from composite continuation token (continuation token: ${mapping.continuationToken})`,
-          );
           return false; // Filter out exhausted mappings
         }
         return true; // Keep non-exhausted mappings
       });
-
-    const removedCount = originalLength - this.compositeContinuationToken.rangeMappings.length;
-    console.log(
-      `Removed ${removedCount} exhausted range mappings from composite continuation token`,
-    );
   }
 
   /**
@@ -133,12 +173,9 @@ export class ContinuationTokenManager {
     lastOrderByItems?: any[],
     pageResults?: any[],
   ): { endIndex: number; processedRanges: string[] } {
-    console.log("=== ContinuationTokenManager.processRangesForCurrentPage START ===");
-    console.log(
-      `Query Type: ${this.isOrderByQuery ? "ORDER BY (sequential)" : "Parallel (multi-range aggregation)"}`,
-    );
 
     this.removeExhaustedRangesFromCompositeContinuationToken();
+    
     if (this.isOrderByQuery) {
       return this.processOrderByRanges(
         pageSize,
@@ -403,6 +440,7 @@ export class ContinuationTokenManager {
    * Checks if there are any unprocessed ranges in the sliding window
    */
   public hasUnprocessedRanges(): boolean {
+    console.log("partition Key range Map", JSON.stringify(this.partitionKeyRangeMap))
     return this.partitionKeyRangeMap.size > 0;
   }
 }

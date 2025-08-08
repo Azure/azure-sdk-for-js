@@ -375,6 +375,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         bufferedResults = response.result.buffer;
         partitionKeyRangeMap = response.result.partitionKeyRangeMap;
 
+        // TODO; could be useless and can be removed
         // Capture order by items array for ORDER BY queries if available
         if (response.result.orderByItemsArray) {
           this.orderByItemsArray = response.result.orderByItemsArray;
@@ -409,17 +410,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private fetchBufferEndIndexForCurrentPage(): { endIndex: number; processedRanges: string[] } {
-    console.log("=== fetchBufferEndIndexForCurrentPage START ===");
-    console.log("Current buffer size:", this.fetchBuffer.length);
-    console.log("Page size:", this.pageSize);
-
-    // Validate state before processing (Phase 4 enhancement)
+    
     if (this.fetchBuffer.length === 0) {
-      console.warn("fetchBuffer is empty, returning endIndex 0");
       return { endIndex: 0, processedRanges: [] };
     }
 
-    // Use the ContinuationTokenManager to process ranges for the current page
+    // Process ranges for the current page
     // First get the endIndex to determine which order by items to use
     const result = this.continuationTokenManager.processRangesForCurrentPage(
       this.pageSize,

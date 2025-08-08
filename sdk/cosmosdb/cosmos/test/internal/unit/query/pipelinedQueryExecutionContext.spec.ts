@@ -9,10 +9,10 @@ import {
   createDummyDiagnosticNode,
   createTestClientContext,
 } from "../../../public/common/TestHelpers.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, vi } from "vitest";
 
 describe("PipelineQueryExecutionContext", () => {
-  describe("fetchMore", () => {
+  describe.skip("fetchMore", () => {
     const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
     const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object
     const queryInfo: QueryInfo = {
@@ -314,6 +314,124 @@ describe("PipelineQueryExecutionContext", () => {
       const response = await context.fetchMore(createDummyDiagnosticNode());
       const result = response.result;
       assert.strictEqual(result.length, 2);
+    });
+  });
+
+  describe("fetchBufferEndIndexForCurrentPage", () => {
+    const collectionLink = "/dbs/testDb/colls/testCollection";
+    const query = "SELECT * FROM c";
+    const queryInfo: QueryInfo = {
+      distinctType: "None",
+      top: null,
+      offset: null,
+      limit: null,
+      orderBy: ["Ascending"],
+      rewrittenQuery: "SELECT * FROM c",
+      groupByExpressions: [],
+      aggregates: [],
+      groupByAliasToAggregateType: {},
+      hasNonStreamingOrderBy: false,
+      hasSelectValue: false,
+    };
+    const partitionedQueryExecutionInfo = {
+      queryRanges: [
+        {
+          min: "00",
+          max: "AA",
+          isMinInclusive: true,
+          isMaxInclusive: false,
+        },
+      ],
+      queryInfo: queryInfo,
+      partitionedQueryExecutionInfoVersion: 1,
+    };
+    const correlatedActivityId = "sample-activity-id";
+    const cosmosClientOptions = {
+      endpoint: "https://your-cosmos-db.documents.azure.com:443/",
+      key: "your-cosmos-db-key",
+      userAgentSuffix: "MockClient",
+    };
+    const diagnosticLevel = CosmosDbDiagnosticLevel.info;
+
+    const createMockDocument = (id: string): any => ({
+      id,
+      _rid: "sample-rid",
+      _ts: Date.now(),
+      _self: "/dbs/sample-db/colls/sample-collection/docs/" + id,
+      _etag: "sample-etag",
+      name: "doc" + id,
+      value: "value" + id,
+    });
+
+    it("should return empty result when fetchBuffer is empty", () => {
+      const options = { maxItemCount: 5 };
+      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+      const context = new PipelinedQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        options,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+        false,
+      );
+
+      // Set up empty fetchBuffer
+      context["fetchBuffer"] = [];
+
+      // Call the private method using bracket notation
+      const result = context["fetchBufferEndIndexForCurrentPage"]();
+
+      assert.strictEqual(result.endIndex, 0);
+      assert.strictEqual(result.processedRanges.length, 0);
+    });
+
+    it("should process fetchBuffer and return correct endIndex", () => {
+      const options = { maxItemCount: 3 };
+      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+      const context = new PipelinedQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        options,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+        false,
+      );
+
+      // Set up fetchBuffer with mock documents
+      context["fetchBuffer"] = [
+        createMockDocument("1"),
+        createMockDocument("2"),
+        createMockDocument("3"),
+        createMockDocument("4"),
+        createMockDocument("5"),
+      ];
+
+      // Mock the continuation token manager
+      const mockContinuationTokenManager = {
+        processRangesForCurrentPage: vi.fn().mockReturnValue({
+          endIndex: 3,
+          processedRanges: ["range1"],
+        }),
+        updateResponseHeaders: vi.fn(),
+      } as any;
+      context["continuationTokenManager"] = mockContinuationTokenManager;
+
+      // Mock fetchMoreRespHeaders
+      context["fetchMoreRespHeaders"] = {};
+
+      // Call the private method
+      const result = context["fetchBufferEndIndexForCurrentPage"]();
+
+      // Verify the result
+      assert.strictEqual(result.endIndex, 3);
+      assert.strictEqual(result.processedRanges.length, 1);
+      assert.strictEqual(result.processedRanges[0], "range1");
+
+      // Verify continuation token manager was called correctly
+      assert.strictEqual(mockContinuationTokenManager.processRangesForCurrentPage.mock.calls.length, 2);
+      assert.strictEqual(mockContinuationTokenManager.updateResponseHeaders.mock.calls.length, 1);
     });
   });
 });

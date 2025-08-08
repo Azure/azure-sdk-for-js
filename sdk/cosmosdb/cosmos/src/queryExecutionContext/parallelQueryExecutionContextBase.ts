@@ -20,6 +20,7 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ClientContext } from "../ClientContext.js";
 import type { QueryRangeMapping } from "./QueryRangeMapping.js";
+import { TargetPartitionRangeManager, QueryExecutionContextType } from "./TargetPartitionRangeManager.js";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -128,22 +129,68 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         );
 
         let filteredPartitionKeyRanges = [];
+        let continuationTokens: string[] = [];
         // The document producers generated from filteredPartitionKeyRanges
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
 
         if (this.requestContinuation) {
-          throw new Error("Continuation tokens are not yet supported for cross partition queries");
+          // Determine the query type based on the context and continuation token
+          const queryType = this.getQueryType();
+          let rangeManager: TargetPartitionRangeManager;
+          
+          if (queryType === QueryExecutionContextType.OrderBy) {
+            console.log("Using ORDER BY query range strategy");
+            rangeManager = TargetPartitionRangeManager.createForOrderByQuery({
+              maxDegreeOfParallelism: maxDegreeOfParallelism,
+              quereyInfo: this.partitionedQueryExecutionInfo
+            });
+          } else {
+            console.log("Using Parallel query range strategy");
+            rangeManager = TargetPartitionRangeManager.createForParallelQuery({
+              maxDegreeOfParallelism: maxDegreeOfParallelism,
+              quereyInfo: this.partitionedQueryExecutionInfo
+            });
+          }
+          
+          console.log("Filtering partition ranges using continuation token");
+          const filterResult = await rangeManager.filterPartitionRanges(
+            targetPartitionRanges,
+            this.requestContinuation
+          );
+          
+          filteredPartitionKeyRanges = filterResult.filteredRanges;
+          continuationTokens = filterResult.continuationToken || [];
+          const filteringConditions = filterResult.filteringConditions || [];
+          
+          filteredPartitionKeyRanges.forEach((partitionTargetRange: any, index: number) => {
+          // TODO: any partitionTargetRange
+          // no async callback
+          const continuationToken = continuationTokens ? continuationTokens[index] : undefined;
+          const filterCondition = filteringConditions ? filteringConditions[index] : undefined;
+          
+          targetPartitionQueryExecutionContextList.push(
+            this._createTargetPartitionQueryExecutionContext(
+              partitionTargetRange, 
+              continuationToken,
+              undefined, // startEpk
+              undefined, // endEpk
+              false, // populateEpkRangeHeaders
+              filterCondition
+            ),
+          );
+        });
+          
         } else {
           filteredPartitionKeyRanges = targetPartitionRanges;
-        }
-        // Create one documentProducer for each partitionTargetRange
-        filteredPartitionKeyRanges.forEach((partitionTargetRange: any) => {
+          // TODO: updat continuations later
+          filteredPartitionKeyRanges.forEach((partitionTargetRange: any) => {
           // TODO: any partitionTargetRange
           // no async callback
           targetPartitionQueryExecutionContextList.push(
             this._createTargetPartitionQueryExecutionContext(partitionTargetRange, undefined),
           );
         });
+        }
 
         // Fill up our priority queue with documentProducers
         targetPartitionQueryExecutionContextList.forEach((documentProducer): void => {
@@ -170,6 +217,19 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     dp1: DocumentProducer,
     dp2: DocumentProducer,
   ): number;
+
+  /**
+   * Determines the query execution context type based on available information
+   * @returns The detected query execution context type
+   */
+  protected getQueryType(): QueryExecutionContextType {
+
+    const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
+    const queryType = isOrderByQuery ? QueryExecutionContextType.OrderBy : QueryExecutionContextType.Parallel;
+    
+    console.log(`Detected query type from sort orders: ${queryType} (sortOrders: ${this.sortOrders?.length || 0})`);
+    return queryType;
+  }
 
   private _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
     mergeHeaders(this.respHeaders, headers);
@@ -295,6 +355,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     startEpk?: string,
     endEpk?: string,
     populateEpkRangeHeaders?: boolean,
+    filterCondition?: string
   ): DocumentProducer {
     let rewrittenQuery = this.partitionedQueryExecutionInfo.queryInfo.rewrittenQuery;
     let sqlQuerySpec: SqlQuerySpec;
@@ -309,7 +370,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     if (rewrittenQuery) {
       sqlQuerySpec = JSON.parse(JSON.stringify(sqlQuerySpec));
       // We hardcode the formattable filter to true for now
-      rewrittenQuery = rewrittenQuery.replace(formatPlaceHolder, "true");
+      rewrittenQuery = filterCondition ? rewrittenQuery.replace(formatPlaceHolder, filterCondition) : rewrittenQuery.replace(formatPlaceHolder, "true");
       sqlQuerySpec["query"] = rewrittenQuery;
     }
 
