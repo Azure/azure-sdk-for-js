@@ -161,27 +161,33 @@ describe("Queries", { timeout: 10000 }, () => {
       console.log(
         `Page ${pageCount}: Retrieved ${result.resources.length} items (Total: ${totalItems})`,
       );
-      console.log("continuation token:", result.continuationToken ? "Present" : "None", result.continuationToken);
+      console.log(
+        "continuation token:",
+        result.continuationToken ? "Present" : "None",
+        result.continuationToken,
+      );
 
       if (result.continuationToken) {
         try {
           const tokenObj = JSON.parse(result.continuationToken);
           console.log("  - Parsed continuation token:", tokenObj);
-          
+
           // Check if this is an ORDER BY continuation token
           if (tokenObj.compositeToken && tokenObj.orderByItems !== undefined) {
             console.log("  - ORDER BY continuation token detected");
             console.log("  - Order by items:", tokenObj.orderByItems);
             console.log("  - RID:", tokenObj.rid);
             console.log("  - Skip count:", tokenObj.skipCount);
-            
+
             // Parse the inner composite token if it exists
             if (tokenObj.compositeToken) {
               try {
                 const compositeTokenObj = JSON.parse(tokenObj.compositeToken);
                 if (compositeTokenObj.rangeMappings) {
                   const indexes = compositeTokenObj.rangeMappings.map((rm: any) => rm.indexes);
-                  const partitionKeyRange = compositeTokenObj.rangeMappings.map((rm: any) => rm.partitionKeyRange);
+                  const partitionKeyRange = compositeTokenObj.rangeMappings.map(
+                    (rm: any) => rm.partitionKeyRange,
+                  );
                   console.log("  - Inner composite token indexes:", indexes);
                   console.log("  - Inner composite token partition key ranges:", partitionKeyRange);
                 }
@@ -189,7 +195,7 @@ describe("Queries", { timeout: 10000 }, () => {
                 console.log("  - Could not parse inner composite token:", e.message);
               }
             }
-          } 
+          }
           // Check if this is a regular composite continuation token
           else if (tokenObj.rangeMappings) {
             console.log("  - Composite continuation token detected");
@@ -239,7 +245,7 @@ describe("Queries", { timeout: 10000 }, () => {
     for (let i = 0; i < 100; i++) {
       const partitionKey = partitionKeys[i % partitionKeys.length];
       await partitionedContainer.items.create({
-        id: `item-${i.toString()}`, 
+        id: `item-${i.toString()}`,
         value: i,
         partitionKey: partitionKey,
         description: `Item ${i} in ${partitionKey}`,
@@ -252,24 +258,27 @@ describe("Queries", { timeout: 10000 }, () => {
     // PHASE 1: Execute first query and get continuation token
     console.log("\n=== PHASE 1: Initial Query Execution ===");
     const queryIterator1 = partitionedContainer.items.query(query, queryOptions);
-    
+
     if (!queryIterator1.hasMoreResults()) {
       throw new Error("First query iterator should have results");
     }
     let contToken1;
-    while(queryIterator1.hasMoreResults()) {
+    while (queryIterator1.hasMoreResults()) {
       const firstResult = await queryIterator1.fetchNext();
-      if(firstResult && firstResult.resources){
+      if (firstResult && firstResult.resources) {
         result.push(...firstResult.resources);
       }
       console.log(`First fetchNext: Retrieved ${firstResult.resources.length} items`);
-    console.log("First batch items:", firstResult.resources.map(item => item.id));
+      console.log(
+        "First batch items:",
+        firstResult.resources.map((item) => item.id),
+      );
       if (firstResult.continuationToken) {
         contToken1 = firstResult.continuationToken;
-       break;
+        break;
+      }
     }
-    }
-    
+
     const continuationToken = contToken1;
     console.log("Continuation token obtained:", continuationToken ? "Present" : "None");
 
@@ -278,7 +287,7 @@ describe("Queries", { timeout: 10000 }, () => {
       const tokenObj = JSON.parse(continuationToken);
       console.log("Parsed continuation token structure:");
       console.log("  - Type:", tokenObj.compositeToken ? "ORDER BY" : "Regular");
-      
+
       if (tokenObj.compositeToken && tokenObj.orderByItems !== undefined) {
         console.log("  - ORDER BY continuation token confirmed");
         console.log("  - Order by items:", tokenObj.orderByItems);
@@ -299,19 +308,22 @@ describe("Queries", { timeout: 10000 }, () => {
     console.log("Creating new query iterator with continuation token...");
     const queryIterator2 = partitionedContainer.items.query(query, recreationOptions);
     // TODO: remove count once loop issue fixed
-    while(queryIterator2.hasMoreResults()) {
+    while (queryIterator2.hasMoreResults()) {
       // if(countTemp > 10){
       //   break;
       // }
       const secondResult = await queryIterator2.fetchNext();
-      if(secondResult && secondResult.resources){
+      if (secondResult && secondResult.resources) {
         result.push(...secondResult.resources);
       }
       console.log(`Second fetchNext: Retrieved ${secondResult.resources.length} items`);
-      console.log("Second batch items:", secondResult.resources.map(item => item.id));
+      console.log(
+        "Second batch items:",
+        secondResult.resources.map((item) => item.id),
+      );
       // countTemp++;
     }
-    
+
     // PHASE 3: Verify recreation worked correctly
     console.log("\n=== PHASE 3: Verification ===");
 
@@ -351,7 +363,7 @@ describe("Queries", { timeout: 10000 }, () => {
     for (let i = 0; i < 100; i++) {
       const partitionKey = partitionKeys[i % partitionKeys.length];
       await partitionedContainer.items.create({
-        id: `item-${i.toString()}`, 
+        id: `item-${i.toString()}`,
         value: i,
         partitionKey: partitionKey,
         description: `Item ${i} in ${partitionKey}`,
@@ -364,24 +376,27 @@ describe("Queries", { timeout: 10000 }, () => {
     // PHASE 1: Execute first query and get continuation token
     console.log("\n=== PHASE 1: Initial Query Execution ===");
     const queryIterator1 = partitionedContainer.items.query(query, queryOptions);
-    
+
     if (!queryIterator1.hasMoreResults()) {
       throw new Error("First query iterator should have results");
     }
     let contToken1;
-    while(queryIterator1.hasMoreResults()) {
+    while (queryIterator1.hasMoreResults()) {
       const firstResult = await queryIterator1.fetchNext();
-      if(firstResult && firstResult.resources){
+      if (firstResult && firstResult.resources) {
         result.push(...firstResult.resources);
       }
       console.log(`First fetchNext: Retrieved ${firstResult.resources.length} items`);
-    console.log("First batch items:", firstResult.resources.map(item => item.id));
+      console.log(
+        "First batch items:",
+        firstResult.resources.map((item) => item.id),
+      );
       if (firstResult.continuationToken) {
         contToken1 = firstResult.continuationToken;
-       break;
+        break;
+      }
     }
-    }
-    
+
     const continuationToken = contToken1;
     console.log("Continuation token obtained:", continuationToken ? "Present" : "None");
 
@@ -390,7 +405,7 @@ describe("Queries", { timeout: 10000 }, () => {
       const tokenObj = JSON.parse(continuationToken);
       console.log("Parsed continuation token structure:");
       console.log("  - Type:", tokenObj.compositeToken ? "ORDER BY" : "Regular");
-      
+
       if (tokenObj.compositeToken && tokenObj.orderByItems !== undefined) {
         console.log("  - ORDER BY continuation token confirmed");
         console.log("  - Order by items:", tokenObj.orderByItems);
@@ -411,19 +426,22 @@ describe("Queries", { timeout: 10000 }, () => {
     console.log("Creating new query iterator with continuation token...");
     const queryIterator2 = partitionedContainer.items.query(query, recreationOptions);
     // TODO: remove count once loop issue fixed
-    while(queryIterator2.hasMoreResults()) {
+    while (queryIterator2.hasMoreResults()) {
       // if(countTemp > 10){
       //   break;
       // }
       const secondResult = await queryIterator2.fetchNext();
-      if(secondResult && secondResult.resources){
+      if (secondResult && secondResult.resources) {
         result.push(...secondResult.resources);
       }
       console.log(`Second fetchNext: Retrieved ${secondResult.resources.length} items`);
-      console.log("Second batch items:", secondResult.resources.map(item => item.id));
+      console.log(
+        "Second batch items:",
+        secondResult.resources.map((item) => item.id),
+      );
       // countTemp++;
     }
-    
+
     // PHASE 3: Verify recreation worked correctly
     console.log("\n=== PHASE 3: Verification ===");
 
@@ -437,6 +455,4 @@ describe("Queries", { timeout: 10000 }, () => {
     // Clean up
     await database.database.delete();
   });
-  
-  
 });

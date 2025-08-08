@@ -12,7 +12,7 @@ export interface PartitionRangeFilterResult {
    * The filtered partition key ranges ready for query execution
    */
   filteredRanges: PartitionKeyRange[];
-  
+
   /**
    * Metadata about the filtering operation
    */
@@ -30,16 +30,14 @@ export interface PartitionRangeFilterResult {
  */
 export type PartitionRangeFilterFunction = (
   targetRanges: PartitionKeyRange[],
-  continuationToken?: string
+  continuationToken?: string,
 ) => Promise<PartitionRangeFilterResult>;
 
 /**
  * Validation function type for continuation tokens
  * @hidden
  */
-export type ContinuationTokenValidatorFunction = (
-  continuationToken: string
-) => boolean;
+export type ContinuationTokenValidatorFunction = (continuationToken: string) => boolean;
 
 /**
  * Simplified Target Partition Range Manager that accepts filter functions from execution contexts
@@ -49,7 +47,7 @@ export class TargetPartitionRangeManager {
   constructor(
     private readonly filterFunction: PartitionRangeFilterFunction,
     private readonly validatorFunction?: ContinuationTokenValidatorFunction,
-    private readonly contextName: string = "Unknown"
+    private readonly contextName: string = "Unknown",
   ) {}
 
   /**
@@ -57,10 +55,12 @@ export class TargetPartitionRangeManager {
    */
   public async filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
-    continuationToken?: string
+    continuationToken?: string,
   ): Promise<PartitionRangeFilterResult> {
-    console.log(`=== ${this.contextName} TargetPartitionRangeManager.filterPartitionRanges START ===`);
-    
+    console.log(
+      `=== ${this.contextName} TargetPartitionRangeManager.filterPartitionRanges START ===`,
+    );
+
     // Validate inputs
     if (!targetRanges || targetRanges.length === 0) {
       throw new Error("Target ranges cannot be empty");
@@ -73,12 +73,14 @@ export class TargetPartitionRangeManager {
 
     try {
       const result = await this.filterFunction(targetRanges, continuationToken);
-      
+
       console.log(`=== ${this.contextName} Filter Result ===`);
       console.log(`Input ranges: ${result.metadata.totalInputRanges}`);
       console.log(`Filtered ranges: ${result.metadata.filteredRangeCount}`);
       console.log(`Has continuation token: ${result.metadata.hasContinuationToken}`);
-      console.log(`=== ${this.contextName} TargetPartitionRangeManager.filterPartitionRanges END ===`);
+      console.log(
+        `=== ${this.contextName} TargetPartitionRangeManager.filterPartitionRanges END ===`,
+      );
 
       return result;
     } catch (error) {

@@ -12,7 +12,7 @@ export interface PartitionRangeFilterResult {
    * The filtered partition key ranges ready for query execution
    */
   filteredRanges: PartitionKeyRange[];
-  
+
   /**
    * continuation token for resuming query execution
    */
@@ -34,7 +34,7 @@ export interface TargetPartitionRangeStrategy {
    * Gets the strategy type identifier
    */
   getStrategyType(): string;
-  
+
   /**
    * Filters target partition ranges based on the continuation token and query-specific logic
    * @param targetRanges - All available target partition ranges
@@ -45,9 +45,9 @@ export interface TargetPartitionRangeStrategy {
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationToken?: string,
-    queryInfo?: Record<string, unknown>
+    queryInfo?: Record<string, unknown>,
   ): Promise<PartitionRangeFilterResult>;
-  
+
   /**
    * Validates if the continuation token is compatible with this strategy
    * @param continuationToken - The continuation token to validate

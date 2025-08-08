@@ -15,8 +15,14 @@ export * from "./pipelinedQueryExecutionContext.js";
 export * from "./orderByComparator.js";
 
 // Target Partition Range Management
-export { TargetPartitionRangeManager, QueryExecutionContextType } from "./TargetPartitionRangeManager.js";
+export {
+  TargetPartitionRangeManager,
+  QueryExecutionContextType,
+} from "./TargetPartitionRangeManager.js";
 export type { TargetPartitionRangeManagerConfig } from "./TargetPartitionRangeManager.js";
-export type { TargetPartitionRangeStrategy, PartitionRangeFilterResult } from "./TargetPartitionRangeStrategy.js";
+export type {
+  TargetPartitionRangeStrategy,
+  PartitionRangeFilterResult,
+} from "./TargetPartitionRangeStrategy.js";
 export { ParallelQueryRangeStrategy } from "./ParallelQueryRangeStrategy.js";
 export { OrderByQueryRangeStrategy } from "./OrderByQueryRangeStrategy.js";

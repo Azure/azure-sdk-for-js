@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { PartitionKeyRange } from "../index.js";
-import type { TargetPartitionRangeStrategy, PartitionRangeFilterResult } from "./TargetPartitionRangeStrategy.js";
+import type {
+  TargetPartitionRangeStrategy,
+  PartitionRangeFilterResult,
+} from "./TargetPartitionRangeStrategy.js";
 import { ParallelQueryRangeStrategy } from "./ParallelQueryRangeStrategy.js";
 import { OrderByQueryRangeStrategy } from "./OrderByQueryRangeStrategy.js";
 
@@ -12,7 +15,7 @@ import { OrderByQueryRangeStrategy } from "./OrderByQueryRangeStrategy.js";
  */
 export enum QueryExecutionContextType {
   Parallel = "Parallel",
-  OrderBy = "OrderBy"
+  OrderBy = "OrderBy",
 }
 
 /**
@@ -24,12 +27,12 @@ export interface TargetPartitionRangeManagerConfig {
    * The type of query execution context
    */
   queryType: QueryExecutionContextType;
-  
+
   /**
    * Additional query information that might be needed for filtering decisions
    */
   queryInfo?: Record<string, unknown>;
-  
+
   /**
    * Custom strategy instance (optional, will use default strategies if not provided)
    */
@@ -65,11 +68,11 @@ export class TargetPartitionRangeManager {
       case QueryExecutionContextType.Parallel:
         console.log("Creating ParallelQueryRangeStrategy");
         return new ParallelQueryRangeStrategy();
-      
+
       case QueryExecutionContextType.OrderBy:
         console.log("Creating OrderByQueryRangeStrategy");
         return new OrderByQueryRangeStrategy();
-      
+
       default:
         throw new Error(`Unsupported query execution context type: ${config.queryType}`);
     }
@@ -83,11 +86,15 @@ export class TargetPartitionRangeManager {
    */
   public async filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
-    continuationToken?: string
+    continuationToken?: string,
   ): Promise<PartitionRangeFilterResult> {
     console.log("=== TargetPartitionRangeManager.filterPartitionRanges START ===");
-    console.log(`Query type: ${this.config.queryType}, Strategy: ${this.strategy.getStrategyType()}`);
-    console.log(`Input ranges: ${targetRanges.length}, Continuation token: ${continuationToken ? 'Present' : 'None'}`);
+    console.log(
+      `Query type: ${this.config.queryType}, Strategy: ${this.strategy.getStrategyType()}`,
+    );
+    console.log(
+      `Input ranges: ${targetRanges.length}, Continuation token: ${continuationToken ? "Present" : "None"}`,
+    );
 
     // Validate inputs
     if (!targetRanges || targetRanges.length === 0) {
@@ -103,14 +110,13 @@ export class TargetPartitionRangeManager {
       const result = await this.strategy.filterPartitionRanges(
         targetRanges,
         continuationToken,
-        this.config.queryInfo
+        this.config.queryInfo,
       );
 
       console.log(`=== TargetPartitionRangeManager Result ===`);
       console.log("=== TargetPartitionRangeManager.filterPartitionRanges END ===");
 
       return result;
-
     } catch (error) {
       console.error(`Error in TargetPartitionRangeManager.filterPartitionRanges: ${error.message}`);
       throw error;
@@ -128,7 +134,9 @@ export class TargetPartitionRangeManager {
    * Updates the strategy (useful for switching between query types)
    */
   public updateStrategy(newConfig: TargetPartitionRangeManagerConfig): void {
-    console.log(`Updating strategy from ${this.strategy.getStrategyType()} to ${newConfig.queryType}`);
+    console.log(
+      `Updating strategy from ${this.strategy.getStrategyType()} to ${newConfig.queryType}`,
+    );
     this.config = newConfig;
     this.strategy = this.createStrategy(newConfig);
   }
@@ -143,40 +151,50 @@ export class TargetPartitionRangeManager {
   /**
    * Static factory method to create a manager for parallel queries
    */
-  public static createForParallelQuery(queryInfo?: Record<string, unknown>): TargetPartitionRangeManager {
+  public static createForParallelQuery(
+    queryInfo?: Record<string, unknown>,
+  ): TargetPartitionRangeManager {
     return new TargetPartitionRangeManager({
       queryType: QueryExecutionContextType.Parallel,
-      queryInfo
+      queryInfo,
     });
   }
 
   /**
    * Static factory method to create a manager for ORDER BY queries
    */
-  public static createForOrderByQuery(queryInfo?: Record<string, unknown>): TargetPartitionRangeManager {
+  public static createForOrderByQuery(
+    queryInfo?: Record<string, unknown>,
+  ): TargetPartitionRangeManager {
     return new TargetPartitionRangeManager({
       queryType: QueryExecutionContextType.OrderBy,
-      queryInfo
+      queryInfo,
     });
   }
 
   /**
    * Static method to detect query type from continuation token
    */
-  public static detectQueryTypeFromToken(continuationToken: string): QueryExecutionContextType | null {
+  public static detectQueryTypeFromToken(
+    continuationToken: string,
+  ): QueryExecutionContextType | null {
     try {
       const parsed = JSON.parse(continuationToken);
-      
+
       // Check if it's an ORDER BY token
-      if (parsed && typeof parsed.compositeToken === 'string' && Array.isArray(parsed.orderByItems)) {
+      if (
+        parsed &&
+        typeof parsed.compositeToken === "string" &&
+        Array.isArray(parsed.orderByItems)
+      ) {
         return QueryExecutionContextType.OrderBy;
       }
-      
+
       // Check if it's a composite token (parallel query)
       if (parsed && Array.isArray(parsed.rangeMappings)) {
         return QueryExecutionContextType.Parallel;
       }
-      
+
       return null;
     } catch {
       return null;

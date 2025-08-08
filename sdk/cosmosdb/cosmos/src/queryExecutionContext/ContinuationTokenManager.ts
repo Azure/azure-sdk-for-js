@@ -19,6 +19,7 @@ export class ContinuationTokenManager {
   private partitionKeyRangeMap: Map<string, QueryRangeMapping> = new Map();
   private isOrderByQuery: boolean = false;
   private orderByQueryContinuationToken: OrderByQueryContinuationToken | undefined;
+  private orderByItemsArray: any[][] | undefined;
 
   constructor(
     private readonly collectionLink: string,
@@ -29,20 +30,23 @@ export class ContinuationTokenManager {
     if (initialContinuationToken) {
       try {
         // Parse existing continuation token for resumption
-        console.log(`Parsing continuation token for ${isOrderByQuery ? 'ORDER BY' : 'parallel'} query`);
-        
+        console.log(
+          `Parsing continuation token for ${isOrderByQuery ? "ORDER BY" : "parallel"} query`,
+        );
+
         if (this.isOrderByQuery) {
           // For ORDER BY queries, the continuation token might be an OrderByQueryContinuationToken
           const parsedToken = JSON.parse(initialContinuationToken);
-          
+
           // Check if this is an ORDER BY continuation token with compositeToken
           if (parsedToken.compositeToken && parsedToken.orderByItems !== undefined) {
             console.log("Detected ORDER BY continuation token with composite token");
             this.orderByQueryContinuationToken = parsedToken as OrderByQueryContinuationToken;
-            
+
             // Extract the inner composite token
-            this.compositeContinuationToken = 
-              CompositeQueryContinuationTokenClass.fromString(parsedToken.compositeToken);
+            this.compositeContinuationToken = CompositeQueryContinuationTokenClass.fromString(
+              parsedToken.compositeToken,
+            );
           }
         } else {
           // For parallel queries, expect a CompositeQueryContinuationToken directly
@@ -50,10 +54,14 @@ export class ContinuationTokenManager {
           this.compositeContinuationToken =
             CompositeQueryContinuationTokenClass.fromString(initialContinuationToken);
         }
-        
-        console.log(`Successfully parsed ${isOrderByQuery ? 'ORDER BY' : 'parallel'} continuation token`);
+
+        console.log(
+          `Successfully parsed ${isOrderByQuery ? "ORDER BY" : "parallel"} continuation token`,
+        );
       } catch (error) {
-        console.warn(`Failed to parse continuation token: ${error.message}, initializing empty token`);
+        console.warn(
+          `Failed to parse continuation token: ${error.message}, initializing empty token`,
+        );
         // Fallback to empty continuation token if parsing fails
         this.compositeContinuationToken = new CompositeQueryContinuationTokenClass(
           this.collectionLink,
@@ -83,6 +91,14 @@ export class ContinuationTokenManager {
    */
   public getPartitionKeyRangeMap(): Map<string, QueryRangeMapping> {
     return this.partitionKeyRangeMap;
+  }
+
+  /**
+   * Sets the ORDER BY items array for ORDER BY continuation token creation
+   * @param orderByItemsArray - Array of ORDER BY items for each document
+   */
+  public setOrderByItemsArray(orderByItemsArray: any[][] | undefined): void {
+    this.orderByItemsArray = orderByItemsArray;
   }
 
   /**
@@ -118,7 +134,7 @@ export class ContinuationTokenManager {
     } else {
       console.warn(
         ` Attempted to update existing range mapping for rangeId: ${rangeId}. ` +
-        `Updates are not allowed - only new additions. The existing mapping will be preserved.`
+          `Updates are not allowed - only new additions. The existing mapping will be preserved.`,
       );
     }
   }
@@ -128,6 +144,18 @@ export class ContinuationTokenManager {
    */
   public removePartitionRangeMapping(rangeId: string): void {
     this.partitionKeyRangeMap.delete(rangeId);
+  }
+
+  /**
+   * Updates the partition key range map with new mappings from the endpoint response
+   * @param partitionKeyRangeMap - Map of range IDs to QueryRangeMapping objects
+   */
+  public setPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
+    if (partitionKeyRangeMap) {
+      for (const [rangeId, mapping] of partitionKeyRangeMap) {
+        this.updatePartitionRangeMapping(rangeId, mapping);
+      }
+    }
   }
 
   /**
@@ -163,26 +191,18 @@ export class ContinuationTokenManager {
    *
    * @param pageSize - Maximum number of items per page
    * @param currentBufferLength - Current buffer length for validation
-   * @param lastOrderByItems - ORDER BY resume values from the last item (for ORDER BY queries)
    * @param pageResults - The actual page results being returned (for RID extraction and skip count calculation)
    * @returns Object with endIndex and processedRanges
    */
   public processRangesForCurrentPage(
     pageSize: number,
     currentBufferLength: number,
-    lastOrderByItems?: any[],
     pageResults?: any[],
   ): { endIndex: number; processedRanges: string[] } {
-
     this.removeExhaustedRangesFromCompositeContinuationToken();
-    
+
     if (this.isOrderByQuery) {
-      return this.processOrderByRanges(
-        pageSize,
-        currentBufferLength,
-        lastOrderByItems,
-        pageResults,
-      );
+      return this.processOrderByRanges(pageSize, currentBufferLength, pageResults);
     } else {
       return this.processParallelRanges(pageSize, currentBufferLength);
     }
@@ -194,7 +214,6 @@ export class ContinuationTokenManager {
   private processOrderByRanges(
     pageSize: number,
     currentBufferLength: number,
-    lastOrderByItems?: any[],
     pageResults?: any[],
   ): { endIndex: number; processedRanges: string[] } {
     console.log("=== Processing ORDER BY Query (Sequential Mode) ===");
@@ -241,6 +260,18 @@ export class ContinuationTokenManager {
     // For ORDER BY: Create dedicated OrderByQueryContinuationToken with resume values
     // Store the range mapping (without order by items pollution)
     this.addOrUpdateRangeMapping(lastRangeBeforePageLimit);
+
+    // Extract ORDER BY items from the last item on the page if available
+    let lastOrderByItems: any[] | undefined;
+    if (this.orderByItemsArray && endIndex > 0) {
+      const lastItemIndexOnPage = endIndex - 1;
+      if (lastItemIndexOnPage < this.orderByItemsArray.length) {
+        lastOrderByItems = this.orderByItemsArray[lastItemIndexOnPage];
+        console.log(
+          `✅ ORDER BY extracted order by items for last item at index ${lastItemIndexOnPage}`,
+        );
+      }
+    }
 
     // Extract RID and calculate skip count from the actual page results
     let documentRid: string = this.collectionLink; // fallback to collection link
@@ -425,14 +456,10 @@ export class ContinuationTokenManager {
   /**
    * Updates response headers with the continuation token
    */
-  public updateResponseHeaders(headers: CosmosHeaders): void {
+  public setContinuationTokenInHeaders(headers: CosmosHeaders): void {
     const tokenString = this.getTokenString();
     if (tokenString) {
       (headers as any)[Constants.HttpHeaders.Continuation] = tokenString;
-      console.log("Updated compositeContinuationToken:", tokenString);
-    } else {
-      headers[Constants.HttpHeaders.Continuation] = undefined;
-      console.log("No continuation token set - no ranges with continuation tokens");
     }
   }
 
@@ -440,7 +467,7 @@ export class ContinuationTokenManager {
    * Checks if there are any unprocessed ranges in the sliding window
    */
   public hasUnprocessedRanges(): boolean {
-    console.log("partition Key range Map", JSON.stringify(this.partitionKeyRangeMap))
+    console.log("partition Key range Map", JSON.stringify(this.partitionKeyRangeMap));
     return this.partitionKeyRangeMap.size > 0;
   }
 }
