@@ -128,9 +128,7 @@ export class RecommendationsImpl implements Recommendations {
    * invoking generateRecommendations.
    * @param options The options parameters.
    */
-  private _list(
-    options?: RecommendationsListOptionalParams,
-  ): Promise<RecommendationsListResponse> {
+  private _list(options?: RecommendationsListOptionalParams): Promise<RecommendationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -161,10 +159,7 @@ export class RecommendationsImpl implements Recommendations {
     nextLink: string,
     options?: RecommendationsListNextOptionalParams,
   ): Promise<RecommendationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -197,11 +192,7 @@ const getGenerateStatusOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.operationId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.operationId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -216,12 +207,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skipToken,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -238,11 +224,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.recommendationId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.recommendationId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -257,11 +239,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

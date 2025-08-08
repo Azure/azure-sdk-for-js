@@ -116,11 +116,7 @@ export class ConfigurationsImpl implements Configurations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroup,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroup, options, settings);
       },
     };
   }
@@ -139,10 +135,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroup: string,
     options?: ConfigurationsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ConfigData> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroup,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroup, options)) {
       yield* page;
     }
   }
@@ -154,10 +147,7 @@ export class ConfigurationsImpl implements Configurations {
   private _listBySubscription(
     options?: ConfigurationsListBySubscriptionOptionalParams,
   ): Promise<ConfigurationsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -259,11 +249,7 @@ const createInSubscriptionOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.configContract,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.configurationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.configurationName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -280,11 +266,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroup,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroup],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -322,11 +304,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ArmErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

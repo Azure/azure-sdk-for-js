@@ -267,33 +267,32 @@ export const Resource: coreClient.CompositeMapper = {
   },
 };
 
-export const ResourceRecommendationBaseListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ResourceRecommendationBaseListResult",
-      modelProperties: {
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
+export const ResourceRecommendationBaseListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceRecommendationBaseListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
-        value: {
-          serializedName: "value",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ResourceRecommendationBase",
-              },
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceRecommendationBase",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
 export const ShortDescription: coreClient.CompositeMapper = {
   type: {
