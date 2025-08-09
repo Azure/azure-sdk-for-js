@@ -13,7 +13,7 @@ function drain(stream: ReadableStream<Uint8Array>): Promise<Blob> {
 
 async function toBlobPart(
   source: ReadableStream<Uint8Array> | Blob | Uint8Array,
-): Promise<BlobPart> {
+): Promise<Blob | Uint8Array> {
   if (source instanceof Blob || source instanceof Uint8Array) {
     return source;
   }
