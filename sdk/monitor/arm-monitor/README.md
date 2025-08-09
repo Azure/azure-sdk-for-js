@@ -4,6 +4,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Monitor Management Client
 
+[Migration guide from MetricsQueryClient in @azure/monitor-query → @azure/arm-monitor](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/MIGRATION_METRICSQUERYCLIENT_TO_ARM_MONITOR.md)
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitor) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-monitor) |
 [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-monitor?view=azure-node-preview) |

@@ -80,7 +80,7 @@ export interface LogsQueryBatchOptions extends OperationOptions {
 // @public
 export type LogsQueryBatchResult = Array<LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError>;
 
-// @public
+// @public @deprecated
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
     queryBatch(batch: QueryBatch[], options?: LogsQueryBatchOptions): Promise<LogsQueryBatchResult>;
@@ -195,7 +195,7 @@ export interface MetricNamespace {
     type?: string;
 }
 
-// @public
+// @public @deprecated
 export class MetricsClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: MetricsClientOptions);
     queryResources(resourceIds: string[], metricNames: string[], metricNamespace: string, options?: MetricsQueryResourcesOptions): Promise<MetricsQueryResult[]>;
@@ -207,7 +207,7 @@ export interface MetricsClientOptions extends CommonClientOptions {
     endpoint?: string;
 }
 
-// @public
+// @public @deprecated
 export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     listMetricDefinitions(resourceUri: string, options?: ListMetricDefinitionsOptions): PagedAsyncIterableIterator<MetricDefinition>;
