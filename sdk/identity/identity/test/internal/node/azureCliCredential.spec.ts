@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureCliCredential } from "$internal/credentials/azureCliCredential.js";
+import { AzureCliCredential } from "@azure/identity";
 import type { GetTokenOptions } from "@azure/core-auth";
 import child_process from "node:child_process";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
