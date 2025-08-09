@@ -160,21 +160,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** The Fleet resource. */
@@ -461,10 +454,10 @@ export function userAssignedIdentityRecordDeserializer(
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The client ID of the assigned identity. */
-  readonly clientId?: string;
   /** The principal ID of the assigned identity. */
   readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
 }
 
 export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
@@ -473,8 +466,8 @@ export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any 
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
-    clientId: item["clientId"],
     principalId: item["principalId"],
+    clientId: item["clientId"],
   };
 }
 
@@ -707,12 +700,18 @@ export interface FleetMemberProperties {
   group?: string;
   /** The status of the last operation. */
   readonly provisioningState?: FleetMemberProvisioningState;
+  /** The labels for the fleet member. */
+  labels?: Record<string, string>;
   /** Status information of the last operation for fleet member. */
   readonly status?: FleetMemberStatus;
 }
 
 export function fleetMemberPropertiesSerializer(item: FleetMemberProperties): any {
-  return { clusterResourceId: item["clusterResourceId"], group: item["group"] };
+  return {
+    clusterResourceId: item["clusterResourceId"],
+    group: item["group"],
+    labels: item["labels"],
+  };
 }
 
 export function fleetMemberPropertiesDeserializer(item: any): FleetMemberProperties {
@@ -720,6 +719,7 @@ export function fleetMemberPropertiesDeserializer(item: any): FleetMemberPropert
     clusterResourceId: item["clusterResourceId"],
     group: item["group"],
     provisioningState: item["provisioningState"],
+    labels: item["labels"],
     status: !item["status"] ? item["status"] : fleetMemberStatusDeserializer(item["status"]),
   };
 }
@@ -807,10 +807,12 @@ export function fleetMemberUpdateSerializer(item: FleetMemberUpdate): any {
 export interface FleetMemberUpdateProperties {
   /** The group this member belongs to for multi-cluster update management. */
   group?: string;
+  /** The labels for the fleet member. */
+  labels?: Record<string, string>;
 }
 
 export function fleetMemberUpdatePropertiesSerializer(item: FleetMemberUpdateProperties): any {
-  return { group: item["group"] };
+  return { group: item["group"], labels: item["labels"] };
 }
 
 /** The response of a FleetMember list operation. */
@@ -837,6 +839,209 @@ export function fleetMemberArraySerializer(result: Array<FleetMember>): any[] {
 export function fleetMemberArrayDeserializer(result: Array<FleetMember>): any[] {
   return result.map((item) => {
     return fleetMemberDeserializer(item);
+  });
+}
+
+/** A Gate controls the progression during a staged rollout, e.g. in an Update Run. */
+export interface Gate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: GateProperties;
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
+}
+
+export function gateDeserializer(item: any): Gate {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : gatePropertiesDeserializer(item["properties"]),
+    eTag: item["eTag"],
+  };
+}
+
+/** A Gate controls the progression during a staged rollout, e.g. in an Update Run. */
+export interface GateProperties {
+  /** The provisioning state of the Gate resource. */
+  readonly provisioningState?: GateProvisioningState;
+  /** The human-readable display name of the Gate. */
+  displayName?: string;
+  /** The type of the Gate determines how it is completed. */
+  gateType: GateType;
+  /** The target that the Gate is controlling, e.g. an Update Run. */
+  target: GateTarget;
+  /** The state of the Gate. */
+  state: GateState;
+}
+
+export function gatePropertiesDeserializer(item: any): GateProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    displayName: item["displayName"],
+    gateType: item["gateType"],
+    target: gateTargetDeserializer(item["target"]),
+    state: item["state"],
+  };
+}
+
+/** The provisioning state of the Gate resource. */
+export enum KnownGateProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of the Gate resource. \
+ * {@link KnownGateProvisioningState} can be used interchangeably with GateProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type GateProvisioningState = string;
+
+/** The type of the Gate determines how it is completed. */
+export enum KnownGateType {
+  /** An approval gate is completed by setting its state to be Completed. */
+  Approval = "Approval",
+}
+
+/**
+ * The type of the Gate determines how it is completed. \
+ * {@link KnownGateType} can be used interchangeably with GateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approval**: An approval gate is completed by setting its state to be Completed.
+ */
+export type GateType = string;
+
+/** The target that the Gate is controlling, e.g. an Update Run. Exactly one of the properties objects will be set. */
+export interface GateTarget {
+  /** The resource id that the Gate is controlling the rollout of. */
+  id: string;
+  /** The properties of the Update Run that the Gate is targeting. */
+  updateRunProperties?: UpdateRunGateTargetProperties;
+}
+
+export function gateTargetDeserializer(item: any): GateTarget {
+  return {
+    id: item["id"],
+    updateRunProperties: !item["updateRunProperties"]
+      ? item["updateRunProperties"]
+      : updateRunGateTargetPropertiesDeserializer(item["updateRunProperties"]),
+  };
+}
+
+/** The properties of the Update Run that the Gate is targeting. */
+export interface UpdateRunGateTargetProperties {
+  /** The name of the Update Run. */
+  readonly name: string;
+  /** The Update Stage of the Update Run. */
+  readonly stage?: string;
+  /** The Update Group of the Update Run. */
+  readonly group?: string;
+  /** Whether the Gate is placed before or after the update itself. */
+  timing: Timing;
+}
+
+export function updateRunGateTargetPropertiesDeserializer(
+  item: any,
+): UpdateRunGateTargetProperties {
+  return {
+    name: item["name"],
+    stage: item["stage"],
+    group: item["group"],
+    timing: item["timing"],
+  };
+}
+
+/** Whether the Gate is placed before or after the target. */
+export enum KnownTiming {
+  /** The Gate is before the target. */
+  Before = "Before",
+  /** The Gate is after the target. */
+  After = "After",
+}
+
+/**
+ * Whether the Gate is placed before or after the target. \
+ * {@link KnownTiming} can be used interchangeably with Timing,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Before**: The Gate is before the target. \
+ * **After**: The Gate is after the target.
+ */
+export type Timing = string;
+
+/** The state of the Gate. */
+export enum KnownGateState {
+  /** A Pending Gate will continue to block the staged rollout process it is controlling. */
+  Pending = "Pending",
+  /** A Skipped Gate means that the staged rollout process it is controlling was skipped. */
+  Skipped = "Skipped",
+  /** An Completed Gate allows the staged rollout process to continue. */
+  Completed = "Completed",
+}
+
+/**
+ * The state of the Gate. \
+ * {@link KnownGateState} can be used interchangeably with GateState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: A Pending Gate will continue to block the staged rollout process it is controlling. \
+ * **Skipped**: A Skipped Gate means that the staged rollout process it is controlling was skipped. \
+ * **Completed**: An Completed Gate allows the staged rollout process to continue.
+ */
+export type GateState = string;
+
+/** Patch a Gate resource. */
+export interface GatePatch {
+  /** Properties of a Gate that can be patched. */
+  properties: GatePatchProperties;
+}
+
+export function gatePatchSerializer(item: GatePatch): any {
+  return { properties: gatePatchPropertiesSerializer(item["properties"]) };
+}
+
+/** Properties of a Gate that can be patched. */
+export interface GatePatchProperties {
+  /** The state of the Gate. */
+  state: GateState;
+}
+
+export function gatePatchPropertiesSerializer(item: GatePatchProperties): any {
+  return { state: item["state"] };
+}
+
+/** The response of a Gate list operation. */
+export interface _GateListResult {
+  /** The Gate items on this page */
+  value: Gate[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _gateListResultDeserializer(item: any): _GateListResult {
+  return {
+    value: gateArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function gateArrayDeserializer(result: Array<Gate>): any[] {
+  return result.map((item) => {
+    return gateDeserializer(item);
   });
 }
 
@@ -990,6 +1195,10 @@ export interface UpdateStage {
   groups?: UpdateGroup[];
   /** The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. */
   afterStageWaitInSeconds?: number;
+  /** A list of Gates that will be created before this Stage is executed. */
+  beforeGates?: GateConfiguration[];
+  /** A list of Gates that will be created after this Stage is executed. */
+  afterGates?: GateConfiguration[];
 }
 
 export function updateStageSerializer(item: UpdateStage): any {
@@ -997,6 +1206,12 @@ export function updateStageSerializer(item: UpdateStage): any {
     name: item["name"],
     groups: !item["groups"] ? item["groups"] : updateGroupArraySerializer(item["groups"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
+    beforeGates: !item["beforeGates"]
+      ? item["beforeGates"]
+      : gateConfigurationArraySerializer(item["beforeGates"]),
+    afterGates: !item["afterGates"]
+      ? item["afterGates"]
+      : gateConfigurationArraySerializer(item["afterGates"]),
   };
 }
 
@@ -1005,6 +1220,12 @@ export function updateStageDeserializer(item: any): UpdateStage {
     name: item["name"],
     groups: !item["groups"] ? item["groups"] : updateGroupArrayDeserializer(item["groups"]),
     afterStageWaitInSeconds: item["afterStageWaitInSeconds"],
+    beforeGates: !item["beforeGates"]
+      ? item["beforeGates"]
+      : gateConfigurationArrayDeserializer(item["beforeGates"]),
+    afterGates: !item["afterGates"]
+      ? item["afterGates"]
+      : gateConfigurationArrayDeserializer(item["afterGates"]),
   };
 }
 
@@ -1027,15 +1248,64 @@ export interface UpdateGroup {
    * It must match a group name of an existing fleet member.
    */
   name: string;
+  /** A list of Gates that will be created before this Group is executed. */
+  beforeGates?: GateConfiguration[];
+  /** A list of Gates that will be created after this Group is executed. */
+  afterGates?: GateConfiguration[];
 }
 
 export function updateGroupSerializer(item: UpdateGroup): any {
-  return { name: item["name"] };
+  return {
+    name: item["name"],
+    beforeGates: !item["beforeGates"]
+      ? item["beforeGates"]
+      : gateConfigurationArraySerializer(item["beforeGates"]),
+    afterGates: !item["afterGates"]
+      ? item["afterGates"]
+      : gateConfigurationArraySerializer(item["afterGates"]),
+  };
 }
 
 export function updateGroupDeserializer(item: any): UpdateGroup {
   return {
     name: item["name"],
+    beforeGates: !item["beforeGates"]
+      ? item["beforeGates"]
+      : gateConfigurationArrayDeserializer(item["beforeGates"]),
+    afterGates: !item["afterGates"]
+      ? item["afterGates"]
+      : gateConfigurationArrayDeserializer(item["afterGates"]),
+  };
+}
+
+export function gateConfigurationArraySerializer(result: Array<GateConfiguration>): any[] {
+  return result.map((item) => {
+    return gateConfigurationSerializer(item);
+  });
+}
+
+export function gateConfigurationArrayDeserializer(result: Array<GateConfiguration>): any[] {
+  return result.map((item) => {
+    return gateConfigurationDeserializer(item);
+  });
+}
+
+/** GateConfiguration is used to define where Gates should be placed within the Update Run. */
+export interface GateConfiguration {
+  /** The human-readable display name of the Gate. */
+  displayName?: string;
+  /** The type of the Gate determines how it is completed. */
+  type: GateType;
+}
+
+export function gateConfigurationSerializer(item: GateConfiguration): any {
+  return { displayName: item["displayName"], type: item["type"] };
+}
+
+export function gateConfigurationDeserializer(item: any): GateConfiguration {
+  return {
+    displayName: item["displayName"],
+    type: item["type"],
   };
 }
 
@@ -1235,6 +1505,8 @@ export enum KnownUpdateState {
   Skipped = "Skipped",
   /** The state of an UpdateRun/UpdateStage/UpdateGroup/MemberUpdate that has failed. */
   Failed = "Failed",
+  /** The state of an UpdateRun/UpdateStage/UpdateGroup/MemberUpdate that is pending. */
+  Pending = "Pending",
   /** The state of an UpdateRun/UpdateStage/UpdateGroup/MemberUpdate that has completed. */
   Completed = "Completed",
 }
@@ -1250,6 +1522,7 @@ export enum KnownUpdateState {
  * **Stopped**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has stopped. \
  * **Skipped**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has been skipped. \
  * **Failed**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has failed. \
+ * **Pending**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that is pending. \
  * **Completed**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has completed.
  */
 export type UpdateState = string;
@@ -1268,6 +1541,10 @@ export interface UpdateStageStatus {
   readonly name?: string;
   /** The list of groups to be updated as part of this UpdateStage. */
   readonly groups?: UpdateGroupStatus[];
+  /** The list of Gates that will run before this UpdateStage. */
+  readonly beforeGates?: UpdateRunGateStatus[];
+  /** The list of Gates that will run after this UpdateStage. */
+  readonly afterGates?: UpdateRunGateStatus[];
   /** The status of the wait period configured on the UpdateStage. */
   readonly afterStageWaitStatus?: WaitStatus;
 }
@@ -1277,6 +1554,12 @@ export function updateStageStatusDeserializer(item: any): UpdateStageStatus {
     status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
     name: item["name"],
     groups: !item["groups"] ? item["groups"] : updateGroupStatusArrayDeserializer(item["groups"]),
+    beforeGates: !item["beforeGates"]
+      ? item["beforeGates"]
+      : updateRunGateStatusArrayDeserializer(item["beforeGates"]),
+    afterGates: !item["afterGates"]
+      ? item["afterGates"]
+      : updateRunGateStatusArrayDeserializer(item["afterGates"]),
     afterStageWaitStatus: !item["afterStageWaitStatus"]
       ? item["afterStageWaitStatus"]
       : waitStatusDeserializer(item["afterStageWaitStatus"]),
@@ -1297,6 +1580,10 @@ export interface UpdateGroupStatus {
   readonly name?: string;
   /** The list of member this UpdateGroup updates. */
   readonly members?: MemberUpdateStatus[];
+  /** The list of Gates that will run before this UpdateGroup. */
+  readonly beforeGates?: UpdateRunGateStatus[];
+  /** The list of Gates that will run after this UpdateGroup. */
+  readonly afterGates?: UpdateRunGateStatus[];
 }
 
 export function updateGroupStatusDeserializer(item: any): UpdateGroupStatus {
@@ -1306,6 +1593,12 @@ export function updateGroupStatusDeserializer(item: any): UpdateGroupStatus {
     members: !item["members"]
       ? item["members"]
       : memberUpdateStatusArrayDeserializer(item["members"]),
+    beforeGates: !item["beforeGates"]
+      ? item["beforeGates"]
+      : updateRunGateStatusArrayDeserializer(item["beforeGates"]),
+    afterGates: !item["afterGates"]
+      ? item["afterGates"]
+      : updateRunGateStatusArrayDeserializer(item["afterGates"]),
   };
 }
 
@@ -1336,6 +1629,30 @@ export function memberUpdateStatusDeserializer(item: any): MemberUpdateStatus {
     clusterResourceId: item["clusterResourceId"],
     operationId: item["operationId"],
     message: item["message"],
+  };
+}
+
+export function updateRunGateStatusArrayDeserializer(result: Array<UpdateRunGateStatus>): any[] {
+  return result.map((item) => {
+    return updateRunGateStatusDeserializer(item);
+  });
+}
+
+/** The status of the Gate, as represented in the Update Run. */
+export interface UpdateRunGateStatus {
+  /** The human-readable display name of the Gate. */
+  readonly displayName?: string;
+  /** The resource id of the Gate. */
+  readonly gateId?: string;
+  /** The status of the Gate. */
+  readonly status?: UpdateStatus;
+}
+
+export function updateRunGateStatusDeserializer(item: any): UpdateRunGateStatus {
+  return {
+    displayName: item["displayName"],
+    gateId: item["gateId"],
+    status: !item["status"] ? item["status"] : updateStatusDeserializer(item["status"]),
   };
 }
 
@@ -1603,6 +1920,21 @@ export interface AutoUpgradeProfileProperties {
   disabled?: boolean;
   /** The status of the auto upgrade profile. */
   autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
+  /**
+   *   This is the target Kubernetes version for auto-upgrade. The format must be `{major version}.{minor version}`. For example, "1.30".
+   *   By default, this is empty.
+   *   If upgrade channel is set to TargetKubernetesVersion, this field must not be empty.
+   *   If upgrade channel is Rapid, Stable or NodeImage, this field must be empty.
+   */
+  targetKubernetesVersion?: string;
+  /**
+   *   If upgrade channel is not TargetKubernetesVersion, this field must be False.
+   *   If set to True: Fleet auto upgrade will continue generate update runs for patches of minor versions earlier than N-2
+   *   (where N is the latest supported minor version) if those minor versions support Long-Term Support (LTS).
+   *   By default, this is set to False.
+   *   For more information on AKS LTS, please see https://learn.microsoft.com/en-us/azure/aks/long-term-support
+   */
+  longTermSupport?: boolean;
 }
 
 export function autoUpgradeProfilePropertiesSerializer(item: AutoUpgradeProfileProperties): any {
@@ -1616,6 +1948,8 @@ export function autoUpgradeProfilePropertiesSerializer(item: AutoUpgradeProfileP
     autoUpgradeProfileStatus: !item["autoUpgradeProfileStatus"]
       ? item["autoUpgradeProfileStatus"]
       : autoUpgradeProfileStatusSerializer(item["autoUpgradeProfileStatus"]),
+    targetKubernetesVersion: item["targetKubernetesVersion"],
+    longTermSupport: item["longTermSupport"],
   };
 }
 
@@ -1631,6 +1965,8 @@ export function autoUpgradeProfilePropertiesDeserializer(item: any): AutoUpgrade
     autoUpgradeProfileStatus: !item["autoUpgradeProfileStatus"]
       ? item["autoUpgradeProfileStatus"]
       : autoUpgradeProfileStatusDeserializer(item["autoUpgradeProfileStatus"]),
+    targetKubernetesVersion: item["targetKubernetesVersion"],
+    longTermSupport: item["longTermSupport"],
   };
 }
 
@@ -1666,6 +2002,12 @@ export enum KnownUpgradeChannel {
   Rapid = "Rapid",
   /** Upgrade node image version of the clusters. */
   NodeImage = "NodeImage",
+  /**
+   *   Upgrades the clusters Kubernetes version to the latest supported patch version of the specified target Kubernetes version.
+   *   For information on the behavior of update run for Kubernetes version upgrade,
+   *   see https://learn.microsoft.com/en-us/azure/kubernetes-fleet/update-orchestration?tabs=azure-portal
+   */
+  TargetKubernetesVersion = "TargetKubernetesVersion",
 }
 
 /**
@@ -1676,7 +2018,10 @@ export enum KnownUpgradeChannel {
  * **Stable**:  Upgrades the clusters kubernetes version to the latest supported patch release on minor version N-1, where N is the latest supported minor version.
  *  For example, if a cluster runs version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, the cluster upgrades to 1.18.6. \
  * **Rapid**: Upgrades the clusters kubernetes version to the latest supported patch release on the latest supported minor version. \
- * **NodeImage**: Upgrade node image version of the clusters.
+ * **NodeImage**: Upgrade node image version of the clusters. \
+ * **TargetKubernetesVersion**:   Upgrades the clusters Kubernetes version to the latest supported patch version of the specified target Kubernetes version.
+ *   For information on the behavior of update run for Kubernetes version upgrade,
+ *   see https:\//learn.microsoft.com\/en-us\/azure\/kubernetes-fleet\/update-orchestration?tabs=azure-portal
  */
 export type UpgradeChannel = string;
 
@@ -1810,10 +2155,24 @@ export function generateResponseDeserializer(item: any): GenerateResponse {
 
 /** Azure Kubernetes Fleet Manager api versions. */
 export enum KnownVersions {
+  /** Azure Kubernetes Fleet Manager api version 2022-09-02-preview. */
+  V20220902Preview = "2022-09-02-preview",
+  /** Azure Kubernetes Fleet Manager api version 2023-03-15-preview. */
+  V20230315Preview = "2023-03-15-preview",
+  /** Azure Kubernetes Fleet Manager api version 2023-06-15-preview. */
+  V20230615Preview = "2023-06-15-preview",
+  /** Azure Kubernetes Fleet Manager api version 2023-08-15-preview. */
+  V20230815Preview = "2023-08-15-preview",
   /** Azure Kubernetes Fleet Manager api version 2023-10-15. */
   V20231015 = "2023-10-15",
+  /** Azure Kubernetes Fleet Manager api version 2024-02-02-preview. */
+  V20240202Preview = "2024-02-02-preview",
   /** Azure Kubernetes Fleet Manager api version 2024-04-01. */
   V20240401 = "2024-04-01",
+  /** Azure Kubernetes Fleet Manager api version 2024-05-02-preview. */
+  V20240502Preview = "2024-05-02-preview",
   /** Azure Kubernetes Fleet Manager api version 2025-03-01. */
   V20250301 = "2025-03-01",
+  /** Azure Kubernetes Fleet Manager api version 2025-04-01-preview. */
+  V20250401Preview = "2025-04-01-preview",
 }
