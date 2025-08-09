@@ -3,6 +3,60 @@
 
 import { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
 import {
+  triggerManualOccurrence,
+  cancelNextOccurrence,
+  enable,
+  disable,
+  patchResources,
+  detachResources,
+  attachResources,
+  listResources,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+  virtualMachinesGetOperationErrors,
+  virtualMachinesCancelOperations,
+  virtualMachinesGetOperationStatus,
+  virtualMachinesExecuteDelete,
+  virtualMachinesExecuteCreate,
+  virtualMachinesExecuteStart,
+  virtualMachinesExecuteHibernate,
+  virtualMachinesExecuteDeallocate,
+  virtualMachinesSubmitStart,
+  virtualMachinesSubmitHibernate,
+  virtualMachinesSubmitDeallocate,
+} from "../../api/scheduledActions/operations.js";
+import {
+  ScheduledActionsTriggerManualOccurrenceOptionalParams,
+  ScheduledActionsCancelNextOccurrenceOptionalParams,
+  ScheduledActionsEnableOptionalParams,
+  ScheduledActionsDisableOptionalParams,
+  ScheduledActionsPatchResourcesOptionalParams,
+  ScheduledActionsDetachResourcesOptionalParams,
+  ScheduledActionsAttachResourcesOptionalParams,
+  ScheduledActionsListResourcesOptionalParams,
+  ScheduledActionsListBySubscriptionOptionalParams,
+  ScheduledActionsListByResourceGroupOptionalParams,
+  ScheduledActionsDeleteOptionalParams,
+  ScheduledActionsUpdateOptionalParams,
+  ScheduledActionsCreateOrUpdateOptionalParams,
+  ScheduledActionsGetOptionalParams,
+  ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
+  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
+  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
+  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
+} from "../../api/scheduledActions/options.js";
+import {
   SubmitDeallocateRequest,
   DeallocateResourceOperationResponse,
   SubmitHibernateRequest,
@@ -22,36 +76,113 @@ import {
   CancelOperationsResponse,
   GetOperationErrorsRequest,
   GetOperationErrorsResponse,
+  ScheduledAction,
+  ScheduledActionUpdate,
+  ScheduledActionResource,
+  ResourceAttachRequest,
+  RecurringActionsResourceOperationResult,
+  ResourceDetachRequest,
+  ResourcePatchRequest,
+  CancelOccurrenceRequest,
+  Occurrence,
 } from "../../models/models.js";
-import {
-  ScheduledActionsVirtualMachinesGetOperationErrorsOptionalParams,
-  ScheduledActionsVirtualMachinesCancelOperationsOptionalParams,
-  ScheduledActionsVirtualMachinesGetOperationStatusOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteDeleteOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteCreateOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteStartOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesExecuteDeallocateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitStartOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
-  ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
-} from "../../api/scheduledActions/options.js";
-import {
-  virtualMachinesGetOperationErrors,
-  virtualMachinesCancelOperations,
-  virtualMachinesGetOperationStatus,
-  virtualMachinesExecuteDelete,
-  virtualMachinesExecuteCreate,
-  virtualMachinesExecuteStart,
-  virtualMachinesExecuteHibernate,
-  virtualMachinesExecuteDeallocate,
-  virtualMachinesSubmitStart,
-  virtualMachinesSubmitHibernate,
-  virtualMachinesSubmitDeallocate,
-} from "../../api/scheduledActions/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ScheduledActions operations. */
 export interface ScheduledActionsOperations {
+  /** A synchronous resource action. */
+  triggerManualOccurrence: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    options?: ScheduledActionsTriggerManualOccurrenceOptionalParams,
+  ) => Promise<Occurrence>;
+  /** A synchronous resource action. */
+  cancelNextOccurrence: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    body: CancelOccurrenceRequest,
+    options?: ScheduledActionsCancelNextOccurrenceOptionalParams,
+  ) => Promise<RecurringActionsResourceOperationResult>;
+  /** A synchronous resource action. */
+  enable: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    options?: ScheduledActionsEnableOptionalParams,
+  ) => Promise<void>;
+  /** A synchronous resource action. */
+  disable: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    options?: ScheduledActionsDisableOptionalParams,
+  ) => Promise<void>;
+  /** A synchronous resource action. */
+  patchResources: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    body: ResourcePatchRequest,
+    options?: ScheduledActionsPatchResourcesOptionalParams,
+  ) => Promise<RecurringActionsResourceOperationResult>;
+  /** A synchronous resource action. */
+  detachResources: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    body: ResourceDetachRequest,
+    options?: ScheduledActionsDetachResourcesOptionalParams,
+  ) => Promise<RecurringActionsResourceOperationResult>;
+  /** A synchronous resource action. */
+  attachResources: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    body: ResourceAttachRequest,
+    options?: ScheduledActionsAttachResourcesOptionalParams,
+  ) => Promise<RecurringActionsResourceOperationResult>;
+  /** List resources attached to Scheduled Actions */
+  listResources: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    options?: ScheduledActionsListResourcesOptionalParams,
+  ) => PagedAsyncIterableIterator<ScheduledActionResource>;
+  /** List ScheduledAction resources by subscription ID */
+  listBySubscription: (
+    options?: ScheduledActionsListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<ScheduledAction>;
+  /** List ScheduledAction resources by resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: ScheduledActionsListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<ScheduledAction>;
+  /** Delete a ScheduledAction */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    options?: ScheduledActionsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** Update a ScheduledAction */
+  update: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    properties: ScheduledActionUpdate,
+    options?: ScheduledActionsUpdateOptionalParams,
+  ) => Promise<ScheduledAction>;
+  /** Create a ScheduledAction */
+  createOrUpdate: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    resource: ScheduledAction,
+    options?: ScheduledActionsCreateOrUpdateOptionalParams,
+  ) => PollerLike<OperationState<ScheduledAction>, ScheduledAction>;
+  /** Get a ScheduledAction */
+  get: (
+    resourceGroupName: string,
+    scheduledActionName: string,
+    options?: ScheduledActionsGetOptionalParams,
+  ) => Promise<ScheduledAction>;
   /** VirtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist. */
   virtualMachinesGetOperationErrors: (
     locationparameter: string,
@@ -122,6 +253,78 @@ export interface ScheduledActionsOperations {
 
 function _getScheduledActions(context: ComputeScheduleContext) {
   return {
+    triggerManualOccurrence: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      options?: ScheduledActionsTriggerManualOccurrenceOptionalParams,
+    ) => triggerManualOccurrence(context, resourceGroupName, scheduledActionName, options),
+    cancelNextOccurrence: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      body: CancelOccurrenceRequest,
+      options?: ScheduledActionsCancelNextOccurrenceOptionalParams,
+    ) => cancelNextOccurrence(context, resourceGroupName, scheduledActionName, body, options),
+    enable: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      options?: ScheduledActionsEnableOptionalParams,
+    ) => enable(context, resourceGroupName, scheduledActionName, options),
+    disable: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      options?: ScheduledActionsDisableOptionalParams,
+    ) => disable(context, resourceGroupName, scheduledActionName, options),
+    patchResources: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      body: ResourcePatchRequest,
+      options?: ScheduledActionsPatchResourcesOptionalParams,
+    ) => patchResources(context, resourceGroupName, scheduledActionName, body, options),
+    detachResources: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      body: ResourceDetachRequest,
+      options?: ScheduledActionsDetachResourcesOptionalParams,
+    ) => detachResources(context, resourceGroupName, scheduledActionName, body, options),
+    attachResources: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      body: ResourceAttachRequest,
+      options?: ScheduledActionsAttachResourcesOptionalParams,
+    ) => attachResources(context, resourceGroupName, scheduledActionName, body, options),
+    listResources: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      options?: ScheduledActionsListResourcesOptionalParams,
+    ) => listResources(context, resourceGroupName, scheduledActionName, options),
+    listBySubscription: (options?: ScheduledActionsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: ScheduledActionsListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, resourceGroupName, options),
+    delete: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      options?: ScheduledActionsDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, scheduledActionName, options),
+    update: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      properties: ScheduledActionUpdate,
+      options?: ScheduledActionsUpdateOptionalParams,
+    ) => update(context, resourceGroupName, scheduledActionName, properties, options),
+    createOrUpdate: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      resource: ScheduledAction,
+      options?: ScheduledActionsCreateOrUpdateOptionalParams,
+    ) => createOrUpdate(context, resourceGroupName, scheduledActionName, resource, options),
+    get: (
+      resourceGroupName: string,
+      scheduledActionName: string,
+      options?: ScheduledActionsGetOptionalParams,
+    ) => get(context, resourceGroupName, scheduledActionName, options),
     virtualMachinesGetOperationErrors: (
       locationparameter: string,
       requestBody: GetOperationErrorsRequest,
