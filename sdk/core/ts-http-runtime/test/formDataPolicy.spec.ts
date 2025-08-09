@@ -3,7 +3,7 @@
 
 import { describe, it, assert, vi } from "vitest";
 import type { PipelineResponse, SendRequest } from "../src/index.js";
-import type { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces.js";
+import type { BodyPart, FormDataMap, FormDataValue, MultipartRequestBody } from "../src/interfaces.js";
 import { createPipelineRequest } from "../src/pipelineRequest.js";
 import { createHttpHeaders } from "../src/httpHeaders.js";
 import { formDataPolicy } from "../src/policies/formDataPolicy.js";
@@ -180,6 +180,35 @@ describe("formDataPolicy", function () {
       );
       const buf = new Uint8Array(await new Response((parts[0].body as any).stream()).arrayBuffer());
       assert.deepEqual([...buf], [1, 2, 3]);
+    });
+    
+    it.runIf(isNodeLike)("should extract filename from Node ReadableStream path property", async function () {
+      // Create a mock readable stream with a path property
+      const mockStream = {
+        on: vi.fn(),
+        pipe: vi.fn(),
+        path: "/path/to/example-file.txt",
+        removeListener: vi.fn(),
+        // These properties make it compatible with FormDataValue
+        stream: vi.fn(),
+        name: "",
+        type: "",
+        lastModified: 0
+      };
+      
+      const result = await performRequest({
+        file: mockStream as unknown as FormDataValue,
+      });
+      
+      const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+      assert.ok(parts.length === 1, "expected 1 part");
+      assert.deepEqual(
+        parts[0].headers.toJSON(),
+        {
+          "content-type": "application/octet-stream",
+          "content-disposition": `form-data; name="file"; filename="example-file.txt"`,
+        },
+      );
     });
   });
 
