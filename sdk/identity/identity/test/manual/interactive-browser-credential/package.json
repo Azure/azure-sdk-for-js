@@ -6,8 +6,8 @@
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "start": "webpack-dev-server",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../../../../.prettierrc.json --ignore-path ../../../../../../.prettierignore \"src/**/*.tsx\"",
-    "format": "dev-tool run vendored prettier --write --config ../../../../../../.prettierrc.json --ignore-path ../../../../../../.prettierignore \"src/**/*.tsx\""
+    "check-format": "prettier --list-different --config ../../../../../../.prettierrc.json --ignore-path ../../../../../../.prettierignore \"src/**/*.tsx\"",
+    "format": "prettier --write --config ../../../../../../.prettierrc.json --ignore-path ../../../../../../.prettierignore \"src/**/*.tsx\""
   },
   "author": "Microsoft Corporation",
   "license": "MIT",
