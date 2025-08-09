@@ -3,7 +3,7 @@
 
 import type { AccessToken, TokenCredential } from "@azure/identity";
 import { ChainedTokenCredential } from "@azure/identity";
-import { logger as chainedTokenCredentialLogger } from "@azure/identity";
+import { logger as chainedTokenCredentialLogger } from "$internal/credentials/chainedTokenCredential.js";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 class TestMockCredential implements TokenCredential {
