@@ -48,5 +48,5 @@ stages:
             displayName: "Build All Packages"
 
           - script: |
-              pnpm test --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --concurrency=1
+              pnpm test --filter @azure/identity... --filter @azure/app-configuration... --filter @azure/event-hubs... --filter  @azure/storage-blob... -filter @azure-rest/synapse-access-control... --concurrency=1
             displayName: "Run Unit Tests for Selected Packages"

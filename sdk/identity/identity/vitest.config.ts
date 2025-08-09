@@ -4,9 +4,9 @@
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig, { isInDevopsPipeline } from "../../../vitest.shared.config.ts";
+import viteConfig from "../../../vitest.shared.config.ts";
 
-const [dist, indexFile] = isInDevopsPipeline() ? ["dist/esm", "index.js"] : ["src", "index.ts"];
+import { makeNodeAliases } from "../../../vitest.shared.config.ts";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default mergeConfig(
@@ -15,16 +15,7 @@ export default mergeConfig(
     test: {
       hookTimeout: 500000,
       testTimeout: 500000,
-      alias: [
-        {
-          find: "@azure/identity",
-          replacement: resolve(__dirname, `./${dist}/${indexFile}`),
-        },
-        {
-          find: /^\$internal\/(.*)$/,
-          replacement: resolve(__dirname, `./${dist}/$1`),
-        },
-      ],
+      alias: [...makeNodeAliases(__dirname)],
       typecheck: {
         enabled: false,
       },
