@@ -289,7 +289,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.fetchBuffer = this.fetchBuffer.slice(endIndex);
 
       // Remove the processed ranges
-      this.removeProcessedRanges(processedRanges);
+      this.clearProcessedRangeMetadata(processedRanges, endIndex);
 
       // Update headers before returning processed page
       // TODO: instead of passing header add a method here to update the header
@@ -320,7 +320,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
       const temp = this.fetchBuffer.slice(0, endIndex);
       this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-      this.removeProcessedRanges(processedRanges);
+      this.clearProcessedRangeMetadata(processedRanges, endIndex);
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
 
       return { result: temp, headers: this.fetchMoreRespHeaders };
@@ -339,10 +339,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     return result;
   }
 
-  private removeProcessedRanges(processedRanges: string[]): void {
+  // TODO: move it continuation token manager and delete it once end index is returned
+  // don't wait for buffer to be sliced as we are updating the coninuation token too
+  private clearProcessedRangeMetadata(processedRanges: string[], endIndex: number): void {
     processedRanges.forEach((rangeId) => {
       this.continuationTokenManager.removePartitionRangeMapping(rangeId);
     });
+    this.continuationTokenManager.sliceOrderByItemsArray(endIndex);
   }
 
   private createEmptyResultWithHeaders(headers?: CosmosHeaders): Response<any> {
