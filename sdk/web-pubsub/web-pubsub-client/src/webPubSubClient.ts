@@ -23,6 +23,7 @@ import type {
   OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
+  OnStreamArgs,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -37,9 +38,13 @@ import type {
   SendEventMessage,
   AckMessage,
   SequenceAckMessage,
+  SendToStreamMessage,
+  StreamAckMessage,
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
+import type { StreamHandler} from "./streaming.js";
+import { Stream} from "./streaming.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
 import { WebSocketClientFactory } from "./websocket/websocketClient.js";
 import type {
@@ -81,6 +86,10 @@ export class WebPubSubClient {
   private _isStopping: boolean = false;
   private _ackId: number;
   private _activeKeepaliveTask: AbortableTask | undefined;
+
+  // streaming
+  private readonly _streams: Map<string, Stream> = new Map();
+  private readonly _streamHandlers: Map<string, StreamHandler> = new Map();
 
   // connection lifetime
   private _wsClient?: WebSocketClientLike;
@@ -338,6 +347,7 @@ export class WebPubSubClient {
   private _emitEvent(event: "server-message", args: OnServerDataMessageArgs): void;
   private _emitEvent(event: "group-message", args: OnGroupDataMessageArgs): void;
   private _emitEvent(event: "rejoin-group-failed", args: OnRejoinGroupFailedArgs): void;
+  private _emitEvent(event: "group-stream-message", args: OnStreamArgs): void;
   private _emitEvent(
     event:
       | "connected"
@@ -345,7 +355,8 @@ export class WebPubSubClient {
       | "stopped"
       | "server-message"
       | "group-message"
-      | "rejoin-group-failed",
+      | "rejoin-group-failed"
+      | "group-stream-message",
     args: any,
   ): void {
     this._emitter.emit(event, args);
@@ -500,6 +511,54 @@ export class WebPubSubClient {
     );
   }
 
+  /**
+   * Create a stream for sending messages to a group
+   * @param groupName - The group name
+   * @param timeToLive - Time-to-live for the stream in milliseconds
+   * @returns Stream instance
+   */
+  public stream(groupName: string, timeToLive: number = 300000): Stream {
+    const streamId = this._generateStreamId();
+    const stream = new Stream(
+      groupName,
+      streamId,
+      timeToLive,
+      (group, content, dataType, sId, sequenceId, endOfStream, abortSignal) =>
+        this._sendStreamMessage(group, content, dataType, sId, sequenceId, endOfStream, abortSignal),
+    );
+
+    this._streams.set(streamId, stream);
+    return stream;
+  }
+
+  /**
+   * Register a callback handler for stream messages in a group
+   * @param groupName - The group name
+   * @param allowOngoingStreams - Whether to allow receiving ongoing streams
+   * @param callback - Callback handler to 
+   */
+  public onStream(
+    groupName: string,
+    // allowOngoingStreams: boolean,
+    callback: (streamId: string) => StreamHandler,
+  ): void {
+    this._emitter.on("group-stream-message", (args: OnStreamArgs) => {
+      const { streamId, group: sourceGroup, data: message, endOfStream: isCompleted } = args.message;
+      if (groupName === sourceGroup) {
+        let handler = this._streamHandlers.get(streamId!);
+        if (!handler) {
+          handler = callback(streamId!);
+          this._streamHandlers.set(streamId!, handler);
+        }
+        handler._handleMessage(message);
+        if (isCompleted) {
+          logger.info(`Stream ${streamId} is completed`)
+          handler._handleComplete();
+        }
+      }
+    });
+  }
+
   private async _sendToGroupAttempt(
     groupName: string,
     content: JSONTypes | ArrayBuffer,
@@ -535,6 +594,38 @@ export class WebPubSubClient {
 
     await this._sendMessage(message, options?.abortSignal);
     return { isDuplicated: false };
+  }
+
+  private _generateStreamId(): string {
+    return `stream_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  private async _sendStreamMessage(
+    groupName: string,
+    content: JSONTypes | ArrayBuffer,
+    dataType: WebPubSubDataType,
+    streamId: string,
+    streamSequenceId: number,
+    endOfStream: boolean,
+    abortSignal?: AbortSignalLike,
+  ): Promise<void> {
+    const message: SendToStreamMessage = {
+      kind: "sendToStream",
+      streamId,
+      streamSequenceId,
+      endOfStream,
+      group: groupName,
+      dataType: dataType,
+      data: content,
+    };
+
+    await this._sendMessage(message, abortSignal);
+  }
+
+  private _safeEmitStreamMessage(message: GroupDataMessage): void {
+    this._emitEvent("group-stream-message", {
+      message: message,
+    } as OnStreamArgs);
   }
 
   private _getWebSocketClientFactory(): WebSocketClientFactoryLike {
@@ -641,6 +732,13 @@ export class WebPubSubClient {
           }
         };
 
+        const handleStreamAckMessage = (message: StreamAckMessage): void => {
+          const stream = this._streams.get(message.streamId);
+          if (stream) {
+            stream._handleStreamAck(message.streamSequenceId, message.success, message.error);
+          }
+        };
+
         const handleConnectedMessage = async (message: ConnectedMessage): Promise<void> => {
           this._connectionId = message.connectionId;
           this._reconnectionToken = message.reconnectionToken;
@@ -691,7 +789,12 @@ export class WebPubSubClient {
             }
           }
 
-          this._safeEmitGroupMessage(message);
+          // Check if this is a stream message
+          if (message.streamId) {
+            this._safeEmitStreamMessage(message);
+          } else {
+            this._safeEmitGroupMessage(message);
+          }
         };
 
         const handleServerDataMessage = (message: ServerDataMessage): void => {
@@ -719,7 +822,6 @@ export class WebPubSubClient {
           } else {
             convertedData = data;
           }
-
           messages = this._protocol.parseMessages(convertedData);
           if (messages === null) {
             // null means the message is not recognized.
@@ -739,6 +841,10 @@ export class WebPubSubClient {
             switch (message.kind) {
               case "ack": {
                 handleAckMessage(message as AckMessage);
+                break;
+              }
+              case "streamAck": {
+                handleStreamAckMessage(message as StreamAckMessage);
                 break;
               }
               case "connected": {

@@ -55,7 +55,7 @@ export type DownstreamMessageType =
 /**
 * Type for ServerDataMessage
 */
-| "serverData";
+| "serverData" | "streamAck";
 
 // @public
 export interface GetClientAccessUrlOptions {
@@ -66,10 +66,12 @@ export interface GetClientAccessUrlOptions {
 export interface GroupDataMessage extends WebPubSubMessageBase {
     data: JSONTypes | ArrayBuffer;
     dataType: WebPubSubDataType;
+    endOfStream?: boolean;
     fromUserId: string;
     group: string;
     readonly kind: "groupData";
     sequenceId?: number;
+    streamId?: string;
 }
 
 // @public
@@ -134,6 +136,14 @@ export interface OnStoppedArgs {
 }
 
 // @public
+export interface OnStreamArgs {
+    group: string;
+    isCompleted: boolean;
+    message: GroupDataMessage;
+    streamId: string;
+}
+
+// @public
 export type RetryMode = "Exponential" | "Fixed";
 
 // @public
@@ -185,6 +195,17 @@ export interface SendToGroupOptions {
 }
 
 // @public
+export interface SendToStreamMessage extends WebPubSubMessageBase {
+    data: JSONTypes | ArrayBuffer;
+    dataType: WebPubSubDataType;
+    endOfStream: boolean;
+    group: string;
+    readonly kind: "sendToStream";
+    streamId: string;
+    streamSequenceId: number;
+}
+
+// @public
 export interface SequenceAckMessage extends WebPubSubMessageBase {
     readonly kind: "sequenceAck";
     sequenceId: number;
@@ -201,6 +222,48 @@ export interface ServerDataMessage extends WebPubSubMessageBase {
 // @public
 export interface StartOptions {
     abortSignal?: AbortSignalLike;
+}
+
+// @public
+export class Stream {
+    constructor(groupName: string, streamId: string, timeToLive: number, sendCallback: (groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, streamId: string, streamSequenceId: number, endOfStream: boolean, abortSignal?: AbortSignalLike) => Promise<void>);
+    complete(content?: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, abortSignal?: AbortSignalLike): Promise<void>;
+    get groupName(): string;
+    // @internal
+    _handleStreamAck(sequenceId: number, success: boolean, error?: AckMessageError): void;
+    onError(callback: (error: AckMessageError) => void): void;
+    publish(content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, abortSignal?: AbortSignalLike): Promise<void>;
+    // @internal
+    _resendUnackedMessages(abortSignal?: AbortSignalLike): Promise<void>;
+    get streamId(): string;
+}
+
+// @public
+export interface StreamAckMessage extends WebPubSubMessageBase {
+    error?: StreamAckMessageError;
+    readonly kind: "streamAck";
+    streamId: string;
+    streamSequenceId: number;
+    success: boolean;
+}
+
+// @public
+export interface StreamAckMessageError {
+    message: string;
+    name: "StreamNotFound" | "InvalidSequenceId" | "Forbidden" | "InternalServerError" | string;
+}
+
+// @public
+export class StreamHandler {
+    // @internal
+    _handleComplete(): void;
+    // @internal
+    _handleError(error: AckMessageError): void;
+    // @internal
+    _handleMessage(message: JSONTypes | ArrayBuffer): void;
+    set onComplete(callback: () => void);
+    set onError(callback: (error: AckMessageError) => void);
+    set onMessage(callback: (message: JSONTypes | ArrayBuffer) => void);
 }
 
 // @public
@@ -224,7 +287,11 @@ export type UpstreamMessageType =
 /**
 * Type for SequenceAckMessage
 */
-| "sequenceAck";
+| "sequenceAck"
+/**
+* Type for SendToStreamMessage
+*/
+| "sendToStream";
 
 // @public
 export class WebPubSubClient {
@@ -244,10 +311,12 @@ export class WebPubSubClient {
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
     on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
+    onStream(groupName: string, callback: (streamId: string) => StreamHandler): void;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
     stop(): void;
+    stream(groupName: string, timeToLive?: number): Stream;
 }
 
 // @public
@@ -298,7 +367,7 @@ export const WebPubSubJsonProtocol: () => WebPubSubClientProtocol;
 export const WebPubSubJsonReliableProtocol: () => WebPubSubClientProtocol;
 
 // @public
-export type WebPubSubMessage = GroupDataMessage | ServerDataMessage | JoinGroupMessage | LeaveGroupMessage | ConnectedMessage | DisconnectedMessage | SendToGroupMessage | SendEventMessage | SequenceAckMessage | AckMessage;
+export type WebPubSubMessage = GroupDataMessage | ServerDataMessage | JoinGroupMessage | LeaveGroupMessage | ConnectedMessage | DisconnectedMessage | SendToGroupMessage | SendEventMessage | SequenceAckMessage | AckMessage | SendToStreamMessage | StreamAckMessage;
 
 // @public
 export interface WebPubSubMessageBase {

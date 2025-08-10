@@ -16,7 +16,9 @@ export type WebPubSubMessage =
   | SendToGroupMessage
   | SendEventMessage
   | SequenceAckMessage
-  | AckMessage;
+  | AckMessage
+  | SendToStreamMessage
+  | StreamAckMessage;
 
 /**
  * The common of web pubsub message
@@ -48,7 +50,8 @@ export type DownstreamMessageType =
   /**
    * Type for ServerDataMessage
    */
-  | "serverData";
+  | "serverData"
+  | "streamAck"
 
 /**
  * Types for upstream messages
@@ -73,7 +76,11 @@ export type UpstreamMessageType =
   /**
    * Type for SequenceAckMessage
    */
-  | "sequenceAck";
+  | "sequenceAck"
+  /**
+   * Type for SendToStreamMessage
+   */
+  | "sendToStream";
 
 /**
  * The ack message
@@ -95,6 +102,46 @@ export interface AckMessage extends WebPubSubMessageBase {
    * The error detail. Only available when success is false
    */
   error?: AckMessageError;
+}
+
+/**
+ * Stream ack message
+ */
+export interface StreamAckMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "streamAck";
+  /**
+   * The correspending id
+   */
+  streamId: string;
+  /**
+   * The sequence id of the stream
+   */
+  streamSequenceId: number;
+  /**
+   * Is operation success or not
+   */
+  success: boolean;
+  /**
+   * The error detail. Only available when success is false
+   */
+  error?: StreamAckMessageError;
+}
+
+/**
+ * Stream ack error
+ */
+export interface StreamAckMessageError {
+  /**
+   * Error name
+   */
+  name: "StreamNotFound" | "InvalidSequenceId" | "Forbidden" | "InternalServerError" | string;
+  /**
+   * Details error message
+   */
+  message: string;
 }
 
 /**
@@ -175,6 +222,14 @@ export interface GroupDataMessage extends WebPubSubMessageBase {
    * The user id of the sender
    */
   fromUserId: string;
+  /**
+   * The stream id. Only available for stream messages.
+   */
+  streamId?: string;
+  /**
+   * Stream complete
+   */
+  endOfStream?: boolean;
 }
 
 /**
@@ -289,6 +344,40 @@ export interface SendToGroupMessage extends WebPubSubMessageBase {
    * Whether the message needs to echo to sender
    */
   noEcho: boolean;
+}
+
+/**
+ * Send to stream message
+ */
+export interface SendToStreamMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "sendToStream";
+  /**
+   * The group to send
+   */
+  group: string;
+  /**
+   * The data type
+   */
+  dataType: WebPubSubDataType;
+  /**
+   * The data
+   */
+  data: JSONTypes | ArrayBuffer;
+  /**
+   * The stream id
+   */
+  streamId: string;
+  /**
+   * The stream sequence id
+   */
+  streamSequenceId: number;
+  /**
+   * Whether this is the end of stream
+   */
+  endOfStream: boolean;
 }
 
 /**
