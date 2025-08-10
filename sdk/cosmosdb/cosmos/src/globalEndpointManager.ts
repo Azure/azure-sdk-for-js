@@ -3,7 +3,7 @@
 import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { Location, DatabaseAccount } from "./documents/index.js";
-import type { RequestOptions } from "./index.js";
+import type { FeedOptions, RequestOptions } from "./index.js";
 import { Constants } from "./common/constants.js";
 import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
@@ -136,7 +136,7 @@ export class GlobalEndpointManager {
   }
 
   private getEffectiveExcludedLocations(
-    requestOptions: RequestOptions | undefined,
+    options: RequestOptions | FeedOptions | undefined,
     resourceType: ResourceType,
   ): Set<string> {
     if (!canApplyExcludedLocations(resourceType)) {
@@ -144,19 +144,19 @@ export class GlobalEndpointManager {
     }
 
     if (
-      !requestOptions ||
-      !Object.prototype.hasOwnProperty.call(requestOptions, "excludedLocations") ||
-      requestOptions.excludedLocations === undefined ||
-      requestOptions.excludedLocations === null
+      !options ||
+      !Object.prototype.hasOwnProperty.call(options, "excludedLocations") ||
+      options.excludedLocations === undefined ||
+      options.excludedLocations === null
     ) {
       return this.clientLevelExcludedLocations;
     }
 
-    if (requestOptions.excludedLocations.length === 0) {
+    if (options.excludedLocations.length === 0) {
       return new Set<string>();
     }
 
-    return new Set(requestOptions.excludedLocations.map((loc) => normalizeEndpoint(loc)));
+    return new Set(options.excludedLocations.map((loc) => normalizeEndpoint(loc)));
   }
 
   private filterExcludedLocations(
@@ -177,7 +177,7 @@ export class GlobalEndpointManager {
     resourceType: ResourceType,
     operationType: OperationType,
     startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
-    requestOptions?: RequestOptions, // add to support request-level excluded region(location) overrides
+    requestOptions?: RequestOptions | FeedOptions | undefined, // add to support request-level excluded region(location) overrides
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
 

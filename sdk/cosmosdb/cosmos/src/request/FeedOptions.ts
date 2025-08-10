@@ -144,4 +144,11 @@ export interface FeedOptions extends SharedOptions {
    * rid of the container.
    */
   containerRid?: string;
+
+  /**
+   * Excludes one or more Azure regions for this feed operation (overrides client-level exclusions).
+   * Region names are case-insensitive (e.g. "East US"). An empty array explicitly means
+   * "do not exclude any regions for this request".
+   */
+  excludedLocations?: string[];
 }

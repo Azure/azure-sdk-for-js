@@ -223,6 +223,8 @@ export class ClientContext {
       diagnosticNode,
       request.resourceType,
       request.operationType,
+      0,
+      options,
     );
     request.headers = await this.buildHeaders(request);
 
