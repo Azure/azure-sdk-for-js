@@ -1,6 +1,6 @@
 ## Setting up the perf project
 
-1. Build the event-hubs perf test project `rush build -t perf-event-hubs`.
+1. Build the event-hubs perf test project `pnpm build --filter perf-event-hubs...`.
 2. Navigate to `cd sdk/eventhub/perf-tests/event-hubs`.
 
 ## Environment setup

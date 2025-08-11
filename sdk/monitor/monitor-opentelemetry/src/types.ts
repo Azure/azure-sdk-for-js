@@ -71,7 +71,7 @@ export interface StatsbeatFeatures {
   distro?: boolean;
   liveMetrics?: boolean;
   shim?: boolean;
-  customerStatsbeat?: boolean;
+  customerSdkStats?: boolean;
   multiIkey?: boolean;
   rateLimitedSampler?: boolean;
 }
@@ -87,7 +87,7 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
   ["distro", 8],
   ["liveMetrics", 16],
   ["shim", 32],
-  ["customerStatsbeat", 64],
+  ["customerSdkStats", 64],
   ["multiIkey", 128],
   ["rateLimitedSampler", 256],
 ]);
@@ -190,11 +190,11 @@ export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.moni
 export const AzureMonitorSampleRate = "microsoft.sample_rate";
 
 /**
- * Enables the preview version of customer-facing Statsbeat.
+ * Enables the preview version of customer-facing SDK Stats.
  * @internal
  */
-export const APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW =
-  "APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW";
+export declare const APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
+  "APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW";
 
 export enum StatsbeatFeature {
   NONE = 0,
@@ -204,7 +204,7 @@ export enum StatsbeatFeature {
   DISTRO = 8,
   LIVE_METRICS = 16,
   SHIM = 32,
-  CUSTOMER_STATSBEAT = 64,
+  CUSTOMER_SDKSTATS = 64,
   MULTI_IKEY = 128,
 }
 
