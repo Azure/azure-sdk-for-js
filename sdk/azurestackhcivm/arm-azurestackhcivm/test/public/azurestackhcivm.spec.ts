@@ -2,14 +2,10 @@
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  *
-* Changes may cause incorrect behavior and will be lost if the code is regenerated.
+ * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
@@ -27,10 +23,14 @@ describe("AzureStackHCIVM test", () => {
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
     recorder = await createRecorder(context);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AzureStackHCIClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new AzureStackHCIClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
   });
 
   afterEach(async function () {
@@ -41,6 +41,6 @@ describe("AzureStackHCIVM test", () => {
     for await (let item of client.galleryImages.listAll()) {
       resArray.push(item);
     }
-    assert.ok(resArray.length);
+    assert.ok(resArray);
   });
-})
+});
