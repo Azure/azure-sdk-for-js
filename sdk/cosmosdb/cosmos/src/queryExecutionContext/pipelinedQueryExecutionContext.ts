@@ -365,6 +365,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (response.result.orderByItemsArray) {
         this.continuationTokenManager.setOrderByItemsArray(response.result.orderByItemsArray);
       }
+      // Capture offset and limit values from the response
+      if (response.result.offset !== undefined || response.result.limit !== undefined) {
+        this.continuationTokenManager.updateOffsetLimit(response.result.offset, response.result.limit);
+      }
       return true;
     } else {
       // Unexpected format; still attempt to attach continuation header (likely none)

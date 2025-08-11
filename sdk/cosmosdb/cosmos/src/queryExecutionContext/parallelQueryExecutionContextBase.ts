@@ -106,7 +106,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.respHeaders = getInitialHeader();
     // Make priority queue for documentProducers
     this.unfilledDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
-      (a: DocumentProducer, b: DocumentProducer) => a.generation - b.generation,
+      (a: DocumentProducer, b: DocumentProducer) => {
+        // Compare based on minInclusive values to ensure left-to-right range traversal
+        const aMinInclusive = a.targetPartitionKeyRange.minInclusive;
+        const bMinInclusive = b.targetPartitionKeyRange.minInclusive;
+        return aMinInclusive.localeCompare(bMinInclusive);
+      },
     );
     // The comparator is supplied by the derived class
     this.bufferedDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
@@ -229,10 +234,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const queryType = isOrderByQuery
       ? QueryExecutionContextType.OrderBy
       : QueryExecutionContextType.Parallel;
-
-    console.log(
-      `Detected query type from sort orders: ${queryType} (sortOrders: ${this.sortOrders?.length || 0})`,
-    );
     return queryType;
   }
 

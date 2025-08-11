@@ -45,10 +45,28 @@ export class CompositeQueryContinuationToken {
    */
   public readonly globalContinuationToken?: string;
 
-  constructor(rid: string, rangeMappings: QueryRangeMapping[], globalContinuationToken?: string) {
+  /**
+   * Current offset value for OFFSET/LIMIT queries
+   */
+  public offset?: number;
+
+  /**
+   * Current limit value for OFFSET/LIMIT queries
+   */
+  public limit?: number;
+
+  constructor(
+    rid: string, 
+    rangeMappings: QueryRangeMapping[], 
+    globalContinuationToken?: string,
+    offset?: number,
+    limit?: number
+  ) {
     this.rid = rid;
     this.rangeMappings = rangeMappings;
-    this.globalContinuationToken = globalContinuationToken;
+    this.globalContinuationToken = globalContinuationToken; // TODO: refactor remove it
+    this.offset = offset;
+    this.limit = limit;
   }
 
   /**
@@ -66,6 +84,8 @@ export class CompositeQueryContinuationToken {
       rid: this.rid,
       rangeMappings: this.rangeMappings,
       globalContinuationToken: this.globalContinuationToken,
+      offset: this.offset,
+      limit: this.limit,
     });
   }
 
@@ -78,6 +98,8 @@ export class CompositeQueryContinuationToken {
       parsed.rid,
       parsed.rangeMappings,
       parsed.globalContinuationToken,
+      parsed.offset,
+      parsed.limit,
     );
   }
 }

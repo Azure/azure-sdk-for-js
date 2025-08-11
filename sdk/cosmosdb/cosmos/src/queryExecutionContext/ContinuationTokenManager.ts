@@ -35,11 +35,8 @@ export class ContinuationTokenManager {
         );
 
         if (this.isOrderByQuery) {
-          // For ORDER BY queries, the continuation token might be an OrderByQueryContinuationToken
           const parsedToken = JSON.parse(initialContinuationToken);
-
-          // Check if this is an ORDER BY continuation token with compositeToken
-          if (parsedToken.compositeToken && parsedToken.orderByItems !== undefined) {
+          if (parsedToken && parsedToken.compositeToken && parsedToken.orderByItems) {
             console.log("Detected ORDER BY continuation token with composite token");
             this.orderByQueryContinuationToken = parsedToken as OrderByQueryContinuationToken;
 
@@ -70,7 +67,6 @@ export class ContinuationTokenManager {
         );
       }
     } else {
-      // Initialize new composite continuation token
       this.compositeContinuationToken = new CompositeQueryContinuationTokenClass(
         this.collectionLink,
         [],
@@ -99,6 +95,34 @@ export class ContinuationTokenManager {
    */
   public setOrderByItemsArray(orderByItemsArray: any[][] | undefined): void {
     this.orderByItemsArray = orderByItemsArray;
+  }
+
+  /**
+   * Updates the offset and limit values in the composite continuation token
+   * @param offset - Current offset value
+   * @param limit - Current limit value
+   */
+  public updateOffsetLimit(offset?: number, limit?: number): void {
+    if (this.compositeContinuationToken) {
+      (this.compositeContinuationToken as any).offset = offset;
+      (this.compositeContinuationToken as any).limit = limit;
+    }
+  }
+
+  /**
+   * Gets the current offset value from the continuation token
+   * @returns Current offset value or undefined
+   */
+  public getOffset(): number | undefined {
+    return this.compositeContinuationToken?.offset;
+  }
+
+  /**
+   * Gets the current limit value from the continuation token
+   * @returns Current limit value or undefined
+   */
+  public getLimit(): number | undefined {
+    return this.compositeContinuationToken?.limit;
   }
 
   /**
