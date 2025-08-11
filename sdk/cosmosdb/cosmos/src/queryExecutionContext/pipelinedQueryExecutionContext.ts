@@ -20,8 +20,6 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent.js";
 import { ContinuationTokenManager } from "./ContinuationTokenManager.js";
-import type { QueryRangeMapping } from "./QueryRangeMapping.js";
-import { Constants } from "../common/index.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {

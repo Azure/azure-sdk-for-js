@@ -98,15 +98,29 @@ export class ContinuationTokenManager {
   }
 
   /**
-   * Updates the offset and limit values in the composite continuation token
+   * Updates the offset and limit values in the continuation tokens
    * @param offset - Current offset value
    * @param limit - Current limit value
    */
   public updateOffsetLimit(offset?: number, limit?: number): void {
+    // For ORDER BY queries, also update the OrderBy continuation token if it exists
+    if (this.isOrderByQuery && this.orderByQueryContinuationToken) {
+      // Since OrderByQueryContinuationToken properties are readonly, we need to recreate it
+      this.orderByQueryContinuationToken = new OrderByQueryContinuationTokenClass(
+        this.orderByQueryContinuationToken.compositeToken,
+        this.orderByQueryContinuationToken.orderByItems,
+        this.orderByQueryContinuationToken.rid,
+        this.orderByQueryContinuationToken.skipCount,
+        offset,
+        limit,
+      );
+      return;
+    }
+    // Update composite continuation token
     if (this.compositeContinuationToken) {
       (this.compositeContinuationToken as any).offset = offset;
       (this.compositeContinuationToken as any).limit = limit;
-    }
+    }  
   }
 
   /**
@@ -114,6 +128,10 @@ export class ContinuationTokenManager {
    * @returns Current offset value or undefined
    */
   public getOffset(): number | undefined {
+    // For ORDER BY queries, check OrderBy token first, then fall back to composite token
+    if (this.isOrderByQuery && this.orderByQueryContinuationToken?.offset !== undefined) {
+      return this.orderByQueryContinuationToken.offset;
+    }
     return this.compositeContinuationToken?.offset;
   }
 
@@ -122,6 +140,10 @@ export class ContinuationTokenManager {
    * @returns Current limit value or undefined
    */
   public getLimit(): number | undefined {
+    // For ORDER BY queries, check OrderBy token first, then fall back to composite token
+    if (this.isOrderByQuery && this.orderByQueryContinuationToken?.limit !== undefined) {
+      return this.orderByQueryContinuationToken.limit;
+    }
     return this.compositeContinuationToken?.limit;
   }
 
@@ -355,6 +377,8 @@ export class ContinuationTokenManager {
       lastOrderByItems,
       documentRid, // Document RID from the last item in the page
       skipCount, // Number of documents with the same RID already processed
+      this.getOffset(), // Current offset value
+      this.getLimit(),  // Current limit value
     );
 
 
