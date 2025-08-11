@@ -46,11 +46,20 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (this.pageSize === undefined) {
       this.pageSize = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
     }
+
+    // Initialize continuation token manager early so it's available for OffsetLimitEndpointComponent
+    const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
+    const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
+    this.continuationTokenManager = new ContinuationTokenManager(
+      this.collectionLink,
+      this.options.continuationToken,
+      isOrderByQuery,
+    );
+
     // Pick between Nonstreaming and streaming endpoints
     this.nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo.hasNonStreamingOrderBy;
 
     // Pick between parallel vs order by execution context
-    const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     // TODO: Currently we don't get any field from backend to determine streaming queries
     if (this.nonStreamingOrderBy) {
       if (!options.allowUnboundedNonStreamingQueries) {
@@ -154,27 +163,17 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
       const top = partitionedQueryExecutionInfo.queryInfo.top;
       if (typeof top === "number") {
-        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top);
+        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top, this.options);
       }
-
+      
       // If offset+limit then add that to the pipeline
       const limit = partitionedQueryExecutionInfo.queryInfo.limit;
       const offset = partitionedQueryExecutionInfo.queryInfo.offset;
       if (typeof limit === "number" && typeof offset === "number") {
-        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
+        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit, this.options);
       }
     }
     this.fetchBuffer = [];
-
-    // Detect if this is an ORDER BY query for continuation token management
-    const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
-
-    // Initialize continuation token manager with ORDER BY awareness
-    this.continuationTokenManager = new ContinuationTokenManager(
-      this.collectionLink,
-      this.options.continuationToken,
-      isOrderByQuery,
-    );
   }
 
   public hasMoreResults(): boolean {

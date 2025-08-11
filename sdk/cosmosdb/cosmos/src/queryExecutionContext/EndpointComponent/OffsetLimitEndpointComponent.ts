@@ -3,6 +3,7 @@
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import type { Response } from "../../request/index.js";
 import type { ExecutionContext } from "../ExecutionContext.js";
+import type { FeedOptions } from "../../request/index.js";
 import { getInitialHeader, mergeHeaders } from "../headerUtils.js";
 
 /** @hidden */
@@ -11,7 +12,34 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     private executionContext: ExecutionContext,
     private offset: number,
     private limit: number,
-  ) {}
+    options?: FeedOptions,
+  ) {
+    // Check continuation token for offset/limit values during initialization
+    if (options?.continuationToken) {
+      try {
+        const parsedToken = JSON.parse(options.continuationToken);
+        // Handle both CompositeQueryContinuationToken and OrderByQueryContinuationToken formats
+        let tokenOffset: number | undefined;
+        let tokenLimit: number | undefined;
+
+        if (parsedToken.offset !== undefined || parsedToken.limit !== undefined) {
+          // Direct offset/limit fields (CompositeQueryContinuationToken or OrderByQueryContinuationToken)
+          tokenOffset = parsedToken.offset;
+          tokenLimit = parsedToken.limit;
+        }
+
+        // Use continuation token values if available, otherwise use provided values
+        if (tokenOffset !== undefined) {
+          this.offset = tokenOffset;
+        }
+        if (tokenLimit !== undefined) {
+          this.limit = tokenLimit;
+        }
+      } catch {
+        // If parsing fails, use the provided offset/limit values from query plan
+      }
+    }
+  }
 
   public hasMoreResults(): boolean {
     return (this.offset > 0 || this.limit > 0) && this.executionContext.hasMoreResults();
