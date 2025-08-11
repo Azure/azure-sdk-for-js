@@ -38,14 +38,17 @@ export const exitWithFailureMessage = (
 ): never => {
   console.log();
 
-  if (error.formatWithErrorDetails && errorDetails) {
-    console.error(error.formatWithErrorDetails(errorDetails));
-  } else {
-    console.error(error.message);
-  }
+  const finalMessage =
+    error.formatWithErrorDetails && errorDetails
+      ? error.formatWithErrorDetails(errorDetails)
+      : error.message;
+  console.error(finalMessage);
 
-  // eslint-disable-next-line n/no-process-exit
-  process.exit(1);
+  if (process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] === "true") {
+    // eslint-disable-next-line n/no-process-exit
+    process.exit(1);
+  }
+  throw new Error(finalMessage);
 };
 
 export const populateValuesFromServiceUrl = (): {
@@ -156,13 +159,17 @@ export const warnIfAccessTokenCloseToExpiry = (): void => {
 
 export const fetchOrValidateAccessToken = async (credential?: TokenCredential): Promise<string> => {
   const entraIdAccessToken = createEntraIdAccessToken(credential);
-  if (entraIdAccessToken.token && entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
+  // If we don't have a token yet, fetch one. Otherwise rotate if needed.
+  if (!entraIdAccessToken.token) {
+    await entraIdAccessToken.fetchEntraIdAccessToken();
+  } else if (entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
     await entraIdAccessToken.fetchEntraIdAccessToken();
   }
-  if (!getAccessToken()) {
+  const token = getAccessToken();
+  if (!token) {
     throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
   }
-  return getAccessToken()!;
+  return token;
 };
 
 const getPackageVersionFromFolder = (folder: string): string => {

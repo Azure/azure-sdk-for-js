@@ -215,10 +215,26 @@ const getConnectOptions = async (
   options?: PlaywrightServiceAdditionalOptions,
 ): Promise<BrowserConnectOptions> => {
   const playwrightServiceConfig = new PlaywrightServiceConfig();
+  playwrightServiceConfig.serviceAuthType =
+    options?.serviceAuthType || DefaultConnectOptionsConstants.DEFAULT_SERVICE_AUTH_TYPE;
 
   playwrightServiceConfig.setOptions(options, true);
+  performOneTimeOperation(options);
 
-  const token = await fetchOrValidateAccessToken(options?.credential);
+  let token: string | undefined;
+  if (playwrightServiceConfig.serviceAuthType === ServiceAuth.ENTRA_ID) {
+    if (options?.credential) {
+      playwrightServiceEntra.entraIdAccessToken = options.credential;
+    }
+    token = await fetchOrValidateAccessToken(options?.credential);
+  } else if (playwrightServiceConfig.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
+    validateMptPAT(exitWithFailureMessage);
+    token = getAccessToken();
+    if (!token) {
+      throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+    }
+  }
+
   return {
     wsEndpoint: getServiceWSEndpoint(
       playwrightServiceConfig.runId,
