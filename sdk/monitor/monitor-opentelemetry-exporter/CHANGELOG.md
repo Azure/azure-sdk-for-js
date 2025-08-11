@@ -1,10 +1,16 @@
 # Release History
 
+## 1.0.0-beta.34 ()
+
+### Other Changes
+
+- Renamed Customer Statsbeat feature to customer SDK Stats.
+
 ## 1.0.0-beta.33 (2025-08-04)
 
 ### Features Added
 
-- Track CLIENT_READONLY and CLIENT_TIMEOUT customer statsbeat.
+- Track CLIENT_READONLY and CLIENT_TIMEOUT customer SDK Stats.
 
 ### Bugs Fixed
 
@@ -18,7 +24,7 @@
 
 ### Features Added
 
-- Added customer-facing statsbeat preview.
+- Added customer-facing SDK Stats preview.
 
 ### Features Added
 
