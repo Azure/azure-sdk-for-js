@@ -15,7 +15,7 @@ import { accountSasServicesFromString, accountSasServicesToString } from "./acco
 import type { NamedKeyCredential } from "@azure/core-auth";
 import { SERVICE_VERSION } from "../utils/constants.js";
 import { computeHMACSHA256 } from "../utils/computeHMACSHA256.js";
-import { truncatedISO8061Date } from "../utils/truncateISO8061Date.js";
+import { truncatedISO8601Date } from "../utils/truncateISO8601Date.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -111,9 +111,9 @@ export function generateAccountSasQueryParameters(
     parsedServices,
     parsedResourceTypes,
     accountSasSignatureValues.startsOn
-      ? truncatedISO8061Date(accountSasSignatureValues.startsOn, false)
+      ? truncatedISO8601Date(accountSasSignatureValues.startsOn, false)
       : "",
-    truncatedISO8061Date(accountSasSignatureValues.expiresOn, false),
+    truncatedISO8601Date(accountSasSignatureValues.expiresOn, false),
     accountSasSignatureValues.ipRange ? ipRangeToString(accountSasSignatureValues.ipRange) : "",
     accountSasSignatureValues.protocol ? accountSasSignatureValues.protocol : "",
     version,

@@ -699,7 +699,7 @@ export interface SBQueue extends ProxyResource {
   status?: EntityStatus;
   /** Value that indicates whether server-side batched operations are enabled. */
   enableBatchedOperations?: boolean;
-  /** ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration is 5 minutes. */
+  /** ISO 8601 timeSpan idle interval after which the queue is automatically deleted. The minimum duration is 5 minutes. */
   autoDeleteOnIdle?: string;
   /** A value that indicates whether the queue is to be partitioned across multiple message brokers. */
   enablePartitioning?: boolean;
@@ -821,11 +821,11 @@ export interface SBSubscription extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly countDetails?: MessageCountDetails;
-  /** ISO 8061 lock duration timespan for the subscription. The default value is 1 minute. */
+  /** ISO 8601 lock duration timespan for the subscription. The default value is 1 minute. */
   lockDuration?: string;
   /** Value indicating if a subscription supports the concept of sessions. */
   requiresSession?: boolean;
-  /** ISO 8061 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself. */
+  /** ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself. */
   defaultMessageTimeToLive?: string;
   /** Value that indicates whether a subscription has dead letter support on filter evaluation exceptions. */
   deadLetteringOnFilterEvaluationExceptions?: boolean;
@@ -839,7 +839,7 @@ export interface SBSubscription extends ProxyResource {
   status?: EntityStatus;
   /** Value that indicates whether server-side batched operations are enabled. */
   enableBatchedOperations?: boolean;
-  /** ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes. */
+  /** ISO 8601 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes. */
   autoDeleteOnIdle?: string;
   /** Queue/Topic name to forward the messages */
   forwardTo?: string;

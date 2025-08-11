@@ -21,7 +21,7 @@ import {
   toOctalFileMode,
   toSymbolicFileMode,
 } from "../src/index.js";
-import { truncatedISO8061Date } from "../src/utils/utils.common.js";
+import { truncatedISO8601Date } from "../src/utils/utils.common.js";
 import {
   bodyToString,
   compareBodyWithUint8Array,
@@ -149,9 +149,9 @@ describe("FileClient", () => {
     assert.ok(respFileAttributesFromDownload.notContentIndexed);
     assert.ok(respFileAttributesFromDownload.noScrubData);
     assert.ok(respFileAttributesFromDownload.temporary);
-    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8601Date(result.fileCreatedOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileLastWriteOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileChangeOn!), truncatedISO8601Date(now));
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -175,9 +175,9 @@ describe("FileClient", () => {
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
     assert.ok(respFileAttributes.temporary);
-    assert.equal(truncatedISO8061Date(properties.fileCreatedOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(properties.fileLastWriteOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8601Date(properties.fileCreatedOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(properties.fileLastWriteOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileChangeOn!), truncatedISO8601Date(now));
     assert.equal(properties.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(properties.fileChangeOn!);
     assert.ok(properties.fileId!);
@@ -377,9 +377,9 @@ describe("FileClient", () => {
     assert.ok(respFileAttributes.notContentIndexed);
     assert.ok(respFileAttributes.noScrubData);
     assert.ok(respFileAttributes.temporary);
-    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
-    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8601Date(result.fileCreatedOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileLastWriteOn!), truncatedISO8601Date(now));
+    assert.equal(truncatedISO8601Date(result.fileChangeOn!), truncatedISO8601Date(now));
     assert.ok(result.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -642,9 +642,9 @@ describe("FileClient", () => {
     const fileAttributes = fileAttributesInstance.toString();
 
     const fileCreationDate = new Date("05 October 2011 14:48 UTC");
-    const fileCreationTime = truncatedISO8061Date(fileCreationDate);
+    const fileCreationTime = truncatedISO8601Date(fileCreationDate);
     const fileChangeDate = new Date("05 October 2011 14:48 UTC");
-    const fileChangeTime = truncatedISO8061Date(fileChangeDate);
+    const fileChangeTime = truncatedISO8601Date(fileChangeDate);
     const options: FileStartCopyOptions = {
       filePermission: filePermissionInSDDL,
       copyFileSmbInfo: {
@@ -685,7 +685,7 @@ describe("FileClient", () => {
     const fileAttributes = fileAttributesInstance.toString();
 
     const fileCreationDate = new Date("05 October 2011 14:48 UTC");
-    const fileCreationTime = truncatedISO8061Date(fileCreationDate);
+    const fileCreationTime = truncatedISO8601Date(fileCreationDate);
     const options: FileStartCopyOptions = {
       filePermissionKey: createPermResp.filePermissionKey,
       copyFileSmbInfo: {
@@ -770,16 +770,16 @@ describe("FileClient", () => {
     assert.ok(respFileAttributes.noScrubData);
     assert.ok(respFileAttributes.temporary);
     assert.equal(
-      truncatedISO8061Date(updatedProperties.fileCreatedOn!),
-      truncatedISO8061Date(creationDate),
+      truncatedISO8601Date(updatedProperties.fileCreatedOn!),
+      truncatedISO8601Date(creationDate),
     );
     assert.equal(
-      truncatedISO8061Date(updatedProperties.fileLastWriteOn!),
-      truncatedISO8061Date(lastwriteTime),
+      truncatedISO8601Date(updatedProperties.fileLastWriteOn!),
+      truncatedISO8601Date(lastwriteTime),
     );
     assert.equal(
-      truncatedISO8061Date(updatedProperties.fileChangeOn!),
-      truncatedISO8061Date(changedTime),
+      truncatedISO8601Date(updatedProperties.fileChangeOn!),
+      truncatedISO8601Date(changedTime),
     );
   });
 
@@ -1665,9 +1665,9 @@ describe("FileClient", () => {
 
     const copyFileSMBInfo = {
       fileAttributes: fileAttributesInstance.toString(),
-      fileCreationTime: truncatedISO8061Date(creationDate),
-      fileLastWriteTime: truncatedISO8061Date(lastwriteTime),
-      fileChangeTime: truncatedISO8061Date(changeTime),
+      fileCreationTime: truncatedISO8601Date(creationDate),
+      fileLastWriteTime: truncatedISO8601Date(lastwriteTime),
+      fileChangeTime: truncatedISO8601Date(changeTime),
     };
 
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
@@ -1687,15 +1687,15 @@ describe("FileClient", () => {
     const properties = await result.destinationFileClient.getProperties();
     assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
     assert.ok(
-      truncatedISO8061Date(properties.fileCreatedOn!) === truncatedISO8061Date(creationDate),
+      truncatedISO8601Date(properties.fileCreatedOn!) === truncatedISO8601Date(creationDate),
       "Creation time should be expected",
     );
     assert.ok(
-      truncatedISO8061Date(properties.fileLastWriteOn!) === truncatedISO8061Date(lastwriteTime),
+      truncatedISO8601Date(properties.fileLastWriteOn!) === truncatedISO8601Date(lastwriteTime),
       "Last write time should be expected",
     );
     assert.ok(
-      truncatedISO8061Date(properties.fileChangeOn!) === truncatedISO8061Date(changeTime),
+      truncatedISO8601Date(properties.fileChangeOn!) === truncatedISO8601Date(changeTime),
       "File changed time should be expected",
     );
     const fileSystemAttributes = FileSystemAttributes.parse(properties.fileAttributes!);

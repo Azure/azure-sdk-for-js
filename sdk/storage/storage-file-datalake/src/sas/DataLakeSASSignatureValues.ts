@@ -11,7 +11,7 @@ import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
 import { SASQueryParameters } from "./SASQueryParameters.js";
 import { SERVICE_VERSION } from "../utils/constants.js";
-import { truncatedISO8061Date } from "../utils/utils.common.js";
+import { truncatedISO8601Date } from "../utils/utils.common.js";
 import { DirectorySASPermissions } from "./DirectorySASPermissions.js";
 
 /**
@@ -397,10 +397,10 @@ function generateBlobSASQueryParameters20150405(
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
     dataLakeSASSignatureValues.startsOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.startsOn, false)
       : "",
     dataLakeSASSignatureValues.expiresOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       sharedKeyCredential.accountName,
@@ -519,10 +519,10 @@ function generateBlobSASQueryParameters20181109(
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
     dataLakeSASSignatureValues.startsOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.startsOn, false)
       : "",
     dataLakeSASSignatureValues.expiresOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       sharedKeyCredential.accountName,
@@ -639,10 +639,10 @@ function generateBlobSASQueryParametersUDK20181109(
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
     dataLakeSASSignatureValues.startsOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.startsOn, false)
       : "",
     dataLakeSASSignatureValues.expiresOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       userDelegationKeyCredential.accountName,
@@ -652,10 +652,10 @@ function generateBlobSASQueryParametersUDK20181109(
     userDelegationKeyCredential.userDelegationKey.signedObjectId,
     userDelegationKeyCredential.userDelegationKey.signedTenantId,
     userDelegationKeyCredential.userDelegationKey.signedStartsOn
-      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      ? truncatedISO8601Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
       : "",
     userDelegationKeyCredential.userDelegationKey.signedExpiresOn
-      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      ? truncatedISO8601Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
@@ -769,10 +769,10 @@ function generateBlobSASQueryParametersUDK20200210(
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
     dataLakeSASSignatureValues.startsOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.startsOn, false)
       : "",
     dataLakeSASSignatureValues.expiresOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       userDelegationKeyCredential.accountName,
@@ -782,10 +782,10 @@ function generateBlobSASQueryParametersUDK20200210(
     userDelegationKeyCredential.userDelegationKey.signedObjectId,
     userDelegationKeyCredential.userDelegationKey.signedTenantId,
     userDelegationKeyCredential.userDelegationKey.signedStartsOn
-      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      ? truncatedISO8601Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
       : "",
     userDelegationKeyCredential.userDelegationKey.signedExpiresOn
-      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      ? truncatedISO8601Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
@@ -908,10 +908,10 @@ function generateBlobSASQueryParameters20201206(
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
     dataLakeSASSignatureValues.startsOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.startsOn, false)
       : "",
     dataLakeSASSignatureValues.expiresOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       sharedKeyCredential.accountName,
@@ -1033,10 +1033,10 @@ function generateBlobSASQueryParametersUDK20201206(
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
     dataLakeSASSignatureValues.startsOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.startsOn, false)
       : "",
     dataLakeSASSignatureValues.expiresOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       userDelegationKeyCredential.accountName,
@@ -1046,10 +1046,10 @@ function generateBlobSASQueryParametersUDK20201206(
     userDelegationKeyCredential.userDelegationKey.signedObjectId,
     userDelegationKeyCredential.userDelegationKey.signedTenantId,
     userDelegationKeyCredential.userDelegationKey.signedStartsOn
-      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      ? truncatedISO8601Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
       : "",
     userDelegationKeyCredential.userDelegationKey.signedExpiresOn
-      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      ? truncatedISO8601Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
@@ -1168,10 +1168,10 @@ function generateBlobSASQueryParametersUDK20250705(
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
     dataLakeSASSignatureValues.startsOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.startsOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.startsOn, false)
       : "",
     dataLakeSASSignatureValues.expiresOn
-      ? truncatedISO8061Date(dataLakeSASSignatureValues.expiresOn, false)
+      ? truncatedISO8601Date(dataLakeSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       userDelegationKeyCredential.accountName,
@@ -1181,10 +1181,10 @@ function generateBlobSASQueryParametersUDK20250705(
     userDelegationKeyCredential.userDelegationKey.signedObjectId,
     userDelegationKeyCredential.userDelegationKey.signedTenantId,
     userDelegationKeyCredential.userDelegationKey.signedStartsOn
-      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
+      ? truncatedISO8601Date(userDelegationKeyCredential.userDelegationKey.signedStartsOn, false)
       : "",
     userDelegationKeyCredential.userDelegationKey.signedExpiresOn
-      ? truncatedISO8061Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
+      ? truncatedISO8601Date(userDelegationKeyCredential.userDelegationKey.signedExpiresOn, false)
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,

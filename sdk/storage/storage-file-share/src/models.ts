@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { FileSystemAttributes } from "./FileSystemAttributes.js";
-import { truncatedISO8061Date } from "./utils/utils.common.js";
+import { truncatedISO8601Date } from "./utils/utils.common.js";
 import { logger } from "./log.js";
 import type { FilePermissionFormat, NfsFileType, ShareTokenIntent } from "./generatedModels.js";
 import type { StoragePipelineOptions } from "./Pipeline.js";
@@ -456,19 +456,19 @@ export function fileAttributesToString(
 export function fileCreationTimeToString(
   time: Date | TimeNowType | TimePreserveType | undefined,
 ): string | undefined {
-  return time instanceof Date ? truncatedISO8061Date(time) : time;
+  return time instanceof Date ? truncatedISO8601Date(time) : time;
 }
 
 export function fileLastWriteTimeToString(
   time: Date | TimeNowType | TimePreserveType | undefined,
 ): string | undefined {
-  return time instanceof Date ? truncatedISO8061Date(time) : time;
+  return time instanceof Date ? truncatedISO8601Date(time) : time;
 }
 
 export function fileChangeTimeToString(
   time: Date | TimeNowType | TimePreserveType | undefined,
 ): string | undefined {
-  return time instanceof Date ? truncatedISO8061Date(time) : time;
+  return time instanceof Date ? truncatedISO8601Date(time) : time;
 }
 
 /**

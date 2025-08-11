@@ -121,7 +121,7 @@ import type { WithResponse } from "./utils/utils.common.js";
 import {
   appendToURLPath,
   setURLParameter,
-  truncatedISO8061Date,
+  truncatedISO8601Date,
   extractConnectionStringParts,
   getShareNameAndPathFromUrl,
   appendToURLQuery,
@@ -1200,11 +1200,11 @@ export class ShareClient extends StorageClient {
           acl.push({
             accessPolicy: {
               expiresOn: identifier.accessPolicy?.expiresOn
-                ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
+                ? truncatedISO8601Date(identifier.accessPolicy.expiresOn)
                 : undefined,
               permissions: identifier.accessPolicy?.permissions,
               startsOn: identifier.accessPolicy?.startsOn
-                ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
+                ? truncatedISO8601Date(identifier.accessPolicy.startsOn)
                 : undefined,
             },
             id: identifier.id,

@@ -42,7 +42,7 @@ import {
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import { AnonymousCredential } from "./credentials/AnonymousCredential.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { truncatedISO8061Date, assertResponse } from "./utils/utils.common.js";
+import { truncatedISO8601Date, assertResponse } from "./utils/utils.common.js";
 import { tracingClient } from "./utils/tracing.js";
 import { BlobBatchClient } from "./BlobBatchClient.js";
 import type { CommonOptions } from "./StorageClient.js";
@@ -1145,8 +1145,8 @@ export class BlobServiceClient extends StorageClient {
         >(
           await this.serviceContext.getUserDelegationKey(
             {
-              startsOn: truncatedISO8061Date(startsOn, false),
-              expiresOn: truncatedISO8061Date(expiresOn, false),
+              startsOn: truncatedISO8601Date(startsOn, false),
+              expiresOn: truncatedISO8601Date(expiresOn, false),
             },
             {
               abortSignal: options.abortSignal,

@@ -3,7 +3,7 @@
 
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
-import { truncatedISO8061Date } from "../utils/utils.common.js";
+import { truncatedISO8601Date } from "../utils/utils.common.js";
 import type { UserDelegationKey } from "../BlobServiceClient.js";
 
 /**
@@ -471,14 +471,14 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.startsOn ? truncatedISO8061Date(this.startsOn, false) : undefined,
+            this.startsOn ? truncatedISO8601Date(this.startsOn, false) : undefined,
           );
           break;
         case "se":
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.expiresOn ? truncatedISO8061Date(this.expiresOn, false) : undefined,
+            this.expiresOn ? truncatedISO8601Date(this.expiresOn, false) : undefined,
           );
           break;
         case "sip":
@@ -504,14 +504,14 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.signedStartsOn ? truncatedISO8061Date(this.signedStartsOn, false) : undefined,
+            this.signedStartsOn ? truncatedISO8601Date(this.signedStartsOn, false) : undefined,
           );
           break;
         case "ske": // Signed key expiry time
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.signedExpiresOn ? truncatedISO8061Date(this.signedExpiresOn, false) : undefined,
+            this.signedExpiresOn ? truncatedISO8601Date(this.signedExpiresOn, false) : undefined,
           );
           break;
         case "sks": // Signed key service

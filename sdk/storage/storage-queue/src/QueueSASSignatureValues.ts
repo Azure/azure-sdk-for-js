@@ -8,7 +8,7 @@ import { ipRangeToString } from "./SasIPRange.js";
 import type { SASProtocol } from "./SASQueryParameters.js";
 import { SASQueryParameters } from "./SASQueryParameters.js";
 import { SERVICE_VERSION } from "./utils/constants.js";
-import { truncatedISO8061Date } from "./utils/utils.common.js";
+import { truncatedISO8601Date } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -114,10 +114,10 @@ export function generateQueueSASQueryParametersInternal(
   const stringToSign = [
     verifiedPermissions ? verifiedPermissions : "",
     queueSASSignatureValues.startsOn
-      ? truncatedISO8061Date(queueSASSignatureValues.startsOn, false)
+      ? truncatedISO8601Date(queueSASSignatureValues.startsOn, false)
       : "",
     queueSASSignatureValues.expiresOn
-      ? truncatedISO8061Date(queueSASSignatureValues.expiresOn, false)
+      ? truncatedISO8601Date(queueSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(sharedKeyCredential.accountName, queueSASSignatureValues.queueName),
     queueSASSignatureValues.identifier,

@@ -7,7 +7,7 @@ import type {
   SignedIdentifier as GeneratedSignedIdentifier,
 } from "./generated/models/index.js";
 import { base64Decode, base64Encode } from "./utils/bufferSerializer.js";
-import { truncatedISO8061Date } from "./utils/truncateISO8061Date.js";
+import { truncatedISO8601Date } from "./utils/truncateISO8601Date.js";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],
@@ -219,10 +219,10 @@ export function serializeSignedIdentifiers(
     const { id, accessPolicy } = acl;
     const { start, expiry, ...rest } = accessPolicy ?? {};
     const serializedStart = start
-      ? truncatedISO8061Date(start, false /** withMilliseconds */)
+      ? truncatedISO8601Date(start, false /** withMilliseconds */)
       : undefined;
     const serializedExpiry = expiry
-      ? truncatedISO8061Date(expiry, false /** withMilliseconds */)
+      ? truncatedISO8601Date(expiry, false /** withMilliseconds */)
       : undefined;
 
     return {

@@ -62,7 +62,7 @@ import {
   isIpEndpointStyle,
   parseObjectReplicationRecord,
   toTags,
-  truncatedISO8061Date,
+  truncatedISO8601Date,
 } from "./utils/utils.common.js";
 import type { ContainerSASPermissions } from "./sas/ContainerSASPermissions.js";
 import {
@@ -1133,11 +1133,11 @@ export class ContainerClient extends StorageClient {
           acl.push({
             accessPolicy: {
               expiresOn: identifier.accessPolicy.expiresOn
-                ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
+                ? truncatedISO8601Date(identifier.accessPolicy.expiresOn)
                 : "",
               permissions: identifier.accessPolicy.permissions,
               startsOn: identifier.accessPolicy.startsOn
-                ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
+                ? truncatedISO8601Date(identifier.accessPolicy.startsOn)
                 : "",
             },
             id: identifier.id,

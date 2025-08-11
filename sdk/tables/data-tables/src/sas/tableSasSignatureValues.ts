@@ -16,7 +16,7 @@ import { tableSasPermissionsToString } from "./tableSasPermisions.js";
 import type { NamedKeyCredential } from "@azure/core-auth";
 import { SERVICE_VERSION } from "../utils/constants.js";
 import { computeHMACSHA256 } from "../utils/computeHMACSHA256.js";
-import { truncatedISO8061Date } from "../utils/truncateISO8061Date.js";
+import { truncatedISO8601Date } from "../utils/truncateISO8601Date.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -118,10 +118,10 @@ export function generateTableSasQueryParameters(
 
   const signedPermissions = tableSasPermissionsToString(tableSasSignatureValues.permissions);
   const signedStart = tableSasSignatureValues.startsOn
-    ? truncatedISO8061Date(tableSasSignatureValues.startsOn, false /** withMilliseconds */)
+    ? truncatedISO8601Date(tableSasSignatureValues.startsOn, false /** withMilliseconds */)
     : "";
   const signedExpiry = tableSasSignatureValues.expiresOn
-    ? truncatedISO8061Date(tableSasSignatureValues.expiresOn, false /** withMilliseconds */)
+    ? truncatedISO8601Date(tableSasSignatureValues.expiresOn, false /** withMilliseconds */)
     : "";
   const canonicalizedResource = getCanonicalName(credential.name, tableName);
   const signedIdentifier = tableSasSignatureValues.identifier ?? "";

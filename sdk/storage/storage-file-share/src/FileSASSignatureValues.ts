@@ -9,7 +9,7 @@ import type { SASProtocol } from "./SASQueryParameters.js";
 import { SASQueryParameters } from "./SASQueryParameters.js";
 import { ShareSASPermissions } from "./ShareSASPermissions.js";
 import { SERVICE_VERSION } from "./utils/constants.js";
-import { truncatedISO8061Date } from "./utils/utils.common.js";
+import { truncatedISO8601Date } from "./utils/utils.common.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -154,10 +154,10 @@ export function generateFileSASQueryParametersInternal(
   const stringToSign = [
     verifiedPermissions,
     fileSASSignatureValues.startsOn
-      ? truncatedISO8061Date(fileSASSignatureValues.startsOn, false)
+      ? truncatedISO8601Date(fileSASSignatureValues.startsOn, false)
       : "",
     fileSASSignatureValues.expiresOn
-      ? truncatedISO8061Date(fileSASSignatureValues.expiresOn, false)
+      ? truncatedISO8601Date(fileSASSignatureValues.expiresOn, false)
       : "",
     getCanonicalName(
       sharedKeyCredential.accountName,
