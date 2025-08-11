@@ -217,7 +217,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       writeEndpoint,
       "https://excludedregiontest-australiaeast.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for READ operation",
     );
     await client
       .database("foo")
@@ -229,7 +229,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for READ operation",
     );
     await client
       .database("foo")
@@ -241,7 +241,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-westus.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for READ operation",
     );
     await client
       .database("foo")
@@ -253,10 +253,11 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for READ operation",
     );
     client.dispose();
   });
+
   it("Request-level excludedLocations should override client-level for CREATE", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
@@ -275,7 +276,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       writeEndpoint,
       "https://excludedregiontest-australiaeast.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for CREATE operation",
     );
     const requestOptions = { excludedLocations: ["Australia East"] };
     await client
@@ -285,7 +286,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for CREATE operation",
     );
     await client
       .database("foo")
@@ -294,10 +295,11 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-westus.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for CREATE operation",
     );
     client.dispose();
   });
+
   it("Request-level excludedLocations should override client-level for UPSERT", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
@@ -316,7 +318,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       writeEndpoint,
       "https://excludedregiontest-australiaeast.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for UPSERT operation",
     );
     const requestOptions = { excludedLocations: ["Australia East"] };
     await client
@@ -326,7 +328,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for UPSERT operation",
     );
     await client
       .database("foo")
@@ -335,10 +337,11 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-westus.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for UPSERT operation",
     );
     client.dispose();
   });
+
   it("Request-level excludedLocations should override client-level for REPLACE", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
@@ -357,7 +360,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       writeEndpoint,
       "https://excludedregiontest-australiaeast.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for REPLACE operation",
     );
     const requestOptions = { excludedLocations: ["Australia East"] };
     await client
@@ -368,7 +371,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for REPLACE operation",
     );
     await client
       .database("foo")
@@ -378,10 +381,11 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-westus.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for REPLACE operation",
     );
     client.dispose();
   });
+
   it("Request-level excludedLocations should override client-level for DELETE", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
@@ -400,20 +404,127 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     assert.equal(
       writeEndpoint,
       "https://excludedregiontest-australiaeast.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for DELETE operation",
     );
     const requestOptions = { excludedLocations: ["Australia East"] };
     await client.database("foo").container("foo").item("item1").delete(requestOptions);
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
-      "Should use request-level excluded region",
+      "Should use request-level excluded region for DELETE operation",
     );
     await client.database("foo").container("foo").item("item1").delete(requestOptions);
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Should use request-level excluded region for DELETE operation",
+    );
+    client.dispose();
+  });
+
+  it("Request-level excludedLocations should override client-level for PATCH", async () => {
+    const endpointTracker = { lastEndpointCalled: "" };
+    const responses = [
+      databaseAccountResponse,
+      // collectionResponse,
+      SuccessCreateResponse,
+      ServiceUnavailableResponse,
+      SuccessCreateResponse,
+    ];
+    const plugins = getPlugins(responses, endpointTracker);
+    const client = new CosmosClient({
+      ...options,
+      plugins,
+    } as any);
+
+    const writeEndpoint = await client.getWriteEndpoint();
+    assert.equal(
+      writeEndpoint,
+      "https://excludedregiontest-australiaeast.documents.azure.com:443/",
       "Should use request-level excluded region",
+    );
+
+    const requestOptions = { excludedLocations: ["Australia East"] };
+
+    await client
+      .database("foo")
+      .container("foo")
+      .item("item5", "cat5")
+      .patch(
+        [
+          { op: "add", path: "/status", value: "active" },
+          { op: "replace", path: "/lastModified", value: new Date().toISOString() },
+        ],
+        requestOptions,
+      );
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-eastus.documents.azure.com:443/",
+      "Should use request-level excluded region for patch operation",
+    );
+
+    await client
+      .database("foo")
+      .container("foo")
+      .item("item5", "cat5")
+      .patch(
+        [
+          { op: "add", path: "/status", value: "active" },
+          { op: "replace", path: "/lastModified", value: new Date().toISOString() },
+        ],
+        requestOptions,
+      );
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Should use request-level excluded region for patch operation",
+    );
+    client.dispose();
+  });
+
+  it("Request-level excludedLocations should override client-level for READALL", async () => {
+    const endpointTracker = { lastEndpointCalled: "" };
+    const responses = [
+      databaseAccountResponse,
+
+      SuccessReadResponse,
+      SuccessReadResponse,
+
+      SuccessReadResponse,
+      ServiceUnavailableResponse,
+      SuccessReadResponse,
+    ];
+    const plugins = getPlugins(responses, endpointTracker);
+    const client = new CosmosClient({
+      ...options,
+      plugins,
+    } as any);
+
+    const writeEndpoint = await client.getWriteEndpoint();
+    assert.equal(
+      writeEndpoint,
+      "https://excludedregiontest-australiaeast.documents.azure.com:443/",
+      "Should use request-level excluded region",
+    );
+
+    const requestOptions = { excludedLocations: ["Australia East"] };
+
+    const iterator = client.database("foo").container("foo").items.readAll(requestOptions);
+    await iterator.fetchNext();
+
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-eastus.documents.azure.com:443/",
+      "Should use request-level excluded region for READALL operation",
+    );
+
+    const iterator1 = client.database("foo").container("foo").items.readAll(requestOptions);
+    await iterator1.fetchNext();
+
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Should use request-level excluded region for READALL operation",
     );
     client.dispose();
   });
