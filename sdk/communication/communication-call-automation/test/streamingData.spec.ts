@@ -121,7 +121,7 @@ function validateTranscriptionData(transcriptionData: TranscriptionData): void {
   if ("phoneNumber" in transcriptionData.participant) {
     assert.equal(transcriptionData.participant.phoneNumber, "+000000000000");
   }
-  assert.equal(transcriptionData.SentimentAnalysisResult.sentiment, "neutral");
+  assert.equal(transcriptionData.sentimentAnalysisResult.sentiment, "neutral");
   assert.equal(transcriptionData.languageIdentified, "en-US");
 }
 
