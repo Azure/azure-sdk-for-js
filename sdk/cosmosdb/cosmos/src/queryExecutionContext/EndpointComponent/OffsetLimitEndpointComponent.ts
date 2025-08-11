@@ -56,7 +56,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       false
      )
      // if something remains in buffer remove it
-     const remainingValue = response.result.buffer.length - (initialOffset + initialiLimit);
+     const remainingValue = response.result.buffer.length - (initialOffset + initialLimit);
      if(this.limit <= 0){
        updatedPartitionKeyRangeMap = this.updatePartitionKeyRangeMap(
       updatedPartitionKeyRangeMap,
