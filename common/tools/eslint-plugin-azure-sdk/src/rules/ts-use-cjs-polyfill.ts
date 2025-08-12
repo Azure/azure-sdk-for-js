@@ -30,7 +30,8 @@ export default createRule({
     return {
       Identifier: (node): void => {
         if (node.name === "__dirname" || node.name === "__filename") {
-          // if the file name does not match the pattern: "*-cjs.cts" then report
+          // tshy will handle commonJS / ESM polyfills when building based on file extension.
+          // If the file ends in -cjs.cts, it is a CommonJS file and could use commonJS concepts.
           if (!context.filename.endsWith("-cjs.cts")) {
             context.report({
               node: node,
