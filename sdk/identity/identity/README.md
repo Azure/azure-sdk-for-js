@@ -125,6 +125,7 @@ This allows for trying all of the developer credentials on your machine while ha
 Azure Identity for JavaScript provides a plugin API that allows us to provide certain functionality through separate _plugin packages_. The `@azure/identity` package exports a top-level function (`useIdentityPlugin`) that can be used to enable a plugin. We provide two plugin packages:
 
 - [`@azure/identity-broker`](https://www.npmjs.com/package/@azure/identity-broker), which provides brokered authentication support through a native broker, such as Web Account Manager.
+- [`@azure/identity-vscode`](https://www.npmjs.com/package/@azure/identity-vscode), which provides Visual Studio Code authentication support for signing in through Azure Resource extension.
 - [`@azure/identity-cache-persistence`](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This plugin allows cached `access_token` values to persist across sessions, meaning that an interactive login flow doesn't need to be repeated as long as a cached token is available.
 
 ## Examples
@@ -152,6 +153,23 @@ const client = new KeyClient(vaultUrl, credential);
 ### Specify a user-assigned managed identity with `DefaultAzureCredential`
 
 A relatively common scenario involves authenticating using a user-assigned managed identity for an Azure resource. Explore the [example on Authenticating a user-assigned managed identity with DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential) to see how this is made a relatively straightforward task that can be configured using environment variables or in code.
+
+### Authenticate with Visual Studio Code via `DefaultAzureCredential`
+
+`DefaultAzureCredential` can automatically use the signed-in user from Visual Studio Code to authenticate your application during local development. Before using Visual Studio Code authentication, ensure you have:
+
+1. **Azure Resources Extension**: Install the [Azure Resources extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureresourcegroups) in Visual Studio Code
+2. **Signed in to Azure**: Use the `Azure: Sign In` command in VS Code 
+3. **Broker package configuration**: Install the `@azure/identity-vscode` package v2.0.0 or above in your project with `npm install @azure/identity-vscode` and configure `useIdentityPlugin` as shown below:
+
+```ts snippet:defaultazurecredential_vscode
+import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
+
+useIdentityPlugin(vsCodePlugin);
+const credential = new DefaultAzureCredential();
+```
+
+Once these prerequisites are met, `DefaultAzureCredential` will automatically detect and use VS Code authentication when running locally.
 
 ### Define a custom authentication flow with `ChainedTokenCredential`
 
@@ -316,7 +334,7 @@ The Azure Identity library offers both in-memory and persistent disk caching. Fo
 
 ## Brokered authentication
 
-An authentication broker is an application that runs on a user’s machine and manages the authentication handshakes and token maintenance for connected accounts. Currently, only the Windows Web Account Manager (WAM) is supported. To enable support, use the [`@azure/identity-broker`][azure_identity_broker] package. For details on authenticating using WAM, see the [broker plugin documentation][azure_identity_broker_readme].
+An authentication broker is an application that runs on a user’s machine and manages the authentication handshakes and token maintenance for connected accounts. Currently, only the Windows Web Account Manager (WAM) is supported. Broker authentication is used by `DefaultAzureCredential` to enable secure sign-in via the WAM. To enable support, use the [`@azure/identity-broker`][azure_identity_broker] package. For details on authenticating using WAM, see the [broker plugin documentation][azure_identity_broker_readme].
 
 ## Troubleshooting
 

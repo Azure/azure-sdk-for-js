@@ -5,7 +5,7 @@
   "description": "A generated SDK for VMwareCloudSimple.",
   "version": "3.1.1",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
@@ -34,7 +34,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.6.0",
     "@azure/logger": "^1.1.4",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
@@ -94,7 +94,7 @@
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

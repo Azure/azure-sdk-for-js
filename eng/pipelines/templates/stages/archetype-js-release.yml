@@ -1,7 +1,7 @@
 parameters:
   Artifacts: []
   TestPipeline: false
-  ArtifactName: not-specified
+  ArtifactName: packages
   DependsOn: Build
   Registry: https://registry.npmjs.org/
   PrivateRegistry: https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/
@@ -16,14 +16,13 @@ stages:
           - stage:
             variables:
               - template: /eng/pipelines/templates/variables/globals.yml
+              - template: /eng/pipelines/templates/variables/image.yml
             displayName: 'Release: ${{artifact.name}}'
             dependsOn: ${{parameters.DependsOn}}
             condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
             jobs:
               - job: TagRepository
                 displayName: Create release tag
-                variables:
-                  - template: /eng/pipelines/templates/variables/image.yml
                 condition: ne(variables['Skip.TagRepository'], 'true')
                 pool:
                   name: $(LINUXPOOL)
@@ -59,88 +58,21 @@ stages:
                       ReleaseSha: $(Build.SourceVersion)
                       RepoId: Azure/azure-sdk-for-js
                       WorkingDirectory: $(System.DefaultWorkingDirectory)
-              - ${{if ne(artifact.skipPublishPackage, 'true')}}:
-                - job: PrePublishPackage
-                  displayName: Pre Publish to npmjs
-                  variables:
-                    - template: /eng/pipelines/templates/variables/image.yml
-                  condition: and(succeeded(), ne(variables['Skip.PublishPackage'], 'true'))
-                  dependsOn: TagRepository
-                  pool:
-                    name: $(LINUXPOOL)
-                    image: $(LINUXVMIMAGE)
-                    os: linux
-                  steps:
-                    - checkout: self
-                    - download: current
-                    - script: |
-                        export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
-                        echo "##vso[task.setvariable variable=Package.Archive;isOutput=true]$DETECTED_PACKAGE_NAME"
-                      name: SetPackageArchive
-                      displayName: Detecting package archive
-                    - pwsh: |
-                        write-host '$(SetPackageArchive.Package.Archive)'
-                        $result = eng/scripts/get-npm-tags.ps1 -packageArtifact '$(SetPackageArchive.Package.Archive)' -workingDirectory '$(System.DefaultWorkingDirectory)/temp'
-                        echo "##vso[task.setvariable variable=Tag;isOutput=true]$($result.Tag)"
-                        echo "##vso[task.setvariable variable=AdditionalTag;isOutput=true]$($result.AdditionalTag)"
-                        write-host "Tag: $($result.Tag)"
-                        write-host "Additional tag: $($result.AdditionalTag)"
-                      condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
-                      name: SetTag
-                      displayName: Set Tag and Additional Tag
-                    - script: >
-                        npm install $(SetPackageArchive.Package.Archive)
-                      displayName: Validating package can be installed
-                      condition: succeeded()
-                - template: /eng/pipelines/templates/jobs/npm-release-task.yml
-                  parameters:
-                    Artifact: ${{artifact}}
-                    Registry: ${{parameters.Registry}}
-                    PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                    VarDependencies:
-                      Tag: "$[dependencies.PrePublishPackage.outputs['SetTag.Tag']]"
-                      AdditionalTag: "$[dependencies.PrePublishPackage.outputs['SetTag.AdditionalTag']]"
-                    DependsOn:
-                      - 'PrePublishPackage'
-                - job: PostPublishPackage
-                  dependsOn:
-                    - 'PrePublishPackage'
-                    - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
-                      - "PublishPackage_${{ replace(artifact.name, '-', '_') }}"
-                    - ${{ else }}:
-                      - "PublishDevPackage_${{ replace(artifact.name, '-', '_') }}"
-                  variables:
-                    - name: Package.Archive
-                      value: $[dependencies.PrePublishPackage.outputs['SetPackageArchive.Package.Archive']]
-                    - template: /eng/pipelines/templates/variables/image.yml
-                  pool:
-                    name: $(LINUXPOOL)
-                    image: $(LINUXVMIMAGE)
-                    os: linux
-                  displayName: Post Publish to npmjs
-                  steps:
-                  - checkout: self
-                  - download: current
-                  - pwsh: |
-                      write-host "$(Package.Archive)"
-                      eng/scripts/cleanup-npm-next-tag.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp -npmToken $(azure-sdk-npm-token)
-                    displayName: Cleanup Npm Next Tag
-                    condition: and(succeeded(), ne(variables['Skip.RemoveOldTag'], 'true'))
-                  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+
+              - ${{ if ne(artifact.skipPublishPackage, 'true') }}:
+                  - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
                     parameters:
-                      ArtifactPath: $(Pipeline.Workspace)/packages
-                      Artifacts: ${{parameters.Artifacts}}
-                      ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
-                      MarkPackageAsShipped: true
-                      ArtifactName: ${{parameters.ArtifactName}}
-                      PackageName: ${{artifact.name}}
-              - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
+                      DependsOn: TagRepository
+                      DeploymentName: PublishPackage_${{ replace(artifact.name, '-', '_') }}
+                      ArtifactName: ${{ parameters.ArtifactName }}
+                      ArtifactSubPath: '${{ artifact.name }}'
+                      Registry: 'https://registry.npmjs.org/'
+
+              - ${{ if ne(artifact.skipPublishDocMs, 'true') }}:
                   - job: PublishDocs
                     displayName: Docs.MS Release
                     condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
-                    variables:
-                      - template: /eng/pipelines/templates/variables/image.yml
                     pool:
                       name: $(LINUXPOOL)
                       image: $(LINUXVMIMAGE)
@@ -167,15 +99,16 @@ stages:
                             - metadata/
                             - ci-configs/packages-latest.json
                             - ci-configs/packages-preview.json
-              - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
+
+              - ${{ if ne(artifact.skipPublishDocGithubIo, 'true') }}:
                   - job: PublishDocsGitHubIO
                     displayName: Publish Docs to GitHubIO Blob Storage
                     condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
                     pool:
-                      name: azsdk-pool-mms-win-2022-general
-                      image: azsdk-pool-mms-win-2022-1espt
-                      os: windows
+                      name: $(LINUXPOOL)
+                      image: $(LINUXVMIMAGE)
+                      os: linux
                     steps:
                       - checkout: self
                       - download: current
@@ -189,13 +122,11 @@ stages:
                           TargetLanguage: javascript
                           ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
 
-              - ${{if ne(artifact.skipUpdatePackageVersion, 'true')}}:
+              - ${{ if ne(artifact.skipUpdatePackageVersion, 'true') }}:
                   - job: UpdatePackageVersion
                     displayName: Update Package Version
                     condition: and(succeeded(), ne(variables['Skip.UpdatePackageVersion'], 'true'))
                     dependsOn: PublishPackage_${{ replace(artifact.name, '-', '_') }}
-                    variables:
-                      - template: /eng/pipelines/templates/variables/image.yml
                     pool:
                       name: $(LINUXPOOL)
                       image: $(LINUXVMIMAGE)
@@ -204,8 +135,24 @@ stages:
                       - checkout: self
                       - download: current
                       - template: /eng/pipelines/templates/steps/common.yml
+
+                      # Mark package as shipped in APIView
+                      - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+                        parameters:
+                          ArtifactPath: $(Pipeline.Workspace)/packages
+                          Artifacts: ${{ parameters.Artifacts }}
+                          ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
+                          MarkPackageAsShipped: true
+                          ArtifactName: ${{ parameters.ArtifactName }}
+                          PackageName: ${{ artifact.name }}
+
                       - bash: |
-                          npm install
+                          npm ci
+                        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
+                        displayName: Install eng-package-utils tool dependencies
+
+                      - bash: |
+                          npm ci
                         workingDirectory: ./eng/tools/versioning
                         displayName: Install versioning tool dependencies
 
@@ -214,7 +161,11 @@ stages:
                         displayName: Increment package version
 
                       - bash: |
-                          node common/scripts/install-run-rush.js install
+                          npm install -g pnpm
+                        displayName: Install Pnpm
+
+                      - bash: |
+                          pnpm install --no-frozen-lockfile
                         displayName: "Install dependencies"
 
                       # Disabled until packages can be updated to support ES2019 syntax.
@@ -232,59 +183,25 @@ stages:
                           PRTitle: Post release automated changes for ${{ parameters.ServiceDirectory }} releases
                           CloseAfterOpenForTesting: ${{ parameters.TestPipeline }}
   - stage: Integration
-    dependsOn: ${{parameters.DependsOn}}
+    dependsOn: ${{ parameters.DependsOn }}
+    condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))
     variables:
       - template: /eng/pipelines/templates/variables/globals.yml
+      - template: /eng/pipelines/templates/variables/image.yml
     jobs:
-      - ${{ each artifact in parameters.Artifacts }}:
-        - ${{ if ne(artifact.skipPublishDevFeed, 'true') }}:
-          - job: DetectPackageArchive_${{ replace(artifact.name, '-', '_') }}
-            condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'))))
-            variables:
-              - template: /eng/pipelines/templates/variables/image.yml
-            pool:
-              name: $(LINUXPOOL)
-              image: $(LINUXVMIMAGE)
-              os: linux
-            displayName: 'Detecting package archive_${{artifact.name}}'
-            steps:
-            - checkout: self
-            - download: current
-            - pwsh: |
-                $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
-                Write-Host "Detected package name: $($detectedPackageName)"
-                if ($detectedPackageName -notmatch "-alpha")
-                {
-                  Write-Error "Found non alpha version artifact to publish as dev version. Failing publish step. VersionPolicy should be client or core in rush.json to get alpha version build."
-                  exit 1
-                }
-                echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
-                if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
-                  $npmToken="$(azure-sdk-npm-token)"
-                  $registry="${{parameters.Registry}}"
-                }
-                else {
-                  $npmToken="$(azure-sdk-devops-npm-token)"
-                  $registry="${{parameters.PrivateRegistry}}"
-                }
-                echo "##vso[task.setvariable variable=NpmToken]$npmToken"
-                echo "##vso[task.setvariable variable=Registry]$registry"
-              displayName: Detecting package archive_${{artifact.name}}
-          - template: /eng/pipelines/templates/jobs/npm-release-task.yml
-            parameters:
-              Artifact: ${{artifact}}
-              Registry: ${{parameters.Registry}}
-              PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-              VarDependencies:
-                Tag: "dev"
-              Environment: 'none'
-              DependsOn:
-                - DetectPackageArchive_${{ replace(artifact.name, '-', '_') }}
+      - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
+        parameters:
+          Tag: 'dev'
+          ArtifactName: ${{ parameters.ArtifactName }}-dev-publish
+          ${{ if eq(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js')}}:
+            Registry: 'https://registry.npmjs.org/'
+          ${{ else }}:
+            Registry: 'https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/'
+          FailOnMissingPackages: false
+          Environment: 'none'
 
       - job: PublishDocsToNightlyBranch
-        variables:
-          - template: /eng/pipelines/templates/variables/image.yml
-        condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true'))))
+        condition: and(succeeded(), ne(variables['Skip.PublishDocs'], 'true'))
         pool:
           name: $(LINUXPOOL)
           image: $(LINUXVMIMAGE)

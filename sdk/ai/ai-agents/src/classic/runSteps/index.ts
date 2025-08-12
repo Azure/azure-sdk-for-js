@@ -11,7 +11,6 @@ import { listRunSteps, getRunStep } from "../../api/runSteps/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RunSteps operations. */
-/** Interface representing a RunSteps operations. */
 export interface RunStepsOperations {
   /** Gets a list of run steps from a thread run. */
   list: (

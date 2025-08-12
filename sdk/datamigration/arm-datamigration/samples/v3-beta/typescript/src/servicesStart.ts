@@ -20,10 +20,7 @@ async function servicesStart(): Promise<void> {
   const serviceName = "DmsSdkService";
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.services.beginStartAndWait(
-    groupName,
-    serviceName
-  );
+  const result = await client.services.beginStartAndWait(groupName, serviceName);
   console.log(result);
 }
 

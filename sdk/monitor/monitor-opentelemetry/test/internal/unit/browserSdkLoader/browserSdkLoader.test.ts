@@ -3,8 +3,8 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import * as assert from "node:assert";
-import type * as http from "node:http";
+import assert from "node:assert";
+import type http from "node:http";
 import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/browserSdkLoader.js";
 import * as BrowserSdkLoaderHelper from "../../../../src/browserSdkLoader/browserSdkLoaderHelper.js";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/index.js";

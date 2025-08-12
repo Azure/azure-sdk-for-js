@@ -8,13 +8,15 @@ import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 vi.mock("node:fs/promises", async () => {
   const actual = await vi.importActual("node:fs/promises");
   return {
-    ...actual,
-    mkdir: vi.fn(),
-    writeFile: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      mkdir: vi.fn(),
+      writeFile: vi.fn(),
+    },
   };
 });
 
-import * as promises from "fs/promises";
+import promises from "node:fs/promises";
 import { generateProject } from "../../src/index.js";
 
 const widgetConfig: Omit<WidgetConfig, "technology"> = {

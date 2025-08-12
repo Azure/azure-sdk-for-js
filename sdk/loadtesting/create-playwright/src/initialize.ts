@@ -74,15 +74,17 @@ export class PlaywrightServiceInitialize {
     console.log(`\n\nTo run playwrights tests using Playwright Service\n`);
     console.log(`\t${runCommandParallelWorkers}\n`);
 
-    console.log("Getting Started - https://aka.ms/mpt/quickstart\n");
+    console.log("Getting Started - https://aka.ms/pww/docs/quickstart\n");
 
     console.log(
-      "If you're already using the Azure Playwright service, please review the quickstart guide [https://aka.ms/mpt/quickstart] to ensure your tests continue running smoothly.",
+      "If you're already using the Azure Playwright service, please review the quickstart guide [https://aka.ms/pww/docs/quickstart] to ensure your tests continue running smoothly.",
     );
   };
 
   private installServicePackage = async (): Promise<void> => {
-    const command = this._packageManager.installDevDependencyCommand("@azure/playwright");
+    const command = this._packageManager.installDevDependencyCommand(
+      "@azure/playwright @azure/identity",
+    );
     console.log(`Installing Service package (${command})`);
     await executeCommand(command);
   };
@@ -101,11 +103,13 @@ export class PlaywrightServiceInitialize {
 
     const importCommandTypeScript = `import { defineConfig } from '@playwright/test';
 import { getServiceConfig, ServiceOS } from '@azure/playwright';
+import { DefaultAzureCredential } from '@azure/identity';
 import config from '${customerConfigFileName}';
 `;
 
     const importCommandJavaScript = `const { defineConfig } = require('@playwright/test');
 const { getServiceConfig, ServiceOS } = require('@azure/playwright');
+const { DefaultAzureCredential } = require('@azure/identity');
 const config = require('${customerConfigFileName}');
 `;
 
@@ -117,14 +121,14 @@ const config = require('${customerConfigFileName}');
     const content =
       importCommand +
       `
-/* Learn more about service configuration at https://aka.ms/mpt/config */
+/* Learn more about service configuration at https://aka.ms/pww/docs/config */
 export default defineConfig(
   config,
   getServiceConfig(config, {
     exposeNetwork: '<loopback>',
-    timeout: 30000,
+    timeout: 3 * 60 * 1000, // 3 minutes
     os: ServiceOS.LINUX,
-    useCloudHostedBrowsers: true
+    credential: new DefaultAzureCredential(),
   })
 );
 `;

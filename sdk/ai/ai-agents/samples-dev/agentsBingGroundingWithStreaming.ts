@@ -9,14 +9,7 @@
  *
  */
 
-import type {
-  MessageContent,
-  MessageDeltaTextContent,
-  MessageTextContent,
-  MessageDeltaChunk,
-  ThreadRun,
-  ThreadMessage,
-} from "@azure/ai-agents";
+import type { MessageContent, MessageTextContent } from "@azure/ai-agents";
 import {
   AgentsClient,
   DoneEvent,
@@ -67,18 +60,20 @@ export async function main(): Promise<void> {
   for await (const eventMessage of streamEventMessages) {
     switch (eventMessage.event) {
       case RunStreamEvent.ThreadRunCreated:
-        console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
+        console.log(`ThreadRun status: ${eventMessage.data.status}`);
         break;
       case MessageStreamEvent.ThreadMessageDelta:
         {
-          const messageDelta = eventMessage.data as MessageDeltaChunk;
-          messageDelta.delta.content.forEach((contentPart) => {
-            if (contentPart.type === "text") {
-              const textContent = contentPart as MessageDeltaTextContent;
-              const textValue = textContent.text?.value || "No text";
-              console.log(`Text delta received:: ${textValue}`);
-            }
-          });
+          const messageDelta = eventMessage.data;
+          if (messageDelta.delta && messageDelta.delta.content) {
+            messageDelta.delta.content.forEach((contentPart) => {
+              if (contentPart.type === "text") {
+                const textContent = contentPart;
+                const textValue = textContent.text?.value || "No text";
+                console.log(`Text delta received:: ${textValue}`);
+              }
+            });
+          }
         }
         break;
 
@@ -98,19 +93,14 @@ export async function main(): Promise<void> {
   await client.deleteAgent(agent.id);
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
-  // Fetch and log all messages
-  console.log(`Messages:`);
   // Convert the PagedAsyncIterableIterator to an array of messages
-  const messagesArray: ThreadMessage[] = [];
   for await (const m of client.messages.list(thread.id)) {
-    messagesArray.push(m);
-  }
-
-  if (messagesArray.length > 0 && messagesArray[0].content.length > 0) {
-    const agentMessage: MessageContent = messagesArray[0].content[0];
-    if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
-      const textContent = agentMessage as MessageTextContent;
-      console.log(`Text Message Content - ${textContent.text.value}`);
+    if (m.content.length > 0) {
+      const agentMessage: MessageContent = m.content[0];
+      if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
+        console.log(`Text Message Content - ${agentMessage.text.value}`);
+      }
+      break; // Only log the first message content
     }
   }
 }

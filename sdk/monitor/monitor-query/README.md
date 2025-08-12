@@ -1,4 +1,10 @@
-# Azure Monitor Query client library for JavaScript
+## Deprecated ⚠️: This package has been deprecated and is no longer under active development. Please migrate to the following packages:
+>
+> - `LogsQueryClient`: `@azure/monitor-query-logs` - migration guide: [Monitor Query Logs migration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/MIGRATION.md) • npm: [@azure/monitor-query-logs](https://www.npmjs.com/package/@azure/monitor-query-logs)
+> - `MetricsClient`: `@azure/monitor-query-metrics` - migration guide: [Monitor Query Metrics migration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-metrics/MIGRATION.md) • npm: [@azure/monitor-query-metrics](https://www.npmjs.com/package/@azure/monitor-query-metrics)
+> - `MetricsQueryClient`: migrate to the management library `@azure/arm-monitor` - guide: [MetricsQueryClient → @azure/arm-monitor](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/MIGRATION_METRICSQUERYCLIENT_TO_ARM_MONITOR.md)
+>
+> New features and non-security bug fixes will be added to the replacement libraries listed above.
 
 The Azure Monitor Query client library is used to execute read-only queries against [Azure Monitor][azure_monitor_overview]'s two data platforms:
 
@@ -860,8 +866,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 This module's tests are a mixture of live and unit tests, which require you to have an Azure Monitor instance. To execute the tests, you'll need to run:
 
-1. `rush update`
-2. `rush build -t @azure/monitor-query`
+1. `pnpm install`
+2. `pnpm build --filter @azure/monitor-query...`
 3. `cd into sdk/monitor/monitor-query`
 4. Copy the `sample.env` file to `.env`
 5. Open the `.env` file in an editor and fill in the values.

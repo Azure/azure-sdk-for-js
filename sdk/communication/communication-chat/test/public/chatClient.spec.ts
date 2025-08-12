@@ -4,7 +4,11 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
-import type { ChatClient, ChatThreadClient } from "../../src/index.js";
+import type {
+  ChatClient,
+  ChatThreadClient,
+  ThreadCreationDateRetentionPolicy,
+} from "../../src/index.js";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import type { CommunicationUserToken } from "@azure/communication-identity";
@@ -38,8 +42,24 @@ describe("ChatClient", () => {
       testUser2 = (await createTestUser(recorder)).user;
 
       const request = { topic: "test topic" };
+      const retentionPolicy: ThreadCreationDateRetentionPolicy = {
+        kind: "threadCreationDate",
+        deleteThreadAfterDays: 90,
+      };
       const options = {
-        participants: [{ id: testUser }, { id: testUser2 }],
+        participants: [
+          {
+            id: testUser,
+          },
+          {
+            id: testUser2,
+          },
+        ],
+        metadata: {
+          threadType: "primary",
+          secondaryThread: "test-id",
+        },
+        retentionPolicy: retentionPolicy,
       };
 
       const chatThreadResult = await chatClient.createChatThread(request, options);
@@ -51,6 +71,9 @@ describe("ChatClient", () => {
 
       assert.isDefined(chatThread);
       assert.isDefined(chatThread?.id);
+      assert.equal(chatThread?.topic, request.topic);
+      assert.deepEqual(chatThread?.metadata, options.metadata);
+      assert.deepEqual(chatThread?.retentionPolicy, retentionPolicy);
     });
 
     it("successfully retrieves a thread client", async () => {

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Fetches the usages of the vault.
  *
  * @summary Fetches the usages of the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ListUsages.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ListUsages.json
  */
 async function getsVaultUsages() {
   const subscriptionId =
@@ -27,14 +25,14 @@ async function getsVaultUsages() {
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usages.listByVaults(resourceGroupName, vaultName)) {
+  for await (const item of client.usages.listByVaults(resourceGroupName, vaultName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  getsVaultUsages();
+  await getsVaultUsages();
 }
 
 main().catch(console.error);

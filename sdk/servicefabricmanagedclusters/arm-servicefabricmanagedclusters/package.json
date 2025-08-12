@@ -1,103 +1,33 @@
 {
   "name": "@azure/arm-servicefabricmanagedclusters",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
+  "version": "1.0.0-beta.4",
   "description": "A generated SDK for ServiceFabricManagedClustersManagementClient.",
-  "version": "1.0.0-beta.3",
   "engines": {
-    "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.5.4",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.19.0",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
-  "license": "MIT",
-  "main": "./dist/commonjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.6.0",
-    "@azure/logger": "^1.1.4",
-    "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.9",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "dotenv": "^16.0.0",
-    "playwright": "^1.50.1",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "echo skipped.",
-    "check-format": "echo skipped",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "echo skipped",
-    "lint": "echo skipped",
-    "pack": "npm pack 2>&1",
-    "prepack": "npm run build",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run test:vitest",
-    "test:node:esm": "dev-tool run test:vitest --esm",
-    "update-snippets": "dev-tool run update-snippets"
+    "node": ">=20.0.0"
   },
   "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/serviceFabricManagedClustersManagementClient.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-servicefabricmanagedclusters?view=azure-node-preview"
-  },
-  "type": "module",
+  "autoPublish": false,
   "tshy": {
-    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/operationStatus": "./src/api/operationStatus/index.ts",
+      "./api/operationResults": "./src/api/operationResults/index.ts",
+      "./api/nodeTypeSkus": "./src/api/nodeTypeSkus/index.ts",
+      "./api/nodeTypes": "./src/api/nodeTypes/index.ts",
+      "./api/managedMaintenanceWindowStatus": "./src/api/managedMaintenanceWindowStatus/index.ts",
+      "./api/managedApplyMaintenanceWindow": "./src/api/managedApplyMaintenanceWindow/index.ts",
+      "./api/managedAzResiliencyStatus": "./src/api/managedAzResiliencyStatus/index.ts",
+      "./api/managedClusters": "./src/api/managedClusters/index.ts",
+      "./api/managedUnsupportedVMSizes": "./src/api/managedUnsupportedVMSizes/index.ts",
+      "./api/managedClusterVersion": "./src/api/managedClusterVersion/index.ts",
+      "./api/services": "./src/api/services/index.ts",
+      "./api/applicationTypeVersions": "./src/api/applicationTypeVersions/index.ts",
+      "./api/applicationTypes": "./src/api/applicationTypes/index.ts",
+      "./api/applications": "./src/api/applications/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
+      "./models": "./src/models/index.ts"
     },
     "dialects": [
       "esm",
@@ -107,10 +37,97 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
   },
+  "type": "module",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE",
+    "review/*",
+    "CHANGELOG.md"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/serviceFabricManagedClustersManagementContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.11.0",
+    "@azure-rest/core-client": "^2.1.0",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.0.0",
+    "@azure/core-rest-pipeline": "^1.18.2",
+    "@azure/logger": "^1.1.4",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^4.6.0",
+    "@types/node": "^20.0.0",
+    "eslint": "^9.9.0",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
+    "dotenv": "^16.0.0",
+    "playwright": "^1.52.0",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
+  },
+  "scripts": {
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "pack": "npm pack 2>&1",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-servicefabricmanagedclusters",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-servicefabricmanagedclusters?view=azure-node-preview"
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -130,6 +147,315 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/operationStatus": {
+      "browser": {
+        "types": "./dist/browser/api/operationStatus/index.d.ts",
+        "default": "./dist/browser/api/operationStatus/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operationStatus/index.d.ts",
+        "default": "./dist/react-native/api/operationStatus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operationStatus/index.d.ts",
+        "default": "./dist/esm/api/operationStatus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operationStatus/index.d.ts",
+        "default": "./dist/commonjs/api/operationStatus/index.js"
+      }
+    },
+    "./api/operationResults": {
+      "browser": {
+        "types": "./dist/browser/api/operationResults/index.d.ts",
+        "default": "./dist/browser/api/operationResults/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operationResults/index.d.ts",
+        "default": "./dist/react-native/api/operationResults/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operationResults/index.d.ts",
+        "default": "./dist/esm/api/operationResults/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operationResults/index.d.ts",
+        "default": "./dist/commonjs/api/operationResults/index.js"
+      }
+    },
+    "./api/nodeTypeSkus": {
+      "browser": {
+        "types": "./dist/browser/api/nodeTypeSkus/index.d.ts",
+        "default": "./dist/browser/api/nodeTypeSkus/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/nodeTypeSkus/index.d.ts",
+        "default": "./dist/react-native/api/nodeTypeSkus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/nodeTypeSkus/index.d.ts",
+        "default": "./dist/esm/api/nodeTypeSkus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/nodeTypeSkus/index.d.ts",
+        "default": "./dist/commonjs/api/nodeTypeSkus/index.js"
+      }
+    },
+    "./api/nodeTypes": {
+      "browser": {
+        "types": "./dist/browser/api/nodeTypes/index.d.ts",
+        "default": "./dist/browser/api/nodeTypes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/nodeTypes/index.d.ts",
+        "default": "./dist/react-native/api/nodeTypes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/nodeTypes/index.d.ts",
+        "default": "./dist/esm/api/nodeTypes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/nodeTypes/index.d.ts",
+        "default": "./dist/commonjs/api/nodeTypes/index.js"
+      }
+    },
+    "./api/managedMaintenanceWindowStatus": {
+      "browser": {
+        "types": "./dist/browser/api/managedMaintenanceWindowStatus/index.d.ts",
+        "default": "./dist/browser/api/managedMaintenanceWindowStatus/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedMaintenanceWindowStatus/index.d.ts",
+        "default": "./dist/react-native/api/managedMaintenanceWindowStatus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedMaintenanceWindowStatus/index.d.ts",
+        "default": "./dist/esm/api/managedMaintenanceWindowStatus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedMaintenanceWindowStatus/index.d.ts",
+        "default": "./dist/commonjs/api/managedMaintenanceWindowStatus/index.js"
+      }
+    },
+    "./api/managedApplyMaintenanceWindow": {
+      "browser": {
+        "types": "./dist/browser/api/managedApplyMaintenanceWindow/index.d.ts",
+        "default": "./dist/browser/api/managedApplyMaintenanceWindow/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedApplyMaintenanceWindow/index.d.ts",
+        "default": "./dist/react-native/api/managedApplyMaintenanceWindow/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedApplyMaintenanceWindow/index.d.ts",
+        "default": "./dist/esm/api/managedApplyMaintenanceWindow/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedApplyMaintenanceWindow/index.d.ts",
+        "default": "./dist/commonjs/api/managedApplyMaintenanceWindow/index.js"
+      }
+    },
+    "./api/managedAzResiliencyStatus": {
+      "browser": {
+        "types": "./dist/browser/api/managedAzResiliencyStatus/index.d.ts",
+        "default": "./dist/browser/api/managedAzResiliencyStatus/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedAzResiliencyStatus/index.d.ts",
+        "default": "./dist/react-native/api/managedAzResiliencyStatus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedAzResiliencyStatus/index.d.ts",
+        "default": "./dist/esm/api/managedAzResiliencyStatus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedAzResiliencyStatus/index.d.ts",
+        "default": "./dist/commonjs/api/managedAzResiliencyStatus/index.js"
+      }
+    },
+    "./api/managedClusters": {
+      "browser": {
+        "types": "./dist/browser/api/managedClusters/index.d.ts",
+        "default": "./dist/browser/api/managedClusters/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedClusters/index.d.ts",
+        "default": "./dist/react-native/api/managedClusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedClusters/index.d.ts",
+        "default": "./dist/esm/api/managedClusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedClusters/index.d.ts",
+        "default": "./dist/commonjs/api/managedClusters/index.js"
+      }
+    },
+    "./api/managedUnsupportedVMSizes": {
+      "browser": {
+        "types": "./dist/browser/api/managedUnsupportedVMSizes/index.d.ts",
+        "default": "./dist/browser/api/managedUnsupportedVMSizes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedUnsupportedVMSizes/index.d.ts",
+        "default": "./dist/react-native/api/managedUnsupportedVMSizes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedUnsupportedVMSizes/index.d.ts",
+        "default": "./dist/esm/api/managedUnsupportedVMSizes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedUnsupportedVMSizes/index.d.ts",
+        "default": "./dist/commonjs/api/managedUnsupportedVMSizes/index.js"
+      }
+    },
+    "./api/managedClusterVersion": {
+      "browser": {
+        "types": "./dist/browser/api/managedClusterVersion/index.d.ts",
+        "default": "./dist/browser/api/managedClusterVersion/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/managedClusterVersion/index.d.ts",
+        "default": "./dist/react-native/api/managedClusterVersion/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedClusterVersion/index.d.ts",
+        "default": "./dist/esm/api/managedClusterVersion/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedClusterVersion/index.d.ts",
+        "default": "./dist/commonjs/api/managedClusterVersion/index.js"
+      }
+    },
+    "./api/services": {
+      "browser": {
+        "types": "./dist/browser/api/services/index.d.ts",
+        "default": "./dist/browser/api/services/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/services/index.d.ts",
+        "default": "./dist/react-native/api/services/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/services/index.d.ts",
+        "default": "./dist/esm/api/services/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/services/index.d.ts",
+        "default": "./dist/commonjs/api/services/index.js"
+      }
+    },
+    "./api/applicationTypeVersions": {
+      "browser": {
+        "types": "./dist/browser/api/applicationTypeVersions/index.d.ts",
+        "default": "./dist/browser/api/applicationTypeVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/applicationTypeVersions/index.d.ts",
+        "default": "./dist/react-native/api/applicationTypeVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/applicationTypeVersions/index.d.ts",
+        "default": "./dist/esm/api/applicationTypeVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/applicationTypeVersions/index.d.ts",
+        "default": "./dist/commonjs/api/applicationTypeVersions/index.js"
+      }
+    },
+    "./api/applicationTypes": {
+      "browser": {
+        "types": "./dist/browser/api/applicationTypes/index.d.ts",
+        "default": "./dist/browser/api/applicationTypes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/applicationTypes/index.d.ts",
+        "default": "./dist/react-native/api/applicationTypes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/applicationTypes/index.d.ts",
+        "default": "./dist/esm/api/applicationTypes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/applicationTypes/index.d.ts",
+        "default": "./dist/commonjs/api/applicationTypes/index.js"
+      }
+    },
+    "./api/applications": {
+      "browser": {
+        "types": "./dist/browser/api/applications/index.d.ts",
+        "default": "./dist/browser/api/applications/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/applications/index.d.ts",
+        "default": "./dist/react-native/api/applications/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/applications/index.d.ts",
+        "default": "./dist/esm/api/applications/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/applications/index.d.ts",
+        "default": "./dist/commonjs/api/applications/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
-  }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
 }

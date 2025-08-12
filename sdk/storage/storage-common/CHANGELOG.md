@@ -1,5 +1,25 @@
 # Release History
 
+<<<<<<< HEAD
+=======
+## 12.1.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.0.0 (2025-07-22)
+
+### Features Added
+
+- Including all features released in 12.0.0-beta.2
+- Moved policies and credentials to this common package
+
+>>>>>>> origin/main
 ## 12.1.0-beta.1 (2025-06-16)
 
 ### Features Added

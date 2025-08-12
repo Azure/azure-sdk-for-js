@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { env } from "@azure-tools/test-recorder";
-import { DeveloperSignOnClientId } from "../src/constants.js";
+import { DeveloperSignOnClientId } from "$internal/constants.js";
 
 export const PlaybackTenantId = "12345678-1234-1234-1234-123456789012";
 

@@ -2,13 +2,11 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectClient, DatasetVersion, EvaluatorIds } from "../src/index.js";
+import { AIProjectClient, DatasetVersion } from "../src/index.js";
 import type {
   AzureAISearchIndex,
   Connection,
   DatasetVersionUnion,
-  Evaluation,
-  EvaluationWithOptionalName,
   ModelDeployment,
 } from "../src/index.js";
 import { isRestError } from "@azure/core-rest-pipeline";
@@ -54,17 +52,6 @@ describe("snippets", function () {
       messages: [{ role: "user", content: "How many feet are in a mile?" }],
     });
     console.log("response = ", JSON.stringify(response, null, 2));
-  });
-
-  it("chatCompletions", async function () {
-    const client = project.inference.chatCompletions();
-    const response = await client.post({
-      body: {
-        model: deploymentName,
-        messages: [{ role: "user", content: "How many feet are in a mile?" }],
-      },
-    });
-    console.log(response.body.choices[0].message.content);
   });
 
   it("deployments", async function () {
@@ -271,10 +258,6 @@ describe("snippets", function () {
     await project.indexes.delete(indexName, version);
   });
 
-  it("evaluationId", async function () {
-    const evaluationId = EvaluatorIds.RELEVANCE;
-  });
-
   it("datasetUpload", async function () {
     const dataset: DatasetVersion = await project.datasets.uploadFile(
       "jss-eval-sample-dataset",
@@ -285,48 +268,6 @@ describe("snippets", function () {
 
   it("getDefault", async function () {
     const defaultConnection = await project.connections.getDefault("AzureOpenAI");
-  });
-
-  it("evaluations", async function () {
-    const newEvaluation: EvaluationWithOptionalName = {
-      displayName: "Evaluation 1",
-      description: "This is a test evaluation",
-      data: {
-        type: "dataset",
-        id: "data-id", // dataset.name
-      },
-      evaluators: {
-        relevance: {
-          id: EvaluatorIds.RELEVANCE,
-          initParams: {
-            deploymentName: "gpt-4o-mini",
-          },
-          dataMapping: {
-            query: "${data.query}",
-            response: "${data.response}",
-          },
-        },
-      },
-    };
-
-    const evalResp = await project.evaluations.create(newEvaluation);
-    console.log("Create a new evaluation:", JSON.stringify(evalResp, null, 2));
-    // get the evaluation by ID
-    const eval2 = await project.evaluations.get(evalResp.name);
-    console.log("Get the evaluation by ID:", eval2);
-    // @ts-preserve-whitespace
-    const evaluations: Evaluation[] = [];
-    const evaluationNames: string[] = [];
-    for await (const evaluation of project.evaluations.list()) {
-      evaluations.push(evaluation);
-      evaluationNames.push(evaluation.displayName ?? "");
-    }
-    console.log("List of evaluation display names:", evaluationNames);
-    // @ts-preserve-whitespace
-    // This is temporary, as interface recommend the name of the evaluation
-    const name = evaluations[0].name;
-    const evaluation = await project.evaluations.get(name);
-    console.log("Get an evaluation by ID:", JSON.stringify(evaluation, null, 2));
   });
 
   it("exceptions", async function () {

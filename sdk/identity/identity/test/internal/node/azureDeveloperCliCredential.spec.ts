@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureDeveloperCliCredential } from "../../../src/credentials/azureDeveloperCliCredential.js";
+import { AzureDeveloperCliCredential } from "@azure/identity";
 import type { GetTokenOptions } from "@azure/core-auth";
 import child_process, { type ChildProcess } from "node:child_process";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
@@ -8,16 +8,16 @@ import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest"
 describe("AzureDeveloperCliCredential (internal)", function () {
   let stdout: string = "";
   let stderr: string = "";
-  let azdArgs: string[][] = [];
-  let azdOptions: { cwd: string }[] = [];
+  let azdCommands: string[] = [];
+  let azdOptions: { cwd: string; timeout?: number }[] = [];
 
   beforeEach(async function () {
-    azdArgs = [];
+    azdCommands = [];
     azdOptions = [];
-    vi.spyOn(child_process, "execFile").mockImplementation(
-      (_file, args, options, callback): ChildProcess => {
-        azdArgs.push(args as string[]);
-        azdOptions.push(options as { cwd: string });
+    vi.spyOn(child_process, "exec").mockImplementation(
+      (command, options, callback): ChildProcess => {
+        azdCommands.push(command as string);
+        azdOptions.push(options as { cwd: string; timeout?: number });
         if (callback) {
           callback(null, stdout, stderr);
         }
@@ -37,8 +37,8 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     const credential = new AzureDeveloperCliCredential();
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
-    assert.deepEqual(azdArgs, [
-      ["auth", "token", "--output", "json", "--scope", "https://service/.default"],
+    assert.deepEqual(azdCommands, [
+      "azd auth token --output json --scope https://service/.default",
     ]);
     // Used a working directory, and a shell
     assert.deepEqual(
@@ -57,17 +57,8 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       tenantId: "TENANT-ID",
     } as GetTokenOptions);
     assert.equal(actualToken!.token, "token");
-    assert.deepEqual(azdArgs, [
-      [
-        "auth",
-        "token",
-        "--output",
-        "json",
-        "--scope",
-        "https://service/.default",
-        "--tenant-id",
-        "TENANT-ID",
-      ],
+    assert.deepEqual(azdCommands, [
+      "azd auth token --output json --scope https://service/.default --tenant-id TENANT-ID",
     ]);
     // Used a working directory, and a shell
     assert.deepEqual(
@@ -86,17 +77,8 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     });
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
-    assert.deepEqual(azdArgs, [
-      [
-        "auth",
-        "token",
-        "--output",
-        "json",
-        "--scope",
-        "https://service/.default",
-        "--tenant-id",
-        "tenantId",
-      ],
+    assert.deepEqual(azdCommands, [
+      "azd auth token --output json --scope https://service/.default --tenant-id tenantId",
     ]);
     // Used a working directory, and a shell
     assert.deepEqual(

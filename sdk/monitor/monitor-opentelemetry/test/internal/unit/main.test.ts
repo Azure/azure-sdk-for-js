@@ -10,6 +10,7 @@ import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
+  APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
@@ -392,5 +393,110 @@ describe("Main functions", () => {
       };
     }
     assert.strictEqual(updatedStatsbeat.instrumentation, StatsbeatInstrumentation.FS);
+  });
+
+  it("should detect MULTI_IKEY feature when AZURE_MONITOR_STATSBEAT_FEATURES has MULTI_IKEY enabled", () => {
+    const env = <{ [id: string]: string }>{};
+    env[AZURE_MONITOR_STATSBEAT_FEATURES] = String(StatsbeatFeature.MULTI_IKEY);
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
+    const features = Number(output["feature"] || 0);
+    assert.ok(features & StatsbeatFeature.MULTI_IKEY, "MULTI_IKEY not detected");
+    void shutdownAzureMonitor();
+  });
+
+  it("should not detect MULTI_IKEY feature when AZURE_MONITOR_STATSBEAT_FEATURES has MULTI_IKEY disabled", () => {
+    const env = <{ [id: string]: string }>{};
+    env[AZURE_MONITOR_STATSBEAT_FEATURES] = String(StatsbeatFeature.DISTRO);
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
+    const features = Number(output["feature"] || 0);
+    assert.ok(
+      !(features & StatsbeatFeature.MULTI_IKEY),
+      "MULTI_IKEY detected when it should not be",
+    );
+    void shutdownAzureMonitor();
+  });
+
+  it("should detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is 'True'", () => {
+    const env = <{ [id: string]: string }>{};
+    env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "True";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
+    const features = Number(output["feature"] || 0);
+    assert.ok(
+      features & StatsbeatFeature.CUSTOMER_SDKSTATS,
+      "CUSTOMER_SDKSTATS feature should be detected when env var is 'True'",
+    );
+    assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should also be set");
+    void shutdownAzureMonitor();
+  });
+
+  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is not 'True'", () => {
+    const env = <{ [id: string]: string }>{};
+    env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "false";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
+    const features = Number(output["feature"] || 0);
+    assert.ok(
+      !(features & StatsbeatFeature.CUSTOMER_SDKSTATS),
+      "CUSTOMER_SDKSTATS feature should not be detected when env var is not 'True'",
+    );
+    assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
+    void shutdownAzureMonitor();
+  });
+
+  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is not set", () => {
+    const env = <{ [id: string]: string }>{};
+    delete env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
+    const features = Number(output["feature"] || 0);
+    assert.ok(
+      !(features & StatsbeatFeature.CUSTOMER_SDKSTATS),
+      "CUSTOMER_SDKSTATS feature should not be detected when env var is undefined",
+    );
+    assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
+    void shutdownAzureMonitor();
   });
 });

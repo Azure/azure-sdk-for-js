@@ -34,7 +34,7 @@ const examplePackageGood = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -123,7 +123,7 @@ const examplePackageGood = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
@@ -185,7 +185,7 @@ const examplePackageBad = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -274,7 +274,7 @@ const examplePackageBad = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",

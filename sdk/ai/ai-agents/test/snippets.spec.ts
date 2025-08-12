@@ -48,7 +48,7 @@ describe("snippets", function () {
 
   it("toolSet", async function () {
     // Upload file for code interpreter tool
-    const filePath1 = "./data/nifty500QuarterlyResults.csv";
+    const filePath1 = "./data/syntheticCompanyQuarterlyResults.csv";
     const fileStream1 = fs.createReadStream(filePath1);
     const codeInterpreterFile = await client.files.upload(fileStream1, "assistants", {
       fileName: "myLocalFile",
@@ -112,7 +112,7 @@ describe("snippets", function () {
   });
 
   it("codeInterpreter", async function () {
-    const filePath = "./data/nifty500QuarterlyResults.csv";
+    const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
     const localFileStream = fs.createReadStream(filePath);
     const localFile = await client.files.upload(localFileStream, "assistants", {
       fileName: "localFile",
@@ -128,6 +128,30 @@ describe("snippets", function () {
       instructions: "You are a helpful agent",
       tools: [codeInterpreterTool.definition],
       toolResources: codeInterpreterTool.resources,
+    });
+    console.log(`Created agent, agent ID: ${agent.id}`);
+  });
+
+  it("MultiAgents", async function () {
+    const connectedAgentName = "stock_price_bot";
+    const modelDeploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "gpt-4o";
+    const stockAgent = await client.createAgent(modelDeploymentName, {
+      name: "stock-price-agent",
+      instructions:
+        "Your job is to get the stock price of a company. If you don't know the realtime stock price, return the last known stock price.",
+    });
+    // Initialize Connected Agent tool with the agent id, name, and description
+    const connectedAgentTool = ToolUtility.createConnectedAgentTool(
+      stockAgent.id,
+      connectedAgentName,
+      "Gets the stock price of a company",
+    );
+
+    // Create agent with the Connected Agent tool and process assistant run
+    const agent = await client.createAgent(modelDeploymentName, {
+      name: "my-agent",
+      instructions: "You are a helpful assistant, and use the connected agent to get stock prices.",
+      tools: [connectedAgentTool.definition],
     });
     console.log(`Created agent, agent ID: ${agent.id}`);
   });
@@ -308,28 +332,13 @@ describe("snippets", function () {
     console.log(`Created agent, agent ID: ${agent.id}`);
   });
 
-  it("createAgentWithFabric", async function () {
-    const connectionId = process.env["FABRIC_CONNECTION_ID"] || "<connection-name>";
-    // @ts-preserve-whitespace
-    // Initialize agent Microsoft Fabric tool with the connection id
-    const fabricTool = ToolUtility.createFabricTool(connectionId);
-    // @ts-preserve-whitespace
-    // Create agent with the Microsoft Fabric tool and process assistant run
-    const agent = await client.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [fabricTool.definition],
-    });
-    console.log(`Created agent, agent ID : ${agent.id}`);
-  });
-
   it("createThread", async function () {
     const thread = await client.threads.create();
     console.log(`Created thread, thread ID: ${thread.id}`);
   });
 
   it("threadWithTool", async function () {
-    const filePath = "./data/nifty500QuarterlyResults.csv";
+    const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
     const localFileStream = fs.createReadStream(filePath);
     const file = await client.files.upload(localFileStream, "assistants", {
       fileName: "sample_file_for_upload.csv",
@@ -437,7 +446,7 @@ describe("snippets", function () {
       },
       {
         type: "image_file",
-        image_file: {
+        imageFile: {
           file_id: imageFile.id,
           detail: "high",
         },
@@ -461,7 +470,7 @@ describe("snippets", function () {
       },
       {
         type: "image_url",
-        image_url: {
+        imageUrl: {
           url: imageUrl,
           detail: "high",
         },
@@ -501,7 +510,7 @@ describe("snippets", function () {
       },
       {
         type: "image_url",
-        image_url: {
+        imageUrl: {
           url: imageDataUrl,
           detail: "high",
         },
@@ -521,7 +530,7 @@ describe("snippets", function () {
         intervalInMs: 2000,
       },
       onResponse: (response): void => {
-        console.log(`Received response with status: ${response.status}`);
+        console.log(`Received response with status: ${response.parsedBody.status}`);
       },
     });
     console.log(`Run finished with status: ${run.status}`);
@@ -550,21 +559,20 @@ describe("snippets", function () {
     for await (const eventMessage of streamEventMessages) {
       switch (eventMessage.event) {
         case RunStreamEvent.ThreadRunCreated:
-          console.log(`ThreadRun status: ${(eventMessage.data as ThreadRun).status}`);
+          console.log(`ThreadRun status: ${eventMessage.data.status}`);
           break;
         case MessageStreamEvent.ThreadMessageDelta:
           {
-            const messageDelta = eventMessage.data as MessageDeltaChunk;
+            const messageDelta = eventMessage.data;
             messageDelta.delta.content.forEach((contentPart) => {
               if (contentPart.type === "text") {
-                const textContent = contentPart as MessageDeltaTextContent;
+                const textContent = contentPart;
                 const textValue = textContent.text?.value || "No text";
                 console.log(`Text delta received:: ${textValue}`);
               }
             });
           }
           break;
-        // @ts-preserve-whitespace
         case RunStreamEvent.ThreadRunCompleted:
           console.log("Thread Run Completed");
           break;

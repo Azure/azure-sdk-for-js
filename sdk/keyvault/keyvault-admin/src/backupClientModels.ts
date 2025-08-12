@@ -6,7 +6,7 @@ import type { SUPPORTED_API_VERSIONS } from "./constants.js";
 import { KeyVaultBackupClient } from "./backupClient.js";
 
 export type { PollerLike } from "./lro/shim.js";
-export type { OperationStatus } from "./generated/index.js";
+export type { OperationStatus } from "./generated/src/index.js";
 
 /**
  * The optional parameters accepted by the KeyVaultBackupClient

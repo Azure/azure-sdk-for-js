@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileContents } from "./static-helpers/multipartHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
-
-export { AgentsClient } from "./agentsClient.js";
+import { FileContents } from "./static-helpers/multipartHelpers.js";
 export * from "./models/streamingModels.js";
-export * from "./utils.js";
+export * from "./utils/utils.js";
+export { AgentsClient } from "./agentsClient.js";
 export {
   ToolDefinition,
   ToolDefinitionUnion,
@@ -21,12 +20,8 @@ export {
   FunctionToolDefinition,
   FunctionDefinition,
   BingGroundingToolDefinition,
-  BingGroundingSearchConfigurationList,
+  BingGroundingSearchToolParameters,
   BingGroundingSearchConfiguration,
-  MicrosoftFabricToolDefinition,
-  ToolConnectionList,
-  ToolConnection,
-  SharepointToolDefinition,
   AzureAISearchToolDefinition,
   OpenApiToolDefinition,
   OpenApiFunctionDefinition,
@@ -38,9 +33,6 @@ export {
   OpenApiConnectionSecurityScheme,
   OpenApiManagedAuthDetails,
   OpenApiManagedSecurityScheme,
-  BingCustomSearchToolDefinition,
-  BingCustomSearchConfigurationList,
-  BingCustomSearchConfiguration,
   ConnectedAgentToolDefinition,
   ConnectedAgentDetails,
   AzureFunctionToolDefinition,
@@ -54,7 +46,7 @@ export {
   FileSearchToolResource,
   VectorStoreConfigurations,
   VectorStoreConfiguration,
-  AzureAISearchResource,
+  AzureAISearchToolResource,
   AISearchIndexResource,
   AzureAISearchQueryType,
   AgentsResponseFormat,
@@ -64,6 +56,8 @@ export {
   AgentsResponseFormatOption,
   AgentsResponseFormatMode,
   Agent,
+  AgentV1Error,
+  AgentErrorDetail,
   AgentDeletionStatus,
   AgentThreadCreationOptions,
   ThreadMessageOptions,
@@ -80,9 +74,6 @@ export {
   MessageImageUrlParam,
   MessageAttachment,
   MessageAttachmentToolDefinition,
-  UpdateToolResourcesOptions,
-  UpdateCodeInterpreterToolResourceOptions,
-  UpdateFileSearchToolResourceOptions,
   TruncationObject,
   TruncationStrategy,
   AgentsNamedToolChoice,
@@ -148,9 +139,6 @@ export {
   FileSearchToolCallContent,
   RunStepBingGroundingToolCall,
   RunStepAzureAISearchToolCall,
-  RunStepSharepointToolCall,
-  RunStepMicrosoftFabricToolCall,
-  RunStepBingCustomSearchToolCall,
   RunStepFunctionToolCall,
   RunStepFunctionToolCallDetails,
   RunStepOpenAPIToolCall,

@@ -42,14 +42,14 @@
     "update-snippets": "echo skipped"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "eslint": "^9.9.0",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.0",

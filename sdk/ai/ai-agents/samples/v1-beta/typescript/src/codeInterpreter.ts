@@ -7,11 +7,10 @@
  * @summary demonstrates how to use agent operations with code interpreter.
  */
 
-import type { MessageImageFileContent, MessageTextContent } from "@azure/ai-agents";
+import type { MessageTextContent } from "@azure/ai-agents";
 import { AgentsClient, isOutputOfType, ToolUtility } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as fs from "fs";
-import path from "node:path";
+import fs from "node:fs";
 import "dotenv/config";
 
 const projectEndpoint = process.env["PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -21,7 +20,7 @@ export async function main(): Promise<void> {
   // Create an Azure AI Client
   const client = new AgentsClient(projectEndpoint, new DefaultAzureCredential());
   // Upload file and wait for it to be processed
-  const filePath = "./data/nifty500QuarterlyResults.csv";
+  const filePath = "./data/syntheticCompanyQuarterlyResults.csv";
   const localFileStream = fs.createReadStream(filePath);
   const localFile = await client.files.upload(localFileStream, "assistants", {
     fileName: "localFile",
@@ -49,7 +48,7 @@ export async function main(): Promise<void> {
   const message = await client.messages.create(
     thread.id,
     "user",
-    "Could you please create a bar chart in the TRANSPORTATION sector for the operating profit from the uploaded CSV file and provide the file to me?",
+    "Could you please create a bar chart in the TRANSPORTATION  sector for the operating profit from the uploaded CSV file and provide the file to me?",
     {
       attachments: [
         {
@@ -69,7 +68,7 @@ export async function main(): Promise<void> {
       intervalInMs: 2000,
     },
     onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);
@@ -80,55 +79,17 @@ export async function main(): Promise<void> {
 
   // Print the messages from the agent
   const messagesIterator = client.messages.list(thread.id);
-  const allMessages = [];
   for await (const m of messagesIterator) {
-    allMessages.push(m);
-  }
-  console.log("Messages:", allMessages);
-
-  // Get most recent message from the assistant
-  const assistantMessage = allMessages.find((msg) => msg.role === "assistant");
-  if (assistantMessage) {
-    const textContent = assistantMessage.content.find((content) =>
-      isOutputOfType<MessageTextContent>(content, "text"),
-    ) as MessageTextContent;
-    if (textContent) {
-      console.log(`Last message: ${textContent.text.value}`);
+    console.log(`Role: ${m.role}, Content: ${m.content}`);
+    if (m.role === "assistant") {
+      const textContent = m.content.find((content) =>
+        isOutputOfType<MessageTextContent>(content, "text"),
+      );
+      if (textContent) {
+        console.log(`Last message: ${textContent.text.value}`);
+      }
     }
   }
-
-  // Save the newly created file
-  console.log(`Saving new files...`);
-  const imageFile = (allMessages[0].content[0] as MessageImageFileContent).imageFile;
-  console.log(`Image file ID : ${imageFile.fileId}`);
-  const imageFileName = path.resolve(
-    "./data/" + (await client.files.get(imageFile.fileId)).filename + "ImageFile.png",
-  );
-
-  const fileContent = await (await client.files.getContent(imageFile.fileId).asNodeStream()).body;
-  if (fileContent) {
-    const chunks: Buffer[] = [];
-    for await (const chunk of fileContent) {
-      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-    }
-    const buffer = Buffer.concat(chunks);
-    fs.writeFileSync(imageFileName, buffer);
-  } else {
-    console.error("Failed to retrieve file content: fileContent is undefined");
-  }
-  console.log(`Saved image file to: ${imageFileName}`);
-
-  // Iterate through messages and print details for each annotation
-  console.log(`Message Details:`);
-  allMessages.forEach((m) => {
-    console.log(`File Paths:`);
-    console.log(`Type: ${m.content[0].type}`);
-    if (isOutputOfType<MessageTextContent>(m.content[0], "text")) {
-      const textContent = m.content[0] as MessageTextContent;
-      console.log(`Text: ${textContent.text.value}`);
-    }
-    console.log(`File ID: ${m.id}`);
-  });
 
   // Delete the agent once done
   await client.deleteAgent(agent.id);

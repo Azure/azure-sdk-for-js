@@ -12,7 +12,6 @@ import { AIProjectClient, EvaluatorIds } from "@azure/ai-projects";
 import type { Evaluation, EvaluationWithOptionalName } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as path from "path";
-import { fileURLToPath } from "url";
 import "dotenv/config";
 
 const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
@@ -20,8 +19,6 @@ const evaluationDeploymentName =
   process.env["EVALUATION_DEPLOYMENT_NAME"] || "<evaluation deployment name>";
 const containerConnectionName =
   process.env["AZURE_STORAGE_CONNECTION_NAME"] || "<storage connection name>";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(endpoint, new DefaultAzureCredential());

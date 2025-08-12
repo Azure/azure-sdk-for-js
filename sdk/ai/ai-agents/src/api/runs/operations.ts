@@ -4,8 +4,10 @@
 import type { AgentsContext as Client } from "../index.js";
 import type { ThreadRun, _AgentsPagedResultThreadRun, ToolOutput } from "../../models/models.js";
 import {
+  toolResourcesSerializer,
   toolDefinitionUnionArraySerializer,
   agentsResponseFormatOptionSerializer,
+  agentV1ErrorDeserializer,
   threadMessageOptionsArraySerializer,
   truncationObjectSerializer,
   agentsToolChoiceOptionSerializer,
@@ -38,11 +40,11 @@ export function _cancelRunSend(
   options: RunsCancelRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/cancel{?api%2Dversion}",
+    "/threads/{threadId}/runs/{runId}/cancel{?api-version}",
     {
       threadId: threadId,
       runId: runId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +62,9 @@ export function _cancelRunSend(
 export async function _cancelRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadRunDeserializer(result.body);
@@ -85,11 +89,11 @@ export function _submitToolOutputsToRunSend(
   options: RunsSubmitToolOutputsToRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}/submit_tool_outputs{?api%2Dversion}",
+    "/threads/{threadId}/runs/{runId}/submit_tool_outputs{?api-version}",
     {
       threadId: threadId,
       runId: runId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,8 +107,8 @@ export function _submitToolOutputsToRunSend(
       ...options.requestOptions?.headers,
     },
     body: {
-      tool_outputs: toolOutputArraySerializer(toolOutputs),
-      stream: false,
+      tool_outputs: toolOutputs.length > 0 ? toolOutputArraySerializer(toolOutputs) : undefined,
+      stream: options?.stream ?? false,
     },
   });
 }
@@ -114,7 +118,9 @@ export async function _submitToolOutputsToRunDeserialize(
 ): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadRunDeserializer(result.body);
@@ -136,6 +142,7 @@ export function submitToolOutputsToRun(
       toolOutputs,
       options,
     );
+
     return _submitToolOutputsToRunDeserialize(result);
   }
 
@@ -144,7 +151,7 @@ export function submitToolOutputsToRun(
       return executeSubmitToolOutputsToRun().then(onFulfilled, onRejected).catch(onRejected);
     },
     async stream(): Promise<AgentEventMessageStream> {
-      return submitToolOutputsToRunStreaming(context, threadId, runId, options);
+      return submitToolOutputsToRunStreaming(context, threadId, runId, toolOutputs, options);
     },
   };
 }
@@ -156,11 +163,11 @@ export function _updateRunSend(
   options: RunsUpdateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}{?api%2Dversion}",
+    "/threads/{threadId}/runs/{runId}{?api-version}",
     {
       threadId: threadId,
       runId: runId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -180,7 +187,9 @@ export function _updateRunSend(
 export async function _updateRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadRunDeserializer(result.body);
@@ -204,11 +213,11 @@ export function _getRunSend(
   options: RunsGetRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs/{runId}{?api%2Dversion}",
+    "/threads/{threadId}/runs/{runId}{?api-version}",
     {
       threadId: threadId,
       runId: runId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -226,7 +235,9 @@ export function _getRunSend(
 export async function _getRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadRunDeserializer(result.body);
@@ -249,10 +260,10 @@ export function _listRunsSend(
   options: RunsListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs{?api%2Dversion,limit,order,after,before}",
+    "/threads/{threadId}/runs{?api-version,limit,order,after,before}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -276,7 +287,9 @@ export async function _listRunsDeserialize(
 ): Promise<_AgentsPagedResultThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return _agentsPagedResultThreadRunDeserializer(result.body);
@@ -304,10 +317,10 @@ export function _createRunSend(
   options: RunsCreateRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}/runs{?api%2Dversion,include%5B%5D}",
+    "/threads/{threadId}/runs{?api-version,include%5B%5D}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       "include%5B%5D": !options?.include
         ? options?.include
         : options?.include.map((p: any) => {
@@ -334,6 +347,9 @@ export function _createRunSend(
         ? options?.additionalMessages
         : threadMessageOptionsArraySerializer(options?.additionalMessages),
       tools: !options?.tools ? options?.tools : toolDefinitionUnionArraySerializer(options?.tools),
+      tool_resources: !options?.toolResources
+        ? options?.toolResources
+        : toolResourcesSerializer(options?.toolResources),
       stream: options?.stream,
       temperature: options?.temperature,
       top_p: options?.topP,
@@ -357,10 +373,23 @@ export function _createRunSend(
 export async function _createRunDeserialize(result: PathUncheckedResponse): Promise<ThreadRun> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadRunDeserializer(result.body);
+}
+
+/** Creates a new run for an agent thread (internal implementation). */
+export async function createRunInternal(
+  context: Client,
+  threadId: string,
+  assistantId: string,
+  options: RunsCreateRunOptionalParams = { requestOptions: {} },
+): Promise<ThreadRun> {
+  const result = await _createRunSend(context, threadId, assistantId, options);
+  return _createRunDeserialize(result);
 }
 
 /** Creates a new run for an agent thread. */
@@ -371,8 +400,7 @@ export function createRun(
   options: RunsCreateRunOptionalParams = { requestOptions: {} },
 ): AgentRunResponse {
   async function executeCreateRun(): Promise<ThreadRun> {
-    const result = await _createRunSend(context, threadId, assistantId, options);
-    return _createRunDeserialize(result);
+    return createRunInternal(context, threadId, assistantId, options);
   }
 
   return {
@@ -385,6 +413,7 @@ export function createRun(
   };
 }
 
+/** Creates a new run for an agent thread with polling */
 export function createRunAndPoll(
   context: Client,
   threadId: string,
@@ -393,13 +422,17 @@ export function createRunAndPoll(
 ): PollerLike<OperationState<ThreadRun>, ThreadRun> {
   return createPoller<ThreadRun>({
     initOperation: async () => {
-      const runResponse = createRun(context, threadId, assistantId, options);
-      return runResponse;
+      return createRunInternal(context, threadId, assistantId, options);
     },
     pollOperation: async (currentRun: ThreadRun) => {
       return getRun(context, threadId, currentRun.id, options);
     },
     getOperationStatus: getLroOperationStatus,
+    getOperationError: (result: ThreadRun) => {
+      return getLroOperationStatus(result) === "failed" && result.lastError
+        ? new Error(`Operation failed: ${result.lastError.message}`)
+        : undefined;
+    },
     intervalInMs: options.pollingOptions?.intervalInMs,
   });
 }
@@ -409,6 +442,7 @@ function getLroOperationStatus(result: ThreadRun): OperationStatus {
     case "queued":
       return "notStarted";
     case "in_progress":
+      return "running";
     case "requires_action":
       return "running";
     case "completed":

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
-import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import type { KeyVaultClientOptionalParams } from "./generated/src/keyVaultClient.js";
+import { KeyVaultClient } from "./generated/src/keyVaultClient.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import type { AccessControlClientOptions } from "./accessControlModels.js";

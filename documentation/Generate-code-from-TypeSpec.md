@@ -8,7 +8,7 @@ Getting Started: Generate JS SDK with TypeSpec
 
 ## Prerequisites
 
-- [Node.js 18.x LTS](https://nodejs.org/en/download) or later
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - [Git](https://git-scm.com/downloads)
 - Local Clone of Rest API Spec Repo Fork
   - If you don't already have a fork, [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo#forking-a-repository) the [Rest API Spec Repo](https://github.com/Azure/azure-rest-api-specs).
@@ -55,7 +55,7 @@ SDK module would be generated under the SDK project folder at `sdk/<service>/<mo
 Install dependencies to use code-gen-pipeline,  
 ```ps
 npm install -g @azure-tools/typespec-client-generator-cli@0.14.1
-npm install -g @microsoft/rush@5.92.0
+npm install -g @pnpm
 npm install -g @azure-tools/js-sdk-release-tools
 ```
 
@@ -86,8 +86,7 @@ This command will automatically:
 4. Generate samples, if enabled.
 5. Create or update the `CHANGELOG.md`.
 6. Bump the version according to the Azure SDK for JS policy.
-7. If this is a new package, add it to the project items in `rush.json`.
-8. Generate or update `ci.mgmt.yml` or `ci.yml` (if the package is new).
+7. Generate or update `ci.mgmt.yml` or `ci.yml` (if the package is new).
 
 
 After all the steps finished, you can prepare the release for this generation. See [Prepare Release](#prepare-release)
@@ -114,20 +113,10 @@ tsp-client update
 ```
 
 **Notice**
-If you use tsp-client to generate code and your generated SDK is new, you need to do two extra things:
+If you use tsp-client to generate code and your generated SDK is new, you need to do one extra thing:
 
-**1**: 
-You should add your new SDK in [rush.json](https://github.com/Azure/azure-sdk-for-js/blob/main/rush.json).
-Here is the example of the config
-```
-{
-  "packageName": <your-package-name>,
-  "projectFolder": <sdk/<service>/<module>>,
-  "versionPolicyName": <"management"-or-"client">
-}
-```
 
-**2**: You should add `ci.yml` or `ci.mgmt.yml` under `sdk/<service>/<module`. `ci.yml` is for `Data Plane SDKs` and `ci.mgmt.yml` is for `Mgmt Plane SDKs`. See [Create/Update the ci.yaml](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#createupdate-the-ciyaml)
+**1**: You should add `ci.yml` or `ci.mgmt.yml` under `sdk/<service>/<module`. `ci.yml` is for `Data Plane SDKs` and `ci.mgmt.yml` is for `Mgmt Plane SDKs`. See [Create/Update the ci.yaml](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#createupdate-the-ciyaml)
 
 #### Build
 

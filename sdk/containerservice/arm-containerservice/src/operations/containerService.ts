@@ -57,11 +57,7 @@ export class ContainerServiceImpl implements ContainerService {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listNodeImageVersionsPagingPage(
-          location,
-          options,
-          settings,
-        );
+        return this.listNodeImageVersionsPagingPage(location, options, settings);
       },
     };
   }
@@ -81,11 +77,7 @@ export class ContainerServiceImpl implements ContainerService {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNodeImageVersionsNext(
-        location,
-        continuationToken,
-        options,
-      );
+      result = await this._listNodeImageVersionsNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       const page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -97,10 +89,7 @@ export class ContainerServiceImpl implements ContainerService {
     location: string,
     options?: ContainerServiceListNodeImageVersionsOptionalParams,
   ): AsyncIterableIterator<NodeImageVersion> {
-    for await (const page of this.listNodeImageVersionsPagingPage(
-      location,
-      options,
-    )) {
+    for await (const page of this.listNodeImageVersionsPagingPage(location, options)) {
       yield* page;
     }
   }
@@ -154,11 +143,7 @@ const listNodeImageVersionsOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

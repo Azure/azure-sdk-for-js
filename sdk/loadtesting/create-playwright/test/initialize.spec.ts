@@ -37,7 +37,9 @@ describe("PlaywrightServiceInitialize", () => {
     const executeCommandStub = vi.spyOn(utils, "executeCommand");
     await playwrightServiceInitialize["installServicePackage"]();
     expect(executeCommandStub).toHaveBeenCalled();
-    expect(executeCommandStub).toHaveBeenCalledWith("npm install --save-dev @azure/playwright");
+    expect(executeCommandStub).toHaveBeenCalledWith(
+      "npm install --save-dev @azure/playwright @azure/identity",
+    );
   });
 
   it("should install service package (yarn)", async () => {
@@ -49,7 +51,9 @@ describe("PlaywrightServiceInitialize", () => {
     const executeCommandStub = vi.spyOn(utils, "executeCommand");
     await playwrightServiceInitialize["installServicePackage"]();
     expect(executeCommandStub).toHaveBeenCalled();
-    expect(executeCommandStub).toHaveBeenCalledWith("yarn add --dev @azure/playwright");
+    expect(executeCommandStub).toHaveBeenCalledWith(
+      "yarn add --dev @azure/playwright @azure/identity",
+    );
   });
 
   it("should install service package (pnpm - no workspace)", async () => {
@@ -61,7 +65,9 @@ describe("PlaywrightServiceInitialize", () => {
     const executeCommandStub = vi.spyOn(utils, "executeCommand");
     await playwrightServiceInitialize["installServicePackage"]();
     expect(executeCommandStub).toHaveBeenCalled();
-    expect(executeCommandStub).toHaveBeenCalledWith("pnpm add --save-dev @azure/playwright");
+    expect(executeCommandStub).toHaveBeenCalledWith(
+      "pnpm add --save-dev @azure/playwright @azure/identity",
+    );
   });
 
   it("should install service package (pnpm - workspace)", async () => {
@@ -74,7 +80,9 @@ describe("PlaywrightServiceInitialize", () => {
     const executeCommandStub = vi.spyOn(utils, "executeCommand");
     await playwrightServiceInitialize["installServicePackage"]();
     expect(executeCommandStub).toHaveBeenCalled();
-    expect(executeCommandStub).toHaveBeenCalledWith("pnpm add --save-dev @azure/playwright");
+    expect(executeCommandStub).toHaveBeenCalledWith(
+      "pnpm add --save-dev @azure/playwright @azure/identity",
+    );
   });
 
   it("should throw error if install service package fails", async () => {

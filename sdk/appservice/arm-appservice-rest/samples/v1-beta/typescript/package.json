@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure App Service rest client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -35,7 +35,7 @@
     "@azure/identity": "^4.2.1"
   },
   "devDependencies": {
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "typescript": "~5.8.2",
     "rimraf": "latest"
   }

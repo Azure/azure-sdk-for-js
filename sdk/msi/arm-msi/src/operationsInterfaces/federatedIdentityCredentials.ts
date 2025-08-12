@@ -14,7 +14,7 @@ import {
   FederatedIdentityCredentialsCreateOrUpdateResponse,
   FederatedIdentityCredentialsGetOptionalParams,
   FederatedIdentityCredentialsGetResponse,
-  FederatedIdentityCredentialsDeleteOptionalParams
+  FederatedIdentityCredentialsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface FederatedIdentityCredentials {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: FederatedIdentityCredentialsListOptionalParams
+    options?: FederatedIdentityCredentialsListOptionalParams,
   ): PagedAsyncIterableIterator<FederatedIdentityCredential>;
   /**
    * Create or update a federated identity credential under the specified user assigned identity.
@@ -45,7 +45,7 @@ export interface FederatedIdentityCredentials {
     resourceName: string,
     federatedIdentityCredentialResourceName: string,
     parameters: FederatedIdentityCredential,
-    options?: FederatedIdentityCredentialsCreateOrUpdateOptionalParams
+    options?: FederatedIdentityCredentialsCreateOrUpdateOptionalParams,
   ): Promise<FederatedIdentityCredentialsCreateOrUpdateResponse>;
   /**
    * Gets the federated identity credential.
@@ -59,7 +59,7 @@ export interface FederatedIdentityCredentials {
     resourceGroupName: string,
     resourceName: string,
     federatedIdentityCredentialResourceName: string,
-    options?: FederatedIdentityCredentialsGetOptionalParams
+    options?: FederatedIdentityCredentialsGetOptionalParams,
   ): Promise<FederatedIdentityCredentialsGetResponse>;
   /**
    * Deletes the federated identity credential.
@@ -73,6 +73,6 @@ export interface FederatedIdentityCredentials {
     resourceGroupName: string,
     resourceName: string,
     federatedIdentityCredentialResourceName: string,
-    options?: FederatedIdentityCredentialsDeleteOptionalParams
+    options?: FederatedIdentityCredentialsDeleteOptionalParams,
   ): Promise<void>;
 }

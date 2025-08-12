@@ -9,31 +9,21 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   CapacityReservationGroup,
-  CapacityReservationGroupsListByResourceGroupOptionalParams,
   CapacityReservationGroupsListBySubscriptionOptionalParams,
+  CapacityReservationGroupsListByResourceGroupOptionalParams,
+  CapacityReservationGroupsGetOptionalParams,
+  CapacityReservationGroupsGetResponse,
   CapacityReservationGroupsCreateOrUpdateOptionalParams,
   CapacityReservationGroupsCreateOrUpdateResponse,
   CapacityReservationGroupUpdate,
   CapacityReservationGroupsUpdateOptionalParams,
   CapacityReservationGroupsUpdateResponse,
   CapacityReservationGroupsDeleteOptionalParams,
-  CapacityReservationGroupsGetOptionalParams,
-  CapacityReservationGroupsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CapacityReservationGroups. */
 export interface CapacityReservationGroups {
-  /**
-   * Lists all of the capacity reservation groups in the specified resource group. Use the nextLink
-   * property in the response to get the next page of capacity reservation groups.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: CapacityReservationGroupsListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<CapacityReservationGroup>;
   /**
    * Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the
    * response to get the next page of capacity reservation groups.
@@ -43,10 +33,31 @@ export interface CapacityReservationGroups {
     options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CapacityReservationGroup>;
   /**
+   * Lists all of the capacity reservation groups in the specified resource group. Use the nextLink
+   * property in the response to get the next page of capacity reservation groups.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: CapacityReservationGroupsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<CapacityReservationGroup>;
+  /**
+   * The operation that retrieves information about a capacity reservation group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param capacityReservationGroupName The name of the capacity reservation group.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    capacityReservationGroupName: string,
+    options?: CapacityReservationGroupsGetOptionalParams,
+  ): Promise<CapacityReservationGroupsGetResponse>;
+  /**
    * The operation to create or update a capacity reservation group. When updating a capacity reservation
    * group, only tags and sharing profile may be modified. Please refer to
    * https://aka.ms/CapacityReservation for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param parameters Parameters supplied to the Create capacity reservation Group.
    * @param options The options parameters.
@@ -60,7 +71,7 @@ export interface CapacityReservationGroups {
   /**
    * The operation to update a capacity reservation group. When updating a capacity reservation group,
    * only tags and sharing profile may be modified.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param parameters Parameters supplied to the Update capacity reservation Group operation.
    * @param options The options parameters.
@@ -76,7 +87,7 @@ export interface CapacityReservationGroups {
    * associated resources are disassociated from the reservation group and all capacity reservations
    * under the reservation group have also been deleted. Please refer to
    * https://aka.ms/CapacityReservation for more details.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param capacityReservationGroupName The name of the capacity reservation group.
    * @param options The options parameters.
    */
@@ -85,15 +96,4 @@ export interface CapacityReservationGroups {
     capacityReservationGroupName: string,
     options?: CapacityReservationGroupsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation that retrieves information about a capacity reservation group.
-   * @param resourceGroupName The name of the resource group.
-   * @param capacityReservationGroupName The name of the capacity reservation group.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    capacityReservationGroupName: string,
-    options?: CapacityReservationGroupsGetOptionalParams,
-  ): Promise<CapacityReservationGroupsGetResponse>;
 }

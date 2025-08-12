@@ -3,7 +3,11 @@
   "sdk-type": "client",
   "sideEffects": false,
   "author": "Microsoft Corporation",
+<<<<<<< HEAD
   "version": "12.1.0-beta.1",
+=======
+  "version": "12.1.0",
+>>>>>>> origin/main
   "description": "Azure Storage Common Client Library for JavaScript",
   "license": "MIT",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -20,7 +24,7 @@
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "files": [
     "dist/",
@@ -35,8 +39,8 @@
     "docs": "echo Skipped.",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix",
     "pack": "npm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
@@ -45,7 +49,13 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.19.1",
+    "@azure/core-http-compat": "^2.2.0",
+    "@azure/core-tracing": "^1.2.0",
+    "@azure/core-util": "^1.11.0",
+    "@azure/logger": "^1.1.4",
     "events": "^3.3.0",
     "tslib": "^2.8.1"
   },
@@ -54,17 +64,17 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/logger": "^1.1.4",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.6",
     "@vitest/coverage-istanbul": "^3.0.6",
     "eslint": "^9.9.0",
     "playwright": "^1.51.0",
-    "typescript": "~5.7.2",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.6"
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

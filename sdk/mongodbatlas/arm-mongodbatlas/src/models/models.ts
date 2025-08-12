@@ -158,21 +158,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** The resource model definition for an Azure Organization */
@@ -596,6 +589,47 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** The type used for update operations of the OrganizationResource. */
+export interface OrganizationResourceUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: OrganizationResourceUpdateProperties;
+}
+
+export function organizationResourceUpdateSerializer(item: OrganizationResourceUpdate): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : organizationResourceUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the OrganizationResource. */
+export interface OrganizationResourceUpdateProperties {
+  /** Details of the user. */
+  user?: UserDetails;
+  /** MongoDB properties */
+  partnerProperties?: PartnerProperties;
+}
+
+export function organizationResourceUpdatePropertiesSerializer(
+  item: OrganizationResourceUpdateProperties,
+): any {
+  return {
+    user: !item["user"] ? item["user"] : userDetailsSerializer(item["user"]),
+    partnerProperties: !item["partnerProperties"]
+      ? item["partnerProperties"]
+      : partnerPropertiesSerializer(item["partnerProperties"]),
+  };
+}
+
 /** The response of a OrganizationResource list operation. */
 export interface _OrganizationResourceListResult {
   /** The OrganizationResource items on this page */
@@ -627,6 +661,6 @@ export function organizationResourceArrayDeserializer(result: Array<Organization
 
 /** Supported versions for the MongoDB.Atlas resource model */
 export enum KnownVersions {
-  /** 2024-11-18 preview version */
-  V20241118Preview = "2024-11-18-preview",
+  /** 2025-06-01 version */
+  V20250601 = "2025-06-01",
 }

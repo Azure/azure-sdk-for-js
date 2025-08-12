@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure OpenAI client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "repository": {
     "type": "git",
@@ -30,8 +30,8 @@
   "dependencies": {
     "@azure/openai": "next",
     "dotenv": "latest",
-    "openai": "^4.84.1",
-    "@azure/identity": "^4.7.0",
+    "openai": "^5.10.1",
+    "@azure/identity": "^4.10.2",
     "zod": "^3.24.2"
   }
 }

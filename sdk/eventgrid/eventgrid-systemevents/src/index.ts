@@ -3,6 +3,7 @@
 
 export {
   KnownAcsCallEndedByKind,
+  KnownAcsCallParticipantKind,
   AcsCallEndedBy,
   AcsCallEndedByKind,
   AcsCallEndedEventData,
@@ -276,7 +277,10 @@ export {
   StorageBlobRenamedEventData,
   StorageDirectoryRenamedEventData,
   StorageLifecyclePolicyCompletedEventData,
+  KnownStorageLifecycleCompletionStatus,
+  StorageLifecycleCompletionStatus,
   StorageLifecyclePolicyActionSummaryDetail,
+  StorageLifecyclePolicyRunSummary,
   StorageBlobTierChangedEventData,
   StorageAsyncOperationInitiatedEventData,
   StorageBlobInventoryPolicyCompletedEventData,
@@ -324,6 +328,7 @@ export {
   EventGridMqttClientSessionDisconnectedEventData,
   KnownEventGridMqttClientDisconnectionReason,
   EventGridMqttClientDisconnectionReason,
+  ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
   ResourceNotificationsResourceUpdatedEventData,
   ResourceNotificationsResourceUpdatedDetails,
   ResourceNotificationsOperationalDetails,
@@ -333,7 +338,6 @@ export {
   ResourceNotificationsResourceDeletedEventData,
   ResourceNotificationsResourceDeletedDetails,
   ResourceNotificationsResourceManagementDeletedEventData,
-  KnownServiceApiVersions,
 } from "./generated/index.js";
 
 export {

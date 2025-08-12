@@ -45,7 +45,11 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
+<<<<<<< HEAD
     const packageDetails = `azsdk-js-azure-storage-file-share/12.29.0-beta.1`;
+=======
+    const packageDetails = `azsdk-js-azure-storage-file-share/12.29.0`;
+>>>>>>> origin/main
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

@@ -1,6 +1,6 @@
 ### Guide
 
-1. Build the storage-blob perf tests package `rush build -t perf-storage-file-share`.
+1. Build the storage-blob perf tests package `pnpm build --filter perf-storage-file-share...`.
 2. Copy the `sample.env` file and name it as `.env`.
 3. Create a storage account and populate the `.env` file with `STORAGE_CONNECTION_STRING` variable.
 4. Run the tests as follows

@@ -17,11 +17,11 @@ import type {
 } from "./models/options.js";
 import { communicationIdentifierModelConverter } from "./utli/converters.js";
 import { ContentDownloaderImpl } from "./contentDownloader.js";
-import * as fs from "node:fs";
+import fs from "node:fs";
 import { randomUUID } from "@azure/core-util";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { CallAutomationApiClient } from "./generated/src/index.js";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
+import { CallAutomationApiClient } from "./generated/src/index.js";
+import { createCommunicationAuthPolicy } from "@azure/communication-common";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -36,11 +36,9 @@ export class CallRecording {
     credential: KeyCredential | TokenCredential,
     options?: CallAutomationApiClientOptionalParams,
   ) {
-    this.callAutomationApiClient = createCustomCallAutomationApiClient(
-      credential,
-      options,
-      endpoint,
-    );
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
 
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
     this.contentDownloader = new ContentDownloaderImpl(this.callAutomationApiClient);

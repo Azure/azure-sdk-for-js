@@ -12,7 +12,7 @@ import {
 } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
-import { KnownRoleScope } from "../../src/generated/index.js";
+import { KnownRoleScope } from "../../src/generated/src/index.js";
 expect.extend({ toSupportTracing });
 
 describe("KeyVaultAccessControlClient", () => {

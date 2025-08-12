@@ -449,7 +449,7 @@ export interface SystemEventNameToEventData {
   /** An interface for the event data of a "Microsoft.Media.LiveEventTrackDiscontinuityDetected" event. */
   "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
   /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateChanged" event. */
-  "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
+  "Microsoft.PolicyInsights.PolicyStateChanged": PolicyInsightsPolicyStateChangedEventData;
   /** An interface for the event data of a " Microsoft.PolicyInsights.PolicyStateCreated" event. */
   "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
   /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateDeleted" event. */

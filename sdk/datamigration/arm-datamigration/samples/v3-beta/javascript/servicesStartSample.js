@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { DataMigrationManagementClient } = require("@azure/arm-datamigration");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to The services resource is the top-level resource that represents the Database Migration Service. This action starts the service and the service can be used for data migration.
+ * This sample demonstrates how to The services resource is the top-level resource that represents the Azure Database Migration Service (classic). This action starts the service and the service can be used for data migration.
  *
- * @summary The services resource is the top-level resource that represents the Database Migration Service. This action starts the service and the service can be used for data migration.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Services_Start.json
+ * @summary The services resource is the top-level resource that represents the Azure Database Migration Service (classic). This action starts the service and the service can be used for data migration.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Services_Start.json
  */
 async function servicesStart() {
-  const subscriptionId = "fc04246f-04c5-437e-ac5e-206a19e7193f";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "fc04246f-04c5-437e-ac5e-206a19e7193f";
   const groupName = "DmsSdkRg";
   const serviceName = "DmsSdkService";
   const credential = new DefaultAzureCredential();
@@ -27,4 +27,8 @@ async function servicesStart() {
   console.log(result);
 }
 
-servicesStart().catch(console.error);
+async function main() {
+  await servicesStart();
+}
+
+main().catch(console.error);

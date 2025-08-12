@@ -39,24 +39,16 @@ If your contribution is significantly big, it is better to first check with the 
 
 ## Project orchestration
 
-This project uses [Rush](https://rushjs.io) to manage many of our Azure SDK libraries within a single repository. It is highly recommended that you read the [Rush Developer Tutorials](https://rushjs.io/pages/developer/new_developer/) to familiarize yourself with the tool.
+This project uses [pnpm](https://pnpm.io/) to manage many of our Azure SDK libraries within a single repository. It is highly recommended that you read the [pnpm Documentation](https://pnpm.io/motivation) to familiarize yourself with the tool.
 
-Rush provides many benefits:
+PNPM provides many benefits:
 
-- Some of our devDependencies are not published to the public registry (e.g. our ESLint plugin), and Rush is configured to install them correctly.
-- Your local build results will match what occurs on our build server, since the build server uses Rush to build the SDK.
-- Rush will ensure that all libraries use the same versions of a given dependency, making it easier to reason about our dependency graph and reducing bundle size.
-- Rush uses [PNPM](https://pnpm.js.org) to install all dependencies across the SDK. Together they solve problems involving [phantom dependencies](https://rushjs.io/pages/advanced/phantom_deps/) and [NPM doppelgangers](https://rushjs.io/pages/advanced/npm_doppelgangers/). The way PNPM lays out packages also ensures that you can never accidentally use a dependency you don't directly declare in your package.json.
-- Dependencies between different libraries within the Azure SDK will be locally linked by default. This means you can make a local change in a library your library depends on, and it will just work without needing to use awkward "file:" paths in your package.json.
-- When a change is made in a local dependency, Rush will detect that the dependency is dirty and will rebuild it if you attempt to build a project that consumes that dependency.
-- Rush runs project tasks in parallel, subject to the inter-project dependencies that it detects. It also performs incremental builds by default, not rebuilding anything unnecessary (unless you tell it to).
-
-Not every library in the repository is managed by Rush yet, only those listed in the `projects` property in [rush.json](https://github.com/Azure/azure-sdk-for-js/blob/main/rush.json). Packages not managed by Rush can still be managed using `npm`.
-
-Check out our [wiki page on using rush](https://github.com/Azure/azure-sdk-for-js/wiki/Rush) for more information on
-
-- running `rush update` command
-- How to update to a newer version of Rush or PNPM.
+- Some of our devDependencies are not published to the public registry (e.g. our ESLint plugin), and pnpm is configured to install them correctly.
+- Your local build results will match what occurs on our build server, since the build server uses pnpm to build the SDK.
+- pnpm will ensure that all libraries use the same versions of a given dependency, making it easier to reason about our dependency graph and reducing bundle size.
+- Dependencies between different libraries within the Azure SDK will be locally linked using pnpm with catalog and workspace resolvers. This means that if you are working on a library that depends on another library in the Azure SDK, you can make changes to both libraries and test them together without having to publish the dependent library first.
+- When a change is made in a local dependency, pnpm will detect that the dependency is dirty and will rebuild it if you attempt to build a project that consumes that dependency.
+- pnpm runs project tasks in parallel, subject to the inter-project dependencies that it detects. It also performs incremental builds by default, not rebuilding anything unnecessary (unless you tell it to).
 
 ## Setting up your environment
 
@@ -88,10 +80,9 @@ If you prefer to setup your own environment instead, make sure you have these pr
 
     **[setuptools](https://pypi.org/project/setuptools/) is also a required Python library**. It can be installed using `pip install setuptools`.
 
-- Rush 5.x
-  - Install / update Rush globally via `npm install -g @microsoft/rush`.
-  - Rush will automatically manage the specific version needed by this repo as long as you have any v5 version installed.
-  - If you're unable to install a global tool, you can instead call the wrapper script `node <repo root>/common/scripts/install-run-rush.js` any time the guide instructs you to run `rush`. The wrapper script will install a managed copy of Rush in a temporary directory for you.
+- pnpm
+  - Install / update pnpm by using the [Installation Guide](https://pnpm.io/installation)
+  - pnpm will automatically manage the specific version needed by this repo.
 
 ### Building our repository
 
@@ -101,54 +92,52 @@ If you prefer to setup your own environment instead, make sure you have these pr
 
 To build all packages:
 
-4. Install and link all dependencies (`rush update`)
-5. Build the code base (`rush rebuild`)
+4. Install and link all dependencies (`pnpm install`)
+5. Build the code base (`pnpm build`)
 
-To build specific package(s), use `-t` rush command-line option:
+To build specific package(s), use `--filter=@azure/package-name...` pnpm command-line option:
 
-6. Install and link all dependencies (`rush update`)
-7. Build the package, for example, `rush build -t @azure/service-bus`. Alternatively when under the package directory, `rush build -t .`
+6. Install and link all dependencies (`pnpm install`)
+7. Build the package, for example, `pnpm build --filter=@azure/service-bus...`. Alternatively when under the package directory, `pnpm -r build`
 
 ## Development Workflows
 
 ### Installing and managing dependencies
 
-To add a new dependency (assuming the dependency is published on the NPM registry), navigate to the project's directory and run `rush add -p "<packagename>" --caret [--dev]`. This will add the dependency at its latest version to the project's package.json, and then automatically run `rush update` to install the package into the project's node_modules directory. If you know the specific version of the package you want, you can instead run `rush add -p "<packagename@^version>"` - make sure to use the caret before the version number. Do not use `npm install [--save | --save-dev]`.
+To add a new dependency (assuming the dependency is published on the NPM registry), navigate to the project's directory and run `pnpm add "<packagename>" [-D]`. This will add the dependency at its latest version to the project's package.json, and then automatically run `pnpm install` to install the package into the project's node_modules directory. If you know the specific version of the package you want, you can instead run `pnpm add "<packagename@^version>"` - make sure to use the caret before the version number. Do not use `npm install [--save | --save-dev]`.
 
-To add a dependency on another library within the Azure SDK, you can follow the same procedure as above as long as the library is also published to the NPM registry. Additionally, as long as the local copy of that library satisfies the SemVer range you specify when you run `rush add`, that library will be locally linked rather than downloaded from the registry. If the library has not yet been published to the NPM registry, you can't use `rush add`. In this case, you must manually edit the package.json to add the dependency and then run `rush update` to locally link the library into the project's node_modules directory.
+To add a dependency on another library within the Azure SDK, you can follow the same procedure as above as long as the library is also published to the NPM registry. Additionally, as long as the local copy of that library satisfies the SemVer range you specify when you run `pnpm add`, that library will be locally linked rather than downloaded from the registry. If the library has not yet been published to the NPM registry, you can't use `pnpm add`. In this case, you must manually edit the package.json to add the dependency and then run `pnpm install` to locally link the library into the project's node_modules directory.
 
-To update a dependency's version, use the same process as adding a new dependency - just specify the new version you want to use. If other libraries also use this dependency, you will likely see the `rush update` step fail because the versions are now inconsistent. See [below](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
+To update a dependency's version, use the same process as adding a new dependency - just specify the new version you want to use. If other libraries also use this dependency, you will likely see the `pnpm install` step fail because the versions are now inconsistent. See [below](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
 
-To remove a dependency, you must edit the package.json to remove the dependency and then run `rush update` to remove it from the project's node_modules directory.
+To remove a dependency, you must edit the package.json to remove the dependency and then run `pnpm install` to remove it from the project's node_modules directory.
 
-If you manually edit dependencies within the package.json for any reason, make sure to run `rush update` afterwards to update the project's node_modules directory.
+If you manually edit dependencies within the package.json for any reason, make sure to run `pnpm install` afterwards to update the project's node_modules directory.
 
-Any time you add, update, or remove dependencies, running `rush update` will generate a diff to the file `common/config/rush/pnpm-lock.yaml`. You should commit these changes - this file works similarly to NPM's package-lock.json files, except it tracks package versions for all projects in the Rush workspace. Do not check in any package-lock.json files.
+Any time you add, update, or remove dependencies, running `pnpm install` will generate a diff to the file `pnpm-lock.yaml`. You should commit these changes - this file works similarly to NPM's package-lock.json files, except it tracks package versions for all projects in the pnpm workspace. Do not check in any package-lock.json files.
 
-Because multiple pull requests may be changing `pnpm-lock.yaml` at the same time, it is very common that the first merged one will cause merge conflicts for the later ones. Please refer to [the instructions](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) on resolve PR merge conflicts for `common/config/rush/pnpm-lock.yaml`
+Because multiple pull requests may be changing `pnpm-lock.yaml` at the same time, it is very common that the first merged one will cause merge conflicts for the later ones. Please refer to [the instructions](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md) on resolve PR merge conflicts for `pnpm-lock.yaml`
 
 ### Resolving dependency version conflicts
 
-When you run `rush update`, Rush will also ensure that dependency versions are consistent across all of our packages. If they are not, the command will fail and show you all packages which use a conflicting versions of dependencies. There are a few ways to resolve this:
+When you run `pnpm install`, pnpm will also ensure that dependency versions are consistent across all of our packages. If they are not, the command will fail and show you all packages which use a conflicting versions of dependencies. There are a few ways to resolve this:
 
-First and foremost, you should make every attempt to match the versions of any dependencies your library has to those that already exist in the repository. Because we use approximate version range specifiers (e.g. "^8.0.0"), this is almost always what you want to do. There are only a few cases where this won't work.
+First and foremost, you should make every attempt to match the versions of any dependencies your library has to those that already exist in the catalog if applicable. If this dependency is not in the catalog, you should try to match the version of the dependency that is used by the majority of libraries in the repo. This will help ensure that we have a consistent set of dependencies across all libraries, which will reduce bundle size and make it easier to reason about our dependency graph.
 
-If you know your library requires functionality introduced in a newer version of the dependency, you can update the version range specifier for your library and then run `rush sync-versions` to update all other projects that use that dependency. Keep in mind that for minor versions, this is usually safe, but major version bumps may introduce breaking changes and thus any other libraries that use that dependency should be tested thoroughly before merging. Make sure to run `rush update` manually after this action to update all affected projects' node_modules directories.
+If you know your library requires functionality introduced in a newer version of the dependency, you can create a new named catalog entry for this dependency in the `pnpm-workspace.yaml` file. This will allow you to use the newer version of the dependency while still allowing other libraries to use the older version. You can then run `pnpm install` to update the lockfile and install the new version of the dependency.
 
-On the other hand, if you know your library does not work with the existing version of the dependency and you explicitly need an older version, you have a few options. The preferred option would be to update your library so that it works with the existing version of the dependency. If this is not feasible, Rush can be instructed to permit an exception to the "consistent versions" policy. Reach out to a member of the [engineering system team](mailto:azuresdkengsysteam@microsoft.com) to describe your situation and they will be able to help you add the exception.
+On the other hand, if you know your library does not work with the existing version of the dependency and you explicitly need an older version, you have a few options. The preferred option would be to update your library so that it works with the existing version of the dependency. If this is not possible, you can create a new named catalog entry for the older version of the dependency in the `pnpm-workspace.yaml` file. This will allow you to use the older version of the dependency while still allowing other libraries to use the newer version. You can then run `pnpm install` to update the lockfile and install the older version of the dependency.
 
-### Building using Rush
+### Building using pnpm
 
-Run `rush build` from anywhere in the repo to build any projects that have been modified since the last build.
-Run `rush rebuild` from anywhere in the repo to rebuild all projects from scratch.
+Run `pnpm build` from anywhere in the repo to build any projects that have been modified since the last build.
+Run `pnpm rebuild` from anywhere in the repo to rebuild all projects from scratch.
 
-Run `rush build -t <packagename>` to build a single project, and all local projects that it depends on. You can pass `-t` multiple times to build multiple projects. This works for `rush rebuild` as well. Keep in mind that Rush refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.
-
-By default, Rush only displays things written to `STDERR`. If you want to see the full output, pass `--verbose` to any of the build commands.
+Run `pnpm build --filter=<packagename>...` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. This works for `pnpm rebuild` as well. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.  To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm build --filter=@azure/communication-chat...`.  To build in the local directory for the service you wish to build, you can run `pnpm -r build` which recursively builds all projects for the current project.
 
 ### Testing
 
-If you want to run the tests of a specific project, go to that project's folder and execute `rushx test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `rushx test:node` and `rushx test:browser`.
+If you want to run the tests of a specific project, go to that project's folder and execute `pnpm test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `pnpm test:node` and `pnpm test:browser`.
 
 By default, these npm scripts run previously recorded tests. The recordings have been generated by using a custom recording library called [test-recorder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md). We will examine how to run recorded tests and live tests in the following sections.
 
@@ -164,7 +153,7 @@ Refer to the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/ma
 
 #### Live tests
 
-To use the `rushx test` command to run the tests against live resources, you must:
+To use the `pnpm test` command to run the tests against live resources, you must:
 
 - Set the environment variable `TEST_MODE` to `live`.
 - Have previously created the necessary Azure resources needed by the tests.
@@ -188,11 +177,10 @@ Here are a few [Useful Commands](https://github.com/Azure/azure-sdk-for-js/wiki/
 
 ### Other NPM scripts
 
-Most package scripts are exposed as Rush commands. Use `rushx <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Navigate to a project's directory and substitute `rushx` for `rush` to run the script for just the current project. Run `rush <scriptname> --help` for more information about each script.
+Most package scripts are exposed as pnpm commands. Use `pnpm <scriptname>` in place of `npm run <scriptname>` to run the package script in all projects. Run `pnpm <scriptname> --help` for more information about each script.
 
 All projects have at least the following scripts:
 
-- `audit`: Run `npm audit` on the project (with some workarounds for Rush)
 - `build`: Build the project's production artifacts (Node and browser bundles)
 - `build:test`: Build the project's test artifacts only
 - `check-format`: Show Prettier formatting issues within the project
@@ -212,28 +200,26 @@ Projects may optionally have the following scripts:
 
 ### Getting back to a clean state
 
-If you're having problems and want to restore your repo to a clean state without any packages installed, run `rush uninstall`. Downloaded packages will be deleted from the cache and all node_modules directories will be removed. Now you can start clean by re-downloading and installing dependencies from scratch with `rush update`. This will not make any changes to any other files in your working directory.
+If you're having problems and want to restore your repo to a clean state without any packages installed, run `pnpm clean`. Downloaded packages will be deleted from the cache and all node_modules directories will be removed. Now you can start clean by re-downloading and installing dependencies from scratch with `pnpm install`. This will not make any changes to any other files in your working directory.
 
-If you want to get back to a completely clean state, you can instead run `rush reset-workspace`. This will perform the same operations as above, but will additionally run `git clean -dfx` to remove all untracked files and directories in your working directory. This is a destructive operation - use it with caution!!
-
-### Rush for NPM users
+### PNPM for NPM users
 
 Generally speaking, the following commands are roughly equivalent:
 
-| NPM command                          | Rush command                            | Rush command effect                                              |
-| ------------------------------------ | --------------------------------------- | ---------------------------------------------------------------- |
-| `npm install`                        | `rush update`                           | Install dependencies for all projects in the Rush workspace      |
-| `npm install --save[-dev] <package>` | `rush add -p <package> --caret [--dev]` | Add or update a dependency in the current project                |
-| `npm build`                          | `rush [re]build`                        | Build all projects in the Rush workspace                         |
-|                                      | `rush [re]build -t <package>`           | Build named project and any projects it depends on               |
-|                                      | `rushx build`                           | Build the current project only                                   |
-| `npm test`                           | `rush test`                             | Run dev tests in all projects in the Rush workspace              |
-|                                      | `rush test -t <packagename>`            | Run dev tests in named project and any projects it depends on    |
-|                                      | `rushx test`                            | Run dev tests in the current project only                        |
-| `npm run <scriptname>`               | `rush <scriptname>`                     | Run named script in all projects in the Rush workspace           |
-|                                      | `rush <scriptname> -t <packagename>`    | Run named script in named project and any projects it depends on |
-|                                      | `rushx <scriptname>`                    | Run named script in the current project only                     |
-| `npx <command>`                      | `node_modules/.bin/<command>`           | Run named command provided by installed dependency package       |
+| NPM command                          | pnpm command                                  | pnpm command effect                                              |
+| ------------------------------------ | --------------------------------------------- | ---------------------------------------------------------------- |
+| `npm install`                        | `pnpm install`                                | Install dependencies for all projects in the pnpm workspace      |
+| `npm install --save[-dev] <package>` | `pnpm add -p <package> [-D]`                  | Add or update a dependency in the current project                |
+| `npm build`                          | `pnpm [re]build`                              | Build all projects in the pnpm workspace                         |
+|                                      | `pnpm [re]build --filter=<package>...`        | Build named project and any projects it depends on               |
+|                                      | `pnpm build`                                  | Build the current project only                                   |
+| `npm test`                           | `pnpm test`                                   | Run dev tests in all projects in the pnpm workspace              |
+|                                      | `pnpm test --filter=<packagename>...`         | Run dev tests in named project and any projects it depends on    |
+|                                      | `pnpm test`                                   | Run dev tests in the current project only                        |
+| `npm run <scriptname>`               | `pnpm <scriptname>`                           | Run named script in all projects in the pnpm workspace           |
+|                                      | `pnpm <scriptname> --filter=<packagename>...` | Run named script in named project and any projects it depends on |
+|                                      | `pnpm <scriptname>`                           | Run named script in the current project only                     |
+| `npx <command>`                      | `npx <command>`                               | Run named command provided by installed dependency package       |
 
 ### Documentation
 
@@ -246,14 +232,14 @@ In the case where you do not want to generate documentation for a specific defin
 
 To maintain the quality of the documentation, the following two facilities are provided:
 
-- an [ESLint plugin](https://github.com/microsoft/tsdoc/tree/master/eslint-plugin) is used to check that our comments are well-formed TSDoc comments and it can be run using `rushx lint`
+- an [ESLint plugin](https://github.com/microsoft/tsdoc/tree/master/eslint-plugin) is used to check that our comments are well-formed TSDoc comments and it can be run using `pnpm lint`
 - documentation artifacts are generated in pull request checks Azure Pipelines. They can be downloaded, extracted to local disk, and inspected by opening `azure-<package name>/<version>/index.html` in your favorite browser. Click on "xx published; xx consumed" under **Related**, expand packages > azure-xxxxx > documentation then download the azure-xxxxx.zip file.
 
 TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, the `@hidden` tag is used which is only supported by TypeDoc and is not a TSDoc tag, so it is added as a custom tag in `tsdoc.json`.
 
 ### Formatting changed files
 
-We used to have a git hook that formats your changed files on commit but it was removed because it did not work well for some people for various reasons. If you would like to enable it in your fork, you will need to just revert this [PR](https://github.com/Azure/azure-sdk-for-js/pull/13982/) in your branch and then run `rush update` so the hook script gets copied into `.git/hooks`. Moreover, without the hook, you can manually format changed files by invoking `rushx format` under your package directory.
+We used to have a git hook that formats your changed files on commit but it was removed because it did not work well for some people for various reasons. If you would like to enable it in your fork, you will need to just revert this [PR](https://github.com/Azure/azure-sdk-for-js/pull/13982/) in your branch and then run `pnpm install` so the hook script gets copied into `.git/hooks`. Moreover, without the hook, you can manually format changed files by invoking `pnpm format` under your package directory.
 
 ### Enforcing Azure SDK design guidelines
 
@@ -262,9 +248,9 @@ Our libraries follow the [TypeScript SDK design guidelines](https://azure.github
 - [add `eslint` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L106)
 - [add `eslint-plugin-azure-sdk` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L93)
 - add a linting npm script as follows:
-  - ["lint": "eslint package.json api-extractor.json src test"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
+  - ["lint": "eslint package.json src test"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
 
-You can run the plugin by executing `rushx lint` inside your package directory. You need to build the plugin at least once either directly via `rush build -t eslint-plugin-azure-sdk`, or indirectly as your package's dependency by `rush build -t .` under your package directory.
+You can run the plugin by executing `pnpm lint` inside your package directory. You need to build the plugin at least once either directly via `pnpm build --filter@azure-tools/eslint-plugin-azure-sdk...`, or indirectly as your package's dependency by `pnpm build ...` under your package directory.
 
 If the package is internal, it should not follow the design guidelines and in turn should not be linted using the same set of rules. In this case, use the an internal config from `eslint-plugin-azure-sdk` instead. For example: `"lint": "eslint src test"` with the following eslint.config.mjs
 
@@ -280,23 +266,21 @@ All libraries must follow our [repository structure](https://github.com/Azure/az
 
 The repository contains two different sets of libraries, each follows different rules for development and maintaining. The first type is generated automatically from the [swagger specifications](https://github.com/Azure/azure-rest-api-specs) and their code should not be edited by hand. Onboarding such library is just a matter of pushing its auto-generated directory to the right location in the repository.
 
-The second type of libraries is more complex to develop and maintain because they require a custom design that is not necessarily mirroring the swagger specification, if any, and they are handcrafted by our engineers. To add a new such library to the repository, update `rush.json` in the root of the repo and add a new entry to the `projects` array at the bottom of the file. The package name must be the full name of the package as specified in its package.json. Once the library is added, run `rush update` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
-
-Rush assumes that anything printed to `STDERR` is a warning. Your package scripts should avoid writing to `STDERR` unless emitting warnings or errors, since this will cause Rush to flag them as warnings during the execution of your build or script command. If your library uses a tool that can't be configured this way, you can still append `2>&1` to the command which will redirect all output to `STDOUT`. You won't see warnings show up, but Rush will still consider the command to have failed as long as it returns a nonzero exit code.
+The second type of libraries is more complex to develop and maintain because they require a custom design that is not necessarily mirroring the swagger specification, if any, and they are handcrafted by our engineers. To add a new such library to the repository, ensure that the project will be picked up in the `pnpm-workspace.yaml`.  Once the library is added, run `pnpm install` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
 
 In general, it's recommended to avoid using NPM [hook scripts](https://docs.npmjs.com/misc/scripts) (those starting with `pre` / `post`). The build system will always explicitly run the `install`, `build`, `build:test`, `pack`, `lint`, and `test` scripts at the appropriate times during the build. Adding hooks that perform steps like installing dependencies or compiling the source code will at best slow down the build, and at worst may lead to difficult to diagnose build failures.
 
-Because Rush uses PNPM to download and manage dependencies, it's **_especially_** important to make sure that none of your package scripts are calling `npm install` when your library is built via the Rush toolchain. Most commonly this occurs in a `prepack` or `prebuild` script. Ensure your library does not contain these scripts - or if you determine that such a script is required, ensure that it doesn't run `npm install`.
+Because pnpm is used, it's **_especially_** important to make sure that none of your package scripts are calling `npm install` when your library is built via the pnpm toolchain. Most commonly this occurs in a `prepack` or `prebuild` script. Ensure your library does not contain these scripts - or if you determine that such a script is required, ensure that it doesn't run `npm install`.
 
 ### Issues with Rollup
 
-Rollup must be manually configured to work correctly when symlinks are created in your node_modules (as Rush does). Each of your Rollup configuration objects must contain the following setting:
+Rollup must be manually configured to work correctly when symlinks are created in your node_modules (as pnpm does). Each of your Rollup configuration objects must contain the following setting:
 
 ```
 preserveSymlinks: false
 ```
 
-Additionally, when adopting the Rush workflow you will likely see Rollup emitting many "not exported" errors like the following when generating your browser bundle:
+Additionally, when adopting the pnpm workflow you will likely see Rollup emitting many "not exported" errors like the following when generating your browser bundle:
 
 ```
 equal is not exported by ..\..\..\common\temp\node_modules\.registry.npmjs.org\assert\1.4.1\node_modules\assert\assert.js

@@ -1,6 +1,6 @@
 {
   "name": "@azure/create-playwright",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.3",
   "description": "Package to setup @azure/playwright",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/create-playwright/README.md",
   "sdk-type": "client",
@@ -18,7 +18,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "sideEffects": false,
   "type": "module",
@@ -78,7 +78,7 @@
     }
   },
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

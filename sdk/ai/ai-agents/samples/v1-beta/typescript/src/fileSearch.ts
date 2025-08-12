@@ -67,7 +67,7 @@ export async function main(): Promise<void> {
       intervalInMs: 2000,
     },
     onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);
@@ -79,11 +79,9 @@ export async function main(): Promise<void> {
     );
     threadMessage.content.forEach((content: MessageContent) => {
       if (isOutputOfType<MessageTextContent>(content, "text")) {
-        const textContent = content as MessageTextContent;
-        console.log(`Text Message Content - ${textContent.text.value}`);
+        console.log(`Text Message Content - ${content.text.value}`);
       } else if (isOutputOfType<MessageImageFileContent>(content, "image_file")) {
-        const imageContent = content as MessageImageFileContent;
-        console.log(`Image Message Content - ${imageContent.imageFile.fileId}`);
+        console.log(`Image Message Content - ${content.imageFile.fileId}`);
       }
     });
   }

@@ -6,17 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { Services } from "../operationsInterfaces/index.js";
+import { Services } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { SearchManagementClient } from "../searchManagementClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import { SearchManagementClient } from "../searchManagementClient.js";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import type {
+import {
   SearchService,
   ServicesListByResourceGroupNextOptionalParams,
   ServicesListByResourceGroupOptionalParams,
@@ -174,7 +173,7 @@ export class ServicesImpl implements Services {
    * @param searchServiceName The name of the Azure AI Search service to create or update. Search service
    *                          names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or
    *                          last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in
-   *                          length. Search service names must be globally unique since they are part of the service URI
+   *                          length. Search service names must be unique since they are part of the service URI
    *                          (https://<name>.search.windows.net). You cannot change the service name after the service is
    *                          created.
    * @param service The definition of the search service to create or update.
@@ -249,7 +248,7 @@ export class ServicesImpl implements Services {
    * @param searchServiceName The name of the Azure AI Search service to create or update. Search service
    *                          names must only contain lowercase letters, digits or dashes, cannot use dash as the first two or
    *                          last one characters, cannot contain consecutive dashes, and must be between 2 and 60 characters in
-   *                          length. Search service names must be globally unique since they are part of the service URI
+   *                          length. Search service names must be unique since they are part of the service URI
    *                          (https://<name>.search.windows.net). You cannot change the service name after the service is
    *                          created.
    * @param service The definition of the search service to create or update.

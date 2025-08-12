@@ -39,5 +39,3 @@ extends:
         safeName: azureeventhubscheckpointstoreblob
       - name: azure-eventhubs-checkpointstore-table
         safeName: azureeventhubscheckpointstoretable
-      - name: azure-tools-mock-hub
-        safeName: azuretoolsmockhub

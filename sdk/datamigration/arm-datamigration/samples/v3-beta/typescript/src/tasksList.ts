@@ -22,11 +22,7 @@ async function tasksList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.tasks.list(
-    groupName,
-    serviceName,
-    projectName
-  )) {
+  for await (const item of client.tasks.list(groupName, serviceName, projectName)) {
     resArray.push(item);
   }
   console.log(resArray);

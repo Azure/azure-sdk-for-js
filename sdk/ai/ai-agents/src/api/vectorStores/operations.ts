@@ -4,6 +4,7 @@
 import { AgentsContext as Client } from "../index.js";
 import {
   vectorStoreConfigurationSerializer,
+  agentV1ErrorDeserializer,
   _AgentsPagedResultVectorStore,
   _agentsPagedResultVectorStoreDeserializer,
   VectorStore,
@@ -63,7 +64,9 @@ export async function _deleteVectorStoreDeserialize(
 ): Promise<VectorStoreDeletionStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return vectorStoreDeletionStatusDeserializer(result.body);
@@ -116,7 +119,9 @@ export async function _modifyVectorStoreDeserialize(
 ): Promise<VectorStore> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return vectorStoreDeserializer(result.body);
@@ -161,7 +166,9 @@ export async function _getVectorStoreDeserialize(
 ): Promise<VectorStore> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return vectorStoreDeserializer(result.body);
@@ -220,7 +227,9 @@ export async function _createVectorStoreDeserialize(
 ): Promise<VectorStore> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return vectorStoreDeserializer(result.body);
@@ -302,7 +311,9 @@ export async function _listVectorStoresDeserialize(
 ): Promise<_AgentsPagedResultVectorStore> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return _agentsPagedResultVectorStoreDeserializer(result.body);

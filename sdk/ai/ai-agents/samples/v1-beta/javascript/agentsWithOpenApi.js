@@ -60,21 +60,19 @@ async function main() {
       intervalInMs: 2000,
     },
     onResponse: (response) => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);
   // Get most recent message from the assistant
   const messagesIterator = client.messages.list(thread.id);
-  const messages = [];
   for await (const m of messagesIterator) {
-    messages.push(m);
-  }
-  const assistantMessage = messages.find((msg) => msg.role === "assistant");
-  if (assistantMessage) {
-    const textContent = assistantMessage.content.find((content) => isOutputOfType(content, "text"));
-    if (textContent) {
-      console.log(`Last message: ${textContent.text.value}`);
+    if (m.role === "assistant") {
+      const textContent = m.content?.find((content) => isOutputOfType(content, "text"));
+      if (textContent) {
+        console.log(`Last message: ${textContent.text.value}`);
+      }
+      break;
     }
   }
   // Delete the agent once done

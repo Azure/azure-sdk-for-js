@@ -3,16 +3,16 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for WebSiteManagementClient.",
-  "version": "16.0.1",
+  "version": "17.0.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
     "@azure/core-lro": "^2.5.4",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-paging": "^1.6.2",
+    "@azure/core-client": "^1.9.2",
+    "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.19.0",
     "tslib": "^2.8.1"
   },
@@ -28,19 +28,20 @@
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "type": "module",
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "typescript": "~5.8.2",
+    "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.7.0",
+    "@azure/identity": "^4.6.0",
     "@azure/logger": "^1.1.4",
-    "@types/node": "^18.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
-    "dotenv": "^16.0.0",
-    "playwright": "^1.50.1",
-    "typescript": "~5.6.2",
+    "playwright": "^1.52.0",
     "vitest": "^3.0.9"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -51,7 +52,7 @@
     "dist/",
     "README.md",
     "LICENSE",
-    "review/",
+    "review/*",
     "CHANGELOG.md"
   ],
   "scripts": {
@@ -81,18 +82,10 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-appservice?view=azure-node-preview"
-  },
-  "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -107,8 +100,15 @@
     ],
     "selfLink": false
   },
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice",
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-appservice?view=azure-node-preview"
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

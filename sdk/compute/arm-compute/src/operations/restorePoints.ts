@@ -18,12 +18,12 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
+  RestorePointsGetOptionalParams,
+  RestorePointsGetResponse,
   RestorePoint,
   RestorePointsCreateOptionalParams,
   RestorePointsCreateResponse,
   RestorePointsDeleteOptionalParams,
-  RestorePointsGetOptionalParams,
-  RestorePointsGetResponse,
 } from "../models/index.js";
 
 /** Class containing RestorePoints operations. */
@@ -39,9 +39,33 @@ export class RestorePointsImpl implements RestorePoints {
   }
 
   /**
+   * The operation to get the restore point.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
+   * @param restorePointName The name of the restore point.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    restorePointCollectionName: string,
+    restorePointName: string,
+    options?: RestorePointsGetOptionalParams,
+  ): Promise<RestorePointsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        restorePointCollectionName,
+        restorePointName,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * The operation to create the restore point. Updating properties of an existing restore point is not
    * allowed
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param parameters Parameters supplied to the Create restore point operation.
@@ -114,6 +138,7 @@ export class RestorePointsImpl implements RestorePoints {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -122,7 +147,7 @@ export class RestorePointsImpl implements RestorePoints {
   /**
    * The operation to create the restore point. Updating properties of an existing restore point is not
    * allowed
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param parameters Parameters supplied to the Create restore point operation.
@@ -147,8 +172,8 @@ export class RestorePointsImpl implements RestorePoints {
 
   /**
    * The operation to delete the restore point.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the Restore Point Collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param options The options parameters.
    */
@@ -209,6 +234,7 @@ export class RestorePointsImpl implements RestorePoints {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -216,8 +242,8 @@ export class RestorePointsImpl implements RestorePoints {
 
   /**
    * The operation to delete the restore point.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the Restore Point Collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param restorePointCollectionName The name of the restore point collection.
    * @param restorePointName The name of the restore point.
    * @param options The options parameters.
    */
@@ -235,55 +261,57 @@ export class RestorePointsImpl implements RestorePoints {
     );
     return poller.pollUntilDone();
   }
-
-  /**
-   * The operation to get the restore point.
-   * @param resourceGroupName The name of the resource group.
-   * @param restorePointCollectionName The name of the restore point collection.
-   * @param restorePointName The name of the restore point.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    restorePointCollectionName: string,
-    restorePointName: string,
-    options?: RestorePointsGetOptionalParams,
-  ): Promise<RestorePointsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        restorePointCollectionName,
-        restorePointName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}",
-  httpMethod: "PUT",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RestorePoint,
-    },
-    201: {
-      bodyMapper: Mappers.RestorePoint,
-    },
-    202: {
-      bodyMapper: Mappers.RestorePoint,
-    },
-    204: {
       bodyMapper: Mappers.RestorePoint,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters29,
+  queryParameters: [Parameters.apiVersion, Parameters.expand10],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.restorePointCollectionName,
+    Parameters.restorePointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RestorePoint,
+      headersMapper: Mappers.RestorePointsCreateHeaders,
+    },
+    201: {
+      bodyMapper: Mappers.RestorePoint,
+      headersMapper: Mappers.RestorePointsCreateHeaders,
+    },
+    202: {
+      bodyMapper: Mappers.RestorePoint,
+      headersMapper: Mappers.RestorePointsCreateHeaders,
+    },
+    204: {
+      bodyMapper: Mappers.RestorePoint,
+      headersMapper: Mappers.RestorePointsCreateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters34,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -309,28 +337,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.restorePointCollectionName,
-    Parameters.restorePointName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{restorePointName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RestorePoint,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand7],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

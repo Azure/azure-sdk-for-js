@@ -68,7 +68,7 @@ export async function main(): Promise<void> {
     },
     {
       type: "image_url",
-      image_url: {
+      imageUrl: {
         url: imageDataUrl,
         detail: "high",
       },
@@ -85,7 +85,7 @@ export async function main(): Promise<void> {
       intervalInMs: 2000,
     },
     onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);
@@ -107,11 +107,9 @@ export async function main(): Promise<void> {
   }
 
   const messagesIterator = client.messages.list(thread.id);
-  const allMessages = [];
   for await (const m of messagesIterator) {
-    allMessages.push(m);
+    console.log(`Role: ${m.role}, Content: ${m.content}`);
   }
-  console.log("Messages:", allMessages);
 }
 
 main().catch((error) => {

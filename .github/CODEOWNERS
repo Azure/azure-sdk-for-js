@@ -73,7 +73,7 @@
 
 # PRLabel: %Communication - Call Automation
 # ServiceLabel: %Communication - Call Automation
-/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas
+/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas @v-dharmarajv
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -135,12 +135,18 @@
 # ServiceLabel: %Digital Twins
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
-# PRLabel: %Event Grid
-/sdk/eventgrid/ @xirzec
+# PRLabel: %Durable Task Scheduler
+/sdk/durabletask/ @berndverst @kaibocai @torosent @philliphoff @cgillum
 
-# AzureSdkOwners: @xirzec
+# ServiceLabel: %Durable Task Scheduler
+# ServiceOwners: @berndverst @kaibocai @torosent @philliphoff @cgillum
+
+# PRLabel: %Event Grid
+/sdk/eventgrid/ @shankarsama @rajeshka
+
+# AzureSdkOwners: @shankarsama @rajeshka
 # ServiceLabel: %Event Grid
-# ServiceOwners: @robece
+# ServiceOwners: @shankarsama @rajeshka
 
 # PRLabel: %Event Hubs
 /sdk/eventhub/ @xirzec
@@ -164,10 +170,10 @@
 # AzureSdkOwners:  @KarishmaGhiya @maorleger
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @maorleger @timovv
+/sdk/keyvault/ @maorleger @timovv @Azure/azure-sdk-write-keyvault
 
 # ServiceLabel: %KeyVault
-# AzureSdkOwners:  @maorleger @timovv
+# AzureSdkOwners:  @maorleger @timovv @Azure/azure-sdk-write-keyvault
 
 # PRLabel: %OpenTelemetryInstrumentation
 /sdk/instrumentation/ @maorleger
@@ -256,22 +262,22 @@
 # ServiceOwners: @trrwilson
 
 # PRLabel: %OpenAI
-/sdk/openai/ @mikhail @trrwilson @deyaaeldeen @minhanh-phan
+/sdk/openai/ @trrwilson @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
-sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
+/sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %AI Model Inference
 # ServiceOwners: @glharper @dargilco
 
 # PRLLabel: %AI Projects
-sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
+/sdk/ai/ai-projects @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # ServiceLabel: %AI Projects
 # ServiceOwners: @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # PRLLabel: %AI Agents
-sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
+/sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # ServiceLabel: %AI Agents
 # ServiceOwners: @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
@@ -322,7 +328,7 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # PRLabel: %Microsoft Playwright Testing
 # ServiceLabel: %Microsoft Playwright Testing
-/sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
+/sdk/playwrighttesting/ @puagarwa @ShreyaAnand
 
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing
@@ -438,6 +444,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 /sdk/compute/arm-compute/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/cloudhealth/arm-cloudhealth/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/compute/arm-compute-rest/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -481,6 +490,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # PRLabel: %Mgmt
 /sdk/databox/arm-databox/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/dell/arm-dell-storage/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/dashboard/arm-dashboard/ @qiaozha @MaryGao
@@ -666,6 +678,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration-fluxconfigurations/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-privatelinkscopes/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/kubernetesruntime/arm-containerorchestratorruntime/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -694,6 +709,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # PRLabel: %Mgmt
 /sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/playwright/arm-playwright/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/locks/arm-locks/ @qiaozha @MaryGao
@@ -816,6 +834,9 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 /sdk/policy/arm-policy/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/planetarycomputer/arm-planetarycomputer/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/policy/arm-policy-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -886,6 +907,12 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resources/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/resources/arm-resourcesbicep/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/resources/arm-resourcesdeployments/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/resources/arm-resources-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
@@ -1047,12 +1074,13 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 /sdk/workloads/arm-workloadssapvirtualinstance/ @qiaozha @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
+/sdk/monitor/monitor-ingestion/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
-/sdk/monitor/monitor-opentelemetry @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber
-/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber
+/sdk/monitor/monitor-opentelemetry @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber @lzchen @jeremydvoss
+/sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber @lzchen @jeremydvoss
 
-/sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
+/sdk/monitor/monitor-query/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
+/sdk/monitor/monitor-query-metrics/ @Azure/azure-sdk-write-monitor-query-metrics
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
 # PRLabel: %Mgmt
@@ -1318,7 +1346,7 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 #/<NotInRepo>/          @madhurinms
 
 # ServiceLabel: %KeyVault %Service Attention
-#/<NotInRepo>/          @cheathamb36 @chen-karen @vickm
+#/<NotInRepo>/          @cheathamb36 @chen-karen @vickm @Azure/azure-sdk-write-keyvault
 
 # ServiceLabel: %Kubernetes Configuration %Service Attention
 #/<NotInRepo>/          @NarayanThiru
@@ -1608,12 +1636,19 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 # ServiceLabel: %Consumption - RIandShowBack %Service Attention
 #/<NotInRepo>/          @ccmshowbackdevs
 
+# PRLabel: %Mgmt
+sdk/storagediscovery/arm-storagediscovery/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
 /.vscode/ @mikeharder @deyaaeldeen @jeremymeng
 /common/ @mikeharder @deyaaeldeen @jeremymeng
-/common/config/rush/pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
+/package.json @jeremymeng @Azure/azure-sdk-js-dev
+/turbo.json @jeremymeng @Azure/azure-sdk-js-dev
+/pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
+/pnpm-workspace.yaml @jeremymeng @Azure/azure-sdk-js-dev
+
 # Smoke Tests
 /common/smoke-test/ @mikeharder @jeremymeng @deyaaeldeen @benbp
 
@@ -1632,15 +1667,17 @@ sdk/ai/ai-agents @ganeshyb @glharper @dargilco @jhakulin @ZachhK @bobogogo1990
 
 /rush.json @mikeharder @jeremymeng @Azure/azure-sdk-js-dev
 
-/tsconfig.json @mikeharder @Azure/azure-sdk-for-js-core
+/tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
 /**/tsconfig.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
 /sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder
-/vitest.shared.config.ts @jeremymeng @deyaaeldeen
-/vitest.browser.shared.config.ts @jeremymeng @deyaaeldeen
+/.scripts/automation_generate.sh @wanlwanl @lirenhe
+/.scripts/automation_init.sh @wanlwanl @lirenhe
+/vitest.*.config.ts @jeremymeng @deyaaeldeen
+/vitest.workspace.ts @jeremymeng @deyaaeldeen
 
 # PRLabel: %Mgmt
 /**/ci.mgmt.yml   @qiaozha @MaryGao

@@ -51,9 +51,9 @@ describe("cancelablePromiseRace", function () {
   let function1Aborted = false;
   let function2Aborted = false;
   let function3Aborted = false;
-  const function1Delay = 100;
-  let function2Delay = 200;
-  const function3Delay = 2000; // Default: function1Delay < function2Delay < function3Delay
+  const function1Delay = 1000;
+  let function2Delay = 2000;
+  const function3Delay = 5000; // Default: function1Delay < function2Delay < function3Delay
   const function2Message = "function 2 is rejected";
   const function3Message = "function 3 is rejected";
 
@@ -112,7 +112,7 @@ describe("cancelablePromiseRace", function () {
     // reset to default values
     function1Aborted = false;
     function2Aborted = false;
-    function2Delay = 200;
+    function2Delay = 2000;
     function3Aborted = false;
   });
 

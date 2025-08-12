@@ -1,5 +1,34 @@
 # Release History
 
+## 4.5.0 (2025-07-21)
+
+### Features Added
+
+- PPAF (Per Partition Automatic Failover) Support: This feature adds support for Per Partition Automatic Failover (PPAF) and Per Partition Circuit Breaker (PPCB) allowing failover to different regions on a per partition basis instead of account level failovers increasing the availability and reducing the operation latencies on the client side. [docs](https://learn.microsoft.com/azure/cosmos-db/how-to-configure-per-partition-automatic-failover)
+
+The following sample shows how to enable PPAF and PPCB. If `enablePartitionLevelFailover` is set to `true`, by default `enablePartitionLevelCircuitBreaker` will also be set to `true`.
+
+```js
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: {
+    ...defaultConnectionPolicy,
+    enablePartitionLevelFailover: true,
+    enablePartitionLevelCircuitBreaker: true,
+  },
+});
+```
+
+### Bugs Fixed
+
+- [#35054](https://github.com/Azure/azure-sdk-for-js/pull/35054) Fixed an issue with COUNTIF aggregation which ensures that partial results from multiple partitions or batches are correctly summed, producing accurate results for COUNTIF queries.
+- [#35049](https://github.com/Azure/azure-sdk-for-js/pull/35049) Moved `@azure/logger` from the devDependencies to the runtime dependencies in the Cosmos DB client package, ensuring that client loggers can be created at runtime.
+- [#35189](https://github.com/Azure/azure-sdk-for-js/pull/35189) Fixed the RU calculation bug where RU (Request Unit) charges were not aggregated when document producer returned empty responses.
+- [#34765](https://github.com/Azure/azure-sdk-for-js/pull/34765) Fixed partition key extraction bug enhancing the partition key extraction logic to correctly handle migrated containers using the systemKey flag.
+- [#32044](https://github.com/Azure/azure-sdk-for-js/pull/32044) Fixed an issue of Client retrying 120*120 times on an inaccessible endpoint.
+- [#34933](https://github.com/Azure/azure-sdk-for-js/pull/34933) Fixed an issue of SDK throwing an error on executing parameterized RRF queries.
+
 ## 4.4.1 (2025-05-15)
 
 ### Bugs Fixed

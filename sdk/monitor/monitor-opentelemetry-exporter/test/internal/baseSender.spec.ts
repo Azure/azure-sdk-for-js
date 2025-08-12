@@ -4,7 +4,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { diag } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
-import { RetriableRestErrorTypes } from "../../src/Declarations/Constants.js";
+import {
+  RetriableRestErrorTypes,
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
+} from "../../src/Declarations/Constants.js";
 import type { SenderResult } from "../../src/types.js";
 
 // Mock dependencies
@@ -89,6 +92,25 @@ vi.mock("../../src/export/statsbeat/longIntervalStatsbeatMetrics.js", () => {
   };
 });
 
+export const mockCustomerSDKStatsMetrics = {
+  countSuccessfulItems: vi.fn(),
+  countDroppedItems: vi.fn(),
+  countRetryItems: vi.fn(),
+  isTimeoutError: vi.fn(),
+  shutdown: vi.fn(),
+};
+
+vi.mock("../../src/export/statsbeat/customerSDKStats.js", () => {
+  return {
+    CustomerSDKStatsMetrics: {
+      getInstance: vi.fn().mockImplementation(() => {
+        return mockCustomerSDKStatsMetrics;
+      }),
+      shutdown: vi.fn(),
+    },
+  };
+});
+
 vi.mock("../../src/utils/breezeUtils.js", () => {
   const actual = vi.importActual("../../src/utils/breezeUtils.js");
   return {
@@ -108,6 +130,7 @@ vi.mock("../../src/utils/breezeUtils.js", () => {
 });
 
 // Now import the BaseSender which will use our mocked dependencies
+import "../../src/platform/nodejs/index.js"; // Import this first to avoid circular dependencies
 import { BaseSender } from "../../src/platform/nodejs/baseSender.js";
 
 // Test implementation of BaseSender
@@ -141,6 +164,10 @@ class TestBaseSender extends BaseSender {
     });
     Object.defineProperty(this, "longIntervalStatsbeatMetrics", {
       value: mockLongIntervalStats,
+      writable: true,
+    });
+    Object.defineProperty(this, "customerSDKStatsMetrics", {
+      value: mockCustomerSDKStatsMetrics,
       writable: true,
     });
     Object.defineProperty(this, "persister", {
@@ -462,6 +489,9 @@ describe("BaseSender", () => {
       const nonRetriableError: any = new Error("Bad request");
       nonRetriableError.statusCode = 400;
 
+      // Mock isTimeoutError to return false so timeout logic isn't triggered
+      mockCustomerSDKStatsMetrics.isTimeoutError.mockReturnValue(false);
+
       sender.sendMock.mockRejectedValue(nonRetriableError);
 
       const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
@@ -524,6 +554,276 @@ describe("BaseSender", () => {
       await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
       expect(diag.error).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("Performance Counter Detection", () => {
+    it("should count performance counter metrics correctly", async () => {
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "",
+      });
+
+      // Create a performance counter metric envelope
+      const performanceCounterEnvelope = {
+        name: "test",
+        time: new Date(),
+        data: {
+          baseType: "MetricData",
+          baseData: {
+            version: 2,
+            metrics: [
+              {
+                name: "\\Process(??APP_WIN32_PROC??)\\Private Bytes", // This is a performance counter
+                value: 1024,
+              },
+            ],
+          },
+        },
+      };
+
+      await sender.exportEnvelopes([performanceCounterEnvelope]);
+
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+        performanceCounterEnvelope,
+      ]);
+    });
+
+    it("should count custom metrics correctly", async () => {
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "",
+      });
+
+      // Create a custom metric envelope
+      const customMetricEnvelope = {
+        name: "test",
+        time: new Date(),
+        data: {
+          baseType: "MetricData",
+          baseData: {
+            version: 2,
+            metrics: [
+              {
+                name: "my_custom_metric", // This is NOT a performance counter
+                value: 42,
+              },
+            ],
+          },
+        },
+      };
+
+      await sender.exportEnvelopes([customMetricEnvelope]);
+
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+        customMetricEnvelope,
+      ]);
+    });
+
+    it("should handle mixed metrics correctly", async () => {
+      sender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      sender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "",
+      });
+
+      // Create an envelope with mixed metrics (contains at least one performance counter)
+      const mixedMetricEnvelope = {
+        name: "test",
+        time: new Date(),
+        data: {
+          baseType: "MetricData",
+          baseData: {
+            version: 2,
+            metrics: [
+              {
+                name: "my_custom_metric", // Custom metric
+                value: 42,
+              },
+              {
+                name: "\\Memory\\Available Bytes", // Performance counter
+                value: 8192,
+              },
+            ],
+          },
+        },
+      };
+
+      await sender.exportEnvelopes([mixedMetricEnvelope]);
+
+      // Should be counted as performance counter since it contains at least one
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+        mixedMetricEnvelope,
+      ]);
+    });
+  });
+
+  describe("Customer SDK Stats Exception Message Handling", () => {
+    let testSender: TestBaseSender;
+    let originalEnv: string | undefined;
+
+    beforeEach(() => {
+      // Save original environment variable
+      originalEnv = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      // Set environment variable to enable Customer SDK Stats metrics
+      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "true";
+
+      testSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+        isStatsbeatSender: false,
+      });
+
+      // Clear all mock calls from previous tests
+      vi.clearAllMocks();
+    });
+
+    afterEach(() => {
+      // Restore original environment variable
+      if (originalEnv === undefined) {
+        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      } else {
+        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = originalEnv;
+      }
+    });
+
+    it("should capture exception.message for CLIENT_EXCEPTION when circular redirect occurs", async () => {
+      // Set up a scenario that triggers circular redirect
+      (testSender as any).redirectCount = 10; // Force circular redirect
+
+      const restError = new Error("Permanent redirect") as any;
+      restError.statusCode = 308;
+      restError.response = {
+        headers: {
+          get: (name: string) => (name === "location" ? "https://redirect.com" : null),
+        },
+      };
+
+      testSender.sendMock.mockRejectedValue(restError);
+
+      const envelopes = [
+        {
+          name: "test",
+          time: new Date(),
+          data: { baseType: "EventData" },
+        },
+      ];
+
+      const result = await testSender.exportEnvelopes(envelopes);
+
+      expect(result.code).toBe(ExportResultCode.FAILED);
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
+        envelopes,
+        "CLIENT_EXCEPTION",
+        "Circular redirect",
+      );
+    });
+
+    it("should capture exception.message for CLIENT_EXCEPTION when network error occurs without statsbeat", async () => {
+      // Disable network statsbeat to trigger CLIENT_EXCEPTION path
+      (testSender as any).networkStatsbeatMetrics = null;
+
+      // Mock a non-retriable status code response (this will trigger the CLIENT_EXCEPTION path)
+      testSender.sendMock.mockResolvedValue({
+        statusCode: 400, // Non-retriable status code
+        result: "Bad Request",
+      });
+
+      const envelopes = [
+        {
+          name: "test",
+          time: new Date(),
+          data: {
+            baseType: "MessageData",
+            baseData: { version: 2, message: "test message" },
+          },
+        },
+      ];
+
+      const result = await testSender.exportEnvelopes(envelopes);
+
+      expect(result.code).toBe(ExportResultCode.FAILED);
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
+        envelopes,
+        "CLIENT_EXCEPTION",
+      );
+    });
+
+    it("should not capture exception.message for NON_RETRYABLE_STATUS_CODE", async () => {
+      testSender.sendMock.mockResolvedValue({
+        statusCode: 400,
+        result: "Bad Request",
+      });
+
+      const envelopes = [
+        {
+          name: "test",
+          time: new Date(),
+          data: {
+            baseType: "MessageData",
+            baseData: { version: 2, message: "test message" },
+          },
+        },
+      ];
+
+      const result = await testSender.exportEnvelopes(envelopes);
+
+      expect(result.code).toBe(ExportResultCode.FAILED);
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400);
+
+      // Verify exception.message is not passed for non-client exceptions
+      const call = mockCustomerSDKStatsMetrics.countDroppedItems.mock.calls[0];
+      expect(call.length).toBe(2); // envelopes array and drop code, but no exception message
+    });
+
+    it("should handle successful export without calling error tracking", async () => {
+      testSender.sendMock.mockResolvedValue({
+        statusCode: 200,
+        result: "OK",
+      });
+
+      const envelopes = [
+        {
+          name: "test",
+          time: new Date(),
+          data: {
+            baseType: "MessageData",
+            baseData: { version: 2, message: "test message" },
+          },
+        },
+      ];
+
+      const result = await testSender.exportEnvelopes(envelopes);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalled();
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).not.toHaveBeenCalled();
+      expect(mockCustomerSDKStatsMetrics.countRetryItems).not.toHaveBeenCalled();
     });
   });
 });

@@ -4,6 +4,7 @@
 import { AgentsContext as Client } from "../index.js";
 import {
   toolResourcesSerializer,
+  agentV1ErrorDeserializer,
   threadMessageOptionsArraySerializer,
   AgentThread,
   agentThreadDeserializer,
@@ -37,10 +38,10 @@ export function _deleteThreadSend(
   options: ThreadsDeleteThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}{?api%2Dversion}",
+    "/threads/{threadId}{?api-version}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -60,7 +61,9 @@ export async function _deleteThreadDeserialize(
 ): Promise<ThreadDeletionStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return threadDeletionStatusDeserializer(result.body);
@@ -82,10 +85,10 @@ export function _updateThreadSend(
   options: ThreadsUpdateThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}{?api%2Dversion}",
+    "/threads/{threadId}{?api-version}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -112,7 +115,9 @@ export async function _updateThreadDeserialize(
 ): Promise<AgentThread> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return agentThreadDeserializer(result.body);
@@ -134,10 +139,10 @@ export function _getThreadSend(
   options: ThreadsGetThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/{threadId}{?api%2Dversion}",
+    "/threads/{threadId}{?api-version}",
     {
       threadId: threadId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +160,9 @@ export function _getThreadSend(
 export async function _getThreadDeserialize(result: PathUncheckedResponse): Promise<AgentThread> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return agentThreadDeserializer(result.body);
@@ -176,9 +183,9 @@ export function _listThreadsSend(
   options: ThreadsListThreadsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads{?api%2Dversion,limit,order,after,before}",
+    "/threads{?api-version,limit,order,after,before}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -202,7 +209,9 @@ export async function _listThreadsDeserialize(
 ): Promise<_AgentsPagedResultAgentThread> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return _agentsPagedResultAgentThreadDeserializer(result.body);
@@ -227,9 +236,9 @@ export function _createThreadSend(
   options: ThreadsCreateThreadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads{?api%2Dversion}",
+    "/threads{?api-version}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -259,7 +268,9 @@ export async function _createThreadDeserialize(
 ): Promise<AgentThread> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return agentThreadDeserializer(result.body);

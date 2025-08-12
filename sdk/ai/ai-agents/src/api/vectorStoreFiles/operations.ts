@@ -4,6 +4,7 @@
 import { AgentsContext as Client } from "../index.js";
 import {
   vectorStoreDataSourceSerializer,
+  agentV1ErrorDeserializer,
   vectorStoreChunkingStrategyRequestUnionSerializer,
   _AgentsPagedResultVectorStoreFile,
   _agentsPagedResultVectorStoreFileDeserializer,
@@ -65,7 +66,9 @@ export async function _deleteVectorStoreFileDeserialize(
 ): Promise<VectorStoreFileDeletionStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return vectorStoreFileDeletionStatusDeserializer(result.body);
@@ -117,7 +120,9 @@ export async function _getVectorStoreFileDeserialize(
 ): Promise<VectorStoreFile> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return vectorStoreFileDeserializer(result.body);
@@ -177,7 +182,9 @@ export async function _createVectorStoreFileDeserialize(
 ): Promise<VectorStoreFile> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return vectorStoreFileDeserializer(result.body);
@@ -194,7 +201,6 @@ export async function createVectorStoreFileInternal(
   const result = await _createVectorStoreFileSend(context, vectorStoreId, options);
   return _createVectorStoreFileDeserialize(result);
 }
-
 /** Create a vector store file by attaching a file to a vector store. */
 export function createVectorStoreFile(
   context: Client,
@@ -281,7 +287,9 @@ export async function _listVectorStoreFilesDeserialize(
 ): Promise<_AgentsPagedResultVectorStoreFile> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = agentV1ErrorDeserializer(result.body);
+    throw error;
   }
 
   return _agentsPagedResultVectorStoreFileDeserializer(result.body);

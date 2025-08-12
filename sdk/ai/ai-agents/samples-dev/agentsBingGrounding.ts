@@ -54,7 +54,7 @@ export async function main(): Promise<void> {
       intervalInMs: 2000,
     },
     onResponse: (response): void => {
-      console.log(`Received response with status: ${response.status}`);
+      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);
@@ -65,15 +65,13 @@ export async function main(): Promise<void> {
 
   // Fetch and log all messages
   const messagesIterator = client.messages.list(thread.id);
-  console.log(`Messages:`);
 
   // Get the first message
   const firstMessage = await messagesIterator.next();
   if (!firstMessage.done && firstMessage.value) {
     const agentMessage: MessageContent = firstMessage.value.content[0];
     if (isOutputOfType<MessageTextContent>(agentMessage, "text")) {
-      const textContent = agentMessage as MessageTextContent;
-      console.log(`Text Message Content - ${textContent.text.value}`);
+      console.log(`Text Message Content - ${agentMessage.text.value}`);
     }
   }
 }

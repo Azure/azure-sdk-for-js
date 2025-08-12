@@ -20,10 +20,10 @@ import {
   createRun,
   createRunAndPoll,
 } from "../../api/runs/operations.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { AgentRunResponse } from "../../models/streamingModels.js";
 import { createThreadAndRun } from "../../api/operations.js";
 import { CreateThreadAndRunOptionalParams } from "../../api/options.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Runs operations. */

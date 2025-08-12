@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 /* eslint-disable tsdoc/syntax */
 
-import * as fs from "fs";
-import * as nodePath from "path";
+import fs from "fs";
+import nodePath from "path";
 import { DatasetUploadInternalOptions, AIProjectContext as Client } from "../index.js";
 import {
   _PagedDatasetVersion,
@@ -92,7 +92,7 @@ export function _pendingUploadSend(
   context: Client,
   name: string,
   version: string,
-  body: PendingUploadRequest,
+  pendingUploadRequest: PendingUploadRequest,
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -113,7 +113,7 @@ export function _pendingUploadSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: pendingUploadRequestSerializer(body),
+    body: pendingUploadRequestSerializer(pendingUploadRequest),
   });
 }
 
@@ -133,10 +133,10 @@ export async function pendingUpload(
   context: Client,
   name: string,
   version: string,
-  body: PendingUploadRequest,
+  pendingUploadRequest: PendingUploadRequest,
   options: DatasetsPendingUploadOptionalParams = { requestOptions: {} },
 ): Promise<PendingUploadResponse> {
-  const result = await _pendingUploadSend(context, name, version, body, options);
+  const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
   return _pendingUploadDeserialize(result);
 }
 
@@ -334,7 +334,7 @@ export function _createOrUpdateSend(
   context: Client,
   name: string,
   version: string,
-  body: DatasetVersionUnion,
+  datasetVersion: DatasetVersionUnion,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -355,7 +355,7 @@ export function _createOrUpdateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: datasetVersionUnionSerializer(body),
+    body: datasetVersionUnionSerializer(datasetVersion),
   });
 }
 
@@ -375,10 +375,10 @@ export async function createOrUpdate(
   context: Client,
   name: string,
   version: string,
-  body: DatasetVersionUnion,
+  datasetVersion: DatasetVersionUnion,
   options: DatasetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<DatasetVersionUnion> {
-  const result = await _createOrUpdateSend(context, name, version, body, options);
+  const result = await _createOrUpdateSend(context, name, version, datasetVersion, options);
   return _createOrUpdateDeserialize(result);
 }
 

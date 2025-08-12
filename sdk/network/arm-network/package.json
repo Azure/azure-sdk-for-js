@@ -5,7 +5,7 @@
   "description": "A generated SDK for NetworkManagementClient.",
   "version": "34.0.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@azure/core-lro": "^2.5.4",
@@ -38,7 +38,7 @@
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "playwright": "^1.50.1",
@@ -85,7 +85,7 @@
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
