@@ -213,6 +213,8 @@ Generally speaking, the following commands are roughly equivalent:
 | `npm build`                          | `pnpm [re]build`                              | Build all projects in the pnpm workspace                         |
 |                                      | `pnpm [re]build --filter=<package>...`        | Build named project and any projects it depends on               |
 |                                      | `pnpm build`                                  | Build the current project only                                   |
+|                                      | `pnpm -F {./}... build`                       | (Run inside a project) Build the project and its dependencies    |
+|                                      | `pnpm --filter=<package>... build`            | (Run inside a project) Build the project and its dependencies    |
 | `npm test`                           | `pnpm test`                                   | Run dev tests in all projects in the pnpm workspace              |
 |                                      | `pnpm test --filter=<packagename>...`         | Run dev tests in named project and any projects it depends on    |
 |                                      | `pnpm test`                                   | Run dev tests in the current project only                        |
