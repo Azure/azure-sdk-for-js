@@ -111,6 +111,7 @@ export enum ChangeFeedMode {
 // @public
 export interface ChangeFeedOptions {
     continuation?: string;
+    excludedLocations?: string[];
     maxItemCount?: number;
     sessionToken?: string;
     startFromBeginning?: boolean;
@@ -1324,7 +1325,7 @@ export class GlobalEndpointManager {
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
     resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number, // Represents the starting index for selecting servers.
-    requestOptions?: RequestOptions): Promise<string>;
+    requestOptions?: RequestOptions | FeedOptions | undefined): Promise<string>;
 }
 
 // @public (undocumented)
@@ -2118,8 +2119,6 @@ export interface RequestOptions extends SharedOptions {
     contentResponseOnWriteEnabled?: boolean;
     disableAutomaticIdGeneration?: boolean;
     enableScriptLogging?: boolean;
-    // (undocumented)
-    excludedLocations?: string[];
     indexingDirective?: string;
     offerThroughput?: number;
     offerType?: string;
@@ -2383,6 +2382,7 @@ export interface SharedOptions {
     bypassIntegratedCache?: boolean;
     consistencyLevel?: string;
     disableRUPerMinuteUsage?: boolean;
+    excludedLocations?: string[];
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;

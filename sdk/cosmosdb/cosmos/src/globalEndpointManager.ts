@@ -163,11 +163,11 @@ export class GlobalEndpointManager {
     preferredLocations: string[],
     excludedLocations?: Set<string>,
   ): string[] {
-    if (excludedLocations.size === 0) {
+    if (!excludedLocations || excludedLocations.size === 0) {
       return preferredLocations;
     }
     const filteredLocations = preferredLocations.filter(
-      (location) => !excludedLocations.has(normalizeEndpoint(location)),
+      (location) => !excludedLocations?.has(normalizeEndpoint(location)),
     );
     return filteredLocations.length > 0 ? filteredLocations : preferredLocations;
   }
