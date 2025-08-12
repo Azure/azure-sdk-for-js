@@ -1,7 +1,7 @@
 {
   "name": "@azure/monitor-query",
-  "version": "1.3.2",
-  "description": "An isomorphic client library for querying Azure Monitor's Logs and Metrics data sources.",
+  "version": "1.3.3",
+  "description": "Deprecated ⚠️: use @azure/monitor-query-logs, @azure/monitor-query-metrics and @azure/arm-monitor.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
