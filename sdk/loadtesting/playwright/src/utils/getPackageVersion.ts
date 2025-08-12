@@ -22,5 +22,3 @@ export const getPackageVersionFromFolder = (folder: string): string => {
     return "";
   }
 };
-
-
