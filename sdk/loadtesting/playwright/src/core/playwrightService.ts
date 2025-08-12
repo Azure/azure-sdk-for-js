@@ -19,13 +19,13 @@ import {
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
-  getPackageVersion,
   getPlaywrightVersion,
   getVersionInfo,
 } from "../utils/utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { globalPaths } from "./playwrightServiceUtils.js";
+import { getPackageVersion } from "../utils/getPackageVersion.js";
 
 const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): void => {
   const oneTimeOperationFlag =
