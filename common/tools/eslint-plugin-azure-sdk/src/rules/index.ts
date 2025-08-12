@@ -36,6 +36,7 @@ import tsPaginationList from "./ts-pagination-list.js";
 import tsUseInterfaceParameters from "./ts-use-interface-parameters.js";
 import tsUsePromises from "./ts-use-promises.js";
 import tsVersioningSemver from "./ts-versioning-semver.js";
+import tsUseCjsPolyfill from "./ts-use-cjs-polyfill.js";
 
 /**
  * An object containing all rules defined by the plugin
@@ -72,4 +73,5 @@ export default {
   "ts-use-interface-parameters": tsUseInterfaceParameters,
   "ts-use-promises": tsUsePromises,
   "ts-versioning-semver": tsVersioningSemver,
+  "ts-use-cjs-polyfill": tsUseCjsPolyfill,
 };

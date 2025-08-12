@@ -104,6 +104,7 @@ const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
   "@azure/azure-sdk/ts-pagination-list": "off",
   // https://github.com/Azure/azure-sdk-for-js/issues/7610
   "@azure/azure-sdk/ts-doc-internal": "off",
+  "@azure/azure-sdk/ts-use-cjs-polyfill": "error",
 };
 
 const nCustomization = {
