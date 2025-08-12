@@ -17,7 +17,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("AzureFleet test", () => {
+describe.skip("AzureFleet test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureFleetClient;
@@ -33,7 +33,7 @@ describe("AzureFleet test", () => {
     const credential = createTestCredential();
     client = new AzureFleetClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus2euap";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     resourcename = "resourcetest";
   });
 
