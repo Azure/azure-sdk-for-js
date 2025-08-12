@@ -48,7 +48,7 @@ export function createCustomCallAutomationApiClient(
   url: string,
 ): CallAutomationApiClient {
   // read environment variable for callAutomation auth
-  const customEnabled = process.env.$en;
+  const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;
   const customUrl = process.env.COMMUNICATION_CUSTOM_URL;
   let callAutomationApiClient: CallAutomationApiClient;
 
