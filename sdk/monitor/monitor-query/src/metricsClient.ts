@@ -24,6 +24,9 @@ export const getSubscriptionFromResourceId = function (resourceId: string): stri
 
 /**
  * A client that can query batch metrics.
+ *
+ * @deprecated Moved to `@azure/monitor-query-metrics`. Use `MetricsClient` from `@azure/monitor-query-metrics` instead.
+ * Migrate your code following the migration guide at https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-metrics/MIGRATION.md
  */
 export class MetricsClient {
   private _metricBatchClient: GeneratedMonitorMetricClient;

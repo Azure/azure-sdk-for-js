@@ -51,6 +51,9 @@ export interface LogsQueryClientOptions extends CommonClientOptions {
 
 /**
  * Client for Azure Log Analytics
+ *
+ * @deprecated Moved to `@azure/monitor-query-logs`. Use `LogsQueryClient` from `@azure/monitor-query-logs` instead.
+ * Migrate your code following the migration guide at https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/MIGRATION.md
  */
 export class LogsQueryClient {
   private _logAnalytics: AzureLogAnalytics;

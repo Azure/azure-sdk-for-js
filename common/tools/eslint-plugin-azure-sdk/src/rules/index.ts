@@ -16,6 +16,7 @@ import tsNamingDropNoun from "./ts-naming-drop-noun.js";
 import tsNamingOptions from "./ts-naming-options.js";
 import tsNamingSubclients from "./ts-naming-subclients.js";
 import tsNoConstEnums from "./ts-no-const-enums.js";
+import tsNoInvalidTestImports from "./ts-no-invalid-test-imports.js";
 import tsNoWindow from "./ts-no-window.js";
 import tsPackageJsonAuthor from "./ts-package-json-author.js";
 import tsPackageJsonBugs from "./ts-package-json-bugs.js";
@@ -51,6 +52,7 @@ export default {
   "ts-naming-options": tsNamingOptions,
   "ts-naming-subclients": tsNamingSubclients,
   "ts-no-const-enums": tsNoConstEnums,
+  "ts-no-invalid-test-imports": tsNoInvalidTestImports,
   "ts-no-window": tsNoWindow,
   "ts-package-json-author": tsPackageJsonAuthor,
   "ts-package-json-bugs": tsPackageJsonBugs,

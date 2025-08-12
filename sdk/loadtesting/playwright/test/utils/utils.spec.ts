@@ -148,11 +148,11 @@ describe("Service Utils", () => {
 
   it("should return service base url with query params and should escape runID", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -160,11 +160,11 @@ describe("Service Utils", () => {
 
   it("should escape special character in runId", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -327,7 +327,7 @@ describe("Service Utils", () => {
 
     const exitStub = vi.mocked(process.exit);
     process.env["PLAYWRIGHT_SERVICE_URL"] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/wrong-id/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/wrong-id/browsers";
     const result = localPopulateValuesFromServiceUrl();
 
     expect(result).to.deep.equal({
@@ -571,7 +571,7 @@ describe("Service Utils", () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
       await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");
     process.env["PLAYWRIGHT_SERVICE_URL"] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
 
     const result = localPopulateValuesFromServiceUrl();
     expect(result).to.deep.equal({
@@ -615,14 +615,18 @@ describe("Service Utils", () => {
       expect(isValidGuid(null as unknown as string)).toBe(false);
     });
   });
-  it("should exit with failure message when invalid GUID is provided in runId", () => {
+  it("should throw error when invalid GUID is provided in runId", () => {
     const invalidGuid = "not-a-valid-guid";
-    const exitStub = vi.mocked(process.exit).mockImplementation(() => {
-      throw new Error();
-    });
 
-    expect(() => ValidateRunID(invalidGuid)).toThrow();
-    expect(exitStub).toHaveBeenCalledWith(1);
+    expect(() => ValidateRunID(invalidGuid)).toThrow(
+      "The Run ID must be a valid GUID format. Please provide a valid GUID for the Run ID.",
+    );
+  });
+
+  it("should not throw error when valid GUID is provided in runId", () => {
+    const validGuid = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+
+    expect(() => ValidateRunID(validGuid)).not.toThrow();
   });
   it("should return null for an invalid service URL", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =

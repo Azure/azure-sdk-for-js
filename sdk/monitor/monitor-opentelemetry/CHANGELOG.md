@@ -1,6 +1,13 @@
 # Release History
 
-## 1.12.0 ()
+### 1.12.1 ()
+
+### Bugs Fixed
+
+- Fix declaration of the preview customer statsbeat enablement environment variable.
+- Change customer statsbeat feature name to customer SDK Stats.
+
+## 1.12.0 (2025-08-04)
 
 ### Features Added
 
@@ -10,6 +17,7 @@
 
 - Add customer statsbeat feature to feature statsbeat.
 - Add multi-ikey feature to feature statsbeat.
+- Silence noisy warnings about expected async attributes and the @azure/core-tracing load order not being populated.
 
 ## 1.11.1 (2025-06-09)
 

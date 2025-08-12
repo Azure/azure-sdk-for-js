@@ -313,8 +313,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length);
   });
 
-  // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("appendBlockFromURL - should fail with source error message", async function () {
+  it("appendBlockFromURL - should fail with source error message", async function () {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
