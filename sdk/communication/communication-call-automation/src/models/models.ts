@@ -369,7 +369,7 @@ export interface TeamsPhoneCallerDetails {
   /** Flag indicating whether the caller was authenticated */
   isAuthenticated?: boolean;
   /** A set of key value pairs (max 10, any additional entries would be ignored) which a bot author wants to pass to the Teams Client for display to the agent */
-  additionalCallerInformation?:  Record<string, string>;
+  additionalCallerInformation?: Record<string, string>;
 }
 
 /** Container for details relating to the entity responsible for the creation of these call details */
