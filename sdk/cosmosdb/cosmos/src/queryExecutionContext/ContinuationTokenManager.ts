@@ -113,6 +113,7 @@ export class ContinuationTokenManager {
         this.orderByQueryContinuationToken.skipCount,
         offset,
         limit,
+        this.orderByQueryContinuationToken.hashedLastResult,
       );
       return;
     }
@@ -145,6 +146,33 @@ export class ContinuationTokenManager {
       return this.orderByQueryContinuationToken.limit;
     }
     return this.compositeContinuationToken?.limit;
+  }
+
+  /**
+   * Gets the hashed last result for distinct order queries
+   * @returns Hashed last result or undefined
+   */
+  public getHashedLastResult(): string | undefined {
+    return this.orderByQueryContinuationToken?.hashedLastResult;
+  }
+
+  /**
+   * Updates the hashed last result for distinct order queries
+   * @param hashedLastResult - Hash of the last document result
+   */
+  public updateHashedLastResult(hashedLastResult?: string): void {
+    if (this.isOrderByQuery && this.orderByQueryContinuationToken) {
+      // Since OrderByQueryContinuationToken properties are readonly, we need to recreate it
+      this.orderByQueryContinuationToken = new OrderByQueryContinuationTokenClass(
+        this.orderByQueryContinuationToken.compositeToken,
+        this.orderByQueryContinuationToken.orderByItems,
+        this.orderByQueryContinuationToken.rid,
+        this.orderByQueryContinuationToken.skipCount,
+        this.orderByQueryContinuationToken.offset,
+        this.orderByQueryContinuationToken.limit,
+        hashedLastResult,
+      );
+    }
   }
 
   /**
@@ -379,6 +407,7 @@ export class ContinuationTokenManager {
       skipCount, // Number of documents with the same RID already processed
       this.getOffset(), // Current offset value
       this.getLimit(),  // Current limit value
+      undefined, // hashedLastResult - to be set separately for distinct queries
     );
 
 
@@ -530,5 +559,21 @@ export class ContinuationTokenManager {
    */
   public hasUnprocessedRanges(): boolean {
     return this.partitionKeyRangeMap.size > 0;
+  }
+
+  /**
+   * Extracts and updates hashedLastResult values from partition key range map for distinct order queries
+   * @param partitionKeyRangeMap - The partition key range map containing hashedLastResult values
+   */
+  public updateHashedLastResultFromPartitionMap(partitionKeyRangeMap: Map<string, any>): void {
+    // For distinct order queries, extract hashedLastResult from each partition range
+    // and determine the overall last hash for continuation token purposes
+    for (const [_rangeId, rangeMapping] of partitionKeyRangeMap) {
+      if (rangeMapping.hashedLastResult) {
+        // Update the continuation token with the hashed result for this range
+        // This allows proper resumption of distinct queries across partitions
+        this.updateHashedLastResult(rangeMapping.hashedLastResult);
+      }
+    }
   }
 }

@@ -23,6 +23,11 @@ export interface QueryRangeMapping {
    * The partition key range this mapping belongs to
    */
   partitionKeyRange?: PartitionKeyRange;
+
+  /**
+   * Hash of the last document result for this partition key range (for distinct queries)
+   */
+  hashedLastResult?: string;
 }
 
 /**

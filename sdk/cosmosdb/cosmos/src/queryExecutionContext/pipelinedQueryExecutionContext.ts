@@ -4,7 +4,7 @@ import type { ClientContext } from "../ClientContext.js";
 import type { Response, FeedOptions } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse.js";
 import { ErrorResponse } from "../request/ErrorResponse.js";
-import type { CosmosHeaders } from "./CosmosHeaders.js";
+import type { CosmosHeaders } from "./headerUtils.js";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent.js";
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent.js";
 import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent.js";
@@ -357,6 +357,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.fetchBuffer = response.result.buffer;
       if (response.result.partitionKeyRangeMap) {
         this.continuationTokenManager.setPartitionKeyRangeMap(response.result.partitionKeyRangeMap);
+        
+        // Extract and update hashedLastResult values for distinct order queries
+        this.continuationTokenManager.updateHashedLastResultFromPartitionMap(response.result.partitionKeyRangeMap);
       }
       // Capture order by items array for ORDER BY queries if available
       if (response.result.orderByItemsArray) {

@@ -73,6 +73,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         parsed.skipCount || 0,
         parsed.offset,
         parsed.limit,
+        parsed.hashedLastResult,
       );
     } catch (error) {
       throw new Error(`Failed to parse ORDER BY continuation token: ${error.message}`);

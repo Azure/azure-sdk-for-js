@@ -15,6 +15,7 @@ export class OrderByQueryContinuationToken {
   public static readonly SkipCount = "skipCount";
   public static readonly Offset = "offset";
   public static readonly Limit = "limit";
+  public static readonly HashedLastResult = "hashedLastResult";
 
   /**
    * Composite token for the query continuation
@@ -46,13 +47,22 @@ export class OrderByQueryContinuationToken {
    */
   public readonly limit?: number;
 
+  /**
+   * Hash of the last document result for distinct order queries
+   * Used to ensure duplicates are not returned across continuation boundaries
+   */
+  public readonly hashedLastResult?: string;
+
+
+
   constructor(
     compositeToken: string, 
     orderByItems: any[], 
     rid: string, 
     skipCount: number,
     offset?: number,
-    limit?: number
+    limit?: number,
+    hashedLastResult?: string
   ) {
     this.compositeToken = compositeToken;
     this.orderByItems = orderByItems;
@@ -60,6 +70,7 @@ export class OrderByQueryContinuationToken {
     this.skipCount = skipCount;
     this.offset = offset;
     this.limit = limit;
+    this.hashedLastResult = hashedLastResult;
   }
 
   /**
@@ -81,6 +92,10 @@ export class OrderByQueryContinuationToken {
       tokenObj[OrderByQueryContinuationToken.Limit] = this.limit;
     }
 
+    if (this.hashedLastResult !== undefined) {
+      tokenObj[OrderByQueryContinuationToken.HashedLastResult] = this.hashedLastResult;
+    }
+
     return JSON.stringify(tokenObj);
   }
 
@@ -96,6 +111,7 @@ export class OrderByQueryContinuationToken {
       parsed[OrderByQueryContinuationToken.SkipCount],
       parsed[OrderByQueryContinuationToken.Offset],
       parsed[OrderByQueryContinuationToken.Limit],
+      parsed[OrderByQueryContinuationToken.HashedLastResult],
     );
   }
 }
