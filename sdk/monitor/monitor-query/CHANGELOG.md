@@ -1,13 +1,13 @@
 # Release History
 
-## 1.3.3 (2025-08-07)
+## 1.3.3 (2025-08-11)
 
 ### Other Changes
 
-- Deprecation ⚠️: This package has been split into newer libraries and is no longer under active development. Please migrate to the replacement packages:
+- Deprecation ⚠️: This package has been deprecated and is no longer under active development. Please migrate to the replacement packages:
   - LogsQueryClient: `@azure/monitor-query-logs` - migration guide: [Monitor Query Logs migration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/MIGRATION.md) • npm: [@azure/monitor-query-logs](https://www.npmjs.com/package/@azure/monitor-query-logs)
   - MetricsClient: `@azure/monitor-query-metrics` - migration guide: [Monitor Query Metrics migration](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-metrics/MIGRATION.md) • npm: [@azure/monitor-query-metrics](https://www.npmjs.com/package/@azure/monitor-query-metrics)
-  - MetricsQueryClient users: migrate to the management library `@azure/arm-monitor` - guide: [MetricsQueryClient → @azure/arm-monitor](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/MIGRATION_METRICSQUERYCLIENT_TO_ARM_MONITOR.md)
+  - MetricsQueryClient: migrate to the management library `@azure/arm-monitor` - guide: [MetricsQueryClient → @azure/arm-monitor](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/MIGRATION_METRICSQUERYCLIENT_TO_ARM_MONITOR.md)
 
 ## 1.3.2 (2025-05-06)
 
