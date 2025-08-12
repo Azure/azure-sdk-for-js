@@ -13,7 +13,7 @@ const require = createRequire(import.meta.url);
 // @ts-ignore ESM only output
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
-const getPackageVersionFromFolder = (folder: string): string => {
+export const getPackageVersionFromFolder = (folder: string): string => {
   try {
     const version = require(path.join(currentDir, folder, "package.json")).version;
     return version;
@@ -23,17 +23,4 @@ const getPackageVersionFromFolder = (folder: string): string => {
   }
 };
 
-export const getPackageVersion = (): string => {
-  // hacky way to get package version
-  // try from dist folder first (customer perspective)
-  const distVersion = getPackageVersionFromFolder("../../../");
-  if (distVersion) {
-    return distVersion;
-  }
-  // if not found, try from src folder (internal test suite)
-  const srcVersion = getPackageVersionFromFolder("../../");
-  if (srcVersion) {
-    return srcVersion;
-  }
-  return "unknown-version";
-};
+
