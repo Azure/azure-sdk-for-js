@@ -6,17 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { TrustedAccessRoleBindings } from "../operationsInterfaces/index.js";
+import { TrustedAccessRoleBindings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
+import { ContainerServiceClient } from "../containerServiceClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import type {
+import {
   TrustedAccessRoleBinding,
   TrustedAccessRoleBindingsListNextOptionalParams,
   TrustedAccessRoleBindingsListOptionalParams,
@@ -32,7 +35,9 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TrustedAccessRoleBindings operations. */
-export class TrustedAccessRoleBindingsImpl implements TrustedAccessRoleBindings {
+export class TrustedAccessRoleBindingsImpl
+  implements TrustedAccessRoleBindings
+{
   private readonly client: ContainerServiceClient;
 
   /**
@@ -66,7 +71,12 @@ export class TrustedAccessRoleBindingsImpl implements TrustedAccessRoleBindings 
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, resourceName, options, settings);
+        return this.listPagingPage(
+          resourceGroupName,
+          resourceName,
+          options,
+          settings,
+        );
       },
     };
   }
@@ -81,15 +91,20 @@ export class TrustedAccessRoleBindingsImpl implements TrustedAccessRoleBindings 
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, resourceName, options);
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, resourceName, continuationToken, options);
+      result = await this._listNext(
+        resourceGroupName,
+        resourceName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -100,7 +115,11 @@ export class TrustedAccessRoleBindingsImpl implements TrustedAccessRoleBindings 
     resourceName: string,
     options?: TrustedAccessRoleBindingsListOptionalParams,
   ): AsyncIterableIterator<TrustedAccessRoleBinding> {
-    for await (const page of this.listPagingPage(resourceGroupName, resourceName, options)) {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      resourceName,
+      options,
+    )) {
       yield* page;
     }
   }
@@ -176,7 +195,8 @@ export class TrustedAccessRoleBindingsImpl implements TrustedAccessRoleBindings 
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -278,7 +298,8 @@ export class TrustedAccessRoleBindingsImpl implements TrustedAccessRoleBindings 
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

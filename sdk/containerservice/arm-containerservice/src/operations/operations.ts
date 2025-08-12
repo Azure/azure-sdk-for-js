@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import type { Operations } from "../operationsInterfaces/index.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
+import { ContainerServiceClient } from "../containerServiceClient.js";
+import {
   OperationValue,
   OperationsListOptionalParams,
   OperationsListResponse,
@@ -35,7 +35,9 @@ export class OperationsImpl implements Operations {
    * Gets a list of operations.
    * @param options The options parameters.
    */
-  public list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationValue> {
+  public list(
+    options?: OperationsListOptionalParams,
+  ): PagedAsyncIterableIterator<OperationValue> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -74,7 +76,9 @@ export class OperationsImpl implements Operations {
    * Gets a list of operations.
    * @param options The options parameters.
    */
-  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
+  private _list(
+    options?: OperationsListOptionalParams,
+  ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 }
