@@ -119,7 +119,7 @@ export interface StreamAckMessage extends WebPubSubMessageBase {
   /**
    * The sequence id of the stream
    */
-  streamSequenceId: number;
+  lastProcessedSequenceId: number;
   /**
    * Is operation success or not
    */

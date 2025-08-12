@@ -43,7 +43,7 @@ import type {
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
-import type { StreamHandler} from "./streaming.js";
+import type { StreamHandler, StreamOptions} from "./streaming.js";
 import { Stream} from "./streaming.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
 import { WebSocketClientFactory } from "./websocket/websocketClient.js";
@@ -514,17 +514,17 @@ export class WebPubSubClient {
   /**
    * Create a stream for sending messages to a group
    * @param groupName - The group name
-   * @param timeToLive - Time-to-live for the stream in milliseconds
+   * @param options - Stream configuration options
    * @returns Stream instance
    */
-  public stream(groupName: string, timeToLive: number = 300000): Stream {
+  public stream(groupName: string, options?: StreamOptions): Stream {
     const streamId = this._generateStreamId();
     const stream = new Stream(
       groupName,
       streamId,
-      timeToLive,
       (group, content, dataType, sId, sequenceId, endOfStream, abortSignal) =>
         this._sendStreamMessage(group, content, dataType, sId, sequenceId, endOfStream, abortSignal),
+      options,
     );
 
     this._streams.set(streamId, stream);
@@ -735,7 +735,7 @@ export class WebPubSubClient {
         const handleStreamAckMessage = (message: StreamAckMessage): void => {
           const stream = this._streams.get(message.streamId);
           if (stream) {
-            stream._handleStreamAck(message.streamSequenceId, message.success, message.error);
+            stream._handleStreamAck(message.lastProcessedSequenceId, message.success, message.error);
           }
         };
 

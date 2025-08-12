@@ -226,13 +226,14 @@ export interface StartOptions {
 
 // @public
 export class Stream {
-    constructor(groupName: string, streamId: string, timeToLive: number, sendCallback: (groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, streamId: string, streamSequenceId: number, endOfStream: boolean, abortSignal?: AbortSignalLike) => Promise<void>);
+    constructor(groupName: string, streamId: string, sendCallback: (groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, streamId: string, streamSequenceId: number, endOfStream: boolean, abortSignal?: AbortSignalLike) => Promise<void>, options?: StreamOptions);
     complete(content?: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, abortSignal?: AbortSignalLike): Promise<void>;
     get groupName(): string;
     // @internal
-    _handleStreamAck(sequenceId: number, success: boolean, error?: AckMessageError): void;
-    onError(callback: (error: AckMessageError) => void): void;
+    _handleStreamAck(sequenceId: number, success: boolean, error?: StreamAckMessageError): void;
+    onError(callback: (error: StreamAckMessageError) => void): void;
     publish(content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, abortSignal?: AbortSignalLike): Promise<void>;
+    publishWithSequenceId(sequenceId: number, content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, abortSignal?: AbortSignalLike): Promise<void>;
     // @internal
     _resendUnackedMessages(abortSignal?: AbortSignalLike): Promise<void>;
     get streamId(): string;
@@ -242,8 +243,8 @@ export class Stream {
 export interface StreamAckMessage extends WebPubSubMessageBase {
     error?: StreamAckMessageError;
     readonly kind: "streamAck";
+    lastProcessedSequenceId: number;
     streamId: string;
-    streamSequenceId: number;
     success: boolean;
 }
 
@@ -258,12 +259,19 @@ export class StreamHandler {
     // @internal
     _handleComplete(): void;
     // @internal
-    _handleError(error: AckMessageError): void;
+    _handleError(error: StreamAckMessageError): void;
     // @internal
     _handleMessage(message: JSONTypes | ArrayBuffer): void;
     set onComplete(callback: () => void);
-    set onError(callback: (error: AckMessageError) => void);
+    set onError(callback: (error: StreamAckMessageError) => void);
     set onMessage(callback: (message: JSONTypes | ArrayBuffer) => void);
+}
+
+// @public
+export interface StreamOptions {
+    bufferWaitTimeout?: number;
+    maxBufferSize?: number;
+    timeToLive?: number;
 }
 
 // @public
@@ -316,7 +324,7 @@ export class WebPubSubClient {
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
     stop(): void;
-    stream(groupName: string, timeToLive?: number): Stream;
+    stream(groupName: string, options?: StreamOptions): Stream;
 }
 
 // @public
