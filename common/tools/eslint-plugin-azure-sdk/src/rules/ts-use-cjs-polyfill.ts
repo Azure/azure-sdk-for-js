@@ -21,7 +21,7 @@ export default createRule({
     },
     messages: {
       usePolyfill:
-        "__dirname and __filename should not be used in ESM files. Use the polyfill documented in https://github.com/isaacs/tshy?tab=readme-ov-file#commonjs-dialect-polyfills",
+        "__dirname and __filename should not be used in ESM files. Use the polyfill documented in https://github.com/Azure/azure-sdk-for-js/wiki/Dual-emitting-using-tshy",
     },
     schema: [],
   },
@@ -29,9 +29,7 @@ export default createRule({
   create(context) {
     return {
       Identifier: (node): void => {
-        console.log(`Checking identifier: ${node.name} in file: ${context.filename}`);
         if (node.name === "__dirname" || node.name === "__filename") {
-          console.log(`Found ${node.name} in file: ${context.filename}`);
           // if the file name does not match the pattern: "*-cjs.cts" then report
           if (!context.filename.endsWith("-cjs.cts")) {
             context.report({
