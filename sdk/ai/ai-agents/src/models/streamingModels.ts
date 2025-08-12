@@ -15,7 +15,7 @@ import type {
  * Each event in a server-sent events stream has an `event` and `data` property:
  *
  * @example
- * ```ts
+ * ```ts snippet:ignore
  *  event: thread.created
  *  data: {"id": "thread_123", "object": "thread", ...}
  * ```
