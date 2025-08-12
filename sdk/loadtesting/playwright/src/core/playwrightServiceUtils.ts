@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import path from "node:path";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore ESM only output

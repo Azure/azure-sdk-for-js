@@ -8,7 +8,7 @@ Requires the use of a polyfill when using CommonJS concepts in ESM files accordi
 
 ```ts
 // filename: example.ts
-import { dirname, fileURLToPath } from "path";
+import { dirname, fileURLToPath } from "node:path";
 const currentDir = dirname(fileURLToPath(import.meta.url));
 ```
 
