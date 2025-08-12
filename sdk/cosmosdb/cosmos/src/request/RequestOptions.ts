@@ -53,6 +53,4 @@ export interface RequestOptions extends SharedOptions {
    * NOTE: Currently, this option is only supported for bulk and batch operations.
    */
   contentResponseOnWriteEnabled?: boolean;
-
-  excludedLocations?: string[];
 }
