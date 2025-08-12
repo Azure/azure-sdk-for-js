@@ -33,4 +33,6 @@ export interface ChangeFeedOptions {
    * Specified the start time to start reading changes from.
    */
   startTime?: Date;
+
+  excludedLocations?: string[];
 }

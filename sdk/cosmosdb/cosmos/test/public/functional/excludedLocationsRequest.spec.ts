@@ -175,7 +175,7 @@ const SuccessCreateResponse = {
 
 const SuccessReadResponse = {
   code: StatusCodes.Ok,
-  result: {},
+  result: { Documents: [] as any[] },
   headers: {},
   diagnostics: getEmptyCosmosDiagnostics(),
 };
@@ -193,6 +193,15 @@ const options: CosmosClientOptions = {
   connectionPolicy: {
     preferredLocations: ["East US", "Australia East", "West US"],
     excludedLocations: ["West US", "East US"], // Exclude West US and East US at client level
+  },
+};
+
+const options1: CosmosClientOptions = {
+  endpoint,
+  key: masterKey,
+  connectionPolicy: {
+    preferredLocations: ["East US", "Australia East", "West US"],
+    excludedLocations: ["East US", "Australia East"], // Exclude East US and Australia East at client level
   },
 };
 
@@ -257,7 +266,6 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     );
     client.dispose();
   });
-
   it("Request-level excludedLocations should override client-level for CREATE", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
@@ -299,7 +307,6 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     );
     client.dispose();
   });
-
   it("Request-level excludedLocations should override client-level for UPSERT", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
@@ -341,7 +348,6 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     );
     client.dispose();
   });
-
   it("Request-level excludedLocations should override client-level for REPLACE", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
@@ -385,7 +391,6 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     );
     client.dispose();
   });
-
   it("Request-level excludedLocations should override client-level for DELETE", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
@@ -421,7 +426,6 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     );
     client.dispose();
   });
-
   it("Request-level excludedLocations should override client-level for PATCH", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
@@ -436,16 +440,13 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
       ...options,
       plugins,
     } as any);
-
     const writeEndpoint = await client.getWriteEndpoint();
     assert.equal(
       writeEndpoint,
       "https://excludedregiontest-australiaeast.documents.azure.com:443/",
       "Should use request-level excluded region",
     );
-
     const requestOptions = { excludedLocations: ["Australia East"] };
-
     await client
       .database("foo")
       .container("foo")
@@ -462,7 +463,6 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
       "https://excludedregiontest-eastus.documents.azure.com:443/",
       "Should use request-level excluded region for patch operation",
     );
-
     await client
       .database("foo")
       .container("foo")
@@ -481,15 +481,104 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     );
     client.dispose();
   });
-
+  it("Request-level excludedLocations should override client-level for QUERY", async () => {
+    const endpointTracker = { lastEndpointCalled: "" };
+    const responses = [
+      databaseAccountResponse,
+      SuccessReadResponse,
+      SuccessReadResponse,
+      SuccessReadResponse,
+      ServiceUnavailableResponse,
+      SuccessReadResponse,
+    ];
+    const plugins = getPlugins(responses, endpointTracker);
+    const client = new CosmosClient({ ...options, plugins } as any);
+    const writeEndpoint = await client.getWriteEndpoint();
+    assert.equal(
+      writeEndpoint,
+      "https://excludedregiontest-australiaeast.documents.azure.com:443/",
+      "Initial write endpoint uses client-level exclusions",
+    );
+    const requestOptions = { excludedLocations: ["Australia East"] };
+    await client
+      .database("foo")
+      .container("foo")
+      .items.query("SELECT * FROM c", requestOptions as any)
+      .fetchAll();
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-eastus.documents.azure.com:443/",
+      "First query should target East US",
+    );
+    await client
+      .database("foo")
+      .container("foo")
+      .items.query("SELECT * FROM c", requestOptions as any)
+      .fetchAll();
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Retry after 503 should target West US",
+    );
+    client.dispose();
+  });
+  it("Request-level excludedLocations should override client-level for BATCH", async () => {
+    const endpointTracker = { lastEndpointCalled: "" };
+    const responses = [
+      databaseAccountResponse,
+      SuccessCreateResponse,
+      ServiceUnavailableResponse,
+      SuccessCreateResponse,
+    ];
+    const plugins = getPlugins(responses, endpointTracker);
+    const client = new CosmosClient({ ...options, plugins } as any);
+    const writeEndpoint = await client.getWriteEndpoint();
+    assert.equal(
+      writeEndpoint,
+      "https://excludedregiontest-australiaeast.documents.azure.com:443/",
+      "Should use request-level excluded region",
+    );
+    const requestOptions = { excludedLocations: ["Australia East"] };
+    await client
+      .database("foo")
+      .container("foo")
+      .items.batch(
+        [
+          { operationType: "Create", resourceBody: { id: "b1", _partitionKey: "pk1" } },
+          { operationType: "Upsert", resourceBody: { id: "b2", _partitionKey: "pk1" } },
+        ],
+        "pk1",
+        requestOptions as any,
+      );
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-eastus.documents.azure.com:443/",
+      "First batch should target East US",
+    );
+    await client
+      .database("foo")
+      .container("foo")
+      .items.batch(
+        [
+          { operationType: "Create", resourceBody: { id: "b3", _partitionKey: "pk1" } },
+          { operationType: "Upsert", resourceBody: { id: "b4", _partitionKey: "pk1" } },
+        ],
+        "pk1",
+        requestOptions as any,
+      );
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Retry after 503 should target West US",
+    );
+    client.dispose();
+  });
   it("Request-level excludedLocations should override client-level for READALL", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
       databaseAccountResponse,
-
       SuccessReadResponse,
       SuccessReadResponse,
-
       SuccessReadResponse,
       ServiceUnavailableResponse,
       SuccessReadResponse,
@@ -499,32 +588,86 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
       ...options,
       plugins,
     } as any);
-
     const writeEndpoint = await client.getWriteEndpoint();
     assert.equal(
       writeEndpoint,
       "https://excludedregiontest-australiaeast.documents.azure.com:443/",
       "Should use request-level excluded region",
     );
-
     const requestOptions = { excludedLocations: ["Australia East"] };
-
     const iterator = client.database("foo").container("foo").items.readAll(requestOptions);
     await iterator.fetchNext();
-
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
       "Should use request-level excluded region for READALL operation",
     );
-
     const iterator1 = client.database("foo").container("foo").items.readAll(requestOptions);
     await iterator1.fetchNext();
-
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-westus.documents.azure.com:443/",
       "Should use request-level excluded region for READALL operation",
+    );
+    client.dispose();
+  });
+  it("Request-level empty excludedLocations should override client-level", async () => {
+    const endpointTracker = { lastEndpointCalled: "" };
+    const responses = [
+      databaseAccountResponse,
+      SuccessReadResponse,
+      ServiceUnavailableResponse,
+      SuccessReadResponse,
+      TimeoutResponse,
+      TimeoutResponse,
+      SuccessReadResponse,
+    ];
+    const plugins = getPlugins(responses, endpointTracker);
+    const client = new CosmosClient({
+      ...options1,
+      plugins,
+    } as any);
+    const writeEndpoint = await client.getWriteEndpoint();
+    assert.equal(
+      writeEndpoint,
+      "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Request-level empty excludedLocations",
+    );
+    await client
+      .database("foo")
+      .container("foo")
+      .item("id", "sample1")
+      .read({
+        excludedLocations: [],
+      } as any);
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-eastus.documents.azure.com:443/",
+      "Should use request-level empty list for READ operation",
+    );
+    await client
+      .database("foo")
+      .container("foo")
+      .item("id", "sample1")
+      .read({
+        excludedLocations: [],
+      } as any);
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-australiaeast.documents.azure.com:443/",
+      "Should use request-level empty list for READ operation",
+    );
+    await client
+      .database("foo")
+      .container("foo")
+      .item("id", "sample1")
+      .read({
+        excludedLocations: [],
+      } as any);
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Should use request-level empty list for READ operation",
     );
     client.dispose();
   });
