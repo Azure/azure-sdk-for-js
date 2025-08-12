@@ -1,0 +1,8 @@
+{
+  "extends": "../../../tsconfig.samples.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-sse": ["./dist/esm"]
+    }
+  }
+}

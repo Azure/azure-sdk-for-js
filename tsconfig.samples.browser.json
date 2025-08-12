@@ -1,0 +1,8 @@
+{
+  "extends": ["./tsconfig", "./tsconfig.nonlib"],
+  "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "types": []
+  },
+  "include": ["${configDir}/samples-dev/**/*-browser.mts"]
+}

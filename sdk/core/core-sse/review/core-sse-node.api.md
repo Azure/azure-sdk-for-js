@@ -5,9 +5,10 @@
 ```ts
 
 import type { IncomingMessage } from 'node:http';
+import type { ReadableStream as ReadableStream_2 } from 'node:stream/web';
 
 // @public
-export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
+export function createSseStream(chunkStream: ReadableStream_2<Uint8Array>): EventMessageStream;
 
 // @public
 export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
@@ -24,7 +25,7 @@ export interface EventMessage {
 }
 
 // @public
-export type EventMessageStream = ReadableStream<EventMessage> & AsyncDisposable & AsyncIterable<EventMessage>;
+export type EventMessageStream = ReadableStream_2<EventMessage> & AsyncDisposable;
 
 // @public
 export interface NodeJSReadableStream extends NodeJS.ReadableStream {
