@@ -6,7 +6,11 @@ import { coreLogger } from "../common/logger.js";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore ESM only output
 const require = createRequire(import.meta.url);
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore ESM only output
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
 const getPackageVersionFromFolder = (folder: string): string => {

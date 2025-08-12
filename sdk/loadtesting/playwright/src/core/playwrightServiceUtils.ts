@@ -5,6 +5,8 @@ import path from "node:path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore ESM only output
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
 export const globalPaths = {
