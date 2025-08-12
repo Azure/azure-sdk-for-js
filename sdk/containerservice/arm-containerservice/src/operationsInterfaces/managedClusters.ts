@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
   ManagedCluster,
   ManagedClustersListOptionalParams,
   ManagedClustersListByResourceGroupOptionalParams,
   OutboundEnvironmentEndpoint,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
-  GuardrailsAvailableVersion,
-  ManagedClustersListGuardrailsVersionsOptionalParams,
-  SafeguardsAvailableVersion,
-  ManagedClustersListSafeguardsVersionsOptionalParams,
   MeshRevisionProfile,
   ManagedClustersListMeshRevisionProfilesOptionalParams,
   MeshUpgradeProfile,
@@ -47,10 +43,10 @@ import type {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
-  ManagedClustersAbortLatestOperationOptionalParams,
-  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateClusterCertificatesOptionalParams,
   ManagedClustersRotateClusterCertificatesResponse,
+  ManagedClustersAbortLatestOperationOptionalParams,
+  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
@@ -62,17 +58,10 @@ import type {
   ManagedClustersRunCommandResponse,
   ManagedClustersGetCommandResultOptionalParams,
   ManagedClustersGetCommandResultResponse,
-  ManagedClustersGetGuardrailsVersionsOptionalParams,
-  ManagedClustersGetGuardrailsVersionsResponse,
-  ManagedClustersGetSafeguardsVersionsOptionalParams,
-  ManagedClustersGetSafeguardsVersionsResponse,
   ManagedClustersGetMeshRevisionProfileOptionalParams,
   ManagedClustersGetMeshRevisionProfileResponse,
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
   ManagedClustersGetMeshUpgradeProfileResponse,
-  RebalanceLoadBalancersRequestBody,
-  ManagedClustersRebalanceLoadBalancersOptionalParams,
-  ManagedClustersRebalanceLoadBalancersResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -106,24 +95,6 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
-  /**
-   * Contains list of Guardrails version along with its support info and whether it is a default version.
-   * @param location The name of the Azure region.
-   * @param options The options parameters.
-   */
-  listGuardrailsVersions(
-    location: string,
-    options?: ManagedClustersListGuardrailsVersionsOptionalParams,
-  ): PagedAsyncIterableIterator<GuardrailsAvailableVersion>;
-  /**
-   * Contains list of Safeguards version along with its support info and whether it is a default version.
-   * @param location The name of the Azure region.
-   * @param options The options parameters.
-   */
-  listSafeguardsVersions(
-    location: string,
-    options?: ManagedClustersListSafeguardsVersionsOptionalParams,
-  ): PagedAsyncIterableIterator<SafeguardsAvailableVersion>;
   /**
    * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
    * available upgrades
@@ -371,37 +342,6 @@ export interface ManagedClusters {
     options?: ManagedClustersResetAADProfileOptionalParams,
   ): Promise<void>;
   /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  beginAbortLatestOperation(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedClustersAbortLatestOperationResponse>,
-      ManagedClustersAbortLatestOperationResponse
-    >
-  >;
-  /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  beginAbortLatestOperationAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams,
-  ): Promise<ManagedClustersAbortLatestOperationResponse>;
-  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -430,6 +370,37 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams,
   ): Promise<ManagedClustersRotateClusterCertificatesResponse>;
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, a 409 error code is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
+    >
+  >;
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, a 409 error code is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams,
+  ): Promise<ManagedClustersAbortLatestOperationResponse>;
   /**
    * Rotates the service account signing keys of a managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -570,28 +541,6 @@ export interface ManagedClusters {
     options?: ManagedClustersGetCommandResultOptionalParams,
   ): Promise<ManagedClustersGetCommandResultResponse>;
   /**
-   * Contains Guardrails version along with its support info and whether it is a default version.
-   * @param location The name of the Azure region.
-   * @param version Safeguards version
-   * @param options The options parameters.
-   */
-  getGuardrailsVersions(
-    location: string,
-    version: string,
-    options?: ManagedClustersGetGuardrailsVersionsOptionalParams,
-  ): Promise<ManagedClustersGetGuardrailsVersionsResponse>;
-  /**
-   * Contains Safeguards version along with its support info and whether it is a default version.
-   * @param location The name of the Azure region.
-   * @param version Safeguards version
-   * @param options The options parameters.
-   */
-  getSafeguardsVersions(
-    location: string,
-    version: string,
-    options?: ManagedClustersGetSafeguardsVersionsOptionalParams,
-  ): Promise<ManagedClustersGetSafeguardsVersionsResponse>;
-  /**
    * Contains extra metadata on the revision, including supported revisions, cluster compatibility and
    * available upgrades
    * @param location The name of the Azure region.
@@ -616,37 +565,4 @@ export interface ManagedClusters {
     mode: string,
     options?: ManagedClustersGetMeshUpgradeProfileOptionalParams,
   ): Promise<ManagedClustersGetMeshUpgradeProfileResponse>;
-  /**
-   * Rebalance nodes across specific load balancers.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param parameters The names of the load balancers to be rebalanced. If set to empty, all load
-   *                   balancers will be rebalanced.
-   * @param options The options parameters.
-   */
-  beginRebalanceLoadBalancers(
-    resourceGroupName: string,
-    resourceName: string,
-    parameters: RebalanceLoadBalancersRequestBody,
-    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedClustersRebalanceLoadBalancersResponse>,
-      ManagedClustersRebalanceLoadBalancersResponse
-    >
-  >;
-  /**
-   * Rebalance nodes across specific load balancers.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param parameters The names of the load balancers to be rebalanced. If set to empty, all load
-   *                   balancers will be rebalanced.
-   * @param options The options parameters.
-   */
-  beginRebalanceLoadBalancersAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    parameters: RebalanceLoadBalancersRequestBody,
-    options?: ManagedClustersRebalanceLoadBalancersOptionalParams,
-  ): Promise<ManagedClustersRebalanceLoadBalancersResponse>;
 }
