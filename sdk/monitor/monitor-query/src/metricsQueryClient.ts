@@ -55,7 +55,7 @@ export interface MetricsQueryClientOptions extends CommonClientOptions {
  * A client that can query metrics, get metric definitions and get metric namespaces.
  *
  * @deprecated For resource-centric metrics queries, use the management library `@azure/arm-monitor` instead.
- * See migration guide: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/MIGRATION_METRICSQUERYCLIENT_TO_ARM_MONITOR.md
+ * Migrate your code following the migration guide at https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/MIGRATION_METRICSQUERYCLIENT_TO_ARM_MONITOR.md
  */
 export class MetricsQueryClient {
   private _metricsClient: GeneratedMetricsClient;
