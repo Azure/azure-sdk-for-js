@@ -222,7 +222,7 @@ Generally speaking, the following commands are roughly equivalent:
 |                                      | `pnpm <scriptname>`                           | Package directory | Run named script in the current project only                     |
 | `npx <command>`                      | `npx <command>`                               | Anywhere          | Run named command provided by installed dependency package       |
 
-Similarly other mono repo commands (`clean`, `test`, `test:node`, `format`, `lint`, etc.) also work with selections via `--filter` or `-F` option. It is supported to pass `--filter` or `-F` option multiple times.
+Similarly other monorepo commands (`clean`, `test`, `test:node`, `format`, `lint`, etc.) also work with selections via `--filter` or `-F` option. It is supported to pass `--filter` or `-F` option multiple times.
 
 > **Note about "Where to run":**
 >
