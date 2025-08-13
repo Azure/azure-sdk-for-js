@@ -114,4 +114,121 @@ describe("WebPubSubClient Streaming Integration", function () {
       assert.isFunction(stream.onError);
     });
   });
+
+  describe("Resend attempt limiting", () => {
+    it("should limit the number of resend attempts", async () => {
+      const stream = client.stream("testGroup", { maxResendAttempts: 2 });
+      let errorReceived: any = null;
+      
+      // Set up error handler
+      stream.onError((error: any) => {
+        errorReceived = error;
+      });
+
+      // Mock send callback to always fail
+      (stream as any)._sendCallback = vi.fn(async () => {
+        throw new Error("Network error");
+      });
+
+      // Publish a message to create buffer content
+      await stream.publish("test message");
+
+      // Reset error handler
+      errorReceived = null;
+      
+      // Try to resend multiple times - should stop after maxResendAttempts
+      await stream._resendUnackedMessages(); // 1st attempt
+      await stream._resendUnackedMessages(); // 2nd attempt
+      await stream._resendUnackedMessages(); // 3rd attempt - should be blocked
+
+      // Verify that max resend attempts error was reported
+      assert.isNotNull(errorReceived);
+      assert.equal(errorReceived.name, "StreamMaxResendAttemptsExceeded");
+      assert.include(errorReceived.message, "Maximum resend attempts (2) exceeded");
+    });
+
+    it("should reset resend attempts counter on successful acknowledgment", async () => {
+      const stream = client.stream("testGroup", { maxResendAttempts: 2 });
+      
+      // Mock send callback that works
+      (stream as any)._sendCallback = vi.fn(async () => {
+        // Simulate successful send
+      });
+
+      // Publish a message
+      await stream.publish("test message");
+
+      // Simulate one resend attempt
+      await stream._resendUnackedMessages(); // 1st attempt
+      
+      // Verify resend attempts counter was incremented
+      assert.equal((stream as any)._resendAttempts, 1);
+
+      // Simulate successful acknowledgment (this should reset the counter)
+      stream._handleStreamAck(1, true);
+      
+      // Verify resend attempts counter was reset
+      assert.equal((stream as any)._resendAttempts, 0);
+
+      // Should be able to resend again without hitting the limit
+      await stream._resendUnackedMessages(); // Should work again
+      assert.equal((stream as any)._resendAttempts, 1);
+    });
+
+    it("should use default maxResendAttempts when not specified", async () => {
+      const stream = client.stream("testGroup"); // No options specified
+      
+      // Check that default value (3) is used
+      assert.equal((stream as any)._maxResendAttempts, 3);
+    });
+
+    it("should track resend attempts correctly across multiple calls", async () => {
+      const stream = client.stream("testGroup", { maxResendAttempts: 5 });
+      
+      // Mock send callback that works
+      (stream as any)._sendCallback = vi.fn(async () => {
+        // Simulate successful send
+      });
+
+      // Publish a message
+      await stream.publish("test message");
+
+      // Make multiple resend attempts
+      await stream._resendUnackedMessages(); // 1st attempt
+      assert.equal((stream as any)._resendAttempts, 1);
+
+      await stream._resendUnackedMessages(); // 2nd attempt
+      assert.equal((stream as any)._resendAttempts, 2);
+
+      await stream._resendUnackedMessages(); // 3rd attempt
+      assert.equal((stream as any)._resendAttempts, 3);
+
+      // Should still be able to resend since limit is 5
+      await stream._resendUnackedMessages(); // 4th attempt
+      assert.equal((stream as any)._resendAttempts, 4);
+    });
+
+    it("should not resend when limit is reached", async () => {
+      const stream = client.stream("testGroup", { maxResendAttempts: 1 });
+      let sendCallCount = 0;
+      
+      // Mock send callback to count calls
+      (stream as any)._sendCallback = vi.fn(async () => {
+        sendCallCount++;
+        // Simulate successful send
+      });
+
+      // Publish a message
+      await stream.publish("test message");
+      const initialSendCount = sendCallCount; // Should be 1 from publish
+
+      // First resend should work
+      await stream._resendUnackedMessages();
+      assert.equal(sendCallCount, initialSendCount + 1);
+
+      // Second resend should be blocked
+      await stream._resendUnackedMessages();
+      assert.equal(sendCallCount, initialSendCount + 1); // Should not increase
+    });
+  });
 });

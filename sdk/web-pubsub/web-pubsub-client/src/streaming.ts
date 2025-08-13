@@ -97,6 +97,12 @@ export interface StreamOptions {
    * Default: 30000 (30 seconds)
    */
   bufferWaitTimeout?: number;
+
+  /**
+   * Maximum number of times to resend unacked messages
+   * Default: 3
+   */
+  maxResendAttempts?: number;
 }
 
 /**
@@ -122,6 +128,8 @@ export class Stream {
   private _onError?: (error: StreamAckMessageError) => void;
   private readonly _maxBufferSize: number;
   private readonly _bufferWaitTimeout: number;
+  private readonly _maxResendAttempts: number;
+  private _resendAttempts: number = 0;
   private _isDisposed: boolean = false;
   private _waitingQueue: Array<{
     resolve: () => void;
@@ -148,6 +156,7 @@ export class Stream {
     this._sendCallback = sendCallback;
     this._maxBufferSize = options?.maxBufferSize ?? 1000;
     this._bufferWaitTimeout = options?.bufferWaitTimeout ?? 30000; // Default 30 seconds
+    this._maxResendAttempts = options?.maxResendAttempts ?? 3; // Default 3 attempts
 
     // Set up TTL cleanup
     setTimeout(() => {
@@ -297,8 +306,9 @@ export class Stream {
       this._buffer = this._buffer.filter(msg => msg.sequenceId > sequenceId);
       const afterSize = this._buffer.length;
 
-      // If buffer size decreased, notify waiting publishers
+      // If buffer size decreased, notify waiting publishers and reset resend attempts
       if (afterSize < beforeSize) {
+        this._resendAttempts = 0;
         this._notifyWaitingPublishers();
       }
     } else {
@@ -321,6 +331,20 @@ export class Stream {
     if (this._isDisposed) {
       return;
     }
+
+    // Check if we've exceeded the maximum resend attempts
+    if (this._resendAttempts >= this._maxResendAttempts) {
+      logger.warning(`Stream ${this._streamId} has exceeded maximum resend attempts (${this._maxResendAttempts}). Stopping resend.`);
+      this._handleError({
+        name: "StreamMaxResendAttemptsExceeded",
+        message: `Maximum resend attempts (${this._maxResendAttempts}) exceeded for stream ${this._streamId}`
+      });
+      return;
+    }
+
+    // Increment the resend attempt counter
+    this._resendAttempts++;
+    logger.info(`Resending buffered messages for stream ${this._streamId} (attempt ${this._resendAttempts}/${this._maxResendAttempts})`);
 
     // Resend all messages in buffer
     for (const message of this._buffer) {
