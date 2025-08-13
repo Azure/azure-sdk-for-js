@@ -21,9 +21,9 @@
 
 /design/ @bterlson @joheredi @jeremymeng @maorleger
 
-###########
-# SDK
-###########
+####################
+# Client Libraries
+####################
 
 # Catch all
 /sdk/ @xirzec @Azure/azure-sdk-js-dev
@@ -343,7 +343,10 @@
 # Cosmos API review files
 /sdk/cosmosdb/cosmos/review/*api.md @amanrao23 @aditishree1 @sajeetharan @topshot99
 
-# Management Plane
+####################
+# Management Libraries
+####################
+
 # PRLabel: %Mgmt
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao
 
