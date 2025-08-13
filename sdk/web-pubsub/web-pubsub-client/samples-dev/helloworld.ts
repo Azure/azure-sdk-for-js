@@ -8,17 +8,18 @@
 import type {
   WebPubSubClientCredential,
   GetClientAccessUrlOptions,
-  JSONTypes,
 } from "@azure/web-pubsub-client";
-import { StreamHandler, WebPubSubClient, WebPubSubJsonProtocol } from "@azure/web-pubsub-client";
+import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 async function main(): Promise<void> {
   const hubName = "sample_chat";
   const groupName = "testGroup";
   const serviceClient = new WebPubSubServiceClient(
-    "Endpoint=http://localhost;Port=8080;AccessKey=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGH;Version=1.0;",
+    process.env.WPS_ENDPOINT!,
+    new DefaultAzureCredential(),
     hubName,
   );
 
@@ -31,9 +32,7 @@ async function main(): Promise<void> {
   };
   const client = new WebPubSubClient({
     getClientAccessUrl: fetchClientAccessUrl,
-  } as WebPubSubClientCredential, {
-    protocol: WebPubSubJsonProtocol(),
-  });
+  } as WebPubSubClientCredential);
 
   client.on("connected", (e) => {
     console.log(`Connection ${e.connectionId} is connected.`);
@@ -63,45 +62,29 @@ async function main(): Promise<void> {
     }
   });
 
-
-  client.onStream(groupName, (streamId: string) => {
-    const streamHandler = new StreamHandler();
-    streamHandler.onComplete = () => {
-      console.log("Stream completed successfully", streamId);
-    };
-    streamHandler.onMessage = (streamMessage: JSONTypes) => {
-      console.log("Message received for stream: " + streamId + " " + streamMessage);
-    };
-    streamHandler.onError = (error) => {
-      console.log("Error found: ", error);
-    };
-    return streamHandler;
-  });
-
   await client.start();
 
-
   await client.joinGroup(groupName);
-  
-  // Test the new streaming API
-  console.log("\n=== Testing Stream API ===");
-  
-  // Create a stream
-  const stream = client.stream(groupName, 60000); // 60 second TTL
-  
-  // Send stream messages using the new streaming API
-  console.log("Publishing stream messages...");
-  await stream.publish("Hello", "text");
-  await stream.publish("World", "text");
-  await stream.complete("!", "text");
-  
-  console.log("Stream completed!");
-
-  // Test the raw sendToStream method
-  console.log("\n=== Testing Raw sendToStream API ===");
+  await client.sendToGroup(groupName, "hello world", "text", {
+    fireAndForget: true,
+  });
+  await client.sendToGroup(groupName, { a: 12, b: "hello" }, "json");
+  await client.sendToGroup(groupName, "hello json", "json");
+  const buf = Buffer.from("aGVsbG9w", "base64");
+  await client.sendToGroup(
+    groupName,
+    buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
+    "binary",
+  );
+  await delay(1000);
+  client.stop();
 }
 
 main().catch((e) => {
   console.error("Sample encountered an error", e);
   process.exit(1);
 });
+
+function delay(ms: number): Promise<unknown> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

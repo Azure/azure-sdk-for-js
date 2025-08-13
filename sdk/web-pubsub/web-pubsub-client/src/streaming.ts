@@ -17,22 +17,25 @@ export class StreamHandler {
 
   /**
    * Set the callback for receiving stream messages
+   * @param callback - callback function to handle incoming messages
    */
-  public set onMessage(callback: (message: JSONTypes | ArrayBuffer) => void) {
+  public onMessage(callback: (message: JSONTypes | ArrayBuffer) => void): void {
     this._onMessage = callback;
   }
 
   /**
    * Set the callback for stream completion
+   * @param callback - callback function to handle stream completion
    */
-  public set onComplete(callback: () => void) {
+  public onComplete(callback: () => void): void {
     this._onComplete = callback;
   }
 
   /**
    * Set the callback for stream errors
+   * @param callback - callback function to handle stream errors
    */
-  public set onError(callback: (error: StreamAckMessageError) => void) {
+  public onError(callback: (error: StreamAckMessageError) => void): void {
     this._onError = callback;
   }
 
@@ -113,7 +116,7 @@ export class Stream {
     abortSignal?: AbortSignalLike,
   ) => Promise<void>;
 
-  private _sequenceId: number = 1;
+  private _sequenceId: number = 0;
   private _isCompleted: boolean = false;
   private _buffer: StreamMessage[] = [];
   private _onError?: (error: StreamAckMessageError) => void;
@@ -173,10 +176,24 @@ export class Stream {
   }
 
   /**
-   * Set the error callback
+   * Set the callback for stream errors
+   * @param callback - callback function to handle stream publish errors
    */
   public onError(callback: (error: StreamAckMessageError) => void): void {
     this._onError = callback;
+  }
+
+  /**
+   * Auto-detect data type based on content
+   */
+  private _detectDataType(content: JSONTypes | ArrayBuffer): WebPubSubDataType {
+    if (content instanceof ArrayBuffer || content instanceof Uint8Array) {
+      return "binary";
+    }
+    if (typeof content === "string") {
+      return "text";
+    }
+    return "json";
   }
 
   /**
@@ -184,7 +201,7 @@ export class Stream {
    */
   public async publish(
     content: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType = "json",
+    dataType?: WebPubSubDataType,
     abortSignal?: AbortSignalLike,
   ): Promise<void> {
     if (this._isCompleted) {
@@ -194,10 +211,12 @@ export class Stream {
       throw new Error("Stream is disposed");
     }
 
+    const actualDataType = dataType ?? this._detectDataType(content);
+
     const message: StreamMessage = {
       content,
-      dataType,
-      sequenceId: this._sequenceId++,
+      dataType: actualDataType,
+      sequenceId: ++this._sequenceId,
       endOfStream: false,
     };
 
@@ -210,7 +229,7 @@ export class Stream {
   public async publishWithSequenceId(
     sequenceId: number,
     content: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType = "json",
+    dataType?: WebPubSubDataType,
     abortSignal?: AbortSignalLike,
   ): Promise<void> {
     if (this._isCompleted) {
@@ -220,15 +239,17 @@ export class Stream {
       throw new Error("Stream is disposed");
     }
 
+    const actualDataType = dataType ?? this._detectDataType(content);
+
     const message: StreamMessage = {
       content,
-      dataType,
+      dataType: actualDataType,
       sequenceId,
       endOfStream: false,
     };
 
     await this._sendMessage(message, abortSignal);
-    this._sequenceId = sequenceId + 1;
+    this._sequenceId = sequenceId;
   }
 
   /**
@@ -251,14 +272,14 @@ export class Stream {
       message = {
         content,
         dataType,
-        sequenceId: this._sequenceId++,
+        sequenceId: ++this._sequenceId,
         endOfStream: true,
       };
     } else {
       message = {
         content: "",
         dataType: "text",
-        sequenceId: this._sequenceId++,
+        sequenceId: ++this._sequenceId,
         endOfStream: true,
       };
     }

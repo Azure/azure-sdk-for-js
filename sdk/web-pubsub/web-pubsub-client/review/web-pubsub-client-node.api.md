@@ -262,9 +262,9 @@ export class StreamHandler {
     _handleError(error: StreamAckMessageError): void;
     // @internal
     _handleMessage(message: JSONTypes | ArrayBuffer): void;
-    set onComplete(callback: () => void);
-    set onError(callback: (error: StreamAckMessageError) => void);
-    set onMessage(callback: (message: JSONTypes | ArrayBuffer) => void);
+    onComplete(callback: () => void): void;
+    onError(callback: (error: StreamAckMessageError) => void): void;
+    onMessage(callback: (message: JSONTypes | ArrayBuffer) => void): void;
 }
 
 // @public
