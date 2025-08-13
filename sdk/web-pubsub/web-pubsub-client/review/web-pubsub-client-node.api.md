@@ -271,6 +271,7 @@ export class StreamHandler {
 export interface StreamOptions {
     bufferWaitTimeout?: number;
     maxBufferSize?: number;
+    maxResendAttempts?: number;
     timeToLive?: number;
 }
 
