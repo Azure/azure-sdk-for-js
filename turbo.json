@@ -1,4 +1,4 @@
-{
+{"remoteCache":{"teamSlug":"sdkjs","apiUrl":"http://localhost:3000"},
   "$schema": "https://turbo.build/schema.json",
   "ui": "stream",
   "daemon": false,
