@@ -15,27 +15,18 @@ import {
   getAccessToken,
   getServiceWSEndpoint,
   validateMptPAT,
-  warnIfAccessTokenCloseToExpiry,
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
   getPackageVersion,
   getPlaywrightVersion,
   getVersionInfo,
+  throwErrorWithFailureMessage,
 } from "../utils/utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { globalPaths } from "./playwrightServiceUtils.js";
 
-const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): void => {
-  const oneTimeOperationFlag =
-    process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] === "true";
-  if (oneTimeOperationFlag) return;
-  process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
-  if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
-    warnIfAccessTokenCloseToExpiry();
-  }
-};
 /**
  * @public
  *
@@ -151,7 +142,6 @@ const getServiceConfig = (
     globalFunctions.globalSetup = globalPaths.setup;
     globalFunctions.globalTeardown = globalPaths.teardown;
   }
-  performOneTimeOperation(options);
   if (options?.useCloudHostedBrowsers === false) {
     return {
       ...globalFunctions,
@@ -214,25 +204,28 @@ const getServiceConfig = (
 const getConnectOptions = async (
   options?: PlaywrightServiceAdditionalOptions,
 ): Promise<BrowserConnectOptions> => {
-  const playwrightServiceConfig = new PlaywrightServiceConfig();
+  const playwrightServiceConfig = PlaywrightServiceConfig.instance;
+
+  playwrightServiceConfig.setOptions(options, true);
   playwrightServiceConfig.serviceAuthType =
     options?.serviceAuthType || DefaultConnectOptionsConstants.DEFAULT_SERVICE_AUTH_TYPE;
 
-  playwrightServiceConfig.setOptions(options, true);
-  performOneTimeOperation(options);
-
   let token: string | undefined;
   if (playwrightServiceConfig.serviceAuthType === ServiceAuth.ENTRA_ID) {
-    if (options?.credential) {
-      playwrightServiceEntra.entraIdAccessToken = options.credential;
+    if (!options?.credential) {
+      throw new Error(ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message);
     }
-    token = await fetchOrValidateAccessToken(options?.credential);
+    playwrightServiceEntra.entraIdAccessToken = options.credential;
+    token = await fetchOrValidateAccessToken(options.credential);
   } else if (playwrightServiceConfig.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
-    validateMptPAT(exitWithFailureMessage);
+    validateMptPAT(throwErrorWithFailureMessage);
     token = getAccessToken();
-    if (!token) {
-      throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
-    }
+  } else {
+    throw new Error(ServiceErrorMessageConstants.INVALID_AUTH_TYPE_ERROR.message);
+  }
+
+  if (!token) {
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
   }
 
   return {

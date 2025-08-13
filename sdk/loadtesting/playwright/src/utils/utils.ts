@@ -8,6 +8,7 @@ import {
   ServiceEnvironmentVariable,
   RunConfigConstants,
   GitHubActionsConstants,
+  ServiceAuth,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
@@ -26,9 +27,26 @@ import { exec } from "child_process";
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
 export { parseJwt } from "./parseJwt.js";
 
-// const playwrightServiceConfig = new PlaywrightServiceConfig();
-
 export const exitWithFailureMessage = (
+  error: {
+    key: string;
+    message: string;
+    formatWithErrorDetails?: (errorDetails: string) => string;
+  },
+  errorDetails?: string,
+): never => {
+  console.log();
+
+  if (error.formatWithErrorDetails && errorDetails) {
+    console.error(error.formatWithErrorDetails(errorDetails));
+  } else {
+    console.error(error.message);
+  }
+  // eslint-disable-next-line n/no-process-exit
+  process.exit(1);
+};
+
+export const throwErrorWithFailureMessage = (
   error: {
     key: string;
     message: string;
@@ -42,12 +60,7 @@ export const exitWithFailureMessage = (
     error.formatWithErrorDetails && errorDetails
       ? error.formatWithErrorDetails(errorDetails)
       : error.message;
-  console.error(finalMessage);
 
-  if (process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] === "true") {
-    // eslint-disable-next-line n/no-process-exit
-    process.exit(1);
-  }
   throw new Error(finalMessage);
 };
 
@@ -150,6 +163,9 @@ const warnAboutTokenExpiry = (expirationTime: number, currentTime: number): void
 
 export const warnIfAccessTokenCloseToExpiry = (): void => {
   const accessToken = getAccessToken();
+  if (!accessToken) {
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+  }
   const claims = parseJwt<JwtPayload>(accessToken!);
   const currentTime = Date.now();
   if (isTokenExpiringSoon(claims.exp!, currentTime)) {
@@ -159,10 +175,8 @@ export const warnIfAccessTokenCloseToExpiry = (): void => {
 
 export const fetchOrValidateAccessToken = async (credential?: TokenCredential): Promise<string> => {
   const entraIdAccessToken = createEntraIdAccessToken(credential);
-  // If we don't have a token yet, fetch one. Otherwise rotate if needed.
-  if (!entraIdAccessToken.token) {
-    await entraIdAccessToken.fetchEntraIdAccessToken();
-  } else if (entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
+  // Fetch a token or refresh if needed in a single call
+  if (!entraIdAccessToken.token || entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
     await entraIdAccessToken.fetchEntraIdAccessToken();
   }
   const token = getAccessToken();
@@ -319,3 +333,15 @@ export function extractErrorMessage(responseBody: string): string {
     return responseBody;
   }
 }
+
+export const performOneTimeOperation = (options?: { serviceAuthType?: string }): void => {
+  const oneTimeOperationFlag =
+    process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] === "true";
+  if (oneTimeOperationFlag) return;
+
+  process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
+
+  if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
+    warnIfAccessTokenCloseToExpiry();
+  }
+};

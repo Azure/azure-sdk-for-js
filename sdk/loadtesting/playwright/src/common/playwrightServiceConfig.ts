@@ -8,7 +8,12 @@ import {
   ServiceAuth,
 } from "./constants.js";
 import type { PlaywrightServiceAdditionalOptions, OsType } from "./types.js";
-import { getAndSetRunId, getRunName, ValidateRunID } from "../utils/utils.js";
+import {
+  getAndSetRunId,
+  getRunName,
+  ValidateRunID,
+  performOneTimeOperation,
+} from "../utils/utils.js";
 import { CIInfoProvider } from "../utils/cIInfoProvider.js";
 import { state } from "./state.js";
 import { ServiceErrorMessageConstants } from "./messages.js";
@@ -78,6 +83,9 @@ class PlaywrightServiceConfig {
     if (isGetConnectOptions) {
       this.validateOptions(options);
     }
+
+    performOneTimeOperation(options);
+
     if (options?.exposeNetwork) {
       this.exposeNetwork = options.exposeNetwork;
     }
