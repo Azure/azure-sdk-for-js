@@ -5482,7 +5482,7 @@ export interface DetectorResponseOutput extends ProxyOnlyResourceOutput {
 // @public
 export interface DetectorResponseProperties {
     dataProvidersMetadata?: Array<DataProviderMetadata>;
-    dataset?: Array<DiagnosticData_2>;
+    dataset?: Array<DiagnosticData>;
     metadata?: DetectorInfo;
     status?: Status;
     suggestedUtterances?: QueryUtterancesResults;
@@ -5557,11 +5557,10 @@ export interface DiagnosticCategoryPropertiesOutput {
 }
 
 // @public
-interface DiagnosticData_2 {
+export interface DiagnosticData {
     renderingProperties?: Rendering;
     table?: DataTableResponseObject;
 }
-export { DiagnosticData_2 as DiagnosticData }
 
 // @public
 export interface DiagnosticDataOutput {

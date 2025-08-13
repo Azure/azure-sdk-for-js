@@ -53,6 +53,7 @@ export default defineConfig({
       exclude: [
         "dist-test/browser/**/*./*-browser.mjs",
         "dist-test/browser/**/*./*-react-native.mjs",
+        "dist-test/browser/**/snippets.spec.js",
       ],
       provider: "istanbul",
       reporter: ["text", "json", "html"],
