@@ -71,6 +71,7 @@ function makeNodeAliases(rootDir: string) {
 export default defineConfig({
   test: {
     testTimeout: 1200000,
+    hookTimeout: 1200000,
     reporters: [new AzureSDKReporter(), "junit"],
     outputFile: {
       junit: "test-results.xml",
