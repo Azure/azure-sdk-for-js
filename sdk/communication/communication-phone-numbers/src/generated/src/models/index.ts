@@ -207,7 +207,7 @@ export interface PhoneNumbersReservationPurchaseRequest {
 
 /** Represents a phone number search request to find phone numbers. Found phone numbers are temporarily held for a following purchase. */
 export interface PhoneNumberSearchRequest {
-  /** The type of phone numbers to search for, e.g. geographic, or tollFree. */
+  /** The type of phone numbers to search for, e.g. geographic, tollFree, mobile. */
   phoneNumberType: PhoneNumberType;
   /** The assignment type of the phone numbers to search for. A phone number can be assigned to a person, or to an application. */
   assignmentType: PhoneNumberAssignmentType;
@@ -225,7 +225,7 @@ export interface PhoneNumberSearchResult {
   searchId: string;
   /** The phone numbers that are available. Can be fewer than the desired search quantity. */
   phoneNumbers: string[];
-  /** The phone number's type, e.g. geographic, or tollFree. */
+  /** The phone number's type, e.g. geographic, tollFree, mobile. */
   phoneNumberType: PhoneNumberType;
   /** Phone number's assignment type. */
   assignmentType: PhoneNumberAssignmentType;
@@ -287,7 +287,7 @@ export interface PurchasedPhoneNumber {
   phoneNumber: string;
   /** The ISO 3166-2 code of the phone number's country, e.g. US. */
   countryCode: string;
-  /** The phone number's type, e.g. geographic, tollFree. */
+  /** The phone number's type, e.g. geographic, tollFree, mobile. */
   phoneNumberType: PhoneNumberType;
   /** Capabilities of a phone number. */
   capabilities: PhoneNumberCapabilities;
@@ -425,7 +425,7 @@ export interface PhoneNumbersReleasePhoneNumberHeaders {
 }
 
 /** Defines values for PhoneNumberType. */
-export type PhoneNumberType = "geographic" | "tollFree";
+export type PhoneNumberType = "geographic" | "tollFree" | "mobile";
 /** Defines values for PhoneNumberAssignmentType. */
 export type PhoneNumberAssignmentType = "person" | "application";
 /** Defines values for PhoneNumberCapabilityType. */
@@ -542,6 +542,8 @@ export interface PhoneNumbersListAvailableLocalitiesOptionalParams
   administrativeDivision?: string;
   /** The locale to display in the localized fields in the response. e.g. 'en-US' */
   acceptLanguage?: string;
+  /** Filter by numberType, e.g. Geographic, TollFree, Mobile. */
+  phoneNumberType?: PhoneNumberType;
 }
 
 /** Contains response data for the listAvailableLocalities operation. */
@@ -558,7 +560,7 @@ export interface PhoneNumbersListOfferingsOptionalParams
   assignmentType?: PhoneNumberAssignmentType;
   /** The locale to display in the localized fields in the response. e.g. 'en-US' */
   acceptLanguage?: string;
-  /** Filter by numberType, e.g. Geographic, TollFree. */
+  /** Filter by numberType, e.g. Geographic, TollFree, Mobile. */
   phoneNumberType?: PhoneNumberType;
 }
 
