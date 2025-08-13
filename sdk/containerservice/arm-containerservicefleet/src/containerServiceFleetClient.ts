@@ -15,18 +15,19 @@ import {
   _getAutoUpgradeProfilesOperations,
 } from "./classic/autoUpgradeProfiles/index.js";
 import {
-  FleetUpdateStrategiesOperations,
-  _getFleetUpdateStrategiesOperations,
-} from "./classic/fleetUpdateStrategies/index.js";
-import { UpdateRunsOperations, _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
-import {
   FleetMembersOperations,
   _getFleetMembersOperations,
 } from "./classic/fleetMembers/index.js";
+import {
+  FleetUpdateStrategiesOperations,
+  _getFleetUpdateStrategiesOperations,
+} from "./classic/fleetUpdateStrategies/index.js";
 import { FleetsOperations, _getFleetsOperations } from "./classic/fleets/index.js";
+import { GatesOperations, _getGatesOperations } from "./classic/gates/index.js";
 import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { UpdateRunsOperations, _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ContainerServiceFleetClientOptionalParams } from "./api/containerServiceFleetContext.js";
 
@@ -54,6 +55,7 @@ export class ContainerServiceFleetClient {
     this.autoUpgradeProfiles = _getAutoUpgradeProfilesOperations(this._client);
     this.fleetUpdateStrategies = _getFleetUpdateStrategiesOperations(this._client);
     this.updateRuns = _getUpdateRunsOperations(this._client);
+    this.gates = _getGatesOperations(this._client);
     this.fleetMembers = _getFleetMembersOperations(this._client);
     this.fleets = _getFleetsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
@@ -67,6 +69,8 @@ export class ContainerServiceFleetClient {
   public readonly fleetUpdateStrategies: FleetUpdateStrategiesOperations;
   /** The operation groups for updateRuns */
   public readonly updateRuns: UpdateRunsOperations;
+  /** The operation groups for gates */
+  public readonly gates: GatesOperations;
   /** The operation groups for fleetMembers */
   public readonly fleetMembers: FleetMembersOperations;
   /** The operation groups for fleets */
