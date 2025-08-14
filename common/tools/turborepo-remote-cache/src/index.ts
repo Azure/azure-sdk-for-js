@@ -64,6 +64,11 @@ if (process.env.AZURE_CONTAINER_SAS_URL) {
     process.exit(1);
   }
 
+  fastify.log.info(
+    { storageAccount: azureStorageAccount, containerName: azureStorageContainerName },
+    "Using Azure Blob Storage back end",
+  );
+
   const blobServiceClient = new BlobServiceClient(
     `https://${azureStorageAccount}.blob.core.windows.net`,
     new DefaultAzureCredential(),
