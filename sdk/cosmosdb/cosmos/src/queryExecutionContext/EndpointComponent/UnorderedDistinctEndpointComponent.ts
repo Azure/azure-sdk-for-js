@@ -19,10 +19,14 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
     const buffer: any[] = [];
     const response = await this.executionContext.fetchMore(diagnosticNode);
-    if (response === undefined || response.result === undefined) {
+    if (
+      response === undefined ||
+      response.result === undefined ||
+      response.result.buffer === undefined
+    ) {
       return { result: undefined, headers: response.headers };
     }
-    for (const item of response.result) {
+    for (const item of response.result.buffer) {
       if (item) {
         const hashedResult = await hashObject(item);
         if (!this.hashedResults.has(hashedResult)) {
