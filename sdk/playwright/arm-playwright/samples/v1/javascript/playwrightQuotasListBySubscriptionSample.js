@@ -5,20 +5,17 @@ const { PlaywrightManagementClient } = require("@azure/arm-playwright");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to list quota resources for a given Playwright workspace resource.
+ * This sample demonstrates how to lists Playwright quota resources for a given subscription ID.
  *
- * @summary list quota resources for a given Playwright workspace resource.
- * x-ms-original-file: 2025-07-01-preview/PlaywrightWorkspaceQuotas_ListByPlaywrightWorkspace.json
+ * @summary lists Playwright quota resources for a given subscription ID.
+ * x-ms-original-file: 2025-09-01/PlaywrightQuotas_ListBySubscription.json
  */
-async function playwrightWorkspaceQuotasListByPlaywrightWorkspace() {
+async function playwrightQuotasListBySubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlaywrightManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.playwrightWorkspaceQuotas.listByPlaywrightWorkspace(
-    "dummyrg",
-    "myWorkspace",
-  )) {
+  for await (const item of client.playwrightQuotas.listBySubscription("eastus")) {
     resArray.push(item);
   }
 
@@ -26,7 +23,7 @@ async function playwrightWorkspaceQuotasListByPlaywrightWorkspace() {
 }
 
 async function main() {
-  await playwrightWorkspaceQuotasListByPlaywrightWorkspace();
+  await playwrightQuotasListBySubscription();
 }
 
 main().catch(console.error);

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlaywrightManagementClient } from "@azure/arm-playwright";
-import { DefaultAzureCredential } from "@azure/identity";
+const { PlaywrightManagementClient } = require("@azure/arm-playwright");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to implements global CheckNameAvailability operations
+ * This sample demonstrates how to checks if a Playwright workspace name is available globally.
  *
- * @summary implements global CheckNameAvailability operations
- * x-ms-original-file: 2025-07-01-preview/PlaywrightWorkspaces_CheckNameAvailability.json
+ * @summary checks if a Playwright workspace name is available globally.
+ * x-ms-original-file: 2025-09-01/PlaywrightWorkspaces_CheckNameAvailability.json
  */
-async function playwrightWorkspacesCheckNameAvailability(): Promise<void> {
+async function playwrightWorkspacesCheckNameAvailability() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlaywrightManagementClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function playwrightWorkspacesCheckNameAvailability(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await playwrightWorkspacesCheckNameAvailability();
 }
 
