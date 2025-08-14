@@ -37,11 +37,11 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log statistics.html coverage && dev-tool run vendored rimraf --glob src/**/*.js && dev-tool run vendored rimraf --glob test/**/*.js",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist dist-* types *.tgz *.log statistics.html coverage && rimraf --glob src/**/*.js && rimraf --glob test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "tsp-client update -d -o src/generated --emitter-options=\"generate-metadata=false;generate-test=false\"",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src --fix --fix-type [problem,suggestion]",
@@ -50,7 +50,7 @@
     "test:browser": "echo Skipped",
     "test:node": "dev-tool run test:vitest",
     "test:node:esm": "echo skipped",
-    "test:node:live": "dev-tool run vendored cross-env TEST_MODE=live dev-tool run test:vitest --no-test-proxy --esm",
+    "test:node:live": "cross-env TEST_MODE=live dev-tool run test:vitest --no-test-proxy --esm",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//metadata": {
