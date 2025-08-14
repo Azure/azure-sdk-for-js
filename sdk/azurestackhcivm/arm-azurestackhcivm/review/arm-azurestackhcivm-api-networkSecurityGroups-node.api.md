@@ -10,19 +10,19 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureStackHCIContext, resourceGroupName: string, networkSecurityGroupName: string, options?: NetworkSecurityGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkSecurityGroupName: string, options?: NetworkSecurityGroupsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureStackHCIContext, resourceGroupName: string, networkSecurityGroupName: string, resource: NetworkSecurityGroup, options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<NetworkSecurityGroup>, NetworkSecurityGroup>;
+export function createOrUpdate(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkSecurityGroupName: string, resource: NetworkSecurityGroup, options?: NetworkSecurityGroupsCreateOrUpdateOptionalParams): PollerLike<OperationState<NetworkSecurityGroup>, NetworkSecurityGroup>;
 
 // @public
-export function get(context: AzureStackHCIContext, resourceGroupName: string, networkSecurityGroupName: string, options?: NetworkSecurityGroupsGetOptionalParams): Promise<NetworkSecurityGroup>;
+export function get(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkSecurityGroupName: string, options?: NetworkSecurityGroupsGetOptionalParams): Promise<NetworkSecurityGroup>;
 
 // @public
-export function listAll(context: AzureStackHCIContext, options?: NetworkSecurityGroupsListAllOptionalParams): PagedAsyncIterableIterator<NetworkSecurityGroup>;
+export function listAll(context: AzureStackHCIVMManagementContext, options?: NetworkSecurityGroupsListAllOptionalParams): PagedAsyncIterableIterator<NetworkSecurityGroup>;
 
 // @public
-export function listByResourceGroup(context: AzureStackHCIContext, resourceGroupName: string, options?: NetworkSecurityGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NetworkSecurityGroup>;
+export function listByResourceGroup(context: AzureStackHCIVMManagementContext, resourceGroupName: string, options?: NetworkSecurityGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NetworkSecurityGroup>;
 
 // @public
 export interface NetworkSecurityGroupsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -52,7 +52,7 @@ export interface NetworkSecurityGroupsUpdateTagsOptionalParams extends Operation
 }
 
 // @public
-export function updateTags(context: AzureStackHCIContext, resourceGroupName: string, networkSecurityGroupName: string, properties: NetworkSecurityGroupTagsUpdate, options?: NetworkSecurityGroupsUpdateTagsOptionalParams): PollerLike<OperationState<NetworkSecurityGroup>, NetworkSecurityGroup>;
+export function updateTags(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkSecurityGroupName: string, properties: NetworkSecurityGroupTagsUpdate, options?: NetworkSecurityGroupsUpdateTagsOptionalParams): PollerLike<OperationState<NetworkSecurityGroup>, NetworkSecurityGroup>;
 
 // (No @packageDocumentation comment for this package)
 

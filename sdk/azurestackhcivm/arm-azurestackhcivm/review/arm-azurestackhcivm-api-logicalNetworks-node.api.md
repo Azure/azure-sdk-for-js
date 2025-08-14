@@ -10,19 +10,19 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureStackHCIContext, resourceGroupName: string, logicalNetworkName: string, options?: LogicalNetworksDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureStackHCIVMManagementContext, resourceGroupName: string, logicalNetworkName: string, options?: LogicalNetworksDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureStackHCIContext, resourceGroupName: string, logicalNetworkName: string, resource: LogicalNetwork, options?: LogicalNetworksCreateOrUpdateOptionalParams): PollerLike<OperationState<LogicalNetwork>, LogicalNetwork>;
+export function createOrUpdate(context: AzureStackHCIVMManagementContext, resourceGroupName: string, logicalNetworkName: string, resource: LogicalNetwork, options?: LogicalNetworksCreateOrUpdateOptionalParams): PollerLike<OperationState<LogicalNetwork>, LogicalNetwork>;
 
 // @public
-export function get(context: AzureStackHCIContext, resourceGroupName: string, logicalNetworkName: string, options?: LogicalNetworksGetOptionalParams): Promise<LogicalNetwork>;
+export function get(context: AzureStackHCIVMManagementContext, resourceGroupName: string, logicalNetworkName: string, options?: LogicalNetworksGetOptionalParams): Promise<LogicalNetwork>;
 
 // @public
-export function listAll(context: AzureStackHCIContext, options?: LogicalNetworksListAllOptionalParams): PagedAsyncIterableIterator<LogicalNetwork>;
+export function listAll(context: AzureStackHCIVMManagementContext, options?: LogicalNetworksListAllOptionalParams): PagedAsyncIterableIterator<LogicalNetwork>;
 
 // @public
-export function listByResourceGroup(context: AzureStackHCIContext, resourceGroupName: string, options?: LogicalNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LogicalNetwork>;
+export function listByResourceGroup(context: AzureStackHCIVMManagementContext, resourceGroupName: string, options?: LogicalNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LogicalNetwork>;
 
 // @public
 export interface LogicalNetworksCreateOrUpdateOptionalParams extends OperationOptions {
@@ -52,7 +52,7 @@ export interface LogicalNetworksUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: AzureStackHCIContext, resourceGroupName: string, logicalNetworkName: string, properties: LogicalNetworksUpdateRequest, options?: LogicalNetworksUpdateOptionalParams): PollerLike<OperationState<LogicalNetwork>, LogicalNetwork>;
+export function update(context: AzureStackHCIVMManagementContext, resourceGroupName: string, logicalNetworkName: string, properties: LogicalNetworksUpdateRequest, options?: LogicalNetworksUpdateOptionalParams): PollerLike<OperationState<LogicalNetwork>, LogicalNetwork>;
 
 // (No @packageDocumentation comment for this package)
 

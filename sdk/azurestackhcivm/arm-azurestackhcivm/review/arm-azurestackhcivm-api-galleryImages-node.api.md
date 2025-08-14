@@ -10,10 +10,10 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureStackHCIContext, resourceGroupName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureStackHCIVMManagementContext, resourceGroupName: string, galleryImageName: string, options?: GalleryImagesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureStackHCIContext, resourceGroupName: string, galleryImageName: string, resource: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams): PollerLike<OperationState<GalleryImage>, GalleryImage>;
+export function createOrUpdate(context: AzureStackHCIVMManagementContext, resourceGroupName: string, galleryImageName: string, resource: GalleryImage, options?: GalleryImagesCreateOrUpdateOptionalParams): PollerLike<OperationState<GalleryImage>, GalleryImage>;
 
 // @public
 export interface GalleryImagesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -43,16 +43,16 @@ export interface GalleryImagesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: AzureStackHCIContext, resourceGroupName: string, galleryImageName: string, options?: GalleryImagesGetOptionalParams): Promise<GalleryImage>;
+export function get(context: AzureStackHCIVMManagementContext, resourceGroupName: string, galleryImageName: string, options?: GalleryImagesGetOptionalParams): Promise<GalleryImage>;
 
 // @public
-export function listAll(context: AzureStackHCIContext, options?: GalleryImagesListAllOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
+export function listAll(context: AzureStackHCIVMManagementContext, options?: GalleryImagesListAllOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
 
 // @public
-export function listByResourceGroup(context: AzureStackHCIContext, resourceGroupName: string, options?: GalleryImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
+export function listByResourceGroup(context: AzureStackHCIVMManagementContext, resourceGroupName: string, options?: GalleryImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
 
 // @public
-export function update(context: AzureStackHCIContext, resourceGroupName: string, galleryImageName: string, properties: GalleryImageTagsUpdate, options?: GalleryImagesUpdateOptionalParams): PollerLike<OperationState<GalleryImage>, GalleryImage>;
+export function update(context: AzureStackHCIVMManagementContext, resourceGroupName: string, galleryImageName: string, properties: GalleryImageTagsUpdate, options?: GalleryImagesUpdateOptionalParams): PollerLike<OperationState<GalleryImage>, GalleryImage>;
 
 // (No @packageDocumentation comment for this package)
 

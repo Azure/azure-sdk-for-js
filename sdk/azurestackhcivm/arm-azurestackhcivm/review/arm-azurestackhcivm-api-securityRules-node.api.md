@@ -10,16 +10,16 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureStackHCIContext, resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, options?: SecurityRulesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, options?: SecurityRulesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureStackHCIContext, resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, resource: SecurityRule, options?: SecurityRulesCreateOrUpdateOptionalParams): PollerLike<OperationState<SecurityRule>, SecurityRule>;
+export function createOrUpdate(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, resource: SecurityRule, options?: SecurityRulesCreateOrUpdateOptionalParams): PollerLike<OperationState<SecurityRule>, SecurityRule>;
 
 // @public
-export function get(context: AzureStackHCIContext, resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, options?: SecurityRulesGetOptionalParams): Promise<SecurityRule>;
+export function get(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkSecurityGroupName: string, securityRuleName: string, options?: SecurityRulesGetOptionalParams): Promise<SecurityRule>;
 
 // @public
-export function listByNetworkSecurityGroup(context: AzureStackHCIContext, resourceGroupName: string, networkSecurityGroupName: string, options?: SecurityRulesListByNetworkSecurityGroupOptionalParams): PagedAsyncIterableIterator<SecurityRule>;
+export function listByNetworkSecurityGroup(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkSecurityGroupName: string, options?: SecurityRulesListByNetworkSecurityGroupOptionalParams): PagedAsyncIterableIterator<SecurityRule>;
 
 // @public
 export interface SecurityRulesCreateOrUpdateOptionalParams extends OperationOptions {

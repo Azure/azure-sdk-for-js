@@ -1,6 +1,6 @@
-# AzureStackHCI client library for JavaScript
+# AzureStackHCIVMManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureStackHCI client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzureStackHCIVMManagement client.
 
 Azure Stack HCI management service
 
@@ -26,16 +26,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-azurestackhcivm` package
 
-Install the AzureStackHCI client library for JavaScript with `npm`:
+Install the AzureStackHCIVMManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-azurestackhcivm
 ```
 
-### Create and authenticate a `AzureStackHCIClient`
+### Create and authenticate a `AzureStackHCIVMManagementClient`
 
-To create a client object to access the AzureStackHCI API, you will need the `endpoint` of your AzureStackHCI resource and a `credential`. The AzureStackHCI client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your AzureStackHCI resource in the [Azure Portal][azure_portal].
+To create a client object to access the AzureStackHCIVMManagement API, you will need the `endpoint` of your AzureStackHCIVMManagement resource and a `credential`. The AzureStackHCIVMManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your AzureStackHCIVMManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -45,32 +45,32 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to AzureStackHCI** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to AzureStackHCIVMManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { AzureStackHCIClient } from "@azure/arm-azurestackhcivm";
+import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new AzureStackHCIClient(new DefaultAzureCredential(), subscriptionId);
+const client = new AzureStackHCIVMManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { AzureStackHCIClient } from "@azure/arm-azurestackhcivm";
+import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
 
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new AzureStackHCIClient(credential, subscriptionId);
+const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
 ```
 
 
@@ -79,9 +79,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### AzureStackHCIClient
+### AzureStackHCIVMManagementClient
 
-`AzureStackHCIClient` is the primary interface for developers using the AzureStackHCI client library. Explore the methods on this client object to understand the different features of the AzureStackHCI service that you can access.
+`AzureStackHCIVMManagementClient` is the primary interface for developers using the AzureStackHCIVMManagement client library. Explore the methods on this client object to understand the different features of the AzureStackHCIVMManagement service that you can access.
 
 ## Troubleshooting
 

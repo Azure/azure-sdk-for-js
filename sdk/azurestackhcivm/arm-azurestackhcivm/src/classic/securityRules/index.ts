@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listByNetworkSecurityGroup,
   $delete,
@@ -55,7 +55,7 @@ export interface SecurityRulesOperations {
   ) => Promise<SecurityRule>;
 }
 
-function _getSecurityRules(context: AzureStackHCIContext) {
+function _getSecurityRules(context: AzureStackHCIVMManagementContext) {
   return {
     listByNetworkSecurityGroup: (
       resourceGroupName: string,
@@ -93,7 +93,7 @@ function _getSecurityRules(context: AzureStackHCIContext) {
 }
 
 export function _getSecurityRulesOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): SecurityRulesOperations {
   return {
     ..._getSecurityRules(context),

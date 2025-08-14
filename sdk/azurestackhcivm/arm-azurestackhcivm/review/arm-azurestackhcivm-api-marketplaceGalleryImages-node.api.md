@@ -10,19 +10,19 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureStackHCIContext, resourceGroupName: string, marketplaceGalleryImageName: string, options?: MarketplaceGalleryImagesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureStackHCIVMManagementContext, resourceGroupName: string, marketplaceGalleryImageName: string, options?: MarketplaceGalleryImagesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureStackHCIContext, resourceGroupName: string, marketplaceGalleryImageName: string, resource: MarketplaceGalleryImage, options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams): PollerLike<OperationState<MarketplaceGalleryImage>, MarketplaceGalleryImage>;
+export function createOrUpdate(context: AzureStackHCIVMManagementContext, resourceGroupName: string, marketplaceGalleryImageName: string, resource: MarketplaceGalleryImage, options?: MarketplaceGalleryImagesCreateOrUpdateOptionalParams): PollerLike<OperationState<MarketplaceGalleryImage>, MarketplaceGalleryImage>;
 
 // @public
-export function get(context: AzureStackHCIContext, resourceGroupName: string, marketplaceGalleryImageName: string, options?: MarketplaceGalleryImagesGetOptionalParams): Promise<MarketplaceGalleryImage>;
+export function get(context: AzureStackHCIVMManagementContext, resourceGroupName: string, marketplaceGalleryImageName: string, options?: MarketplaceGalleryImagesGetOptionalParams): Promise<MarketplaceGalleryImage>;
 
 // @public
-export function listAll(context: AzureStackHCIContext, options?: MarketplaceGalleryImagesListAllOptionalParams): PagedAsyncIterableIterator<MarketplaceGalleryImage>;
+export function listAll(context: AzureStackHCIVMManagementContext, options?: MarketplaceGalleryImagesListAllOptionalParams): PagedAsyncIterableIterator<MarketplaceGalleryImage>;
 
 // @public
-export function listByResourceGroup(context: AzureStackHCIContext, resourceGroupName: string, options?: MarketplaceGalleryImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MarketplaceGalleryImage>;
+export function listByResourceGroup(context: AzureStackHCIVMManagementContext, resourceGroupName: string, options?: MarketplaceGalleryImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MarketplaceGalleryImage>;
 
 // @public
 export interface MarketplaceGalleryImagesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -52,7 +52,7 @@ export interface MarketplaceGalleryImagesUpdateOptionalParams extends OperationO
 }
 
 // @public
-export function update(context: AzureStackHCIContext, resourceGroupName: string, marketplaceGalleryImageName: string, properties: MarketplaceGalleryImageTagsUpdate, options?: MarketplaceGalleryImagesUpdateOptionalParams): PollerLike<OperationState<MarketplaceGalleryImage>, MarketplaceGalleryImage>;
+export function update(context: AzureStackHCIVMManagementContext, resourceGroupName: string, marketplaceGalleryImageName: string, properties: MarketplaceGalleryImageTagsUpdate, options?: MarketplaceGalleryImagesUpdateOptionalParams): PollerLike<OperationState<MarketplaceGalleryImage>, MarketplaceGalleryImage>;
 
 // (No @packageDocumentation comment for this package)
 

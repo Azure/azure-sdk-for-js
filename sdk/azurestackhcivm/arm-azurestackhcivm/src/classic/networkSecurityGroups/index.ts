@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listAll,
   listByResourceGroup,
@@ -66,7 +66,7 @@ export interface NetworkSecurityGroupsOperations {
   ) => Promise<NetworkSecurityGroup>;
 }
 
-function _getNetworkSecurityGroups(context: AzureStackHCIContext) {
+function _getNetworkSecurityGroups(context: AzureStackHCIVMManagementContext) {
   return {
     listAll: (options?: NetworkSecurityGroupsListAllOptionalParams) => listAll(context, options),
     listByResourceGroup: (
@@ -99,7 +99,7 @@ function _getNetworkSecurityGroups(context: AzureStackHCIContext) {
 }
 
 export function _getNetworkSecurityGroupsOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): NetworkSecurityGroupsOperations {
   return {
     ..._getNetworkSecurityGroups(context),

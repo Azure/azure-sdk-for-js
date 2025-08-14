@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listAll,
   listByResourceGroup,
@@ -66,7 +66,7 @@ export interface GalleryImagesOperations {
   ) => Promise<GalleryImage>;
 }
 
-function _getGalleryImages(context: AzureStackHCIContext) {
+function _getGalleryImages(context: AzureStackHCIVMManagementContext) {
   return {
     listAll: (options?: GalleryImagesListAllOptionalParams) => listAll(context, options),
     listByResourceGroup: (
@@ -99,7 +99,7 @@ function _getGalleryImages(context: AzureStackHCIContext) {
 }
 
 export function _getGalleryImagesOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): GalleryImagesOperations {
   return {
     ..._getGalleryImages(context),

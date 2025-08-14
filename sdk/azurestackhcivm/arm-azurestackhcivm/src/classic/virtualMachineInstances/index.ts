@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   save,
   pause,
@@ -94,7 +94,7 @@ export interface VirtualMachineInstancesOperations {
   ) => Promise<VirtualMachineInstance>;
 }
 
-function _getVirtualMachineInstances(context: AzureStackHCIContext) {
+function _getVirtualMachineInstances(context: AzureStackHCIVMManagementContext) {
   return {
     save: (resourceUri: string, options?: VirtualMachineInstancesSaveOptionalParams) =>
       save(context, resourceUri, options),
@@ -126,7 +126,7 @@ function _getVirtualMachineInstances(context: AzureStackHCIContext) {
 }
 
 export function _getVirtualMachineInstancesOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): VirtualMachineInstancesOperations {
   return {
     ..._getVirtualMachineInstances(context),

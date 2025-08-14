@@ -1,7 +1,7 @@
 {
   "name": "@azure/arm-azurestackhcivm",
   "version": "1.0.0-beta.1",
-  "description": "A generated SDK for AzureStackHCIClient.",
+  "description": "A generated SDK for AzureStackHCIVMManagementClient.",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -66,7 +66,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/api/azureStackHCIContext.ts",
+        "path": "src/api/azureStackHcivmManagementContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

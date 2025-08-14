@@ -12,7 +12,7 @@ export interface AttestationStatusesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: AzureStackHCIContext, resourceUri: string, options?: AttestationStatusesGetOptionalParams): Promise<AttestationStatus>;
+export function get(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: AttestationStatusesGetOptionalParams): Promise<AttestationStatus>;
 
 // (No @packageDocumentation comment for this package)
 

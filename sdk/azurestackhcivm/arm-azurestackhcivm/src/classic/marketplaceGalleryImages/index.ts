@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listAll,
   listByResourceGroup,
@@ -66,7 +66,7 @@ export interface MarketplaceGalleryImagesOperations {
   ) => Promise<MarketplaceGalleryImage>;
 }
 
-function _getMarketplaceGalleryImages(context: AzureStackHCIContext) {
+function _getMarketplaceGalleryImages(context: AzureStackHCIVMManagementContext) {
   return {
     listAll: (options?: MarketplaceGalleryImagesListAllOptionalParams) => listAll(context, options),
     listByResourceGroup: (
@@ -99,7 +99,7 @@ function _getMarketplaceGalleryImages(context: AzureStackHCIContext) {
 }
 
 export function _getMarketplaceGalleryImagesOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): MarketplaceGalleryImagesOperations {
   return {
     ..._getMarketplaceGalleryImages(context),

@@ -10,25 +10,25 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureStackHCIContext, resourceGroupName: string, virtualHardDiskName: string, options?: VirtualHardDisksDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureStackHCIVMManagementContext, resourceGroupName: string, virtualHardDiskName: string, options?: VirtualHardDisksDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureStackHCIContext, resourceGroupName: string, virtualHardDiskName: string, resource: VirtualHardDisk, options?: VirtualHardDisksCreateOrUpdateOptionalParams): PollerLike<OperationState<VirtualHardDisk>, VirtualHardDisk>;
+export function createOrUpdate(context: AzureStackHCIVMManagementContext, resourceGroupName: string, virtualHardDiskName: string, resource: VirtualHardDisk, options?: VirtualHardDisksCreateOrUpdateOptionalParams): PollerLike<OperationState<VirtualHardDisk>, VirtualHardDisk>;
 
 // @public
-export function get(context: AzureStackHCIContext, resourceGroupName: string, virtualHardDiskName: string, options?: VirtualHardDisksGetOptionalParams): Promise<VirtualHardDisk>;
+export function get(context: AzureStackHCIVMManagementContext, resourceGroupName: string, virtualHardDiskName: string, options?: VirtualHardDisksGetOptionalParams): Promise<VirtualHardDisk>;
 
 // @public
-export function listAll(context: AzureStackHCIContext, options?: VirtualHardDisksListAllOptionalParams): PagedAsyncIterableIterator<VirtualHardDisk>;
+export function listAll(context: AzureStackHCIVMManagementContext, options?: VirtualHardDisksListAllOptionalParams): PagedAsyncIterableIterator<VirtualHardDisk>;
 
 // @public
-export function listByResourceGroup(context: AzureStackHCIContext, resourceGroupName: string, options?: VirtualHardDisksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualHardDisk>;
+export function listByResourceGroup(context: AzureStackHCIVMManagementContext, resourceGroupName: string, options?: VirtualHardDisksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<VirtualHardDisk>;
 
 // @public
-export function update(context: AzureStackHCIContext, resourceGroupName: string, virtualHardDiskName: string, properties: VirtualHardDisksUpdateRequest, options?: VirtualHardDisksUpdateOptionalParams): PollerLike<OperationState<VirtualHardDisk>, VirtualHardDisk>;
+export function update(context: AzureStackHCIVMManagementContext, resourceGroupName: string, virtualHardDiskName: string, properties: VirtualHardDisksUpdateRequest, options?: VirtualHardDisksUpdateOptionalParams): PollerLike<OperationState<VirtualHardDisk>, VirtualHardDisk>;
 
 // @public
-export function upload(context: AzureStackHCIContext, resourceGroupName: string, virtualHardDiskName: string, body: VirtualHardDiskUploadRequest, options?: VirtualHardDisksUploadOptionalParams): PollerLike<OperationState<VirtualHardDiskUploadResponse>, VirtualHardDiskUploadResponse>;
+export function upload(context: AzureStackHCIVMManagementContext, resourceGroupName: string, virtualHardDiskName: string, body: VirtualHardDiskUploadRequest, options?: VirtualHardDisksUploadOptionalParams): PollerLike<OperationState<VirtualHardDiskUploadResponse>, VirtualHardDiskUploadResponse>;
 
 // @public
 export interface VirtualHardDisksCreateOrUpdateOptionalParams extends OperationOptions {

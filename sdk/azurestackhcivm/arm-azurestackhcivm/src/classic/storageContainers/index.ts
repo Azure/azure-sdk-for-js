@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listAll,
   listByResourceGroup,
@@ -66,7 +66,7 @@ export interface StorageContainersOperations {
   ) => Promise<StorageContainer>;
 }
 
-function _getStorageContainers(context: AzureStackHCIContext) {
+function _getStorageContainers(context: AzureStackHCIVMManagementContext) {
   return {
     listAll: (options?: StorageContainersListAllOptionalParams) => listAll(context, options),
     listByResourceGroup: (
@@ -99,7 +99,7 @@ function _getStorageContainers(context: AzureStackHCIContext) {
 }
 
 export function _getStorageContainersOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): StorageContainersOperations {
   return {
     ..._getStorageContainers(context),

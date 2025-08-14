@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listAll,
   listByResourceGroup,
@@ -66,7 +66,7 @@ export interface NetworkInterfacesOperations {
   ) => Promise<NetworkInterface>;
 }
 
-function _getNetworkInterfaces(context: AzureStackHCIContext) {
+function _getNetworkInterfaces(context: AzureStackHCIVMManagementContext) {
   return {
     listAll: (options?: NetworkInterfacesListAllOptionalParams) => listAll(context, options),
     listByResourceGroup: (
@@ -99,7 +99,7 @@ function _getNetworkInterfaces(context: AzureStackHCIContext) {
 }
 
 export function _getNetworkInterfacesOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): NetworkInterfacesOperations {
   return {
     ..._getNetworkInterfaces(context),

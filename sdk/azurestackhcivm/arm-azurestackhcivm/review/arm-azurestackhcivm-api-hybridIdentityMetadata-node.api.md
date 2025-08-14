@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: AzureStackHCIContext, resourceUri: string, options?: HybridIdentityMetadataGetOptionalParams): Promise<HybridIdentityMetadata>;
+export function get(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: HybridIdentityMetadataGetOptionalParams): Promise<HybridIdentityMetadata>;
 
 // @public
 export interface HybridIdentityMetadataGetOptionalParams extends OperationOptions {
@@ -19,7 +19,7 @@ export interface HybridIdentityMetadataListByVirtualMachineInstanceOptionalParam
 }
 
 // @public
-export function listByVirtualMachineInstance(context: AzureStackHCIContext, resourceUri: string, options?: HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams): PagedAsyncIterableIterator<HybridIdentityMetadata>;
+export function listByVirtualMachineInstance(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams): PagedAsyncIterableIterator<HybridIdentityMetadata>;
 
 // (No @packageDocumentation comment for this package)
 

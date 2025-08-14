@@ -67,8 +67,8 @@ export enum AzureClouds {
 }
 
 // @public (undocumented)
-export class AzureStackHCIClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: AzureStackHCIClientOptionalParams);
+export class AzureStackHCIVMManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: AzureStackHCIVMManagementClientOptionalParams);
     readonly attestationStatuses: AttestationStatusesOperations;
     readonly galleryImages: GalleryImagesOperations;
     readonly guestAgents: GuestAgentsOperations;
@@ -85,7 +85,7 @@ export class AzureStackHCIClient {
 }
 
 // @public
-export interface AzureStackHCIClientOptionalParams extends ClientOptions {
+export interface AzureStackHCIVMManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
@@ -1040,7 +1040,7 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureStackHCIClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureStackHCIVMManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

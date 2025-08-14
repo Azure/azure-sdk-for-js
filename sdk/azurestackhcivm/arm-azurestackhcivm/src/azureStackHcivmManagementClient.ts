@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createAzureStackHCI,
-  AzureStackHCIContext,
-  AzureStackHCIClientOptionalParams,
+  createAzureStackHCIVMManagement,
+  AzureStackHCIVMManagementContext,
+  AzureStackHCIVMManagementClientOptionalParams,
 } from "./api/index.js";
 import {
   AttestationStatusesOperations,
@@ -54,10 +54,10 @@ import {
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { AzureStackHCIClientOptionalParams } from "./api/azureStackHCIContext.js";
+export { AzureStackHCIVMManagementClientOptionalParams } from "./api/azureStackHcivmManagementContext.js";
 
-export class AzureStackHCIClient {
-  private _client: AzureStackHCIContext;
+export class AzureStackHCIVMManagementClient {
+  private _client: AzureStackHCIVMManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -65,13 +65,13 @@ export class AzureStackHCIClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: AzureStackHCIClientOptionalParams = {},
+    options: AzureStackHCIVMManagementClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAzureStackHCI(credential, subscriptionId, {
+    this._client = createAzureStackHCIVMManagement(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

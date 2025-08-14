@@ -8,7 +8,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { AzureStackHCIClient } from "./azureStackHCIClient.js";
+export { AzureStackHCIVMManagementClient } from "./azureStackHcivmManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   GalleryImage,
@@ -192,7 +192,7 @@ export {
   ProvisioningAction,
   KnownVersions,
 } from "./models/index.js";
-export { AzureStackHCIClientOptionalParams } from "./api/index.js";
+export { AzureStackHCIVMManagementClientOptionalParams } from "./api/index.js";
 export { AttestationStatusesGetOptionalParams } from "./api/attestationStatuses/index.js";
 export {
   GalleryImagesListAllOptionalParams,

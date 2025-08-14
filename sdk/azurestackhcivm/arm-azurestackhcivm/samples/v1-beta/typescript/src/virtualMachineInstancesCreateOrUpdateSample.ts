@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIClient } from "@azure/arm-azurestackhcivm";
+import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function putVirtualMachineInstanceWithGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -61,7 +61,7 @@ async function putVirtualMachineInstanceWithGalleryImage(): Promise<void> {
 async function putVirtualMachineInstanceWithGpu(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -112,7 +112,7 @@ async function putVirtualMachineInstanceWithGpu(): Promise<void> {
 async function putVirtualMachineInstanceWithMarketplaceGalleryImage(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -160,7 +160,7 @@ async function putVirtualMachineInstanceWithMarketplaceGalleryImage(): Promise<v
 async function putVirtualMachineInstanceWithOsDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -203,7 +203,7 @@ async function putVirtualMachineInstanceWithOsDisk(): Promise<void> {
 async function putVirtualMachineInstanceWithVMConfigAgent(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {
@@ -252,7 +252,7 @@ async function putVirtualMachineInstanceWithVMConfigAgent(): Promise<void> {
 async function createVirtualMachineInstanceFromLocal(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new AzureStackHCIClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineInstances.createOrUpdate(
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM",
     {

@@ -10,19 +10,19 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureStackHCIContext, resourceGroupName: string, storageContainerName: string, options?: StorageContainersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureStackHCIVMManagementContext, resourceGroupName: string, storageContainerName: string, options?: StorageContainersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureStackHCIContext, resourceGroupName: string, storageContainerName: string, resource: StorageContainer, options?: StorageContainersCreateOrUpdateOptionalParams): PollerLike<OperationState<StorageContainer>, StorageContainer>;
+export function createOrUpdate(context: AzureStackHCIVMManagementContext, resourceGroupName: string, storageContainerName: string, resource: StorageContainer, options?: StorageContainersCreateOrUpdateOptionalParams): PollerLike<OperationState<StorageContainer>, StorageContainer>;
 
 // @public
-export function get(context: AzureStackHCIContext, resourceGroupName: string, storageContainerName: string, options?: StorageContainersGetOptionalParams): Promise<StorageContainer>;
+export function get(context: AzureStackHCIVMManagementContext, resourceGroupName: string, storageContainerName: string, options?: StorageContainersGetOptionalParams): Promise<StorageContainer>;
 
 // @public
-export function listAll(context: AzureStackHCIContext, options?: StorageContainersListAllOptionalParams): PagedAsyncIterableIterator<StorageContainer>;
+export function listAll(context: AzureStackHCIVMManagementContext, options?: StorageContainersListAllOptionalParams): PagedAsyncIterableIterator<StorageContainer>;
 
 // @public
-export function listByResourceGroup(context: AzureStackHCIContext, resourceGroupName: string, options?: StorageContainersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<StorageContainer>;
+export function listByResourceGroup(context: AzureStackHCIVMManagementContext, resourceGroupName: string, options?: StorageContainersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<StorageContainer>;
 
 // @public
 export interface StorageContainersCreateOrUpdateOptionalParams extends OperationOptions {
@@ -52,7 +52,7 @@ export interface StorageContainersUpdateOptionalParams extends OperationOptions 
 }
 
 // @public
-export function update(context: AzureStackHCIContext, resourceGroupName: string, storageContainerName: string, properties: StorageContainerTagsUpdate, options?: StorageContainersUpdateOptionalParams): PollerLike<OperationState<StorageContainer>, StorageContainer>;
+export function update(context: AzureStackHCIVMManagementContext, resourceGroupName: string, storageContainerName: string, properties: StorageContainerTagsUpdate, options?: StorageContainersUpdateOptionalParams): PollerLike<OperationState<StorageContainer>, StorageContainer>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listByVirtualMachineInstance,
   $delete,
@@ -45,7 +45,7 @@ export interface GuestAgentsOperations {
   get: (resourceUri: string, options?: GuestAgentsGetOptionalParams) => Promise<GuestAgent>;
 }
 
-function _getGuestAgents(context: AzureStackHCIContext) {
+function _getGuestAgents(context: AzureStackHCIVMManagementContext) {
   return {
     listByVirtualMachineInstance: (
       resourceUri: string,
@@ -63,7 +63,9 @@ function _getGuestAgents(context: AzureStackHCIContext) {
   };
 }
 
-export function _getGuestAgentsOperations(context: AzureStackHCIContext): GuestAgentsOperations {
+export function _getGuestAgentsOperations(
+  context: AzureStackHCIVMManagementContext,
+): GuestAgentsOperations {
   return {
     ..._getGuestAgents(context),
   };

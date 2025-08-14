@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   listAll,
   listByResourceGroup,
@@ -66,7 +66,7 @@ export interface LogicalNetworksOperations {
   ) => Promise<LogicalNetwork>;
 }
 
-function _getLogicalNetworks(context: AzureStackHCIContext) {
+function _getLogicalNetworks(context: AzureStackHCIVMManagementContext) {
   return {
     listAll: (options?: LogicalNetworksListAllOptionalParams) => listAll(context, options),
     listByResourceGroup: (
@@ -99,7 +99,7 @@ function _getLogicalNetworks(context: AzureStackHCIContext) {
 }
 
 export function _getLogicalNetworksOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): LogicalNetworksOperations {
   return {
     ..._getLogicalNetworks(context),

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext as Client } from "../index.js";
+import { AzureStackHCIVMManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
   VirtualMachineInstance,
@@ -53,13 +53,7 @@ export function _saveSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _saveDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -102,13 +96,7 @@ export function _pauseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _pauseDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -153,13 +141,7 @@ export function _restartSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _restartDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -204,13 +186,7 @@ export function _stopSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _stopDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -253,13 +229,7 @@ export function _startSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _startDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -354,13 +324,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {

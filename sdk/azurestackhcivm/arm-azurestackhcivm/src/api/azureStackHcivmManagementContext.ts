@@ -8,7 +8,7 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 /** Azure Stack HCI management service */
-export interface AzureStackHCIContext extends Client {
+export interface AzureStackHCIVMManagementContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion: string;
@@ -17,7 +17,7 @@ export interface AzureStackHCIContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface AzureStackHCIClientOptionalParams extends ClientOptions {
+export interface AzureStackHCIVMManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -26,11 +26,11 @@ export interface AzureStackHCIClientOptionalParams extends ClientOptions {
 }
 
 /** Azure Stack HCI management service */
-export function createAzureStackHCI(
+export function createAzureStackHCIVMManagement(
   credential: TokenCredential,
   subscriptionId: string,
-  options: AzureStackHCIClientOptionalParams = {},
-): AzureStackHCIContext {
+  options: AzureStackHCIVMManagementClientOptionalParams = {},
+): AzureStackHCIVMManagementContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
@@ -68,5 +68,5 @@ export function createAzureStackHCI(
     ...clientContext,
     apiVersion,
     subscriptionId,
-  } as AzureStackHCIContext;
+  } as AzureStackHCIVMManagementContext;
 }

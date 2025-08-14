@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import { listByVirtualMachineInstance, get } from "../../api/hybridIdentityMetadata/operations.js";
 import {
   HybridIdentityMetadataListByVirtualMachineInstanceOptionalParams,
@@ -24,7 +24,7 @@ export interface HybridIdentityMetadataOperations {
   ) => Promise<HybridIdentityMetadata>;
 }
 
-function _getHybridIdentityMetadata(context: AzureStackHCIContext) {
+function _getHybridIdentityMetadata(context: AzureStackHCIVMManagementContext) {
   return {
     listByVirtualMachineInstance: (
       resourceUri: string,
@@ -36,7 +36,7 @@ function _getHybridIdentityMetadata(context: AzureStackHCIContext) {
 }
 
 export function _getHybridIdentityMetadataOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): HybridIdentityMetadataOperations {
   return {
     ..._getHybridIdentityMetadata(context),

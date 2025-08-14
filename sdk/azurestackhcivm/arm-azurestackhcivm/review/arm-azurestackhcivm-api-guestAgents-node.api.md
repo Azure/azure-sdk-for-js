@@ -10,13 +10,13 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureStackHCIContext, resourceUri: string, options?: GuestAgentsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: GuestAgentsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function create(context: AzureStackHCIContext, resourceUri: string, resource: GuestAgent, options?: GuestAgentsCreateOptionalParams): PollerLike<OperationState<GuestAgent>, GuestAgent>;
+export function create(context: AzureStackHCIVMManagementContext, resourceUri: string, resource: GuestAgent, options?: GuestAgentsCreateOptionalParams): PollerLike<OperationState<GuestAgent>, GuestAgent>;
 
 // @public
-export function get(context: AzureStackHCIContext, resourceUri: string, options?: GuestAgentsGetOptionalParams): Promise<GuestAgent>;
+export function get(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: GuestAgentsGetOptionalParams): Promise<GuestAgent>;
 
 // @public
 export interface GuestAgentsCreateOptionalParams extends OperationOptions {
@@ -37,7 +37,7 @@ export interface GuestAgentsListByVirtualMachineInstanceOptionalParams extends O
 }
 
 // @public
-export function listByVirtualMachineInstance(context: AzureStackHCIContext, resourceUri: string, options?: GuestAgentsListByVirtualMachineInstanceOptionalParams): PagedAsyncIterableIterator<GuestAgent>;
+export function listByVirtualMachineInstance(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: GuestAgentsListByVirtualMachineInstanceOptionalParams): PagedAsyncIterableIterator<GuestAgent>;
 
 // (No @packageDocumentation comment for this package)
 

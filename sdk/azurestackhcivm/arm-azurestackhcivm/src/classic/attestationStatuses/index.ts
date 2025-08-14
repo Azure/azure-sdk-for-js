@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import { get } from "../../api/attestationStatuses/operations.js";
 import { AttestationStatusesGetOptionalParams } from "../../api/attestationStatuses/options.js";
 import { AttestationStatus } from "../../models/models.js";
@@ -15,7 +15,7 @@ export interface AttestationStatusesOperations {
   ) => Promise<AttestationStatus>;
 }
 
-function _getAttestationStatuses(context: AzureStackHCIContext) {
+function _getAttestationStatuses(context: AzureStackHCIVMManagementContext) {
   return {
     get: (resourceUri: string, options?: AttestationStatusesGetOptionalParams) =>
       get(context, resourceUri, options),
@@ -23,7 +23,7 @@ function _getAttestationStatuses(context: AzureStackHCIContext) {
 }
 
 export function _getAttestationStatusesOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): AttestationStatusesOperations {
   return {
     ..._getAttestationStatuses(context),

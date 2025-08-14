@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext as Client } from "../index.js";
+import { AzureStackHCIVMManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
   AttestationStatus,

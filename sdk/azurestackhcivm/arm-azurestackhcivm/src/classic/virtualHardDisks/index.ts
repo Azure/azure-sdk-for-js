@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIVMManagementContext } from "../../api/azureStackHcivmManagementContext.js";
 import {
   upload,
   listAll,
@@ -80,7 +80,7 @@ export interface VirtualHardDisksOperations {
   ) => Promise<VirtualHardDisk>;
 }
 
-function _getVirtualHardDisks(context: AzureStackHCIContext) {
+function _getVirtualHardDisks(context: AzureStackHCIVMManagementContext) {
   return {
     upload: (
       resourceGroupName: string,
@@ -119,7 +119,7 @@ function _getVirtualHardDisks(context: AzureStackHCIContext) {
 }
 
 export function _getVirtualHardDisksOperations(
-  context: AzureStackHCIContext,
+  context: AzureStackHCIVMManagementContext,
 ): VirtualHardDisksOperations {
   return {
     ..._getVirtualHardDisks(context),

@@ -10,19 +10,19 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureStackHCIContext, resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureStackHCIContext, resourceGroupName: string, networkInterfaceName: string, resource: NetworkInterface, options?: NetworkInterfacesCreateOrUpdateOptionalParams): PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
+export function createOrUpdate(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkInterfaceName: string, resource: NetworkInterface, options?: NetworkInterfacesCreateOrUpdateOptionalParams): PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
 
 // @public
-export function get(context: AzureStackHCIContext, resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesGetOptionalParams): Promise<NetworkInterface>;
+export function get(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkInterfaceName: string, options?: NetworkInterfacesGetOptionalParams): Promise<NetworkInterface>;
 
 // @public
-export function listAll(context: AzureStackHCIContext, options?: NetworkInterfacesListAllOptionalParams): PagedAsyncIterableIterator<NetworkInterface>;
+export function listAll(context: AzureStackHCIVMManagementContext, options?: NetworkInterfacesListAllOptionalParams): PagedAsyncIterableIterator<NetworkInterface>;
 
 // @public
-export function listByResourceGroup(context: AzureStackHCIContext, resourceGroupName: string, options?: NetworkInterfacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NetworkInterface>;
+export function listByResourceGroup(context: AzureStackHCIVMManagementContext, resourceGroupName: string, options?: NetworkInterfacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NetworkInterface>;
 
 // @public
 export interface NetworkInterfacesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -52,7 +52,7 @@ export interface NetworkInterfacesUpdateOptionalParams extends OperationOptions 
 }
 
 // @public
-export function update(context: AzureStackHCIContext, resourceGroupName: string, networkInterfaceName: string, properties: NetworkInterfacesUpdateRequest, options?: NetworkInterfacesUpdateOptionalParams): PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
+export function update(context: AzureStackHCIVMManagementContext, resourceGroupName: string, networkInterfaceName: string, properties: NetworkInterfacesUpdateRequest, options?: NetworkInterfacesUpdateOptionalParams): PollerLike<OperationState<NetworkInterface>, NetworkInterface>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIClient } from "./azureStackHCIClient.js";
+import { AzureStackHCIVMManagementClient } from "./azureStackHcivmManagementClient.js";
 import { _$deleteDeserialize, _createDeserialize } from "./api/guestAgents/operations.js";
 import {
   _saveDeserialize,
@@ -83,7 +83,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: AzureStackHCIClient,
+  client: AzureStackHCIVMManagementClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,

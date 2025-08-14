@@ -10,34 +10,34 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: AzureStackHCIContext, resourceUri: string, options?: VirtualMachineInstancesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: AzureStackHCIContext, resourceUri: string, resource: VirtualMachineInstance, options?: VirtualMachineInstancesCreateOrUpdateOptionalParams): PollerLike<OperationState<VirtualMachineInstance>, VirtualMachineInstance>;
+export function createOrUpdate(context: AzureStackHCIVMManagementContext, resourceUri: string, resource: VirtualMachineInstance, options?: VirtualMachineInstancesCreateOrUpdateOptionalParams): PollerLike<OperationState<VirtualMachineInstance>, VirtualMachineInstance>;
 
 // @public
-export function get(context: AzureStackHCIContext, resourceUri: string, options?: VirtualMachineInstancesGetOptionalParams): Promise<VirtualMachineInstance>;
+export function get(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesGetOptionalParams): Promise<VirtualMachineInstance>;
 
 // @public
-export function list(context: AzureStackHCIContext, resourceUri: string, options?: VirtualMachineInstancesListOptionalParams): PagedAsyncIterableIterator<VirtualMachineInstance>;
+export function list(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesListOptionalParams): PagedAsyncIterableIterator<VirtualMachineInstance>;
 
 // @public
-export function pause(context: AzureStackHCIContext, resourceUri: string, options?: VirtualMachineInstancesPauseOptionalParams): PollerLike<OperationState<void>, void>;
+export function pause(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesPauseOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function restart(context: AzureStackHCIContext, resourceUri: string, options?: VirtualMachineInstancesRestartOptionalParams): PollerLike<OperationState<void>, void>;
+export function restart(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesRestartOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function save(context: AzureStackHCIContext, resourceUri: string, options?: VirtualMachineInstancesSaveOptionalParams): PollerLike<OperationState<void>, void>;
+export function save(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesSaveOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function start(context: AzureStackHCIContext, resourceUri: string, options?: VirtualMachineInstancesStartOptionalParams): PollerLike<OperationState<void>, void>;
+export function start(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesStartOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function stop(context: AzureStackHCIContext, resourceUri: string, options?: VirtualMachineInstancesStopOptionalParams): PollerLike<OperationState<void>, void>;
+export function stop(context: AzureStackHCIVMManagementContext, resourceUri: string, options?: VirtualMachineInstancesStopOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function update(context: AzureStackHCIContext, resourceUri: string, properties: VirtualMachineInstanceUpdateRequest, options?: VirtualMachineInstancesUpdateOptionalParams): PollerLike<OperationState<VirtualMachineInstance>, VirtualMachineInstance>;
+export function update(context: AzureStackHCIVMManagementContext, resourceUri: string, properties: VirtualMachineInstanceUpdateRequest, options?: VirtualMachineInstancesUpdateOptionalParams): PollerLike<OperationState<VirtualMachineInstance>, VirtualMachineInstance>;
 
 // @public
 export interface VirtualMachineInstancesCreateOrUpdateOptionalParams extends OperationOptions {

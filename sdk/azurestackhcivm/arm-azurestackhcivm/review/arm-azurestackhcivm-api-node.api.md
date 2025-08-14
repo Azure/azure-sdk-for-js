@@ -9,19 +9,19 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AzureStackHCIClientOptionalParams extends ClientOptions {
+export interface AzureStackHCIVMManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface AzureStackHCIContext extends Client {
+export interface AzureStackHCIVMManagementContext extends Client {
     apiVersion: string;
     subscriptionId: string;
 }
 
 // @public
-export function createAzureStackHCI(credential: TokenCredential, subscriptionId: string, options?: AzureStackHCIClientOptionalParams): AzureStackHCIContext;
+export function createAzureStackHCIVMManagement(credential: TokenCredential, subscriptionId: string, options?: AzureStackHCIVMManagementClientOptionalParams): AzureStackHCIVMManagementContext;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { AzureStackHCIClient } = require("@azure/arm-azurestackhcivm");
+const { AzureStackHCIVMManagementClient } = require("@azure/arm-azurestackhcivm");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function putNetworkInterface() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const client = new AzureStackHCIClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
   const result = await client.networkInterfaces.createOrUpdate("test-rg", "test-nic", {
     extendedLocation: {
       name: "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.ExtendedLocation/customLocations/dogfood-location",
@@ -45,7 +45,7 @@ async function putNetworkInterface() {
 async function createNetworkInterfaceFromLocal() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const client = new AzureStackHCIClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
   const result = await client.networkInterfaces.createOrUpdate("test-rg", "test-nic", {
     extendedLocation: {
       name: "/subscriptions/a95612cb-f1fa-4daa-a4fd-272844fa512c/resourceGroups/dogfoodarc/providers/Microsoft.ExtendedLocation/customLocations/dogfood-location",

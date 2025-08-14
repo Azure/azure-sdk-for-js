@@ -9,7 +9,7 @@ import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
-import { AzureStackHCIClient } from "../../src/azureStackHCIClient.js";
+import { AzureStackHCIVMManagementClient } from "../../src/azureStackHCIClient.js";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -18,7 +18,7 @@ export const testPollingOptions = {
 describe("AzureStackHCIVM test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let client: AzureStackHCIClient;
+  let client: AzureStackHCIVMManagementClient;
 
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
@@ -26,7 +26,7 @@ describe("AzureStackHCIVM test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AzureStackHCIClient(
+    client = new AzureStackHCIVMManagementClient(
       credential,
       subscriptionId,
       recorder.configureClientOptions({}),

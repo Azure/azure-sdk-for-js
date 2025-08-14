@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { AzureStackHCIClient } = require("@azure/arm-azurestackhcivm");
+const { AzureStackHCIVMManagementClient } = require("@azure/arm-azurestackhcivm");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function updateStorageContainer() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const client = new AzureStackHCIClient(credential, subscriptionId);
+  const client = new AzureStackHCIVMManagementClient(credential, subscriptionId);
   const result = await client.storageContainers.update("test-rg", "Default_Container", {
     tags: { additionalProperties: "sample" },
   });
