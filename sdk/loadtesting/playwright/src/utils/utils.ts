@@ -20,10 +20,26 @@ import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
 import { FullConfig } from "@playwright/test";
 import { CI_PROVIDERS, CIInfo } from "./cIInfoProvider.js";
 import { exec } from "child_process";
+import { getPackageVersionFromFolder } from "./getPackageVersion.js";
 
 // Re-exporting for backward compatibility
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
 export { parseJwt } from "./parseJwt.js";
+
+export const getPackageVersion = (): string => {
+  // hacky way to get package version
+  // try from dist folder first (customer perspective)
+  const distVersion = getPackageVersionFromFolder("../../../");
+  if (distVersion) {
+    return distVersion;
+  }
+  // if not found, try from src folder (internal test suite)
+  const srcVersion = getPackageVersionFromFolder("../../");
+  if (srcVersion) {
+    return srcVersion;
+  }
+  return "unknown-version";
+};
 
 // const playwrightServiceConfig = new PlaywrightServiceConfig();
 
