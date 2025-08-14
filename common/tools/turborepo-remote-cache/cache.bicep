@@ -1,5 +1,5 @@
 @description('The name of the storage account to create.')
-param storageAccountName string = 'azsdkjsturbocache'
+param storageAccountName string = 'azuresdkartifacts'
 
 @description('The name of the blob container to create.')
 param containerName string = 'turbocache'
@@ -33,5 +33,5 @@ resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/container
   }
 }
 
-output storageAccountConnectionString string = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};AccountKey=${listKeys(storageAccount.id, "2022-09-01").keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
+output storageAccountName string = storageAccountName
 output containerName string = containerName
