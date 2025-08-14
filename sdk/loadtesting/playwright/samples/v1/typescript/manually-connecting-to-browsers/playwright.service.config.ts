@@ -6,6 +6,7 @@ import config from "./playwright.config.js";
 export default defineConfig(
   config,
   getServiceConfig(config, {
+    serviceAuthType: "ACCESS_TOKEN",
     credential: new DefaultAzureCredential(),
   }),
 );
