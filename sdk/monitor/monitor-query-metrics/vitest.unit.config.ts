@@ -8,8 +8,10 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: ["test/internal/**/*.unittest.spec.ts"],
-      exclude: ["test/snippets.spec.ts"],
+      exclude: ["test/internal/{,!(unit)/**/}*.spec.ts", "test/public/**/*.spec.ts"],
+      typecheck: {
+        enabled: false,
+      },
     },
   }),
 );

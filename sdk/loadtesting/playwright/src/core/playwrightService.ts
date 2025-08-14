@@ -19,9 +19,9 @@ import {
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
-  getPackageVersion,
   getPlaywrightVersion,
   getVersionInfo,
+  getPackageVersion,
 } from "../utils/utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";

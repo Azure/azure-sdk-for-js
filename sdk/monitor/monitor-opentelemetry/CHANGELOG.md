@@ -1,9 +1,10 @@
 # Release History
 
-## 1.12.1 ()
+### 1.12.1 ()
 
-### Other Changes
+### Bugs Fixed
 
+- Fix declaration of the preview customer statsbeat enablement environment variable.
 - Change customer statsbeat feature name to customer SDK Stats.
 
 ## 1.12.0 (2025-08-04)

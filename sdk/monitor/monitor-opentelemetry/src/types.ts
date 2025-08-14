@@ -193,7 +193,7 @@ export const AzureMonitorSampleRate = "microsoft.sample_rate";
  * Enables the preview version of customer-facing SDK Stats.
  * @internal
  */
-export declare const APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
+export const APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
   "APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW";
 
 export enum StatsbeatFeature {
