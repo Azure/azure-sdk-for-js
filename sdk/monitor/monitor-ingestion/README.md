@@ -147,7 +147,7 @@ You can verify that your data has been uploaded correctly by using the [@azure/m
 
 ```ts snippet:ReadmeSampleVerifyLogs
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient } from "@azure/monitor-query-logs";
 
 const monitorWorkspaceId = "workspace_id";
 const tableName = "table_name";
