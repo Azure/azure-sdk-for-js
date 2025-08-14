@@ -56,6 +56,12 @@ let containerClient: ContainerClient;
 
 if (process.env.AZURE_CONTAINER_SAS_URL) {
   containerClient = new ContainerClient(process.env.AZURE_CONTAINER_SAS_URL);
+
+  const url = new URL(containerClient.url);
+  fastify.log.info(
+    { storageAccount: url.host, container: url.pathname },
+    "Using Azure Blob Storage back end",
+  );
 } else {
   const azureStorageAccount = process.env.AZURE_STORAGE_ACCOUNT;
   const azureStorageContainerName = process.env.AZURE_STORAGE_CONTAINER_NAME;
@@ -65,7 +71,7 @@ if (process.env.AZURE_CONTAINER_SAS_URL) {
   }
 
   fastify.log.info(
-    { storageAccount: azureStorageAccount, containerName: azureStorageContainerName },
+    { storageAccount: azureStorageAccount, container: azureStorageContainerName },
     "Using Azure Blob Storage back end",
   );
 
@@ -112,7 +118,7 @@ fastify.get("/v8/artifacts/:key", async (request, reply) => {
     }
 
     reply.header("Content-Type", "application/octet-stream");
-    reply.send(stream);
+    return reply.send(stream);
   } catch (error) {
     fastify.log.error(`Error downloading blob: ${error}`);
     throw notFound(`Blob not found: ${blobName}`);
