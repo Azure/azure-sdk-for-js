@@ -552,7 +552,6 @@ export class WebPubSubClient {
         }
         handler._handleMessage(message);
         if (isCompleted) {
-          logger.info(`Stream ${streamId} is completed`)
           handler._handleComplete();
         }
       }

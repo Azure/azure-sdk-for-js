@@ -272,7 +272,9 @@ export interface StreamOptions {
     bufferWaitTimeout?: number;
     maxBufferSize?: number;
     maxResendAttempts?: number;
+    resendInterval?: number;
     timeToLive?: number;
+    useExponentialBackoff?: boolean;
 }
 
 // @public

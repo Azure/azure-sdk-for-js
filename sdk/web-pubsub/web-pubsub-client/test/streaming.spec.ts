@@ -342,4 +342,148 @@ describe("Stream", () => {
       assert.equal(stuckMockSendFunction.mock.calls.length, 1);
     });
   });
+
+  describe("Resend functionality", () => {
+    it("should not resend when stream is disposed", async () => {
+      const disposedMockSend = vi.fn().mockResolvedValue(undefined);
+      const testStream = new Stream("group", "id", disposedMockSend, {
+        maxResendAttempts: 3,
+        resendInterval: 10
+      });
+
+      // Publish some messages
+      await testStream.publish("msg1");
+      
+      // Dispose the stream
+      (testStream as any)._destroy();
+      
+      // Try to resend - should be ignored since stream is disposed
+      await (testStream as any)._resendUnackedMessages();
+      
+      // Should only have 1 call (msg1)
+      assert.equal(disposedMockSend.mock.calls.length, 1);
+    });
+
+    it("should respect maxResendAttempts limit", async () => {
+      const limitMockSend = vi.fn().mockResolvedValue(undefined);
+      const testStream = new Stream("group", "id", limitMockSend, {
+        maxResendAttempts: 2,
+        resendInterval: 10
+      });
+
+      // Add messages to buffer manually to simulate unacked messages
+      (testStream as any)._buffer = [
+        { content: "msg1", dataType: "text", sequenceId: 1, endOfStream: false }
+      ];
+
+      let errorHandled = false;
+      testStream.onError((error) => {
+        if (error.name === "StreamMaxResendAttemptsExceeded") {
+          errorHandled = true;
+        }
+      });
+
+      // First resend attempt
+      await (testStream as any)._resendUnackedMessages();
+      assert.equal((testStream as any)._resendAttempts, 1);
+      
+      // Second resend attempt
+      await (testStream as any)._resendUnackedMessages();
+      assert.equal((testStream as any)._resendAttempts, 2);
+      
+      // Third attempt should be blocked and trigger error
+      await (testStream as any)._resendUnackedMessages();
+      
+      assert.isTrue(errorHandled, "Expected max resend attempts error to be handled");
+      assert.equal((testStream as any)._resendAttempts, 2);
+    });
+
+    it("should use fixed resend interval when exponential backoff is disabled", async () => {
+      const fixedMockSend = vi.fn().mockResolvedValue(undefined);
+      const testStream = new Stream("group", "id", fixedMockSend, {
+        maxResendAttempts: 3,
+        resendInterval: 100,
+        useExponentialBackoff: false
+      });
+
+      // Add some messages to buffer
+      (testStream as any)._buffer = [
+        { content: "msg1", dataType: "text", sequenceId: 1, endOfStream: false }
+      ];
+
+      const startTime = Date.now();
+      
+      // First resend (no delay)
+      await (testStream as any)._resendUnackedMessages();
+      
+      // Second resend (should wait ~100ms)
+      await (testStream as any)._resendUnackedMessages();
+      
+      const elapsed = Date.now() - startTime;
+      
+      // Should be approximately 100ms (allowing some tolerance)
+      assert.isTrue(elapsed >= 90 && elapsed <= 150, `Expected ~100ms delay, got ${elapsed}ms`);
+      assert.equal((testStream as any)._resendAttempts, 2);
+    });
+
+    it("should prevent concurrent resend operations", async () => {
+      let resolveFirstResend: () => void;
+      const firstResendPromise = new Promise<void>(resolve => {
+        resolveFirstResend = resolve;
+      });
+
+      const concurrentMockSend = vi.fn().mockImplementation(() => firstResendPromise);
+      const testStream = new Stream("group", "id", concurrentMockSend, {
+        maxResendAttempts: 3,
+        resendInterval: 10
+      });
+
+      // Add some messages to buffer
+      (testStream as any)._buffer = [
+        { content: "msg1", dataType: "text", sequenceId: 1, endOfStream: false }
+      ];
+
+      // Start first resend (will hang until we resolve it)
+      const resend1Promise = (testStream as any)._resendUnackedMessages();
+      
+      // Wait a bit to ensure first resend is in progress
+      await new Promise(resolve => setTimeout(resolve, 5));
+      
+      // Try to start second resend while first is still running
+      const resend2Promise = (testStream as any)._resendUnackedMessages();
+      
+      // Resolve the first resend
+      resolveFirstResend!();
+      
+      await Promise.all([resend1Promise, resend2Promise]);
+      
+      // Should only have been called once due to race condition prevention
+      assert.equal(concurrentMockSend.mock.calls.length, 1);
+      assert.equal((testStream as any)._resendAttempts, 1);
+    });
+
+    it("should reset resend attempts counter on successful acknowledgment", async () => {
+      const ackMockSend = vi.fn().mockResolvedValue(undefined);
+      const testStream = new Stream("group", "id", ackMockSend, {
+        maxResendAttempts: 3,
+        resendInterval: 10
+      });
+
+      // Add messages to buffer and simulate some failed resend attempts
+      (testStream as any)._buffer = [
+        { content: "msg1", dataType: "text", sequenceId: 1, endOfStream: false },
+        { content: "msg2", dataType: "text", sequenceId: 2, endOfStream: false }
+      ];
+      (testStream as any)._resendAttempts = 2;
+
+      // Simulate acknowledgment that removes messages from buffer
+      (testStream as any)._handleStreamAck(2, true);
+      
+      // Resend attempts should be reset to 0
+      assert.equal((testStream as any)._resendAttempts, 0);
+      
+      // Buffer should be empty (both messages acknowledged)
+      assert.equal((testStream as any)._buffer.length, 0);
+    });
+  });
 });
