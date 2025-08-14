@@ -8,8 +8,9 @@
 import type {
   WebPubSubClientCredential,
   GetClientAccessUrlOptions,
+  JSONTypes,
 } from "@azure/web-pubsub-client";
-import { WebPubSubClient } from "@azure/web-pubsub-client";
+import { StreamHandler, WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -62,6 +63,25 @@ async function main(): Promise<void> {
     }
   });
 
+  client.onStream(groupName, (streamId) => {
+    const streamHandler = new StreamHandler();
+    const data: JSONTypes[] = [];
+
+    streamHandler.onMessage((message: JSONTypes) => {
+      data.push(message);
+    });
+    
+    streamHandler.onComplete(() => {
+      console.log(`Stream ${streamId} completed with data: ${data.join(" ")}`);
+    });
+    
+    streamHandler.onError((error: any) => {
+      console.error(`Stream error: ${error.message}`);
+    });
+
+    return streamHandler;
+  })
+
   await client.start();
 
   await client.joinGroup(groupName);
@@ -76,6 +96,16 @@ async function main(): Promise<void> {
     buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
     "binary",
   );
+  
+  const stream = client.stream(groupName);
+  stream.onError((error) => {
+    console.error(`Stream publish error: ${error.message}`);
+  });
+  console.log("Publishing stream messages!");
+  await stream.publish("Hello", "text");
+  await stream.publish("World", "text");
+  await stream.complete("!", "text");
+  
   await delay(1000);
   client.stop();
 }
