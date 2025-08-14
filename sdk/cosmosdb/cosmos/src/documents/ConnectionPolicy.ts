@@ -36,6 +36,8 @@ export interface ConnectionPolicy {
   enablePartitionLevelFailover?: boolean;
   /** Flag to enable/disable the Per Partition Level Circuit Breaker (PPCB). Defaults to false */
   enablePartitionLevelCircuitBreaker?: boolean;
+  /** List of azure regions to be excluded for read requests. */
+  excludedLocations?: string[];
 }
 
 /**
@@ -56,4 +58,5 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   enableBackgroundEndpointRefreshing: true,
   enablePartitionLevelFailover: false,
   enablePartitionLevelCircuitBreaker: false,
+  excludedLocations: [],
 });
