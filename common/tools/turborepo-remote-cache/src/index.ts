@@ -12,10 +12,29 @@ import { authenticateToken, authenticateTeamId } from "./auth.js";
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
-const fastify = Fastify({
-  logger: {
-    level: process.env.LOG_LEVEL || "info",
+const logger = {
+  pretty: {
+    transport: {
+      target: "pino-pretty",
+      options: {
+        translateTime: "HH:MM:ss Z",
+        ignore: "pid,hostname",
+      },
+    },
   },
+  basic: {
+    level: process.env.CACHE_LOG_LEVEL || "info",
+  },
+};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let pinoPretty: any | undefined = undefined;
+try {
+  pinoPretty = await import("pino-pretty");
+} catch {
+  // no-op
+}
+const fastify = Fastify({
+  logger: pinoPretty ? logger.pretty : logger.basic,
   exposeHeadRoutes: false,
   bodyLimit: MAX_FILE_SIZE,
 });
@@ -28,7 +47,6 @@ fastify.addContentTypeParser(
   },
 );
 
-fastify.addHook("preHandler", authenticateToken);
 fastify.addHook("preHandler", authenticateTeamId);
 
 const port = (process.env.AZURE_CACHE_PORT || 3000) as number;
@@ -97,7 +115,7 @@ fastify.get("/v8/artifacts/:key", async (request, reply) => {
 });
 
 // PUT /v8/artifacts/:key
-fastify.put("/v8/artifacts/:key", async (request, reply) => {
+fastify.put("/v8/artifacts/:key", { preHandler: authenticateToken }, async (request, reply) => {
   const { key } = request.params as { key: string };
   const { teamId, team, slug } = request.query as {
     teamId?: string;
