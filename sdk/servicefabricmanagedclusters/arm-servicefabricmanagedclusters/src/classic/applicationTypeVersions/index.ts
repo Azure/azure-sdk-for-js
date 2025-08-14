@@ -3,9 +3,12 @@
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
-  ApplicationTypeVersionResource,
-  ApplicationTypeVersionUpdateParameters,
-} from "../../models/models.js";
+  listByApplicationTypes,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/applicationTypeVersions/operations.js";
 import {
   ApplicationTypeVersionsListByApplicationTypesOptionalParams,
   ApplicationTypeVersionsDeleteOptionalParams,
@@ -14,12 +17,9 @@ import {
   ApplicationTypeVersionsGetOptionalParams,
 } from "../../api/applicationTypeVersions/options.js";
 import {
-  listByApplicationTypes,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/applicationTypeVersions/operations.js";
+  ApplicationTypeVersionResource,
+  ApplicationTypeVersionUpdateParameters,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

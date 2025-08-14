@@ -7,8 +7,8 @@ import {
   ManagedMaintenanceWindowStatus,
   managedMaintenanceWindowStatusDeserializer,
 } from "../../models/models.js";
-import { ManagedMaintenanceWindowStatusGetOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { ManagedMaintenanceWindowStatusGetOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,

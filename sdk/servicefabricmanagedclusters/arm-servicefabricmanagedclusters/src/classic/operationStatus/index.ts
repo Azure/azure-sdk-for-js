@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { LongRunningOperationResult } from "../../models/models.js";
-import { OperationStatusGetOptionalParams } from "../../api/operationStatus/options.js";
 import { get } from "../../api/operationStatus/operations.js";
+import { OperationStatusGetOptionalParams } from "../../api/operationStatus/options.js";
+import { LongRunningOperationResult } from "../../models/models.js";
 
 /** Interface representing a OperationStatus operations. */
 export interface OperationStatusOperations {

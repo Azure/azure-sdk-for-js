@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { ManagedAzResiliencyStatus } from "../../models/models.js";
-import { ManagedAzResiliencyStatusGetOptionalParams } from "../../api/managedAzResiliencyStatus/options.js";
 import { get } from "../../api/managedAzResiliencyStatus/operations.js";
+import { ManagedAzResiliencyStatusGetOptionalParams } from "../../api/managedAzResiliencyStatus/options.js";
+import { ManagedAzResiliencyStatus } from "../../models/models.js";
 
 /** Interface representing a ManagedAzResiliencyStatus operations. */
 export interface ManagedAzResiliencyStatusOperations {

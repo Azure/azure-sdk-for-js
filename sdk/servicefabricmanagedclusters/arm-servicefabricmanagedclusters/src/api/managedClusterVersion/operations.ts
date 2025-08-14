@@ -9,13 +9,13 @@ import {
   ManagedClusterVersionEnvironment,
   managedClusterCodeVersionResultArrayDeserializer,
 } from "../../models/models.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   ManagedClusterVersionListByEnvironmentOptionalParams,
   ManagedClusterVersionGetByEnvironmentOptionalParams,
   ManagedClusterVersionListOptionalParams,
   ManagedClusterVersionGetOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,

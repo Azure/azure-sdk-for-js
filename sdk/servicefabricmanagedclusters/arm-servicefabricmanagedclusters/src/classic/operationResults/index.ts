@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
 import { get } from "../../api/operationResults/operations.js";
+import { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
 
 /** Interface representing a OperationResults operations. */
 export interface OperationResultsOperations {

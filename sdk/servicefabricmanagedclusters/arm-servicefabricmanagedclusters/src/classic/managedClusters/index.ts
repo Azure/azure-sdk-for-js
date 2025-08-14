@@ -3,12 +3,17 @@
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
-  ManagedCluster,
-  ManagedClusterUpdateParameters,
-  FaultSimulationIdContent,
-  FaultSimulation,
-  FaultSimulationContentWrapper,
-} from "../../models/models.js";
+  stopFaultSimulation,
+  startFaultSimulation,
+  listFaultSimulation,
+  getFaultSimulation,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/managedClusters/operations.js";
 import {
   ManagedClustersStopFaultSimulationOptionalParams,
   ManagedClustersStartFaultSimulationOptionalParams,
@@ -22,17 +27,12 @@ import {
   ManagedClustersGetOptionalParams,
 } from "../../api/managedClusters/options.js";
 import {
-  stopFaultSimulation,
-  startFaultSimulation,
-  listFaultSimulation,
-  getFaultSimulation,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/managedClusters/operations.js";
+  ManagedCluster,
+  ManagedClusterUpdateParameters,
+  FaultSimulationIdContent,
+  FaultSimulation,
+  FaultSimulationContentWrapper,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

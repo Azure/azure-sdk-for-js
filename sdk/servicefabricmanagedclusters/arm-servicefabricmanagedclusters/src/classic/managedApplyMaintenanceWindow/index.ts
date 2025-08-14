@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { ManagedApplyMaintenanceWindowPostOptionalParams } from "../../api/managedApplyMaintenanceWindow/options.js";
 import { post } from "../../api/managedApplyMaintenanceWindow/operations.js";
+import { ManagedApplyMaintenanceWindowPostOptionalParams } from "../../api/managedApplyMaintenanceWindow/options.js";
 
 /** Interface representing a ManagedApplyMaintenanceWindow operations. */
 export interface ManagedApplyMaintenanceWindowOperations {
