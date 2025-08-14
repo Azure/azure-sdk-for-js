@@ -122,7 +122,7 @@ fastify.put("/v8/artifacts/:key", async (request, reply) => {
 
   fastify.log.info(`Uploaded blob: ${blobPath}`);
 
-  reply.send({ urls: [`${team}/${key}`] });
+  reply.send({ urls: [`${teamPath}/${key}`] });
 });
 
 // HEAD /v8/artifacts/:key
