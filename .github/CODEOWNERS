@@ -328,7 +328,7 @@
 
 # PRLabel: %Microsoft Playwright Testing
 # ServiceLabel: %Microsoft Playwright Testing
-/sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
+/sdk/playwrighttesting/ @puagarwa @ShreyaAnand
 
 # PRLabel: %Azure Load Testing
 # ServiceLabel: %Azure Load Testing
@@ -1074,12 +1074,12 @@
 /sdk/workloads/arm-workloadssapvirtualinstance/ @qiaozha @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
+/sdk/monitor/monitor-ingestion/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
 /sdk/monitor/monitor-opentelemetry @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber @lzchen @jeremydvoss
 /sdk/monitor/monitor-opentelemetry-exporter @hectorhdzg @rads-1996 @Karlie-777 @MSNev @JacksonWeber @lzchen @jeremydvoss
 
-/sdk/monitor/monitor-query/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
+/sdk/monitor/monitor-query-logs/ @Azure/azure-sdk-write-monitor-query-logs
 /sdk/monitor/monitor-query-metrics/ @Azure/azure-sdk-write-monitor-query-metrics
 /sdk/monitor/perf-tests/ @srnagar @Azure/azure-sdk-write-monitor-data-plane
 
@@ -1647,7 +1647,11 @@ sdk/azurestackhcivm/arm-azurestackhcivm/ @qiaozha @MaryGao
 ###########
 /.vscode/ @mikeharder @deyaaeldeen @jeremymeng
 /common/ @mikeharder @deyaaeldeen @jeremymeng
-/common/config/rush/pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
+/package.json @jeremymeng @Azure/azure-sdk-js-dev
+/turbo.json @jeremymeng @Azure/azure-sdk-js-dev
+/pnpm-lock.yaml @jeremymeng @Azure/azure-sdk-js-dev
+/pnpm-workspace.yaml @jeremymeng @Azure/azure-sdk-js-dev
+
 # Smoke Tests
 /common/smoke-test/ @mikeharder @jeremymeng @deyaaeldeen @benbp
 
@@ -1666,7 +1670,7 @@ sdk/azurestackhcivm/arm-azurestackhcivm/ @qiaozha @MaryGao
 
 /rush.json @mikeharder @jeremymeng @Azure/azure-sdk-js-dev
 
-/tsconfig.json @mikeharder @Azure/azure-sdk-for-js-core
+/tsconfig*.json @mikeharder @Azure/azure-sdk-for-js-core
 /**/tsconfig.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
@@ -1675,8 +1679,8 @@ sdk/azurestackhcivm/arm-azurestackhcivm/ @qiaozha @MaryGao
 /.scripts/ @mikeharder
 /.scripts/automation_generate.sh @wanlwanl @lirenhe
 /.scripts/automation_init.sh @wanlwanl @lirenhe
-/vitest.shared.config.ts @jeremymeng @deyaaeldeen
-/vitest.browser.shared.config.ts @jeremymeng @deyaaeldeen
+/vitest.*.config.ts @jeremymeng @deyaaeldeen
+/vitest.workspace.ts @jeremymeng @deyaaeldeen
 
 # PRLabel: %Mgmt
 /**/ci.mgmt.yml   @qiaozha @MaryGao

@@ -3,8 +3,8 @@
 
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.ts";
-import { fileURLToPath } from "url";
-import path from "path";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,7 +17,6 @@ export default mergeConfig(
       hookTimeout: 60000,
       fileParallelism: false,
       globalSetup: [path.resolve(__dirname, "test/utils/setup.ts")],
-      include: ["test/internal/unit/**/*.spec.ts"],
       exclude: ["test/internal/{,!(unit)/**/}*.spec.ts", "test/public/**/*.spec.ts"],
       fakeTimers: {
         toFake: [

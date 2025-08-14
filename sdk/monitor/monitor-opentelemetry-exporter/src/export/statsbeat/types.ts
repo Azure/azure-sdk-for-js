@@ -58,10 +58,10 @@ export class NetworkStatsbeat {
 }
 
 /**
- * Statsbeat class for customer-visible telemetry.
+ * SDK Stats class for customer-visible telemetry.
  * @internal
  */
-export class CustomerStatsbeat {
+export class CustomerSDKStats {
   public totalItemSuccessCount: Map<TelemetryType, number>;
 
   // Nested Map structure: telemetry_type -> drop.code -> drop.reason -> count
@@ -79,6 +79,9 @@ export class CustomerStatsbeat {
     >();
   }
 }
+
+// Legacy alias for backward compatibility
+export const CustomerStatsbeat = CustomerSDKStats;
 
 export const STATSBEAT_LANGUAGE = "node";
 
@@ -112,11 +115,14 @@ export enum StatsbeatCounter {
   FEATURE = "Feature",
 }
 
-export enum CustomStatsbeatCounter {
+export enum CustomSDKStatsCounter {
   ITEM_SUCCESS_COUNT = "preview.item.success.count",
   ITEM_DROP_COUNT = "preview.item.dropped.count",
   ITEM_RETRY_COUNT = "preview.item.retry.count",
 }
+
+// Legacy alias for backward compatibility
+export const CustomStatsbeatCounter = CustomSDKStatsCounter;
 
 export const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
 export const AIMS_API_VERSION = "api-version=2017-12-01";
@@ -150,11 +156,14 @@ export interface CommonStatsbeatProperties {
   attach: string;
 }
 
-export interface CustomerStatsbeatProperties {
+export interface CustomerSDKStatsProperties {
   language: string;
   version: string;
   computeType: string;
 }
+
+// Legacy alias for backward compatibility
+export type CustomerStatsbeatProperties = CustomerSDKStatsProperties;
 
 export enum TelemetryType {
   AVAILABILITY = "AVAILABILITY",

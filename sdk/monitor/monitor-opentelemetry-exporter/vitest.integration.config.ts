@@ -10,7 +10,10 @@ export default mergeConfig(
   defineConfig({
     test: {
       testTimeout: 600000,
-      include: ["test/internal/functional/**/*.test.ts"],
+      exclude: ["test/internal/{,!(functional)/**/}*.spec.ts", "test/public/**/*.spec.ts"],
+      typecheck: {
+        enabled: false,
+      },
     },
   }),
 );
