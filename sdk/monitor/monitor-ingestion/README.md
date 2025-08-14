@@ -143,7 +143,7 @@ try {
 
 ### Verify logs
 
-You can verify that your data has been uploaded correctly by using the [@azure/monitor-query](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#install-the-package) library. Run the [Upload custom logs](#upload-custom-logs) sample first before verifying the logs.
+You can verify that your data has been uploaded correctly by using the [@azure/monitor-query-logs](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query-logs/README.md#install-the-package) library. Run the [Upload custom logs](#upload-custom-logs) sample first before verifying the logs.
 
 ```ts snippet:ReadmeSampleVerifyLogs
 import { DefaultAzureCredential } from "@azure/identity";
@@ -240,4 +240,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [data_collection_rule_tutorial]: https://learn.microsoft.com/azure/azure-monitor/logs/tutorial-logs-ingestion-portal#collect-information-from-the-dcr
 [ingestion_overview]: https://learn.microsoft.com/azure/azure-monitor/logs/logs-ingestion-api-overview
 [azure_monitor_samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-ingestion/samples/v1
-[monitor_query]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query
