@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where an error was thrown when using the ESM version of this package. [#35553](https://github.com/Azure/azure-sdk-for-js/pull/35553)
+
 ### Other Changes
 
 ## 1.0.0-beta.2 (2025-08-06)

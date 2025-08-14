@@ -6,7 +6,7 @@ import type {
   ManagedIdentitySourceNames,
 } from "@azure/msal-node";
 import { AuthError, ManagedIdentityApplication } from "@azure/msal-node";
-import { ManagedIdentityCredential } from "$internal/credentials/managedIdentityCredential/index.js";
+import { ManagedIdentityCredential } from "@azure/identity";
 import { tokenExchangeMsi } from "$internal/credentials/managedIdentityCredential/tokenExchangeMsi.js";
 import { imdsMsi } from "$internal/credentials/managedIdentityCredential/imdsMsi.js";
 import { RestError } from "@azure/core-rest-pipeline";

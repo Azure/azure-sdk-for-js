@@ -14,7 +14,6 @@ import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
 import type { TokenCredential } from "@azure/core-auth";
 import process from "node:process";
-import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { parseJwt } from "./parseJwt.js";
 import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
@@ -22,10 +21,28 @@ import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
 import { FullConfig } from "@playwright/test";
 import { CI_PROVIDERS, CIInfo } from "./cIInfoProvider.js";
 import { exec } from "child_process";
+import { getPackageVersionFromFolder } from "./getPackageVersion.js";
 
 // Re-exporting for backward compatibility
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
 export { parseJwt } from "./parseJwt.js";
+
+export const getPackageVersion = (): string => {
+  // hacky way to get package version
+  // try from dist folder first (customer perspective)
+  const distVersion = getPackageVersionFromFolder("../../../");
+  if (distVersion) {
+    return distVersion;
+  }
+  // if not found, try from src folder (internal test suite)
+  const srcVersion = getPackageVersionFromFolder("../../");
+  if (srcVersion) {
+    return srcVersion;
+  }
+  return "unknown-version";
+};
+
+// const playwrightServiceConfig = new PlaywrightServiceConfig();
 
 export const exitWithFailureMessage = (
   error: {
@@ -184,32 +201,6 @@ export const fetchOrValidateAccessToken = async (credential?: TokenCredential): 
     throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
   }
   return token;
-};
-
-const getPackageVersionFromFolder = (folder: string): string => {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const version = require(path.join(__dirname, folder, "package.json")).version;
-    return version;
-  } catch (error) {
-    coreLogger.error("Error fetching package version:", error);
-    return "";
-  }
-};
-
-export const getPackageVersion = (): string => {
-  // hacky way to get package version
-  // try from dist folder first (customer perspective)
-  const distVersion = getPackageVersionFromFolder("../../../");
-  if (distVersion) {
-    return distVersion;
-  }
-  // if not found, try from src folder (internal test suite)
-  const srcVersion = getPackageVersionFromFolder("../../");
-  if (srcVersion) {
-    return srcVersion;
-  }
-  return "unknown-version";
 };
 
 export const getVersionInfo = (version: string): VersionInfo => {
