@@ -20,6 +20,8 @@ import {
   CallMediaStopTranscriptionOptionalParams,
   UpdateTranscriptionRequest,
   CallMediaUpdateTranscriptionOptionalParams,
+  SummarizeCallRequest,
+  CallMediaSummarizeCallOptionalParams,
   CallMediaCancelAllMediaOperationsOptionalParams,
   RecognizeRequest,
   CallMediaRecognizeOptionalParams,
@@ -116,6 +118,23 @@ export class CallMediaImpl implements CallMedia {
     return this.client.sendOperationRequest(
       { callConnectionId, updateTranscriptionRequest, options },
       updateTranscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * API to trigger a summary of the call so far.
+   * @param callConnectionId The call connection id
+   * @param summarizeCallRequest The SummarizeCall request
+   * @param options The options parameters.
+   */
+  summarizeCall(
+    callConnectionId: string,
+    summarizeCallRequest: SummarizeCallRequest,
+    options?: CallMediaSummarizeCallOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, summarizeCallRequest, options },
+      summarizeCallOperationSpec,
     );
   }
 
@@ -331,6 +350,22 @@ const updateTranscriptionOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.updateTranscriptionRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const summarizeCallOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:summarizeCall",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.summarizeCallRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],

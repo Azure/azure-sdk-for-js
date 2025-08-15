@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import type { CommunicationIdentifier } from "@azure/communication-common";
-import type { TranscriptionResultState } from "../generated/src/index.js";
+import type { SentimentAnalysisResult, TranscriptionResultState } from "../generated/src/index.js";
+import { PiiRedactionOptions } from "./models.js";
 
 /**
  * Audio streaming data.
@@ -63,12 +64,18 @@ export interface TranscriptionMetadata {
   subscriptionId: string;
   /** The target locale in which the translated text needs to be.*/
   locale: string;
+  /** The list of locale.*/
+  locales: string[];
   /** call connection Id.*/
   callConnectionId: string;
   /** correlation Id.*/
   correlationId: string;
   /** The custom speech recognition model endpoint id.*/
   speechRecognitionModelEndpointId: string;
+  /** Enable sentiment analysis.*/
+  enableSentimentAnalysis?: boolean;
+  /** PII Redaction options. */
+  piiRedactionOptions?: PiiRedactionOptions;
 }
 
 /**
@@ -91,6 +98,10 @@ export interface TranscriptionData {
   participant: CommunicationIdentifier;
   /** State of the result of transcription. */
   resultState: TranscriptionResultState;
+  /** Sentiment analysis result. */
+  sentimentAnalysisResult: SentimentAnalysisResult;
+  /** The identified language for a spoken phrase. */
+  languageIdentified: string;
 }
 
 /**
@@ -100,6 +111,14 @@ export interface DtmfData {
   /** A unique identifier for the media subscription.*/
   data: string;
 }
+
+// /**
+//  * Sentiment analysis result.
+//  */
+// export interface SentimentAnalysisResult {
+//    /** Gets or sets the value of the sentiment detected (positive, negative, neutral, mixed). */
+//   sentiment:string
+// }
 
 // StreamingDataResult type  | TranscriptionMetadata| TranscriptionData| AudioData| AudioMetadata;
 export type StreamingDataResult =

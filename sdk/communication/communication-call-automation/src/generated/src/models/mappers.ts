@@ -87,6 +87,12 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
           className: "MicrosoftTeamsAppIdentifierModel",
         },
       },
+      enableLoopbackAudio: {
+        serializedName: "enableLoopbackAudio",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -339,7 +345,6 @@ export const TranscriptionOptionsInternal: coreClient.CompositeMapper = {
       },
       locale: {
         serializedName: "locale",
-        required: true,
         type: {
           name: "String",
         },
@@ -636,6 +641,12 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
           className: "TranscriptionOptionsInternal",
         },
       },
+      enableLoopbackAudio: {
+        serializedName: "enableLoopbackAudio",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -729,6 +740,12 @@ export const ConnectRequest: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "TranscriptionOptionsInternal",
+        },
+      },
+      enableLoopbackAudio: {
+        serializedName: "enableLoopbackAudio",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -834,6 +851,175 @@ export const CustomCallingContextInternal: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } },
+        },
+      },
+      teamsPhoneCallDetails: {
+        serializedName: "teamsPhoneCallDetails",
+        type: {
+          name: "Composite",
+          className: "TeamsPhoneCallDetailsInternal",
+        },
+      },
+    },
+  },
+};
+
+export const TeamsPhoneCallDetailsInternal: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TeamsPhoneCallDetailsInternal",
+    modelProperties: {
+      teamsPhoneCallerDetails: {
+        serializedName: "teamsPhoneCallerDetails",
+        type: {
+          name: "Composite",
+          className: "TeamsPhoneCallerDetailsInternal",
+        },
+      },
+      teamsPhoneSourceDetails: {
+        serializedName: "teamsPhoneSourceDetails",
+        type: {
+          name: "Composite",
+          className: "TeamsPhoneSourceDetailsInternal",
+        },
+      },
+      sessionId: {
+        serializedName: "sessionId",
+        type: {
+          name: "String",
+        },
+      },
+      intent: {
+        serializedName: "intent",
+        type: {
+          name: "String",
+        },
+      },
+      callTopic: {
+        serializedName: "callTopic",
+        type: {
+          name: "String",
+        },
+      },
+      callContext: {
+        serializedName: "callContext",
+        type: {
+          name: "String",
+        },
+      },
+      transcriptUrl: {
+        serializedName: "transcriptUrl",
+        type: {
+          name: "String",
+        },
+      },
+      callSentiment: {
+        serializedName: "callSentiment",
+        type: {
+          name: "String",
+        },
+      },
+      suggestedActions: {
+        serializedName: "suggestedActions",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TeamsPhoneCallerDetailsInternal: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TeamsPhoneCallerDetailsInternal",
+    modelProperties: {
+      caller: {
+        serializedName: "caller",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      phoneNumber: {
+        serializedName: "phoneNumber",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      recordId: {
+        serializedName: "recordId",
+        type: {
+          name: "String",
+        },
+      },
+      screenPopUrl: {
+        serializedName: "screenPopUrl",
+        type: {
+          name: "String",
+        },
+      },
+      isAuthenticated: {
+        serializedName: "isAuthenticated",
+        type: {
+          name: "Boolean",
+        },
+      },
+      additionalCallerInformation: {
+        serializedName: "additionalCallerInformation",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
+};
+
+export const TeamsPhoneSourceDetailsInternal: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TeamsPhoneSourceDetailsInternal",
+    modelProperties: {
+      source: {
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      language: {
+        serializedName: "language",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      intendedTargets: {
+        serializedName: "intendedTargets",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "CommunicationIdentifierModel",
+            },
+          },
         },
       },
     },
@@ -1080,6 +1266,79 @@ export const StartTranscriptionRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      piiRedactionOptions: {
+        serializedName: "piiRedactionOptions",
+        type: {
+          name: "Composite",
+          className: "PiiRedactionOptionsInternal",
+        },
+      },
+      enableSentimentAnalysis: {
+        serializedName: "enableSentimentAnalysis",
+        type: {
+          name: "Boolean",
+        },
+      },
+      locales: {
+        serializedName: "locales",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      summarizationOptions: {
+        serializedName: "summarizationOptions",
+        type: {
+          name: "Composite",
+          className: "SummarizationOptionsInternal",
+        },
+      },
+    },
+  },
+};
+
+export const PiiRedactionOptionsInternal: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PiiRedactionOptionsInternal",
+    modelProperties: {
+      enable: {
+        serializedName: "enable",
+        type: {
+          name: "Boolean",
+        },
+      },
+      redactionType: {
+        serializedName: "redactionType",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SummarizationOptionsInternal: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SummarizationOptionsInternal",
+    modelProperties: {
+      enableEndCallSummary: {
+        serializedName: "enableEndCallSummary",
+        type: {
+          name: "Boolean",
+        },
+      },
+      locale: {
+        serializedName: "locale",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1132,6 +1391,54 @@ export const UpdateTranscriptionRequest: coreClient.CompositeMapper = {
         serializedName: "operationCallbackUri",
         type: {
           name: "String",
+        },
+      },
+      piiRedactionOptions: {
+        serializedName: "piiRedactionOptions",
+        type: {
+          name: "Composite",
+          className: "PiiRedactionOptionsInternal",
+        },
+      },
+      enableSentimentAnalysis: {
+        serializedName: "enableSentimentAnalysis",
+        type: {
+          name: "Boolean",
+        },
+      },
+      summarizationOptions: {
+        serializedName: "summarizationOptions",
+        type: {
+          name: "Composite",
+          className: "SummarizationOptionsInternal",
+        },
+      },
+    },
+  },
+};
+
+export const SummarizeCallRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SummarizeCallRequest",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+      summarizationOptions: {
+        serializedName: "summarizationOptions",
+        type: {
+          name: "Composite",
+          className: "SummarizationOptionsInternal",
         },
       },
     },
@@ -1230,6 +1537,23 @@ export const RecognizeOptions: coreClient.CompositeMapper = {
         serializedName: "speechLanguage",
         type: {
           name: "String",
+        },
+      },
+      speechLanguages: {
+        serializedName: "speechLanguages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      enableSentimentAnalysis: {
+        serializedName: "enableSentimentAnalysis",
+        type: {
+          name: "Boolean",
         },
       },
       speechRecognitionModelEndpointId: {
@@ -1818,6 +2142,80 @@ export const CancelAddParticipantResponse: coreClient.CompositeMapper = {
   },
 };
 
+export const MoveParticipantsRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveParticipantsRequest",
+    modelProperties: {
+      targetParticipants: {
+        serializedName: "targetParticipants",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommunicationIdentifierModel",
+            },
+          },
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+      fromCall: {
+        serializedName: "fromCall",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MoveParticipantsResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveParticipantsResponse",
+    modelProperties: {
+      participants: {
+        serializedName: "participants",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CallParticipantInternal",
+            },
+          },
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      fromCall: {
+        serializedName: "fromCall",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const StartCallRecordingRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2036,6 +2434,41 @@ export const ResultInformation: coreClient.CompositeMapper = {
       },
       subCode: {
         serializedName: "subCode",
+        type: {
+          name: "Number",
+        },
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String",
+        },
+      },
+      sipDetails: {
+        serializedName: "sipDetails",
+        type: {
+          name: "Composite",
+          className: "SipDiagnosticInfo",
+        },
+      },
+      q850Details: {
+        serializedName: "q850Details",
+        type: {
+          name: "Composite",
+          className: "SipDiagnosticInfo",
+        },
+      },
+    },
+  },
+};
+
+export const SipDiagnosticInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SipDiagnosticInfo",
+    modelProperties: {
+      code: {
+        serializedName: "code",
         type: {
           name: "Number",
         },
@@ -2629,6 +3062,112 @@ export const ConnectFailed: coreClient.CompositeMapper = {
   },
 };
 
+export const MoveParticipantSucceeded: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveParticipantSucceeded",
+    modelProperties: {
+      fromCall: {
+        serializedName: "fromCall",
+        type: {
+          name: "String",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "ResultInformation",
+        },
+      },
+      participant: {
+        serializedName: "participant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+    },
+  },
+};
+
+export const MoveParticipantFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveParticipantFailed",
+    modelProperties: {
+      fromCall: {
+        serializedName: "fromCall",
+        type: {
+          name: "String",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "ResultInformation",
+        },
+      },
+      participant: {
+        serializedName: "participant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+    },
+  },
+};
+
 export const RecordingStateChanged: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2966,6 +3505,34 @@ export const ChoiceResult: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      languageIdentified: {
+        serializedName: "languageIdentified",
+        type: {
+          name: "String",
+        },
+      },
+      sentimentAnalysisResult: {
+        serializedName: "sentimentAnalysisResult",
+        type: {
+          name: "Composite",
+          className: "SentimentAnalysisResult",
+        },
+      },
+    },
+  },
+};
+
+export const SentimentAnalysisResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SentimentAnalysisResult",
+    modelProperties: {
+      sentiment: {
+        serializedName: "sentiment",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -2985,6 +3552,19 @@ export const SpeechResult: coreClient.CompositeMapper = {
         serializedName: "confidence",
         type: {
           name: "Number",
+        },
+      },
+      languageIdentified: {
+        serializedName: "languageIdentified",
+        type: {
+          name: "String",
+        },
+      },
+      sentimentAnalysisResult: {
+        serializedName: "sentimentAnalysisResult",
+        type: {
+          name: "Composite",
+          className: "SentimentAnalysisResult",
         },
       },
     },
@@ -3610,6 +4190,12 @@ export const TranscriptionUpdate: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      transcriptionMessage: {
+        serializedName: "transcriptionMessage",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -3755,6 +4341,53 @@ export const TranscriptionUpdated: coreClient.CompositeMapper = {
   },
 };
 
+export const TranscriptionCallSummaryUpdated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TranscriptionCallSummaryUpdated",
+    modelProperties: {
+      transcriptionUpdate: {
+        serializedName: "transcriptionUpdate",
+        type: {
+          name: "Composite",
+          className: "TranscriptionUpdate",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "ResultInformation",
+        },
+      },
+    },
+  },
+};
+
 export const WebSocketMediaStreamingOptions: coreClient.CompositeMapper = {
   serializedName: "websocket",
   type: {
@@ -3837,6 +4470,37 @@ export const WebSocketTranscriptionOptions: coreClient.CompositeMapper = {
         serializedName: "enableIntermediateResults",
         type: {
           name: "Boolean",
+        },
+      },
+      piiRedactionOptions: {
+        serializedName: "piiRedactionOptions",
+        type: {
+          name: "Composite",
+          className: "PiiRedactionOptionsInternal",
+        },
+      },
+      enableSentimentAnalysis: {
+        serializedName: "enableSentimentAnalysis",
+        type: {
+          name: "Boolean",
+        },
+      },
+      locales: {
+        serializedName: "locales",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      summarizationOptions: {
+        serializedName: "summarizationOptions",
+        type: {
+          name: "Composite",
+          className: "SummarizationOptionsInternal",
         },
       },
     },
