@@ -55,7 +55,6 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "prepack": "npm run build",
     "pack": "npm pack 2>&1",
     "extract-api": "dev-tool run extract-api",
     "lint": "echo skipped",
