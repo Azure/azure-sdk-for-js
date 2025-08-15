@@ -1,43 +1,51 @@
-let argv = require("yargs")
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// @ts-check
+
+import path from "node:path";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
+
+import { getPackageSpec, readFileJson, writePackageJson } from "@azure-tools/eng-package-utils";
+import { updateChangelog, updatePackageConstants } from "./VersionUtils.js";
+
+const argv = yargs(hideBin(process.argv))
   .options({
     "artifact-name": {
       type: "string",
       describe:
         "name of the artifact to be set (e.g. azure-keyvault-secrets), will be translated to @azure/(package) format",
-      demandOption: true
+      demandOption: true,
     },
     "new-version": {
       type: "string",
       describe: "package version string",
-      demandOption: true
+      demandOption: true,
     },
     "release-date": {
       type: "string",
       default: new Date().toISOString().slice(0, 10),
       describe: "the date of intended release",
-      demandOption: false
+      demandOption: false,
     },
     "replace-latest-entry-title": {
       type: "string",
       default: true,
       describe: "indicates if to replace the latest changelog entry",
-      demandOption: false
+      demandOption: false,
     },
     "repo-root": {
       type: "string",
       default: "../../../",
       describe: "root of the repository (e.g. ../../../)",
-      demandOption: true
+      demandOption: true,
     },
     "dry-run": {
-      type: "boolean"
-    }
+      type: "boolean",
+    },
   })
   .help().argv;
-
-const path = require("path");
-const versionUtils = require("./VersionUtils");
-const packageUtils = require("@azure-tools/eng-package-utils");
 
 async function main(argv) {
   const artifactName = argv["artifact-name"];
@@ -47,16 +55,16 @@ async function main(argv) {
   const repoRoot = argv["repo-root"];
   const dryRun = argv["dry-run"];
 
-  const rushSpec = await packageUtils.getRushSpec(repoRoot);
+  const rushSpec = await getPackageSpec(repoRoot);
 
   const targetPackage = rushSpec.projects.find(
-    (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
+    (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName,
   );
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
-  const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
+  const packageJsonContents = await readFileJson(packageJsonLocation);
 
   const oldVersion = packageJsonContents.version;
   console.log(`${packageJsonContents.name}: ${oldVersion} -> ${newVersion}`);
@@ -68,20 +76,20 @@ async function main(argv) {
 
   const updatedPackageJson = {
     ...packageJsonContents,
-    version: newVersion
+    version: newVersion,
   };
-  await packageUtils.writePackageJson(packageJsonLocation, updatedPackageJson);
+  await writePackageJson(packageJsonLocation, updatedPackageJson);
 
-  await versionUtils.updatePackageConstants(targetPackagePath, packageJsonContents, newVersion);
+  await updatePackageConstants(targetPackagePath, packageJsonContents, newVersion);
 
-  const updateStatus = versionUtils.updateChangelog(
+  const updateStatus = updateChangelog(
     targetPackagePath,
     artifactName,
     repoRoot,
     newVersion,
     false,
     replaceLatestEntryTitle,
-    releaseDate
+    releaseDate,
   );
   if (!updateStatus) {
     process.exit(1);

@@ -18,6 +18,10 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
+  VirtualMachineExtensionsListOptionalParams,
+  VirtualMachineExtensionsListResponse,
+  VirtualMachineExtensionsGetOptionalParams,
+  VirtualMachineExtensionsGetResponse,
   VirtualMachineExtension,
   VirtualMachineExtensionsCreateOrUpdateOptionalParams,
   VirtualMachineExtensionsCreateOrUpdateResponse,
@@ -25,10 +29,6 @@ import {
   VirtualMachineExtensionsUpdateOptionalParams,
   VirtualMachineExtensionsUpdateResponse,
   VirtualMachineExtensionsDeleteOptionalParams,
-  VirtualMachineExtensionsGetOptionalParams,
-  VirtualMachineExtensionsGetResponse,
-  VirtualMachineExtensionsListOptionalParams,
-  VirtualMachineExtensionsListResponse,
 } from "../models/index.js";
 
 /** Class containing VirtualMachineExtensions operations. */
@@ -44,9 +44,45 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
   }
 
   /**
+   * The operation to get all extensions of a Virtual Machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    vmName: string,
+    options?: VirtualMachineExtensionsListOptionalParams,
+  ): Promise<VirtualMachineExtensionsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmName, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * The operation to get the extension.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
+   * @param vmExtensionName The name of the virtual machine extension.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    vmName: string,
+    vmExtensionName: string,
+    options?: VirtualMachineExtensionsGetOptionalParams,
+  ): Promise<VirtualMachineExtensionsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmName, vmExtensionName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * The operation to create or update the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be created or updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
    * @param options The options parameters.
@@ -118,6 +154,7 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -125,8 +162,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to create or update the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be created or updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param extensionParameters Parameters supplied to the Create Virtual Machine Extension operation.
    * @param options The options parameters.
@@ -150,8 +187,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to update the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
    * @param options The options parameters.
@@ -223,6 +260,7 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -230,8 +268,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to update the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param extensionParameters Parameters supplied to the Update Virtual Machine Extension operation.
    * @param options The options parameters.
@@ -255,8 +293,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to delete the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param options The options parameters.
    */
@@ -312,6 +350,7 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -319,8 +358,8 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
 
   /**
    * The operation to delete the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine where the extension should be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName The name of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
    * @param options The options parameters.
    */
@@ -338,46 +377,53 @@ export class VirtualMachineExtensionsImpl implements VirtualMachineExtensions {
     );
     return poller.pollUntilDone();
   }
-
-  /**
-   * The operation to get the extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the extension.
-   * @param vmExtensionName The name of the virtual machine extension.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vmName: string,
-    vmExtensionName: string,
-    options?: VirtualMachineExtensionsGetOptionalParams,
-  ): Promise<VirtualMachineExtensionsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmName, vmExtensionName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * The operation to get all extensions of a Virtual Machine.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmName The name of the virtual machine containing the extension.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    vmName: string,
-    options?: VirtualMachineExtensionsListOptionalParams,
-  ): Promise<VirtualMachineExtensionsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmName, options },
-      listOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineExtensionsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineExtension,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmName,
+    Parameters.vmExtensionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   httpMethod: "PUT",
@@ -404,8 +450,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
     Parameters.vmName,
+    Parameters.vmExtensionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -417,15 +463,19 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineExtension,
+      headersMapper: Mappers.VirtualMachineExtensionsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.VirtualMachineExtension,
+      headersMapper: Mappers.VirtualMachineExtensionsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.VirtualMachineExtension,
+      headersMapper: Mappers.VirtualMachineExtensionsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.VirtualMachineExtension,
+      headersMapper: Mappers.VirtualMachineExtensionsUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -437,8 +487,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
     Parameters.vmName,
+    Parameters.vmExtensionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -461,51 +511,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.vmName,
     Parameters.vmExtensionName,
-    Parameters.vmName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineExtension,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
-    Parameters.vmName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineExtensionsListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

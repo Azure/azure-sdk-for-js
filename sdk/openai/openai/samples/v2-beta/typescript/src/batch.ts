@@ -54,7 +54,7 @@ export async function main(): Promise<void> {
   }
 
   // Clean up file
-  await client.files.del(file.id);
+  await client.files.delete(file.id);
 }
 
 main().catch((err) => {

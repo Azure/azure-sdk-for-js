@@ -480,7 +480,7 @@ describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVer
               final_answer: z.string(),
             });
 
-            return client.beta.chat.completions.parse({
+            return client.chat.completions.parse({
               model: deploymentName,
               messages: [
                 {

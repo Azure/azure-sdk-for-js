@@ -36,7 +36,7 @@ describe("Assistants", () => {
             assert.isNotEmpty(fileList.data);
             assert.isNotNull(fileList.data[0].id);
           } finally {
-            const fileDeleted = await client.files.del(uploadedFile.id);
+            const fileDeleted = await client.files.delete(uploadedFile.id);
             assert.isTrue(fileDeleted.deleted);
             assert.equal(fileDeleted.id, uploadedFile.id);
           }

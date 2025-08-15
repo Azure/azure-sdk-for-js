@@ -11,10 +11,8 @@
  * @summary Stop ongoing migration for the database.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/SqlVmCancelDatabaseMigration.json
  */
-import {
-  MigrationOperationInput,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { MigrationOperationInput } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function stopOngoingMigrationForTheDatabase(): Promise<void> {
@@ -23,7 +21,7 @@ async function stopOngoingMigrationForTheDatabase(): Promise<void> {
   const sqlVirtualMachineName = "testvm";
   const targetDbName = "db1";
   const parameters: MigrationOperationInput = {
-    migrationOperationId: "4124fe90-d1b6-4b50-b4d9-46d02381f59a"
+    migrationOperationId: "4124fe90-d1b6-4b50-b4d9-46d02381f59a",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
@@ -31,7 +29,7 @@ async function stopOngoingMigrationForTheDatabase(): Promise<void> {
     resourceGroupName,
     sqlVirtualMachineName,
     targetDbName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -1,4 +1,11 @@
 # Release History
+
+## 21.6.0 (2025-07-25)
+
+### Features Added
+  - Interface SubscriptionQuotaItemList has a new optional parameter nextLink
+  - Added Type Alias NetAppResourceQuotaLimitsListNextResponse
+
     
 ## 21.6.0-beta.1 (2025-05-14)
 Compared with version 21.5.0

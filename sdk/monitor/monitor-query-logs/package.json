@@ -1,0 +1,141 @@
+{
+  "name": "@azure/monitor-query-logs",
+  "version": "1.0.0",
+  "description": "An isomorphic client library for querying Azure Monitor's Logs data sources.",
+  "sdk-type": "client",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "browser": "./dist/browser/index.js",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/monitorQueryLogsContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "types": "./dist/commonjs/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "build:samples": "dev-tool samples publish --force",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log coverage coverage-browser",
+    "execute:samples": "echo Obsolete",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "pack": "npm pack 2>&1",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test:node:live": "dev-tool run test:vitest -- -c vitest.int.config.ts",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": "github:Azure/azure-sdk-for-js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md",
+  "sideEffects": false,
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-client": "^1.9.2",
+    "@azure/core-paging": "^1.6.2",
+    "@azure-rest/core-client": "^2.5.0",
+    "@azure/core-rest-pipeline": "^1.19.0",
+    "@azure/core-tracing": "^1.2.0",
+    "@azure/core-util": "^1.11.0",
+    "@azure/logger": "^1.1.4",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^4.6.0",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.32",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/sdk-trace-base": "^1.30.1",
+    "@opentelemetry/sdk-trace-node": "^1.30.1",
+    "@types/node": "^20.0.0",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
+    "dotenv": "^16.0.0",
+    "eslint": "^9.9.0",
+    "playwright": "^1.50.1",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
+  },
+  "//sampleConfiguration": {
+    "skipFolder": false,
+    "productName": "Monitor Query Logs",
+    "productSlugs": [
+      "azure",
+      "azure-monitor"
+    ],
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/",
+    "requiredResources": {
+      "Azure Monitor": "https://learn.microsoft.com/azure/azure-monitor/"
+    }
+  },
+  "type": "module",
+  "tshy": {
+    "project": "../../../tsconfig.src.build.json",
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "react-native": "./dist/react-native/index.js"
+}

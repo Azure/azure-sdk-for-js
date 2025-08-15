@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-agents",
-  "version": "1.1.0-beta.1",
+  "version": "1.1.0",
   "description": "Azure AI Agents client library.",
   "engines": {
     "node": ">=20.0.0"
@@ -21,7 +21,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "type": "module",
   "keywords": [
@@ -75,6 +75,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.3.0",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
+    "@azure/monitor-opentelemetry": "^1.11.1",
     "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.31",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",

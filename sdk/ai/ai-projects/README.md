@@ -101,7 +101,7 @@ Your Azure AI Foundry project may have one or more OpenAI models deployed that s
 
 Run the code below. Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 
-Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-services/openai/reference#api-specs).
+Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-foundry/openai/reference#api-specs).
 
 You also have the option (not shown) to explicitly specify the Azure OpenAI connection name in your AI Foundry Project, which the `inference.azureOpenAI` method will use to get the inference endpoint and authentication credentials. If not present the default Azure OpenAI connection will be used.
 
@@ -388,7 +388,7 @@ additional questions or comments.
 <!-- LINKS -->
 
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
+[entra_id]: https://learn.microsoft.com/azure/ai-foundry/foundry-models/how-to/configure-entra-id?tabs=javascript&pivots=ai-foundry-portal
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk

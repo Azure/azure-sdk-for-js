@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataMigrationManagementClient } from "../dataMigrationManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DatabaseMigrationsSqlMiGetOptionalParams,
   DatabaseMigrationsSqlMiGetResponse,
@@ -21,7 +25,7 @@ import {
   DatabaseMigrationsSqlMiCreateOrUpdateResponse,
   MigrationOperationInput,
   DatabaseMigrationsSqlMiCancelOptionalParams,
-  DatabaseMigrationsSqlMiCutoverOptionalParams
+  DatabaseMigrationsSqlMiCutoverOptionalParams,
 } from "../models/index.js";
 
 /** Class containing DatabaseMigrationsSqlMi operations. */
@@ -37,7 +41,7 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
   }
 
   /**
-   * Retrieve the Database Migration resource.
+   * Retrieve the specified database migration for a given SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -48,16 +52,16 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
     resourceGroupName: string,
     managedInstanceName: string,
     targetDbName: string,
-    options?: DatabaseMigrationsSqlMiGetOptionalParams
+    options?: DatabaseMigrationsSqlMiGetOptionalParams,
   ): Promise<DatabaseMigrationsSqlMiGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, managedInstanceName, targetDbName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -70,30 +74,29 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
     managedInstanceName: string,
     targetDbName: string,
     parameters: DatabaseMigrationSqlMi,
-    options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams
+    options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DatabaseMigrationsSqlMiCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DatabaseMigrationsSqlMiCreateOrUpdateResponse>,
       DatabaseMigrationsSqlMiCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DatabaseMigrationsSqlMiCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -102,8 +105,8 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -111,32 +114,35 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         managedInstanceName,
         targetDbName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DatabaseMigrationsSqlMiCreateOrUpdateResponse,
+      OperationState<DatabaseMigrationsSqlMiCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -149,20 +155,20 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
     managedInstanceName: string,
     targetDbName: string,
     parameters: DatabaseMigrationSqlMi,
-    options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams
+    options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams,
   ): Promise<DatabaseMigrationsSqlMiCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       managedInstanceName,
       targetDbName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Stop migrations in progress for the database
+   * Stop in-progress database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -175,25 +181,24 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
     managedInstanceName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlMiCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: DatabaseMigrationsSqlMiCancelOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +207,8 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,32 +216,32 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         managedInstanceName,
         targetDbName,
         parameters,
-        options
+        options,
       },
-      cancelOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: cancelOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Stop migrations in progress for the database
+   * Stop in-progress database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -249,20 +254,20 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
     managedInstanceName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlMiCancelOptionalParams
+    options?: DatabaseMigrationsSqlMiCancelOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCancel(
       resourceGroupName,
       managedInstanceName,
       targetDbName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Initiate cutover for online migration in progress for the database.
+   * Initiate cutover for in-progress online database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -275,25 +280,24 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
     managedInstanceName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlMiCutoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: DatabaseMigrationsSqlMiCutoverOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -302,8 +306,8 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -311,32 +315,32 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         managedInstanceName,
         targetDbName,
         parameters,
-        options
+        options,
       },
-      cutoverOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: cutoverOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Initiate cutover for online migration in progress for the database.
+   * Initiate cutover for in-progress online database migration to SQL Managed Instance.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param managedInstanceName
@@ -349,14 +353,14 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
     managedInstanceName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlMiCutoverOptionalParams
+    options?: DatabaseMigrationsSqlMiCutoverOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCutover(
       resourceGroupName,
       managedInstanceName,
       targetDbName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -365,95 +369,91 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseMigrationSqlMi
+      bodyMapper: Mappers.DatabaseMigrationSqlMi,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [
+    Parameters.apiVersion,
     Parameters.migrationOperationId,
     Parameters.expand,
-    Parameters.apiVersion
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
+    Parameters.subscriptionId,
     Parameters.targetDbName,
-    Parameters.subscriptionId
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseMigrationSqlMi
+      bodyMapper: Mappers.DatabaseMigrationSqlMi,
     },
     201: {
-      bodyMapper: Mappers.DatabaseMigrationSqlMi
+      bodyMapper: Mappers.DatabaseMigrationSqlMi,
     },
     202: {
-      bodyMapper: Mappers.DatabaseMigrationSqlMi
+      bodyMapper: Mappers.DatabaseMigrationSqlMi,
     },
     204: {
-      bodyMapper: Mappers.DatabaseMigrationSqlMi
+      bodyMapper: Mappers.DatabaseMigrationSqlMi,
     },
-    default: {}
+    default: {},
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
+    Parameters.subscriptionId,
     Parameters.targetDbName,
-    Parameters.subscriptionId
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cancel",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cancel",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
+    Parameters.subscriptionId,
     Parameters.targetDbName,
-    Parameters.subscriptionId
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const cutoverOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cutover",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cutover",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
+    Parameters.subscriptionId,
     Parameters.targetDbName,
-    Parameters.subscriptionId
+    Parameters.managedInstanceName,
   ],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

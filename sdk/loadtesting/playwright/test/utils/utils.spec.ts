@@ -21,6 +21,8 @@ import {
   fetchOrValidateAccessToken,
   populateValuesFromServiceUrl,
   getRunName,
+  isValidGuid,
+  ValidateRunID,
 } from "../../src/utils/utils.js";
 import * as packageManager from "../../src/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -146,11 +148,11 @@ describe("Service Utils", () => {
 
   it("should return service base url with query params and should escape runID", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -158,11 +160,11 @@ describe("Service Utils", () => {
 
   it("should escape special character in runId", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${Constants.LatestAPIVersion}`;
     expect(getServiceWSEndpoint(runId, os, Constants.LatestAPIVersion)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -325,7 +327,7 @@ describe("Service Utils", () => {
 
     const exitStub = vi.mocked(process.exit);
     process.env["PLAYWRIGHT_SERVICE_URL"] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/wrong-id/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/wrong-id/browsers";
     const result = localPopulateValuesFromServiceUrl();
 
     expect(result).to.deep.equal({
@@ -569,7 +571,7 @@ describe("Service Utils", () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
       await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");
     process.env["PLAYWRIGHT_SERVICE_URL"] =
-      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+      "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
 
     const result = localPopulateValuesFromServiceUrl();
     expect(result).to.deep.equal({
@@ -580,7 +582,52 @@ describe("Service Utils", () => {
 
     delete process.env["PLAYWRIGHT_SERVICE_URL"];
   });
+  describe("isValidGuid", () => {
+    it("should return true for valid GUIDs", () => {
+      const validGuids = [
+        "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
+        "f3a0f9c8-1b4b-4f44-9a77-062d8d418878",
+        "00000000-0000-0000-0000-000000000000",
+        "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+      ];
 
+      validGuids.forEach((guid) => {
+        expect(isValidGuid(guid)).toBe(true);
+      });
+    });
+
+    it("should return false for invalid GUIDs", () => {
+      const invalidGuids = [
+        "",
+        "not-a-guid",
+        "a1b2c3d4e5f647a8b9c0d1e2f3a4b5c6",
+        "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5",
+        "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6c",
+      ];
+
+      invalidGuids.forEach((guid) => {
+        expect(isValidGuid(guid)).toBe(false);
+      });
+    });
+
+    it("should handle undefined and null values", () => {
+      expect(isValidGuid(undefined as unknown as string)).toBe(false);
+      expect(isValidGuid(null as unknown as string)).toBe(false);
+    });
+  });
+  it("should throw error when invalid GUID is provided in runId", () => {
+    const invalidGuid = "not-a-valid-guid";
+
+    expect(() => ValidateRunID(invalidGuid)).toThrow(
+      "The Run ID must be a valid GUID format. Please provide a valid GUID for the Run ID.",
+    );
+  });
+
+  it("should not throw error when valid GUID is provided in runId", () => {
+    const validGuid = "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6";
+
+    expect(() => ValidateRunID(validGuid)).not.toThrow();
+  });
   it("should return null for an invalid service URL", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
       await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");

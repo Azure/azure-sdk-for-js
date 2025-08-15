@@ -11,10 +11,8 @@
  * @summary The project resource is a nested resource representing a stored migration project. The PUT method creates a new project or updates an existing one.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Projects_CreateOrUpdate.json
  */
-import {
-  Project,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { Project } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function projectsCreateOrUpdate(): Promise<void> {
@@ -25,7 +23,7 @@ async function projectsCreateOrUpdate(): Promise<void> {
   const parameters: Project = {
     location: "southcentralus",
     sourcePlatform: "SQL",
-    targetPlatform: "SQLDB"
+    targetPlatform: "SQLDB",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
@@ -33,7 +31,7 @@ async function projectsCreateOrUpdate(): Promise<void> {
     groupName,
     serviceName,
     projectName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -4,7 +4,7 @@ parameters:
 
 steps:
   - script: |
-      node ../../../common/scripts/install-run-rushx.js test:node:integration
+      npm run test:node:integration
     condition: succeededOrFailed()
     displayName: "Cosmos Integration Tests"
     workingDirectory: "${{parameters.PackagePath}}"

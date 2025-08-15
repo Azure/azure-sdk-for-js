@@ -22,7 +22,7 @@ const logger = credentialLogger("BrokerCredential");
 
 /**
  * Enables authentication to Microsoft Entra ID using WAM (Web Account Manager) broker.
- * This credential extends InteractiveBrowserCredential and provides additional broker-specific functionality.
+ * This credential uses the default account logged into the OS via a broker.
  */
 export class BrokerCredential implements TokenCredential {
   private brokerMsalClient: MsalClient;

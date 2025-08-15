@@ -12,7 +12,6 @@ import type {
   MetricPoint,
   MonitoringDataPoint,
   RemoteDependency,
-  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
   CollectionConfigurationError,

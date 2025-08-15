@@ -20,6 +20,8 @@ import {
   EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams,
   EventSubscriptionsListByResourceOptionalParams,
   EventSubscriptionsListByDomainTopicOptionalParams,
+  EventSubscriptionsGetDeliveryAttributesOptionalParams,
+  EventSubscriptionsGetDeliveryAttributesResponse,
   EventSubscriptionsGetOptionalParams,
   EventSubscriptionsGetResponse,
   EventSubscriptionsCreateOrUpdateOptionalParams,
@@ -30,8 +32,6 @@ import {
   EventSubscriptionsUpdateResponse,
   EventSubscriptionsGetFullUrlOptionalParams,
   EventSubscriptionsGetFullUrlResponse,
-  EventSubscriptionsGetDeliveryAttributesOptionalParams,
-  EventSubscriptionsGetDeliveryAttributesResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -148,6 +148,24 @@ export interface EventSubscriptions {
     topicName: string,
     options?: EventSubscriptionsListByDomainTopicOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription>;
+  /**
+   * Get all delivery attributes for an event subscription.
+   * @param scope The scope of the event subscription. The scope can be a subscription, or a resource
+   *              group, or a top level resource belonging to a resource provider namespace, or an EventGrid topic.
+   *              For example, use '/subscriptions/{subscriptionId}/' for a subscription,
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
+   *              for a resource, and
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
+   *              for an EventGrid topic.
+   * @param eventSubscriptionName Name of the event subscription.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    scope: string,
+    eventSubscriptionName: string,
+    options?: EventSubscriptionsGetDeliveryAttributesOptionalParams,
+  ): Promise<EventSubscriptionsGetDeliveryAttributesResponse>;
   /**
    * Get properties of an event subscription.
    * @param scope The scope of the event subscription. The scope can be a subscription, or a resource
@@ -318,22 +336,4 @@ export interface EventSubscriptions {
     eventSubscriptionName: string,
     options?: EventSubscriptionsGetFullUrlOptionalParams,
   ): Promise<EventSubscriptionsGetFullUrlResponse>;
-  /**
-   * Get all delivery attributes for an event subscription.
-   * @param scope The scope of the event subscription. The scope can be a subscription, or a resource
-   *              group, or a top level resource belonging to a resource provider namespace, or an EventGrid topic.
-   *              For example, use '/subscriptions/{subscriptionId}/' for a subscription,
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for a resource group, and
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'
-   *              for a resource, and
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'
-   *              for an EventGrid topic.
-   * @param eventSubscriptionName Name of the event subscription.
-   * @param options The options parameters.
-   */
-  getDeliveryAttributes(
-    scope: string,
-    eventSubscriptionName: string,
-    options?: EventSubscriptionsGetDeliveryAttributesOptionalParams,
-  ): Promise<EventSubscriptionsGetDeliveryAttributesResponse>;
 }

@@ -42,7 +42,7 @@ import type {
   ParsedChatCompletionMessage,
   ParsedChoice,
   ParsedFunctionToolCall,
-} from "openai/resources/beta/chat/completions.mjs";
+} from "openai/resources/chat/completions.mjs";
 import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import type { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
 import type { Metadata } from "./types.js";

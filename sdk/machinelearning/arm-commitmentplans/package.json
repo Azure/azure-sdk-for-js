@@ -62,7 +62,6 @@
     "format": "echo skipped",
     "lint": "echo skipped",
     "pack": "npm pack 2>&1",
-    "prepack": "npm run build",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest",
@@ -81,7 +80,7 @@
   "autoPublish": true,
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

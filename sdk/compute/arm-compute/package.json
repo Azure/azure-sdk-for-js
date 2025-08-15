@@ -3,16 +3,16 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ComputeManagementClient.",
-  "version": "22.4.0",
+  "version": "23.0.0",
   "engines": {
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.3",
     "@azure/core-lro": "^2.5.4",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-paging": "^1.6.2",
+    "@azure/core-client": "^1.9.3",
+    "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.19.1",
     "tslib": "^2.8.1"
   },
@@ -21,41 +21,38 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "type": "module",
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@azure/arm-network": "^32.2.0",
+    "typescript": "~5.8.2",
+    "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.8.0",
+    "@azure/identity": "^4.9.0",
     "@azure/logger": "^1.1.4",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
-    "dotenv": "^16.0.0",
-    "playwright": "^1.51.1",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
+    "playwright": "^1.52.0",
+    "vitest": "^3.0.9",
+    "@azure/arm-network": "^32.2.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
     "dist/",
     "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -67,7 +64,6 @@
     "format": "echo skipped",
     "lint": "echo skipped",
     "pack": "npm pack 2>&1",
-    "prepack": "npm run build",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest",
@@ -84,16 +80,8 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-compute?view=azure-node-preview"
-  },
-  "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "tshy": {
     "project": "./tsconfig.src.json",
     "exports": {
@@ -110,8 +98,15 @@
     ],
     "selfLink": false
   },
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/compute/arm-compute",
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-compute?view=azure-node-preview"
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

@@ -175,7 +175,8 @@
     "dataserviceid",
     "uefi",
     "Uefi",
-    "Reimage"
+    "Reimage",
+    "Milli"
   ],
   "allowCompoundWords": true,
   "overrides": [

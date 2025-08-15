@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { DataMigrationManagementClient } = require("@azure/arm-datamigration");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance. The PUT method creates a new task or updates an existing one, although since tasks have no mutable custom properties, there is little reason to update an existing one.
+ * This sample demonstrates how to The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic) instance. The PUT method creates a new task or updates an existing one, although since tasks have no mutable custom properties, there is little reason to update an existing one.
  *
- * @summary The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance. The PUT method creates a new task or updates an existing one, although since tasks have no mutable custom properties, there is little reason to update an existing one.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Tasks_CreateOrUpdate.json
+ * @summary The tasks resource is a nested, proxy-only resource representing work performed by a DMS (classic) instance. The PUT method creates a new task or updates an existing one, although since tasks have no mutable custom properties, there is little reason to update an existing one.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Tasks_CreateOrUpdate.json
  */
 async function tasksCreateOrUpdate() {
-  const subscriptionId = "fc04246f-04c5-437e-ac5e-206a19e7193f";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "fc04246f-04c5-437e-ac5e-206a19e7193f";
   const groupName = "DmsSdkRg";
   const serviceName = "DmsSdkService";
   const projectName = "DmsSdkProject";
@@ -46,9 +46,13 @@ async function tasksCreateOrUpdate() {
     serviceName,
     projectName,
     taskName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-tasksCreateOrUpdate().catch(console.error);
+async function main() {
+  await tasksCreateOrUpdate();
+}
+
+main().catch(console.error);

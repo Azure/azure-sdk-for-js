@@ -19,9 +19,9 @@ import {
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
-  getPackageVersion,
   getPlaywrightVersion,
   getVersionInfo,
+  getPackageVersion,
 } from "../utils/utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
@@ -72,6 +72,9 @@ const getServiceConfig = (
 ): PlaywrightTestConfig => {
   validatePlaywrightVersion();
   validateServiceUrl();
+
+  // Set environment variable to indicate user is using service config
+  process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] = "true";
   const playwrightVersionInfo = getVersionInfo(getPlaywrightVersion());
   const isMultipleGlobalFileSupported =
     playwrightVersionInfo.major >= 1 && playwrightVersionInfo.minor >= 49;
@@ -209,10 +212,11 @@ const getServiceConfig = (
  * ```
  */
 const getConnectOptions = async (
-  options?: Omit<PlaywrightServiceAdditionalOptions, "serviceAuthType">,
+  options?: PlaywrightServiceAdditionalOptions,
 ): Promise<BrowserConnectOptions> => {
   const playwrightServiceConfig = new PlaywrightServiceConfig();
-  playwrightServiceConfig.setOptions(options);
+
+  playwrightServiceConfig.setOptions(options, true);
 
   const token = await fetchOrValidateAccessToken(options?.credential);
   return {

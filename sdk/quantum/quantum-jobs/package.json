@@ -80,7 +80,7 @@
   "sideEffects": false,
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

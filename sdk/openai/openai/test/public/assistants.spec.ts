@@ -63,7 +63,9 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
             assert.equal(firstID, lastID);
             assert.equal(oneAssistantList.data[0].id, firstID);
           } finally {
-            const deleteAssistantResponse = await client.beta.assistants.del(assistantResponse.id);
+            const deleteAssistantResponse = await client.beta.assistants.delete(
+              assistantResponse.id,
+            );
             assert.equal(deleteAssistantResponse.deleted, true);
           }
         },
@@ -104,7 +106,7 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
               newMetadataValue,
             );
           } finally {
-            const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
+            const deleteThreadResponse = await client.beta.threads.delete(threadResponse.id);
             assert.equal(deleteThreadResponse.deleted, true);
           }
         },
@@ -143,8 +145,8 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
             }
             assert.equal((messageResponse.metadata as unknown as Metadata).foo, metadataValue);
             const getMessageResponse = await client.beta.threads.messages.retrieve(
-              threadResponse.id,
-              messageResponse.id || "",
+              messageResponse.id,
+              { thread_id: threadResponse.id },
             );
             messageContent = getMessageResponse.content[0];
             assert.equal(messageResponse.id, getMessageResponse.id);
@@ -158,9 +160,11 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
             messageOptions.metadata.foo = newMetadataValue;
 
             const updateMessageResponse = await client.beta.threads.messages.update(
-              threadResponse.id,
-              messageResponse.id || "",
-              messageOptions,
+              messageResponse.id,
+              {
+                thread_id: threadResponse.id,
+                metadata: messageOptions.metadata,
+              },
             );
             assert.equal(messageResponse.id, updateMessageResponse.id);
             assert.equal(
@@ -178,7 +182,7 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
             assert.equal(firstID, lastID);
             assert.equal(oneMessageList.data[0].id, firstID);
           } finally {
-            const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
+            const deleteThreadResponse = await client.beta.threads.delete(threadResponse.id);
             assert.equal(deleteThreadResponse.deleted, true);
           }
         },
@@ -231,22 +235,24 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
             assert.equal(firstID, lastID);
             assert.equal(list.data[0].id, firstID);
 
-            const cancel = await client.beta.threads.runs.cancel(thread.id, run.id);
+            const cancel = await client.beta.threads.runs.cancel(run.id, { thread_id: thread.id });
             assert.equal(cancel.id, run.id);
             assert.equal(cancel.thread_id, thread.id);
             assert.equal(cancel.assistant_id, assistant.id);
             assert.equal(cancel.instructions, instructions);
             assert.equal(cancel.status, "cancelling");
 
-            const getRun = await client.beta.threads.runs.retrieve(thread.id, run.id);
+            const getRun = await client.beta.threads.runs.retrieve(run.id, {
+              thread_id: thread.id,
+            });
             assert.equal(getRun.id, run.id);
             assert.equal(getRun.thread_id, thread.id);
             assert.equal(getRun.assistant_id, assistant.id);
             assert.equal(getRun.instructions, instructions);
             assert.equal((getRun.metadata as unknown as Metadata).foo, metadataValue);
           } finally {
-            const deleteThreadResponse = await client.beta.threads.del(thread.id);
-            const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+            const deleteThreadResponse = await client.beta.threads.delete(thread.id);
+            const deleteAssistantResponse = await client.beta.assistants.delete(assistant.id);
             // All deletes before any asserts
             assert.equal(deleteThreadResponse.deleted, true);
             assert.equal(deleteAssistantResponse.deleted, true);
@@ -312,8 +318,8 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
               }
             }
           } finally {
-            const deleteThreadResponse = await client.beta.threads.del(thread.id);
-            const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+            const deleteThreadResponse = await client.beta.threads.delete(thread.id);
+            const deleteAssistantResponse = await client.beta.assistants.delete(assistant.id);
             // All deletes before any asserts
             assert.equal(deleteThreadResponse.deleted, true);
             assert.equal(deleteAssistantResponse.deleted, true);
@@ -457,7 +463,8 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
                   toolOutputs.push(getResolvedToolOutput(toolCall));
                 }
               }
-              run = await client.beta.threads.runs.submitToolOutputsAndPoll(thread.id, run.id, {
+              run = await client.beta.threads.runs.submitToolOutputsAndPoll(run.id, {
+                thread_id: thread.id,
                 tool_outputs: toolOutputs,
               });
 
@@ -481,8 +488,8 @@ describe.each([APIVersion.v2025_04_01_preview])("Assistants [%s]", (apiVersion: 
               }
             }
           } finally {
-            const deleteThreadResponse = await client.beta.threads.del(thread.id);
-            const deleteAssistantResponse = await client.beta.assistants.del(assistant.id);
+            const deleteThreadResponse = await client.beta.threads.delete(thread.id);
+            const deleteAssistantResponse = await client.beta.assistants.delete(assistant.id);
             // All deletes before any asserts
             assert.equal(deleteThreadResponse.deleted, true);
             assert.equal(deleteAssistantResponse.deleted, true);

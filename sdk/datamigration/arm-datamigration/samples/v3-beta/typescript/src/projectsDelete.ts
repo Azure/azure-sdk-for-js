@@ -21,11 +21,7 @@ async function projectsDelete(): Promise<void> {
   const projectName = "DmsSdkProject";
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.projects.delete(
-    groupName,
-    serviceName,
-    projectName
-  );
+  const result = await client.projects.delete(groupName, serviceName, projectName);
   console.log(result);
 }
 
