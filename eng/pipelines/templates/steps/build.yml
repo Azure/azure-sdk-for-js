@@ -107,7 +107,7 @@ steps:
         Copy-Item $packageFile $stagingArtifactDirectory
         Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $stagingArtifactDirectory
 
-        if ($env:SETDEVVERSION -eq 'true' -and $artifactDetails.ArtifactDetails.skipPublishDev -ne $true)
+        if ($env:SETDEVVERSION -eq 'true' -and $artifactDetails.ArtifactDetails.skipPublishDevFeed -ne $true)
         {
           $stagingDevArtifactDirectory = "$(Agent.TempDirectory)/packages-dev-publish/$artifact"
           New-Item -Type Directory $stagingDevArtifactDirectory -Force | Out-Null
