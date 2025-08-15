@@ -76,7 +76,8 @@ export class ChatClient {
     on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
     on(event: "realTimeNotificationConnected", listener: () => void): void;
     on(event: "realTimeNotificationDisconnected", listener: () => void): void;
-    startRealtimeNotifications(): Promise<void>;
+    startRealtimeNotifications(options?: StartRealtimeNotificationsOptions): Promise<void>;
+    stopPolling(): void;
     stopRealtimeNotifications(): Promise<void>;
 }
 
@@ -253,6 +254,15 @@ export { ParticipantsAddedEvent }
 
 export { ParticipantsRemovedEvent }
 
+// @public
+export interface PollingOptions {
+    adaptivePolling?: boolean;
+    enabled?: boolean;
+    fast?: number;
+    intervalInSec?: number;
+    slow?: number;
+}
+
 export { ReadReceiptReceivedEvent }
 
 // @public
@@ -313,6 +323,12 @@ export interface SendTypingNotificationOptions extends OperationOptions {
 }
 
 // @public
+export interface StartRealtimeNotificationsOptions {
+    pollingOptions?: PollingOptions;
+    threadsIds?: string[];
+}
+
+// @public  
 export interface ThreadCreationDateRetentionPolicy {
     deleteThreadAfterDays: number;
     kind: "threadCreationDate";
