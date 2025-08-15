@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { IpAllocationsCreateOrUpdateParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,36 +13,35 @@ import "dotenv/config";
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/IpAllocationCreate.json
  */
 async function createIPAllocation(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rg1";
-  const ipAllocationName = "test-ipallocation";
-  const options: IpAllocationsCreateOrUpdateParameters = {
-    body: {
-      location: "centraluseuap",
-      properties: {
-        type: "Hypernet",
-        allocationTags: {
-          vNetID:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "rg1";
+    const ipAllocationName = "test-ipallocation";
+    const options: IpAllocationsCreateOrUpdateParameters = {
+        body: {
+            location: "centraluseuap",
+            properties: {
+                type: "Hypernet",
+                allocationTags: {
+                    vNetID:
+                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
+                },
+                prefix: "3.2.5.0/24",
+            },
         },
-        prefix: "3.2.5.0/24",
-      },
-    },
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
-      subscriptionId,
-      resourceGroupName,
-      ipAllocationName,
-    )
-    .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+        queryParameters: { "api-version": "2022-05-01" },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
+            subscriptionId,
+            resourceGroupName,
+            ipAllocationName,
+        )
+        .put(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 createIPAllocation().catch(console.error);

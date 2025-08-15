@@ -7,7 +7,6 @@
  */
 
 import {
-  string,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";

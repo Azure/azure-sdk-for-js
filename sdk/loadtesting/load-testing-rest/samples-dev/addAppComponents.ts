@@ -24,8 +24,6 @@ async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const testId = process.env["LOADTESTSERVICE_TESTID"] || ""; // TestId of a test already created.
 
-  const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
-
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, credential);
 
@@ -36,10 +34,10 @@ async function main(): Promise<void> {
       body: {
         components: {
           "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
-            {
-              resourceName: "App-Service-Sample-Demo",
-              resourceType: "Microsoft.Web/sites",
-            },
+          {
+            resourceName: "App-Service-Sample-Demo",
+            resourceType: "Microsoft.Web/sites",
+          },
         },
       },
     });

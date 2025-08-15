@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { VpnConnectionsStartPacketCaptureParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,32 +13,31 @@ import "dotenv/config";
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnConnectionStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVpnConnectionWithFilter(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rg1";
-  const gatewayName = "gateway1";
-  const vpnConnectionName = "vpnConnection1";
-  const options: VpnConnectionsStartPacketCaptureParameters = {
-    body: {
-      filterData:
-        "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}",
-      linkConnectionNames: ["siteLink1", "siteLink2"],
-    },
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/startpacketcapture",
-      subscriptionId,
-      resourceGroupName,
-      gatewayName,
-      vpnConnectionName,
-    )
-    .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "rg1";
+    const gatewayName = "gateway1";
+    const vpnConnectionName = "vpnConnection1";
+    const options: VpnConnectionsStartPacketCaptureParameters = {
+        body: {
+            filterData:
+                "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}",
+            linkConnectionNames: ["siteLink1", "siteLink2"],
+        },
+        queryParameters: { "api-version": "2022-05-01" },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/startpacketcapture",
+            subscriptionId,
+            resourceGroupName,
+            gatewayName,
+            vpnConnectionName,
+        )
+        .post(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 startPacketCaptureOnVpnConnectionWithFilter().catch(console.error);
@@ -48,28 +48,27 @@ startPacketCaptureOnVpnConnectionWithFilter().catch(console.error);
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnConnectionStartPacketCapture.json
  */
 async function startPacketCaptureOnVpnConnectionWithoutFilter(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rg1";
-  const gatewayName = "gateway1";
-  const vpnConnectionName = "vpnConnection1";
-  const options: VpnConnectionsStartPacketCaptureParameters = {
-    body: { linkConnectionNames: ["siteLink1", "siteLink2"] },
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/startpacketcapture",
-      subscriptionId,
-      resourceGroupName,
-      gatewayName,
-      vpnConnectionName,
-    )
-    .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "rg1";
+    const gatewayName = "gateway1";
+    const vpnConnectionName = "vpnConnection1";
+    const options: VpnConnectionsStartPacketCaptureParameters = {
+        body: { linkConnectionNames: ["siteLink1", "siteLink2"] },
+        queryParameters: { "api-version": "2022-05-01" },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{vpnConnectionName}/startpacketcapture",
+            subscriptionId,
+            resourceGroupName,
+            gatewayName,
+            vpnConnectionName,
+        )
+        .post(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 startPacketCaptureOnVpnConnectionWithoutFilter().catch(console.error);

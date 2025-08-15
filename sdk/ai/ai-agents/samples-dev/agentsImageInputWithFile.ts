@@ -48,11 +48,11 @@ export async function main(): Promise<void> {
   const inputMessage = "Hello, what is in the image?";
   const content = [
     {
-      type: "text",
+      type: "text" as const,
       text: inputMessage,
     },
     {
-      type: "image_file",
+      type: "image_file" as const,
       imageFile: {
         fileId: imageFile.id,
         detail: "high",
@@ -67,9 +67,6 @@ export async function main(): Promise<void> {
   const run = await client.runs.createAndPoll(thread.id, agent.id, {
     pollingOptions: {
       intervalInMs: 2000,
-    },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);

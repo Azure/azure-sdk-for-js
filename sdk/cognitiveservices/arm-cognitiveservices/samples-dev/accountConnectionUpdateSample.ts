@@ -8,7 +8,7 @@
 
 import {
   ConnectionUpdateContent,
-  AccountConnectionUpdateOptionalParams,
+  AccountConnectionsUpdateOptionalParams,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -28,7 +28,7 @@ async function updateAccountConnection(): Promise<void> {
     process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "test-rg";
   const accountName = "account-1";
   const connectionName = "connection-1";
-  const body: ConnectionUpdateContent = {
+  const connection: ConnectionUpdateContent = {
     properties: {
       authType: "AccessKey",
       category: "ADLSGen2",
@@ -41,13 +41,13 @@ async function updateAccountConnection(): Promise<void> {
       target: "some_string",
     },
   };
-  const options: AccountConnectionUpdateOptionalParams = { body };
+  const options: AccountConnectionsUpdateOptionalParams = { connection };
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
     subscriptionId,
   );
-  const result = await client.accountConnection.update(
+  const result = await client.accountConnections.update(
     resourceGroupName,
     accountName,
     connectionName,

@@ -6,14 +6,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
+import type { RouteRequestRouteDirectionsBatchSync200Response } from "@azure-rest/maps-route";
 import MapsRoute, {
   createRouteDirectionsBatchRequest,
   isUnexpected,
   toColonDelimitedLatLonString,
-  RouteRequestRouteDirectionsBatchSync200Response,
 } from "@azure-rest/maps-route";
-
-// Load the .env file if it exists
 import "dotenv/config";
 
 async function main(): Promise<void> {
@@ -27,7 +25,7 @@ async function main(): Promise<void> {
    *
    * More info is available at https://learn.microsoft.com/azure/azure-maps/azure-maps-authentication.
    */
-  
+
   /** Microsoft Entra ID authentication */
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
@@ -70,7 +68,7 @@ async function main(): Promise<void> {
     throw getRouteDirectionsResult.body.error;
   }
 
-  getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  await getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
     console.log(
       `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
@@ -128,7 +126,7 @@ async function main(): Promise<void> {
     throw routeDirectionsWithParamResult.body.error;
   }
 
-  getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  await getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
     console.log(
       `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
@@ -188,7 +186,7 @@ async function main(): Promise<void> {
     routeDirectionBatchInitRes as RouteRequestRouteDirectionsBatchSync200Response
   ).body;
   console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
-  batchItems.forEach((item, index) => {
+  await batchItems.forEach((item, index) => {
     if (item.response.error) {
       console.error(`Request ${index} failed with error: ${item.response.error.message}`);
     } else {

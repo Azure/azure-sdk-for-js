@@ -6,9 +6,8 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsRoute, { RouteGetRouteMatrix200Response, isUnexpected } from "@azure-rest/maps-route";
-
-// Load the .env file if it exists
+import type { RouteGetRouteMatrix200Response } from "@azure-rest/maps-route";
+import MapsRoute, { isUnexpected } from "@azure-rest/maps-route";
 import "dotenv/config";
 
 async function main(): Promise<void> {
@@ -70,7 +69,7 @@ async function main(): Promise<void> {
   console.log(
     `${summary.successfulRoutes}/${summary.totalRoutes} routes are successfully calculated. Following is the detailed info:`,
   );
-  matrix.forEach((row) => {
+  await matrix.forEach((row) => {
     row.forEach((cell) => {
       if (cell.response) console.dir(cell.response.routeSummary);
     });

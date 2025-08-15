@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { HubVirtualNetworkConnectionsDeleteParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,27 +13,26 @@ import "dotenv/config";
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/HubVirtualNetworkConnectionDelete.json
  */
 async function hubVirtualNetworkConnectionDelete(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rg1";
-  const virtualHubName = "virtualHub1";
-  const connectionName = "connection1";
-  const options: HubVirtualNetworkConnectionsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
-      subscriptionId,
-      resourceGroupName,
-      virtualHubName,
-      connectionName,
-    )
-    .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "rg1";
+    const virtualHubName = "virtualHub1";
+    const connectionName = "connection1";
+    const options: HubVirtualNetworkConnectionsDeleteParameters = {
+        queryParameters: { "api-version": "2022-05-01" },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
+            subscriptionId,
+            resourceGroupName,
+            virtualHubName,
+            connectionName,
+        )
+        .delete(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 hubVirtualNetworkConnectionDelete().catch(console.error);

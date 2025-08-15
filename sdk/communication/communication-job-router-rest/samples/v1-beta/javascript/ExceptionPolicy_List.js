@@ -4,9 +4,9 @@
  * @summary Exception policy crud
  */
 
-const { paginate } = require("@azure-rest/communication-job-router");
-const JobRouter = require("@azure-rest/communication-job-router").default;
-require("dotenv").config();
+const JobRouter = require("@azure-rest/communication-job-router").default,
+  { isUnexpected, paginate } = require("@azure-rest/communication-job-router");
+require("dotenv/config");
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
@@ -21,7 +21,7 @@ async function listExceptionPolicies() {
     .path("/routing/exceptionPolicies")
     .get({ queryParameters: { maxpagesize: maxPageSize } });
 
-  if (initialResponse.status == "200") {
+  if (!isUnexpected(initialResponse)) {
     // The paginate helper creates a paged async iterator using metadata from the first page.
     const items = paginate(routerClient, initialResponse);
 

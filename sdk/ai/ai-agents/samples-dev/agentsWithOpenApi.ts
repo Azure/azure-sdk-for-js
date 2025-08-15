@@ -31,7 +31,7 @@ export async function main(): Promise<void> {
     spec: openApiSpec,
     description: "Retrieve weather information for a location",
     auth: {
-      type: "anonymous",
+      type: "anonymous" as const,
     },
     default_params: ["format"], // optional
   };
@@ -60,9 +60,6 @@ export async function main(): Promise<void> {
   const run = await client.runs.createAndPoll(thread.id, agent.id, {
     pollingOptions: {
       intervalInMs: 2000,
-    },
-    onResponse: (response): void => {
-      console.log(`Received response with status: ${response.parsedBody.status}`);
     },
   });
   console.log(`Run finished with status: ${run.status}`);

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { AzureFirewallsCreateOrUpdateParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -180,7 +181,6 @@ async function createAzureFirewallWithAdditionalProperties(): Promise<void> {
             },
           },
         ],
-        ipGroups: [],
         natRuleCollections: [
           {
             name: "natrulecoll",

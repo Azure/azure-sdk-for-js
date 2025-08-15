@@ -29,6 +29,7 @@ async function patchExtendedInfoOfResource(): Promise<void> {
   const result = await client.vaultExtendedInfo.update(
     resourceGroupName,
     vaultName,
+    {}
   );
   console.log(result);
 }
