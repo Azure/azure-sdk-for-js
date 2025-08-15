@@ -5,6 +5,7 @@ packages:
   - common/tools/dev-tool
   - common/tools/eslint-plugin-azure-sdk
   - common/tools/mcp-server
+  - common/tools/turborepo-remote-cache
   - common/tools/vite-plugin-browser-test-map
   - '!sdk/**/src/**'
   - '!sdk/**/dist/**'
