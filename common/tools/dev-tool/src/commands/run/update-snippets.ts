@@ -610,7 +610,8 @@ export default leafCommand(commandInfo, async (_) => {
 
   try {
     snippetLocations = await findAllSnippetLocations(project);
-  } catch {
+  } catch (err: unknown) {
+    log.warn(err);
     return false;
   }
 
