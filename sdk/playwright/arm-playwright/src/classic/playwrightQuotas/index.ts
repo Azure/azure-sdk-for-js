@@ -2,22 +2,22 @@
 // Licensed under the MIT License.
 
 import { PlaywrightManagementContext } from "../../api/playwrightManagementContext.js";
-import { PlaywrightQuota, QuotaName } from "../../models/models.js";
+import { listBySubscription, get } from "../../api/playwrightQuotas/operations.js";
 import {
   PlaywrightQuotasListBySubscriptionOptionalParams,
   PlaywrightQuotasGetOptionalParams,
 } from "../../api/playwrightQuotas/options.js";
-import { listBySubscription, get } from "../../api/playwrightQuotas/operations.js";
+import { PlaywrightQuota, QuotaName } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PlaywrightQuotas operations. */
 export interface PlaywrightQuotasOperations {
-  /** List Playwright quota resources for a given subscription Id. */
+  /** Lists Playwright quota resources for a given subscription ID. */
   listBySubscription: (
     location: string,
     options?: PlaywrightQuotasListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<PlaywrightQuota>;
-  /** Get subscription-level location-based Playwright quota resource by name. */
+  /** Gets a subscription-level location-based Playwright quota resource by name. */
   get: (
     location: string,
     playwrightQuotaName: QuotaName,

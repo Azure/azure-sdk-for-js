@@ -5,10 +5,10 @@ import { PlaywrightManagementClient } from "@azure/arm-playwright";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list Playwright quota resources for a given subscription Id.
+ * This sample demonstrates how to lists Playwright quota resources for a given subscription ID.
  *
- * @summary list Playwright quota resources for a given subscription Id.
- * x-ms-original-file: 2025-07-01-preview/PlaywrightQuotas_ListBySubscription.json
+ * @summary lists Playwright quota resources for a given subscription ID.
+ * x-ms-original-file: 2025-09-01/PlaywrightQuotas_ListBySubscription.json
  */
 async function playwrightQuotasListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

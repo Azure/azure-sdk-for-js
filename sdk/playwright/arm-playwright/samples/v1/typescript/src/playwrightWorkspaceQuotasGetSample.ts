@@ -5,10 +5,10 @@ import { PlaywrightManagementClient } from "@azure/arm-playwright";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get Playwright workspace quota resource by name.
+ * This sample demonstrates how to gets a Playwright workspace quota resource by name.
  *
- * @summary get Playwright workspace quota resource by name.
- * x-ms-original-file: 2025-07-01-preview/PlaywrightWorkspaceQuotas_Get.json
+ * @summary gets a Playwright workspace quota resource by name.
+ * x-ms-original-file: 2025-09-01/PlaywrightWorkspaceQuotas_Get.json
  */
 async function playwrightWorkspaceQuotasGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
