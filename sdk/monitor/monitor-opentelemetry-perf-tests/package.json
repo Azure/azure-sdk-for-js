@@ -60,7 +60,7 @@
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
-    "build:samples": "echo skipped",
+    "build:samples": "echo Skipped.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",

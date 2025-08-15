@@ -8,9 +8,7 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const MapsRoute = require("@azure-rest/maps-route").default,
   { isUnexpected } = require("@azure-rest/maps-route");
-
-// Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   /**
@@ -71,7 +69,7 @@ async function main() {
   console.log(
     `${summary.successfulRoutes}/${summary.totalRoutes} routes are successfully calculated. Following is the detailed info:`,
   );
-  matrix.forEach((row) => {
+  await matrix.forEach((row) => {
     row.forEach((cell) => {
       if (cell.response) console.dir(cell.response.routeSummary);
     });

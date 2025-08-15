@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { VirtualNetworkGatewayConnectionsStartPacketCaptureParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,29 +13,28 @@ import "dotenv/config";
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayConnectionStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rg1";
-  const virtualNetworkGatewayConnectionName = "vpngwcn1";
-  const options: VirtualNetworkGatewayConnectionsStartPacketCaptureParameters = {
-    body: {
-      filterData:
-        "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}",
-    },
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture",
-      subscriptionId,
-      resourceGroupName,
-      virtualNetworkGatewayConnectionName,
-    )
-    .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "rg1";
+    const virtualNetworkGatewayConnectionName = "vpngwcn1";
+    const options: VirtualNetworkGatewayConnectionsStartPacketCaptureParameters = {
+        body: {
+            filterData:
+                "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}",
+        },
+        queryParameters: { "api-version": "2022-05-01" },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture",
+            subscriptionId,
+            resourceGroupName,
+            virtualNetworkGatewayConnectionName,
+        )
+        .post(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter().catch(console.error);
@@ -45,25 +45,24 @@ startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter().catch(console.er
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayConnectionStartPacketCapture.json
  */
 async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rg1";
-  const virtualNetworkGatewayConnectionName = "vpngwcn1";
-  const options: VirtualNetworkGatewayConnectionsStartPacketCaptureParameters = {
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture",
-      subscriptionId,
-      resourceGroupName,
-      virtualNetworkGatewayConnectionName,
-    )
-    .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "rg1";
+    const virtualNetworkGatewayConnectionName = "vpngwcn1";
+    const options: VirtualNetworkGatewayConnectionsStartPacketCaptureParameters = {
+        queryParameters: { "api-version": "2022-05-01" },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture",
+            subscriptionId,
+            resourceGroupName,
+            virtualNetworkGatewayConnectionName,
+        )
+        .post(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter().catch(console.error);

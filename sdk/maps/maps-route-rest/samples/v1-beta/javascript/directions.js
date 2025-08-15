@@ -12,9 +12,7 @@ const MapsRoute = require("@azure-rest/maps-route").default,
     isUnexpected,
     toColonDelimitedLatLonString,
   } = require("@azure-rest/maps-route");
-
-// Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   /**
@@ -70,7 +68,7 @@ async function main() {
     throw getRouteDirectionsResult.body.error;
   }
 
-  getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  await getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
     console.log(
       `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
@@ -126,7 +124,7 @@ async function main() {
     throw routeDirectionsWithParamResult.body.error;
   }
 
-  getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  await getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
     console.log(
       `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
@@ -182,7 +180,7 @@ async function main() {
 
   const { summary, batchItems } = routeDirectionBatchInitRes.body;
   console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
-  batchItems.forEach((item, index) => {
+  await batchItems.forEach((item, index) => {
     if (item.response.error) {
       console.error(`Request ${index} failed with error: ${item.response.error.message}`);
     } else {

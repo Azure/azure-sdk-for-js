@@ -29,7 +29,7 @@ async function getAccountConnection(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.accountConnection.get(
+  const result = await client.accountConnections.get(
     resourceGroupName,
     accountName,
     connectionName,

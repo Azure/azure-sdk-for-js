@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { PrivateLinkServicesUpdatePrivateEndpointConnectionParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -22,9 +23,6 @@ async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService():
     body: {
       name: "testPlePeConnection",
       properties: {
-        privateEndpoint: {
-          id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
-        },
         privateLinkServiceConnectionState: {
           description: "approved it for some reason.",
           status: "Approved",

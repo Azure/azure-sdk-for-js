@@ -115,7 +115,7 @@
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "echo Obsolete",
+    "build:samples": "tsc -p tsconfig.samples.json",
     "check-format": "echo skipped",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* test-dist temp types *.tgz *.log",
     "customize": "dev-tool customization apply -s ./generated -c ./src && npm run format",

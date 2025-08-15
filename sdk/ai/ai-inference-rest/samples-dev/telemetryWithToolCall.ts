@@ -27,12 +27,15 @@ const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
 const connectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"];
 
-const provider = new NodeTracerProvider();
-if (connectionString) {
-  const exporter = new AzureMonitorTraceExporter({ connectionString });
-  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
-}
-provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+const provider = new NodeTracerProvider({
+  spanProcessors: [
+    new SimpleSpanProcessor(
+      connectionString
+        ? new AzureMonitorTraceExporter({ connectionString })
+        : new ConsoleSpanExporter(),
+    ),
+  ],
+});
 provider.register();
 
 registerInstrumentations({
@@ -199,7 +202,7 @@ export async function main(): Promise<void> {
 /*
  * This function creates a model client.
  */
-function createModelClient(): ModelClient {
+function createModelClient() {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)

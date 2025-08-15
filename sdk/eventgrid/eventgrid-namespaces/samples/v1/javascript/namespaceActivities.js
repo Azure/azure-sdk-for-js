@@ -1,3 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Publish and Receive events to Event Grid.
+ */
+
 const { EventGridSenderClient, EventGridReceiverClient } = require("@azure/eventgrid-namespaces");
 const { AzureKeyCredential } = require("@azure/core-auth");
 require("dotenv/config");

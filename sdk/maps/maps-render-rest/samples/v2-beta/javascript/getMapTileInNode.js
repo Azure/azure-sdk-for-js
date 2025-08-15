@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { createWriteStream } = require("fs");
+const { createWriteStream } = require("node:fs");
 const MapsRender = require("@azure-rest/maps-render").default,
   { positionToTileXY } = require("@azure-rest/maps-render");
 
@@ -51,7 +51,7 @@ async function main() {
   if (!response.body) {
     throw Error("No response body");
   }
-  response.body.pipe(createWriteStream("tile.png"));
+  await response.body.pipe(createWriteStream("tile.png"));
 }
 
 main().catch((err) => {

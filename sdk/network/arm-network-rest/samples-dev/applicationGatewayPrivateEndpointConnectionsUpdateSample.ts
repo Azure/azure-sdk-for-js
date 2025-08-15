@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { ApplicationGatewayPrivateEndpointConnectionsUpdateParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -22,9 +23,6 @@ async function updateApplicationGatewayPrivateEndpointConnection(): Promise<void
     body: {
       name: "connection1",
       properties: {
-        privateEndpoint: {
-          id: "/subscriptions/subId2/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
-        },
         privateLinkServiceConnectionState: {
           description: "approved it for some reason.",
           status: "Approved",

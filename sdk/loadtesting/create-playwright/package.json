@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
-    "build:samples": "echo Obsolete",
+    "build:samples": "echo Skipped.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist *.log dist-test temp types *.tgz *.xml samples/**/test-results/",
     "execute:samples": "echo skipped",

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { VirtualNetworkPeeringsCreateOrUpdateParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,38 +13,37 @@ import "dotenv/config";
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringCreate.json
  */
 async function createPeering(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "peerTest";
-  const virtualNetworkName = "vnet1";
-  const virtualNetworkPeeringName = "peer";
-  const options: VirtualNetworkPeeringsCreateOrUpdateParameters = {
-    body: {
-      properties: {
-        allowForwardedTraffic: true,
-        allowGatewayTransit: false,
-        allowVirtualNetworkAccess: true,
-        remoteVirtualNetwork: {
-          id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "peerTest";
+    const virtualNetworkName = "vnet1";
+    const virtualNetworkPeeringName = "peer";
+    const options: VirtualNetworkPeeringsCreateOrUpdateParameters = {
+        body: {
+            properties: {
+                allowForwardedTraffic: true,
+                allowGatewayTransit: false,
+                allowVirtualNetworkAccess: true,
+                remoteVirtualNetwork: {
+                    id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
+                },
+                useRemoteGateways: false,
+            },
         },
-        useRemoteGateways: false,
-      },
-    },
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
-      subscriptionId,
-      resourceGroupName,
-      virtualNetworkName,
-      virtualNetworkPeeringName,
-    )
-    .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+        queryParameters: { "api-version": "2022-05-01" },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
+            subscriptionId,
+            resourceGroupName,
+            virtualNetworkName,
+            virtualNetworkPeeringName,
+        )
+        .put(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 createPeering().catch(console.error);
@@ -54,38 +54,37 @@ createPeering().catch(console.error);
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringCreateWithRemoteVirtualNetworkEncryption.json
  */
 async function createPeeringWithRemoteVirtualNetworkEncryption(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "peerTest";
-  const virtualNetworkName = "vnet1";
-  const virtualNetworkPeeringName = "peer";
-  const options: VirtualNetworkPeeringsCreateOrUpdateParameters = {
-    body: {
-      properties: {
-        allowForwardedTraffic: true,
-        allowGatewayTransit: false,
-        allowVirtualNetworkAccess: true,
-        remoteVirtualNetwork: {
-          id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "peerTest";
+    const virtualNetworkName = "vnet1";
+    const virtualNetworkPeeringName = "peer";
+    const options: VirtualNetworkPeeringsCreateOrUpdateParameters = {
+        body: {
+            properties: {
+                allowForwardedTraffic: true,
+                allowGatewayTransit: false,
+                allowVirtualNetworkAccess: true,
+                remoteVirtualNetwork: {
+                    id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
+                },
+                useRemoteGateways: false,
+            },
         },
-        useRemoteGateways: false,
-      },
-    },
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
-      subscriptionId,
-      resourceGroupName,
-      virtualNetworkName,
-      virtualNetworkPeeringName,
-    )
-    .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+        queryParameters: { "api-version": "2022-05-01" },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
+            subscriptionId,
+            resourceGroupName,
+            virtualNetworkName,
+            virtualNetworkPeeringName,
+        )
+        .put(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 createPeeringWithRemoteVirtualNetworkEncryption().catch(console.error);
@@ -96,41 +95,40 @@ createPeeringWithRemoteVirtualNetworkEncryption().catch(console.error);
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringSync.json
  */
 async function syncPeering(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "peerTest";
-  const virtualNetworkName = "vnet1";
-  const virtualNetworkPeeringName = "peer";
-  const options: VirtualNetworkPeeringsCreateOrUpdateParameters = {
-    body: {
-      properties: {
-        allowForwardedTraffic: true,
-        allowGatewayTransit: false,
-        allowVirtualNetworkAccess: true,
-        remoteVirtualNetwork: {
-          id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "peerTest";
+    const virtualNetworkName = "vnet1";
+    const virtualNetworkPeeringName = "peer";
+    const options: VirtualNetworkPeeringsCreateOrUpdateParameters = {
+        body: {
+            properties: {
+                allowForwardedTraffic: true,
+                allowGatewayTransit: false,
+                allowVirtualNetworkAccess: true,
+                remoteVirtualNetwork: {
+                    id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
+                },
+                useRemoteGateways: false,
+            },
         },
-        useRemoteGateways: false,
-      },
-    },
-    queryParameters: {
-      syncRemoteAddressSpace: "true",
-      "api-version": "2022-05-01",
-    },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
-      subscriptionId,
-      resourceGroupName,
-      virtualNetworkName,
-      virtualNetworkPeeringName,
-    )
-    .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+        queryParameters: {
+            syncRemoteAddressSpace: "true",
+            "api-version": "2022-05-01",
+        },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}",
+            subscriptionId,
+            resourceGroupName,
+            virtualNetworkName,
+            virtualNetworkPeeringName,
+        )
+        .put(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 syncPeering().catch(console.error);

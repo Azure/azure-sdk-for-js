@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { ServiceEndpointPoliciesCreateOrUpdateParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -12,26 +13,25 @@ import "dotenv/config";
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceEndpointPolicyCreate.json
  */
 async function createServiceEndpointPolicy(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rg1";
-  const serviceEndpointPolicyName = "testPolicy";
-  const options: ServiceEndpointPoliciesCreateOrUpdateParameters = {
-    body: { location: "westus" },
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
-      subscriptionId,
-      resourceGroupName,
-      serviceEndpointPolicyName,
-    )
-    .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "rg1";
+    const serviceEndpointPolicyName = "testPolicy";
+    const options: ServiceEndpointPoliciesCreateOrUpdateParameters = {
+        body: { location: "westus" },
+        queryParameters: { "api-version": "2022-05-01" },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
+            subscriptionId,
+            resourceGroupName,
+            serviceEndpointPolicyName,
+        )
+        .put(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 createServiceEndpointPolicy().catch(console.error);
@@ -42,44 +42,43 @@ createServiceEndpointPolicy().catch(console.error);
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
  */
 async function createServiceEndpointPolicyWithDefinition(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const client = createNetworkManagementClient(credential);
-  const subscriptionId = "";
-  const resourceGroupName = "rg1";
-  const serviceEndpointPolicyName = "testPolicy";
-  const options: ServiceEndpointPoliciesCreateOrUpdateParameters = {
-    body: {
-      location: "westus",
-      properties: {
-        serviceEndpointPolicyDefinitions: [
-          {
-            name: "StorageServiceEndpointPolicyDefinition",
+    const credential = new DefaultAzureCredential();
+    const client = createNetworkManagementClient(credential);
+    const subscriptionId = "";
+    const resourceGroupName = "rg1";
+    const serviceEndpointPolicyName = "testPolicy";
+    const options: ServiceEndpointPoliciesCreateOrUpdateParameters = {
+        body: {
+            location: "westus",
             properties: {
-              description: "Storage Service EndpointPolicy Definition",
-              service: "Microsoft.Storage",
-              serviceResources: [
-                "/subscriptions/subid1",
-                "/subscriptions/subid1/resourceGroups/storageRg",
-                "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount",
-              ],
+                serviceEndpointPolicyDefinitions: [
+                    {
+                        name: "StorageServiceEndpointPolicyDefinition",
+                        properties: {
+                            description: "Storage Service EndpointPolicy Definition",
+                            service: "Microsoft.Storage",
+                            serviceResources: [
+                                "/subscriptions/subid1",
+                                "/subscriptions/subid1/resourceGroups/storageRg",
+                                "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount",
+                            ],
+                        },
+                    },
+                ],
             },
-          },
-        ],
-      },
-    },
-    queryParameters: { "api-version": "2022-05-01" },
-  };
-  const initialResponse = await client
-    .path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
-      subscriptionId,
-      resourceGroupName,
-      serviceEndpointPolicyName,
-    )
-    .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
-  console.log(result);
+        },
+        queryParameters: { "api-version": "2022-05-01" },
+    };
+    const initialResponse = await client
+        .path(
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
+            subscriptionId,
+            resourceGroupName,
+            serviceEndpointPolicyName,
+        )
+        .put(options);
+    const result = await getLongRunningPoller(client, initialResponse);
+    console.log(result);
 }
 
 createServiceEndpointPolicyWithDefinition().catch(console.error);
