@@ -34,6 +34,7 @@ import type {
   GetReservationOptions,
   ListAvailableCountriesOptions,
   ListGeographicAreaCodesOptions,
+  ListMobileAreaCodesOptions,
   ListLocalitiesOptions,
   ListOfferingsOptions,
   ListPurchasedPhoneNumbersOptions,
@@ -821,6 +822,50 @@ export class PhoneNumbersClient {
 
     try {
       return this.client.phoneNumbers.listAreaCodes(countryCode, "geographic", {
+        ...updatedOptions,
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Iterates the available Mobile area codes.
+   *
+   * Example usage:
+   * ```ts snippet:PhoneNumbersClientListMobileAreaCodes
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+   *
+   * const credential = new DefaultAzureCredential();
+   * const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+   *
+   * for await (const areaCodeItem of client.listAvailableMobileAreaCodes("IE")) {
+   *   console.log("area code: ", areaCodeItem.areaCode);
+   * }
+   * ```
+   * List all available mobile area codes.
+   * @param countryCode - The ISO 3166-2 country code.
+   * @param options - The optional parameters.
+   */
+  public listAvailableMobileAreaCodes(
+    countryCode: string,
+    options: ListMobileAreaCodesOptions = {},
+  ): PagedAsyncIterableIterator<PhoneNumberAreaCode> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-listAvailableMobileAreaCodes",
+      options,
+    );
+
+    try {
+      return this.client.phoneNumbers.listAreaCodes(countryCode, "mobile", {
         ...updatedOptions,
       });
     } catch (e: any) {

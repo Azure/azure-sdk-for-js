@@ -11,5 +11,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.Communication",
   packageName: "@azure/communication-phone-numbers",
-  packageVersion: "1.4.0",
+  packageVersion: "1.5.0",
 });
