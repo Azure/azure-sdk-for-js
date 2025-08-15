@@ -18152,7 +18152,7 @@ importers:
         specifier: ^1.9.0
         version: link:../../core/core-auth
       '@azure/core-client':
-        specifier: ^1.9.2
+        specifier: ^1.9.3
         version: link:../../core/core-client
       '@azure/core-lro':
         specifier: ^2.5.4
@@ -18161,7 +18161,7 @@ importers:
         specifier: ^1.6.2
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.0
+        specifier: ^1.19.1
         version: link:../../core/core-rest-pipeline
       tslib:
         specifier: ^2.8.1
@@ -18180,7 +18180,7 @@ importers:
         specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
-        specifier: ^4.6.0
+        specifier: ^4.9.0
         version: link:../../identity/identity
       '@azure/logger':
         specifier: ^1.1.4
@@ -18198,7 +18198,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       playwright:
-        specifier: ^1.50.1
+        specifier: ^1.52.0
         version: 1.54.2
       typescript:
         specifier: ~5.8.2

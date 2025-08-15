@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the specified capacity pool
  *
  * @summary Delete the specified capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Pools_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Pools_Delete.json
  */
 async function poolsDelete(): Promise<void> {
   const subscriptionId =
