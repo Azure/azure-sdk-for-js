@@ -1,18 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LogsIngestionContext as Client } from "./index.js";
-import type { LogsUploadOptions } from "./options.js";
+import { LogsIngestionContext as Client } from "./index.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { UploadOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _uploadSend(
   context: Client,
   ruleId: string,
   streamName: string,
   body: Record<string, any>[],
-  options: LogsUploadOptions = { requestOptions: {} },
+  options: UploadOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/dataCollectionRules/{ruleId}/streams/{stream}{?api%2Dversion}",
@@ -35,7 +39,6 @@ export function _uploadSend(
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
-      accept: "application/json",
       ...options.requestOptions?.headers,
     },
     body: body.map((p: any) => {
@@ -59,7 +62,7 @@ export async function upload(
   ruleId: string,
   streamName: string,
   body: Record<string, any>[],
-  options: LogsUploadOptions = { requestOptions: {} },
+  options: UploadOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _uploadSend(context, ruleId, streamName, body, options);
   return _uploadDeserialize(result);

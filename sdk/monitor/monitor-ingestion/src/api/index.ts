@@ -4,7 +4,7 @@
 export {
   createLogsIngestion,
   LogsIngestionContext,
-  LogsIngestionClientOptions,
+  LogsIngestionClientOptionalParams,
 } from "./logsIngestionContext.js";
 export { upload } from "./operations.js";
-export { LogsUploadOptions } from "./options.js";
+export { UploadOptionalParams } from "./options.js";

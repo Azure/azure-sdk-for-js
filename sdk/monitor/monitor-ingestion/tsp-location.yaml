@@ -1,3 +1,4 @@
-directory: specification/monitor/Azure.Monitor.Ingestion
-commit: 45c35b2cef4e9bad6285f450e7d27f508c9be907 # https://github.com/Azure/azure-rest-api-specs/pull/35904
+directory: specification/monitor/Monitor.Ingestion
+commit: a34f25803e39f469413473baffa99870fd403dc9
 repo: Azure/azure-rest-api-specs
+additionalDirectories: 

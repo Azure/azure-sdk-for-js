@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import { logger } from "../logger.js";
-import { KnownMonitorAudience, KnownVersions } from "../models/models.js";
-import type { Client, ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import type { TokenCredential } from "@azure/core-auth";
+import { KnownVersions } from "../models/models.js";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
 /** Azure Monitor data collection client. */
 export interface LogsIngestionContext extends Client {
@@ -15,43 +14,33 @@ export interface LogsIngestionContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface LogsIngestionClientOptions extends ClientOptions {
+export interface LogsIngestionClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
-
-  /**
-   * The Audience to use for authentication with Microsoft Entra ID. The
-   * audience is not considered when using a shared key.
-   * {@link KnownMonitorAudience} can be used interchangeably with audience
-   */
-  audience?: string;
 }
 
 /** Azure Monitor data collection client. */
 export function createLogsIngestion(
-  endpoint: string,
-  tokenCredential: TokenCredential,
-  options: LogsIngestionClientOptions = {},
+  endpointParam: string,
+  credential: TokenCredential,
+  options: LogsIngestionClientOptionalParams = {},
 ): LogsIngestionContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? String(endpoint);
+  const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-monitor-ingestion/1.2.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
-  const scope: string = options?.audience
-    ? `${options.audience}/.default`
-    : `${KnownMonitorAudience.AzurePublicCloud}/.default`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
     credentials: {
-      scopes: scope ? [scope] : options.credentials?.scopes,
+      scopes: options.credentials?.scopes ?? ["https://monitor.azure.com/.default"],
     },
   };
-  const clientContext = getClient(endpointUrl, tokenCredential, updatedOptions);
+  const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   const apiVersion = options.apiVersion ?? "2023-01-01";
   clientContext.pipeline.addPolicy({
