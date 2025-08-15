@@ -851,7 +851,7 @@ export class PhoneNumbersClient {
    *   console.log("area code: ", areaCodeItem.areaCode);
    * }
    * ```
-   * List all available Geographic area codes.
+   * List all available mobile area codes.
    * @param countryCode - The ISO 3166-2 country code.
    * @param options - The optional parameters.
    */
