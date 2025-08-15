@@ -4,27 +4,26 @@
 
 ```ts
 
+import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export enum KnownVersions {
-    V20230101 = "2023-01-01"
-}
-
-// @public (undocumented)
-export class LogsIngestionClient {
-    constructor(endpointParam: string, credential: TokenCredential, options?: LogsIngestionClientOptionalParams);
-    readonly pipeline: Pipeline;
-    upload(ruleId: string, streamName: string, body: Record<string, any>[], options?: UploadOptionalParams): Promise<void>;
-}
+export function createLogsIngestion(endpointParam: string, credential: TokenCredential, options?: LogsIngestionClientOptionalParams): LogsIngestionContext;
 
 // @public
 export interface LogsIngestionClientOptionalParams extends ClientOptions {
     apiVersion?: string;
 }
+
+// @public
+export interface LogsIngestionContext extends Client {
+    apiVersion: string;
+}
+
+// @public
+export function upload(context: LogsIngestionContext, ruleId: string, streamName: string, body: Record<string, any>[], options?: UploadOptionalParams): Promise<void>;
 
 // @public
 export interface UploadOptionalParams extends OperationOptions {
