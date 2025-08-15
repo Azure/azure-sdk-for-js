@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { ManagedVMSize } from "../../models/models.js";
+import { list, get } from "../../api/managedUnsupportedVMSizes/operations.js";
 import {
   ManagedUnsupportedVMSizesListOptionalParams,
   ManagedUnsupportedVMSizesGetOptionalParams,
 } from "../../api/managedUnsupportedVMSizes/options.js";
-import { list, get } from "../../api/managedUnsupportedVMSizes/operations.js";
+import { ManagedVMSize } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedUnsupportedVMSizes operations. */

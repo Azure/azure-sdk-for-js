@@ -7,8 +7,8 @@ import {
   LongRunningOperationResult,
   longRunningOperationResultDeserializer,
 } from "../../models/models.js";
-import { OperationStatusGetOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { OperationStatusGetOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,

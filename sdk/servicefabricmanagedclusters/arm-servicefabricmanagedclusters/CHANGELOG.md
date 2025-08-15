@@ -1,10 +1,9 @@
 # Release History
-    
-## 1.0.0-beta.4 (2025-06-20)
-Compared with version 1.0.0-beta.3
-    
-### Features Added
 
+## 1.0.0-beta.5 (2025-08-14)
+Compared with version 1.0.0-beta.3
+
+### Features Added
   - Added operation group ManagedAzResiliencyStatusOperations
   - Added operation group ManagedMaintenanceWindowStatusOperations
   - Added operation ApplicationsOperations.createOrUpdate
@@ -70,29 +69,20 @@ Compared with version 1.0.0-beta.3
   - Added Interface TrackedResource
   - Added Interface VmssExtensionProperties
   - Added Interface ZoneFaultSimulationContent
-  - Added Type Alias ContinuablePage
+  - Interface ApplicationResource has a new optional parameter properties
+  - Interface ApplicationTypeResource has a new optional parameter properties
+  - Interface ApplicationTypeVersionResource has a new optional parameter properties
+  - Interface ManagedCluster has a new optional parameter properties
+  - Interface NodeType has a new optional parameter properties
+  - Interface ServiceEndpoint has a new optional parameter networkIdentifier
+  - Added Type Alias AzureSupportedClouds
   - Added Type Alias CreatedByType
   - Added Type Alias FaultKind
   - Added Type Alias FaultSimulationContentUnion
   - Added Type Alias FaultSimulationStatus
   - Added Type Alias SecurityEncryptionType
   - Added Type Alias SfmcOperationStatus
-  - Interface ApplicationResource has a new optional parameter location
-  - Interface ApplicationResource has a new optional parameter properties
-  - Interface ApplicationResource has a new optional parameter tags
-  - Interface ApplicationTypeResource has a new optional parameter location
-  - Interface ApplicationTypeResource has a new optional parameter properties
-  - Interface ApplicationTypeResource has a new optional parameter tags
-  - Interface ApplicationTypeVersionResource has a new optional parameter location
-  - Interface ApplicationTypeVersionResource has a new optional parameter properties
-  - Interface ApplicationTypeVersionResource has a new optional parameter tags
-  - Interface ManagedCluster has a new optional parameter etag
-  - Interface ManagedCluster has a new optional parameter properties
-  - Interface ManagedClusterCodeVersionResult has a new optional parameter properties
-  - Interface NodeType has a new optional parameter properties
-  - Interface NodeType has a new optional parameter tags
-  - Interface ServiceResource has a new optional parameter location
-  - Interface ServiceResource has a new optional parameter tags
+  - Added Enum AzureClouds
   - Added Enum KnownCreatedByType
   - Added Enum KnownFaultKind
   - Added Enum KnownFaultSimulationStatus
@@ -103,43 +93,8 @@ Compared with version 1.0.0-beta.3
   - Enum KnownDiskType has a new value PremiumZRS
   - Enum KnownDiskType has a new value StandardSSDZRS
   - Enum KnownSecurityType has a new value ConfidentialVM
-  - Added function restorePoller
-  - Type of parameter serviceTypeHealthPolicyMap of interface ApplicationHealthPolicy is changed from {
-        [propertyName: string]: ServiceTypeHealthPolicy;
-    } to Record<string, ServiceTypeHealthPolicy>
-  - Type of parameter tags of interface ApplicationTypeUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter tags of interface ApplicationTypeVersionUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter tags of interface ApplicationUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter publicIPAddressConfiguration of interface IpConfiguration is changed from IpConfigurationPublicIPAddressConfiguration to IPConfigurationPublicIPAddressConfiguration
-  - Type of parameter tags of interface ManagedClusterUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter userAssignedIdentities of interface ManagedIdentity is changed from {
-        [propertyName: string]: UserAssignedIdentity;
-    } to Record<string, UserAssignedIdentity>
-  - Type of parameter tags of interface NodeTypeUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter partitionScheme of interface Partition is changed from "Named" | "Singleton" | "UniformInt64Range" to PartitionScheme
-  - Type of parameter kind of interface ScalingMechanism is changed from "AddRemoveIncrementalNamedPartition" | "ScalePartitionInstanceCount" to ServiceScalingMechanismKind
-  - Type of parameter kind of interface ScalingTrigger is changed from "AveragePartitionLoadTrigger" | "AverageServiceLoadTrigger" to ServiceScalingTriggerKind
-  - Type of parameter type of interface ServicePlacementPolicy is changed from "InvalidDomain" | "NonPartiallyPlaceService" | "PreferredPrimaryDomain" | "RequiredDomain" | "RequiredDomainDistribution" to ServicePlacementPolicyType
-  - Type of parameter tags of interface ServiceUpdateParameters is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter createdByType of interface SystemData is changed from string to CreatedByType
-  - Type of parameter lastModifiedByType of interface SystemData is changed from string to CreatedByType
 
 ### Breaking Changes
-
-  - Removed operation group ManagedAzResiliencyStatusOperations
-  - Removed operation group ManagedMaintenanceWindowStatusOperations
   - Removed operation Applications.beginCreateOrUpdate
   - Removed operation Applications.beginCreateOrUpdateAndWait
   - Removed operation Applications.beginDelete
@@ -176,23 +131,31 @@ Compared with version 1.0.0-beta.3
   - Removed operation Services.beginCreateOrUpdateAndWait
   - Removed operation Services.beginDelete
   - Removed operation Services.beginDeleteAndWait
-  - Class ServiceFabricManagedClustersManagementClient has a new signature
+  - Operation OperationResults.get has a new signature
+  - Operation Services.get has a new signature
+  - Operation Services.update has a new signature
+  - Removed Interface ApplicationResourceList
+  - Removed Interface ApplicationTypeResourceList
+  - Removed Interface ApplicationTypeVersionResourceList
+  - Removed Interface ErrorModel
+  - Removed Interface IpConfigurationPublicIPAddressConfiguration
+  - Removed Interface ManagedAzResiliencyStatusOperationsOperations
+  - Removed Interface ManagedMaintenanceWindowStatusOperationsOperations
+  - Removed Interface ManagedProxyResource
+  - Removed Interface ServiceResourceList
+  - Interface VmssExtension has a new required parameter properties
+  - Type of parameter partitionScheme of interface Partition is changed from "Named" | "Singleton" | "UniformInt64Range" to PartitionScheme
+  - Type of parameter kind of interface ScalingMechanism is changed from "AddRemoveIncrementalNamedPartition" | "ScalePartitionInstanceCount" to ServiceScalingMechanismKind
+  - Type of parameter kind of interface ScalingTrigger is changed from "AveragePartitionLoadTrigger" | "AverageServiceLoadTrigger" to ServiceScalingTriggerKind
+  - Type of parameter type of interface ServicePlacementPolicy is changed from "InvalidDomain" | "NonPartiallyPlaceService" | "PreferredPrimaryDomain" | "RequiredDomain" | "RequiredDomainDistribution" to ServicePlacementPolicyType
   - Interface ApplicationResource no longer has parameter managedIdentities
   - Interface ApplicationResource no longer has parameter parameters
   - Interface ApplicationResource no longer has parameter provisioningState
   - Interface ApplicationResource no longer has parameter upgradePolicy
   - Interface ApplicationResource no longer has parameter version
-  - Interface ApplicationsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface ApplicationsDeleteOptionalParams no longer has parameter resumeFrom
-  - Interface ApplicationsReadUpgradeOptionalParams no longer has parameter resumeFrom
-  - Interface ApplicationsResumeUpgradeOptionalParams no longer has parameter resumeFrom
-  - Interface ApplicationsStartRollbackOptionalParams no longer has parameter resumeFrom
   - Interface ApplicationTypeResource no longer has parameter provisioningState
-  - Interface ApplicationTypesDeleteOptionalParams no longer has parameter resumeFrom
   - Interface ApplicationTypeVersionResource no longer has parameter appPackageUrl
   - Interface ApplicationTypeVersionResource no longer has parameter provisioningState
-  - Interface ApplicationTypeVersionsCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface ApplicationTypeVersionsDeleteOptionalParams no longer has parameter resumeFrom
   - Interface ManagedCluster no longer has parameter addonFeatures
   - Interface ManagedCluster no longer has parameter adminPassword
   - Interface ManagedCluster no longer has parameter adminUserName
@@ -234,11 +197,6 @@ Compared with version 1.0.0-beta.3
   - Interface ManagedCluster no longer has parameter useCustomVnet
   - Interface ManagedCluster no longer has parameter zonalResiliency
   - Interface ManagedCluster no longer has parameter zonalUpdateMode
-  - Interface ManagedClusterCodeVersionResult no longer has parameter clusterCodeVersion
-  - Interface ManagedClusterCodeVersionResult no longer has parameter osType
-  - Interface ManagedClusterCodeVersionResult no longer has parameter supportExpiryUtc
-  - Interface ManagedClustersCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface ManagedClustersDeleteOptionalParams no longer has parameter resumeFrom
   - Interface NodeType no longer has parameter additionalDataDisks
   - Interface NodeType no longer has parameter additionalNetworkInterfaceConfigurations
   - Interface NodeType no longer has parameter applicationPorts
@@ -289,21 +247,11 @@ Compared with version 1.0.0-beta.3
   - Interface NodeType no longer has parameter vmSharedGalleryImageId
   - Interface NodeType no longer has parameter vmSize
   - Interface NodeType no longer has parameter zones
-  - Interface NodeTypesCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface NodeTypesDeleteNodeOptionalParams no longer has parameter resumeFrom
-  - Interface NodeTypesDeleteOptionalParams no longer has parameter resumeFrom
-  - Interface NodeTypesReimageOptionalParams no longer has parameter resumeFrom
-  - Interface NodeTypesRestartOptionalParams no longer has parameter resumeFrom
-  - Interface NodeTypesUpdateOptionalParams no longer has parameter resumeFrom
   - Interface ProxyResource no longer has parameter location
   - Interface ProxyResource no longer has parameter tags
   - Interface Resource no longer has parameter etag
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
-  - Interface ServiceFabricManagedClustersManagementClientOptionalParams no longer has parameter $host
-  - Interface ServiceFabricManagedClustersManagementClientOptionalParams no longer has parameter endpoint
-  - Interface ServicesCreateOrUpdateOptionalParams no longer has parameter resumeFrom
-  - Interface ServicesDeleteOptionalParams no longer has parameter resumeFrom
   - Interface VmssExtension no longer has parameter autoUpgradeMinorVersion
   - Interface VmssExtension no longer has parameter enableAutomaticUpgrade
   - Interface VmssExtension no longer has parameter forceUpdateTag
@@ -315,15 +263,14 @@ Compared with version 1.0.0-beta.3
   - Interface VmssExtension no longer has parameter setupOrder
   - Interface VmssExtension no longer has parameter type
   - Interface VmssExtension no longer has parameter typeHandlerVersion
-  - Interface VmssExtension has a new required parameter properties
-  - Class ServiceFabricManagedClustersManagementClient no longer has parameter $host
-  - Class ServiceFabricManagedClustersManagementClient no longer has parameter apiVersion
-  - Class ServiceFabricManagedClustersManagementClient no longer has parameter managedAzResiliencyStatusOperations
-  - Class ServiceFabricManagedClustersManagementClient no longer has parameter managedMaintenanceWindowStatusOperations
-  - Class ServiceFabricManagedClustersManagementClient no longer has parameter subscriptionId
+  - Removed Type Alias UpgradeMode
+  - Type alias "PartitionUnion" has been changed
+  - Type alias "ScalingMechanismUnion" has been changed
+  - Type alias "ScalingTriggerUnion" has been changed
+  - Type alias "ServicePlacementPolicyUnion" has been changed
+  - Type alias "ServiceResourcePropertiesUnion" has been changed
   - Removed Enum KnownUpgradeMode
-  - Removed function getContinuationToken
-    
+
     
 ## 1.0.0-beta.3 (2024-12-12)
 Compared with version 1.0.0-beta.2

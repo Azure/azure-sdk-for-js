@@ -2,14 +2,6 @@
 // Licensed under the MIT License.
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
-import { ServiceResource, ServiceUpdateParameters } from "../../models/models.js";
-import {
-  ServicesListByApplicationsOptionalParams,
-  ServicesDeleteOptionalParams,
-  ServicesUpdateOptionalParams,
-  ServicesCreateOrUpdateOptionalParams,
-  ServicesGetOptionalParams,
-} from "../../api/services/options.js";
 import {
   listByApplications,
   $delete,
@@ -17,6 +9,14 @@ import {
   createOrUpdate,
   get,
 } from "../../api/services/operations.js";
+import {
+  ServicesListByApplicationsOptionalParams,
+  ServicesDeleteOptionalParams,
+  ServicesUpdateOptionalParams,
+  ServicesCreateOrUpdateOptionalParams,
+  ServicesGetOptionalParams,
+} from "../../api/services/options.js";
+import { ServiceResource, ServiceUpdateParameters } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

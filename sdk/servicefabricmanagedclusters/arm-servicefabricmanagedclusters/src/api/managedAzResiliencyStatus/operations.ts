@@ -7,8 +7,8 @@ import {
   ManagedAzResiliencyStatus,
   managedAzResiliencyStatusDeserializer,
 } from "../../models/models.js";
-import { ManagedAzResiliencyStatusGetOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { ManagedAzResiliencyStatusGetOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,

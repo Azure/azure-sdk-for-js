@@ -267,6 +267,16 @@ export interface AzureActiveDirectory {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface ClientCertificate {
     commonName?: string;
     isAdmin: boolean;
@@ -736,7 +746,9 @@ export enum KnownUpdateType {
 export enum KnownVersions {
     V20241101Preview = "2024-11-01-preview",
     // (undocumented)
-    V20250301Preview = "2025-03-01-preview"
+    V20250301Preview = "2025-03-01-preview",
+    // (undocumented)
+    V20250601Preview = "2025-06-01-preview"
 }
 
 // @public
@@ -843,6 +855,7 @@ export interface ManagedClusterProperties {
     enableAutoOSUpgrade?: boolean;
     enableHttpGatewayExclusiveAuthMode?: boolean;
     enableIpv6?: boolean;
+    enableOutboundOnlyNodeTypes?: boolean;
     enableServicePublicIP?: boolean;
     fabricSettings?: SettingsSectionDescription[];
     readonly fqdn?: string;
@@ -1101,6 +1114,7 @@ export interface NodeTypeProperties {
     evictionPolicy?: EvictionPolicyType;
     frontendConfigurations?: FrontendConfiguration[];
     hostGroupId?: string;
+    isOutboundOnly?: boolean;
     isPrimary: boolean;
     isSpotVM?: boolean;
     isStateless?: boolean;
@@ -1448,6 +1462,7 @@ export type ServiceCorrelationScheme = string;
 // @public
 export interface ServiceEndpoint {
     locations?: string[];
+    networkIdentifier?: string;
     service: string;
 }
 
@@ -1475,6 +1490,7 @@ export class ServiceFabricManagedClustersManagementClient {
 // @public
 export interface ServiceFabricManagedClustersManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public

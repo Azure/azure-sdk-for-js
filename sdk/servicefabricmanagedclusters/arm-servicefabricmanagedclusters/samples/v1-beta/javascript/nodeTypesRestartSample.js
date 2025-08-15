@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and activate the nodes back again.
  *
  * @summary restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and activate the nodes back again.
- * x-ms-original-file: 2025-03-01-preview/RestartNodes_example.json
+ * x-ms-original-file: 2025-06-01-preview/RestartNodes_example.json
  */
 async function restartNodes() {
   const credential = new DefaultAzureCredential();

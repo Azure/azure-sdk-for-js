@@ -3,9 +3,11 @@
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
-  ManagedClusterCodeVersionResult,
-  ManagedClusterVersionEnvironment,
-} from "../../models/models.js";
+  listByEnvironment,
+  getByEnvironment,
+  list,
+  get,
+} from "../../api/managedClusterVersion/operations.js";
 import {
   ManagedClusterVersionListByEnvironmentOptionalParams,
   ManagedClusterVersionGetByEnvironmentOptionalParams,
@@ -13,11 +15,9 @@ import {
   ManagedClusterVersionGetOptionalParams,
 } from "../../api/managedClusterVersion/options.js";
 import {
-  listByEnvironment,
-  getByEnvironment,
-  list,
-  get,
-} from "../../api/managedClusterVersion/operations.js";
+  ManagedClusterCodeVersionResult,
+  ManagedClusterVersionEnvironment,
+} from "../../models/models.js";
 
 /** Interface representing a ManagedClusterVersion operations. */
 export interface ManagedClusterVersionOperations {
