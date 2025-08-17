@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import type { PartitionKey } from "../documents/index.js";
 import type { SharedOptions } from "./SharedOptions.js";
+import type { ContinuationTokenManager } from "../queryExecutionContext/ContinuationTokenManager.js";
 
 /**
  * The feed options and query methods.
@@ -144,4 +145,10 @@ export interface FeedOptions extends SharedOptions {
    * rid of the container.
    */
   containerRid?: string;
+  /**
+   * @internal
+   * Shared continuation token manager for handling query pagination state.
+   * This is used internally to coordinate continuation tokens across query execution contexts.
+   */
+  continuationTokenManager?: ContinuationTokenManager;
 }

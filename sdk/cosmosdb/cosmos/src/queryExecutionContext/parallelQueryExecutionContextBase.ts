@@ -102,9 +102,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
     this.buffer = [];
-
-    // Initialize continuation token manager - use shared instance if provided, otherwise create new one
-    this.continuationTokenManager = (this.options as any).continuationTokenManager || undefined ;
+    this.continuationTokenManager = this.options.continuationTokenManager;
 
     this.requestContinuation = options ? options.continuationToken || options.continuation : null;
     // response headers of undergoing operation
@@ -147,20 +145,18 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
 
         if (this.requestContinuation) {
-          // Determine the query type based on the context and continuation token
+          // Determine the query type based on the context
           const queryType = this.getQueryType();
           let rangeManager: TargetPartitionRangeManager;
 
           if (queryType === QueryExecutionContextType.OrderBy) {
             console.log("Using ORDER BY query range strategy");
             rangeManager = TargetPartitionRangeManager.createForOrderByQuery({
-              maxDegreeOfParallelism: maxDegreeOfParallelism,
               quereyInfo: this.partitionedQueryExecutionInfo,
             });
           } else {
             console.log("Using Parallel query range strategy");
             rangeManager = TargetPartitionRangeManager.createForParallelQuery({
-              maxDegreeOfParallelism: maxDegreeOfParallelism,
               quereyInfo: this.partitionedQueryExecutionInfo,
             });
           }
@@ -486,7 +482,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           partitionKeyRange: newPartitionKeyRange,
           // Use the original continuation token for all replacement ranges
           continuationToken: originalDocumentProducer.continuationToken,
-          indexes: [-1, -1], // TODO: update it
+          itemCount: 0, // Start with 0 items for new partition
         };
 
         compositeContinuationToken.addRangeMapping(newRangeMapping);
@@ -702,7 +698,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 // Track document producer with no results in patchToRangeMapping
                 // This represents a scanned partition that yielded no results
                 this.patchToRangeMapping.set(this.patchCounter.toString(), {
-                  indexes: [-1, -1], // Special marker for empty result set
+                  itemCount: 0, // 0 items for empty result set
                   partitionKeyRange: documentProducer.targetPartitionKeyRange,
                   continuationToken: documentProducer.continuationToken,
                 });
@@ -795,14 +791,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 ) {
                   this.patchCounter++;
                   this.patchToRangeMapping.set(this.patchCounter.toString(), {
-                    indexes: [this.buffer.length - 1, this.buffer.length - 1],
+                    itemCount: 1, // Start with 1 item for new patch
                     partitionKeyRange: documentProducer.targetPartitionKeyRange,
                     continuationToken: documentProducer.continuationToken,
                   });
                 } else {
                   const currentPatch = this.patchToRangeMapping.get(this.patchCounter.toString());
                   if (currentPatch) {
-                    currentPatch.indexes[1] = this.buffer.length - 1;
+                    currentPatch.itemCount++; // Increment item count for same partition
                     currentPatch.continuationToken = documentProducer.continuationToken;
                   }
                 }
@@ -824,14 +820,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 this.buffer.push(...result);
                 // add a marker to buffer stating the partition key range and continuation token
                 this.patchToRangeMapping.set(this.patchCounter.toString(), {
-                  indexes: [this.buffer.length - result.length, this.buffer.length - 1],
+                  itemCount: result.length, // Use actual result length for item count
                   partitionKeyRange: documentProducer.targetPartitionKeyRange,
                   continuationToken: documentProducer.continuationToken,
                 });
               } else {
                 // Document producer returned empty results - still track it in patchToRangeMapping
                 this.patchToRangeMapping.set(this.patchCounter.toString(), {
-                  indexes: [-1, -1], // Special marker for empty result set
+                  itemCount: 0, // 0 items for empty result set
                   partitionKeyRange: documentProducer.targetPartitionKeyRange,
                   continuationToken: documentProducer.continuationToken,
                 });

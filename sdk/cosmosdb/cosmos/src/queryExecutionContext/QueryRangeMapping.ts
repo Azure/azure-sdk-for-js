@@ -26,10 +26,9 @@ export interface ExtendedPartitionKeyRange extends PartitionKeyRange {
  */
 export interface QueryRangeMapping {
   /**
-   * Start and end indexes of the buffer that belong to this partition range
+   * Number of items from this partition range in the current buffer
    */
-  // TODO: remove it later as user shouldn't see this index by creating another interface and use it in composite token
-  indexes: number[];
+  itemCount: number;
 
   /**
    * Continuation token for this partition key range

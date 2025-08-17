@@ -68,9 +68,9 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       const parsed = JSON.parse(continuationToken);
       orderByToken = new OrderByQueryContinuationToken(
         parsed.compositeToken,
-        parsed.orderByItems || [],
-        parsed.rid || "",
-        parsed.skipCount || 0,
+        parsed.orderByItems ,
+        parsed.rid,
+        parsed.skipCount,
         parsed.offset,
         parsed.limit,
         parsed.hashedLastResult,
@@ -110,16 +110,22 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         compositeContinuationToken.rangeMappings[
           compositeContinuationToken.rangeMappings.length - 1
         ].partitionKeyRange;
-      // TODO: fix the zero
-      const targetRange = targetRanges.filter(
-        (mapping) =>
-          mapping.maxExclusive === targetRangeMapping.maxExclusive &&
-          mapping.minInclusive === targetRangeMapping.minInclusive,
-      )[0];
+
+      const targetRange: PartitionKeyRange | undefined = {
+          id: targetRangeMapping.id,
+          minInclusive: targetRangeMapping.minInclusive,
+          maxExclusive: targetRangeMapping.maxExclusive,
+          ridPrefix: targetRangeMapping.ridPrefix,
+          throughputFraction: targetRangeMapping.throughputFraction,
+          status: targetRangeMapping.status,
+          parents: targetRangeMapping.parents,
+        };
+
       const targetContinuationToken =
         compositeContinuationToken.rangeMappings[
           compositeContinuationToken.rangeMappings.length - 1
         ].continuationToken;
+        
       // TODO: keep check for overlapping ranges as splits are merges are possible
       const leftRanges = targetRanges.filter(
         (mapping) => mapping.maxExclusive < targetRangeMapping.minInclusive,
@@ -176,7 +182,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
       result.filteredRanges.push(targetRange);
       result.continuationToken.push(targetContinuationToken);
-
       result.filteringConditions.push();
 
       // Apply filtering logic for right ranges

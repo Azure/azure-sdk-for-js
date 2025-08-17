@@ -325,26 +325,28 @@ export class ContinuationTokenManager {
       console.log(`=== Processing ORDER BY Range ${rangeId} ===`);
 
       // Validate range data
-      if (!value || !value.indexes || value.indexes.length !== 2) {
+      if (!value || value.itemCount === undefined) {
         continue;
       }
 
-      const { indexes } = value;
-      console.log(`ORDER BY Range ${rangeId}: indexes [${indexes[0]}, ${indexes[1]}]`);
+      const { itemCount } = value;
+      console.log(`ORDER BY Range ${rangeId}: itemCount ${itemCount}`);
 
-      const startIndex = indexes[0];
-      const endRangeIndex = indexes[1];
-      const size = endRangeIndex - startIndex + 1; // inclusive range
+      // Skip empty ranges (0 items)
+      if (itemCount === 0) {
+        processedRanges.push(rangeId);
+        continue;
+      }
 
       // Check if this complete range fits within remaining page size capacity
-      if (endIndex + size <= pageSize) {
+      if (endIndex + itemCount <= pageSize) {
         // Store this as the potential last range before limit
         lastRangeBeforePageLimit = value;
-        endIndex += size;
+        endIndex += itemCount;
         processedRanges.push(rangeId);
 
         console.log(
-          `✅ ORDER BY processed range ${rangeId} (size: ${size}). New endIndex: ${endIndex}`,
+          `✅ ORDER BY processed range ${rangeId} (itemCount: ${itemCount}). New endIndex: ${endIndex}`,
         );
       } else {
         // Page limit reached - store the last complete range in continuation token
@@ -447,22 +449,25 @@ export class ContinuationTokenManager {
       );
 
       // Validate range data
-      if (!value || !value.indexes || value.indexes.length !== 2) {
+      if (!value || value.itemCount === undefined) {
         continue;
       }
 
-      const { indexes } = value;
-      console.log(`Processing Parallel Range ${rangeId}: indexes [${indexes[0]}, ${indexes[1]}]`);
+      const { itemCount } = value;
+      console.log(`Processing Parallel Range ${rangeId}: itemCount ${itemCount}`);
 
-      const startIndex = indexes[0];
-      const endRangeIndex = indexes[1];
-      const size = endRangeIndex - startIndex + 1; // inclusive range
+      // Skip empty ranges (0 items)
+      if (itemCount === 0) {
+        processedRanges.push(rangeId);
+        rangesAggregatedInCurrentToken++;
+        continue;
+      }
 
       // Check if this complete range fits within remaining page size capacity
-      if (endIndex + size <= pageSize) {
+      if (endIndex + itemCount <= pageSize) {
         // Add or update this range mapping in the continuation token
         this.addOrUpdateRangeMapping(value);
-        endIndex += size;
+        endIndex += itemCount;
         processedRanges.push(rangeId);
       } else {
         break; // No more ranges can fit, exit loop
@@ -510,8 +515,8 @@ export class ContinuationTokenManager {
         mapping.partitionKeyRange.minInclusive === rangeMapping.partitionKeyRange.minInclusive &&
         mapping.partitionKeyRange.maxExclusive === rangeMapping.partitionKeyRange.maxExclusive
       ) {
-        // Update existing mapping with new indexes and continuation token
-        mapping.indexes = rangeMapping.indexes;
+        // Update existing mapping with new itemCount and continuation token
+        mapping.itemCount = rangeMapping.itemCount;
         mapping.continuationToken = rangeMapping.continuationToken;
         existingMappingFound = true;
         break;

@@ -98,7 +98,7 @@ export class TargetPartitionRangeManager {
 
     // Validate inputs
     if (!targetRanges || targetRanges.length === 0) {
-      throw new Error("Target ranges cannot be empty");
+      return { filteredRanges: [], continuationToken: null };
     }
 
     // Validate continuation token if provided
@@ -170,34 +170,5 @@ export class TargetPartitionRangeManager {
       queryType: QueryExecutionContextType.OrderBy,
       queryInfo,
     });
-  }
-
-  /**
-   * Static method to detect query type from continuation token
-   */
-  public static detectQueryTypeFromToken(
-    continuationToken: string,
-  ): QueryExecutionContextType | null {
-    try {
-      const parsed = JSON.parse(continuationToken);
-
-      // Check if it's an ORDER BY token
-      if (
-        parsed &&
-        typeof parsed.compositeToken === "string" &&
-        Array.isArray(parsed.orderByItems)
-      ) {
-        return QueryExecutionContextType.OrderBy;
-      }
-
-      // Check if it's a composite token (parallel query)
-      if (parsed && Array.isArray(parsed.rangeMappings)) {
-        return QueryExecutionContextType.Parallel;
-      }
-
-      return null;
-    } catch {
-      return null;
-    }
   }
 }

@@ -487,4 +487,225 @@ describe("parallelQueryExecutionContextBase", () => {
       assert.equal(result2.headers["x-ms-request-charge"], "7.0");
     });
   });
+
+  describe("unfilledDocumentProducersQueue Ordering", () => {
+    it("should maintain left-to-right ordering based on minInclusive partition key range values", async () => {
+      const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 3 };
+      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+
+      // Create partition key ranges with different minInclusive values (intentionally out of order)
+      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range3", "FF", "ZZ"); // Should be third
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range1", "00", "AA"); // Should be first  
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range2", "BB", "EE"); // Should be second
+
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub,
+      } as unknown as QueryIterator<PartitionKeyRange>);
+
+      // Mock queryFeed to return empty results (we're only testing ordering)
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+        result: [] as unknown as Resource,
+        headers: {
+          "x-ms-request-charge": "2.0",
+          "x-ms-continuation": undefined,
+        },
+        code: 200,
+      });
+
+      const context = new TestParallelQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        options,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+      );
+
+      // Wait for the context to initialize and populate the queue
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Verify that the unfilled queue has the correct number of items
+      assert.equal(context["unfilledDocumentProducersQueue"].size(), 3);
+
+      // Extract items from queue and verify ordering
+      const orderedRanges: string[] = [];
+      while (context["unfilledDocumentProducersQueue"].size() > 0) {
+        const documentProducer = context["unfilledDocumentProducersQueue"].deq();
+        orderedRanges.push(documentProducer.targetPartitionKeyRange.minInclusive);
+      }
+
+      // Verify that the ranges are ordered by minInclusive values in lexicographic order
+      assert.deepEqual(orderedRanges, ["00", "BB", "FF"]);
+    });
+
+    it("should handle identical minInclusive values consistently", async () => {
+      const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 3 };
+      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+
+      // Create partition key ranges with identical minInclusive values
+      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "AA", "BB");
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "AA", "CC"); 
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "AA", "DD");
+
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub,
+      } as unknown as QueryIterator<PartitionKeyRange>);
+
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+        result: [] as unknown as Resource,
+        headers: {
+          "x-ms-request-charge": "2.0",
+          "x-ms-continuation": undefined,
+        },
+        code: 200,
+      });
+
+      const context = new TestParallelQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        options,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+      );
+
+      // Wait for initialization
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Verify that all items are present (ordering with identical values should be stable)
+      assert.equal(context["unfilledDocumentProducersQueue"].size(), 3);
+
+      // Extract all ranges and verify they all have the same minInclusive
+      const ranges: string[] = [];
+      while (context["unfilledDocumentProducersQueue"].size() > 0) {
+        const documentProducer = context["unfilledDocumentProducersQueue"].deq();
+        ranges.push(documentProducer.targetPartitionKeyRange.minInclusive);
+      }
+
+      // All should have the same minInclusive value
+      assert.isTrue(ranges.every(range => range === "AA"));
+      assert.equal(ranges.length, 3);
+    });
+
+    it("should maintain ordering with mixed alphanumeric partition key values", async () => {
+      const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 5 };
+      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+
+      // Create partition key ranges with mixed alphanumeric values
+      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "Z9", "ZZ");  // Should be last
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "01", "10");  // Should be second
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "A0", "AZ");  // Should be third
+      const mockPartitionKeyRange4 = createMockPartitionKeyRange("range4", "00", "01");  // Should be first
+      const mockPartitionKeyRange5 = createMockPartitionKeyRange("range5", "B1", "BZ");  // Should be fourth
+
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3, mockPartitionKeyRange4, mockPartitionKeyRange5],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub,
+      } as unknown as QueryIterator<PartitionKeyRange>);
+
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+        result: [] as unknown as Resource,
+        headers: {
+          "x-ms-request-charge": "2.0",
+          "x-ms-continuation": undefined,
+        },
+        code: 200,
+      });
+
+      const context = new TestParallelQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        options,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+      );
+
+      // Wait for initialization
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      assert.equal(context["unfilledDocumentProducersQueue"].size(), 5);
+
+      // Extract items and verify lexicographic ordering
+      const orderedRanges: string[] = [];
+      while (context["unfilledDocumentProducersQueue"].size() > 0) {
+        const documentProducer = context["unfilledDocumentProducersQueue"].deq();
+        orderedRanges.push(documentProducer.targetPartitionKeyRange.minInclusive);
+      }
+
+      // Verify lexicographic ordering
+      assert.deepEqual(orderedRanges, ["00", "01", "A0", "B1", "Z9"]);
+    });
+
+    it("should handle empty and edge case partition key values", async () => {
+      const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 4 };
+      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+
+      // Create partition key ranges with edge cases
+      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "", "00");     // Empty string should be first
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "FF", "FFFF"); // Should be last
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "00", "AA");   // Should be second
+      const mockPartitionKeyRange4 = createMockPartitionKeyRange("range4", "AA", "FF");   // Should be third
+
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3, mockPartitionKeyRange4],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub,
+      } as unknown as QueryIterator<PartitionKeyRange>);
+
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+        result: [] as unknown as Resource,
+        headers: {
+          "x-ms-request-charge": "2.0",
+          "x-ms-continuation": undefined,
+        },
+        code: 200,
+      });
+
+      const context = new TestParallelQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        options,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+      );
+
+      // Wait for initialization
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      assert.equal(context["unfilledDocumentProducersQueue"].size(), 4);
+
+      // Extract items and verify ordering
+      const orderedRanges: string[] = [];
+      while (context["unfilledDocumentProducersQueue"].size() > 0) {
+        const documentProducer = context["unfilledDocumentProducersQueue"].deq();
+        orderedRanges.push(documentProducer.targetPartitionKeyRange.minInclusive);
+      }
+
+      // Verify that empty string comes first, then lexicographic order
+      assert.deepEqual(orderedRanges, ["", "00", "AA", "FF"]);
+    });
+  });
 });

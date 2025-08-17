@@ -138,33 +138,32 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     let remainingItems = itemCount;
 
     for (const [patchId, patch] of partitionKeyRangeMap) {
-      const [startIndex, endIndex] = patch.indexes;
+      const rangeItemCount = patch.itemCount || 0;
       
       // Handle special case for empty result sets
-      if (startIndex === -1 && endIndex === -1) {
+      if (rangeItemCount === 0) {
         updatedMap.set(patchId, { ...patch });
         continue;
       }
 
-      const rangeSize = endIndex - startIndex + 1;
-
       if (exclude) {
         // Exclude items from the beginning
         if (remainingItems <= 0) {
-          // No more items to exclude, keep this range
-        } else if (remainingItems >= rangeSize) {
+          // No more items to exclude, keep this range with original item count
+          updatedMap.set(patchId, { ...patch });
+        } else if (remainingItems >= rangeItemCount) {
           // Exclude entire range
-          remainingItems -= rangeSize;
+          remainingItems -= rangeItemCount;
           updatedMap.set(patchId, {
             ...patch,
-            indexes: [-1, -1] // Mark as completely excluded
+            itemCount: 0 // Mark as completely excluded
           });
         } else {
           // Partially exclude this range
-          const includedItems = rangeSize - remainingItems;
+          const includedItems = rangeItemCount - remainingItems;
           updatedMap.set(patchId, {
             ...patch,
-            indexes: [startIndex + includedItems, endIndex]
+            itemCount: includedItems
           });
           remainingItems = 0;
         }
@@ -174,16 +173,17 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
           // No more items to include, mark remaining as excluded
           updatedMap.set(patchId, {
             ...patch,
-            indexes: [-1, -1]
+            itemCount: 0
           });
-        } else if (remainingItems >= rangeSize) {
+        } else if (remainingItems >= rangeItemCount) {
           // Include entire range
-          remainingItems -= rangeSize;
+          remainingItems -= rangeItemCount;
+          updatedMap.set(patchId, { ...patch });
         } else {
           // Partially include this range
           updatedMap.set(patchId, {
             ...patch,
-            indexes: [startIndex , endIndex - remainingItems]
+            itemCount: remainingItems
           });
           remainingItems = 0;
         }

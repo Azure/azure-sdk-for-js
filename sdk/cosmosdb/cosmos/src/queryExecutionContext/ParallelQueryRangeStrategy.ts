@@ -30,8 +30,7 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
 
   async filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
-    continuationToken?: string,
-    queryInfo?: Record<string, unknown>,
+    continuationToken?: string
   ): Promise<PartitionRangeFilterResult> {
     console.log("=== ParallelQueryRangeStrategy.filterPartitionRanges START ===");
     console.log(
@@ -81,14 +80,23 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
       // rangeContinuationToken should be present otherwise partition will be considered exhausted and not
       // considered further
       if (partitionKeyRange && !this.isPartitionExhausted(rangeContinuationToken)) {
-        // TODO: chance of miss in case of split merge shift to overlap situation in that case
-        const matchingTargetRange = targetRanges.find((tr) =>
-          this.rangesMatch(tr, partitionKeyRange),
+        // Create a partition range structure similar to target ranges using the continuation token data
+        const partitionRangeFromToken: PartitionKeyRange = {
+          id: partitionKeyRange.id,
+          minInclusive: partitionKeyRange.minInclusive,
+          maxExclusive: partitionKeyRange.maxExclusive,
+          ridPrefix: partitionKeyRange.ridPrefix ,
+          throughputFraction: partitionKeyRange.throughputFraction ,
+          status: partitionKeyRange.status ,
+          parents: partitionKeyRange.parents ,
+        };
+        
+        filteredRanges.push(partitionRangeFromToken);
+        continuationTokens.push(rangeContinuationToken);
+        
+        console.log(
+          `Added range from continuation token: ${partitionKeyRange.id} [${partitionKeyRange.minInclusive}, ${partitionKeyRange.maxExclusive})`
         );
-        if (matchingTargetRange) {
-          filteredRanges.push(matchingTargetRange);
-          continuationTokens.push(rangeContinuationToken);
-        }
       }
     }
 
@@ -107,19 +115,13 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
     }
     const lastFilteredRange = filteredRanges[filteredRanges.length - 1];
     for (const targetRange of targetRanges) {
-      // Check if this target range is already in filtered ranges
-      const alreadyIncluded = filteredRanges.some((fr) => this.rangesMatch(fr, targetRange));
-
-      if (!alreadyIncluded) {
-        // Check if this target range is on the right side of the window
-        // (minInclusive is greater than or equal to the maxExclusive of the last filtered range)
-        if (targetRange.minInclusive >= lastFilteredRange.maxExclusive) {
-          filteredRanges.push(targetRange);
-          continuationTokens.push(undefined);
-          console.log(
-            `Added new range (right side): ${targetRange.id} [${targetRange.minInclusive}, ${targetRange.maxExclusive})`,
-          );
-        }
+      // Only include ranges whose minInclusive value is greater than maxExclusive of lastFilteredRange
+      if (targetRange.minInclusive >= lastFilteredRange.maxExclusive) {
+        filteredRanges.push(targetRange);
+        continuationTokens.push(undefined);
+        console.log(
+          `Added new range (after last filtered range): ${targetRange.id} [${targetRange.minInclusive}, ${targetRange.maxExclusive})`,
+        );
       }
     }
 
@@ -142,28 +144,6 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
       continuationToken === "" ||
       continuationToken === "null" ||
       continuationToken.toLowerCase() === "null"
-    );
-  }
-
-  /**
-   * Checks if two partition key ranges overlap
-   */
-  private rangesOverlap(range1: PartitionKeyRange, range2: PartitionKeyRange): boolean {
-    // Simple overlap check - in practice, you might need more sophisticated logic
-    // For now, we'll check by ID if available, or by min/max values
-    if (range1.id && range2.id) {
-      return range1.id === range2.id;
-    }
-
-    // Fallback to range overlap check
-    return !(
-      range1.maxExclusive <= range2.minInclusive || range2.maxExclusive <= range1.minInclusive
-    );
-  }
-
-  private rangesMatch(range1: PartitionKeyRange, range2: PartitionKeyRange): boolean {
-    return (
-      range1.minInclusive === range2.minInclusive && range1.maxExclusive === range2.maxExclusive
     );
   }
 }
