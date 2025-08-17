@@ -49,9 +49,12 @@ export class GroupByEndpointComponent implements ExecutionContext {
     ) {
       // If there are any groupings, consolidate and return them
       if (this.groupings.size > 0) {
-        return this.consolidateGroupResults(aggregateHeaders);
+        return this.consolidateGroupResults(aggregateHeaders, response?.result?.partitionKeyRangeMap);
       }
-      return { result: undefined, headers: aggregateHeaders };
+      return { 
+        result: undefined, 
+        headers: aggregateHeaders 
+      };
     }
 
     for (const item of response.result.buffer as GroupByResult[]) {
@@ -93,15 +96,18 @@ export class GroupByEndpointComponent implements ExecutionContext {
 
     if (this.executionContext.hasMoreResults()) {
       return {
-        result: [],
+        result: {
+          buffer: [],
+          partitionKeyRangeMap: response.result.partitionKeyRangeMap || new Map()
+        },
         headers: aggregateHeaders,
       };
     } else {
-      return this.consolidateGroupResults(aggregateHeaders);
+      return this.consolidateGroupResults(aggregateHeaders, response.result.partitionKeyRangeMap);
     }
   }
 
-  private consolidateGroupResults(aggregateHeaders: CosmosHeaders): Response<any> {
+  private consolidateGroupResults(aggregateHeaders: CosmosHeaders, partitionKeyRangeMap?: Map<string, any>): Response<any> {
     for (const grouping of this.groupings.values()) {
       const groupResult: any = {};
       for (const [aggregateKey, aggregator] of grouping.entries()) {
@@ -110,6 +116,12 @@ export class GroupByEndpointComponent implements ExecutionContext {
       this.aggregateResultArray.push(groupResult);
     }
     this.completed = true;
-    return { result: this.aggregateResultArray, headers: aggregateHeaders };
+    return { 
+      result: {
+        buffer: this.aggregateResultArray,
+        partitionKeyRangeMap: partitionKeyRangeMap || new Map()
+      }, 
+      headers: aggregateHeaders 
+    };
   }
 }

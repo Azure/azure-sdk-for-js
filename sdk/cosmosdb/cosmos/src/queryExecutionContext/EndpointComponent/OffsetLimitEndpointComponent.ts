@@ -4,18 +4,35 @@ import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInt
 import type { Response } from "../../request/index.js";
 import type { ExecutionContext } from "../ExecutionContext.js";
 import type { FeedOptions } from "../../request/index.js";
+import type { ContinuationTokenManager } from "../ContinuationTokenManager.js";
 import { getInitialHeader, mergeHeaders } from "../headerUtils.js";
 
 /** @hidden */
 export class OffsetLimitEndpointComponent implements ExecutionContext {
+  private continuationTokenManager: ContinuationTokenManager | undefined;
+
   constructor(
     private executionContext: ExecutionContext,
     private offset: number,
     private limit: number,
     options?: FeedOptions,
   ) {
+    // Get the continuation token manager from options if available
+    this.continuationTokenManager = (options as any)?.continuationTokenManager;
+
     // Check continuation token for offset/limit values during initialization
-    if (options?.continuationToken) {
+    if (this.continuationTokenManager) {
+      // Use the continuation token manager to get offset/limit values
+      const currentToken = this.continuationTokenManager.getCompositeContinuationToken();
+      if (currentToken && (currentToken.offset !== undefined || currentToken.limit !== undefined)) {
+        if (currentToken.offset !== undefined) {
+          this.offset = currentToken.offset;
+        }
+        if (currentToken.limit !== undefined) {
+          this.limit = currentToken.limit;
+        }
+      }
+    } else if (options?.continuationToken) {
       try {
         const parsedToken = JSON.parse(options.continuationToken);
         // Handle both CompositeQueryContinuationToken and OrderByQueryContinuationToken formats
@@ -92,6 +109,11 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       true
      )
      }
+
+    // Update the continuation token manager with the new offset/limit values if available
+    if (this.continuationTokenManager) {
+      this.continuationTokenManager.updateOffsetLimit(this.offset, this.limit);
+    }
 
     return { result: {buffer: buffer, partitionKeyRangeMap: updatedPartitionKeyRangeMap, offset: this.offset, limit: this.limit}, headers: aggregateHeaders };
   }

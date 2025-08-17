@@ -59,6 +59,44 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     // Pick between Nonstreaming and streaming endpoints
     this.nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo.hasNonStreamingOrderBy;
 
+    // Check if this is a GROUP BY query
+    const isGroupByQuery = 
+      Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length > 0 ||
+      partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
+      partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0;
+
+    // Check if this is an unordered DISTINCT query
+    const isUnorderedDistinctQuery = partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
+
+    // Validate continuation token usage for unsupported query types
+    // Note: OrderedDistinctEndpointComponent is supported, but UnorderedDistinctEndpointComponent
+    // requires storing too much duplicate tracking data in continuation tokens
+    if (this.options.continuationToken) {
+      if (this.nonStreamingOrderBy) {
+        throw new ErrorResponse(
+          "Continuation tokens are not supported for non-streaming ORDER BY queries. " +
+          "These queries must process all results to ensure correct ordering and cannot be resumed from an intermediate state. " +
+          "Consider removing the continuation token and using fetchAll() instead for complete results."
+        );
+      }
+      
+      if (isGroupByQuery) {
+        throw new ErrorResponse(
+          "Continuation tokens are not supported for GROUP BY queries. " +
+          "These queries must process all results to compute aggregations and cannot be resumed from an intermediate state. " +
+          "Consider removing the continuation token and using fetchAll() instead for complete results."
+        );
+      }
+
+      if (isUnorderedDistinctQuery) {
+        throw new ErrorResponse(
+          "Continuation tokens are not supported for unordered DISTINCT queries. " +
+          "These queries require tracking large amounts of duplicate data in continuation tokens which is not practical. " +
+          "Consider removing the continuation token and using fetchAll() instead, or use ordered DISTINCT queries which are supported."
+        );
+      }
+    }
+
     // Pick between parallel vs order by execution context
     // TODO: Currently we don't get any field from backend to determine streaming queries
     if (this.nonStreamingOrderBy) {
@@ -82,11 +120,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       }
 
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
+      
+      // Note: Non-streaming queries don't support continuation tokens, so we don't create a shared manager
       const context: ExecutionContext = new ParallelQueryExecutionContext(
         this.clientContext,
         this.collectionLink,
         this.query,
-        this.options,
+        this.options, // Use original options without shared continuation token manager
         this.partitionedQueryExecutionInfo,
         correlatedActivityId,
       );
@@ -108,15 +148,29 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         );
       }
     } else {
+      // Create shared continuation token manager for streaming execution contexts
+      const sharedContinuationTokenManager = new ContinuationTokenManager(
+        this.collectionLink,
+        this.options.continuationToken,
+        isOrderByQuery,
+      );
+      
+      // Pass shared continuation token manager via options
+      const optionsWithSharedManager = {
+        ...this.options,
+        continuationTokenManager: sharedContinuationTokenManager
+      };
+
       if (Array.isArray(sortOrders) && sortOrders.length > 0) {
         // Need to wrap orderby execution context in endpoint component, since the data is nested as a \
         //      "payload" property.
+        
         this.endpoint = new OrderByEndpointComponent(
           new OrderByQueryExecutionContext(
             this.clientContext,
             this.collectionLink,
             this.query,
-            this.options,
+            optionsWithSharedManager,
             this.partitionedQueryExecutionInfo,
             correlatedActivityId,
           ),
@@ -127,17 +181,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.clientContext,
           this.collectionLink,
           this.query,
-          this.options,
+          optionsWithSharedManager,
           this.partitionedQueryExecutionInfo,
           correlatedActivityId,
         );
       }
-      if (
-        Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length >
-          0 ||
-        partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
-        partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
-      ) {
+
+      if (isGroupByQuery) {
         if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
           this.endpoint = new GroupByValueEndpointComponent(
             this.endpoint,
@@ -163,14 +213,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
       const top = partitionedQueryExecutionInfo.queryInfo.top;
       if (typeof top === "number") {
-        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top, this.options);
+        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top, optionsWithSharedManager);
       }
       
       // If offset+limit then add that to the pipeline
       const limit = partitionedQueryExecutionInfo.queryInfo.limit;
       const offset = partitionedQueryExecutionInfo.queryInfo.offset;
       if (typeof limit === "number" && typeof offset === "number") {
-        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit, this.options);
+        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit, optionsWithSharedManager);
       }
     }
     this.fetchBuffer = [];
