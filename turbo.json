@@ -3,7 +3,8 @@
   "ui": "stream",
   "daemon": false,
   "remoteCache": {
-    "enabled": true
+    "enabled": false,
+    "teamSlug": "azsdkjs"
   },
   "tasks": {
     "build": {
