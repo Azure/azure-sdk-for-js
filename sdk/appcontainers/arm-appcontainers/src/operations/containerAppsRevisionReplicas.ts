@@ -19,9 +19,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing ContainerAppsRevisionReplicas operations. */
-export class ContainerAppsRevisionReplicasImpl
-  implements ContainerAppsRevisionReplicas
-{
+export class ContainerAppsRevisionReplicasImpl implements ContainerAppsRevisionReplicas {
   private readonly client: ContainerAppsAPIClient;
 
   /**

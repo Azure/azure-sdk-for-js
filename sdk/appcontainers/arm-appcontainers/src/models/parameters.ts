@@ -12,26 +12,58 @@ import {
   OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  AppResiliency as AppResiliencyMapper,
   AuthConfig as AuthConfigMapper,
+  BuilderResource as BuilderResourceMapper,
+  BuilderResourceUpdate as BuilderResourceUpdateMapper,
+  BuildResource as BuildResourceMapper,
   ConnectedEnvironment as ConnectedEnvironmentMapper,
+  ConnectedEnvironmentPatchResource as ConnectedEnvironmentPatchResourceMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   Certificate as CertificateMapper,
   CertificatePatch as CertificatePatchMapper,
-  DaprComponent as DaprComponentMapper,
+  ConnectedEnvironmentDaprComponent as ConnectedEnvironmentDaprComponentMapper,
   ConnectedEnvironmentStorage as ConnectedEnvironmentStorageMapper,
   ContainerApp as ContainerAppMapper,
+  PatchSkipConfig as PatchSkipConfigMapper,
   Job as JobMapper,
   JobPatchProperties as JobPatchPropertiesMapper,
   JobExecutionTemplate as JobExecutionTemplateMapper,
+  DotNetComponent as DotNetComponentMapper,
   JavaComponent as JavaComponentMapper,
+  LogicApp as LogicAppMapper,
+  WorkflowArtifacts as WorkflowArtifactsMapper,
   ManagedEnvironment as ManagedEnvironmentMapper,
   ManagedCertificate as ManagedCertificateMapper,
   ManagedCertificatePatch as ManagedCertificatePatchMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  DaprComponentResiliencyPolicy as DaprComponentResiliencyPolicyMapper,
+  DaprComponent as DaprComponentMapper,
+  DaprSubscription as DaprSubscriptionMapper,
+  HttpRouteConfig as HttpRouteConfigMapper,
+  MaintenanceConfigurationResource as MaintenanceConfigurationResourceMapper,
   ManagedEnvironmentStorage as ManagedEnvironmentStorageMapper,
   SessionPool as SessionPoolMapper,
   SessionPoolUpdatableProperties as SessionPoolUpdatablePropertiesMapper,
   SourceControl as SourceControlMapper,
 } from "../models/mappers.js";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resiliencyEnvelope: OperationParameter = {
+  parameterPath: "resiliencyEnvelope",
+  mapper: AppResiliencyMapper,
+};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -60,13 +92,10 @@ export const $host: OperationURLParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1,
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String",
+      name: "Uuid",
     },
   },
 };
@@ -86,10 +115,27 @@ export const resourceGroupName: OperationURLParameter = {
   },
 };
 
-export const containerAppName: OperationURLParameter = {
-  parameterPath: "containerAppName",
+export const appName: OperationURLParameter = {
+  parameterPath: "appName",
   mapper: {
-    serializedName: "containerAppName",
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+    },
+    serializedName: "appName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const name: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+    },
+    serializedName: "name",
     required: true,
     type: {
       name: "String",
@@ -100,9 +146,32 @@ export const containerAppName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-01-01",
+    defaultValue: "2025-02-02-preview",
     isConstant: true,
     serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const containerAppName: OperationURLParameter = {
+  parameterPath: "containerAppName",
+  mapper: {
+    serializedName: "containerAppName",
+    required: true,
     type: {
       name: "String",
     },
@@ -120,33 +189,9 @@ export const authConfigName: OperationURLParameter = {
   },
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const authConfigEnvelope: OperationParameter = {
   parameterPath: "authConfigEnvelope",
   mapper: AuthConfigMapper,
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
 };
 
 export const location: OperationURLParameter = {
@@ -163,6 +208,53 @@ export const location: OperationURLParameter = {
   },
 };
 
+export const builderName: OperationURLParameter = {
+  parameterPath: "builderName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 32,
+      MinLength: 2,
+    },
+    serializedName: "builderName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const builderEnvelope: OperationParameter = {
+  parameterPath: "builderEnvelope",
+  mapper: BuilderResourceMapper,
+};
+
+export const builderEnvelope1: OperationParameter = {
+  parameterPath: "builderEnvelope",
+  mapper: BuilderResourceUpdateMapper,
+};
+
+export const buildName: OperationURLParameter = {
+  parameterPath: "buildName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 64,
+      MinLength: 2,
+    },
+    serializedName: "buildName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const buildEnvelope: OperationParameter = {
+  parameterPath: "buildEnvelope",
+  mapper: BuildResourceMapper,
+};
+
 export const connectedEnvironmentName: OperationURLParameter = {
   parameterPath: "connectedEnvironmentName",
   mapper: {
@@ -177,6 +269,11 @@ export const connectedEnvironmentName: OperationURLParameter = {
 export const environmentEnvelope: OperationParameter = {
   parameterPath: "environmentEnvelope",
   mapper: ConnectedEnvironmentMapper,
+};
+
+export const environmentEnvelope1: OperationParameter = {
+  parameterPath: ["options", "environmentEnvelope"],
+  mapper: ConnectedEnvironmentPatchResourceMapper,
 };
 
 export const checkNameAvailabilityRequest: OperationParameter = {
@@ -218,7 +315,7 @@ export const componentName: OperationURLParameter = {
 
 export const daprComponentEnvelope: OperationParameter = {
   parameterPath: "daprComponentEnvelope",
-  mapper: DaprComponentMapper,
+  mapper: ConnectedEnvironmentDaprComponentMapper,
 };
 
 export const storageName: OperationURLParameter = {
@@ -274,6 +371,41 @@ export const filter: OperationQueryParameter = {
       name: "String",
     },
   },
+};
+
+export const labelName: OperationURLParameter = {
+  parameterPath: "labelName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+    },
+    serializedName: "labelName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const patchName: OperationURLParameter = {
+  parameterPath: "patchName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+      MaxLength: 64,
+      MinLength: 2,
+    },
+    serializedName: "patchName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const patchSkipConfig: OperationParameter = {
+  parameterPath: "patchSkipConfig",
+  mapper: PatchSkipConfigMapper,
 };
 
 export const revisionName: OperationURLParameter = {
@@ -405,13 +537,32 @@ export const environmentName1: OperationURLParameter = {
   },
 };
 
-export const name: OperationURLParameter = {
-  parameterPath: "name",
+export const dotNetComponentEnvelope: OperationParameter = {
+  parameterPath: "dotNetComponentEnvelope",
+  mapper: DotNetComponentMapper,
+};
+
+export const revisionName1: OperationURLParameter = {
+  parameterPath: "revisionName",
   mapper: {
     constraints: {
       Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
     },
-    serializedName: "name",
+    serializedName: "revisionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const functionAppName: OperationURLParameter = {
+  parameterPath: "functionAppName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+    },
+    serializedName: "functionAppName",
     required: true,
     type: {
       name: "String",
@@ -424,7 +575,69 @@ export const javaComponentEnvelope: OperationParameter = {
   mapper: JavaComponentMapper,
 };
 
-export const environmentEnvelope1: OperationParameter = {
+export const logicAppName: OperationURLParameter = {
+  parameterPath: "logicAppName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+    },
+    serializedName: "logicAppName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: LogicAppMapper,
+};
+
+export const workflowName: OperationURLParameter = {
+  parameterPath: "workflowName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
+    serializedName: "workflowName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const workflowArtifacts: OperationParameter = {
+  parameterPath: ["options", "workflowArtifacts"],
+  mapper: WorkflowArtifactsMapper,
+};
+
+export const xMsLogicAppsProxyPath: OperationParameter = {
+  parameterPath: "xMsLogicAppsProxyPath",
+  mapper: {
+    serializedName: "x-ms-logicApps-proxy-path",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const xMsLogicAppsProxyMethod: OperationParameter = {
+  parameterPath: "xMsLogicAppsProxyMethod",
+  mapper: {
+    serializedName: "x-ms-logicApps-proxy-method",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const environmentEnvelope2: OperationParameter = {
   parameterPath: "environmentEnvelope",
   mapper: ManagedEnvironmentMapper,
 };
@@ -448,6 +661,118 @@ export const managedCertificateEnvelope: OperationParameter = {
 export const managedCertificateEnvelope1: OperationParameter = {
   parameterPath: "managedCertificateEnvelope",
   mapper: ManagedCertificatePatchMapper,
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const privateEndpointConnectionEnvelope: OperationParameter = {
+  parameterPath: "privateEndpointConnectionEnvelope",
+  mapper: PrivateEndpointConnectionMapper,
+};
+
+export const componentName1: OperationURLParameter = {
+  parameterPath: "componentName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+    },
+    serializedName: "componentName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const name1: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const daprComponentResiliencyPolicyEnvelope: OperationParameter = {
+  parameterPath: "daprComponentResiliencyPolicyEnvelope",
+  mapper: DaprComponentResiliencyPolicyMapper,
+};
+
+export const daprComponentEnvelope1: OperationParameter = {
+  parameterPath: "daprComponentEnvelope",
+  mapper: DaprComponentMapper,
+};
+
+export const daprSubscriptionEnvelope: OperationParameter = {
+  parameterPath: "daprSubscriptionEnvelope",
+  mapper: DaprSubscriptionMapper,
+};
+
+export const httpRouteName: OperationURLParameter = {
+  parameterPath: "httpRouteName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+      MaxLength: 63,
+      MinLength: 3,
+    },
+    serializedName: "httpRouteName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const httpRouteConfigEnvelope: OperationParameter = {
+  parameterPath: ["options", "httpRouteConfigEnvelope"],
+  mapper: HttpRouteConfigMapper,
+};
+
+export const httpRouteConfigEnvelope1: OperationParameter = {
+  parameterPath: "httpRouteConfigEnvelope",
+  mapper: HttpRouteConfigMapper,
+};
+
+export const httpRouteName1: OperationURLParameter = {
+  parameterPath: "httpRouteName",
+  mapper: {
+    serializedName: "httpRouteName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const maintenanceConfigurationEnvelope: OperationParameter = {
+  parameterPath: "maintenanceConfigurationEnvelope",
+  mapper: MaintenanceConfigurationResourceMapper,
+};
+
+export const configName: OperationURLParameter = {
+  parameterPath: "configName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[-\\w\\._\\(\\)]+$"),
+    },
+    serializedName: "configName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const storageEnvelope1: OperationParameter = {
@@ -495,6 +820,36 @@ export const sourceControlName: OperationURLParameter = {
 export const sourceControlEnvelope: OperationParameter = {
   parameterPath: "sourceControlEnvelope",
   mapper: SourceControlMapper,
+};
+
+export const xMsGithubAuxiliary: OperationParameter = {
+  parameterPath: ["options", "xMsGithubAuxiliary"],
+  mapper: {
+    serializedName: "x-ms-github-auxiliary",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const ignoreWorkflowDeletionFailure: OperationQueryParameter = {
+  parameterPath: ["options", "ignoreWorkflowDeletionFailure"],
+  mapper: {
+    serializedName: "ignoreWorkflowDeletionFailure",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const deleteWorkflow: OperationQueryParameter = {
+  parameterPath: ["options", "deleteWorkflow"],
+  mapper: {
+    serializedName: "deleteWorkflow",
+    type: {
+      name: "Boolean",
+    },
+  },
 };
 
 export const location1: OperationURLParameter = {

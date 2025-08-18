@@ -1519,7 +1519,7 @@ importers:
         specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
-        specifier: ^4.8.0
+        specifier: ^4.9.0
         version: link:../../identity/identity
       '@azure/logger':
         specifier: ^1.1.4
@@ -1537,7 +1537,7 @@ importers:
         specifier: ^16.0.0
         version: 16.6.1
       playwright:
-        specifier: ^1.51.1
+        specifier: ^1.52.0
         version: 1.54.2
       typescript:
         specifier: ~5.8.2
