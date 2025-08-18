@@ -151,12 +151,9 @@ const getServiceConfig = (
     globalFunctions.globalSetup = globalPaths.setup;
     globalFunctions.globalTeardown = globalPaths.teardown;
   }
+
   performOneTimeOperation(options);
-  if (options?.useCloudHostedBrowsers === false) {
-    return {
-      ...globalFunctions,
-    };
-  }
+
   if (!process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED]) {
     process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] = "true";
     console.log("\nRunning tests using Azure Playwright service.");
