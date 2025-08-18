@@ -34,7 +34,7 @@
     "nyc": "^17.0.0",
     "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "karma": "^6.3.4",
@@ -76,8 +76,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:browser": "tsc -p . && npx cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && npx cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c 2>&1",
@@ -99,7 +99,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\"  mocha",
+    "unit-test:node": "npx cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\"  mocha",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
