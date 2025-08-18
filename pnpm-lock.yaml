@@ -2651,7 +2651,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-storage':
         specifier: ^18.3.0
-        version: link:../../storage/arm-storage
+        version: 18.6.0
       '@azure/dev-tool':
         specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
@@ -9411,7 +9411,7 @@ importers:
         version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/arm-storage':
         specifier: ^18.4.0
-        version: link:../../storage/arm-storage
+        version: 18.6.0
       '@azure/dev-tool':
         specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
@@ -10408,7 +10408,7 @@ importers:
         version: 32.2.0
       '@azure/arm-storage':
         specifier: ^18.0.0
-        version: link:../../storage/arm-storage
+        version: 18.6.0
       '@azure/dev-tool':
         specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
@@ -11254,7 +11254,7 @@ importers:
         version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/arm-storage':
         specifier: ^18.4.0
-        version: link:../../storage/arm-storage
+        version: 18.6.0
       '@azure/dev-tool':
         specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
@@ -17262,7 +17262,7 @@ importers:
         version: link:../../operationalinsights/arm-operationalinsights
       '@azure/arm-storage':
         specifier: ^18.0.0
-        version: link:../../storage/arm-storage
+        version: 18.6.0
       '@azure/dev-tool':
         specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
@@ -26357,7 +26357,7 @@ importers:
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-storage':
         specifier: ^18.4.0
-        version: link:../../storage/arm-storage
+        version: 18.6.0
       '@azure/dev-tool':
         specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
@@ -28148,6 +28148,10 @@ packages:
   '@azure/arm-servicebus@6.1.0':
     resolution: {integrity: sha512-KxZFSseqIwXlQkQ3jSV9d0O1ccF/VcpVQwCBZsGaSiTBgKjht1c4279543ZdmvXOZyxn5e7ckEwJ8KIFlJ4OZA==}
     engines: {node: '>=14.0.0'}
+
+  '@azure/arm-storage@18.6.0':
+    resolution: {integrity: sha512-dyN50fxts2xClCLIQY8qoDepYx2ql/eW5cVOy8XP+5zt9wIr1cgN2Mmv9/so2HDg6M/zOz8LhrvY+bS2blbhDQ==}
+    engines: {node: '>=20.0.0'}
 
   '@azure/communication-common@2.4.0':
     resolution: {integrity: sha512-wwn4AoOgTgoA9OZkO34SKBpQg7/kfcABnzbaYEbc+9bCkBtwwjgMEk6xM+XLEE/uuODZ8q8jidUoNcZHQyP5AQ==}
@@ -33255,6 +33259,18 @@ snapshots:
   '@azure/arm-servicebus@6.1.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.10.0
+      '@azure/core-client': 1.10.0
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-storage@18.6.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.0
       '@azure/core-client': 1.10.0
       '@azure/core-lro': 2.7.2

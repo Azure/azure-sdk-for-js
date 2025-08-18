@@ -57,11 +57,7 @@ export class FileServicesImpl implements FileServices {
     accountName: string,
     options?: FileServicesListServiceUsagesOptionalParams,
   ): PagedAsyncIterableIterator<FileServiceUsage> {
-    const iter = this.listServiceUsagesPagingAll(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const iter = this.listServiceUsagesPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
         return iter.next();
@@ -73,12 +69,7 @@ export class FileServicesImpl implements FileServices {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listServiceUsagesPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listServiceUsagesPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -92,11 +83,7 @@ export class FileServicesImpl implements FileServices {
     let result: FileServicesListServiceUsagesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listServiceUsages(
-        resourceGroupName,
-        accountName,
-        options,
-      );
+      result = await this._listServiceUsages(resourceGroupName, accountName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

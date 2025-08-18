@@ -61,12 +61,7 @@ export class BlobServicesImpl implements BlobServices {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -87,11 +82,7 @@ export class BlobServicesImpl implements BlobServices {
     accountName: string,
     options?: BlobServicesListOptionalParams,
   ): AsyncIterableIterator<BlobServiceProperties> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
       yield* page;
     }
   }

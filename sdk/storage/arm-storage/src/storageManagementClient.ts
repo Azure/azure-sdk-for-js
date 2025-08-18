@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   BlobServicesImpl,
@@ -100,7 +96,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-storage/18.6.0`;
+    const packageDetails = `azsdk-js-arm-storage/19.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -112,8 +108,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -123,8 +118,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -140,11 +134,9 @@ export class StorageManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -154,7 +146,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-01-01";
+    this.apiVersion = options.apiVersion || "2025-01-01";
     this.blobServices = new BlobServicesImpl(this);
     this.blobContainers = new BlobContainersImpl(this);
     this.fileServices = new FileServicesImpl(this);
@@ -170,19 +162,19 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     this.blobInventoryPolicies = new BlobInventoryPoliciesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.objectReplicationPoliciesOperations =
-      new ObjectReplicationPoliciesOperationsImpl(this);
+    this.objectReplicationPoliciesOperations = new ObjectReplicationPoliciesOperationsImpl(this);
     this.localUsersOperations = new LocalUsersOperationsImpl(this);
     this.encryptionScopes = new EncryptionScopesImpl(this);
     this.tableServices = new TableServicesImpl(this);
     this.tableOperations = new TableOperationsImpl(this);
-    this.networkSecurityPerimeterConfigurations =
-      new NetworkSecurityPerimeterConfigurationsImpl(this);
+    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
+      this,
+    );
     this.storageTaskAssignments = new StorageTaskAssignmentsImpl(this);
-    this.storageTaskAssignmentsInstancesReport =
-      new StorageTaskAssignmentsInstancesReportImpl(this);
-    this.storageTaskAssignmentInstancesReport =
-      new StorageTaskAssignmentInstancesReportImpl(this);
+    this.storageTaskAssignmentsInstancesReport = new StorageTaskAssignmentsInstancesReportImpl(
+      this,
+    );
+    this.storageTaskAssignmentInstancesReport = new StorageTaskAssignmentInstancesReportImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -193,10 +185,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {

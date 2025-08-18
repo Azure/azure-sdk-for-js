@@ -85,10 +85,7 @@ export class UsagesImpl implements Usages {
     location: string,
     options?: UsagesListByLocationOptionalParams,
   ): Promise<UsagesListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listByLocationOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listByLocationOperationSpec);
   }
 }
 // Operation Specifications
@@ -103,11 +100,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

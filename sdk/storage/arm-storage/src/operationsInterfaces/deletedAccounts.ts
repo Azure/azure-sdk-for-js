@@ -21,9 +21,7 @@ export interface DeletedAccounts {
    * Lists deleted accounts under the subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: DeletedAccountsListOptionalParams,
-  ): PagedAsyncIterableIterator<DeletedAccount>;
+  list(options?: DeletedAccountsListOptionalParams): PagedAsyncIterableIterator<DeletedAccount>;
   /**
    * Get properties of specified deleted account resource.
    * @param deletedAccountName Name of the deleted storage account.
