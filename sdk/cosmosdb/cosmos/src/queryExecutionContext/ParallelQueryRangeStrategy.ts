@@ -81,6 +81,7 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
       // considered further
       if (partitionKeyRange && !this.isPartitionExhausted(rangeContinuationToken)) {
         // Create a partition range structure similar to target ranges using the continuation token data
+        // Preserve EPK boundaries if they exist in the extended partition key range
         const partitionRangeFromToken: PartitionKeyRange = {
           id: partitionKeyRange.id,
           minInclusive: partitionKeyRange.minInclusive,
@@ -89,13 +90,17 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
           throughputFraction: partitionKeyRange.throughputFraction ,
           status: partitionKeyRange.status ,
           parents: partitionKeyRange.parents ,
+          // Preserve EPK boundaries from continuation token if available
+          ...(partitionKeyRange.epkMin && { epkMin: partitionKeyRange.epkMin }),
+          ...(partitionKeyRange.epkMax && { epkMax: partitionKeyRange.epkMax }),
         };
         
         filteredRanges.push(partitionRangeFromToken);
         continuationTokens.push(rangeContinuationToken);
         
         console.log(
-          `Added range from continuation token: ${partitionKeyRange.id} [${partitionKeyRange.minInclusive}, ${partitionKeyRange.maxExclusive})`
+          `Added range from continuation token: ${partitionKeyRange.id} [${partitionKeyRange.minInclusive}, ${partitionKeyRange.maxExclusive})` +
+          (partitionKeyRange.epkMin && partitionKeyRange.epkMax ? ` with EPK [${partitionKeyRange.epkMin}, ${partitionKeyRange.epkMax})` : '')
         );
       }
     }

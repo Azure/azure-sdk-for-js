@@ -168,32 +168,38 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           );
 
           filteredPartitionKeyRanges = filterResult.filteredRanges;
-          continuationTokens = filterResult.continuationToken || [];
-          const filteringConditions = filterResult.filteringConditions || [];
+          continuationTokens = filterResult.continuationToken;
+          const filteringConditions = filterResult.filteringConditions;
 
           filteredPartitionKeyRanges.forEach((partitionTargetRange: any, index: number) => {
-            // TODO: any partitionTargetRange
-            // no async callback
             const continuationToken = continuationTokens ? continuationTokens[index] : undefined;
             const filterCondition = filteringConditions ? filteringConditions[index] : undefined;
+
+            // Extract EPK values from the partition range if available
+            const startEpk = partitionTargetRange.epkMin || undefined;
+            const endEpk = partitionTargetRange.epkMax || undefined;
+
+            console.log(
+              `Creating document producer for range ${partitionTargetRange.id}: ` +
+              `logical=[${partitionTargetRange.minInclusive}, ${partitionTargetRange.maxExclusive})` +
+              (startEpk && endEpk ? `, EPK=[${startEpk}, ${endEpk})` : ', EPK=none')
+            );
 
             targetPartitionQueryExecutionContextList.push(
               this._createTargetPartitionQueryExecutionContext(
                 partitionTargetRange,
                 continuationToken,
-                undefined, // startEpk
-                undefined, // endEpk
-                false, // populateEpkRangeHeaders
+                startEpk, // Use EPK min from continuation token
+                endEpk, // Use EPK max from continuation token
+                !!(startEpk && endEpk), // populateEpkRangeHeaders - true if both EPK values are present
                 filterCondition,
               ),
             );
           });
         } else {
           filteredPartitionKeyRanges = targetPartitionRanges;
-          // TODO: updat continuations later
           filteredPartitionKeyRanges.forEach((partitionTargetRange: any) => {
             // TODO: any partitionTargetRange
-            // no async callback
             targetPartitionQueryExecutionContextList.push(
               this._createTargetPartitionQueryExecutionContext(partitionTargetRange, undefined),
             );
@@ -362,16 +368,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     originalDocumentProducer: DocumentProducer,
     replacementPartitionKeyRanges: any[],
   ): void {
-    // Skip continuation token update if manager is not available (non-streaming queries)
+    // Skip continuation token update if manager is not available (e.g: non-streaming queries)
     if (!this.continuationTokenManager) {
       return;
     }
 
     // Get the composite continuation token from the continuation token manager
     const compositeContinuationToken = this.continuationTokenManager.getCompositeContinuationToken();
-    
     if (!compositeContinuationToken || !compositeContinuationToken.rangeMappings) {
-      console.warn("No composite continuation token available to update for partition split/merge");
       return;
     }
 
@@ -381,18 +385,16 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     );
 
     if (replacementPartitionKeyRanges.length === 1) {
-      // Merge scenario: Find all ranges that overlap with the new merged range
       this._handlePartitionMerge(compositeContinuationToken, originalDocumentProducer, replacementPartitionKeyRanges[0]);
     } else {
-      // Split scenario: Replace single range with multiple ranges
       this._handlePartitionSplit(compositeContinuationToken, originalDocumentProducer, replacementPartitionKeyRanges);
     }
   }
 
   /**
-   * Handles partition merge scenario by finding overlapping ranges and updating them with EPK boundaries.
-   * Iterates over composite continuation token range mappings to find overlapping ranges with the document producer's range.
-   * For each overlapping range: sets epkMin/epkMax to current minInclusive/maxExclusive, then updates logical boundaries to new merged range.
+   * Handles partition merge scenario by updating range with EPK boundaries.
+   * Iterates over composite continuation token range mappings to find overlapping range with the document producer's range.
+   * Sets epkMin/epkMax to current minInclusive/maxExclusive, then updates logical boundaries to new merged range.
    */
   private _handlePartitionMerge(
     compositeContinuationToken: any,
@@ -401,9 +403,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   ): void {
     const documentProducerRange = documentProducer.targetPartitionKeyRange;
     console.log(`Processing merge scenario for document producer range ${documentProducerRange.id} -> merged range ${newMergedRange.id}`);
-
-    let overlappingRangesFound = 0;
-
     // Iterate over all range mappings in the composite continuation token
     for (let i = 0; i < compositeContinuationToken.rangeMappings.length; i++) {
       const mapping = compositeContinuationToken.rangeMappings[i];
@@ -419,9 +418,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       const rangesOverlap = 
         documentProducerRange.minInclusive === existingRange.minInclusive &&
         existingRange.maxExclusive === documentProducerRange.maxExclusive;
-
+      // TODO: add more unit tests for this part
       if (rangesOverlap) {
-        overlappingRangesFound++;
         console.log(`Found overlapping range ${existingRange.id} [${existingRange.minInclusive}, ${existingRange.maxExclusive})`);
 
         // Step 1: Add EPK boundaries using current logical boundaries
@@ -441,13 +439,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           `Updated range ${newMergedRange.id} logical boundaries to [${newMergedRange.minInclusive}, ${newMergedRange.maxExclusive}) ` +
           `while preserving EPK boundaries [${existingRange.epkMin}, ${existingRange.epkMax})`
         );
+        break;
       }
-    }
-
-    if (overlappingRangesFound === 0) {
-      console.warn(`No overlapping ranges found for document producer range ${documentProducerRange.id} during merge scenario`);
-    } else {
-      console.log(`Successfully updated ${overlappingRangesFound} overlapping range(s) for merge scenario`);
     }
   }
 
@@ -492,10 +485,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       console.log(
         `Successfully updated continuation token for partition split: ` +
         `${originalPartitionKeyRange.id} -> [${replacementPartitionKeyRanges.map(r => r.id).join(', ')}]`
-      );
-    } else {
-      console.warn(
-        `Original partition range ${originalPartitionKeyRange.id} not found in continuation token for split update`
       );
     }
   }
@@ -612,7 +601,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const patchToRangeMapping = this.patchToRangeMapping;
         this.patchToRangeMapping = new Map<string, QueryRangeMapping>();
         this.patchCounter = 0;
-
+        
         // Update continuation token manager with the current partition mappings
         this.continuationTokenManager?.setPartitionKeyRangeMap(patchToRangeMapping);
 

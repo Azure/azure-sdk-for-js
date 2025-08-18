@@ -119,13 +119,21 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
           throughputFraction: targetRangeMapping.throughputFraction,
           status: targetRangeMapping.status,
           parents: targetRangeMapping.parents,
+          // Preserve EPK boundaries from continuation token if available
+          ...(targetRangeMapping.epkMin && { epkMin: targetRangeMapping.epkMin }),
+          ...(targetRangeMapping.epkMax && { epkMax: targetRangeMapping.epkMax }),
         };
+
+      console.log(
+        `Target range from ORDER BY continuation token: ${targetRange.id} [${targetRange.minInclusive}, ${targetRange.maxExclusive})` +
+        (targetRangeMapping.epkMin && targetRangeMapping.epkMax ? ` with EPK [${targetRangeMapping.epkMin}, ${targetRangeMapping.epkMax})` : '')
+      );
 
       const targetContinuationToken =
         compositeContinuationToken.rangeMappings[
           compositeContinuationToken.rangeMappings.length - 1
         ].continuationToken;
-        
+
       // TODO: keep check for overlapping ranges as splits are merges are possible
       const leftRanges = targetRanges.filter(
         (mapping) => mapping.maxExclusive < targetRangeMapping.minInclusive,
