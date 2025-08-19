@@ -54,14 +54,6 @@ import {
   StorageFileLoggingAllowedQueryParameters,
   SDK_VERSION,
 } from "./utils/constants.js";
-import {
-  getCachedDefaultHttpClient,
-  storageRequestFailureDetailsParserPolicy,
-} from "@azure/storage-common";
-import { storageBrowserPolicy } from "@azure/storage-blob";
-import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2.js";
-import { storageSharedKeyCredentialPolicy } from "@azure/storage-blob";
-import { StorageBrowserPolicyFactory } from "@azure/storage-blob";
 import type { ShareTokenIntent } from "./generatedModels.js";
 
 // Export following interfaces and types for customers who want to implement their

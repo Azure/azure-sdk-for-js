@@ -1096,6 +1096,7 @@ export interface BlobSASSignatureValues {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    delegatedUserObjectId?: string;
     encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
@@ -1651,6 +1652,7 @@ export interface CommonGenerateSasUrlOptions {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    delegatedUserObjectId?: string;
     encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
@@ -1953,6 +1955,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     includeUncommitedBlobs?: boolean;
     includeVersions?: boolean;
     prefix?: string;
+    startFrom?: string;
 }
 
 // @public
@@ -2884,7 +2887,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
@@ -2892,6 +2895,7 @@ export class SASQueryParameters {
     readonly contentLanguage?: string;
     readonly contentType?: string;
     readonly correlationId?: string;
+    readonly delegatedUserObjectId?: string;
     readonly encryptionScope?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
@@ -2916,6 +2920,7 @@ export interface SASQueryParametersOptions {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    delegatedUserObjectId?: string;
     encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
