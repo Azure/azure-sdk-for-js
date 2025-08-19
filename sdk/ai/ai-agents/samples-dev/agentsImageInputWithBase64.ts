@@ -6,7 +6,7 @@
  *
  */
 
-import { AgentsClient } from "@azure/ai-agents";
+import { AgentsClient, type MessageInputContent } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
 
@@ -61,9 +61,9 @@ export async function main(): Promise<void> {
   // Create a message with both text and image content
   console.log("Creating message with image content...");
   const inputMessage = "Hello, what is in the image?";
-  const content = [
+  const content: MessageInputContent = [
     {
-      type: "text" as const,
+      type: "text",
       text: inputMessage,
     },
     {

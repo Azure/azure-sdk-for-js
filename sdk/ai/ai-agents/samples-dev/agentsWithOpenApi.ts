@@ -8,7 +8,7 @@
  *
  */
 
-import type { MessageTextContent } from "@azure/ai-agents";
+import type { MessageTextContent, OpenApiFunctionDefinition } from "@azure/ai-agents";
 import { AgentsClient, isOutputOfType, ToolUtility } from "@azure/ai-agents";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as fs from "fs";
@@ -26,14 +26,14 @@ export async function main(): Promise<void> {
   const openApiSpec = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
   // Define OpenApi function
-  const openApiFunction = {
+  const openApiFunction: OpenApiFunctionDefinition = {
     name: "getWeather",
     spec: openApiSpec,
     description: "Retrieve weather information for a location",
     auth: {
-      type: "anonymous" as const,
+      type: "anonymous",
     },
-    default_params: ["format"], // optional
+    defaultParams: ["format"], // optional
   };
 
   // Create OpenApi tool

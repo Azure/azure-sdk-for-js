@@ -2,10 +2,22 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "stream",
   "daemon": false,
+  "remoteCache": {
+    "enabled": true
+  },
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", "review/*", "temp/*", "dist-esm/**", "dist-test/**", "types/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        "review/*",
+        "temp/*",
+        "dist-esm/**",
+        "dist-test/**",
+        "types/**"
+      ]
     },
     "build:samples": {
       "cache": false
@@ -26,20 +38,30 @@
       "cache": false
     },
     "pack": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "cache": false
     },
     "typecheck": {
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build"
+      ]
     },
     "test": {
-      "dependsOn": ["build"]
+      "dependsOn": [
+        "build"
+      ]
     },
     "test:browser": {
-      "dependsOn": ["build"]
+      "dependsOn": [
+        "build"
+      ]
     },
     "test:node": {
-      "dependsOn": ["build"]
+      "dependsOn": [
+        "build"
+      ]
     },
     "update-snippets": {
       "cache": false
