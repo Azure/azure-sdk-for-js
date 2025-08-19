@@ -246,8 +246,8 @@ describe("CustomerSDKStatsMetrics", () => {
       const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      // Should default to "unknown_exception"
-      expect(reasonMap.get("unknown_exception")).toBe(2);
+      // Should default to "Unknown exception"
+      expect(reasonMap.get("Unknown exception")).toBe(2);
     });
 
     it("should not store retry.reason for non-CLIENT_EXCEPTION retry codes", () => {
@@ -255,7 +255,7 @@ describe("CustomerSDKStatsMetrics", () => {
 
       customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(4, TelemetryType.TRACE),
-        RetryCode.RETRYABLE_STATUS_CODE,
+        502, // Bad Gateway - a retryable status code
         exceptionMessage,
       );
 
@@ -266,11 +266,11 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(retryCodeMap).toBeDefined();
       expect(retryCodeMap.size).toBe(1);
 
-      const reasonMap = retryCodeMap.get(RetryCode.RETRYABLE_STATUS_CODE);
+      const reasonMap = retryCodeMap.get(502);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      // Should be categorized as "retryable_status"
-      expect(reasonMap.get("retryable_status")).toBe(4);
+      // Should be categorized as "Bad gateway" based on the status code
+      expect(reasonMap.get("Bad gateway")).toBe(4);
     });
 
     it("should aggregate counts for same retry code and retry reason", () => {
@@ -351,7 +351,7 @@ describe("CustomerSDKStatsMetrics", () => {
       );
       customerSDKStatsMetrics.countRetryItems(
         createMockEnvelopes(1, TelemetryType.TRACE),
-        RetryCode.RETRYABLE_STATUS_CODE,
+        502,
       );
 
       const mockObservableResult = {
@@ -375,10 +375,10 @@ describe("CustomerSDKStatsMetrics", () => {
 
       // Check that retry.reason is included for other codes too (now)
       const retryableCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2]["retry.code"] === RetryCode.RETRYABLE_STATUS_CODE,
+        (call: any) => call[2]["retry.code"] === 502,
       );
       expect(retryableCall).toBeDefined();
-      expect(retryableCall![2]).toHaveProperty("retry.reason", "retryable_status");
+      expect(retryableCall![2]).toHaveProperty("retry.reason", "Bad gateway");
     });
 
     it("should reset counts to zero after observation", () => {
