@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Lists IKE Security Associations for the virtual network gateway connection in the specified resource group.
  *
