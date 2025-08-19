@@ -25,7 +25,7 @@ On linux, the dependency library uses `libsecret` so you may need to install it.
 
 - Debian/Ubuntu: `sudo apt-get install libsecret-1-dev`
 - Red Hat-based: `sudo yum install libsecret-devel`
-- Arch Linux: sudo `pacman -S libsecret`
+- Arch Linux: `sudo pacman -S libsecret`
 
 ### Install the package
 
