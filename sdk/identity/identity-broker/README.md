@@ -19,7 +19,7 @@ useIdentityPlugin(nativeBrokerPlugin);
 
 - An [Azure subscription](https://azure.microsoft.com/free/nodejs/).
 
-> Note: If you are planning to do local development with `@azure/identity-broker` you may need to install some additional tools. [node-gyp](https://github.com/nodejs/node-gyp) is used to compile [addons](https://nodejs.org/api/addons.html) for accessing system APIs. Installation requirements are listed on the [node-gyp README](https://github.com/nodejs/node-gyp#installation)
+> Note: For local development with `@azure/identity-broker`, you may need to install additional tools. [node-gyp](https://github.com/nodejs/node-gyp) is used to compile [addons](https://nodejs.org/api/addons.html) for accessing system APIs. Installation requirements are listed in the [node-gyp README](https://github.com/nodejs/node-gyp#installation).
 
 On linux, the dependency library uses `libsecret` so you may need to install it. Depending on your distribution, you will need to run the following command:
 
