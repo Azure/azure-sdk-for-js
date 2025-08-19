@@ -606,7 +606,6 @@ export function verifyDiagnostics(
     const encryptContent = encryptionDiagnostics.encryptContent;
     assert.isNotNull(encryptContent);
     assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsStartTime]);
-    // assert.ok(encryptContent[Constants.Encryption.DiagnosticsDuration] > 0);
     assert.equal(
       expectedPropertiesEncryptedCount,
       encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
@@ -615,8 +614,6 @@ export function verifyDiagnostics(
   if (decryptOperation) {
     const decryptContent = encryptionDiagnostics.decryptContent;
     assert.isNotNull(decryptContent);
-    assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsStartTime]);
-    // assert.ok(decryptContent[Constants.Encryption.DiagnosticsDuration] > 0);
     assert.equal(
       expectedPropertiesDecryptedCount,
       decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],

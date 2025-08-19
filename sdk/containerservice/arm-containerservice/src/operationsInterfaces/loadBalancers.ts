@@ -74,10 +74,7 @@ export interface LoadBalancers {
     loadBalancerName: string,
     options?: LoadBalancersDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<LoadBalancersDeleteResponse>,
-      LoadBalancersDeleteResponse
-    >
+    SimplePollerLike<OperationState<LoadBalancersDeleteResponse>, LoadBalancersDeleteResponse>
   >;
   /**
    * Deletes a load balancer in the specified managed cluster.

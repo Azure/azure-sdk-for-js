@@ -36,7 +36,7 @@ async function sendTokenToClientDevices(_token: string): Promise<void> {
 
 async function waitForLivenessSessionComplete(): Promise<void> {
   console.log(
-    "Please refer to https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness and use the mobile client SDK to perform liveness detection on your mobile application.",
+    "Please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/tutorials/liveness and use the mobile client SDK to perform liveness detection on your mobile application.",
   );
   console.log(
     "Press any key to continue when you complete these steps to run sample to get session results...",
@@ -45,8 +45,8 @@ async function waitForLivenessSessionComplete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  // This sample follows the documentation: https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness
-  // We will follow the steps in https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness#perform-liveness-detection-with-face-verification to demo the sample code in app server.
+  // This sample follows the documentation: https://learn.microsoft.com/azure/ai-services/computer-vision/tutorials/liveness
+  // We will follow the steps in https://learn.microsoft.com/azure/ai-services/computer-vision/tutorials/liveness#perform-liveness-detection-with-face-verification to demo the sample code in app server.
 
   const endpoint = process.env["FACE_ENDPOINT"] ?? "<endpoint>";
   const apikey = process.env["FACE_APIKEY"] ?? "<apikey>";

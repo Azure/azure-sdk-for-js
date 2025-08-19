@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { NodeTracerProvider, SpanProcessor } from "@opentelemetry/sdk-trace-node";
 
-export const tracerProvider = new NodeTracerProvider();
+// Use NodeTracerProvider in Node.js environments.
+export function createTracerProvider(spanProcessors: SpanProcessor[]): NodeTracerProvider {
+  return new NodeTracerProvider({
+    spanProcessors: spanProcessors,
+  });
+}

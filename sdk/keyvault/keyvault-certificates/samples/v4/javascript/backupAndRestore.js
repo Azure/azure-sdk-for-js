@@ -5,13 +5,10 @@
  * @summary Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.
  */
 
-// Load the .env file if it exists
-const dotenv = require("dotenv");
-
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
-
-dotenv.config();
+// Load the .env file if it exists
+require("dotenv/config");
 
 function delay(t, value) {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));

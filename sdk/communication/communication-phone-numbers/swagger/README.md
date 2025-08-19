@@ -7,11 +7,11 @@
 ```yaml
 package-name: "@azure/communication-phone-numbers"
 description: Phone number configuration client
-package-version: 1.3.1
+package-version: 1.4.0
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-phonenumber-2025-02-11
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/a3d9c16f14fbfa814d6315a4972517cec77c6bfb/specification/communication/data-plane/PhoneNumbers/readme.md
+tag: package-phonenumber-2025-04-01
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/de9cb12d2840ca0915849ce6a3bf8c956a32c022/specification/communication/data-plane/PhoneNumbers/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
@@ -32,6 +32,12 @@ module-kind: esm
 ```
 
 ## Customizations
+
+### Set remove-empty-child-schemas
+```yaml
+modelerfour:
+    remove-empty-child-schemas: true
+```
 
 ### Disable extensible enums
 
@@ -78,4 +84,75 @@ directive:
   where: $.parameters.Endpoint
   transform: >
     $["format"] = "";
+```
+
+### Remove readonly attributes from AvailablePhoneNumber properties
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AvailablePhoneNumber
+    transform: >
+      $["properties"]["cost"].readOnly = false;
+      $["properties"]["id"].readOnly = false;
+      $["properties"]["isAgreementToNotResellRequired"].readOnly = false;
+      $["properties"]["phoneNumber"].readOnly = false;
+      $["properties"]["status"].readOnly = false;
+      $["properties"]["error"].readOnly = false;
+```
+### Remove readonly attributes from AvailablePhoneNumberError properties
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AvailablePhoneNumberError
+    transform: >
+      $["readOnly"] = false;
+      $["properties"]["code"].readOnly = false;
+      $["properties"]["message"].readOnly = false;
+```
+
+### Mark attributes from AvailablePhoneNumberError as required
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AvailablePhoneNumberError
+    transform: >
+      if (!$.required) {
+        $.required = [];
+      }
+      if (!$.required.includes("code")) {
+        $.required.push("code");
+      }
+      if (!$.required.includes("message")) {
+        $.required.push("message");
+      }
+```
+
+### Remove readonly attributes from PhoneNumbersReservation properties
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.PhoneNumbersReservation
+    transform: >
+      $["properties"]["expiresAt"].readOnly = false;
+      $["properties"]["id"].readOnly = false;
+      $["properties"]["status"].readOnly = false;
+```
+
+### Rename AvailablePhoneNumberStatus to PhoneNumberAvailabilityStatus
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.AvailablePhoneNumber.properties.status.x-ms-enum
+  transform: >
+    $["name"] = "PhoneNumberAvailabilityStatus";
+```
+
+### Replace type from AvailablePhoneNumberError to CommunicationError
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AvailablePhoneNumber.properties.error
+    transform: >
+      $.type = "object";
+      $.$ref = "../../../Common/stable/2021-03-07/common.json#/definitions/CommunicationError";
 ```

@@ -7,7 +7,6 @@ import type { KeyVaultBackupClient } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { testPollerProperties } from "./utils/recorder.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
-import { AbortError } from "@azure/abort-controller";
 import { getEnvironmentVariable } from "./utils/common.js";
 
 describe("Aborting KeyVaultBackupClient's requests", () => {
@@ -42,7 +41,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(AbortError);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
   it("can abort beginRestore", async () => {
@@ -55,7 +54,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(AbortError);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 
   it("can abort beginSelectiveKeyRestore", async () => {
@@ -69,6 +68,6 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
-    ).rejects.toThrow(AbortError);
+    ).rejects.toThrow(expect.objectContaining({ name: "AbortError" }));
   });
 });

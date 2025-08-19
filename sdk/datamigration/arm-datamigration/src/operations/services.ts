@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataMigrationManagementClient } from "../dataMigrationManagementClient.js";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   AvailableServiceSku,
   ServicesListSkusNextOptionalParams,
@@ -45,7 +49,7 @@ import {
   ServicesCheckNameAvailabilityResponse,
   ServicesListSkusNextResponse,
   ServicesListByResourceGroupNextResponse,
-  ServicesListNextResponse
+  ServicesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,8 +66,8 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * skus action returns the list of SKUs that a service resource can be updated to.
+   * The services resource is the top-level resource that represents the Database Migration Service
+   * (classic). The skus action returns the list of SKUs that a service resource can be updated to.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -71,7 +75,7 @@ export class ServicesImpl implements Services {
   public listSkus(
     groupName: string,
     serviceName: string,
-    options?: ServicesListSkusOptionalParams
+    options?: ServicesListSkusOptionalParams,
   ): PagedAsyncIterableIterator<AvailableServiceSku> {
     const iter = this.listSkusPagingAll(groupName, serviceName, options);
     return {
@@ -89,9 +93,9 @@ export class ServicesImpl implements Services {
           groupName,
           serviceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -99,7 +103,7 @@ export class ServicesImpl implements Services {
     groupName: string,
     serviceName: string,
     options?: ServicesListSkusOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailableServiceSku[]> {
     let result: ServicesListSkusResponse;
     let continuationToken = settings?.continuationToken;
@@ -115,7 +119,7 @@ export class ServicesImpl implements Services {
         groupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,26 +131,26 @@ export class ServicesImpl implements Services {
   private async *listSkusPagingAll(
     groupName: string,
     serviceName: string,
-    options?: ServicesListSkusOptionalParams
+    options?: ServicesListSkusOptionalParams,
   ): AsyncIterableIterator<AvailableServiceSku> {
     for await (const page of this.listSkusPagingPage(
       groupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * The Services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of service resources in a resource group.
+   * The Services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of service resources in a resource group.
    * @param groupName Name of the resource group
    * @param options The options parameters.
    */
   public listByResourceGroup(
     groupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DataMigrationService> {
     const iter = this.listByResourceGroupPagingAll(groupName, options);
     return {
@@ -161,14 +165,14 @@ export class ServicesImpl implements Services {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByResourceGroupPagingPage(groupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     groupName: string,
     options?: ServicesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataMigrationService[]> {
     let result: ServicesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -183,7 +187,7 @@ export class ServicesImpl implements Services {
       result = await this._listByResourceGroupNext(
         groupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -194,23 +198,23 @@ export class ServicesImpl implements Services {
 
   private async *listByResourceGroupPagingAll(
     groupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DataMigrationService> {
     for await (const page of this.listByResourceGroupPagingPage(
       groupName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of service resources in a subscription.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of service resources in a subscription.
    * @param options The options parameters.
    */
   public list(
-    options?: ServicesListOptionalParams
+    options?: ServicesListOptionalParams,
   ): PagedAsyncIterableIterator<DataMigrationService> {
     const iter = this.listPagingAll(options);
     return {
@@ -225,13 +229,13 @@ export class ServicesImpl implements Services {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ServicesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataMigrationService[]> {
     let result: ServicesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -252,7 +256,7 @@ export class ServicesImpl implements Services {
   }
 
   private async *listPagingAll(
-    options?: ServicesListOptionalParams
+    options?: ServicesListOptionalParams,
   ): AsyncIterableIterator<DataMigrationService> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -260,13 +264,13 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * PUT method creates a new service or updates an existing one. When a service is updated, existing
-   * child resources (i.e. tasks) are unaffected. Services currently support a single kind, "vm", which
-   * refers to a VM-based service, although other kinds may be added in the future. This method can
-   * change the kind, SKU, and network of the service, but if tasks are currently running (i.e. the
-   * service is busy), this will fail with 400 Bad Request ("ServiceIsBusy"). The provider will reply
-   * when successful with 200 OK or 201 Created. Long-running operations use the provisioningState
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The PUT method creates a new service or updates an existing one. When a service is
+   * updated, existing child resources (i.e. tasks) are unaffected. Services currently support a single
+   * kind, "vm", which refers to a VM-based service, although other kinds may be added in the future.
+   * This method can change the kind, SKU, and network of the service, but if tasks are currently running
+   * (i.e. the service is busy), this will fail with 400 Bad Request ("ServiceIsBusy"). The provider will
+   * reply when successful with 200 OK or 201 Created. Long-running operations use the provisioningState
    * property.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -277,30 +281,29 @@ export class ServicesImpl implements Services {
     groupName: string,
     serviceName: string,
     parameters: DataMigrationService,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesCreateOrUpdateResponse>,
       ServicesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -309,8 +312,8 @@ export class ServicesImpl implements Services {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -318,32 +321,35 @@ export class ServicesImpl implements Services {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupName, serviceName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { groupName, serviceName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ServicesCreateOrUpdateResponse,
+      OperationState<ServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * PUT method creates a new service or updates an existing one. When a service is updated, existing
-   * child resources (i.e. tasks) are unaffected. Services currently support a single kind, "vm", which
-   * refers to a VM-based service, although other kinds may be added in the future. This method can
-   * change the kind, SKU, and network of the service, but if tasks are currently running (i.e. the
-   * service is busy), this will fail with 400 Bad Request ("ServiceIsBusy"). The provider will reply
-   * when successful with 200 OK or 201 Created. Long-running operations use the provisioningState
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The PUT method creates a new service or updates an existing one. When a service is
+   * updated, existing child resources (i.e. tasks) are unaffected. Services currently support a single
+   * kind, "vm", which refers to a VM-based service, although other kinds may be added in the future.
+   * This method can change the kind, SKU, and network of the service, but if tasks are currently running
+   * (i.e. the service is busy), this will fail with 400 Bad Request ("ServiceIsBusy"). The provider will
+   * reply when successful with 200 OK or 201 Created. Long-running operations use the provisioningState
    * property.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
@@ -354,20 +360,20 @@ export class ServicesImpl implements Services {
     groupName: string,
     serviceName: string,
     parameters: DataMigrationService,
-    options?: ServicesCreateOrUpdateOptionalParams
+    options?: ServicesCreateOrUpdateOptionalParams,
   ): Promise<ServicesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       groupName,
       serviceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * GET method retrieves information about a service instance.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The GET method retrieves information about a service instance.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -375,17 +381,17 @@ export class ServicesImpl implements Services {
   get(
     groupName: string,
     serviceName: string,
-    options?: ServicesGetOptionalParams
+    options?: ServicesGetOptionalParams,
   ): Promise<ServicesGetResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * DELETE method deletes a service. Any running tasks will be canceled.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The DELETE method deletes a service. Any running tasks will be canceled.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -393,25 +399,24 @@ export class ServicesImpl implements Services {
   async beginDelete(
     groupName: string,
     serviceName: string,
-    options?: ServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ServicesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -420,8 +425,8 @@ export class ServicesImpl implements Services {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -429,27 +434,27 @@ export class ServicesImpl implements Services {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupName, serviceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { groupName, serviceName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * DELETE method deletes a service. Any running tasks will be canceled.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The DELETE method deletes a service. Any running tasks will be canceled.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -457,17 +462,17 @@ export class ServicesImpl implements Services {
   async beginDeleteAndWait(
     groupName: string,
     serviceName: string,
-    options?: ServicesDeleteOptionalParams
+    options?: ServicesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(groupName, serviceName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * PATCH method updates an existing service. This method can change the kind, SKU, and network of the
-   * service, but if tasks are currently running (i.e. the service is busy), this will fail with 400 Bad
-   * Request ("ServiceIsBusy").
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The PATCH method updates an existing service. This method can change the kind, SKU, and
+   * network of the service, but if tasks are currently running (i.e. the service is busy), this will
+   * fail with 400 Bad Request ("ServiceIsBusy").
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param parameters Information about the service
@@ -477,30 +482,29 @@ export class ServicesImpl implements Services {
     groupName: string,
     serviceName: string,
     parameters: DataMigrationService,
-    options?: ServicesUpdateOptionalParams
+    options?: ServicesUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesUpdateResponse>,
       ServicesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServicesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -509,8 +513,8 @@ export class ServicesImpl implements Services {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -518,29 +522,32 @@ export class ServicesImpl implements Services {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupName, serviceName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { groupName, serviceName, parameters, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ServicesUpdateResponse,
+      OperationState<ServicesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * PATCH method updates an existing service. This method can change the kind, SKU, and network of the
-   * service, but if tasks are currently running (i.e. the service is busy), this will fail with 400 Bad
-   * Request ("ServiceIsBusy").
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). The PATCH method updates an existing service. This method can change the kind, SKU, and
+   * network of the service, but if tasks are currently running (i.e. the service is busy), this will
+   * fail with 400 Bad Request ("ServiceIsBusy").
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param parameters Information about the service
@@ -550,20 +557,21 @@ export class ServicesImpl implements Services {
     groupName: string,
     serviceName: string,
     parameters: DataMigrationService,
-    options?: ServicesUpdateOptionalParams
+    options?: ServicesUpdateOptionalParams,
   ): Promise<ServicesUpdateResponse> {
     const poller = await this.beginUpdate(
       groupName,
       serviceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * action performs a health check and returns the status of the service and virtual machine size.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This action performs a health check and returns the status of the service and virtual
+   * machine size.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -571,17 +579,17 @@ export class ServicesImpl implements Services {
   checkStatus(
     groupName: string,
     serviceName: string,
-    options?: ServicesCheckStatusOptionalParams
+    options?: ServicesCheckStatusOptionalParams,
   ): Promise<ServicesCheckStatusResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, options },
-      checkStatusOperationSpec
+      checkStatusOperationSpec,
     );
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * action starts the service and the service can be used for data migration.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This action starts the service and the service can be used for data migration.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -589,25 +597,24 @@ export class ServicesImpl implements Services {
   async beginStart(
     groupName: string,
     serviceName: string,
-    options?: ServicesStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ServicesStartOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -616,8 +623,8 @@ export class ServicesImpl implements Services {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -625,27 +632,27 @@ export class ServicesImpl implements Services {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupName, serviceName, options },
-      startOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { groupName, serviceName, options },
+      spec: startOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * action starts the service and the service can be used for data migration.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This action starts the service and the service can be used for data migration.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -653,16 +660,16 @@ export class ServicesImpl implements Services {
   async beginStartAndWait(
     groupName: string,
     serviceName: string,
-    options?: ServicesStartOptionalParams
+    options?: ServicesStartOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStart(groupName, serviceName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * action stops the service and the service cannot be used for data migration. The service owner won't
-   * be billed when the service is stopped.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This action stops the service and the service cannot be used for data migration. The
+   * service owner won't be billed when the service is stopped.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -670,25 +677,24 @@ export class ServicesImpl implements Services {
   async beginStop(
     groupName: string,
     serviceName: string,
-    options?: ServicesStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: ServicesStopOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -697,8 +703,8 @@ export class ServicesImpl implements Services {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -706,28 +712,28 @@ export class ServicesImpl implements Services {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { groupName, serviceName, options },
-      stopOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { groupName, serviceName, options },
+      spec: stopOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * action stops the service and the service cannot be used for data migration. The service owner won't
-   * be billed when the service is stopped.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This action stops the service and the service cannot be used for data migration. The
+   * service owner won't be billed when the service is stopped.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -735,15 +741,15 @@ export class ServicesImpl implements Services {
   async beginStopAndWait(
     groupName: string,
     serviceName: string,
-    options?: ServicesStopOptionalParams
+    options?: ServicesStopOptionalParams,
   ): Promise<void> {
     const poller = await this.beginStop(groupName, serviceName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. The
-   * skus action returns the list of SKUs that a service resource can be updated to.
+   * The services resource is the top-level resource that represents the Database Migration Service
+   * (classic). The skus action returns the list of SKUs that a service resource can be updated to.
    * @param groupName Name of the resource group
    * @param serviceName Name of the service
    * @param options The options parameters.
@@ -751,11 +757,11 @@ export class ServicesImpl implements Services {
   private _listSkus(
     groupName: string,
     serviceName: string,
-    options?: ServicesListSkusOptionalParams
+    options?: ServicesListSkusOptionalParams,
   ): Promise<ServicesListSkusResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, options },
-      listSkusOperationSpec
+      listSkusOperationSpec,
     );
   }
 
@@ -770,37 +776,37 @@ export class ServicesImpl implements Services {
     groupName: string,
     serviceName: string,
     parameters: NameAvailabilityRequest,
-    options?: ServicesCheckChildrenNameAvailabilityOptionalParams
+    options?: ServicesCheckChildrenNameAvailabilityOptionalParams,
   ): Promise<ServicesCheckChildrenNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, parameters, options },
-      checkChildrenNameAvailabilityOperationSpec
+      checkChildrenNameAvailabilityOperationSpec,
     );
   }
 
   /**
-   * The Services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of service resources in a resource group.
+   * The Services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of service resources in a resource group.
    * @param groupName Name of the resource group
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     groupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
+    options?: ServicesListByResourceGroupOptionalParams,
   ): Promise<ServicesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { groupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
-   * The services resource is the top-level resource that represents the Database Migration Service. This
-   * method returns a list of service resources in a subscription.
+   * The services resource is the top-level resource that represents the Azure Database Migration Service
+   * (classic). This method returns a list of service resources in a subscription.
    * @param options The options parameters.
    */
   private _list(
-    options?: ServicesListOptionalParams
+    options?: ServicesListOptionalParams,
   ): Promise<ServicesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -814,11 +820,11 @@ export class ServicesImpl implements Services {
   checkNameAvailability(
     location: string,
     parameters: NameAvailabilityRequest,
-    options?: ServicesCheckNameAvailabilityOptionalParams
+    options?: ServicesCheckNameAvailabilityOptionalParams,
   ): Promise<ServicesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, parameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -833,11 +839,11 @@ export class ServicesImpl implements Services {
     groupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ServicesListSkusNextOptionalParams
+    options?: ServicesListSkusNextOptionalParams,
   ): Promise<ServicesListSkusNextResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, nextLink, options },
-      listSkusNextOperationSpec
+      listSkusNextOperationSpec,
     );
   }
 
@@ -850,11 +856,11 @@ export class ServicesImpl implements Services {
   private _listByResourceGroupNext(
     groupName: string,
     nextLink: string,
-    options?: ServicesListByResourceGroupNextOptionalParams
+    options?: ServicesListByResourceGroupNextOptionalParams,
   ): Promise<ServicesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { groupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -865,11 +871,11 @@ export class ServicesImpl implements Services {
    */
   private _listNext(
     nextLink: string,
-    options?: ServicesListNextOptionalParams
+    options?: ServicesListNextOptionalParams,
   ): Promise<ServicesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -877,63 +883,60 @@ export class ServicesImpl implements Services {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMigrationService
+      bodyMapper: Mappers.DataMigrationService,
     },
     201: {
-      bodyMapper: Mappers.DataMigrationService
+      bodyMapper: Mappers.DataMigrationService,
     },
     202: {
-      bodyMapper: Mappers.DataMigrationService
+      bodyMapper: Mappers.DataMigrationService,
     },
     204: {
-      bodyMapper: Mappers.DataMigrationService
+      bodyMapper: Mappers.DataMigrationService,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMigrationService
+      bodyMapper: Mappers.DataMigrationService,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -941,77 +944,74 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.deleteRunningTasks],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMigrationService
+      bodyMapper: Mappers.DataMigrationService,
     },
     201: {
-      bodyMapper: Mappers.DataMigrationService
+      bodyMapper: Mappers.DataMigrationService,
     },
     202: {
-      bodyMapper: Mappers.DataMigrationService
+      bodyMapper: Mappers.DataMigrationService,
     },
     204: {
-      bodyMapper: Mappers.DataMigrationService
+      bodyMapper: Mappers.DataMigrationService,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const checkStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/checkStatus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/checkStatus",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMigrationServiceStatusResponse
+      bodyMapper: Mappers.DataMigrationServiceStatusResponse,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/start",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/start",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1019,22 +1019,21 @@ const startOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/stop",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/stop",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1042,186 +1041,178 @@ const stopOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/skus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceSkuList
+      bodyMapper: Mappers.ServiceSkuList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkChildrenNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailabilityResponse
+      bodyMapper: Mappers.NameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMigrationServiceList
+      bodyMapper: Mappers.DataMigrationServiceList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.groupName
+    Parameters.groupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/services",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/services",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMigrationServiceList
+      bodyMapper: Mappers.DataMigrationServiceList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailabilityResponse
+      bodyMapper: Mappers.NameAvailabilityResponse,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listSkusNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceSkuList
+      bodyMapper: Mappers.ServiceSkuList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMigrationServiceList
+      bodyMapper: Mappers.DataMigrationServiceList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.groupName
+    Parameters.groupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataMigrationServiceList
+      bodyMapper: Mappers.DataMigrationServiceList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

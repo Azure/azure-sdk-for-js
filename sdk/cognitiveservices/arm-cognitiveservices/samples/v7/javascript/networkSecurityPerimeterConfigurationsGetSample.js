@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the specified NSP configurations for an account.
  *
  * @summary Gets the specified NSP configurations for an account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetNetworkSecurityPerimeterConfigurations.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetNetworkSecurityPerimeterConfigurations.json
  */
 async function getNetworkSecurityPerimeterConfigurations() {
   const subscriptionId =
@@ -35,7 +33,7 @@ async function getNetworkSecurityPerimeterConfigurations() {
 }
 
 async function main() {
-  getNetworkSecurityPerimeterConfigurations();
+  await getNetworkSecurityPerimeterConfigurations();
 }
 
 main().catch(console.error);

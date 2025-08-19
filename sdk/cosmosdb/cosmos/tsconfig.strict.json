@@ -9,6 +9,7 @@
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.(ts|json)"],
   // ADDITION TO THIS LIST IS NOT ALLOWED
   "exclude": [
+    "src/bulk/*.ts",
     "src/documents/DatabaseAccount.ts",
     "src/documents/IndexingPolicy.ts",
     "src/plugins/Plugin.ts",
@@ -90,6 +91,7 @@
     "src/request/SharedOptions.ts",
     "src/retry/defaultRetryPolicy.ts",
     "src/retry/endpointDiscoveryRetryPolicy.ts",
+    "src/retry/bulkExecutionRetryPolicy.ts",
     "src/retry/resourceThrottleRetryPolicy.ts",
     "src/retry/RetryPolicy.ts",
     "src/retry/retryUtility.ts",
@@ -171,6 +173,9 @@
     "test/internal/unit/hybridExecutionContext.spec.ts",
     "test/internal/unit/sessionContainer.spec.ts",
     "test/internal/unit/changeFeed/*.spec.ts",
+    "test/internal/unit/CongestionAlgorithm.spec.ts",
+    "test/internal/unit/bulkStreamerPerPartition.spec.ts",
+    "test/internal/unit/bulkExecutionRetryPolicy.spec.ts",
     "test/public/common/MockQueryIterator.ts",
     "test/public/common/MockClientContext.ts",
     "test/internal/unit/smartRoutingMapProvider.spec.ts",
@@ -199,6 +204,7 @@
     "test/public/functional/globalEndpointManager.spec.ts",
     "test/public/functional/item/item.spec.ts",
     "test/public/functional/item/bulk.item.spec.ts",
+    "test/public/functional/item/bulkStreamer.item.spec.ts",
     "test/public/functional/item/batch.item.spec.ts",
     "test/public/functional/item/itemIdEncoding.spec.ts",
     "test/public/functional/endpointComponent/NonStreamingOrderByEndpointComponent.spec.ts",

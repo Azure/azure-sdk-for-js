@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// dev-tool snippets ignore
 import { multicoreUtils } from "./multicore.js";
 import {
   PerfOptionDictionary,

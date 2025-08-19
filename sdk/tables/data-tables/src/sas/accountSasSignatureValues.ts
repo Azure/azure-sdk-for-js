@@ -83,7 +83,7 @@ export interface AccountSasSignatureValues {
  * Generates a {@link SasQueryParameters} object which contains all SAS query parameters needed to make an actual
  * REST request.
  *
- * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+ * @see https://learn.microsoft.com/rest/api/storageservices/constructing-an-account-sas
  *
  * @param accountSasSignatureValues -
  * @param sharedKeyCredential -

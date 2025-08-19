@@ -29,18 +29,23 @@ import type {
   BulkOptions,
   BulkOperationResponse,
   Operation,
+  BulkOperationResult,
 } from "../../utils/batch.js";
 import {
   isKeyInRange,
   prepareOperations,
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
-  BulkOperationType,
+  encryptOperationInput,
 } from "../../utils/batch.js";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks.js";
 import { hashPartitionKey } from "../../utils/hashing/hash.js";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing/index.js";
-import type { PartitionKey, PartitionKeyDefinition } from "../../documents/index.js";
+import type {
+  PartitionKey,
+  PartitionKeyDefinition,
+  PartitionKeyInternal,
+} from "../../documents/index.js";
 import { convertToInternalPartitionKey } from "../../documents/index.js";
 import type {
   ChangeFeedPullModelIterator,
@@ -52,10 +57,10 @@ import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal.js"
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
-  addDignosticChild,
+  addDiagnosticChild,
 } from "../../utils/diagnostics.js";
 import { randomUUID } from "@azure/core-util";
-import { readPartitionKeyDefinition } from "../ClientUtils.js";
+import { computePartitionKeyRangeId, readPartitionKeyDefinition } from "../ClientUtils.js";
 import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder.js";
 import type { EncryptionQueryBuilder } from "../../encryption/index.js";
 import type { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder.js";
@@ -63,6 +68,7 @@ import type { Resource } from "../Resource.js";
 import { TypeMarker } from "../../encryption/enums/TypeMarker.js";
 import { EncryptionItemQueryIterator } from "../../encryption/EncryptionItemQueryIterator.js";
 import { ErrorResponse } from "../../request/index.js";
+import { BulkHelper } from "../../bulk/BulkHelper.js";
 
 /**
  * @hidden
@@ -87,7 +93,7 @@ export class Items {
     public readonly container: Container,
     private readonly clientContext: ClientContext,
   ) {
-    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
+    this.partitionKeyRangeCache = this.clientContext.partitionKeyRangeCache;
   }
 
   /**
@@ -149,6 +155,19 @@ export class Items {
       innerOptions: FeedOptions,
       correlatedActivityId: string,
     ) => {
+      let internalPartitionKey: PartitionKeyInternal | undefined;
+      if (options.partitionKey) {
+        internalPartitionKey = convertToInternalPartitionKey(options.partitionKey);
+      }
+      const isPartitionLevelFailOverEnabled = this.clientContext.isPartitionLevelFailOverEnabled();
+      const partitionKeyRangeId = await computePartitionKeyRangeId(
+        diagnosticNode,
+        internalPartitionKey,
+        this.partitionKeyRangeCache,
+        isPartitionLevelFailOverEnabled,
+        this.container,
+      );
+
       const response = await this.clientContext.queryFeed({
         path,
         resourceType: ResourceType.item,
@@ -159,6 +178,7 @@ export class Items {
         partitionKey: options.partitionKey,
         diagnosticNode,
         correlatedActivityId: correlatedActivityId,
+        partitionKeyRangeId,
       });
       return response;
     };
@@ -213,6 +233,16 @@ export class Items {
   ): Promise<QueryIterator<ItemDefinition>> {
     const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
     const sqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
+    if (this.clientContext.enableEncryption && options.partitionKey) {
+      await this.container.checkAndInitializeEncryption();
+      const { partitionKeyList, encryptedCount } =
+        await this.container.encryptionProcessor.getEncryptedPartitionKeyValue([
+          options.partitionKey,
+        ] as PartitionKeyInternal);
+      if (encryptedCount > 0) {
+        options.partitionKey = partitionKeyList[0];
+      }
+    }
     const iterator = this.query<ItemDefinition>(sqlQuerySpec, options);
     return iterator;
   }
@@ -520,6 +550,18 @@ export class Items {
         }
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
+
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+          partitionKeyDefinition,
+        );
+
         response = await this.clientContext.create<T>({
           body,
           path,
@@ -528,6 +570,7 @@ export class Items {
           diagnosticNode,
           options,
           partitionKey,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -674,6 +717,18 @@ export class Items {
 
         const path = getPathFromLink(this.container.url, ResourceType.item);
         const id = getIdFromLink(this.container.url);
+
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+          partitionKeyDefinition,
+        );
+
         response = await this.clientContext.upsert<T>({
           body,
           path,
@@ -682,6 +737,7 @@ export class Items {
           options,
           partitionKey,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
@@ -731,6 +787,53 @@ export class Items {
 
   /**
    * Execute bulk operations on items.
+   * @param operations - List of operations
+   * @param options - used for modifying the request
+   * @returns list of operation results corresponding to the operations
+   *
+   * @example
+   * ```ts snippet:ItemsExecuteBulkOperations
+   * import { CosmosClient, OperationInput } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+   *
+   * const operations: OperationInput[] = [
+   *   {
+   *     operationType: "Create",
+   *     resourceBody: { id: "doc1", name: "sample", key: "A" },
+   *   },
+   *   {
+   *     operationType: "Upsert",
+   *     partitionKey: "A",
+   *     resourceBody: { id: "doc2", name: "other", key: "A" },
+   *   },
+   * ];
+   *
+   * await container.items.executeBulkOperations(operations);
+   * ```
+   */
+  public async executeBulkOperations(
+    operations: OperationInput[],
+    options: RequestOptions = {},
+  ): Promise<BulkOperationResult[]> {
+    const bulkHelper = new BulkHelper(
+      this.container,
+      this.clientContext,
+      this.partitionKeyRangeCache,
+      options,
+    );
+    return bulkHelper.execute(operations);
+  }
+
+  /**
+   * Execute bulk operations on items.
+   * @deprecated Use `executeBulkOperations` instead.
    *
    * Bulk takes an array of Operations which are typed based on what the operation does.
    * The choices are: Create, Upsert, Read, Replace, and Delete
@@ -850,7 +953,7 @@ export class Items {
       }
       let response: Response<OperationResponse[]>;
       try {
-        response = await addDignosticChild(
+        response = await addDiagnosticChild(
           async (childNode: DiagnosticNodeInternal) =>
             this.clientContext.bulk({
               body: batch.operations,
@@ -1117,6 +1220,16 @@ export class Items {
           );
         }
 
+        const isPartitionLevelFailOverEnabled =
+          this.clientContext.isPartitionLevelFailOverEnabled();
+        const partitionKeyRangeId = await computePartitionKeyRangeId(
+          diagnosticNode,
+          partitionKey,
+          this.partitionKeyRangeCache,
+          isPartitionLevelFailOverEnabled,
+          this.container,
+        );
+
         response = await this.clientContext.batch({
           body: operations,
           partitionKey,
@@ -1124,6 +1237,7 @@ export class Items {
           resourceId: this.container.url,
           options,
           diagnosticNode,
+          partitionKeyRangeId,
         });
       } catch (err: any) {
         if (this.clientContext.enableEncryption) {
@@ -1165,65 +1279,17 @@ export class Items {
     operations: OperationInput[],
   ): Promise<{ operations: OperationInput[]; totalPropertiesEncryptedCount: number }> {
     let totalPropertiesEncryptedCount = 0;
+    const encryptedOperations: OperationInput[] = [];
     for (const operation of operations) {
-      if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
-        const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
-        const { partitionKeyList, encryptedCount } =
-          await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
-            partitionKeyInternal,
-          );
-        operation.partitionKey = partitionKeyList;
-        totalPropertiesEncryptedCount += encryptedCount;
-      }
-      switch (operation.operationType) {
-        case BulkOperationType.Create:
-        case BulkOperationType.Upsert: {
-          const { body, propertiesEncryptedCount } =
-            await this.container.encryptionProcessor.encrypt(operation.resourceBody);
-          operation.resourceBody = body;
-          totalPropertiesEncryptedCount += propertiesEncryptedCount;
-          break;
-        }
-        case BulkOperationType.Read:
-        case BulkOperationType.Delete:
-          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
-            operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
-            totalPropertiesEncryptedCount++;
-          }
-          break;
-        case BulkOperationType.Replace: {
-          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
-            operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
-            totalPropertiesEncryptedCount++;
-          }
-          const { body, propertiesEncryptedCount } =
-            await this.container.encryptionProcessor.encrypt(operation.resourceBody);
-          operation.resourceBody = body;
-          totalPropertiesEncryptedCount += propertiesEncryptedCount;
-          break;
-        }
-        case BulkOperationType.Patch: {
-          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
-            operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
-            totalPropertiesEncryptedCount++;
-          }
-          const body = operation.resourceBody;
-          const patchRequestBody = Array.isArray(body) ? body : body.operations;
-          for (const patchOperation of patchRequestBody) {
-            if ("value" in patchOperation) {
-              if (this.container.encryptionProcessor.isPathEncrypted(patchOperation.path)) {
-                patchOperation.value = await this.container.encryptionProcessor.encryptProperty(
-                  patchOperation.path,
-                  patchOperation.value,
-                );
-                totalPropertiesEncryptedCount++;
-              }
-            }
-          }
-          break;
-        }
-      }
+      const { operation: encryptedOp, totalPropertiesEncryptedCount: updatedCount } =
+        await encryptOperationInput(
+          this.container.encryptionProcessor,
+          operation,
+          totalPropertiesEncryptedCount,
+        );
+      totalPropertiesEncryptedCount = updatedCount;
+      encryptedOperations.push(encryptedOp);
     }
-    return { operations, totalPropertiesEncryptedCount };
+    return { operations: encryptedOperations, totalPropertiesEncryptedCount };
   }
 }

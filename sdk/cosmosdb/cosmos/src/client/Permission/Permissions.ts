@@ -37,11 +37,6 @@ export class Permissions {
   /**
    * Query all permissions.
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   */
-  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
-  /**
-   * Query all permissions.
-   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @example Query permission with id.
    * ```ts snippet:PermissionsQuery
    * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
@@ -60,6 +55,11 @@ export class Permissions {
    *   .permissions.query(querySpec)
    *   .fetchAll();
    * ```
+   */
+  public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
+  /**
+   * Query all permissions.
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {

@@ -1,6 +1,6 @@
 # Release History
 
-## 2.3.2-beta.2 (Unreleased)
+## 2.4.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,21 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.4.0 (2025-06-04)
+
+### Features Added
+Introduced support for `TokenCredential` with `EntraCommunicationTokenCredentialOptions`, allowing an Entra user with a Teams license to use Teams Phone Extensibility features through the Azure Communication Services resource.
+
+- Added support for a new communication identifier `TeamsExtensionUserIdentifier`.
+    - Added a type `TeamsExtensionUserKind` with rawId in the format `8:acs:{resourceId}_{tenantId}_{userId}`.
+    - Added a method `isTeamsExtensionUserIdentifier` to check if the identifier is `TeamsExtensionUserIdentifier`.
+    - Mandatory fields of `TeamsExtensionUserIdentifier` are `userId`, `tenantId` and `resourceId`.
+    - With this version, rawId starting with `8:acs` may be either `CommunicationUserIdentifier` or new `TeamsExtensionUserIdentifier`.
+- Added optional fields `isAnonymous` and `assertedId` to the communication identifier `PhoneNumberIdentifier`.
+    - `isAnonymous` is used for anonymous numbers with rawId equals to `4:anonymous`.
+    - `assertedId` is used when the same number is used several times in the same call. It contains value after the last underscore (_)
+      character in the phone number. It is undefined otherwise.
 
 ## 2.3.2-beta.1 (2025-03-28)
 

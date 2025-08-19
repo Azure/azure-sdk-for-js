@@ -6,8 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ManagedCCF } from "@azure/arm-confidentialledger";
-import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
+import type {
+  ManagedCCF} from "@azure/arm-confidentialledger";
+import {
+  ConfidentialLedgerClient,
+} from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,13 +18,15 @@ import "dotenv/config";
  * This sample demonstrates how to Updates properties of Managed CCF
  *
  * @summary Updates properties of Managed CCF
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ManagedCCF_Update.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-09-19-preview/examples/ManagedCCF_Update.json
  */
 async function managedCcfUpdate(): Promise<void> {
   const subscriptionId =
-    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] || "0000000-0000-0000-0000-000000000001";
+    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
+    "0000000-0000-0000-0000-000000000001";
   const resourceGroupName =
-    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] || "DummyResourceGroupName";
+    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] ||
+    "DummyResourceGroupName";
   const appName = "DummyMccfAppName";
   const managedCCF: ManagedCCF = {
     location: "EastUS",

@@ -563,7 +563,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
      * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
      * During this interval, a shared access signature that is associated with the stored access policy will
      * fail with status code 403 (Forbidden), until the access policy becomes active.
-     * More details: https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * More details: https://learn.microsoft.com/rest/api/storageservices/set-container-acl
      * Note: delay in recorder module only take effect in live and recording mode.
      */
     await delay(30 * 1000);
@@ -620,7 +620,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
      * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
      * During this interval, a shared access signature that is associated with the stored access policy will
      * fail with status code 403 (Forbidden), until the access policy becomes active.
-     * More details: https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * More details: https://learn.microsoft.com/rest/api/storageservices/set-container-acl
      * Note: delay in recorder module only take effect in live and recording mode.
      */
     await delay(30 * 1000);
@@ -876,6 +876,80 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         version: "2019-12-12",
+      },
+      userDelegationKey,
+      accountName,
+    );
+
+    const sasClient = `${fileClient.url}?${fileSAS}`;
+    const fileClientWithSAS = new DataLakeFileClient(
+      sasClient,
+      newPipeline(new AnonymousCredential()),
+    );
+    configureStorageClient(recorder, fileClientWithSAS);
+
+    const properties = await fileClientWithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await fileSystemClient.delete();
+  });
+
+  it("GenerateUserDelegationSAS should work for file for 2020-12-06", async function (ctx) {
+    // Try to get serviceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
+    let serviceClientWithToken: DataLakeServiceClient | undefined;
+    try {
+      serviceClientWithToken = getDataLakeServiceClientWithDefaultCredential(recorder);
+    } catch {
+      ctx.skip();
+    }
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (serviceClientWithToken === undefined) {
+      ctx.skip();
+    }
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 5);
+    const userDelegationKey = await serviceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
+    const accountName = sharedKeyCredential.accountName;
+
+    const fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const fileName = recorder.variable("file", getUniqueName("file"));
+    const fileClient = fileSystemClient.getFileClient(fileName);
+    await fileClient.create({
+      pathHttpHeaders: {
+        contentType: "content-type-original",
+      },
+    });
+
+    const fileSAS = generateDataLakeSASQueryParameters(
+      {
+        pathName: fileClient.name,
+        cacheControl: "cache-control-override",
+        fileSystemName: fileClient.fileSystemName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiresOn: tmr,
+        // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: DataLakeSASPermissions.parse("racwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2020-12-06",
       },
       userDelegationKey,
       accountName,
@@ -1527,7 +1601,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
      * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
      * During this interval, a shared access signature that is associated with the stored access policy will
      * fail with status code 403 (Forbidden), until the access policy becomes active.
-     * More details: https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * More details: https://learn.microsoft.com/rest/api/storageservices/set-container-acl
      * Note: delay in recorder module only take effect in live and recording mode.
      */
     await delay(30 * 1000);
@@ -1789,6 +1863,42 @@ describe.skip("Generate user delegation SAS against file system Node.js only", (
       protocol: SASProtocol.HttpsAndHttp,
       startsOn: now,
       version: "2019-02-02",
+    };
+
+    const containerSasUrl = await fileSystemClient.generateUserDelegationSasUrl(
+      containerSasOptions,
+      userDelegationKey,
+    );
+    const fileSystemClientwithSAS = new DataLakeFileSystemClient(
+      containerSasUrl,
+      newPipeline(new AnonymousCredential()),
+    );
+    configureStorageClient(recorder, fileSystemClientwithSAS);
+
+    const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
+    assert.deepStrictEqual(result.pathItems.length, 0);
+
+    const stringToSign = fileSystemClient.generateUserDelegationSasStringToSign(
+      containerSasOptions,
+      userDelegationKey,
+    );
+
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      serviceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(containerSasUrl));
+  });
+
+  it("generateUserDelegationSasUrl should work with 2020-12-06", async () => {
+    const containerSasOptions = {
+      expiresOn: tmr,
+      // ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: FileSystemSASPermissions.parse("racwdl"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      version: "2020-12-06",
     };
 
     const containerSasUrl = await fileSystemClient.generateUserDelegationSasUrl(
@@ -2144,6 +2254,61 @@ describe.skip("Generate user delegation SAS against path Node.js only", () => {
     const dirSasOptions = {
       expiresOn: tmr,
       permissions: DirectorySASPermissions.parse("racwdmeop"),
+    };
+
+    const directorySasUrl = await directoryClient.generateUserDelegationSasUrl(
+      dirSasOptions,
+      userDelegationKey,
+    );
+    const directoryClientwithSAS = new DataLakeDirectoryClient(directorySasUrl);
+    configureStorageClient(recorder, directoryClientwithSAS);
+    // e
+    await directoryClientwithSAS.getAccessControl();
+
+    const permissions: PathPermissions = {
+      extendedAcls: false,
+      stickyBit: true,
+      owner: {
+        read: true,
+        write: true,
+        execute: false,
+      },
+      group: {
+        read: true,
+        write: false,
+        execute: true,
+      },
+      other: {
+        read: false,
+        write: true,
+        execute: false,
+      },
+    };
+
+    // p
+    await directoryClientwithSAS.setPermissions(permissions);
+
+    const stringToSign = directoryClient.generateUserDelegationSasStringToSign(
+      dirSasOptions,
+      userDelegationKey,
+    );
+
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      serviceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(directorySasUrl));
+  });
+
+  it("generateUserDelegationSasUrl should for directory with version 2020-12-06", async () => {
+    const directoryName = recorder.variable("directory", getUniqueName("directory"));
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.create();
+    const dirSasOptions = {
+      expiresOn: tmr,
+      permissions: DirectorySASPermissions.parse("racwdmeop"),
+      version: "2020-12-06",
     };
 
     const directorySasUrl = await directoryClient.generateUserDelegationSasUrl(

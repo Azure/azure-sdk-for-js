@@ -232,6 +232,23 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   }
 
   /**
+   * Merge given DiagnosticNodeInternal's context to current node's DiagnosticContext for bulk.
+   * Given DiagnosticNodeInternal becomes a child of this node.
+   * @internal
+   */
+  public addBulkChildNode(
+    child: DiagnosticNodeInternal,
+    level: CosmosDbDiagnosticLevel,
+  ): DiagnosticNodeInternal {
+    this.diagnosticCtx.mergeBulkDiagnostics(child.diagnosticCtx);
+    if (allowTracing(level, this.diagnosticLevel)) {
+      child.parent = this;
+      this.children.push(child);
+    }
+    return child;
+  }
+
+  /**
    * @internal
    */
   public initializeChildNode(
@@ -396,6 +413,7 @@ export type DiagnosticDataValue = {
     responseBody: any;
     url: string;
   }>;
+  partitionKeyRangeFailoverInfo: string;
 };
 
 /**

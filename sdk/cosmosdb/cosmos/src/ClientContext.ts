@@ -43,12 +43,15 @@ import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter.js
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.js";
 import { randomUUID } from "@azure/core-util";
 import { getUserAgent } from "./common/platform.js";
+import type { GlobalPartitionEndpointManager } from "./globalPartitionEndpointManager.js";
+import type { RetryOptions } from "./retry/retryOptions.js";
+import { PartitionKeyRangeCache } from "./routing/partitionKeyRangeCache.js";
+
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
 const HttpHeaders = Constants.HttpHeaders;
 /**
- * @hidden
  * @hidden
  */
 export class ClientContext {
@@ -58,6 +61,8 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
+  /** @internal */
+  public partitionKeyRangeCache: PartitionKeyRangeCache;
   /** boolean flag to support operations with client-side encryption */
   public enableEncryption: boolean = false;
 
@@ -66,6 +71,7 @@ export class ClientContext {
     private globalEndpointManager: GlobalEndpointManager,
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
+    private globalPartitionEndpointManager?: GlobalPartitionEndpointManager,
   ) {
     if (cosmosClientOptions.clientEncryptionOptions) {
       this.enableEncryption = true;
@@ -94,7 +100,9 @@ export class ClientContext {
       );
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
+    this.partitionKeyRangeCache = new PartitionKeyRangeCache(this);
   }
+
   /** @hidden */
   public async read<T>({
     path,
@@ -103,6 +111,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -110,6 +119,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -128,6 +138,7 @@ export class ClientContext {
       });
 
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       if (resourceType === ResourceType.clientencryptionkey) {
         request.headers[HttpHeaders.AllowCachedReadsHeader] = true;
         if (options.databaseRid) {
@@ -279,9 +290,7 @@ export class ClientContext {
     request.headers[HttpHeaders.IsQueryPlan] = "True";
     request.headers[HttpHeaders.QueryVersion] = "1.4";
     request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
-    request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(
-      options.disableNonStreamingOrderByQuery,
-    );
+    request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(options);
 
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.
@@ -323,6 +332,7 @@ export class ClientContext {
     partitionKey,
     method = HTTPMethod.delete,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -331,6 +341,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
     method?: HTTPMethod;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -348,6 +359,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
       // deleteResource will use WriteEndpoint since it uses DELETE operation
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -381,6 +393,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: any;
     path: string;
@@ -389,6 +402,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -407,6 +421,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
 
       // patch will use WriteEndpoint
@@ -437,6 +452,7 @@ export class ClientContext {
     diagnosticNode,
     options = {},
     partitionKey,
+    partitionKeyRangeId,
   }: {
     body: T;
     path: string;
@@ -445,6 +461,7 @@ export class ClientContext {
     diagnosticNode: DiagnosticNodeInternal;
     options?: RequestOptions;
     partitionKey?: PartitionKey;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
@@ -463,6 +480,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       // create will use WriteEndpoint since it uses POST operation
       this.applySessionToken(request);
 
@@ -540,6 +558,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: any;
     path: string;
@@ -548,6 +567,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & Resource>> {
     try {
       const request: RequestContext = {
@@ -566,6 +586,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       this.applySessionToken(request);
 
       // replace will use WriteEndpoint since it uses PUT operation
@@ -596,6 +617,7 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: T;
     path: string;
@@ -604,6 +626,7 @@ export class ClientContext {
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T & U & Resource>> {
     try {
       const request: RequestContext = {
@@ -622,6 +645,7 @@ export class ClientContext {
         resourceType,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       request.headers[HttpHeaders.IsUpsert] = true;
       this.applySessionToken(request);
 
@@ -651,12 +675,14 @@ export class ClientContext {
     options = {},
     partitionKey,
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     sprocLink: string;
     params?: any[];
     options?: RequestOptions;
     partitionKey?: PartitionKey;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<T>> {
     // Accept a single parameter or an array of parameters.
     // Didn't add type annotation for this because we should legacy this behavior
@@ -682,6 +708,7 @@ export class ClientContext {
       resourceType: ResourceType.sproc,
     });
     request.headers = await this.buildHeaders(request);
+    request.partitionKeyRangeId = partitionKeyRangeId;
     // executeStoredProcedure will use WriteEndpoint since it uses POST operation
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
       diagnosticNode,
@@ -762,6 +789,7 @@ export class ClientContext {
     resourceId,
     options = {},
     diagnosticNode,
+    partitionKeyRangeId,
   }: {
     body: T;
     path: string;
@@ -769,6 +797,7 @@ export class ClientContext {
     resourceId: string;
     options?: RequestOptions;
     diagnosticNode: DiagnosticNodeInternal;
+    partitionKeyRangeId?: string;
   }): Promise<Response<any>> {
     try {
       const request: RequestContext = {
@@ -787,6 +816,7 @@ export class ClientContext {
         resourceType: ResourceType.item,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.IsBatchAtomic] = true;
 
@@ -845,6 +875,7 @@ export class ClientContext {
         resourceType: ResourceType.item,
       });
       request.headers = await this.buildHeaders(request);
+      request.partitionKeyRangeId = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchAtomic] = false;
@@ -963,6 +994,7 @@ export class ClientContext {
         requestContext.partitionKey !== undefined
           ? convertToInternalPartitionKey(requestContext.partitionKey)
           : undefined, // TODO: Move this check from here to PartitionKey
+      operationType: requestContext.operationType,
     });
   }
 
@@ -979,6 +1011,7 @@ export class ClientContext {
     pipeline?: Pipeline;
     plugins: PluginConfig[];
     httpClient?: HttpClient;
+    globalPartitionEndpointManager?: GlobalPartitionEndpointManager;
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,
@@ -988,6 +1021,7 @@ export class ClientContext {
       plugins: this.cosmosClientOptions.plugins,
       pipeline: this.pipeline,
       httpClient: this.cosmosClientOptions.httpClient,
+      globalPartitionEndpointManager: this.globalPartitionEndpointManager,
     };
   }
 
@@ -999,9 +1033,26 @@ export class ClientContext {
    * @internal
    */
   public refreshUserAgent(hostFramework: string): void {
-    const updatedUserAgent = getUserAgent(this.cosmosClientOptions.userAgentSuffix, hostFramework);
+    const updatedUserAgent = getUserAgent(this.cosmosClientOptions, hostFramework);
     this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] = updatedUserAgent;
     this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] =
       updatedUserAgent;
+  }
+
+  /**
+   * @internal
+   */
+  public getRetryOptions(): RetryOptions {
+    return this.connectionPolicy.retryOptions;
+  }
+
+  /**
+   * @internal
+   */
+  public isPartitionLevelFailOverEnabled(): boolean {
+    return (
+      this.connectionPolicy.enablePartitionLevelFailover ||
+      this.connectionPolicy.enablePartitionLevelCircuitBreaker
+    );
   }
 }

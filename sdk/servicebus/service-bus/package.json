@@ -2,7 +2,7 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "7.10.0",
+  "version": "7.10.0-beta.3",
   "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/",
@@ -22,7 +22,7 @@
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "files": [
     "dist/",
@@ -32,25 +32,19 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo skipped.",
-    "build:test": "echo skipped.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log coverage coverage-browser .nyc_output *.tsbuildinfo",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"samples/**/*.{ts,js}\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy",
-    "integration-test:node": "dev-tool run test:vitest --no-test-proxy --esm",
-    "lint": "eslint package.json api-extractor.json README.md src test",
-    "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "perf-test:node": "dev-tool run build-package --module \"commonjs\" && node dist-esm/test/perf/track-2/index.spec.js",
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && npm run integration-test:browser",
-    "test:node": "npm run clean && npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
+    "test:browser": "echo skipped",
+    "test:node": "dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
+    "test:node:esm": "dev-tool run test:vitest --esm --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -116,7 +110,7 @@
     "@types/chai-as-promised": "^8.0.1",
     "@types/debug": "^4.1.4",
     "@types/is-buffer": "^2.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/ws": "^7.2.4",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
@@ -135,7 +129,7 @@
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",

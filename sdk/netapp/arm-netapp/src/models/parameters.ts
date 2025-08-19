@@ -80,7 +80,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-01-01",
+    defaultValue: "2025-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -227,6 +227,9 @@ export const usageType: OperationURLParameter = {
 export const quotaLimitName: OperationURLParameter = {
   parameterPath: "quotaLimitName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9\\-]{0,62}$"),
+    },
     serializedName: "quotaLimitName",
     required: true,
     type: {

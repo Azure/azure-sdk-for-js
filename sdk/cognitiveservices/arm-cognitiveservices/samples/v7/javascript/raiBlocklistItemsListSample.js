@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the blocklist items associated with the custom blocklist.
  *
  * @summary Gets the blocklist items associated with the custom blocklist.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListBlocklistItems.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListBlocklistItems.json
  */
 async function listBlocklistItems() {
   const subscriptionId =
@@ -27,7 +25,7 @@ async function listBlocklistItems() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.raiBlocklistItems.list(
+  for await (const item of client.raiBlocklistItems.list(
     resourceGroupName,
     accountName,
     raiBlocklistName,
@@ -38,7 +36,7 @@ async function listBlocklistItems() {
 }
 
 async function main() {
-  listBlocklistItems();
+  await listBlocklistItems();
 }
 
 main().catch(console.error);

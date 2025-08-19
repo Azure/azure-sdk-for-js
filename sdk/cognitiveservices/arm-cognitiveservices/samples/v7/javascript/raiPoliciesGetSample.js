@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary Gets the specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetRaiPolicy.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetRaiPolicy.json
  */
 async function getRaiPolicy() {
   const subscriptionId =
@@ -31,7 +29,7 @@ async function getRaiPolicy() {
 }
 
 async function main() {
-  getRaiPolicy();
+  await getRaiPolicy();
 }
 
 main().catch(console.error);

@@ -3,8 +3,8 @@ page_type: sample
 languages:
   - typescript
 products:
-  - azure
-  - azure-active-directory
+  - entra
+  - entra-id
 urlFragment: identity-typescript
 ---
 

@@ -21,6 +21,14 @@ export const mockParticipant: RestModel.ChatParticipant = {
   shareHistoryTime: new Date("2020-05-26T18:06:06Z"),
 };
 
+export const mockParticipantWithMetadata: RestModel.ChatParticipant = {
+  communicationIdentifier: mockCommunicationIdentifier,
+  displayName: "displayName",
+  metadata: {
+    userType: "C2",
+  },
+};
+
 export const mockSdkModelParticipant: ChatParticipant = {
   id: {
     communicationUserId: mockParticipant.communicationIdentifier.communicationUser?.id as string,
@@ -32,6 +40,7 @@ export const mockSdkModelParticipant: ChatParticipant = {
 export const mockThread: RestModel.ChatThreadProperties = {
   id: "threadid",
   topic: "topic",
+  metadata: { threadType: "primary", secondaryThread: "test-id" },
   createdByCommunicationIdentifier: mockCommunicationIdentifier,
   createdOn: new Date("2020-06-26T18:06:06Z"),
 };
@@ -45,6 +54,14 @@ export const mockThreadItem: RestModel.ChatThreadItem = {
   id: "threadid",
   topic: "topic",
   lastMessageReceivedOn: new Date("2020-06-26T18:06:06Z"),
+};
+
+export const mockThreadItemWithRetentionPolicy: RestModel.ChatThreadProperties = {
+  id: "threadid",
+  topic: "topic",
+  createdByCommunicationIdentifier: mockCommunicationIdentifier,
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  retentionPolicy: { kind: "threadCreationDate", deleteThreadAfterDays: 90 },
 };
 
 export const mockMessage: RestModel.ChatMessage = {

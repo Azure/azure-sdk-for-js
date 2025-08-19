@@ -22,12 +22,7 @@ async function filesList(): Promise<void> {
   const fileName = "x114d023d8";
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.files.readWrite(
-    groupName,
-    serviceName,
-    projectName,
-    fileName
-  );
+  const result = await client.files.readWrite(groupName, serviceName, projectName, fileName);
   console.log(result);
 }
 

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates the specified Defender for AI setting.
  *
  * @summary Updates the specified Defender for AI setting.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/UpdateDefenderForAISetting.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/UpdateDefenderForAISetting.json
  */
 async function updateDefenderForAiSetting() {
   const subscriptionId =
@@ -37,7 +35,7 @@ async function updateDefenderForAiSetting() {
 }
 
 async function main() {
-  updateDefenderForAiSetting();
+  await updateDefenderForAiSetting();
 }
 
 main().catch(console.error);

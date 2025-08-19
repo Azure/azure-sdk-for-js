@@ -10,11 +10,18 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
-import type { ShareItem, ShareServiceClient } from "../src/index.js";
+import type { ShareItem, ShareServiceClient, SignedIdentifier } from "../src/index.js";
 import { ShareClient } from "../src/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { configureStorageClient } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import {
+  Pipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 
 describe("ShareClient", () => {
   let serviceClient: ShareServiceClient;
@@ -105,6 +112,16 @@ describe("ShareClient", () => {
       recorder.variable(shareName, getUniqueName(shareName)),
     );
     await shareClient2.create();
+
+    const snapshotResult = await shareClient2.createSnapshot();
+    const snapshotClient = shareClient2.withSnapshot(snapshotResult.snapshot!);
+    let snapshotDeleteResult = await snapshotClient.deleteIfExists();
+    assert.ok(snapshotDeleteResult.succeeded);
+
+    snapshotDeleteResult = await snapshotClient.deleteIfExists();
+    assert.ok(!snapshotDeleteResult.succeeded);
+    assert.equal(snapshotDeleteResult.errorCode, "ShareSnapshotNotFound");
+
     const res = await shareClient2.deleteIfExists();
     assert.ok(res.succeeded);
 
@@ -372,6 +389,41 @@ describe("ShareClient - OAuth", () => {
     assert.equal(getPermissionResp.errorCode, undefined);
     assert.ok(createPermResp.requestId!);
     assert.ok(createPermResp.version!);
+  });
+
+  it("create and get access policy", async () => {
+    const yesterday = new Date(recorder.variable("now", new Date().toISOString()));
+    const tomorrow = new Date(recorder.variable("now", new Date().toISOString()));
+    yesterday.setDate(yesterday.getDate() - 1);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const identifiers: SignedIdentifier[] = [
+      {
+        accessPolicy: {
+          expiresOn: tomorrow,
+          permissions: "rwd",
+          startsOn: yesterday,
+        },
+        id: "6D97528B-8412-48AE-9DB1-6BF69C9F83A6",
+      },
+    ];
+
+    await shareClient.setAccessPolicy(identifiers);
+    const getAccessPolicyResponse = await shareClient.getAccessPolicy();
+
+    assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
+    assert.equal(
+      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.expiresOn.getTime(),
+      identifiers[0].accessPolicy.expiresOn.getTime(),
+    );
+    assert.equal(
+      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.startsOn.getTime(),
+      identifiers[0].accessPolicy.startsOn.getTime(),
+    );
+    assert.equal(
+      getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.permissions,
+      identifiers[0].accessPolicy.permissions,
+    );
   });
 
   it("create and delete directory", async () => {
@@ -683,6 +735,53 @@ describe("ShareClient", () => {
     assert.ok(getRes.accessTierChangeTime);
     assert.deepStrictEqual(getRes.accessTierTransitionState, "pending-from-transactionOptimized");
     assert.equal(getRes.quota, quotaInGB);
+  });
+});
+
+describe("Version error test", () => {
+  let serviceClient: ShareServiceClient;
+  let shareName: string;
+  let shareClient: ShareClient;
+
+  let recorder: Recorder;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getBSU(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = serviceClient.getShareClient(shareName);
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  function XMSVersioninjectorPolicy(version: string): PipelinePolicy {
+    return {
+      name: "XMSVersioninjectorPolicy",
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+        request.headers.set("x-ms-version", version);
+        return next(request);
+      },
+    };
+  }
+
+  it("Invalid service version", async () => {
+    const injector = XMSVersioninjectorPolicy(`3025-01-01`);
+
+    const pipeline: Pipeline = (shareClient as any).storageClientContext.pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
+    try {
+      await shareClient.getProperties();
+    } catch (err) {
+      assert.ok(
+        (err as any).message.startsWith(
+          "The provided service version is not enabled on this storage account. Please see",
+        ),
+      );
+    }
   });
 });
 

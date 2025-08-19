@@ -235,7 +235,7 @@ class ReporterUtils {
   }
 
   public static calculateSha1(buffer: Buffer | string): string {
-    const hash = createHash("sha1");
+    const hash = createHash("sha256");
     hash.update(buffer);
     return hash.digest("hex");
   }

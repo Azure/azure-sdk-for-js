@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   BreakFileLocksRequest,
   VolumesBreakFileLocksOptionalParams,
@@ -20,7 +18,7 @@ import "dotenv/config";
  * This sample demonstrates how to Break all the file locks on a volume
  *
  * @summary Break all the file locks on a volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/Volumes_BreakFileLocks.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_BreakFileLocks.json
  */
 async function volumesBreakFileLocks(): Promise<void> {
   const subscriptionId =

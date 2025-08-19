@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// dev-tool snippets ignore
 import { PerfTestConstructor } from "./perfTestBase.js";
 import minimist, { ParsedArgs } from "minimist";
 import { WorkerPerfProgram } from "./workerProgram.js";

@@ -21,12 +21,14 @@ import {
   newPipeline,
 } from "../../src/index.js";
 import {
+  base64encode,
   bodyToString,
   configureBlobStorageClient,
   createRandomLocalFile,
   getBSU,
   getConnectionStringFromEnvironment,
   getEncryptionScope_1,
+  getFileShareService,
   getImmutableContainerName,
   getStorageAccessTokenWithDefaultCredential,
   getTokenBSUWithDefaultCredential,
@@ -38,6 +40,7 @@ import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
 import { streamToBuffer3 } from "../../src/utils/utils.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
+import { ShareClient, ShareServiceClient } from "@azure/storage-file-share";
 
 describe("BlobClient Node.js only", () => {
   let containerName: string;
@@ -947,8 +950,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 
-  // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("syncCopyFromURL - should fail with copy source error message", async function () {
+  it("syncCopyFromURL - should fail with copy source error message", async function () {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
@@ -1077,5 +1079,213 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
 
     const properties = await blobClient.getProperties();
     assert.ok(properties.legalHold);
+  });
+});
+
+describe("BlobClient Copy from file Node.js only", () => {
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+
+  let shareName: string;
+  let shareClient: ShareClient;
+  let fileName: string;
+
+  let recorder: Recorder;
+
+  let blobServiceClient: BlobServiceClient;
+  let fileServiceClient: ShareServiceClient;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: [
+            "x-ms-copy-source",
+            "x-ms-copy-source-authorization",
+            "x-ms-encryption-key",
+          ],
+        },
+      },
+      ["playback", "record"],
+    );
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobName = recorder.variable("blob", getUniqueName("blob"));
+
+    fileServiceClient = getFileShareService(recorder);
+    shareName = recorder.variable("share", getUniqueName("share"));
+    shareClient = fileServiceClient.getShareClient(shareName);
+    await shareClient.create();
+    fileName = recorder.variable("file", getUniqueName("file"));
+  });
+
+  afterEach(async () => {
+    await containerClient.delete();
+    await shareClient.delete();
+    await recorder.stop();
+  });
+
+  it("appendBlockFromURL - source file bearer token", async () => {
+    const fileClient = shareClient.getDirectoryClient("").getFileClient(fileName);
+
+    const content = "Hello World!";
+    await fileClient.uploadData(Buffer.from(content));
+
+    const accessToken = await getStorageAccessTokenWithDefaultCredential();
+
+    const appendBlobClient = containerClient.getAppendBlobClient(blobName);
+    await appendBlobClient.create();
+    await appendBlobClient.appendBlockFromURL(fileClient.url, 0, content.length, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token,
+      },
+      sourceShareTokenIntent: "backup",
+    });
+
+    const downloadResponse = await appendBlobClient.download(0);
+    assert.equal(await bodyToString(downloadResponse, content.length), content);
+    assert.equal(downloadResponse.contentLength!, content.length);
+  });
+
+  it("syncUploadFromURL - source file bearer token", async () => {
+    const fileClient = shareClient.getDirectoryClient("").getFileClient(fileName);
+
+    const content = "Hello World!";
+    await fileClient.uploadData(Buffer.from(content));
+
+    const accessToken = await getStorageAccessTokenWithDefaultCredential();
+
+    const newBlockBlobClient = containerClient.getBlockBlobClient(
+      recorder.variable("newblockblob", getUniqueName("newblockblob")),
+    );
+
+    await newBlockBlobClient.syncUploadFromURL(fileClient.url, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token,
+      },
+      sourceShareTokenIntent: "backup",
+    });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await newBlockBlobClient.download();
+    assert.equal(await bodyToString(downloadRes, content.length), content);
+    assert.equal(downloadRes.contentLength!, content.length);
+  });
+
+  it("stageBlockFromURL - source file bearer token", async () => {
+    const fileClient = shareClient.getDirectoryClient("").getFileClient(fileName);
+
+    const content = "Hello World!";
+    await fileClient.uploadData(Buffer.from(content));
+
+    const accessToken = await getStorageAccessTokenWithDefaultCredential();
+
+    const newBlockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+    await newBlockBlobClient.stageBlockFromURL(
+      base64encode("1"),
+      fileClient.url,
+      0,
+      content.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          value: accessToken!.token,
+        },
+        sourceShareTokenIntent: "backup",
+      },
+    );
+
+    await newBlockBlobClient.stageBlockFromURL(
+      base64encode("2"),
+      fileClient.url,
+      0,
+      content.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          value: accessToken!.token,
+        },
+        sourceShareTokenIntent: "backup",
+      },
+    );
+
+    await newBlockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await newBlockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 2);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, content.length);
+    assert.equal(listResponse.committedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.committedBlocks![1].size, content.length);
+  });
+
+  it("uploadPagesFromURL - source file bearer token", async () => {
+    const pageBlobClient = containerClient.getPageBlobClient(blobName);
+    await pageBlobClient.create(1024);
+
+    const result = await pageBlobClient.download(0);
+    assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    const content = "a".repeat(512) + "b".repeat(512);
+
+    const fileClient = shareClient.getDirectoryClient("").getFileClient(fileName);
+    await fileClient.uploadData(Buffer.from(content));
+
+    const accessToken = await getStorageAccessTokenWithDefaultCredential();
+
+    await pageBlobClient.uploadPagesFromURL(fileClient.url, 0, 0, 512, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token,
+      },
+      sourceShareTokenIntent: "backup",
+    });
+
+    await pageBlobClient.uploadPagesFromURL(fileClient.url, 512, 512, 512, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token,
+      },
+      sourceShareTokenIntent: "backup",
+    });
+
+    const page1 = await pageBlobClient.download(0, 512);
+    const page2 = await pageBlobClient.download(512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+  });
+
+  it("syncCopyFromURL - source file bearer token", async () => {
+    const fileClient = shareClient.getDirectoryClient("").getFileClient(fileName);
+
+    const content = "Hello World!";
+    await fileClient.uploadData(Buffer.from(content));
+
+    const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(newBlobName);
+
+    const accessToken = await getStorageAccessTokenWithDefaultCredential();
+
+    const result = await newBlobClient.syncCopyFromURL(fileClient.url, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token,
+      },
+      sourceShareTokenIntent: "backup",
+    });
+    assert.ok(result.copyId);
+
+    // Validate source and destination blob content match.
+    const downloadRes = await newBlobClient.download();
+    assert.equal(await bodyToString(downloadRes, content.length), content);
+    assert.equal(downloadRes.contentLength!, content.length);
   });
 });

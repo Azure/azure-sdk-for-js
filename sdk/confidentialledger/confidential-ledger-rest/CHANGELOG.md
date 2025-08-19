@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.2-beta.3 (2025-05-28)
+
+### Bugs Fixed
+
+- Updated IsUnexpected method signature and corrected api-version to 2024-12-09-preview in confidentialLedger.ts
+
 ## 1.1.2-beta.2 (2025-05-01)
 
 ### Bugs Fixed
@@ -13,7 +19,7 @@
 - User defined endpoint
 - User defined endpoint runtimeoptions
 - User defined endpoint modules
-- User defined roles 
+- User defined roles
 - User defined functions support on ledger API
 - User List endpoint
 

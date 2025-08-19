@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as opentelemetry from "@opentelemetry/api";
-import { Resource } from "@opentelemetry/resources";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -34,7 +34,7 @@ export class TraceBasicScenario implements Scenario {
   private _tracerProvider: NodeTracerProvider | undefined;
 
   prepare(httpClient?: HttpClient): void {
-    const resource = new Resource({
+    const resource = resourceFromAttributes({
       "service.name": "testServiceName",
       "k8s.cluster.name": "testClusterName",
       "k8s.node.name": "testNodeName",
@@ -197,7 +197,7 @@ export class TraceBasicScenario implements Scenario {
 
 export class MetricBasicScenario implements Scenario {
   prepare(httpClient?: HttpClient): void {
-    const testResource = new Resource({
+    const testResource = resourceFromAttributes({
       [SEMRESATTRS_SERVICE_NAME]: "my-helloworld-service",
       [SEMRESATTRS_SERVICE_NAMESPACE]: "my-namespace",
       [SEMRESATTRS_SERVICE_INSTANCE_ID]: "my-instance",

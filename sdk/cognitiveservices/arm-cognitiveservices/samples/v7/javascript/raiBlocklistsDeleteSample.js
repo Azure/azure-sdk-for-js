@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified custom blocklist associated with the Azure OpenAI account.
  *
  * @summary Deletes the specified custom blocklist associated with the Azure OpenAI account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteRaiBlocklist.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/DeleteRaiBlocklist.json
  */
 async function deleteRaiBlocklist() {
   const subscriptionId =
@@ -35,7 +33,7 @@ async function deleteRaiBlocklist() {
 }
 
 async function main() {
-  deleteRaiBlocklist();
+  await deleteRaiBlocklist();
 }
 
 main().catch(console.error);

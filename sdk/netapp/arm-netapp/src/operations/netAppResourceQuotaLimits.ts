@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { NetAppResourceQuotaLimits } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
@@ -14,10 +15,12 @@ import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
 import {
   SubscriptionQuotaItem,
+  NetAppResourceQuotaLimitsListNextOptionalParams,
   NetAppResourceQuotaLimitsListOptionalParams,
   NetAppResourceQuotaLimitsListResponse,
   NetAppResourceQuotaLimitsGetOptionalParams,
   NetAppResourceQuotaLimitsGetResponse,
+  NetAppResourceQuotaLimitsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,11 +67,24 @@ export class NetAppResourceQuotaLimitsImpl
   private async *listPagingPage(
     location: string,
     options?: NetAppResourceQuotaLimitsListOptionalParams,
-    _settings?: PageSettings,
+    settings?: PageSettings,
   ): AsyncIterableIterator<SubscriptionQuotaItem[]> {
     let result: NetAppResourceQuotaLimitsListResponse;
-    result = await this._list(location, options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(location, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
@@ -109,6 +125,23 @@ export class NetAppResourceQuotaLimitsImpl
     return this.client.sendOperationRequest(
       { location, quotaLimitName, options },
       getOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param location The name of the Azure region.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    location: string,
+    nextLink: string,
+    options?: NetAppResourceQuotaLimitsListNextOptionalParams,
+  ): Promise<NetAppResourceQuotaLimitsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { location, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
@@ -152,6 +185,26 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.location,
     Parameters.quotaLimitName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionQuotaItemList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

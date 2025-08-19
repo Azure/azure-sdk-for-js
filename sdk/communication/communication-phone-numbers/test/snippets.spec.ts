@@ -3,6 +3,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import {
+  AvailablePhoneNumber,
+  BrowseAvailableNumbersRequest,
   PhoneNumberCapabilitiesRequest,
   PhoneNumbersClient,
   SearchAvailablePhoneNumbersRequest,
@@ -196,6 +198,113 @@ describe("snippets", () => {
       console.log("phone number type: ", offering.phoneNumberType);
       console.log("cost: ", offering.cost.amount);
     }
+  });
+
+  it("PhoneNumbersClientBrowseAvailablePhoneNumbers", async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+    // @ts-preserve-whitespace
+    const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+      countryCode: "US",
+      phoneNumberType: "tollFree",
+    };
+
+    const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+      browseAvailableNumberRequest,
+      {
+        capabilities: {
+          calling: "outbound",
+        },
+        assignmentType: "application",
+      },
+    );
+
+    for (const phoneNumber of browseAvailableNumbers.phoneNumbers) {
+      console.log("Found phone number: ", phoneNumber.phoneNumber);
+    }
+  });
+
+  it("PhoneNumbersClientBrowseAndReserveAvailablePhoneNumbers", async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+    // @ts-preserve-whitespace
+    const browseAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+      countryCode: "US",
+      phoneNumberType: "tollFree",
+    };
+    // @ts-preserve-whitespace
+    const browseAvailableNumbers = await client.browseAvailablePhoneNumbers(
+      browseAvailableNumberRequest,
+      {
+        capabilities: {
+          calling: "outbound",
+        },
+        assignmentType: "application",
+      },
+    );
+    const phoneNumbers = browseAvailableNumbers.phoneNumbers;
+    const phoneNumbersList = [phoneNumbers[0], phoneNumbers[1]];
+    const reservationResponse = await client.createOrUpdateReservation(
+      {
+        reservationId: "reservationId",
+      },
+      {
+        add: phoneNumbersList,
+      },
+    );
+    const numbersWithError: AvailablePhoneNumber[] = [];
+    for (const number of Object.values(reservationResponse.phoneNumbers || {})) {
+      if (number != null && number.status === "error") {
+        numbersWithError.push(number);
+      }
+    }
+    if (numbersWithError.length > 0) {
+      console.log("Errors occurred during reservation");
+    } else {
+      console.log("Reservation operation completed without errors.");
+    }
+  });
+
+  it("PhoneNumbersClientGetReservation", async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+    // @ts-preserve-whitespace
+    const reservationId = "<reservation-id>";
+    const reservationResponse = await client.getReservation(reservationId);
+    // @ts-preserve-whitespace
+    console.log(`Phone numbers in reservation: ${reservationResponse.phoneNumbers}`);
+  });
+
+  it("PhoneNumbersClientListReservations", async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+    // @ts-preserve-whitespace
+    for await (const reservation of client.listReservations()) {
+      console.log(`Reservation id: ${reservation.id}`);
+    }
+  });
+
+  it("PhoneNumbersClientDeleteReservation", async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+    // @ts-preserve-whitespace
+    const reservationId = "<reservation-id>";
+    await client.deleteReservation(reservationId);
+    // @ts-preserve-whitespace
+    console.log(`Reservation with ID ${reservationId} has been deleted.`);
+  });
+
+  it("PhoneNumbersClientBeginReservationPurchase", async () => {
+    const credential = new DefaultAzureCredential();
+    const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
+    // @ts-preserve-whitespace
+    const reservationId = "<reservation-id>";
+    // @ts-preserve-whitespace
+    const purchasePoller = await client.beginReservationPurchase(reservationId);
+    // @ts-preserve-whitespace
+    // Purchase is underway.
+    const purchaseResult = await purchasePoller.pollUntilDone();
+    console.log(`Successfully purchased phone numbers in reservation: ${reservationId}`);
   });
 
   it("SipRoutingClientRetrieveTrunksAndRoutes", async () => {

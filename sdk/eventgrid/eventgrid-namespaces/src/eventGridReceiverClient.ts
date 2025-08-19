@@ -7,8 +7,8 @@ import type {
   ReleaseResult,
   RejectResult,
   RenewLocksResult,
-} from "./cadl-generated/models/index.js";
-import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient.js";
+} from "./generated/models/index.js";
+import { EventGridClient as EventGridClientGenerated } from "./generated/eventGridClient.js";
 import type {
   CloudEvent,
   ReceiveResult,

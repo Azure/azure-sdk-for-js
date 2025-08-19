@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the content filters associated with the Azure OpenAI account.
  *
  * @summary Gets the content filters associated with the Azure OpenAI account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListEncryptionScopes.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListEncryptionScopes.json
  */
 async function listEncryptionScopes() {
   const subscriptionId =
@@ -26,14 +24,14 @@ async function listEncryptionScopes() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.encryptionScopes.list(resourceGroupName, accountName)) {
+  for await (const item of client.encryptionScopes.list(resourceGroupName, accountName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listEncryptionScopes();
+  await listEncryptionScopes();
 }
 
 main().catch(console.error);

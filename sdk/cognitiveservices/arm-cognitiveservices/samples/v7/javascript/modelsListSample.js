@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List Models.
  *
  * @summary List Models.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListLocationModels.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListLocationModels.json
  */
 async function listLocationModels() {
   const subscriptionId =
@@ -25,14 +23,14 @@ async function listLocationModels() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.models.list(location)) {
+  for await (const item of client.models.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listLocationModels();
+  await listLocationModels();
 }
 
 main().catch(console.error);

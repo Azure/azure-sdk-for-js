@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   GetGroupIdListForLdapUserRequest,
   NetAppManagementClient,
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns the list of group Ids for a specific LDAP User
  *
  * @summary Returns the list of group Ids for a specific LDAP User
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/GroupIdListForLDAPUser.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/GroupIdListForLDAPUser.json
  */
 async function getGroupIdListForUser(): Promise<void> {
   const subscriptionId =

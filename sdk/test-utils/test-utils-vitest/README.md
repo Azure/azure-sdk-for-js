@@ -8,11 +8,11 @@ This non-shipping library `@azure-tools/test-utils-vitest` attempts to add addit
 
 We're about to go through how to set up your project to use the `@azure/test-utils-vitest` package.
 
-This document assumes familiarity with [git](https://git-scm.com) and [rush](https://rushjs.io).
-You can read more about how we use rush in the following links:
+This document assumes familiarity with [git](https://git-scm.com) and [pnpm](https://pnpm.io/).
+You can read more about how we use pnpm in the following links:
 
-- Rush used for [Project Orchestration](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#project-orchestration).
-- [Rush for NPM users](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md#rush-for-npm-users).
+- pnpm used for [Project Orchestration](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#project-orchestration).
+- [pnpm for NPM users](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#pnpm-for-npm-users).
 
 Keep in mind that `@azure/test-utils-vitest` is not a published package. It is only intended
 to be used by the libraries in the `Azure/azure-sdk-for-js` repository and its forks.
@@ -28,12 +28,12 @@ cd /path/to/my/github/repositories
 git clone https://github.com/Azure/azure-sdk-for-js/
 ```
 
-Having cloned this repository, let's set it up by running the following rush commands:
+Having cloned this repository, let's set it up by running the following pnpm commands:
 
 ```bash
 cd azure-sdk-for-js
-rush install
-rush build
+pnpm install
+pnpm build
 ```
 
 This will optimistically assume you're in a fresh clone.
@@ -62,10 +62,10 @@ to include the following line in the `devDependencies` section:
 }
 ```
 
-After that, we recommend you to update rush and install the dependencies again, as follows:
+After that, we recommend you to update pnpm and install the dependencies again, as follows:
 
 ```bash
-rush update
+pnpm install
 ```
 
 ## Key concepts
@@ -78,6 +78,8 @@ Most Azure SDK for JavaScript libraries support multiple methods of authenticati
 ## Examples
 
 ### Import functions
+
+<!-- dev-tool snippets ignore -->
 
 ```javascript
 import { matrix } from "@azure/test-utils-vitest";

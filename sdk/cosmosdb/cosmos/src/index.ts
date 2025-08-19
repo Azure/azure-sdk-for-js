@@ -16,6 +16,7 @@ export {
   OperationWithItem,
   OperationInput,
   BulkOperationType,
+  ExtendedOperationResponse,
   BulkOperationResponse,
   CreateOperationInput,
   UpsertOperationInput,
@@ -24,6 +25,7 @@ export {
   DeleteOperationInput,
   PatchOperationInput,
   BulkPatchOperation,
+  BulkOperationResult,
 } from "./utils/batch.js";
 export {
   PatchOperation,

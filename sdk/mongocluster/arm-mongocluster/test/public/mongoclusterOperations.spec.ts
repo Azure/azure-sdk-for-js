@@ -36,7 +36,7 @@ describe("MongoCluster test", () => {
     );
     location = "eastus";
     resourceGroup = "czwjstest";
-    resourcename = "testmongocluster";
+    resourcename = "testmongocluster0603";
     fireWallName = "testfilerule";
   });
 

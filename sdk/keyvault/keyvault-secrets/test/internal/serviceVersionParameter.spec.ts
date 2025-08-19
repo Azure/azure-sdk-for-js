@@ -50,7 +50,7 @@ describe("The Secrets client should set the serviceVersion", () => {
 
     expect(spy).toHaveBeenCalledWith(
       expect.objectContaining({
-        url: `https://keyvaultname.vault.azure.net/secrets/secretName?api-version=${LATEST_API_VERSION}`,
+        url: `https://keyvaultname.vault.azure.net/secrets/secretName?api%2Dversion=${LATEST_API_VERSION}`,
       }),
     );
   });
@@ -69,7 +69,7 @@ describe("The Secrets client should set the serviceVersion", () => {
 
       expect(spy).toHaveBeenCalledWith(
         expect.objectContaining({
-          url: `https://keyvaultname.vault.azure.net/secrets/secretName?api-version=${serviceVersion}`,
+          url: `https://keyvaultname.vault.azure.net/secrets/secretName?api%2Dversion=${serviceVersion}`,
         }),
       );
     }

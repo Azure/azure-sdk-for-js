@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Update vault extended info.
  *
  * @summary Update vault extended info.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/UpdateVaultExtendedInfo.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/UpdateVaultExtendedInfo.json
  */
 async function patchExtendedInfoOfResource() {
   const subscriptionId =
@@ -26,15 +24,12 @@ async function patchExtendedInfoOfResource() {
   const vaultName = "swaggerExample";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
-  const result = await client.vaultExtendedInfo.update(resourceGroupName, vaultName, {
-    integrityKey: "J99wzS27fmJ+Wjot7xO5wA==",
-    algorithm: "None",
-  });
+  const result = await client.vaultExtendedInfo.update(resourceGroupName, vaultName);
   console.log(result);
 }
 
 async function main() {
-  patchExtendedInfoOfResource();
+  await patchExtendedInfoOfResource();
 }
 
 main().catch(console.error);

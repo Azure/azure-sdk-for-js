@@ -13,6 +13,7 @@ import type { StatsbeatFeatures, StatsbeatInstrumentations } from "./types.js";
 import {
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AzureMonitorOpenTelemetryOptions,
+  APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
 } from "./types.js";
@@ -52,6 +53,8 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,
     diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
+    rateLimitedSampler: !!config.tracesPerSecond,
+    customerSdkStats: process.env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] === "True",
   };
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 

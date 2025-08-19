@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ConfidentialLedgerClient } = require("@azure/arm-confidentialledger");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a  Confidential Ledger with the specified ledger parameters.
  *
  * @summary Creates a  Confidential Ledger with the specified ledger parameters.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Create.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-09-19-preview/examples/ConfidentialLedger_Create.json
  */
 async function confidentialLedgerCreate() {
   const subscriptionId =
@@ -40,8 +38,14 @@ async function confidentialLedgerCreate() {
           ledgerRoleName: "Reader",
         },
       ],
+      hostLevel: "Info",
       ledgerSku: "Standard",
       ledgerType: "Public",
+      maxBodySizeInMb: 1,
+      nodeCount: 3,
+      subjectName: "CN=CCF Node",
+      workerThreads: 0,
+      writeLBAddressPrefix: "write",
     },
     tags: { additionalProps1: "additional properties" },
   };
@@ -56,7 +60,7 @@ async function confidentialLedgerCreate() {
 }
 
 async function main() {
-  confidentialLedgerCreate();
+  await confidentialLedgerCreate();
 }
 
 main().catch(console.error);

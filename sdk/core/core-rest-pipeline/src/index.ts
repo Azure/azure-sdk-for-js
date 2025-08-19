@@ -47,7 +47,12 @@ export {
 export { createDefaultHttpClient } from "./defaultHttpClient.js";
 export { createHttpHeaders } from "./httpHeaders.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
-export { RestError, type RestErrorOptions, isRestError } from "./restError.js";
+export {
+  RestError,
+  type RestErrorOptions,
+  type RestErrorConstructor,
+  isRestError,
+} from "./restError.js";
 export {
   decompressResponsePolicy,
   decompressResponsePolicyName,

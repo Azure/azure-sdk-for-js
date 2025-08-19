@@ -51,7 +51,7 @@ export class BatchResponseParser {
     this.batchResponseEnding = `--${this.responseBatchBoundary}--`;
   }
 
-  // For example of response, please refer to https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#response
+  // For example of response, please refer to https://learn.microsoft.com/rest/api/storageservices/blob-batch#response
   public async parseBatchResponse(): Promise<ParsedBatchResponse> {
     // When logic reach here, suppose batch request has already succeeded with 202, so we can further parse
     // sub request's response.

@@ -8,8 +8,8 @@ environment variables you must set.
 The following scripts can be used both in on your desktop for developer
 scenarios as well as on hosted agents for continuous integration testing.
 
-- [New-TestResources.ps1][] - Creates new test resources for a given service.
-- [Remove-TestResources.ps1][] - Deletes previously created resources.
+* [New-TestResources.ps1][] - Creates new test resources for a given service.
+* [Remove-TestResources.ps1][] - Deletes previously created resources.
 
 ## Prerequisites
 
@@ -39,6 +39,10 @@ This will save test environment settings into a `test-resources.json.env` file n
 or a `test-resources.bicep.env` file next to `test-resources.bicep`. The file is protected via DPAPI.
 The environment file would be scoped to the current repository directory and avoids the need to
 set environment variables or restart your IDE to recognize them.
+
+It will also be set by default for other repositories and on other platforms if your `assets.json`
+file contains `"Dotenv": true`. It must be in your `.gitignore` file;
+otherwise, an error is returned and no file is generated.
 
 Along with some log messages, this will output environment variables based on
 your current shell like in the following example:
@@ -88,7 +92,6 @@ Typically the created artifact will need to be passed to `test-resources.json` t
 Below is an example of how `$templateFileParameters` can be used to pass data from the `pre-` script to `test-resources.json`.
 
 **Snippet from `test-resources-pre.ps1`**
-
 ```powershell
 Import-Module -Name ./eng/common/scripts/X509Certificate2
 $cert = New-X509Certificate2 -SubjectName 'E=opensource@microsoft.com, CN=Azure SDK, OU=Azure SDK, O=Microsoft, L=Frisco, S=TX, C=US' -ValidDays 3652
@@ -100,7 +103,6 @@ $templateFileParameters['ConfidentialLedgerPrincipalPEMPK'] = Format-X509Certifi
 **Snippet from the corresponding `test-resources.json`.**
 
 Note that the values present in `$templateFileParameters` will map to parameters of the same name.
-
 ```json
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
@@ -119,7 +121,7 @@ Note that the values present in `$templateFileParameters` will map to parameters
         "description": "The certificate to configure as a certBasedSecurityPrincipal."
       }
     }
-  }
+  },
 }
 ```
 
@@ -162,7 +164,7 @@ remove-test-resources.yml like in the following examples:
 ```yml
 - template: /eng/common/TestResources/deploy-test-resources.yml
   parameters:
-    ServiceDirectory: "${{ parameters.ServiceDirectory }}"
+    ServiceDirectory: '${{ parameters.ServiceDirectory }}'
 
 # Run tests
 
@@ -186,9 +188,9 @@ After the markdown files are generated, please make sure all "http" URIs use "ht
 
 PowerShell markdown documentation created with [platyPS][].
 
-[New-TestResources.ps1]: https://aka.ms/azsdk/tools/New-TestResources
-[Update-TestResources.ps1]: https://aka.ms/azsdk/tools/Update-TestResources
-[Remove-TestResources.ps1]: https://aka.ms/azsdk/tools/Remove-TestResources
-[PowerShell]: https://github.com/PowerShell/PowerShell
-[PowerShellAz]: https://learn.microsoft.com/powershell/azure/install-az-ps
-[platyPS]: https://github.com/PowerShell/platyPS
+  [New-TestResources.ps1]: https://aka.ms/azsdk/tools/New-TestResources
+  [Update-TestResources.ps1]: https://aka.ms/azsdk/tools/Update-TestResources
+  [Remove-TestResources.ps1]: https://aka.ms/azsdk/tools/Remove-TestResources
+  [PowerShell]: https://github.com/PowerShell/PowerShell
+  [PowerShellAz]: https://docs.microsoft.com/powershell/azure/install-az-ps
+  [platyPS]: https://github.com/PowerShell/platyPS

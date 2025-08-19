@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
-/** Represents an Active Directory administrator. */
+/** Represents an Microsoft Entra Administrator. */
 export interface ActiveDirectoryAdministratorAdd {
-  /** The principal type used to represent the type of Active Directory Administrator. */
+  /** The principal type used to represent the type of Microsoft Entra Administrator. */
   principalType?: PrincipalType;
-  /** Active Directory administrator principal name. */
+  /** Microsoft Entra Administrator principal name. */
   principalName?: string;
-  /** The tenantId of the Active Directory administrator. */
+  /** The tenantId of the Microsoft Entra Administrator. */
   tenantId?: string;
 }
 
@@ -107,11 +107,11 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** A list of active directory administrators. */
+/** A list of Microsoft Entra Administrators. */
 export interface AdministratorListResult {
-  /** The list of active directory administrators */
+  /** The list of Microsoft Entra Administrators */
   value?: ActiveDirectoryAdministrator[];
-  /** The link used to get the next page of active directory. */
+  /** The link used to get the next page of Microsoft Entra administrators. */
   nextLink?: string;
 }
 
@@ -149,6 +149,20 @@ export interface CapabilityBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reason?: string;
+}
+
+/** The supported features. */
+export interface SupportedFeature {
+  /**
+   * Name of feature
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Status of feature
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SupportedFeatureStatusEnum;
 }
 
 /** The check availability request body. */
@@ -258,7 +272,9 @@ export interface Sku {
 export interface UserAssignedIdentity {
   /** represents user assigned identities map. */
   userAssignedIdentities?: { [propertyName: string]: UserIdentity };
-  /** the types of identities associated with this resource; currently restricted to 'None and UserAssigned' */
+  /** the identity principal Id of the server. */
+  principalId?: string;
+  /** the types of identities associated with this resource */
   type: IdentityType;
   /**
    * Tenant id of the server.
@@ -283,17 +299,17 @@ export interface Storage {
   autoGrow?: StorageAutoGrow;
   /** Name of storage tier for IOPS. */
   tier?: AzureManagedDiskPerformanceTiers;
-  /** Storage tier IOPS quantity. This property is required to be set for storage Type PremiumV2_LRS */
+  /** Storage IOPS quantity. This property is required to be set for storage Type PremiumV2_LRS and UltraSSD_LRS. */
   iops?: number;
-  /** Storage throughput for the server. This is required to be set for storage Type PremiumV2_LRS */
+  /** Storage throughput for the server. This is required to be set for storage Type PremiumV2_LRS and UltraSSD_LRS. */
   throughput?: number;
-  /** Storage type for the server. Allowed values are Premium_LRS and PremiumV2_LRS, and default is Premium_LRS if not specified */
+  /** Storage type for the server. Allowed values are Premium_LRS, PremiumV2_LRS, and UltraSSD_LRS. Default is Premium_LRS if not specified */
   type?: StorageType;
 }
 
 /** Authentication configuration properties of a server */
 export interface AuthConfig {
-  /** If Enabled, Azure Active Directory authentication is enabled. */
+  /** If Enabled, Microsoft Entra authentication is enabled. */
   activeDirectoryAuth?: ActiveDirectoryAuthEnum;
   /** If Enabled, Password authentication is enabled. */
   passwordAuth?: PasswordAuthEnum;
@@ -406,6 +422,12 @@ export interface PrivateLinkServiceConnectionState {
   actionsRequired?: string;
 }
 
+/** Cluster properties of a server. */
+export interface Cluster {
+  /** The node count for the cluster. */
+  clusterSize?: number;
+}
+
 /** Represents a server to be updated. */
 export interface ServerForUpdate {
   /** The SKU (pricing tier) of the server. */
@@ -421,7 +443,7 @@ export interface ServerForUpdate {
    * This value contains a credential. Consider obscuring before showing to users
    */
   administratorLoginPassword?: string;
-  /** PostgreSQL Server version. Version 16 is currently not supported for MVU. */
+  /** PostgreSQL Server version. Version 17 is currently not supported for MVU. */
   version?: ServerVersion;
   /** Storage properties of a server. */
   storage?: Storage;
@@ -443,6 +465,8 @@ export interface ServerForUpdate {
   replica?: Replica;
   /** Network properties of a server. These are required to be passed only in case if server is a private access server. */
   network?: Network;
+  /** Cluster properties of a server. */
+  cluster?: Cluster;
 }
 
 /** A list of servers. */
@@ -830,6 +854,42 @@ export interface PrivateLinkResourceListResult {
   readonly nextLink?: string;
 }
 
+/** Capability for the PostgreSQL server */
+export interface QuotaUsagesListResult {
+  /**
+   * A list of quota usages.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: QuotaUsage[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Quota usage for flexible servers */
+export interface QuotaUsage {
+  /** Name of quota usage for flexible servers */
+  name?: NameProperty;
+  /** Quota limit */
+  limit?: number;
+  /** Quota unit */
+  unit?: string;
+  /** Current Quota usage value */
+  currentValue?: number;
+  /** Fully qualified ARM resource Id */
+  id?: string;
+}
+
+/** Name property for quota usage */
+export interface NameProperty {
+  /** Name value */
+  value?: string;
+  /** Localized name */
+  localizedValue?: string;
+}
+
 /** A List of logFiles. */
 export interface LogFileListResult {
   /** The list of logFiles in a server */
@@ -858,6 +918,144 @@ export interface ServerThreatProtectionListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** A list of available index recommendations. */
+export interface IndexRecommendationListResult {
+  /** A list of available index recommendations. */
+  value?: IndexRecommendationResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Stores implementation details for the recommended action. */
+export interface IndexRecommendationResourcePropertiesImplementationDetails {
+  /** Method of implementation for recommended action */
+  method?: string;
+  /** Implementation script for the recommended action */
+  script?: string;
+}
+
+/** Stores workload information for the recommended action. */
+export interface IndexRecommendationResourcePropertiesAnalyzedWorkload {
+  /** Workload start time in UTC date-time string format. */
+  startTime?: Date;
+  /** Workload end time in UTC date-time string format. */
+  endTime?: Date;
+  /** Workload query examined count. For DROP INDEX will be 0. */
+  queryCount?: number;
+}
+
+/** Stores property that features impact on some metric if this recommended action is applied. */
+export interface ImpactRecord {
+  /** Dimension name */
+  dimensionName?: string;
+  /** Dimension unit */
+  unit?: string;
+  /** Optional property that can be used to store the QueryId if the metric is for a specific query. */
+  queryId?: number;
+  /** Absolute value */
+  absoluteValue?: number;
+}
+
+/** Recommendation details for the recommended action. */
+export interface IndexRecommendationDetails {
+  /** Database name. */
+  databaseName?: string;
+  /** Schema name. */
+  schema?: string;
+  /** Table name. */
+  table?: string;
+  /** Index type. */
+  indexType?: string;
+  /** Index name. */
+  indexName?: string;
+  /** Index columns. */
+  indexColumns?: string[];
+  /** Index included columns. */
+  includedColumns?: string[];
+}
+
+/** Config tuning request parameters. */
+export interface ConfigTuningRequestParameter {
+  /** The name of server. */
+  serverName?: string;
+  /** Indicates whether PG should be restarted during a tuning session. */
+  allowServerRestarts?: boolean;
+  /** The target metric the tuning session is trying to improve. */
+  targetImprovementMetric?: string;
+  /** The mode with which the feature will be enabled. */
+  configTuningUsageMode?: boolean;
+}
+
+/** A list of tuning configuration sessions. */
+export interface SessionsListResult {
+  /** A list of tuning configuration sessions. */
+  value?: SessionResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Session resource properties. */
+export interface SessionResource {
+  /** the tuning session start time. */
+  sessionStartTime?: string;
+  /** Session id. */
+  sessionId?: string;
+  /** The status of the tuning session. */
+  status?: string;
+  /** The pre tuning aqr. */
+  preTuningAqr?: string;
+  /** The post tuning aqr. */
+  postTuningAqr?: string;
+  /** The pre tuning tps. */
+  preTuningTps?: string;
+  /** The post tuning tps. */
+  postTuningTps?: string;
+}
+
+/** A list of tuning configuration sessions. */
+export interface SessionDetailsListResult {
+  /** A list of details of the session. */
+  value?: SessionDetailsResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Session details properties. */
+export interface SessionDetailsResource {
+  /** Iteration id. */
+  iterationId?: string;
+  /** Session id. */
+  sessionId?: string;
+  /** Applied configuration for the iteration. */
+  appliedConfiguration?: string;
+  /** Iteration start time. */
+  iterationStartTime?: string;
+  /** The aqr for the iteration. */
+  averageQueryRuntimeMs?: string;
+  /** The tps for the iteration. */
+  transactionsPerSecond?: string;
+}
+
+/** A list of server tuning options. */
+export interface TuningOptionsListResult {
+  /** A list of available tuning options. */
+  value?: TuningOptionsResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
 }
 
 /** Represents a virtual endpoint for a server. */
@@ -963,9 +1161,7 @@ export interface PrivateLinkResource extends Resource {
 }
 
 /** Represents a virtual endpoint for a server. */
-export interface VirtualEndpointResource
-  extends VirtualEndpointResourceForPatch,
-    Resource {}
+export interface VirtualEndpointResource extends VirtualEndpointResourceForPatch, Resource {}
 
 /** Represents capability of a storage tier */
 export interface StorageTierCapability extends CapabilityBase {
@@ -1076,6 +1272,16 @@ export interface ServerSkuCapability extends CapabilityBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly supportedHaMode?: HaMode[];
+  /**
+   * The supported features.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportedFeatures?: SupportedFeature[];
+  /**
+   * The value of security profile indicating if its confidential vm
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly securityProfile?: string;
 }
 
 /** Flexible server edition capabilities. */
@@ -1114,6 +1320,11 @@ export interface ServerVersionCapability extends CapabilityBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly supportedVersionsToUpgrade?: string[];
+  /**
+   * The supported features.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportedFeatures?: SupportedFeature[];
 }
 
 /** Represents capability of a fast provisioning edition */
@@ -1160,7 +1371,12 @@ export interface FlexibleServerCapability extends CapabilityBase {
    */
   readonly supportedServerVersions?: ServerVersionCapability[];
   /**
-   * Gets a value indicating whether fast provisioning is supported. "Enabled" means fast provisioning is supported. "Disabled" stands for fast provisioning is not supported.
+   * The supported features.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportedFeatures?: SupportedFeature[];
+  /**
+   * Gets a value indicating whether fast provisioning is supported. "Enabled" means fast provisioning is supported. "Disabled" stands for fast provisioning is not supported. Will be deprecated in future, please look to Supported Features for "FastProvisioning".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly fastProvisioningSupported?: FastProvisioningSupportedEnum;
@@ -1170,32 +1386,32 @@ export interface FlexibleServerCapability extends CapabilityBase {
    */
   readonly supportedFastProvisioningEditions?: FastProvisioningEditionCapability[];
   /**
-   * Determines if geo-backup is supported in this region. "Enabled" means geo-backup is supported. "Disabled" stands for geo-back is not supported.
+   * Determines if geo-backup is supported in this region. "Enabled" means geo-backup is supported. "Disabled" stands for geo-back is not supported. Will be deprecated in future, please look to Supported Features for "GeoBackup".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly geoBackupSupported?: GeoBackupSupportedEnum;
   /**
-   * A value indicating whether Zone Redundant HA is supported in this region. "Enabled" means zone redundant HA is supported. "Disabled" stands for zone redundant HA is not supported.
+   * A value indicating whether Zone Redundant HA is supported in this region. "Enabled" means zone redundant HA is supported. "Disabled" stands for zone redundant HA is not supported. Will be deprecated in future, please look to Supported Features for "ZoneRedundantHa".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly zoneRedundantHaSupported?: ZoneRedundantHaSupportedEnum;
   /**
-   * A value indicating whether Zone Redundant HA and Geo-backup is supported in this region. "Enabled" means zone redundant HA and geo-backup is supported. "Disabled" stands for zone redundant HA and geo-backup is not supported.
+   * A value indicating whether Zone Redundant HA and Geo-backup is supported in this region. "Enabled" means zone redundant HA and geo-backup is supported. "Disabled" stands for zone redundant HA and geo-backup is not supported. Will be deprecated in future, please look to Supported Features for "ZoneRedundantHaAndGeoBackup".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly zoneRedundantHaAndGeoBackupSupported?: ZoneRedundantHaAndGeoBackupSupportedEnum;
   /**
-   * A value indicating whether storage auto-grow is supported in this region. "Enabled" means storage auto-grow is supported. "Disabled" stands for storage auto-grow is not supported.
+   * A value indicating whether storage auto-grow is supported in this region. "Enabled" means storage auto-grow is supported. "Disabled" stands for storage auto-grow is not supported. Will be deprecated in future, please look to Supported Features for "StorageAutoGrowth".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly storageAutoGrowthSupported?: StorageAutoGrowthSupportedEnum;
   /**
-   * A value indicating whether online resize is supported in this region for the given subscription. "Enabled" means storage online resize is supported. "Disabled" means storage online resize is not supported.
+   * A value indicating whether online resize is supported in this region for the given subscription. "Enabled" means storage online resize is supported. "Disabled" means storage online resize is not supported. Will be deprecated in future, please look to Supported Features for "OnlineResize".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly onlineResizeSupported?: OnlineResizeSupportedEnum;
   /**
-   * A value indicating whether this region is restricted. "Enabled" means region is restricted. "Disabled" stands for region is not restricted.
+   * A value indicating whether this region is restricted. "Enabled" means region is restricted. "Disabled" stands for region is not restricted. Will be deprecated in future, please look to Supported Features for "Restricted".
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly restricted?: RestrictedEnum;
@@ -1224,15 +1440,15 @@ export interface LtrBackupRequest extends BackupRequestBase {
   targetDetails: BackupStoreDetails;
 }
 
-/** Represents an Active Directory administrator. */
+/** Represents an Microsoft Entra Administrator. */
 export interface ActiveDirectoryAdministrator extends ProxyResource {
-  /** The principal type used to represent the type of Active Directory Administrator. */
+  /** The principal type used to represent the type of Microsoft Entra Administrator. */
   principalType?: PrincipalType;
-  /** Active Directory administrator principal name. */
+  /** Microsoft Entra Administrator principal name. */
   principalName?: string;
-  /** The objectId of the Active Directory administrator. */
+  /** The objectId of the Microsoft Entra Administrator. */
   objectId?: string;
-  /** The tenantId of the Active Directory administrator. */
+  /** The tenantId of the Microsoft Entra Administrator. */
   tenantId?: string;
 }
 
@@ -1370,6 +1586,39 @@ export interface ServerThreatProtectionSettingsModel extends ProxyResource {
   readonly creationTime?: Date;
 }
 
+/** Stores property that features impact on some metric if this recommended action is applied. */
+export interface TuningOptionsResource extends ProxyResource {}
+
+/** Index recommendation properties. */
+export interface IndexRecommendationResource extends ProxyResource {
+  /** Creation time of this recommendation in UTC date-time string format. */
+  initialRecommendedTime?: Date;
+  /** The last refresh of this recommendation in UTC date-time string format. */
+  lastRecommendedTime?: Date;
+  /** The number of times this recommendation has encountered. */
+  timesRecommended?: number;
+  /** The ImprovedQueryIds. The list will only be populated for CREATE INDEX recommendations. */
+  improvedQueryIds?: number[];
+  /** Reason for this recommendation. */
+  recommendationReason?: string;
+  /** Type for this recommendation. */
+  recommendationType?: RecommendationTypeEnum;
+  /** Stores implementation details for the recommended action. */
+  implementationDetails?: IndexRecommendationResourcePropertiesImplementationDetails;
+  /** Stores workload information for the recommended action. */
+  analyzedWorkload?: IndexRecommendationResourcePropertiesAnalyzedWorkload;
+  /**
+   * The estimated impact of this recommended action
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly estimatedImpact?: ImpactRecord[];
+  /**
+   * Stores recommendation details for the recommended action.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: IndexRecommendationDetails;
+}
+
 /** Represents a server. */
 export interface Server extends TrackedResource {
   /** The SKU (pricing tier) of the server. */
@@ -1436,6 +1685,8 @@ export interface Server extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Cluster properties of a server. */
+  cluster?: Cluster;
 }
 
 /** Represents a migration resource. */
@@ -1456,7 +1707,7 @@ export interface MigrationResource extends TrackedResource {
   migrationMode?: MigrationMode;
   /** This indicates the supported Migration option for the migration */
   migrationOption?: MigrationOption;
-  /** migration source server type : OnPremises, AWS, GCP, AzureVM, PostgreSQLSingleServer, AWS_RDS, AWS_AURORA, AWS_EC2, GCP_CloudSQL, GCP_AlloyDB, GCP_Compute, or EDB */
+  /** migration source server type : OnPremises, AWS, GCP, AzureVM, PostgreSQLSingleServer, AWS_RDS, AWS_AURORA, AWS_EC2, GCP_CloudSQL, GCP_AlloyDB, GCP_Compute, EDB, EDB_Oracle_Server, EDB_PostgreSQL, PostgreSQLFlexibleServer, PostgreSQLCosmosDB, Huawei_RDS, Huawei_Compute, Heroku_PostgreSQL, Crunchy_PostgreSQL, ApsaraDB_RDS, Digital_Ocean_Droplets, Digital_Ocean_PostgreSQL, or Supabase_PostgreSQL */
   sourceType?: SourceType;
   /** SSL modes for migration. Default SSL mode for PostgreSQLSingleServer is VerifyFull and Prefer for other source types */
   sslMode?: SslMode;
@@ -1630,6 +1881,26 @@ export interface ServerThreatProtectionSettingsCreateOrUpdateHeaders {
   location?: string;
 }
 
+/** Defines headers for TuningConfiguration_enable operation. */
+export interface TuningConfigurationEnableHeaders {
+  location?: string;
+}
+
+/** Defines headers for TuningConfiguration_disable operation. */
+export interface TuningConfigurationDisableHeaders {
+  location?: string;
+}
+
+/** Defines headers for TuningConfiguration_startSession operation. */
+export interface TuningConfigurationStartSessionHeaders {
+  location?: string;
+}
+
+/** Defines headers for TuningConfiguration_stopSession operation. */
+export interface TuningConfigurationStopSessionHeaders {
+  location?: string;
+}
+
 /** Defines headers for VirtualEndpoints_create operation. */
 export interface VirtualEndpointsCreateHeaders {
   location?: string;
@@ -1728,6 +1999,24 @@ export enum KnownHaMode {
  * **ZoneRedundant**
  */
 export type HaMode = string;
+
+/** Known values of {@link SupportedFeatureStatusEnum} that the service accepts. */
+export enum KnownSupportedFeatureStatusEnum {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for SupportedFeatureStatusEnum. \
+ * {@link KnownSupportedFeatureStatusEnum} can be used interchangeably with SupportedFeatureStatusEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type SupportedFeatureStatusEnum = string;
 
 /** Known values of {@link FastProvisioningSupportedEnum} that the service accepts. */
 export enum KnownFastProvisioningSupportedEnum {
@@ -1926,6 +2215,8 @@ export enum KnownIdentityType {
   UserAssigned = "UserAssigned",
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -1935,12 +2226,15 @@ export enum KnownIdentityType {
  * ### Known values supported by the service
  * **None** \
  * **UserAssigned** \
- * **SystemAssigned**
+ * **SystemAssigned** \
+ * **SystemAssigned,UserAssigned**
  */
 export type IdentityType = string;
 
 /** Known values of {@link ServerVersion} that the service accepts. */
 export enum KnownServerVersion {
+  /** Seventeen */
+  Seventeen = "17",
   /** Sixteen */
   Sixteen = "16",
   /** Fifteen */
@@ -1960,6 +2254,7 @@ export enum KnownServerVersion {
  * {@link KnownServerVersion} can be used interchangeably with ServerVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **17** \
  * **16** \
  * **15** \
  * **14** \
@@ -1985,6 +2280,12 @@ export enum KnownServerState {
   Stopped = "Stopped",
   /** Updating */
   Updating = "Updating",
+  /** Restarting */
+  Restarting = "Restarting",
+  /** Inaccessible */
+  Inaccessible = "Inaccessible",
+  /** Provisioning */
+  Provisioning = "Provisioning",
 }
 
 /**
@@ -1998,7 +2299,10 @@ export enum KnownServerState {
  * **Starting** \
  * **Stopping** \
  * **Stopped** \
- * **Updating**
+ * **Updating** \
+ * **Restarting** \
+ * **Inaccessible** \
+ * **Provisioning**
  */
 export type ServerState = string;
 
@@ -2080,6 +2384,8 @@ export enum KnownStorageType {
   PremiumLRS = "Premium_LRS",
   /** PremiumV2LRS */
   PremiumV2LRS = "PremiumV2_LRS",
+  /** UltraSSDLRS */
+  UltraSSDLRS = "UltraSSD_LRS",
 }
 
 /**
@@ -2088,7 +2394,8 @@ export enum KnownStorageType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Premium_LRS** \
- * **PremiumV2_LRS**
+ * **PremiumV2_LRS** \
+ * **UltraSSD_LRS**
  */
 export type StorageType = string;
 
@@ -2658,6 +2965,30 @@ export enum KnownSourceType {
   GCPCompute = "GCP_Compute",
   /** EDB */
   EDB = "EDB",
+  /** EDBOracleServer */
+  EDBOracleServer = "EDB_Oracle_Server",
+  /** EDBPostgreSQL */
+  EDBPostgreSQL = "EDB_PostgreSQL",
+  /** PostgreSQLFlexibleServer */
+  PostgreSQLFlexibleServer = "PostgreSQLFlexibleServer",
+  /** PostgreSQLCosmosDB */
+  PostgreSQLCosmosDB = "PostgreSQLCosmosDB",
+  /** HuaweiRDS */
+  HuaweiRDS = "Huawei_RDS",
+  /** HuaweiCompute */
+  HuaweiCompute = "Huawei_Compute",
+  /** HerokuPostgreSQL */
+  HerokuPostgreSQL = "Heroku_PostgreSQL",
+  /** CrunchyPostgreSQL */
+  CrunchyPostgreSQL = "Crunchy_PostgreSQL",
+  /** ApsaraDBRDS */
+  ApsaraDBRDS = "ApsaraDB_RDS",
+  /** DigitalOceanDroplets */
+  DigitalOceanDroplets = "Digital_Ocean_Droplets",
+  /** DigitalOceanPostgreSQL */
+  DigitalOceanPostgreSQL = "Digital_Ocean_PostgreSQL",
+  /** SupabasePostgreSQL */
+  SupabasePostgreSQL = "Supabase_PostgreSQL",
 }
 
 /**
@@ -2676,7 +3007,19 @@ export enum KnownSourceType {
  * **GCP_CloudSQL** \
  * **GCP_AlloyDB** \
  * **GCP_Compute** \
- * **EDB**
+ * **EDB** \
+ * **EDB_Oracle_Server** \
+ * **EDB_PostgreSQL** \
+ * **PostgreSQLFlexibleServer** \
+ * **PostgreSQLCosmosDB** \
+ * **Huawei_RDS** \
+ * **Huawei_Compute** \
+ * **Heroku_PostgreSQL** \
+ * **Crunchy_PostgreSQL** \
+ * **ApsaraDB_RDS** \
+ * **Digital_Ocean_Droplets** \
+ * **Digital_Ocean_PostgreSQL** \
+ * **Supabase_PostgreSQL**
  */
 export type SourceType = string;
 
@@ -2908,6 +3251,63 @@ export enum KnownThreatProtectionName {
  */
 export type ThreatProtectionName = string;
 
+/** Known values of {@link TuningOptionEnum} that the service accepts. */
+export enum KnownTuningOptionEnum {
+  /** Index */
+  Index = "index",
+  /** Configuration */
+  Configuration = "configuration",
+}
+
+/**
+ * Defines values for TuningOptionEnum. \
+ * {@link KnownTuningOptionEnum} can be used interchangeably with TuningOptionEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **index** \
+ * **configuration**
+ */
+export type TuningOptionEnum = string;
+
+/** Known values of {@link RecommendationType} that the service accepts. */
+export enum KnownRecommendationType {
+  /** CreateIndex */
+  CreateIndex = "CreateIndex",
+  /** DropIndex */
+  DropIndex = "DropIndex",
+}
+
+/**
+ * Defines values for RecommendationType. \
+ * {@link KnownRecommendationType} can be used interchangeably with RecommendationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CreateIndex** \
+ * **DropIndex**
+ */
+export type RecommendationType = string;
+
+/** Known values of {@link RecommendationTypeEnum} that the service accepts. */
+export enum KnownRecommendationTypeEnum {
+  /** CreateIndex */
+  CreateIndex = "CreateIndex",
+  /** DropIndex */
+  DropIndex = "DropIndex",
+  /** ReIndex */
+  ReIndex = "ReIndex",
+}
+
+/**
+ * Defines values for RecommendationTypeEnum. \
+ * {@link KnownRecommendationTypeEnum} can be used interchangeably with RecommendationTypeEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CreateIndex** \
+ * **DropIndex** \
+ * **ReIndex**
+ */
+export type RecommendationTypeEnum = string;
+
 /** Known values of {@link VirtualEndpointType} that the service accepts. */
 export enum KnownVirtualEndpointType {
   /** ReadWrite */
@@ -2949,8 +3349,7 @@ export type CapabilityStatus = "Visible" | "Available" | "Default" | "Disabled";
 export type ThreatProtectionState = "Enabled" | "Disabled";
 
 /** Optional parameters. */
-export interface AdministratorsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AdministratorsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2961,8 +3360,7 @@ export interface AdministratorsCreateOptionalParams
 export type AdministratorsCreateResponse = ActiveDirectoryAdministrator;
 
 /** Optional parameters. */
-export interface AdministratorsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AdministratorsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2970,29 +3368,25 @@ export interface AdministratorsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AdministratorsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AdministratorsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AdministratorsGetResponse = ActiveDirectoryAdministrator;
 
 /** Optional parameters. */
-export interface AdministratorsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AdministratorsListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type AdministratorsListByServerResponse = AdministratorListResult;
 
 /** Optional parameters. */
-export interface AdministratorsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AdministratorsListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type AdministratorsListByServerNextResponse = AdministratorListResult;
 
 /** Optional parameters. */
-export interface BackupsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3003,8 +3397,7 @@ export interface BackupsCreateOptionalParams
 export type BackupsCreateResponse = ServerBackup;
 
 /** Optional parameters. */
-export interface BackupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackupsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3021,15 +3414,13 @@ export interface BackupsGetOptionalParams extends coreClient.OperationOptions {}
 export type BackupsGetResponse = ServerBackup;
 
 /** Optional parameters. */
-export interface BackupsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BackupsListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type BackupsListByServerResponse = ServerBackupListResult;
 
 /** Optional parameters. */
-export interface BackupsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BackupsListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type BackupsListByServerNextResponse = ServerBackupListResult;
@@ -3046,26 +3437,22 @@ export interface LocationBasedCapabilitiesExecuteNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the executeNext operation. */
-export type LocationBasedCapabilitiesExecuteNextResponse =
-  CapabilitiesListResult;
+export type LocationBasedCapabilitiesExecuteNextResponse = CapabilitiesListResult;
 
 /** Optional parameters. */
-export interface ServerCapabilitiesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServerCapabilitiesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ServerCapabilitiesListResponse = CapabilitiesListResult;
 
 /** Optional parameters. */
-export interface ServerCapabilitiesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServerCapabilitiesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServerCapabilitiesListNextResponse = CapabilitiesListResult;
 
 /** Optional parameters. */
-export interface CheckNameAvailabilityExecuteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CheckNameAvailabilityExecuteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the execute operation. */
 export type CheckNameAvailabilityExecuteResponse = NameAvailability;
@@ -3078,22 +3465,19 @@ export interface CheckNameAvailabilityWithLocationExecuteOptionalParams
 export type CheckNameAvailabilityWithLocationExecuteResponse = NameAvailability;
 
 /** Optional parameters. */
-export interface ConfigurationsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type ConfigurationsListByServerResponse = ConfigurationListResult;
 
 /** Optional parameters. */
-export interface ConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConfigurationsGetResponse = Configuration;
 
 /** Optional parameters. */
-export interface ConfigurationsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3104,8 +3488,7 @@ export interface ConfigurationsUpdateOptionalParams
 export type ConfigurationsUpdateResponse = Configuration;
 
 /** Optional parameters. */
-export interface ConfigurationsPutOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationsPutOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3116,15 +3499,13 @@ export interface ConfigurationsPutOptionalParams
 export type ConfigurationsPutResponse = Configuration;
 
 /** Optional parameters. */
-export interface ConfigurationsListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type ConfigurationsListByServerNextResponse = ConfigurationListResult;
 
 /** Optional parameters. */
-export interface DatabasesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3135,8 +3516,7 @@ export interface DatabasesCreateOptionalParams
 export type DatabasesCreateResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DatabasesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3144,29 +3524,25 @@ export interface DatabasesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DatabasesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DatabasesGetResponse = Database;
 
 /** Optional parameters. */
-export interface DatabasesListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type DatabasesListByServerResponse = DatabaseListResult;
 
 /** Optional parameters. */
-export interface DatabasesListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DatabasesListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type DatabasesListByServerNextResponse = DatabaseListResult;
 
 /** Optional parameters. */
-export interface FirewallRulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface FirewallRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3177,8 +3553,7 @@ export interface FirewallRulesCreateOrUpdateOptionalParams
 export type FirewallRulesCreateOrUpdateResponse = FirewallRule;
 
 /** Optional parameters. */
-export interface FirewallRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface FirewallRulesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3186,29 +3561,25 @@ export interface FirewallRulesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface FirewallRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FirewallRulesGetResponse = FirewallRule;
 
 /** Optional parameters. */
-export interface FirewallRulesListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallRulesListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type FirewallRulesListByServerResponse = FirewallRuleListResult;
 
 /** Optional parameters. */
-export interface FirewallRulesListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FirewallRulesListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type FirewallRulesListByServerNextResponse = FirewallRuleListResult;
 
 /** Optional parameters. */
-export interface ServersCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3219,8 +3590,7 @@ export interface ServersCreateOptionalParams
 export type ServersCreateResponse = Server;
 
 /** Optional parameters. */
-export interface ServersUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3231,8 +3601,7 @@ export interface ServersUpdateOptionalParams
 export type ServersUpdateResponse = Server;
 
 /** Optional parameters. */
-export interface ServersDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3246,22 +3615,19 @@ export interface ServersGetOptionalParams extends coreClient.OperationOptions {}
 export type ServersGetResponse = Server;
 
 /** Optional parameters. */
-export interface ServersListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type ServersListByResourceGroupResponse = ServerListResult;
 
 /** Optional parameters. */
-export interface ServersListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ServersListResponse = ServerListResult;
 
 /** Optional parameters. */
-export interface ServersRestartOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersRestartOptionalParams extends coreClient.OperationOptions {
   /** The parameters for restarting a server. */
   parameters?: RestartParameter;
   /** Delay to wait until next poll, in milliseconds. */
@@ -3271,8 +3637,7 @@ export interface ServersRestartOptionalParams
 }
 
 /** Optional parameters. */
-export interface ServersStartOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersStartOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3288,15 +3653,13 @@ export interface ServersStopOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Optional parameters. */
-export interface ServersListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ServersListByResourceGroupNextResponse = ServerListResult;
 
 /** Optional parameters. */
-export interface ServersListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ServersListNextResponse = ServerListResult;
@@ -3306,12 +3669,11 @@ export interface FlexibleServerTriggerLtrPreBackupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the triggerLtrPreBackup operation. */
-export type FlexibleServerTriggerLtrPreBackupResponse =
-  FlexibleServerTriggerLtrPreBackupHeaders & LtrPreBackupResponse;
+export type FlexibleServerTriggerLtrPreBackupResponse = FlexibleServerTriggerLtrPreBackupHeaders &
+  LtrPreBackupResponse;
 
 /** Optional parameters. */
-export interface FlexibleServerStartLtrBackupOptionalParams
-  extends coreClient.OperationOptions {
+export interface FlexibleServerStartLtrBackupOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3319,12 +3681,11 @@ export interface FlexibleServerStartLtrBackupOptionalParams
 }
 
 /** Contains response data for the startLtrBackup operation. */
-export type FlexibleServerStartLtrBackupResponse =
-  FlexibleServerStartLtrBackupHeaders & LtrBackupResponse;
+export type FlexibleServerStartLtrBackupResponse = FlexibleServerStartLtrBackupHeaders &
+  LtrBackupResponse;
 
 /** Optional parameters. */
-export interface LtrBackupOperationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LtrBackupOperationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type LtrBackupOperationsGetResponse = LtrServerBackupOperation;
@@ -3334,45 +3695,38 @@ export interface LtrBackupOperationsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type LtrBackupOperationsListByServerResponse =
-  LtrServerBackupOperationList;
+export type LtrBackupOperationsListByServerResponse = LtrServerBackupOperationList;
 
 /** Optional parameters. */
 export interface LtrBackupOperationsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type LtrBackupOperationsListByServerNextResponse =
-  LtrServerBackupOperationList;
+export type LtrBackupOperationsListByServerNextResponse = LtrServerBackupOperationList;
 
 /** Optional parameters. */
-export interface MigrationsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MigrationsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type MigrationsCreateResponse = MigrationResource;
 
 /** Optional parameters. */
-export interface MigrationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MigrationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type MigrationsGetResponse = MigrationResource;
 
 /** Optional parameters. */
-export interface MigrationsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MigrationsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type MigrationsUpdateResponse = MigrationResource;
 
 /** Optional parameters. */
-export interface MigrationsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MigrationsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface MigrationsListByTargetServerOptionalParams
-  extends coreClient.OperationOptions {
+export interface MigrationsListByTargetServerOptionalParams extends coreClient.OperationOptions {
   /** Migration list filter. Retrieves either active migrations or all migrations. */
   migrationListFilter?: MigrationListFilter;
 }
@@ -3385,27 +3739,28 @@ export interface MigrationsListByTargetServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTargetServerNext operation. */
-export type MigrationsListByTargetServerNextResponse =
-  MigrationResourceListResult;
+export type MigrationsListByTargetServerNextResponse = MigrationResourceListResult;
 
 /** Optional parameters. */
-export interface CheckMigrationNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CheckMigrationNameAvailabilityOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkMigrationNameAvailability operation. */
-export type CheckMigrationNameAvailabilityResponse =
-  MigrationNameAvailabilityResource;
+export type CheckMigrationNameAvailabilityResponse = MigrationNameAvailabilityResource;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface GetPrivateDnsZoneSuffixExecuteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface GetPrivateDnsZoneSuffixExecuteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the execute operation. */
 export type GetPrivateDnsZoneSuffixExecuteResponse = {
@@ -3414,8 +3769,7 @@ export type GetPrivateDnsZoneSuffixExecuteResponse = {
 };
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -3425,8 +3779,7 @@ export interface PrivateEndpointConnectionsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type PrivateEndpointConnectionsListByServerResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByServerResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByServerNextOptionalParams
@@ -3437,8 +3790,7 @@ export type PrivateEndpointConnectionsListByServerNextResponse =
   PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3449,8 +3801,7 @@ export interface PrivateEndpointConnectionUpdateOptionalParams
 export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3458,20 +3809,17 @@ export interface PrivateEndpointConnectionDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionDeleteResponse =
-  PrivateEndpointConnectionDeleteHeaders;
+export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type PrivateLinkResourcesListByServerResponse =
-  PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByServerResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
@@ -3481,26 +3829,34 @@ export interface PrivateLinkResourcesListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type PrivateLinkResourcesListByServerNextResponse =
-  PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByServerNextResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface ReplicasListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaUsagesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type QuotaUsagesListResponse = QuotaUsagesListResult;
+
+/** Optional parameters. */
+export interface QuotaUsagesListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type QuotaUsagesListNextResponse = QuotaUsagesListResult;
+
+/** Optional parameters. */
+export interface ReplicasListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type ReplicasListByServerResponse = ServerListResult;
 
 /** Optional parameters. */
-export interface LogFilesListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LogFilesListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type LogFilesListByServerResponse = LogFileListResult;
 
 /** Optional parameters. */
-export interface LogFilesListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LogFilesListByServerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
 export type LogFilesListByServerNextResponse = LogFileListResult;
@@ -3510,16 +3866,14 @@ export interface ServerThreatProtectionSettingsListByServerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
-export type ServerThreatProtectionSettingsListByServerResponse =
-  ServerThreatProtectionListResult;
+export type ServerThreatProtectionSettingsListByServerResponse = ServerThreatProtectionListResult;
 
 /** Optional parameters. */
 export interface ServerThreatProtectionSettingsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ServerThreatProtectionSettingsGetResponse =
-  ServerThreatProtectionSettingsModel;
+export type ServerThreatProtectionSettingsGetResponse = ServerThreatProtectionSettingsModel;
 
 /** Optional parameters. */
 export interface ServerThreatProtectionSettingsCreateOrUpdateOptionalParams
@@ -3543,8 +3897,113 @@ export type ServerThreatProtectionSettingsListByServerNextResponse =
   ServerThreatProtectionListResult;
 
 /** Optional parameters. */
-export interface VirtualEndpointsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface TuningOptionsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TuningOptionsGetResponse = TuningOptionsResource;
+
+/** Optional parameters. */
+export interface TuningOptionsListByServerOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type TuningOptionsListByServerResponse = TuningOptionsListResult;
+
+/** Optional parameters. */
+export interface TuningOptionsListByServerNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type TuningOptionsListByServerNextResponse = TuningOptionsListResult;
+
+/** Optional parameters. */
+export interface TuningIndexListRecommendationsOptionalParams extends coreClient.OperationOptions {
+  /** Recommendations list filter. Retrieves recommendations based on type. */
+  recommendationType?: RecommendationType;
+}
+
+/** Contains response data for the listRecommendations operation. */
+export type TuningIndexListRecommendationsResponse = IndexRecommendationListResult;
+
+/** Optional parameters. */
+export interface TuningIndexListRecommendationsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRecommendationsNext operation. */
+export type TuningIndexListRecommendationsNextResponse = IndexRecommendationListResult;
+
+/** Optional parameters. */
+export interface TuningConfigurationEnableOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the enable operation. */
+export type TuningConfigurationEnableResponse = TuningConfigurationEnableHeaders;
+
+/** Optional parameters. */
+export interface TuningConfigurationDisableOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the disable operation. */
+export type TuningConfigurationDisableResponse = TuningConfigurationDisableHeaders;
+
+/** Optional parameters. */
+export interface TuningConfigurationStartSessionOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the startSession operation. */
+export type TuningConfigurationStartSessionResponse = TuningConfigurationStartSessionHeaders;
+
+/** Optional parameters. */
+export interface TuningConfigurationStopSessionOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stopSession operation. */
+export type TuningConfigurationStopSessionResponse = TuningConfigurationStopSessionHeaders;
+
+/** Optional parameters. */
+export interface TuningConfigurationListSessionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSessions operation. */
+export type TuningConfigurationListSessionsResponse = SessionsListResult;
+
+/** Optional parameters. */
+export interface TuningConfigurationListSessionDetailsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSessionDetails operation. */
+export type TuningConfigurationListSessionDetailsResponse = SessionDetailsListResult;
+
+/** Optional parameters. */
+export interface TuningConfigurationListSessionsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSessionsNext operation. */
+export type TuningConfigurationListSessionsNextResponse = SessionsListResult;
+
+/** Optional parameters. */
+export interface TuningConfigurationListSessionDetailsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSessionDetailsNext operation. */
+export type TuningConfigurationListSessionDetailsNextResponse = SessionDetailsListResult;
+
+/** Optional parameters. */
+export interface VirtualEndpointsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3555,8 +4014,7 @@ export interface VirtualEndpointsCreateOptionalParams
 export type VirtualEndpointsCreateResponse = VirtualEndpointResource;
 
 /** Optional parameters. */
-export interface VirtualEndpointsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VirtualEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3567,8 +4025,7 @@ export interface VirtualEndpointsUpdateOptionalParams
 export type VirtualEndpointsUpdateResponse = VirtualEndpointResource;
 
 /** Optional parameters. */
-export interface VirtualEndpointsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface VirtualEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3579,15 +4036,13 @@ export interface VirtualEndpointsDeleteOptionalParams
 export type VirtualEndpointsDeleteResponse = VirtualEndpointsDeleteHeaders;
 
 /** Optional parameters. */
-export interface VirtualEndpointsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VirtualEndpointsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type VirtualEndpointsGetResponse = VirtualEndpointResource;
 
 /** Optional parameters. */
-export interface VirtualEndpointsListByServerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VirtualEndpointsListByServerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServer operation. */
 export type VirtualEndpointsListByServerResponse = VirtualEndpointsListResult;
@@ -3597,16 +4052,14 @@ export interface VirtualEndpointsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type VirtualEndpointsListByServerNextResponse =
-  VirtualEndpointsListResult;
+export type VirtualEndpointsListByServerNextResponse = VirtualEndpointsListResult;
 
 /** Optional parameters. */
 export interface VirtualNetworkSubnetUsageExecuteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the execute operation. */
-export type VirtualNetworkSubnetUsageExecuteResponse =
-  VirtualNetworkSubnetUsageResult;
+export type VirtualNetworkSubnetUsageExecuteResponse = VirtualNetworkSubnetUsageResult;
 
 /** Optional parameters. */
 export interface PostgreSQLManagementFlexibleServerClientOptionalParams

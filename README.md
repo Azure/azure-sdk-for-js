@@ -45,6 +45,63 @@ Newer versions of these libraries follow the [Azure SDK Design Guidelines for Ty
 - Check [previous questions](https://stackoverflow.com/questions/tagged/azure-sdk-js) or ask new ones on StackOverflow using `azure-sdk-js` tag.
 - Read our [Support documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
 
+## Data Collection
+The software may collect information about you and your use of the software and send it to Microsoft. Microsoft may use this information to provide services and improve our products and services. You may turn off the telemetry as described below. You can learn more about data collection and use in the help documentation and Microsoft’s [privacy statement](https://go.microsoft.com/fwlink/?LinkID=824704). For more information on the data collected by the Azure SDK, please visit the [Telemetry Guidelines](https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy) page.
+
+### Telemetry Configuration
+Telemetry collection is on by default.
+
+To opt out, you can disable telemetry at client construction. Create a custom HTTP pipeline policy that removes the user agent string, and then pass that policy into the `additionalPolicies` option during client creation. This will disable telemetry for all methods in the client. Do this for every new client.
+
+The example below uses the `@azure/keyvault-secrets` package. In your code, you can replace `@azure/keyvault-secrets` with the package you are using.
+
+```javascript
+import { SecretClient } from "@azure/keyvault-secrets";
+import { ManagedIdentityCredential } from "@azure/identity";
+
+function removeUserAgentPolicy() {
+  return {
+    name: "removeUserAgentPolicy",
+    sendRequest(request, next) {
+      request.headers.delete("User-Agent");
+      return next(request);
+    },
+  };
+}
+
+/**
+ * Creates a SecretClient with managed identity authentication and empty user agent
+ * @param keyvaultUri - The URI of the Azure Key Vault
+ * @returns configured SecretClient instance
+ */
+function createSecretClientWithManagedIdentity(
+  keyvaultUri: string
+): SecretClient {
+  // Create ManagedIdentityCredential for managed identity authentication
+  const credential = new ManagedIdentityCredential();
+
+  // Create secret client with managed identity and empty user agent
+  const secretClient = new SecretClient(keyvaultUri, credential, {
+    additionalPolicies: [
+      {
+        position: "perCall",
+        policy: removeUserAgentPolicy(),
+      },
+    ],
+  });
+
+  return secretClient;
+}
+
+// Usage example
+const keyvaultUri = "https://your-keyvault-name.vault.azure.net";
+const secretClient = createSecretClientWithManagedIdentity(keyvaultUri);
+
+// Now you can use the secret client to perform operations
+// For example:
+// const secretValue = await secretClient.getSecret("your-secret-name");
+```
+
 ### Community
 
 Try our [community resources](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#community-resources).

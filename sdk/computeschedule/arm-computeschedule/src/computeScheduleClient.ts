@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import {
-  getScheduledActionsOperations,
-  ScheduledActionsOperations,
-} from "./classic/scheduledActions/index.js";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import {
   createComputeSchedule,
   ComputeScheduleContext,
   ComputeScheduleClientOptionalParams,
 } from "./api/index.js";
+import {
+  ScheduledActionsOperations,
+  _getScheduledActionsOperations,
+} from "./classic/scheduledActions/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -36,8 +36,8 @@ export class ComputeScheduleClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.scheduledActions = getScheduledActionsOperations(this._client);
-    this.operations = getOperationsOperations(this._client);
+    this.scheduledActions = _getScheduledActionsOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
   /** The operation groups for scheduledActions */

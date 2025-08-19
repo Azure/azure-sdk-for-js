@@ -21,7 +21,7 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "files": [
     "dist/",
@@ -31,7 +31,6 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
-    "build:test": "npm run build:test:node",
     "build:test:browser": "dev-tool run build-package && dev-tool run build-test",
     "build:test:node": "dev-tool run build-package && dev-tool run build-test",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
@@ -39,18 +38,13 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run vendored cross-env TEST_MODE=live dev-tool run test:vitest --browser --no-test-proxy",
-    "integration-test:node": "npm run vitest:node --esm",
-    "lint": "eslint README.md package.json api-extractor.json src test",
-    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "echo skipped",
+    "test:node": "echo skipped",
+    "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets",
     "vitest:node": "dev-tool run test:vitest --no-test-proxy"
   },
@@ -89,7 +83,7 @@
     "@rollup/plugin-inject": "^5.0.5",
     "@types/chai-as-promised": "^8.0.1",
     "@types/debug": "^4.1.12",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "buffer": "^6.0.3",

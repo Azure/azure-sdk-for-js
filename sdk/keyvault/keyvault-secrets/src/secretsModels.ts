@@ -3,12 +3,12 @@
 
 import type * as coreClient from "@azure-rest/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { DeletionRecoveryLevel } from "./generated/index.js";
+import type { DeletionRecoveryLevel } from "./generated/src/index.js";
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.6-preview.2";
+export const LATEST_API_VERSION = "7.6";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -17,7 +17,7 @@ export interface SecretClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6-preview.2";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.

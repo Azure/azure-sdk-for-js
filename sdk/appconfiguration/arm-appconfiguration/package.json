@@ -3,48 +3,48 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AppConfigurationManagementClient.",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.6.0",
-    "@azure/core-client": "^1.7.0",
     "@azure/core-lro": "^2.5.4",
-    "@azure/core-paging": "^1.2.0",
-    "@azure/core-rest-pipeline": "^1.14.0",
-    "tslib": "^2.2.0"
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-paging": "^1.6.2",
+    "@azure/core-client": "^1.9.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-rest-pipeline": "^1.19.0",
+    "tslib": "^2.8.1"
   },
   "keywords": [
     "node",
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "type": "module",
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "typescript": "~5.8.2",
+    "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.2.1",
-    "@types/node": "^18.0.0",
+    "@azure/identity": "^4.6.0",
+    "@azure/logger": "^1.1.4",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
-    "dotenv": "^16.0.0",
-    "playwright": "^1.49.1",
-    "typescript": "~5.8.2",
+    "playwright": "^1.52.0",
     "vitest": "^3.0.9"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -52,33 +52,23 @@
     "dist/",
     "README.md",
     "LICENSE",
-    "review/",
+    "review/*",
     "CHANGELOG.md"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:browser": "echo skipped",
-    "build:node": "echo skipped",
     "build:samples": "echo skipped.",
-    "build:test": "echo skipped",
     "check-format": "echo skipped",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run extract-api",
     "format": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "echo skipped",
-    "minify": "echo skipped",
     "pack": "npm pack 2>&1",
-    "prepack": "npm run build",
-    "test": "npm run integration-test",
+    "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
-    "test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:vitest",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -91,18 +81,10 @@
     ]
   },
   "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/arm-appconfiguration",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-appconfiguration?view=azure-node-preview"
-  },
-  "type": "module",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -117,8 +99,15 @@
     ],
     "selfLink": false
   },
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/arm-appconfiguration",
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-appconfiguration?view=azure-node-preview"
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

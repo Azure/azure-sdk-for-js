@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.3.0",
+  "version": "4.5.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -36,29 +36,25 @@
   },
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
-    "build:test": "echo Obsolete.",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "npm run build && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.int.config.ts",
-    "lint": "dev-tool run vendored eslint package.json api-extractor.json src test",
-    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "dev-tool run vendored eslint package.json src test",
+    "lint:fix": "dev-tool run vendored eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "npm run unit-test && npm run integration-test",
-    "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "echo skipped",
+    "test:node": "npm run test:node:unit",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "test:node:integration": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.int.config.ts",
+    "test:node:unit": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
     "update-snippets": "dev-tool run update-snippets"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -76,6 +72,7 @@
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",
     "@azure/keyvault-keys": "^4.9.0",
+    "@azure/logger": "^1.1.4",
     "fast-json-stable-stringify": "^2.1.0",
     "priorityqueuejs": "^2.0.0",
     "semaphore": "^1.1.0",
@@ -86,9 +83,8 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.8.0",
-    "@azure/logger": "^1.1.4",
     "@types/debug": "^4.1.4",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
     "@vitest/browser": "^3.0.9",
@@ -106,6 +102,7 @@
       "EntraAuth.ts",
       "AlterQueryThroughput.ts",
       "Bulk.ts",
+      "ExecuteBulkOperations.ts",
       "BulkUpdateWithSproc.ts",
       "ChangeFeed.ts",
       "ContainerManagement.ts",
@@ -140,7 +137,7 @@
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "./tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

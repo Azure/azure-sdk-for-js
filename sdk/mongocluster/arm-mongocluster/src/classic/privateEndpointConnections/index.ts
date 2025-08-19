@@ -1,38 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import { PrivateEndpointConnectionResource } from "../../models/models.js";
 import {
-  privateEndpointConnectionsListByMongoCluster,
-  privateEndpointConnectionsGet,
-  privateEndpointConnectionsCreate,
-  privateEndpointConnectionsDelete,
-} from "../../api/privateEndpointConnections/index.js";
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+} from "../../api/privateEndpointConnections/options.js";
+import {
+  $delete,
+  create,
+  get,
+  listByMongoCluster,
+} from "../../api/privateEndpointConnections/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
-import {
-  PrivateEndpointConnectionsListByMongoClusterOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-} from "../../models/options.js";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {
-  /** List existing private connections */
-  listByMongoCluster: (
-    resourceGroupName: string,
-    mongoClusterName: string,
-    options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
-  ) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
-  /** Get a specific private connection */
-  get: (
+  /** Delete the private endpoint connection */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
+  delete: (
     resourceGroupName: string,
     mongoClusterName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams,
-  ) => Promise<PrivateEndpointConnectionResource>;
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a Private endpoint connection */
   create: (
     resourceGroupName: string,
@@ -44,43 +43,30 @@ export interface PrivateEndpointConnectionsOperations {
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
   >;
-  /** Delete the private endpoint connection */
-  delete: (
+  /** Get a specific private connection */
+  get: (
     resourceGroupName: string,
     mongoClusterName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+    options?: PrivateEndpointConnectionsGetOptionalParams,
+  ) => Promise<PrivateEndpointConnectionResource>;
+  /** List existing private connections */
+  listByMongoCluster: (
+    resourceGroupName: string,
+    mongoClusterName: string,
+    options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+  ) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
 }
 
-export function getPrivateEndpointConnections(context: DocumentDBContext, subscriptionId: string) {
+function _getPrivateEndpointConnections(context: MongoClusterManagementContext) {
   return {
-    listByMongoCluster: (
-      resourceGroupName: string,
-      mongoClusterName: string,
-      options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
-    ) =>
-      privateEndpointConnectionsListByMongoCluster(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        options,
-      ),
-    get: (
+    delete: (
       resourceGroupName: string,
       mongoClusterName: string,
       privateEndpointConnectionName: string,
-      options?: PrivateEndpointConnectionsGetOptionalParams,
+      options?: PrivateEndpointConnectionsDeleteOptionalParams,
     ) =>
-      privateEndpointConnectionsGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        privateEndpointConnectionName,
-        options,
-      ),
+      $delete(context, resourceGroupName, mongoClusterName, privateEndpointConnectionName, options),
     create: (
       resourceGroupName: string,
       mongoClusterName: string,
@@ -88,37 +74,32 @@ export function getPrivateEndpointConnections(context: DocumentDBContext, subscr
       resource: PrivateEndpointConnectionResource,
       options?: PrivateEndpointConnectionsCreateOptionalParams,
     ) =>
-      privateEndpointConnectionsCreate(
+      create(
         context,
-        subscriptionId,
         resourceGroupName,
         mongoClusterName,
         privateEndpointConnectionName,
         resource,
         options,
       ),
-    delete: (
+    get: (
       resourceGroupName: string,
       mongoClusterName: string,
       privateEndpointConnectionName: string,
-      options?: PrivateEndpointConnectionsDeleteOptionalParams,
-    ) =>
-      privateEndpointConnectionsDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        privateEndpointConnectionName,
-        options,
-      ),
+      options?: PrivateEndpointConnectionsGetOptionalParams,
+    ) => get(context, resourceGroupName, mongoClusterName, privateEndpointConnectionName, options),
+    listByMongoCluster: (
+      resourceGroupName: string,
+      mongoClusterName: string,
+      options?: PrivateEndpointConnectionsListByMongoClusterOptionalParams,
+    ) => listByMongoCluster(context, resourceGroupName, mongoClusterName, options),
   };
 }
 
-export function getPrivateEndpointConnectionsOperations(
-  context: DocumentDBContext,
-  subscriptionId: string,
+export function _getPrivateEndpointConnectionsOperations(
+  context: MongoClusterManagementContext,
 ): PrivateEndpointConnectionsOperations {
   return {
-    ...getPrivateEndpointConnections(context, subscriptionId),
+    ..._getPrivateEndpointConnections(context),
   };
 }

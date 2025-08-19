@@ -81,7 +81,7 @@ import {
 import type {
   CertificateIssuerSetParameters,
   CertificateIssuerUpdateParameters,
-} from "./generated/models/index.js";
+} from "./generated/src/models/index.js";
 import {
   BackupCertificateResult,
   IssuerParameters,
@@ -94,9 +94,9 @@ import {
   JsonWebKeyCurveName as CertificateKeyCurveName,
   KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
   KeyUsageType,
-} from "./generated/models/index.js";
-import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
-import { KeyVaultClient } from "./generated/keyVaultClient.js";
+} from "./generated/src/models/index.js";
+import type { KeyVaultClientOptionalParams } from "./generated/src/keyVaultClient.js";
+import { KeyVaultClient } from "./generated/src/keyVaultClient.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { CreateCertificatePoller } from "./lro/create/poller.js";

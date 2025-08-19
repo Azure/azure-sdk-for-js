@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "4.9.2",
+  "version": "4.11.2",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Microsoft Entra ID",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -13,6 +13,9 @@
       "entra",
       "entra-id"
     ],
+    "skip": [
+      "interactiveBrowserCredential.js"
+    ],
     "requiredResources": {
       "Register an app with the Microsoft identity platform": "https://learn.microsoft.com/entra/identity-platform/quickstart-register-app",
       "Set and retrieve a secret from Azure Key Vault": "https://learn.microsoft.com/azure/key-vault/secrets/quick-create-portal"
@@ -21,26 +24,19 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
-    "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "echo skipped",
-    "integration-test:managed-identity": "dev-tool run test:vitest -- --test-timeout 180000 --config ./vitest.managed-identity.config.ts",
-    "integration-test:node": "dev-tool run test:vitest --esm",
-    "lint": "eslint README.md package.json api-extractor.json src test",
-    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
-    "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && npm run unit-test:node && npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "unit-test:node": "dev-tool run test:vitest",
-    "unit-test:node:no-timeouts": "dev-tool run test:vitest -- --test-timeout=0",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
+    "test:node:managed-identity": "dev-tool run test:vitest -- --config ./vitest.managed-identity.config.ts",
+    "test:node:no-timeouts": "dev-tool run test:vitest -- --test-timeout=0",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -57,7 +53,7 @@
     ]
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
@@ -86,8 +82,8 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-node": "^3.5.0",
     "@azure/msal-browser": "^4.2.0",
+    "@azure/msal-node": "^3.5.0",
     "open": "^10.1.0",
     "tslib": "^2.2.0"
   },
@@ -96,10 +92,10 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/keyvault-keys": "^4.2.0",
+    "@azure/keyvault-keys": "4.10.0",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/ms": "^2.1.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "assertion-error": "^2.0.1",
@@ -113,7 +109,7 @@
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

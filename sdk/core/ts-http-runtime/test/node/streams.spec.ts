@@ -6,15 +6,17 @@ import type { ClientRequest, IncomingMessage } from "node:http";
 import { type IncomingHttpHeaders } from "node:http";
 import { PassThrough } from "node:stream";
 
-vi.mock("https", async () => {
-  const actual = await vi.importActual("https");
+vi.mock("node:https", async () => {
+  const actual = await vi.importActual("node:https");
   return {
-    ...actual,
-    request: vi.fn(),
+    default: {
+      ...(actual as any).default,
+      request: vi.fn(),
+    },
   };
 });
 
-import * as https from "https";
+import https from "https";
 
 const mockBaseUrl = "https://example.org";
 

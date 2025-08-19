@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get usages for the requested subscription
  *
  * @summary Get usages for the requested subscription
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListUsages.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListUsages.json
  */
 async function getUsages() {
   const subscriptionId =
@@ -25,14 +23,14 @@ async function getUsages() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.usages.list(location)) {
+  for await (const item of client.usages.list(location)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  getUsages();
+  await getUsages();
 }
 
 main().catch(console.error);

@@ -11,41 +11,21 @@ urlFragment: ai-projects-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure AI Projects in some common scenarios.
 
-| **File Name**                                                                               | **Description**                                                                                                                                                                                        |
-| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [agents/codeInterpreterWithStreaming.js][agents_codeinterpreterwithstreaming]               | demonstrates how to use agent operations with code interpreter.                                                                                                                                        |
-| [agents/agentCreateWithTracingConsole.js][agents_agentcreatewithtracingconsole]             | Create Agent and instrument using open telemetry.                                                                                                                                                      |
-| [agents/agentTokenUsage.js][agents_agenttokenusage]                                         | demonstrates how to track the token usage of an Agent.                                                                                                                                                 |
-| [agents/agentsAzureAiSearch.js][agents_agentsazureaisearch]                                 | demonstrates how to use agent operations with the Azure AI Search tool.                                                                                                                                |
-| [agents/agentsAzureFunctions.js][agents_agentsazurefunctions]                               | demonstrates how to use azure function agent operations from the Azure Agents service                                                                                                                  |
-| [agents/agentsBasics.js][agents_agentsbasics]                                               | demonstrates how to use basic agent operations.                                                                                                                                                        |
-| [agents/agentsBingCustomSearch.js][agents_agentsbingcustomsearch]                           | demonstrates how to use agent operations with the Bing Customer Search tool.                                                                                                                           |
-| [agents/agentsBingGrounding.js][agents_agentsbinggrounding]                                 | demonstrates how to use agent operations with the Grounding with Bing Search tool.                                                                                                                     |
-| [agents/agentsBingGroundingWithStreaming.js][agents_agentsbinggroundingwithstreaming]       | demonstrates how to use agent operations with the Grounding with Bing Search tool using streaming.                                                                                                     |
-| [agents/agentsFabric.js][agents_agentsfabric]                                               | demonstrates how to use agent operations with the Microsoft Fabric tool.                                                                                                                               |
-| [agents/agentsImageInputWithBase64.js][agents_agentsimageinputwithbase64]                   | This sample demonstrates how to use basic agent operations with image input (base64 encoded) for the Azure Agents service.                                                                             |
-| [agents/agentsImageInputWithFile.js][agents_agentsimageinputwithfile]                       | This sample demonstrates how to use basic agent operations using image file input for the Azure Agents service.                                                                                        |
-| [agents/agentsImageInputWithUrl.js][agents_agentsimageinputwithurl]                         | This sample demonstrates how to use basic agent operations using image url input for the Azure Agents service.                                                                                         |
-| [agents/agentsSharepoint.js][agents_agentssharepoint]                                       | demonstrates how to use agent operations with the Sharepoint tool.                                                                                                                                     |
-| [agents/agentsWithFunctionTool.js][agents_agentswithfunctiontool]                           | demonstrates how to use basic agent operations using function tool.                                                                                                                                    |
-| [agents/agentsWithOpenApi.js][agents_agentswithopenapi]                                     | demonstrates how to use agent operations with an OpenApi tool.                                                                                                                                         |
-| [agents/agentsWithToolset.js][agents_agentswithtoolset]                                     | demonstrates how to use agent operations with toolset.                                                                                                                                                 |
-| [agents/batchVectorStoreWithFiles.js][agents_batchvectorstorewithfiles]                     | demonstrates how to create the batch vector store with the list of files.                                                                                                                              |
-| [agents/batchVectorStoreWithFilesAndPolling.js][agents_batchvectorstorewithfilesandpolling] | demonstrates how to create the batch vector store with the list of files using polling operation.                                                                                                      |
-| [agents/codeInterpreter.js][agents_codeinterpreter]                                         | demonstrates how to use agent operations with code interpreter.                                                                                                                                        |
-| [agents/fileSearch.js][agents_filesearch]                                                   | This sample demonstrates how to use agent operations with file searching.                                                                                                                              |
-| [agents/files.js][agents_files]                                                             | demonstrates how to use basic files agent operations.                                                                                                                                                  |
-| [agents/filesWithLocalUpload.js][agents_fileswithlocalupload]                               | demonstrates how to use basic files agent operations with local file upload.                                                                                                                           |
-| [agents/filesWithPolling.js][agents_fileswithpolling]                                       | demonstrates how to upload a file and poll for its status.                                                                                                                                             |
-| [agents/messages.js][agents_messages]                                                       | demonstrates how to use basic message agent operations.                                                                                                                                                |
-| [agents/runSteps.js][agents_runsteps]                                                       | demonstrates how to use basic run agent operations.                                                                                                                                                    |
-| [agents/streaming.js][agents_streaming]                                                     | demonstrates how to use agent operations in streaming.                                                                                                                                                 |
-| [agents/threads.js][agents_threads]                                                         | demonstrates how to use basic thread agent operations.                                                                                                                                                 |
-| [agents/vectorStoreWithFiles.js][agents_vectorstorewithfiles]                               | demonstrates how to create the vector store with the list of files.                                                                                                                                    |
-| [agents/vectorStoreWithFilesAndPolling.js][agents_vectorstorewithfilesandpolling]           | demonstrates how to create the vector store with the list of files using polling operation.                                                                                                            |
-| [agents/vectorStores.js][agents_vectorstores]                                               | demonstrates how to create the vector store.                                                                                                                                                           |
-| [agents/vectorStoresWithPolling.js][agents_vectorstoreswithpolling]                         | demonstrates how to create the vector store using polling operation.                                                                                                                                   |
-| [connections/connectionsBasics.js][connections_connectionsbasics]                           | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name. |
+| **File Name**                                                     | **Description**                                                                                                                                                                                        |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [agents/agentsBasics.js][agents_agentsbasics]                     | Create and delete an agent.                                                                                                                                                                            |
+| [connections/connectionsBasics.js][connections_connectionsbasics] | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all connections, get the properties of a default connection, and get the properties of a connection by its name. |
+| [datasets/datasetsBasics.js][datasets_datasetsbasics]             | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of datasets, upload files/folders, create datasets, manage dataset versions, and delete datasets.                   |
+| [deployments/deploymentsBasics.js][deployments_deploymentsbasics] | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all deployments, get the properties of a deployment by its name, and delete a deployment.                        |
+| [evaluations/agentEvaluation.js][evaluations_agentevaluation]     | This sample demonstrates how to create an agent evaluation using the Azure AI Projects SDK.                                                                                                            |
+| [evaluations/evaluationBasics.js][evaluations_evaluationbasics]   | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all evaluations, and perform various operations on them.                                                         |
+| [indexes/indexesBasics.js][indexes_indexesbasics]                 | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all indexes, get the properties of an index by its name, and delete an index.                                    |
+| [inference/azureOpenAIChat.js][inference_azureopenaichat]         | Given an AIProjectClient, this sample demonstrates how to get an Azure OpenAI client and create a chat completion.                                                                                     |
+| [inference/chatCompletion.js][inference_chatcompletion]           | Given an AIProjectClient, this sample demonstrates how to get a response from a chat model. Get the chat completions for the provided chat messages.                                                   |
+| [inference/imageEmbedding.js][inference_imageembedding]           | Given an AIProjectClient, this sample demonstrates how to get the image embeddings for a given image. Get the image embeddings for a given image.                                                      |
+| [inference/textEmbeddings.js][inference_textembeddings]           | Given an AIProjectClient, this sample demonstrates how to get the text embeddings for a given text. Get the text embeddings for arrays of given texts.                                                 |
+| [telemetry/inferenceTelemetry.js][telemetry_inferencetelemetry]   | This sample demonstrates how to enable telemetry for inference operations using AIProjectClient.                                                                                                       |
+| [telemetry/telemetryBasics.js][telemetry_telemetrybasics]         | Given the AIProjectClient, this sample shows how to get the connection string for telemetry.                                                                                                           |
 
 ## Prerequisites
 
@@ -72,52 +52,32 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node agents\codeInterpreterWithStreaming.js
+node agents\agentsBasics.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env AZURE_AI_PROJECTS_CONNECTION_STRING="<azure ai projects connection string>" MODEL_DEPLOYMENT_NAME="<model deployment name>" node agents\codeInterpreterWithStreaming.js
+npx dev-tool run vendored cross-env AZURE_AI_PROJECT_ENDPOINT_STRING="<azure ai project endpoint string>" node agents\agentsBasics.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[agents_codeinterpreterwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/codeInterpreterWithStreaming.js
-[agents_agentcreatewithtracingconsole]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentCreateWithTracingConsole.js
-[agents_agenttokenusage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentTokenUsage.js
-[agents_agentsazureaisearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsAzureAiSearch.js
-[agents_agentsazurefunctions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsAzureFunctions.js
 [agents_agentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsBasics.js
-[agents_agentsbingcustomsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsBingCustomSearch.js
-[agents_agentsbinggrounding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsBingGrounding.js
-[agents_agentsbinggroundingwithstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsBingGroundingWithStreaming.js
-[agents_agentsfabric]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsFabric.js
-[agents_agentsimageinputwithbase64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsImageInputWithBase64.js
-[agents_agentsimageinputwithfile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsImageInputWithFile.js
-[agents_agentsimageinputwithurl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsImageInputWithUrl.js
-[agents_agentssharepoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsSharepoint.js
-[agents_agentswithfunctiontool]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsWithFunctionTool.js
-[agents_agentswithopenapi]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsWithOpenApi.js
-[agents_agentswithtoolset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/agentsWithToolset.js
-[agents_batchvectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/batchVectorStoreWithFiles.js
-[agents_batchvectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/batchVectorStoreWithFilesAndPolling.js
-[agents_codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/codeInterpreter.js
-[agents_filesearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/fileSearch.js
-[agents_files]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/files.js
-[agents_fileswithlocalupload]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/filesWithLocalUpload.js
-[agents_fileswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/filesWithPolling.js
-[agents_messages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/messages.js
-[agents_runsteps]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/runSteps.js
-[agents_streaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/streaming.js
-[agents_threads]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/threads.js
-[agents_vectorstorewithfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStoreWithFiles.js
-[agents_vectorstorewithfilesandpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStoreWithFilesAndPolling.js
-[agents_vectorstores]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStores.js
-[agents_vectorstoreswithpolling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/agents/vectorStoresWithPolling.js
 [connections_connectionsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/connections/connectionsBasics.js
+[datasets_datasetsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/datasets/datasetsBasics.js
+[deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/deployments/deploymentsBasics.js
+[evaluations_agentevaluation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/evaluations/agentEvaluation.js
+[evaluations_evaluationbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/evaluations/evaluationBasics.js
+[indexes_indexesbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/indexes/indexesBasics.js
+[inference_azureopenaichat]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/inference/azureOpenAIChat.js
+[inference_chatcompletion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/inference/chatCompletion.js
+[inference_imageembedding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/inference/imageEmbedding.js
+[inference_textembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/inference/textEmbeddings.js
+[telemetry_inferencetelemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/telemetry/inferenceTelemetry.js
+[telemetry_telemetrybasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1-beta/javascript/telemetry/telemetryBasics.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/README.md

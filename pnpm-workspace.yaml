@@ -1,0 +1,20 @@
+linkWorkspacePackages: true
+
+packages:
+  - 'sdk/**'
+  - common/tools/dev-tool
+  - common/tools/eslint-plugin-azure-sdk
+  - common/tools/mcp-server
+  - common/tools/vite-plugin-browser-test-map
+  - '!sdk/**/src/**'
+  - '!sdk/**/dist/**'
+  - '!sdk/**/dist-test/**'
+  - '!sdk/**/samples/**'
+  - '!sdk/**/samples-*/**'
+  - '!sdk/**/sample-*/**'
+  - '!sdk/batch/batch'
+  - '!sdk/cosmosdb/cosmos/MultiRegionWriteSample'
+  - '!sdk/identity/identity/integration/**'
+  - '!sdk/identity/identity/test/manual*/**'
+  - '!sdk/servicebus/service-bus/test/stress/**'
+  - '!sdk/eventhub/event-hubs/test/stress/**'

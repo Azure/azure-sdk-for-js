@@ -61,6 +61,7 @@ export const Constants = {
     Location: "Location",
     Referer: "referer",
     A_IM: "A-IM",
+    PreferReturnMinimal: "return=minimal",
 
     // Query
     Query: "x-ms-documentdb-query",
@@ -201,6 +202,11 @@ export const Constants = {
   WritableLocations: "writableLocations",
   ReadableLocations: "readableLocations",
   LocationUnavailableExpirationTimeInMs: 5 * 60 * 1000, // 5 minutes
+  StalePartitionUnavailabilityRefreshIntervalInMs: 1 * 60 * 1000, // 1 minute
+  AllowedPartitionUnavailabilityDurationInMs: 5 * 60 * 1000, // 5 minutes
+  ReadRequestFailureCountThreshold: 10,
+  WriteRequestFailureCountThreshold: 5,
+  ConsecutiveFailureCountResetIntervalInMS: 1000 * 60 * 1, // 1 minute
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",
@@ -217,13 +223,15 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.3.0",
+  SDKVersion: "4.5.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
 
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,
+  MaxBulkOperationsCount: 100,
+  BulkMaxDegreeOfConcurrency: 20,
 
   // Encryption
   Encryption: {
@@ -293,6 +301,8 @@ export const Constants = {
   DefaultEncryptionCacheTimeToLiveInSeconds: 7200,
   // Timeout to clear encryption related cache
   EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
+
+  RequestTimeoutForReadsInMs: 2000, // 2 seconds
 };
 
 /**
@@ -523,8 +533,26 @@ export enum QueryFeature {
   ListAndSetAggregate = "ListAndSetAggregate",
   CountIf = "CountIf",
   HybridSearch = "HybridSearch",
+  WeightedRankFusion = "WeightedRankFusion",
+  HybridSearchSkipOrderByRewrite = "HybridSearchSkipOrderByRewrite",
 }
 
 export enum SDKSupportedCapabilities {
   PartitionMerge = 1,
+}
+
+/**
+ * @hidden
+ */
+export enum PartitionAvailablilityStatus {
+  Available,
+  Unavailable,
+}
+
+/**
+ * @hidden
+ */
+export enum UserAgentFeatureFlags {
+  PerPartitionAutomaticFailover = 1,
+  PerPartitionCircuitBreaker = 2,
 }

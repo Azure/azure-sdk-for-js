@@ -241,6 +241,8 @@ export interface UsageName {
 export interface SubscriptionQuotaItemList {
   /** A list of SubscriptionQuotaItems */
   value?: SubscriptionQuotaItem[];
+  /** URL to get the next set of results. */
+  nextLink?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -725,8 +727,11 @@ export interface ReplicationObject {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly replicationId?: string;
-  /** Indicates whether the local volume is the source or destination for the Volume Replication */
-  endpointType?: EndpointType;
+  /**
+   * Indicates whether the local volume is the source or destination for the Volume Replication
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpointType?: EndpointType;
   /** Schedule */
   replicationSchedule?: ReplicationSchedule;
   /** The resource ID of the remote volume. Required for cross region and cross zone replication */
@@ -3147,6 +3152,14 @@ export interface NetAppResourceQuotaLimitsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type NetAppResourceQuotaLimitsGetResponse = SubscriptionQuotaItem;
+
+/** Optional parameters. */
+export interface NetAppResourceQuotaLimitsListNextOptionalParams
+  extends coreClient.OperationOptions { }
+
+/** Contains response data for the listNext operation. */
+export type NetAppResourceQuotaLimitsListNextResponse =
+  SubscriptionQuotaItemList;
 
 /** Optional parameters. */
 export interface NetAppResourceRegionInfosListOptionalParams

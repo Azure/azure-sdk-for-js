@@ -57,6 +57,10 @@ describe("effectivePartitionKey", () => {
         key: [123456789],
         output: "1F56D2538088EBA82CCF988F36E16760",
       },
+      {
+        key: ["redmond", 50, 5.5, true, false, null, "", 12313.1221],
+        output: "1A5E512F591E980E07A6D8AD5BD5AB2F",
+      },
     ];
     toMatch.forEach(({ key, output }) => {
       it("matches expected hash output", () => {

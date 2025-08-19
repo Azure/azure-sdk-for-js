@@ -8,12 +8,8 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import type * as coreAuth from "@azure/core-auth";
 import {
   AdministratorsImpl,
   BackupsImpl,
@@ -33,13 +29,17 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateEndpointConnectionOperationsImpl,
   PrivateLinkResourcesImpl,
+  QuotaUsagesImpl,
   ReplicasImpl,
   LogFilesImpl,
   ServerThreatProtectionSettingsImpl,
+  TuningOptionsImpl,
+  TuningIndexImpl,
+  TuningConfigurationImpl,
   VirtualEndpointsImpl,
   VirtualNetworkSubnetUsageImpl,
 } from "./operations/index.js";
-import {
+import type {
   Administrators,
   Backups,
   LocationBasedCapabilities,
@@ -58,15 +58,19 @@ import {
   PrivateEndpointConnections,
   PrivateEndpointConnectionOperations,
   PrivateLinkResources,
+  QuotaUsages,
   Replicas,
   LogFiles,
   ServerThreatProtectionSettings,
+  TuningOptions,
+  TuningIndex,
+  TuningConfiguration,
   VirtualEndpoints,
   VirtualNetworkSubnetUsage,
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
-import {
+import type {
   PostgreSQLManagementFlexibleServerClientOptionalParams,
   MigrationNameAvailabilityResource,
   CheckMigrationNameAvailabilityOptionalParams,
@@ -95,9 +99,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionIdOrOptions?:
-      | PostgreSQLManagementFlexibleServerClientOptionalParams
-      | string,
+    subscriptionIdOrOptions?: PostgreSQLManagementFlexibleServerClientOptionalParams | string,
     options?: PostgreSQLManagementFlexibleServerClientOptionalParams,
   ) {
     if (credentials === undefined) {
@@ -121,7 +123,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0`;
+    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -133,8 +135,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -144,8 +145,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -161,11 +161,9 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -175,14 +173,13 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-08-01";
+    this.apiVersion = options.apiVersion || "2025-01-01-preview";
     this.administrators = new AdministratorsImpl(this);
     this.backups = new BackupsImpl(this);
     this.locationBasedCapabilities = new LocationBasedCapabilitiesImpl(this);
     this.serverCapabilities = new ServerCapabilitiesImpl(this);
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
-    this.checkNameAvailabilityWithLocation =
-      new CheckNameAvailabilityWithLocationImpl(this);
+    this.checkNameAvailabilityWithLocation = new CheckNameAvailabilityWithLocationImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.databases = new DatabasesImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
@@ -193,13 +190,15 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     this.operations = new OperationsImpl(this);
     this.getPrivateDnsZoneSuffix = new GetPrivateDnsZoneSuffixImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateEndpointConnectionOperations =
-      new PrivateEndpointConnectionOperationsImpl(this);
+    this.privateEndpointConnectionOperations = new PrivateEndpointConnectionOperationsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.quotaUsages = new QuotaUsagesImpl(this);
     this.replicas = new ReplicasImpl(this);
     this.logFiles = new LogFilesImpl(this);
-    this.serverThreatProtectionSettings =
-      new ServerThreatProtectionSettingsImpl(this);
+    this.serverThreatProtectionSettings = new ServerThreatProtectionSettingsImpl(this);
+    this.tuningOptions = new TuningOptionsImpl(this);
+    this.tuningIndex = new TuningIndexImpl(this);
+    this.tuningConfiguration = new TuningConfigurationImpl(this);
     this.virtualEndpoints = new VirtualEndpointsImpl(this);
     this.virtualNetworkSubnetUsage = new VirtualNetworkSubnetUsageImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
@@ -212,10 +211,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -278,9 +274,13 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
   privateEndpointConnections: PrivateEndpointConnections;
   privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
   privateLinkResources: PrivateLinkResources;
+  quotaUsages: QuotaUsages;
   replicas: Replicas;
   logFiles: LogFiles;
   serverThreatProtectionSettings: ServerThreatProtectionSettings;
+  tuningOptions: TuningOptions;
+  tuningIndex: TuningIndex;
+  tuningConfiguration: TuningConfiguration;
   virtualEndpoints: VirtualEndpoints;
   virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
 }

@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4o-2024-08-06";
-  const apiVersion = "2025-03-01-preview";
+  const apiVersion = "2025-04-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
 
   const Step = z.object({
@@ -35,7 +35,7 @@ export async function main(): Promise<void> {
     steps: z.array(Step),
     final_answer: z.string(),
   });
-  const result = await client.beta.chat.completions.parse({
+  const result = await client.chat.completions.parse({
     model: deployment,
     messages: [
       {

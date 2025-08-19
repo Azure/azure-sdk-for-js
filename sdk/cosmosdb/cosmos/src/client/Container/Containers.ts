@@ -14,7 +14,7 @@ import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys.js";
 import type { SqlQuerySpec } from "../../queryExecutionContext/index.js";
 import { mergeHeaders } from "../../queryExecutionContext/index.js";
 import { QueryIterator } from "../../queryIterator.js";
-import type { FeedOptions, RequestOptions } from "../../request/index.js";
+import { type FeedOptions, type RequestOptions } from "../../request/index.js";
 import type { Database } from "../Database/index.js";
 import type { Resource } from "../Resource.js";
 import { Container } from "./Container.js";
@@ -221,7 +221,6 @@ export class Containers {
         body.clientEncryptionPolicy.policyFormatVersion ?? 1;
       validateClientEncryptionPolicy(body.clientEncryptionPolicy, body.partitionKey);
     }
-
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
@@ -237,6 +236,7 @@ export class Containers {
       this.encryptionManager,
       response.result._rid,
     );
+    this.clientContext.partitionKeyDefinitionCache[ref.url] = response.result.partitionKey;
     return new ContainerResponse(
       response.result,
       response.headers,

@@ -9,10 +9,10 @@
  * The Event Hubs connection string is then used with the EventHubConsumerClient to receive events.
  *
  * More information about the built-in messaging endpoint can be found at:
- * https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
+ * https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin
  */
 
-import * as crypto from "node:crypto";
+import crypto from "node:crypto";
 import { Buffer } from "node:buffer";
 import type { AmqpError } from "rhea-promise";
 import { Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
@@ -40,7 +40,7 @@ const keyvaultUri = process.env["KEYVAULT_URI"] || "<your keyvault uri>";
 const iotHubConnectionStringName =
   process.env["IOTHUB_CONNECTION_STRING_SECRET_NAME"] || "<your iot hub connection string name>";
 
-// This code is modified from https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
+// This code is modified from https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-security#security-tokens.
 function generateSasToken(
   resourceUri: string,
   signingKey: string,
@@ -88,7 +88,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   }
 
   // Generate a token to authenticate to the service.
-  // The code for generateSasToken can be found at https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens
+  // The code for generateSasToken can be found at https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-security#security-tokens
   const token = generateSasToken(
     `${HostName}/messages/events`,
     SharedAccessKey,

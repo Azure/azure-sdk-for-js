@@ -1,5 +1,45 @@
 # Release History
 
+## 1.0.0-beta.34 ()
+
+### Other Changes
+
+- Renamed Customer Statsbeat feature to customer SDK Stats.
+
+## 1.0.0-beta.33 (2025-08-04)
+
+### Features Added
+
+- Track CLIENT_READONLY and CLIENT_TIMEOUT customer SDK Stats.
+
+### Bugs Fixed
+
+- Fix auto-detection of RP environment for azure functions.
+
+### Other Changes
+
+- Respect parent sampling result in ApplicationInsightsSampler.
+
+## 1.0.0-beta.32 (2025-06-09)
+
+### Features Added
+
+- Added customer-facing SDK Stats preview.
+
+### Features Added
+
+- Add RateLimitedSampler.
+
+### Other Changes
+
+- Ensure that the longIntervalStatsbeat reader is properly bound to a MetricProducer.
+- Removed error logging upon failure to initialize long interval statsbeat.
+- No longer send statsbeat counters when values are zero.
+- Fix statsbeat throttle recording logic.
+- SEMATTRS_ENDUSER_ID is properly added to tags but not to properties in telemetry envelopes.
+- Update network statsbeat to follow a singleton pattern.
+- Stop sending client OS value.
+
 ## 1.0.0-beta.31 (2025-04-16)
 
 ### Features Added
@@ -39,7 +79,7 @@
 ### Other Changes
 
 - Removed faulty span exception exporting logic.
-- Remove applying cloud.* tags to statsbeat telemetry.
+- Remove applying cloud.\* tags to statsbeat telemetry.
 - Correctly capture attach type on statsbeat metrics.
 
 ## 1.0.0-beta.28 (2025-01-28)
@@ -160,7 +200,6 @@
 
 - Update OpenTelemetry dependencies.
 - Add instructions to export Logs in readme.
-
 
 ## 1.0.0-beta.17 (2023-10-09)
 

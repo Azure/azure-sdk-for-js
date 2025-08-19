@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Resource } from "@opentelemetry/resources";
 import {
   SEMRESATTRS_SERVICE_INSTANCE_ID,
   SEMRESATTRS_SERVICE_NAME,
@@ -36,6 +35,7 @@ import type { HrTime } from "@opentelemetry/api";
 import { TraceFlags } from "@opentelemetry/api";
 import { hrTimeToDate } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
+import { resourceFromAttributes } from "@opentelemetry/resources";
 
 const context = getInstance();
 
@@ -85,7 +85,7 @@ const emptyMeasurements: Measurements = {};
 
 describe("logUtils.ts", () => {
   const testLogRecord: any = {
-    resource: new Resource({
+    resource: resourceFromAttributes({
       [SEMRESATTRS_SERVICE_INSTANCE_ID]: "testServiceInstanceID",
       [SEMRESATTRS_SERVICE_NAME]: "testServiceName",
       [SEMRESATTRS_SERVICE_NAMESPACE]: "testServiceNamespace",

@@ -14,7 +14,7 @@ import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI.js";
 import {
   QuerySpecification,
   QueryQueryTwinsOptionalParams,
-  QueryQueryTwinsResponse
+  QueryQueryTwinsResponse,
 } from "../models/index.js";
 
 /** Class containing Query operations. */
@@ -45,11 +45,11 @@ export class QueryImpl implements Query {
    */
   queryTwins(
     querySpecification: QuerySpecification,
-    options?: QueryQueryTwinsOptionalParams
+    options?: QueryQueryTwinsOptionalParams,
   ): Promise<QueryQueryTwinsResponse> {
     return this.client.sendOperationRequest(
       { querySpecification, options },
-      queryTwinsOperationSpec
+      queryTwinsOperationSpec,
     );
   }
 }
@@ -62,11 +62,12 @@ const queryTwinsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.QueryResult,
-      headersMapper: Mappers.QueryQueryTwinsHeaders
+      headersMapper: Mappers.QueryQueryTwinsHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.QueryQueryTwinsExceptionHeaders,
+    },
   },
   requestBody: Parameters.querySpecification,
   queryParameters: [Parameters.apiVersion],
@@ -74,8 +75,8 @@ const queryTwinsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.resultsPerPage
+    Parameters.resultsPerPage,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };

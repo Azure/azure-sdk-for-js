@@ -1,5 +1,103 @@
 # Release History
     
+## 8.1.0-beta.1 (2025-05-19)
+Compared with version 8.0.0
+    
+### Features Added
+
+  - Added operation group QuotaUsages
+  - Added operation group TuningConfiguration
+  - Added operation group TuningIndex
+  - Added operation group TuningOptions
+  - Added Interface Cluster
+  - Added Interface ConfigTuningRequestParameter
+  - Added Interface ImpactRecord
+  - Added Interface IndexRecommendationDetails
+  - Added Interface IndexRecommendationListResult
+  - Added Interface IndexRecommendationResource
+  - Added Interface IndexRecommendationResourcePropertiesAnalyzedWorkload
+  - Added Interface IndexRecommendationResourcePropertiesImplementationDetails
+  - Added Interface NameProperty
+  - Added Interface OperationsListNextOptionalParams
+  - Added Interface QuotaUsage
+  - Added Interface QuotaUsagesListNextOptionalParams
+  - Added Interface QuotaUsagesListOptionalParams
+  - Added Interface QuotaUsagesListResult
+  - Added Interface SessionDetailsListResult
+  - Added Interface SessionDetailsResource
+  - Added Interface SessionResource
+  - Added Interface SessionsListResult
+  - Added Interface SupportedFeature
+  - Added Interface TuningConfigurationDisableHeaders
+  - Added Interface TuningConfigurationDisableOptionalParams
+  - Added Interface TuningConfigurationEnableHeaders
+  - Added Interface TuningConfigurationEnableOptionalParams
+  - Added Interface TuningConfigurationListSessionDetailsNextOptionalParams
+  - Added Interface TuningConfigurationListSessionDetailsOptionalParams
+  - Added Interface TuningConfigurationListSessionsNextOptionalParams
+  - Added Interface TuningConfigurationListSessionsOptionalParams
+  - Added Interface TuningConfigurationStartSessionHeaders
+  - Added Interface TuningConfigurationStartSessionOptionalParams
+  - Added Interface TuningConfigurationStopSessionHeaders
+  - Added Interface TuningConfigurationStopSessionOptionalParams
+  - Added Interface TuningIndexListRecommendationsNextOptionalParams
+  - Added Interface TuningIndexListRecommendationsOptionalParams
+  - Added Interface TuningOptionsGetOptionalParams
+  - Added Interface TuningOptionsListByServerNextOptionalParams
+  - Added Interface TuningOptionsListByServerOptionalParams
+  - Added Interface TuningOptionsListResult
+  - Added Interface TuningOptionsResource
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias QuotaUsagesListNextResponse
+  - Added Type Alias QuotaUsagesListResponse
+  - Added Type Alias RecommendationType
+  - Added Type Alias RecommendationTypeEnum
+  - Added Type Alias SupportedFeatureStatusEnum
+  - Added Type Alias TuningConfigurationDisableResponse
+  - Added Type Alias TuningConfigurationEnableResponse
+  - Added Type Alias TuningConfigurationListSessionDetailsNextResponse
+  - Added Type Alias TuningConfigurationListSessionDetailsResponse
+  - Added Type Alias TuningConfigurationListSessionsNextResponse
+  - Added Type Alias TuningConfigurationListSessionsResponse
+  - Added Type Alias TuningConfigurationStartSessionResponse
+  - Added Type Alias TuningConfigurationStopSessionResponse
+  - Added Type Alias TuningIndexListRecommendationsNextResponse
+  - Added Type Alias TuningIndexListRecommendationsResponse
+  - Added Type Alias TuningOptionEnum
+  - Added Type Alias TuningOptionsGetResponse
+  - Added Type Alias TuningOptionsListByServerNextResponse
+  - Added Type Alias TuningOptionsListByServerResponse
+  - Interface FlexibleServerCapability has a new optional parameter supportedFeatures
+  - Interface Server has a new optional parameter cluster
+  - Interface ServerForUpdate has a new optional parameter cluster
+  - Interface ServerSkuCapability has a new optional parameter securityProfile
+  - Interface ServerSkuCapability has a new optional parameter supportedFeatures
+  - Interface ServerVersionCapability has a new optional parameter supportedFeatures
+  - Interface UserAssignedIdentity has a new optional parameter principalId
+  - Added Enum KnownRecommendationType
+  - Added Enum KnownRecommendationTypeEnum
+  - Added Enum KnownSupportedFeatureStatusEnum
+  - Added Enum KnownTuningOptionEnum
+  - Enum KnownIdentityType has a new value SystemAssignedUserAssigned
+  - Enum KnownServerState has a new value Inaccessible
+  - Enum KnownServerState has a new value Provisioning
+  - Enum KnownServerState has a new value Restarting
+  - Enum KnownServerVersion has a new value Seventeen
+  - Enum KnownSourceType has a new value ApsaraDBRDS
+  - Enum KnownSourceType has a new value CrunchyPostgreSQL
+  - Enum KnownSourceType has a new value DigitalOceanDroplets
+  - Enum KnownSourceType has a new value DigitalOceanPostgreSQL
+  - Enum KnownSourceType has a new value EDBOracleServer
+  - Enum KnownSourceType has a new value EDBPostgreSQL
+  - Enum KnownSourceType has a new value HerokuPostgreSQL
+  - Enum KnownSourceType has a new value HuaweiCompute
+  - Enum KnownSourceType has a new value HuaweiRDS
+  - Enum KnownSourceType has a new value PostgreSQLCosmosDB
+  - Enum KnownSourceType has a new value PostgreSQLFlexibleServer
+  - Enum KnownSourceType has a new value SupabasePostgreSQL
+  - Enum KnownStorageType has a new value UltraSSDLRS
+    
+    
 ## 8.0.0 (2025-01-03)
     
 ### Features Added

@@ -20,12 +20,12 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 - [Permission issues](#permission-issues)
 - [Troubleshoot default Azure credential authentication issues](#troubleshoot-default-azure-credential-authentication-issues)
 - [Troubleshoot environment credential authentication issues](#troubleshoot-environment-credential-authentication-issues)
-- [Troubleshoot username and password authentication issues](#troubleshoot-username-and-password-authentication-issues)
 - [Troubleshoot service principal authentication issues](#troubleshoot-service-principal-authentication-issues)
 - [Troubleshoot managed identity authentication issues](#troubleshoot-managed-identity-authentication-issues)
   - [Azure Virtual Machine managed identity](#azure-virtual-machine-managed-identity)
   - [Azure App Service and Azure Functions managed identity](#azure-app-service-and-azure-functions-managed-identity)
   - [Azure Service Fabric managed identity](#azure-service-fabric-managed-identity)
+- [Troubleshoot Visual Studio Code authentication issues](#troubleshoot-visual-studio-code-authentication-issues)
 - [Troubleshoot Azure CLI authentication issues](#troubleshoot-azure-cli-authentication-issues)
 - [Troubleshoot AzureDeveloperCliCredential authentication issues](#troubleshoot-azuredeveloperclicredential-authentication-issues)
 - [Troubleshoot Azure PowerShell authentication issues](#troubleshoot-azure-powershell-authentication-issues)
@@ -195,8 +195,9 @@ The `DefaultAzureCredential` attempts to retrieve an access token by sequentiall
 
 | Error                                                                                                                               | Description                                                                                                                                                                                                                                                                                        | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CredentialUnavailableError` thrown with message `DefaultAzureCredential failed to retrieve a token from the included credentials.` | All credentials in the `DefaultAzureCredential` chain failed to retrieve a token, each throwing a `CredentialUnavailableError` themselves.                                                                                                                                                         | <ul><li>[Enable logging](#enable-and-configure-logging) to verify the credentials being tried, and get further diagnostic information.</li><li>Consult the troubleshooting guide for underlying credential types for more information.</li><ul><li>[EnvironmentCredential](#troubleshoot-environment-credential-authentication-issues)</li><li>[ManagedIdentityCredential](#troubleshoot-managed-identity-authentication-issues)</li><li>[AzureCliCredential](#troubleshoot-azure-cli-authentication-issues)</li><li>[AzurePowerShellCredential](#troubleshoot-azure-powershell-authentication-issues)</li></ul> |
+| `CredentialUnavailableError` thrown with message `DefaultAzureCredential failed to retrieve a token from the included credentials.` | All credentials in the `DefaultAzureCredential` chain failed to retrieve a token, each throwing a `CredentialUnavailableError` themselves.                                                                                                                                                         | <ul><li>[Enable logging](#enable-and-configure-logging) to verify the credentials being tried, and get further diagnostic information.</li><li>Consult the troubleshooting guide for underlying credential types for more information.</li><ul><li>[EnvironmentCredential](#troubleshoot-environment-credential-authentication-issues)</li><li>[ManagedIdentityCredential](#troubleshoot-managed-identity-authentication-issues)</li><li>[VisualStudioCodeCredential](#troubleshoot-visual-studio-code-authentication-issues)</li><li>[AzureCliCredential](#troubleshoot-azure-cli-authentication-issues)</li><li>[AzurePowerShellCredential](#troubleshoot-azure-powershell-authentication-issues)</li></ul> |
 | `RestError` raised from the client with a status code of 401 or 403.                                                                | Authentication succeeded but the authorizing Azure service responded with a 401 (Authenticate), or 403 (Forbidden) status code. This can often be caused by the `DefaultAzureCredential` authenticating an account other than the intended or that the required role assignment is not configured. | <ul><li>[Enable logging](#enable-and-configure-logging) to determine which credential in the chain returned the authenticating token.</li><li>In the case a credential other than the expected is returning a token, you may bypass this by signing out of the corresponding development tool.</li><li>Confirm that the correct RBAC role is assigned to the identity being used to authenticate. For example, the resource-specific role, rather than just the inherited "Owner" role.</li></ul>                                                                                                                                                                                                             |
+|Invalid value for AZURE_TOKEN_CREDENTIALS = "...". |AZURE_TOKEN_CREDENTIALS has an unexpected value| Specify a valid value as described in DefaultAzureCredential documentation. Valid values are 'prod' or 'dev' or any of these credentials - "EnvironmentCredential" or "ManagedIdentityCredential or "WorkloadIdentityCredential" or "VisualStudioCodeCredential" or "AzureCliCredential" or "AzureDeveloperCliCredential" or "AzurePowershellCredential".|
 
 > 📢 The Azure Identity library for JavaScript does _not_ support the `ExcludeXXXCredential` properties that exist for languages like .NET and Python. We recommend creating a custom [ChainedTokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/f0ac28977d26172f79e5c5100148e7f767f4dbf9/sdk/identity/identity/README.md#define-a-custom-authentication-flow-with-the-chainedtokencredential) if you require a different set or ordering of credentials than those offered by `DefaultAzureCredential`.
 
@@ -210,36 +211,12 @@ The `DefaultAzureCredential` attempts to retrieve an access token by sequentiall
 
 ### Client authentication error
 
-The `EnvironmentCredential` supports service principal authentication and username and password authentication.
-Follow the troubleshooting guidelines below for the respective authentication type that failed.
+The `EnvironmentCredential` supports service principal authentication.
+Follow the troubleshooting guidelines below for the authentication type that failed.
 
-| Authentication Type                            | Troubleshooting Guide                                                                     |
-| ---------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| ClientSecret/ClientCertificate/ClientAssertion | [Service principal auth guide](#troubleshoot-service-principal-authentication-issues)     |
-| Username and password                          | [Username and password auth guide](#troubleshoot-username-password-authentication-issues) |
-
-## Troubleshoot username and password authentication issues
-
-### AuthenticationRequiredError
-
-| Error Code  | Issue                                        | Mitigation                                                                                |
-| ----------- | -------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| AADSTS50126 | The provided username or password is invalid | Ensure the `username` and `password` provided when constructing the credential are valid. |
-
-### Two-factor authentication required error
-
-The `UsernamePasswordCredential` works only for users whose two-factor authentication has been disabled in Microsoft Entra ID. You can change the multi-factor authentication in the Azure portal with the steps [here](https://learn.microsoft.com/entra/identity/authentication/howto-mfa-userstates#change-the-status-for-a-user).
-
-### Request body must contain the following parameter: 'client_assertion' or 'client_secret'
-
-The error `The request body must contain the following parameter: 'client_assertion' or 'client_secret'`, occurs because of how the Microsoft Entra app is configured. The Microsoft Entra app registration seems to be configured as a confidential app. The `UsernamePasswordCredential` works only with public clients and doesn't support confidential apps. To support confidential apps, use either `ClientSecretCredential` or `ClientCertificateCredential` instead.
-
-To allow public client authentication on your Microsoft Entra tenant:
-
-1. In the Azure portal, navigate to the **Authentication** page.
-2. Scroll to the bottom of the page. You'll see something that says **Allow public client flows**. Near that, you'll see a **yes** / **no** toggle. Set this toggle to **yes**.
-
-After that, you shouldn't need to specify a client secret to authenticate with this credential.
+| Authentication Type                            | Troubleshooting Guide                                                                 |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------- |
+| ClientSecret/ClientCertificate/ClientAssertion | [Service principal auth guide](#troubleshoot-service-principal-authentication-issues) |
 
 ## Troubleshoot service principal authentication issues
 
@@ -282,7 +259,7 @@ These errors will be thrown by the JS Identity SDK and thus will have no error c
 | Error Code    | Description                                                                                                                                                                                                                           | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | No error code | ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot. | The `ClientCertificateCredential` accepts PEM certificates and the path for the certificate needs to be provided(`pfx` certificates aren't supported by the JavaScript library for now). The certificate needs to be associated with your registered app/service principal. To create and associate a certificate with your registered app, follow the instructions [here](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal#option-1-upload-a-certificate). |
-| No error code | The file at the specified path doesn't contain a PEM-encoded certificate.                                                                                                                                                             | Provide only PEM certificates for `ClientCertificateCredential`. `pfx` certificates aren't supported by the JavaScript library for now.                                                                                                                                                                                                                                                                                                                                                              |
+| No error code | The file at the specified path doesn't contain a PEM-encoded certificate.                                                                                                                                                             | Provide only PEM certificates for `ClientCertificateCredential`. `pfx` certificates aren't supported by the JavaScript library for now. Additionally, ensure that the certificate at the path specified by `AZURE_CLIENT_CERTIFICATE_PATH` contains both the private key and the certificate. See example formats in our test assets: [fake-cert.pem](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/assets/fake-cert.pem) and [fake-cert-password.pem](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/assets/fake-cert-password.pem). |
 
 ### Client assertion credential issues
 
@@ -353,6 +330,26 @@ curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://man
 | --------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ManagedIdentityCredential authentication failed.	                 | Specifying a clientId or resourceId is not supported by the Service Fabric managed identity environment. The managed identity configuration is determined by the Service Fabric cluster resource configuration. See https://aka.ms/servicefabricmi for more information.                          | <ul><li>Ensure that the managed identity is properly configured on the Service Fabric cluster. Instructions for configuring the managed identity can be found [here](https://learn.microsoft.com/azure/service-fabric/configure-existing-cluster-enable-managed-identity-token-service).</li><li>Verify that `clientId` and `resourceId` is not supplemented in the Managed Identity Credential and Service Fabric environment is properly configured.</li></ul> 
 
+
+## Troubleshoot Visual Studio Code authentication issues
+
+### CredentialUnavailableError
+
+| Error Message                                                                                   | Description                                                                                                                     | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Visual Studio Code Authentication is not available. | No Visual Studio Code plugin configuration is set or no Azure authentication record information was found in the VS Code configuration.                                                            | <ul><li>Ensure the [Azure Resources extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azureresourcegroups) is properly installed.</li><li>Check that you have signed in through **Azure: Sign In** command. This command opens a browser window and displays a page that allows you to sign in to Azure.</li><li>Install the `@azure/identity-vscode` package with `npm install @azure/identity-vscode` command and set the plugin configuration with `useIdentityPlugin()`</li></ul> |                                                                                                                                                                                                                                                    |
+
+#### Verify that the plugin configuration has been set
+
+If you already had the Azure Resources extension installed and had logged in to your account, check the plugin configuration for `@azure/identity-vscode` v2.0.0 or above. Whether you are using `DefaultAzureCredential` or `VisualStudioCodeCredential`, the broker plugin must be properly set as follows:
+
+```ts snippet:defaultazurecredential_vscode
+import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
+
+useIdentityPlugin(vsCodePlugin);
+const credential = new DefaultAzureCredential();
+```
+
 ## Troubleshoot Azure CLI authentication issues
 
 ### CredentialUnavailableError
@@ -361,6 +358,7 @@ curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://man
 | --------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Azure CLI not installed                 | The Azure CLI isn't installed or couldn't be found.                          | <ul><li>Ensure the Azure CLI is properly installed. Installation instructions can be found [here](https://learn.microsoft.com/cli/azure/install-azure-cli).</li><li>Validate the installation location has been added to the `PATH` environment variable.</li></ul>                                                                         |
 | Please run 'az login' to set up account | No account is currently logged into the Azure CLI, or the login has expired. | <ul><li>Log into the Azure CLI using the `az login` command. More information on authentication in the Azure CLI can be found [here](https://learn.microsoft.com/cli/azure/authenticate-azure-cli).</li><li>Validate that the Azure CLI can obtain tokens. See [below](#verify-the-azure-cli-can-obtain-tokens) for instructions.</li></ul> |
+|Subscription "[your subscription]" contains invalid characters. If this is the name of a subscription, use its ID instead|The subscription name contains a character that may not be safe in a command line.|Use the subscription's ID instead of its name. You can get this from the Azure CLI: `az account show --name "[your subscription]" --query "id"`|
 
 #### Verify the Azure CLI can obtain tokens
 
@@ -460,9 +458,15 @@ If the preceding command isn't working properly, follow the instructions to reso
 
 ## Troubleshoot Web Account Manager and Microsoft account login issues
 
+Broker authentication is used by `DefaultAzureCredential` to enable secure sign-in via the Windows Web Account Manager (WAM). This mechanism requires the `@azure/identity-broker` dependency and is currently only supported on Windows.
+
 | Error Message | Description                                           | Mitigation                                                                                                                                                                |
 | ------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AADSTS50011   | The application is missing the expected redirect URI. | Ensure that one of redirect URIs registered for the Microsoft Entra application matches the following URI pattern: `ms-appx-web://Microsoft.AAD.BrokerPlugin/{client_id}` |
+| `CredentialUnavailableException: Failed to acquire token using broker authentication` | An unexpected error occurred while getting token with the broker authentication flow. | Check the inner exception for more details. Ensure your environment meets all requirements for broker authentication (Windows OS, correct dependencies, and configuration). |
+
+> [!NOTE] 
+> Brokered authentication is currently only supported on Windows. macOS and Linux are not yet supported.
 
 ### Unable to log in with Microsoft account (MSA) on Windows
 

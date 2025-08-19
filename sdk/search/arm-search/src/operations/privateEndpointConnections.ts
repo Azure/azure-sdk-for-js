@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
+import { PrivateEndpointConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { SearchManagementClient } from "../searchManagementClient.js";
-import type {
+import { SearchManagementClient } from "../searchManagementClient.js";
+import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListByServiceNextOptionalParams,
   PrivateEndpointConnectionsListByServiceOptionalParams,

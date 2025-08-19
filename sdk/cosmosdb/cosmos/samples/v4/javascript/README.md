@@ -25,11 +25,12 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [DatabaseManagement.js][databasemanagement]                                                                                 | Demonstrates database create, read, delete and reading all databases.                                                 |
 | [Diagnostics.js][diagnostics]                                                                                               | Demonstrates usage of CosmosDiagnostic Object.                                                                        |
 | [EntraAuth.js][entraauth]                                                                                                   | Uses Entra Auth credentials to authenticate with the CosmosClient.                                                    |
+| [ExecuteBulkOperations.js][executebulkoperations]                                                                           | Shows CRUD operations using executeBulkOperations API.                                                                |
 | [HierarchicalPartitioning.js][hierarchicalpartitioning]                                                                     | Shows various operations on containers with Hierarchical Partitioning.                                                |
 | [IndexManagement.js][indexmanagement]                                                                                       | Shows various ways to manage indexing items or changing container index policies.                                     |
 | [ItemManagement.js][itemmanagement]                                                                                         | Demonstrates item creation, read, delete and reading all items belonging to a container.                              |
-| [Query/FullTextSearch.js][query_fulltextsearch]                                                                             | Demonstrates full text search queries.                                                                                |
 | [QueryThroughput.js][querythroughput]                                                                                       | Demonstrates query throughput scenarios.                                                                              |
+| [Query/FullTextSearch.js][query_fulltextsearch]                                                                             | Demonstrates full text search queries.                                                                                |
 | [SasTokenAuth.js][sastokenauth]                                                                                             | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_                        |
 | [ServerSideScripts.js][serversidescripts]                                                                                   | Demonstrates using stored procedures for server side run functions                                                    |
 
@@ -85,11 +86,12 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/DatabaseManagement.js
 [diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Diagnostics.js
 [entraauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/EntraAuth.js
+[executebulkoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ExecuteBulkOperations.js
 [hierarchicalpartitioning]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/HierarchicalPartitioning.js
 [indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/IndexManagement.js
 [itemmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ItemManagement.js
-[query_fulltextsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Query/FullTextSearch.js
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/QueryThroughput.js
+[query_fulltextsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Query/FullTextSearch.js
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/SasTokenAuth.js
 [serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ServerSideScripts.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/cosmos

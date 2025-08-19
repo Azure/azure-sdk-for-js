@@ -110,21 +110,21 @@ jobs:
                 ${{ insert }}: ${{ parameters.EnvVars }}
 
       - script: |
-          node common/scripts/install-run-rush.js install
-        displayName: "Install dependencies"
+          npm install -g pnpm
+        displayName: "Install Pnpm"
 
-      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |
-          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose -p max
+          pnpm install
+        displayName: "Install library dependencies"
+
+      - script: |
+          pnpm build --filter ${{parameters.PackageName}}...
         displayName: "Build libraries"
 
-      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
-      - script: |
-          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
-        displayName: "Build test assets"
-        condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
+      - pwsh: |
+          npm install
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
+        displayName: "Install dependencies for eng-package-utils"
 
       - script: |
           npm install
@@ -134,22 +134,21 @@ jobs:
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - script: |
-          node common/scripts/install-run-rush.js update
-        displayName: "Rush update"
+          pnpm install --no-frozen-lockfile
+        displayName: "Re-run Pnpm install"
         workingDirectory: $(Build.SourcesDirectory)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
-      - script: |
-          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js build
-        displayName: "Build test package"
-        workingDirectory: $(PackageTestPath)
-        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
-
       - pwsh: |
-          npm install
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
         workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
         displayName: "Get package path"
+
+      - script: |
+          pnpm run build
+        displayName: "Build test package"
+        workingDirectory: $(PackageTestPath)
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - ${{ if eq('true', parameters.UseFederatedAuth) }}:
         - task: AzurePowerShell@5
@@ -215,9 +214,9 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+              pnpm run test:$(TestType)
               exit $LASTEXITCODE
-          displayName: "Integration test libraries"
+          displayName: "Test libraries"
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
           env:
             TEST_MODE: "live"
@@ -237,7 +236,7 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
+              pnpm run test:$(TestType)
               exit $LASTEXITCODE
           displayName: "Integration test libraries - min/max testing"
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
@@ -260,7 +259,7 @@ jobs:
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
 
-              node ../../../common/scripts/install-run-rushx.js execute:samples
+              pnpm run execute:samples
               exit $LASTEXITCODE
           displayName: "Execute Samples"
           env:
@@ -274,7 +273,7 @@ jobs:
 
       - ${{ else }}:
         - script: |
-            node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
+            pnpm run test:$(TestType)
           displayName: "Integration test libraries"
           workingDirectory: $(PackagePath)
           condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
@@ -284,8 +283,8 @@ jobs:
             ${{ insert }}: ${{ parameters.EnvVars }}
 
         - script: |
-            node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType)
-          displayName: "Integration test libraries - min/max testing"
+            pnpm run test:$(TestType)
+          displayName: "Integration test libraries"
           workingDirectory: $(PackageTestPath)
           condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
           env:
@@ -296,7 +295,7 @@ jobs:
         - ${{ parameters.PostSteps }}
 
         - script: |
-            node ../../../common/scripts/install-run-rushx.js execute:samples
+            pnpm run execute:samples
           displayName: "Execute Samples"
           workingDirectory: $(PackagePath)
           env:
@@ -334,11 +333,10 @@ jobs:
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
-      # Retry for 30 seconds, since this command may fail with error "Another rush command is already
-      # running in this repository" if the previous rush command was killed.
+      # Retry for 30 seconds, since this command may fail with error.
       - pwsh: |
           for ($i=0; $i -lt 30; $i++) {
-            node eng/tools/rush-runner/index.js unlink
+            pnpm purge
             if ($lastexitcode -eq 0) {
               break
             }
@@ -347,7 +345,7 @@ jobs:
             }
           }
         condition: always()
-        displayName: "Unlink dependencies"
+        displayName: "Purge dependencies"
 
       # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
       # PublishTestResults.searchFolder only supports absolute paths, not relative.

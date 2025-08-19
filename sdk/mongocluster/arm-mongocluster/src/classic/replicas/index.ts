@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import { Replica } from "../../models/models.js";
-import { replicasListByParent } from "../../api/replicas/index.js";
+import { ReplicasListByParentOptionalParams } from "../../api/replicas/options.js";
+import { listByParent } from "../../api/replicas/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { ReplicasListByParentOptionalParams } from "../../models/options.js";
 
 /** Interface representing a Replicas operations. */
 export interface ReplicasOperations {
@@ -17,22 +17,18 @@ export interface ReplicasOperations {
   ) => PagedAsyncIterableIterator<Replica>;
 }
 
-export function getReplicas(context: DocumentDBContext, subscriptionId: string) {
+function _getReplicas(context: MongoClusterManagementContext) {
   return {
     listByParent: (
       resourceGroupName: string,
       mongoClusterName: string,
       options?: ReplicasListByParentOptionalParams,
-    ) =>
-      replicasListByParent(context, subscriptionId, resourceGroupName, mongoClusterName, options),
+    ) => listByParent(context, resourceGroupName, mongoClusterName, options),
   };
 }
 
-export function getReplicasOperations(
-  context: DocumentDBContext,
-  subscriptionId: string,
-): ReplicasOperations {
+export function _getReplicasOperations(context: MongoClusterManagementContext): ReplicasOperations {
   return {
-    ...getReplicas(context, subscriptionId),
+    ..._getReplicas(context),
   };
 }

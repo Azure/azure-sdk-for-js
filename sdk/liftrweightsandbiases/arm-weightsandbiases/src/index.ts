@@ -10,6 +10,15 @@ import {
 export { WeightsAndBiasesClient } from "./weightsAndBiasesClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   InstanceResource,
   InstanceProperties,
   MarketplaceDetails,
@@ -36,16 +45,7 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
   InstanceResourceUpdate,
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
   KnownVersions,
 } from "./models/index.js";
 export { WeightsAndBiasesClientOptionalParams } from "./api/index.js";

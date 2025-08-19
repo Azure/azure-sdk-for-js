@@ -3,7 +3,14 @@
 
 import type { JSONObject } from "../queryExecutionContext/index.js";
 import { extractPartitionKeys, undefinedPartitionKey } from "../extractPartitionKey.js";
-import type { CosmosDiagnostics, RequestOptions } from "../index.js";
+import type {
+  CosmosDiagnostics,
+  CosmosHeaders,
+  DiagnosticNodeInternal,
+  ErrorResponse,
+  RequestOptions,
+  StatusCode,
+} from "../index.js";
 import type {
   PartitionKey,
   PartitionKeyDefinition,
@@ -15,6 +22,9 @@ import { assertNotUndefined } from "./typeChecks.js";
 import { bodyFromData } from "../request/request.js";
 import { Constants } from "../common/constants.js";
 import { randomUUID } from "@azure/core-util";
+import type { ItemOperation } from "../bulk/ItemOperation.js";
+import type { BulkResponse } from "../bulk/index.js";
+import type { EncryptionProcessor } from "../encryption/EncryptionProcessor.js";
 
 export type Operation =
   | CreateOperation
@@ -33,6 +43,32 @@ export interface Batch {
 }
 
 export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
+
+/**
+ * represents response for an operation in bulk with executeBulkOperations API
+ */
+export interface BulkOperationResult {
+  /** the original operation input passed */
+  operationInput: OperationInput;
+  /** response from the backend for the item operation  */
+  response?: ExtendedOperationResponse;
+  /** any exceptions are captured here */
+  error?: ErrorResponse;
+}
+
+/**
+ * response for a successful operation in bulk with executeBulkOperations API
+ */
+export interface ExtendedOperationResponse extends OperationResponse {
+  /** activity id related to the operation */
+  activityId?: string;
+  /** session Token assigned to the result */
+  sessionToken?: string;
+  /** headers associated with the operation */
+  headers?: CosmosHeaders;
+  /** diagnostic details associated with operation */
+  diagnostics: CosmosDiagnostics;
+}
 
 export interface OperationResponse {
   statusCode: number;
@@ -301,4 +337,107 @@ export function decorateBatchOperation(
     }
   }
   return operation as Operation;
+}
+
+export function isSuccessStatusCode(statusCode: StatusCode): boolean {
+  return statusCode >= 200 && statusCode <= 299;
+}
+
+export type ExecuteCallback = (
+  operations: ItemOperation[],
+  diagnosticNode: DiagnosticNodeInternal,
+) => Promise<BulkResponse>;
+export type RetryCallback = (
+  operation: ItemOperation,
+  diagnosticNode: DiagnosticNodeInternal,
+) => Promise<void>;
+
+export class TaskCompletionSource<T> {
+  private readonly promise: Promise<T>;
+  private resolveFn!: (value: T) => void;
+  private rejectFn!: (reason?: any) => void;
+
+  constructor() {
+    this.promise = new Promise<T>((resolve, reject) => {
+      this.resolveFn = resolve;
+      this.rejectFn = reject;
+    });
+  }
+
+  public get task(): Promise<T> {
+    return this.promise;
+  }
+
+  public setResult(value: T): void {
+    this.resolveFn(value);
+  }
+
+  public setException(error: Error): void {
+    this.rejectFn(error);
+  }
+}
+
+export async function encryptOperationInput(
+  encryptionProcessor: EncryptionProcessor,
+  operation: OperationInput,
+  totalPropertiesEncryptedCount: number,
+): Promise<{ operation: OperationInput; totalPropertiesEncryptedCount: number }> {
+  if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
+    const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
+    const { partitionKeyList, encryptedCount } =
+      await encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+    operation.partitionKey = partitionKeyList;
+    totalPropertiesEncryptedCount += encryptedCount;
+  }
+  switch (operation.operationType) {
+    case BulkOperationType.Create:
+    case BulkOperationType.Upsert: {
+      const { body, propertiesEncryptedCount } = await encryptionProcessor.encrypt(
+        operation.resourceBody,
+      );
+      operation.resourceBody = body;
+      totalPropertiesEncryptedCount += propertiesEncryptedCount;
+      break;
+    }
+    case BulkOperationType.Read:
+    case BulkOperationType.Delete:
+      if (await encryptionProcessor.isPathEncrypted("/id")) {
+        operation.id = await encryptionProcessor.getEncryptedId(operation.id);
+        totalPropertiesEncryptedCount++;
+      }
+      break;
+    case BulkOperationType.Replace: {
+      if (await encryptionProcessor.isPathEncrypted("/id")) {
+        operation.id = await encryptionProcessor.getEncryptedId(operation.id);
+        totalPropertiesEncryptedCount++;
+      }
+      const { body, propertiesEncryptedCount } = await encryptionProcessor.encrypt(
+        operation.resourceBody,
+      );
+      operation.resourceBody = body;
+      totalPropertiesEncryptedCount += propertiesEncryptedCount;
+      break;
+    }
+    case BulkOperationType.Patch: {
+      if (await encryptionProcessor.isPathEncrypted("/id")) {
+        operation.id = await encryptionProcessor.getEncryptedId(operation.id);
+        totalPropertiesEncryptedCount++;
+      }
+      const body = operation.resourceBody;
+      const patchRequestBody = Array.isArray(body) ? body : body.operations;
+      for (const patchOperation of patchRequestBody) {
+        if ("value" in patchOperation) {
+          if (await encryptionProcessor.isPathEncrypted(patchOperation.path)) {
+            patchOperation.value = await encryptionProcessor.encryptProperty(
+              patchOperation.path,
+              patchOperation.value,
+            );
+            totalPropertiesEncryptedCount++;
+          }
+        }
+      }
+      break;
+    }
+  }
+  return { operation, totalPropertiesEncryptedCount };
 }

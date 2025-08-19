@@ -1,0 +1,10 @@
+parameters:
+  PackagePath: "sdk/cosmosdb/cosmos/"
+  PackageName: "@azure/cosmos"
+
+steps:
+  - script: |
+      npm run test:node:integration
+    condition: succeededOrFailed()
+    displayName: "Cosmos Integration Tests"
+    workingDirectory: "${{parameters.PackagePath}}"

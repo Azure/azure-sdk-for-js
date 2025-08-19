@@ -5,13 +5,14 @@ import {
   Constants,
   HTTPMethod,
   jsonStringifyAndEscapeNonASCII,
+  OperationType,
   ResourceType,
   SDKSupportedCapabilities,
 } from "../common/index.js";
 import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { PartitionKeyInternal } from "../documents/index.js";
 import type { CosmosHeaders } from "../queryExecutionContext/index.js";
-import type { FeedOptions, RequestOptions } from "./index.js";
+import { ErrorResponse, type FeedOptions, type RequestOptions } from "./index.js";
 import { defaultLogger } from "../common/logger.js";
 import { ChangeFeedMode } from "../client/ChangeFeed/index.js";
 // ----------------------------------------------------------------------------
@@ -46,6 +47,7 @@ interface GetHeadersOptions {
   resourceId: string;
   resourceType: ResourceType;
   options: RequestOptions & FeedOptions;
+  operationType?: OperationType;
   partitionKeyRangeId?: string;
   useMultipleWriteLocations?: boolean;
   partitionKey?: PartitionKeyInternal;
@@ -64,6 +66,7 @@ export async function getHeaders({
   resourceId,
   resourceType,
   options = {},
+  operationType,
   partitionKeyRangeId,
   useMultipleWriteLocations,
   partitionKey,
@@ -203,6 +206,8 @@ export async function getHeaders({
 
   if (partitionKey !== undefined && !headers[Constants.HttpHeaders.PartitionKey]) {
     headers[Constants.HttpHeaders.PartitionKey] = jsonStringifyAndEscapeNonASCII(partitionKey);
+  } else if (partitionKeyRangeId !== undefined) {
+    headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
   }
 
   if (clientOptions.key || clientOptions.tokenProvider) {
@@ -217,10 +222,6 @@ export async function getHeaders({
 
   if (!headers[Constants.HttpHeaders.Accept]) {
     headers[Constants.HttpHeaders.Accept] = JsonContentType;
-  }
-
-  if (partitionKeyRangeId !== undefined) {
-    headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
   }
 
   if (options.enableScriptLogging) {
@@ -249,6 +250,20 @@ export async function getHeaders({
     clientOptions.permissionFeed
   ) {
     await setAuthorizationHeader(clientOptions, verb, path, resourceId, resourceType, headers);
+  }
+
+  if (
+    resourceType === ResourceType.item &&
+    Object.prototype.hasOwnProperty.call(options, "contentResponseOnWriteEnabled") &&
+    !options.contentResponseOnWriteEnabled
+  ) {
+    if (operationType === OperationType.Batch) {
+      headers[Constants.HttpHeaders.Prefer] = Constants.HttpHeaders.PreferReturnMinimal;
+    } else {
+      throw new ErrorResponse(
+        "Currently `contentResponseOnWriteEnabled` option is only supported for batch and bulk operations.",
+      );
+    }
   }
   return headers;
 }

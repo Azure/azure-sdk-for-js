@@ -2,679 +2,279 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import {
-  AIProjectsClient,
-  ToolSet,
-  ToolUtility,
-  connectionToolType,
-  FunctionToolDefinition,
-  RequiredToolCallOutput,
-  FunctionToolDefinitionOutput,
-  ToolOutput,
-  DoneEvent,
-  MessageDeltaChunk,
-  MessageDeltaTextContent,
-  MessageStreamEvent,
-  RunStreamEvent,
-  ThreadRunOutput,
-  MessageContentOutput,
-  isOutputOfType,
-  MessageTextContentOutput,
-  MessageImageFileContentOutput,
-} from "@azure/ai-projects";
+import { AIProjectClient, DatasetVersion } from "../src/index.js";
+import type {
+  AzureAISearchIndex,
+  Connection,
+  DatasetVersionUnion,
+  ModelDeployment,
+} from "../src/index.js";
+import { isRestError } from "@azure/core-rest-pipeline";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
-import * as fs from "fs";
-import { delay } from "@azure/core-util";
-import { trace } from "@opentelemetry/api";
-import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
-import {
-  ConsoleSpanExporter,
-  NodeTracerProvider,
-  SimpleSpanProcessor,
-} from "@opentelemetry/sdk-trace-node";
 import { RestError } from "@azure/core-rest-pipeline";
+import * as path from "path";
 
 describe("snippets", function () {
-  let client: AIProjectsClient;
+  let project: AIProjectClient;
 
   beforeEach(async function (context: VitestTestContext) {
-    client = createProjectsClient();
+    project = createProjectsClient();
   });
 
   it("setup", async function () {
-    const connectionString =
-      process.env.AZURE_AI_PROJECTS_CONNECTION_STRING ?? "<connectionString>";
-    const client = AIProjectsClient.fromConnectionString(
-      connectionString,
-      new DefaultAzureCredential(),
-    );
+    const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+    const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
   });
 
-  it("listConnections", async function () {
-    const connections = await client.connections.listConnections();
-    for (const connection of connections) {
-      console.log(connection);
-    }
-  });
-
-  it("filterConnections", async function () {
-    const connections = await client.connections.listConnections({ category: "AzureOpenAI" });
-    for (const connection of connections) {
-      console.log(connection);
-    }
-  });
-
-  it("getConnection", async function () {
-    const connection = await client.connections.getConnection("connectionName");
-    console.log(connection);
-  });
-
-  it("getConnectionWithSecrets", async function () {
-    const connection = await client.connections.getConnectionWithSecrets("connectionName");
-    console.log(connection);
-  });
-
-  it("createAgent", async function () {
-    const agent = await client.agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful assistant",
-    });
-  });
-
-  it("toolSet", async function () {
-    const toolSet = new ToolSet();
-    toolSet.addFileSearchTool([vectorStore.id]);
-    toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
-
-    const agent = await client.agents.createAgent("gpt-4o", {
+  it("agentsSample", async function () {
+    const agent = await project.agents.createAgent("gpt-4o", {
       name: "my-agent",
       instructions: "You are a helpful agent",
-      tools: toolSet.toolDefinitions,
-      toolResources: toolSet.toolResources,
-    });
-    console.log(`Created agent, agent ID: ${agent.id}`);
-  });
-
-  it("fileSearch", async function () {
-    const localFileStream = fs.createReadStream(filePath);
-    const file = await client.agents.uploadFile(localFileStream, "assistants", {
-      fileName: "sample_file_for_upload.txt",
-    });
-    console.log(`Uploaded file, ID: ${file.id}`);
-
-    const vectorStore = await client.agents.createVectorStore({
-      fileIds: [file.id],
-      name: "my_vector_store",
-    });
-    console.log(`Created vector store, ID: ${vectorStore.id}`);
-
-    const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
-
-    const agent = await client.agents.createAgent("gpt-4o", {
-      name: "SDK Test Agent - Retrieval",
-      instructions: "You are helpful agent that can help fetch data from files you know about.",
-      tools: [fileSearchTool.definition],
-      toolResources: fileSearchTool.resources,
     });
     console.log(`Created agent, agent ID : ${agent.id}`);
-  });
+    // @ts-preserve-whitespace
+    // Do something with your Agent!
+    // See samples here https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples
 
-  it("codeInterpreter", async function () {
-    const localFileStream = fs.createReadStream(filePath);
-    const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
-      fileName: "localFile",
-    });
-    console.log(`Uploaded local file, file ID : ${localFile.id}`);
-
-    const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
-
-    // Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
-    const agent = await client.agents.createAgent("gpt-4o-mini", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [codeInterpreterTool.definition],
-      toolResources: codeInterpreterTool.resources,
-    });
-    console.log(`Created agent, agent ID: ${agent.id}`);
-  });
-
-  it("bingGrounding", async function () {
-    const bingConnection = await client.connections.getConnection(
-      process.env.BING_CONNECTION_NAME ?? "<connection-name>",
-    );
-    const connectionId = bingConnection.id;
-
-    const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [
-      connectionId,
-    ]);
-
-    const agent = await client.agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [bingTool.definition],
-    });
-    console.log(`Created agent, agent ID : ${agent.id}`);
-  });
-
-  it("AISearch", async function () {
-    const connectionName =
-      process.env.AZURE_AI_SEARCH_CONNECTION_NAME ?? "<AzureAISearchConnectionName>";
-    const connection = await client.connections.getConnection(connectionName);
-
-    const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
-
-    const agent = await client.agents.createAgent("gpt-4-0125-preview", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [azureAISearchTool.definition],
-      toolResources: azureAISearchTool.resources,
-    });
-    console.log(`Created agent, agent ID : ${agent.id}`);
-  });
-
-  it("functionTools", async function () {
-    class FunctionToolExecutor {
-      private functionTools: { func: Function; definition: FunctionToolDefinition }[];
-
-      constructor() {
-        this.functionTools = [
-          {
-            func: this.getUserFavoriteCity,
-            ...ToolUtility.createFunctionTool({
-              name: "getUserFavoriteCity",
-              description: "Gets the user's favorite city.",
-              parameters: {},
-            }),
-          },
-          {
-            func: this.getCityNickname,
-            ...ToolUtility.createFunctionTool({
-              name: "getCityNickname",
-              description: "Gets the nickname of a city, e.g. 'LA' for 'Los Angeles, CA'.",
-              parameters: {
-                type: "object",
-                properties: {
-                  location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
-                },
-              },
-            }),
-          },
-          {
-            func: this.getWeather,
-            ...ToolUtility.createFunctionTool({
-              name: "getWeather",
-              description: "Gets the weather for a location.",
-              parameters: {
-                type: "object",
-                properties: {
-                  location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
-                  unit: { type: "string", enum: ["c", "f"] },
-                },
-              },
-            }),
-          },
-        ];
-      }
-
-      private getUserFavoriteCity(): {} {
-        return { location: "Seattle, WA" };
-      }
-
-      private getCityNickname(location: string): {} {
-        return { nickname: "The Emerald City" };
-      }
-
-      private getWeather(location: string, unit: string): {} {
-        return { weather: unit === "f" ? "72f" : "22c" };
-      }
-
-      public invokeTool(
-        toolCall: RequiredToolCallOutput & FunctionToolDefinitionOutput,
-      ): ToolOutput | undefined {
-        console.log(`Function tool call - ${toolCall.function.name}`);
-        const args = [];
-        if (toolCall.function.parameters) {
-          try {
-            const params = JSON.parse(toolCall.function.parameters);
-            for (const key in params) {
-              if (Object.prototype.hasOwnProperty.call(params, key)) {
-                args.push(params[key]);
-              }
-            }
-          } catch (error) {
-            console.error(`Failed to parse parameters: ${toolCall.function.parameters}`, error);
-            return undefined;
-          }
-        }
-        const result = this.functionTools
-          .find((tool) => tool.definition.function.name === toolCall.function.name)
-          ?.func(...args);
-        return result
-          ? {
-              toolCallId: toolCall.id,
-              output: JSON.stringify(result),
-            }
-          : undefined;
-      }
-
-      public getFunctionDefinitions(): FunctionToolDefinition[] {
-        return this.functionTools.map((tool) => {
-          return tool.definition;
-        });
-      }
-    }
-
-    const functionToolExecutor = new FunctionToolExecutor();
-    const functionTools = functionToolExecutor.getFunctionDefinitions();
-    const agent = await client.agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions:
-        "You are a weather bot. Use the provided functions to help answer questions. Customize your responses to the user's preferences as much as possible and use friendly nicknames for cities whenever possible.",
-      tools: functionTools,
-    });
-    console.log(`Created agent, agent ID: ${agent.id}`);
-  });
-
-  it("createAgentWithOpenApi", async function () {
-    // Read in OpenApi spec
-    const filePath = "./data/weatherOpenApi.json";
-    const openApiSpec = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
-    // Define OpenApi function
-    const openApiFunction = {
-      name: "getWeather",
-      spec: openApiSpec,
-      description: "Retrieve weather information for a location",
-      auth: {
-        type: "anonymous",
-      },
-      default_params: ["format"], // optional
-    };
-
-    // Create OpenApi tool
-    const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
-
-    // Create agent with OpenApi tool
-    const agent = await client.agents.createAgent("gpt-4o-mini", {
-      name: "myAgent",
-      instructions: "You are a helpful agent",
-      tools: [openApiTool.definition],
-    });
-    console.log(`Created agent, agent ID: ${agent.id}`);
-  });
-
-  it("createAgentWithFabric", async function () {
-    const fabricConnection = await client.connections.getConnection(
-      process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
-    );
-
-    const connectionId = fabricConnection.id;
-
-    // Initialize agent Microsoft Fabric tool with the connection id
-    const fabricTool = ToolUtility.createFabricTool(connectionId);
-
-    // Create agent with the Microsoft Fabric tool and process assistant run
-    const agent = await client.agents.createAgent("gpt-4o", {
-      name: "my-agent",
-      instructions: "You are a helpful agent",
-      tools: [fabricTool.definition],
-    });
-    console.log(`Created agent, agent ID : ${agent.id}`);
-  });
-
-  it("createThread", async function () {
-    const thread = await client.agents.createThread();
-  });
-
-  it("threadWithTool", async function () {
-    const localFileStream = fs.createReadStream(filePath);
-    const file = await client.agents.uploadFile(localFileStream, "assistants", {
-      fileName: "sample_file_for_upload.csv",
-    });
-    console.log(`Uploaded file, ID: ${file.id}`);
-
-    const vectorStore = await client.agents.createVectorStore({
-      fileIds: [file.id],
-    });
-    console.log(`Created vector store, ID: ${vectorStore.id}`);
-
-    const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
-
-    const agent = await client.agents.createAgent("gpt-4o", {
-      name: "myAgent",
-      instructions: "You are helpful agent that can help fetch data from files you know about.",
-      tools: [fileSearchTool.definition],
-    });
-    console.log(`Created agent, agent ID : ${agent.id}`);
-
-    // Create thread with file resources.
-    // If the agent has multiple threads, only this thread can search this file.
-    const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
-  });
-
-  it("listThreads", async function () {
-    const threads = await client.agents.listThreads();
-    console.log(`Threads for agent ${agent.id}:`);
-    for await (const t of (await threads).data) {
-      console.log(`Thread ID: ${t.id}`);
-      console.log(`Created at: ${t.createdAt}`);
-      console.log(`Metadata: ${t.metadata}`);
-      console.log(`---- `);
-    }
-  });
-
-  it("createMessage", async function () {
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: "hello, world!",
-    });
-    console.log(`Created message, message ID: ${message.id}`);
-  });
-
-  it("messageWithFileSearch", async function () {
-    const fileSearchTool = ToolUtility.createFileSearchTool();
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: "What feature does Smart Eyewear offer?",
-      attachments: {
-        fileId: file.id,
-        tools: [fileSearchTool.definition],
-      },
-    });
-  });
-
-  it("messageWithCodeInterpreter", async function () {
-    // notice that CodeInterpreter must be enabled in the agent creation,
-    // otherwise the agent will not be able to see the file attachment for code interpretation
-    const codeInterpreterTool = ToolUtility.createCodeInterpreterTool();
-    const agent = await client.agents.createAgent("gpt-4-1106-preview", {
-      name: "my-assistant",
-      instructions: "You are helpful assistant",
-      tools: [codeInterpreterTool.definition],
-    });
-    console.log(`Created agent, agent ID: ${agent.id}`);
-
-    const thread = await client.agents.createThread();
-    console.log(`Created thread, thread ID: ${thread.id}`);
-
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content:
-        "Could you please create bar chart in TRANSPORTATION sector for the operating profit from the uploaded csv file and provide file to me?",
-      attachments: {
-        fileId: file.id,
-        tools: [codeInterpreterTool.definition],
-      },
-    });
-    console.log(`Created message, message ID: ${message.id}`);
-  });
-
-  it("imageInputWithFile", async function () {
-    // Upload the local image file
-    const fileStream = fs.createReadStream(imagePath);
-    const imageFile = await client.agents.uploadFile(fileStream, "assistants", {
-      fileName: "image_file.png",
-    });
-    console.log(`Uploaded file, file ID: ${imageFile.id}`);
-
-    // Create a message with both text and image content
-    console.log("Creating message with image content...");
-    const inputMessage = "Hello, what is in the image?";
-    const content = [
-      {
-        type: "text",
-        text: inputMessage,
-      },
-      {
-        type: "image_file",
-        image_file: {
-          file_id: imageFile.id,
-          detail: "high",
-        },
-      },
-    ];
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: content,
-    });
-    console.log(`Created message, message ID: ${message.id}`);
-  });
-
-  it("imageInputWithUrl", async function () {
-    // Specify the public image URL
-    const imageUrl =
-      "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
-
-    // Create content directly referencing image URL
-    const inputMessage = "Hello, what is in the image?";
-    const content = [
-      {
-        type: "text",
-        text: inputMessage,
-      },
-      {
-        type: "image_url",
-        image_url: {
-          url: imageUrl,
-          detail: "high",
-        },
-      },
-    ];
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: content,
-    });
-    console.log(`Created message, message ID: ${message.id}`);
-  });
-
-  it("imageInputWithBase64", async function () {
-    function imageToBase64DataUrl(imagePath: string, mimeType: string): string {
-      try {
-        // Read the image file as binary
-        const imageBuffer = fs.readFileSync(imagePath);
-        // Convert to base64
-        const base64Data = imageBuffer.toString("base64");
-        // Format as a data URL
-        return `data:${mimeType};base64,${base64Data}`;
-      } catch (error) {
-        console.error(`Error reading image file at ${imagePath}:`, error);
-        throw error;
-      }
-    }
-
-    // Convert your image file to base64 format
-    const imageDataUrl = imageToBase64DataUrl(filePath, "image/png");
-
-    // Create a message with both text and image content
-    const inputMessage = "Hello, what is in the image?";
-    const content = [
-      {
-        type: "text",
-        text: inputMessage,
-      },
-      {
-        type: "image_url",
-        image_url: {
-          url: imageDataUrl,
-          detail: "high",
-        },
-      },
-    ];
-
-    const message = await client.agents.createMessage(thread.id, {
-      role: "user",
-      content: content,
-    });
-    console.log(`Created message, message ID: ${message.id}`);
-  });
-  it("createRun", async function () {
-    let run = await client.agents.createRun(thread.id, agent.id);
-
-    // Poll the run as long as run status is queued or in progress
-    while (
-      run.status === "queued" ||
-      run.status === "in_progress" ||
-      run.status === "requires_action"
-    ) {
-      // Wait for a second
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      run = await client.agents.getRun(thread.id, run.id);
-    }
-  });
-
-  it("createThreadAndRun", async function () {
-    const run = await client.agents.createThreadAndRun(agent.id, {
-      thread: {
-        messages: [
-          {
-            role: "user",
-            content: "hello, world!",
-          },
-        ],
-      },
-    });
-  });
-
-  it("createRunStream", async function () {
-    const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
-  });
-
-  it("eventHandling", async function () {
-    const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
-    for await (const eventMessage of streamEventMessages) {
-      switch (eventMessage.event) {
-        case RunStreamEvent.ThreadRunCreated:
-          console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
-          break;
-        case MessageStreamEvent.ThreadMessageDelta:
-          {
-            const messageDelta = eventMessage.data as MessageDeltaChunk;
-            messageDelta.delta.content.forEach((contentPart) => {
-              if (contentPart.type === "text") {
-                const textContent = contentPart as MessageDeltaTextContent;
-                const textValue = textContent.text?.value || "No text";
-                console.log(`Text delta received:: ${textValue}`);
-              }
-            });
-          }
-          break;
-
-        case RunStreamEvent.ThreadRunCompleted:
-          console.log("Thread Run Completed");
-          break;
-        case ErrorEvent.Error:
-          console.log(`An error occurred. Data ${eventMessage.data}`);
-          break;
-        case DoneEvent.Done:
-          console.log("Stream completed.");
-          break;
-      }
-    }
-  });
-
-  it("listMessages", async function () {
-    const messages = await client.agents.listMessages(thread.id);
-    while (messages.hasMore) {
-      const nextMessages = await client.agents.listMessages(currentRun.threadId, {
-        after: messages.lastId,
-      });
-      messages.data = messages.data.concat(nextMessages.data);
-      messages.hasMore = nextMessages.hasMore;
-      messages.lastId = nextMessages.lastId;
-    }
-
-    // The messages are following in the reverse order,
-    // we will iterate them and output only text contents.
-    for (const dataPoint of messages.data.reverse()) {
-      const lastMessageContent: MessageContentOutput =
-        dataPoint.content[dataPoint.content.length - 1];
-      console.log(lastMessageContent);
-      if (isOutputOfType<MessageTextContentOutput>(lastMessageContent, "text")) {
-        console.log(
-          `${dataPoint.role}: ${(lastMessageContent as MessageTextContentOutput).text.value}`,
-        );
-      }
-    }
-  });
-
-  it("retrieveFile", async function () {
-    const messages = await client.agents.listMessages(thread.id);
-
-    // Get most recent message from the assistant
-    const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
-    if (assistantMessage) {
-      const textContent = assistantMessage.content.find((content) =>
-        isOutputOfType<MessageTextContentOutput>(content, "text"),
-      ) as MessageTextContentOutput;
-      if (textContent) {
-        console.log(`Last message: ${textContent.text.value}`);
-      }
-    }
-
-    const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
-    const imageFileName = (await client.agents.getFile(imageFile.fileId)).filename;
-
-    const fileContent = await (
-      await client.agents.getFileContent(imageFile.fileId).asNodeStream()
-    ).body;
-    if (fileContent) {
-      const chunks: Buffer[] = [];
-      for await (const chunk of fileContent) {
-        chunks.push(Buffer.from(chunk));
-      }
-      const buffer = Buffer.concat(chunks);
-      fs.writeFileSync(imageFileName, buffer);
-    } else {
-      console.error("Failed to retrieve file content: fileContent is undefined");
-    }
-    console.log(`Saved image file to: ${imageFileName}`);
-  });
-
-  it("teardown", async function () {
-    await client.agents.deleteVectorStore(vectorStore.id);
-    console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
-
-    await client.agents.deleteFile(file.id);
-    console.log(`Deleted file, file ID: ${file.id}`);
-
-    client.agents.deleteAgent(agent.id);
+    await project.agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
-  it("tracing", async function () {
-    const provider = new NodeTracerProvider();
-    provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-    provider.register();
-
-    const tracer = trace.getTracer("Agents Sample", "1.0.0");
-
-    let appInsightsConnectionString =
-      process.env.APP_INSIGHTS_CONNECTION_STRING ?? "<appInsightsConnectionString>";
-
-    if (appInsightsConnectionString == "<appInsightsConnectionString>") {
-      appInsightsConnectionString = await client.telemetry.getConnectionString();
-    }
-
-    if (appInsightsConnectionString) {
-      const exporter = new AzureMonitorTraceExporter({
-        connectionString: appInsightsConnectionString,
-      });
-      provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
-    }
-
-    await tracer.startActiveSpan("main", async (span) => {
-      client.telemetry.updateSettings({ enableContentRecording: true });
-      // ...
+  it("openAI", async function () {
+    const client = await project.inference.azureOpenAI({
+      // The API version should match the version of the Azure OpenAI resource.
+      apiVersion: "2024-10-21",
     });
+    const response = await client.chat.completions.create({
+      model: deploymentName,
+      messages: [{ role: "user", content: "How many feet are in a mile?" }],
+    });
+    console.log("response = ", JSON.stringify(response, null, 2));
+  });
+
+  it("deployments", async function () {
+    const modelPublisher = process.env["MODEL_PUBLISHER"] || "<model publisher>";
+    console.log("List all deployments:");
+    const deployments: ModelDeployment[] = [];
+    const properties: Array<Record<string, string>> = [];
+    // @ts-preserve-whitespace
+    for await (const deployment of project.deployments.list()) {
+      // Check if this is a ModelDeployment (has the required properties)
+      if (
+        deployment.type === "ModelDeployment" &&
+        "modelName" in deployment &&
+        "modelPublisher" in deployment &&
+        "modelVersion" in deployment
+      ) {
+        deployments.push(deployment);
+        properties.push({
+          name: deployment.name,
+          modelPublisher: deployment.modelPublisher,
+          modelName: deployment.modelName,
+        });
+      }
+    }
+    console.log(`Retrieved deployments: ${JSON.stringify(properties, null, 2)}`);
+    // @ts-preserve-whitespace
+    // List all deployments by a specific model publisher (assuming we have one from the list)
+    console.log(`List all deployments by the model publisher '${modelPublisher}':`);
+    const filteredDeployments: ModelDeployment[] = [];
+    for await (const deployment of project.deployments.list({
+      modelPublisher,
+    })) {
+      // Check if this is a ModelDeployment
+      if (
+        deployment.type === "ModelDeployment" &&
+        "modelName" in deployment &&
+        "modelPublisher" in deployment &&
+        "modelVersion" in deployment
+      ) {
+        filteredDeployments.push(deployment);
+      }
+    }
+    console.log(
+      `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,
+    );
+    // @ts-preserve-whitespace
+    // Get a single deployment by name
+    if (deployments.length > 0) {
+      const deploymentName = deployments[0].name;
+      console.log(`Get a single deployment named '${deploymentName}':`);
+      const singleDeployment = await project.deployments.get(deploymentName);
+      console.log(`Retrieved deployment: ${JSON.stringify(singleDeployment, null, 2)}`);
+    }
+  });
+
+  it("connections", async function () {
+    // List the details of all the connections
+    const connections: Connection[] = [];
+    const connectionNames: string[] = [];
+    for await (const connection of project.connections.list()) {
+      connections.push(connection);
+      connectionNames.push(connection.name);
+    }
+    console.log(`Retrieved connections: ${connectionNames}`);
+    // @ts-preserve-whitespace
+    // Get the details of a connection, without credentials
+    const connectionName = connections[0].name;
+    const connection = await project.connections.get(connectionName);
+    console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
+    // @ts-preserve-whitespace
+    const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
+    console.log(
+      `Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`,
+    );
+    // @ts-preserve-whitespace
+    // List all connections of a specific type
+    const azureAIConnections: Connection[] = [];
+    for await (const azureOpenAIConnection of project.connections.list({
+      connectionType: "AzureOpenAI",
+      defaultConnection: true,
+    })) {
+      azureAIConnections.push(azureOpenAIConnection);
+    }
+    console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
+    // @ts-preserve-whitespace
+    // Get the details of a default connection
+    const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
+    console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
+  });
+
+  it("datasets", async function () {
+    const VERSION1 = "1.0";
+    const VERSION2 = "2.0";
+    const VERSION3 = "3.0";
+    // @ts-preserve-whitespace
+    // sample files to use in the demonstration
+    const sampleFolder = "sample_folder";
+
+    // Create a unique dataset name for this sample run
+    const datasetName = `sample-dataset-basic`;
+
+    console.log("Upload a single file and create a new Dataset to reference the file.");
+    console.log("Here we explicitly specify the dataset version.");
+    // @ts-preserve-whitespace
+    const dataset1 = await project.datasets.uploadFile(
+      datasetName,
+      VERSION1,
+      path.join(__dirname, sampleFolder, "sample_file1.txt"),
+    );
+    console.log("Dataset1 created:", JSON.stringify(dataset1, null, 2));
+    // @ts-preserve-whitespace
+    const credential = project.datasets.getCredentials(dataset1.name, dataset1.version, {});
+    console.log("Credential for the dataset:", credential);
+
+    console.log(
+      "Upload all files in a folder (including subfolders) to the existing Dataset to reference the folder.",
+    );
+    console.log("Here again we explicitly specify a new dataset version");
+
+    const dataset2 = await project.datasets.uploadFolder(
+      datasetName,
+      VERSION2,
+      path.join(__dirname, sampleFolder),
+    );
+    console.log("Dataset2 created:", JSON.stringify(dataset2, null, 2));
+
+    console.log(
+      "Upload a single file to the existing dataset, while letting the service increment the version",
+    );
+    const dataset3 = await project.datasets.uploadFile(
+      datasetName,
+      VERSION3,
+      path.join(__dirname, sampleFolder, "sample_file2.txt"),
+    );
+    console.log("Dataset3 created:", JSON.stringify(dataset3, null, 2));
+
+    // @ts-preserve-whitespace
+    console.log("Get an existing Dataset version `1`:");
+    const datasetVersion1 = await project.datasets.get(datasetName, VERSION1);
+    console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
+
+    console.log(`Listing all versions of the Dataset named '${datasetName}':`);
+    const datasetVersions = await project.datasets.listVersions(datasetName);
+    for await (const version of datasetVersions) {
+      console.log("List versions:", version);
+    }
+
+    console.log("List latest versions of all Datasets:");
+    const latestDatasets = project.datasets.list();
+    for await (const dataset of latestDatasets) {
+      console.log("List datasets:", dataset);
+    }
+
+    // List the details of all the datasets
+    const datasets = project.datasets.listVersions(datasetName);
+    const allDatasets: DatasetVersionUnion[] = [];
+    for await (const dataset of datasets) {
+      allDatasets.push(dataset);
+    }
+    console.log(`Retrieved ${allDatasets.length} datasets`);
+
+    console.log("Delete all Datasets created above:");
+    await project.datasets.delete(datasetName, VERSION1);
+    await project.datasets.delete(datasetName, VERSION2);
+    await project.datasets.delete(datasetName, dataset3.version);
+    console.log("All specified Datasets have been deleted.");
+  });
+
+  it("indexes", async function () {
+    const indexName = "sample-index";
+    const version = "1";
+    const azureAIConnectionConfig: AzureAISearchIndex = {
+      name: indexName,
+      type: "AzureSearch",
+      version,
+      indexName,
+      connectionName: "sample-connection",
+    };
+    // @ts-preserve-whitespace
+    // Create a new Index
+    const newIndex = await project.indexes.createOrUpdate(
+      indexName,
+      version,
+      azureAIConnectionConfig,
+    );
+    console.log("Created a new Index:", newIndex);
+    console.log(`Get an existing Index version '${version}':`);
+    const index = await project.indexes.get(indexName, version);
+    console.log(index);
+
+    console.log(`Listing all versions of the Index named '${indexName}':`);
+    const indexVersions = project.indexes.listVersions(indexName);
+    for await (const indexVersion of indexVersions) {
+      console.log(indexVersion);
+    }
+
+    console.log("List all Indexes:");
+    const allIndexes = project.indexes.list();
+    for await (const i of allIndexes) {
+      console.log("Index:", i);
+    }
+
+    console.log("Delete the Index versions created above:");
+    await project.indexes.delete(indexName, version);
+  });
+
+  it("datasetUpload", async function () {
+    const dataset: DatasetVersion = await project.datasets.uploadFile(
+      "jss-eval-sample-dataset",
+      "1",
+      "./samples_folder/sample_data_evaluation.jsonl",
+    );
+  });
+
+  it("getDefault", async function () {
+    const defaultConnection = await project.connections.getDefault("AzureOpenAI");
   });
 
   it("exceptions", async function () {
     try {
-      const result = await client.connections.listConnections();
+      const result = await project.connections.list();
     } catch (e) {
-      if (e instanceof RestError) {
+      if (isRestError(e)) {
         console.log(`Status code: ${e.code}`);
         console.log(e.message);
       } else {

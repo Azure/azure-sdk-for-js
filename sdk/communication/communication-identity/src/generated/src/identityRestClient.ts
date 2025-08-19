@@ -10,10 +10,24 @@ import * as coreClient from "@azure/core-client";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
-import { CommunicationIdentityOperationsImpl } from "./operations/index.js";
-import { CommunicationIdentityOperations } from "./operationsInterfaces/index.js";
+import {
+  CommunicationIdentityOperationsImpl,
+  TeamsExtensionTokenImpl,
+  TeamsExtensionAssignmentImpl,
+  EntraIdTokenImpl,
+  EntraIdAssignmentsImpl,
+  EntraIdAssignmentImpl,
+} from "./operations/index.js";
+import {
+  CommunicationIdentityOperations,
+  TeamsExtensionToken,
+  TeamsExtensionAssignment,
+  EntraIdToken,
+  EntraIdAssignments,
+  EntraIdAssignment,
+} from "./operationsInterfaces/index.js";
 import { IdentityRestClientOptionalParams } from "./models/index.js";
 
 export class IdentityRestClient extends coreClient.ServiceClient {
@@ -35,10 +49,10 @@ export class IdentityRestClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: IdentityRestClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-identity/1.3.2`;
+    const packageDetails = `azsdk-js-communication-identity/1.4.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -48,19 +62,23 @@ export class IdentityRestClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2023-10-01";
-    this.communicationIdentityOperations = new CommunicationIdentityOperationsImpl(
-      this
-    );
+    this.apiVersion = options.apiVersion || "2025-03-02-preview";
+    this.communicationIdentityOperations =
+      new CommunicationIdentityOperationsImpl(this);
+    this.teamsExtensionToken = new TeamsExtensionTokenImpl(this);
+    this.teamsExtensionAssignment = new TeamsExtensionAssignmentImpl(this);
+    this.entraIdToken = new EntraIdTokenImpl(this);
+    this.entraIdAssignments = new EntraIdAssignmentsImpl(this);
+    this.entraIdAssignment = new EntraIdAssignmentImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -73,7 +91,7 @@ export class IdentityRestClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -87,10 +105,15 @@ export class IdentityRestClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   communicationIdentityOperations: CommunicationIdentityOperations;
+  teamsExtensionToken: TeamsExtensionToken;
+  teamsExtensionAssignment: TeamsExtensionAssignment;
+  entraIdToken: EntraIdToken;
+  entraIdAssignments: EntraIdAssignments;
+  entraIdAssignment: EntraIdAssignment;
 }

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified encryptionScope associated with the Cognitive Services account.
  *
  * @summary Deletes the specified encryptionScope associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteEncryptionScope.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/DeleteEncryptionScope.json
  */
 async function deleteEncryptionScope() {
   const subscriptionId =
@@ -35,7 +33,7 @@ async function deleteEncryptionScope() {
 }
 
 async function main() {
-  deleteEncryptionScope();
+  await deleteEncryptionScope();
 }
 
 main().catch(console.error);

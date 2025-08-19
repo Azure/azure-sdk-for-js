@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import { Operation } from "../../models/models.js";
-import { operationsList } from "../../api/operations/index.js";
+import { OperationsListOptionalParams } from "../../api/operations/options.js";
+import { list } from "../../api/operations/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { OperationsListOptionalParams } from "../../models/options.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
@@ -13,14 +13,16 @@ export interface OperationsOperations {
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
-export function getOperations(context: DocumentDBContext) {
+function _getOperations(context: MongoClusterManagementContext) {
   return {
-    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
 
-export function getOperationsOperations(context: DocumentDBContext): OperationsOperations {
+export function _getOperationsOperations(
+  context: MongoClusterManagementContext,
+): OperationsOperations {
   return {
-    ...getOperations(context),
+    ..._getOperations(context),
   };
 }

@@ -23,6 +23,7 @@ export * from "./provider.js";
 export * from "./recommendations.js";
 export * from "./resourceHealthMetadataOperations.js";
 export * from "./getUsagesInLocation.js";
+export * from "./siteCertificates.js";
 export * from "./staticSites.js";
 export * from "./webApps.js";
 export * from "./workflows.js";

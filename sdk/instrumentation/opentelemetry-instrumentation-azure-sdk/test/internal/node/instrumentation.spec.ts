@@ -22,9 +22,9 @@ describe("instrumentation end-to-end tests", () => {
       const [coreRestPipeline, inner, outer] = spans;
 
       // Check parenting chain
-      assert.equal(coreRestPipeline.parentSpanId, inner.spanContext().spanId);
-      assert.equal(inner.parentSpanId, outer.spanContext().spanId);
-      assert.notExists(outer.parentSpanId);
+      assert.equal(coreRestPipeline.parentSpanContext?.spanId, inner.spanContext().spanId);
+      assert.equal(inner.parentSpanContext?.spanId, outer.spanContext().spanId);
+      assert.notExists(outer.parentSpanContext?.spanId);
 
       // Check default span kind
       assert.equal(outer.kind, SpanKind.INTERNAL);
@@ -43,8 +43,8 @@ describe("instrumentation end-to-end tests", () => {
       assert.deepEqual(outer.status, { code: SpanStatusCode.UNSET });
 
       // Check instrumentationLibrary
-      assert.equal(outer.instrumentationLibrary.name, tracingClientAttributes.packageName);
-      assert.equal(outer.instrumentationLibrary.version, tracingClientAttributes.packageVersion);
+      assert.equal(outer.instrumentationScope.name, tracingClientAttributes.packageName);
+      assert.equal(outer.instrumentationScope.version, tracingClientAttributes.packageVersion);
 
       // Check attributes on all spans
       assert.equal(coreRestPipeline.attributes["az.namespace"], tracingClientAttributes.namespace);

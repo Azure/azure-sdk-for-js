@@ -1,0 +1,30 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "mainEntryPointFilePath": "<projectFolder>/dist/esm/index.d.ts",
+  "docModel": {
+    "enabled": true
+  },
+  "dtsRollup": {
+    "enabled": false
+  },
+  "apiReport": {
+    "enabled": true,
+    "reportFolder": "<projectFolder>/review"
+  },
+  "newlineKind": "lf",
+  "messages": {
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "none"
+      }
+    },
+    "extractorMessageReporting": {
+      "ae-missing-release-tag": {
+        "logLevel": "none"
+      },
+      "ae-unresolved-link": {
+        "logLevel": "none"
+      }
+    }
+  }
+}

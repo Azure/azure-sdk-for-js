@@ -18,7 +18,7 @@ import {
   ResourceSkusListSkusNextOptionalParams,
   ResourceSkusListSkusOptionalParams,
   ResourceSkusListSkusResponse,
-  ResourceSkusListSkusNextResponse
+  ResourceSkusListSkusNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,11 +35,11 @@ export class ResourceSkusImpl implements ResourceSkus {
   }
 
   /**
-   * The skus action returns the list of SKUs that DMS supports.
+   * The skus action returns the list of SKUs that DMS (classic) supports.
    * @param options The options parameters.
    */
   public listSkus(
-    options?: ResourceSkusListSkusOptionalParams
+    options?: ResourceSkusListSkusOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSku> {
     const iter = this.listSkusPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class ResourceSkusImpl implements ResourceSkus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listSkusPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listSkusPagingPage(
     options?: ResourceSkusListSkusOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceSku[]> {
     let result: ResourceSkusListSkusResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class ResourceSkusImpl implements ResourceSkus {
   }
 
   private async *listSkusPagingAll(
-    options?: ResourceSkusListSkusOptionalParams
+    options?: ResourceSkusListSkusOptionalParams,
   ): AsyncIterableIterator<ResourceSku> {
     for await (const page of this.listSkusPagingPage(options)) {
       yield* page;
@@ -89,11 +89,11 @@ export class ResourceSkusImpl implements ResourceSkus {
   }
 
   /**
-   * The skus action returns the list of SKUs that DMS supports.
+   * The skus action returns the list of SKUs that DMS (classic) supports.
    * @param options The options parameters.
    */
   private _listSkus(
-    options?: ResourceSkusListSkusOptionalParams
+    options?: ResourceSkusListSkusOptionalParams,
   ): Promise<ResourceSkusListSkusResponse> {
     return this.client.sendOperationRequest({ options }, listSkusOperationSpec);
   }
@@ -105,11 +105,11 @@ export class ResourceSkusImpl implements ResourceSkus {
    */
   private _listSkusNext(
     nextLink: string,
-    options?: ResourceSkusListSkusNextOptionalParams
+    options?: ResourceSkusListSkusNextOptionalParams,
   ): Promise<ResourceSkusListSkusNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listSkusNextOperationSpec
+      listSkusNextOperationSpec,
     );
   }
 }
@@ -117,39 +117,37 @@ export class ResourceSkusImpl implements ResourceSkus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/skus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkusResult
+      bodyMapper: Mappers.ResourceSkusResult,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSkusNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkusResult
+      bodyMapper: Mappers.ResourceSkusResult,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

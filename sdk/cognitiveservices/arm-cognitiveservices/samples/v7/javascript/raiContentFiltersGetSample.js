@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get Content Filters by Name.
  *
  * @summary Get Content Filters by Name.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/GetRaiContentFilter.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/GetRaiContentFilter.json
  */
 async function getRaiContentFilters() {
   const subscriptionId =
@@ -30,7 +28,7 @@ async function getRaiContentFilters() {
 }
 
 async function main() {
-  getRaiContentFilters();
+  await getRaiContentFilters();
 }
 
 main().catch(console.error);

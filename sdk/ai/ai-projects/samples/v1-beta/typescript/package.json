@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure AI Projects client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -32,16 +32,16 @@
   "dependencies": {
     "@azure/ai-projects": "next",
     "dotenv": "latest",
-    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.31",
-    "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
+    "@azure/identity": "^4.3.0",
+    "@azure-rest/core-client": "^2.1.0",
     "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/instrumentation": "0.57.0",
-    "@opentelemetry/sdk-trace-node": "^1.30.0",
-    "@azure/core-util": "^1.9.0",
-    "@azure/identity": "^4.3.0"
+    "@azure/monitor-opentelemetry": "^1.11.1",
+    "@opentelemetry/instrumentation": "^0.57.0",
+    "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
+    "@opentelemetry/sdk-trace-node": "^2.0.0"
   },
   "devDependencies": {
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "typescript": "~5.8.2",
     "rimraf": "latest"
   }

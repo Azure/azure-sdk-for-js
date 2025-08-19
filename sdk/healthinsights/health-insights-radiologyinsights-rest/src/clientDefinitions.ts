@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
-import type { CreateJobParameters, GetJobParameters } from "./parameters.js";
+import type { GetJobParameters, CreateJobParameters } from "./parameters.js";
 import type {
+  GetJob200Response,
+  GetJobDefaultResponse,
   CreateJob200Response,
   CreateJob201Response,
   CreateJobDefaultResponse,
-  GetJob200Response,
-  GetJobDefaultResponse,
 } from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 /** Gets the Radiology Insights job. */
 export interface GetJob {
@@ -18,7 +18,6 @@ export interface GetJob {
   /** Creates a Radiology Insights job with the given request body. */
   put(
     options: CreateJobParameters,
-    requestOptions?: GetJobParameters,
   ): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
 }
 

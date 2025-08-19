@@ -21,13 +21,15 @@ parameters:
 
 variables:
   - template: /eng/pipelines/templates/variables/globals.yml
+  - template: /eng/pipelines/templates/variables/image.yml
 jobs:
   - template: /eng/common/pipelines/templates/jobs/docindex.yml
 
   - job: UpgradeRexTool
     timeoutInMinutes: 10
     pool:
-      vmImage: ubuntu-22.04
+      name: $(LINUXPOOL)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
 
     steps:
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
@@ -55,7 +57,9 @@ jobs:
   - job: UpdateDocsMsBuildConfig
     timeoutInMinutes: 90
     pool:
-      vmImage: ubuntu-20.04
+      name: $(LINUXPOOL)
+      demands: ImageOverride -equals $(LINUXVMIMAGE)
+
     variables:
       DocRepoLocation: $(Pipeline.Workspace)/docs
       DocRepoOwner: MicrosoftDocs

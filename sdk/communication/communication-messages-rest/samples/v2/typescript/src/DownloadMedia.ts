@@ -7,7 +7,7 @@
 
 import NotificationClient from "@azure-rest/communication-messages";
 import { AzureKeyCredential } from "@azure/core-auth";
-import * as fs from "node:fs";
+import fs from "node:fs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

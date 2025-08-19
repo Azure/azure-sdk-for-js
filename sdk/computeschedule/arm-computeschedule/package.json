@@ -1,17 +1,19 @@
 {
   "name": "@azure/arm-computeschedule",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A generated SDK for ComputeScheduleClient.",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
   "tshy": {
-    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./api/scheduledActions": "./src/api/scheduledActions/index.ts",
+      "./api/operations": "./src/api/operations/index.ts",
       "./models": "./src/models/index.ts"
     },
     "dialects": [
@@ -22,7 +24,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
   },
   "type": "module",
   "keywords": [
@@ -37,9 +40,10 @@
   "license": "MIT",
   "files": [
     "dist/",
+    "!dist/**/*.d.*ts.map",
     "README.md",
     "LICENSE",
-    "review/",
+    "review/*",
     "CHANGELOG.md"
   ],
   "sdk-type": "mgmt",
@@ -58,10 +62,10 @@
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure/core-util": "^1.11.0",
+    "@azure-rest/core-client": "^2.1.0",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.18.2",
-    "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
   },
@@ -72,38 +76,31 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.6.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
+    "eslint": "^9.9.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
-    "eslint": "^9.9.0",
-    "playwright": "^1.50.0",
-    "typescript": "~5.6.2",
+    "playwright": "^1.50.1",
+    "typescript": "~5.8.2",
     "vitest": "^3.0.9"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "tsc -p tsconfig.samples.json && dev-tool samples publish -f",
-    "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "generate:client": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
-    "minify": "echo skipped",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
-    "unit-test:node": "dev-tool run test:vitest",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
   },
   "//sampleConfiguration": {
@@ -134,6 +131,60 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/scheduledActions": {
+      "browser": {
+        "types": "./dist/browser/api/scheduledActions/index.d.ts",
+        "default": "./dist/browser/api/scheduledActions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/scheduledActions/index.d.ts",
+        "default": "./dist/react-native/api/scheduledActions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/scheduledActions/index.d.ts",
+        "default": "./dist/esm/api/scheduledActions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/scheduledActions/index.d.ts",
+        "default": "./dist/commonjs/api/scheduledActions/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
       }
     },
     "./models": {

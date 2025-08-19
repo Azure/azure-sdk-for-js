@@ -8,11 +8,11 @@ import {
   parseJsonToken,
   powerShellErrors,
   powerShellPublicErrorMessages,
-} from "../../../src/credentials/azurePowerShellCredential.js";
-import { AzurePowerShellCredential } from "../../../src/index.js";
+} from "$internal/credentials/azurePowerShellCredential.js";
+import { AzurePowerShellCredential } from "@azure/identity";
 import type { GetTokenOptions } from "@azure/core-auth";
-import { commandStack } from "../../../src/credentials/azurePowerShellCredential.js";
-import { processUtils } from "../../../src/util/processUtils.js";
+import { commandStack } from "$internal/credentials/azurePowerShellCredential.js";
+import { processUtils } from "$internal/util/processUtils.js";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 function resetCommandStack(): void {
@@ -317,5 +317,58 @@ CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying 
      at Context.<anonymous> (/Users/runner/work/1/s/sdk/maps/maps-geolocation-rest/test/public/MapsGeolocation.spec.ts:2:35)`;
     const token = await parseJsonToken(completeResponse);
     assert.equal(token?.Token, tokenResponse.Token);
+  });
+
+  it("verifies PowerShell script contains SecureString handling code", async function () {
+    const tokenResponse = {
+      Token: "token",
+      ExpiresOn: "2021-04-21T20:52:16+00:00",
+      TenantId: "tenant-id",
+      Type: "Bearer",
+    };
+
+    vi.spyOn(processUtils, "execFile")
+      .mockResolvedValueOnce("")
+      .mockResolvedValueOnce(JSON.stringify(tokenResponse));
+
+    const credential = new AzurePowerShellCredential();
+    const actualToken = await credential.getToken(scope);
+    assert.equal(actualToken!.token, "token");
+
+    const calls = vi.mocked(processUtils.execFile).mock.calls;
+    assert.equal(calls.length, 2, "Expected exactly 2 calls to execFile");
+
+    // Command availability check
+    const [, checkArgs] = calls[0];
+    assert.include(checkArgs, "/?");
+
+    // PowerShell script execution
+    const [, scriptArgs] = calls[1];
+    const commandIndex = scriptArgs?.indexOf("-Command");
+    assert.isAtLeast(commandIndex ?? -1, 0);
+
+    const scriptContent = scriptArgs?.[commandIndex + 1];
+    assert.isString(scriptContent);
+
+    // Verify PowerShell script checks for and handles Az.Accounts module version 5.0.0+
+    assert.include(scriptContent, "if ($token.Token -is [System.Security.SecureString])");
+
+    // Verify PowerShell < 7 handling
+    assert.include(
+      scriptContent,
+      "[System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($token.Token)",
+    );
+    assert.include(scriptContent, "if ($PSVersionTable.PSVersion.Major -lt 7)");
+
+    // Verify PowerShell >= 7 handling
+    assert.include(scriptContent, "ConvertFrom-SecureString -AsPlainText");
+    assert.include(scriptContent, "else {");
+
+    assert.include(
+      scriptContent,
+      "$useSecureString = $m.Version -ge [version]'2.17.0' -and $m.Version -lt [version]'5.0.0'",
+    );
+
+    assert.include(scriptContent, '$params["AsSecureString"] = $true');
   });
 });

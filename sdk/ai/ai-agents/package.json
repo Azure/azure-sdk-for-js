@@ -1,0 +1,154 @@
+{
+  "name": "@azure/ai-agents",
+  "version": "1.1.0",
+  "description": "Azure AI Agents client library.",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "sideEffects": false,
+  "autoPublish": false,
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false,
+    "project": "../../../tsconfig.src.build.json"
+  },
+  "type": "module",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "client",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/agentsClient.ts",
+        "prefix": "userAgentInfo"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure-rest/core-client": "^2.1.0",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.5.0",
+    "@azure/core-util": "^1.9.0",
+    "@azure/logger": "^1.1.4",
+    "@azure/core-lro": "^3.0.0",
+    "tslib": "^2.6.2",
+    "@azure/core-paging": "^1.5.0",
+    "@azure/core-sse": "^2.1.3",
+    "@azure/core-tracing": "^1.2.0"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^4.3.0",
+    "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
+    "@azure/monitor-opentelemetry": "^1.11.1",
+    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.31",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/instrumentation": "0.57.0",
+    "@opentelemetry/sdk-trace-node": "^1.30.0",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
+    "@types/node": "^20.0.0",
+    "dotenv": "^16.0.0",
+    "eslint": "^9.9.0",
+    "prettier": "^3.2.5",
+    "playwright": "^1.41.2",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
+  },
+  "scripts": {
+    "build": "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "build:samples": "echo skipped",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* test-dist temp types *.tgz *.log",
+    "copy:yaml": "copy tsp-location.yaml .\\src\\generated\\tsp-location.yaml",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "generate": "dev-tool run vendored rimraf ./src/generated && dev-tool run vendored mkdirp ./src/generated && npm run copy:yaml && npm run tsp:update && dev-tool run vendored rimraf ./src/generated/test && dev-tool run vendored rimraf ./src/generated/tsp-location.yaml",
+    "generate-samples": "dev-tool samples publish -f",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "pack": "npm pack 2>&1",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run build-test && dev-tool run test:vitest --browser",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm --no-test-proxy",
+    "tsp:update": "tsp-client update -o ./src/generated",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure AI Agents",
+    "productSlugs": [
+      "azure"
+    ],
+    "extraFiles": {
+      "./data": [
+        "javascript/data",
+        "typescript/data"
+      ]
+    },
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-projects"
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
+}

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List ModelCapacities.
  *
  * @summary List ModelCapacities.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListModelCapacities.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListModelCapacities.json
  */
 async function listModelCapacities() {
   const subscriptionId =
@@ -27,14 +25,14 @@ async function listModelCapacities() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.modelCapacities.list(modelFormat, modelName, modelVersion)) {
+  for await (const item of client.modelCapacities.list(modelFormat, modelName, modelVersion)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listModelCapacities();
+  await listModelCapacities();
 }
 
 main().catch(console.error);

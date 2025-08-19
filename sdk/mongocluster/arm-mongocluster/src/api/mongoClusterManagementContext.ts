@@ -1,27 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { ClientOptions, Client, getClient } from "@azure-rest/core-client";
 import { logger } from "../logger.js";
+import { KnownVersions } from "../models/models.js";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
-export interface DocumentDBContext extends Client {}
+/** The Microsoft Azure management API provides create, read, update, and delete functionality for Azure Cosmos DB for MongoDB vCore resources including clusters and firewall rules. */
+export interface MongoClusterManagementContext extends Client {
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion: string;
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
 
 /** Optional parameters for the client. */
 export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 /** The Microsoft Azure management API provides create, read, update, and delete functionality for Azure Cosmos DB for MongoDB vCore resources including clusters and firewall rules. */
 export function createMongoClusterManagement(
   credential: TokenCredential,
+  subscriptionId: string,
   options: MongoClusterManagementClientOptionalParams = {},
-): DocumentDBContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
-
+): MongoClusterManagementContext {
+  const endpointUrl = options.endpoint ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-mongocluster/1.0.2`;
+  const userAgentInfo = `azsdk-js-arm-mongocluster/1.1.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -35,7 +44,7 @@ export function createMongoClusterManagement(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-07-01";
+  const apiVersion = options.apiVersion ?? "2025-07-01-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
@@ -51,5 +60,9 @@ export function createMongoClusterManagement(
       return next(req);
     },
   });
-  return clientContext;
+  return {
+    ...clientContext,
+    apiVersion,
+    subscriptionId,
+  } as MongoClusterManagementContext;
 }

@@ -36,6 +36,9 @@ import {
   DnsResolverDomainListsDeleteResponse,
   DnsResolverDomainListsGetOptionalParams,
   DnsResolverDomainListsGetResponse,
+  DnsResolverDomainListBulk,
+  DnsResolverDomainListsBulkOptionalParams,
+  DnsResolverDomainListsBulkResponse,
   DnsResolverDomainListsListByResourceGroupNextResponse,
   DnsResolverDomainListsListNextResponse,
 } from "../models/index.js";
@@ -506,6 +509,105 @@ export class DnsResolverDomainListsImpl implements DnsResolverDomainLists {
   }
 
   /**
+   * Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dnsResolverDomainListName The name of the DNS resolver domain list.
+   * @param parameters Parameters supplied to the bulk domain list operation.
+   * @param options The options parameters.
+   */
+  async beginBulk(
+    resourceGroupName: string,
+    dnsResolverDomainListName: string,
+    parameters: DnsResolverDomainListBulk,
+    options?: DnsResolverDomainListsBulkOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DnsResolverDomainListsBulkResponse>,
+      DnsResolverDomainListsBulkResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<DnsResolverDomainListsBulkResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        dnsResolverDomainListName,
+        parameters,
+        options,
+      },
+      spec: bulkOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DnsResolverDomainListsBulkResponse,
+      OperationState<DnsResolverDomainListsBulkResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dnsResolverDomainListName The name of the DNS resolver domain list.
+   * @param parameters Parameters supplied to the bulk domain list operation.
+   * @param options The options parameters.
+   */
+  async beginBulkAndWait(
+    resourceGroupName: string,
+    dnsResolverDomainListName: string,
+    parameters: DnsResolverDomainListBulk,
+    options?: DnsResolverDomainListsBulkOptionalParams,
+  ): Promise<DnsResolverDomainListsBulkResponse> {
+    const poller = await this.beginBulk(
+      resourceGroupName,
+      dnsResolverDomainListName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -698,6 +800,43 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const bulkOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolverDomainLists/{dnsResolverDomainListName}/bulk",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DnsResolverDomainList,
+    },
+    201: {
+      bodyMapper: Mappers.DnsResolverDomainList,
+    },
+    202: {
+      bodyMapper: Mappers.DnsResolverDomainList,
+    },
+    204: {
+      bodyMapper: Mappers.DnsResolverDomainList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters20,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.dnsResolverDomainListName,
+  ],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
+  mediaType: "json",
   serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {

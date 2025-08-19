@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 
 const endpoint =
   process.env["DOCUMENT_TRANSLATION_ENDPOINT"] ||
-  "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
+  "https://<translator-instance>.cognitiveservices.azure.com";
 
 async function main() {
   console.log("== Synchronous Document Translation ==");

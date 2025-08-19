@@ -33,7 +33,7 @@ export function appConfigKeyCredentialPolicy(credential: string, secret: string)
       request.headers.set("x-ms-date", utcNow);
       request.headers.set("x-ms-content-sha256", contentHash);
       // Syntax for Authorization header
-      // Reference - https://learn.microsoft.com/en-us/azure/azure-app-configuration/rest-api-authentication-hmac#syntax
+      // Reference - https://learn.microsoft.com/azure/azure-app-configuration/rest-api-authentication-hmac#syntax
       request.headers.set(
         "Authorization",
         `HMAC-SHA256 Credential=${credential}&SignedHeaders=${signedHeaders}&Signature=${signature}`,

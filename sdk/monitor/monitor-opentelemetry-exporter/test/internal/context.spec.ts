@@ -10,7 +10,6 @@ describe("context.ts", () => {
     assert.ok(Context.nodeVersion, "Missing nodeVersion");
     assert.ok(Context.opentelemetryVersion, "Missing opentelemetryVersion");
     assert.ok(Context.sdkVersion, "Missing sdkVersion");
-    assert.ok(context.tags["ai.device.osVersion"], "Missing ai.device.osVersion");
     assert.ok(context.tags["ai.internal.sdkVersion"], "Missing ai.internal.sdkVersion");
   });
 

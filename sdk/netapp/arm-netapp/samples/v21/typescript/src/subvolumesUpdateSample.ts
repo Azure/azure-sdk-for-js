@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   SubvolumePatchRequest,
   NetAppManagementClient,
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Patch a subvolume
  *
  * @summary Patch a subvolume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/Subvolumes_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Subvolumes_Update.json
  */
 async function subvolumesUpdate(): Promise<void> {
   const subscriptionId =

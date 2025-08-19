@@ -11,11 +11,21 @@ import {
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
 import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
-import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { LongIntervalStatsbeatMetrics } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
 import { getInstance as getContext } from "../../src/platform/nodejs/context/context.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
-import { describe, it, assert, expect, vi, beforeAll, afterAll } from "vitest";
+import {
+  describe,
+  it,
+  assert,
+  expect,
+  vi,
+  beforeAll,
+  afterAll,
+  beforeEach,
+  afterEach,
+} from "vitest";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
   process.env.LONG_INTERVAL_EXPORT_MILLIS = "100";
@@ -27,8 +37,8 @@ describe("#AzureMonitorStatsbeatExporter", () => {
   });
 
   const options = {
-    instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
-    endpointUrl: "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
+    instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+    endpointUrl: "https://westeurope-5.in.applicationinsights.azure.com",
   };
 
   const exportOptions = {
@@ -51,7 +61,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
 
       it("should wait 15 seconds from startup to export long interval statsbeat", async () => {
-        const longIntervalStatsbeat = getInstance(options);
+        const longIntervalStatsbeat = LongIntervalStatsbeatMetrics.getInstance(options);
         const mockExport = vi.spyOn(longIntervalStatsbeat["longIntervalAzureExporter"], "export");
         longIntervalStatsbeat["initialize"]();
         expect(mockExport).not.toHaveBeenCalled();
@@ -87,20 +97,24 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should use non EU connection string", () => {
-        const statsbeat = new NetworkStatsbeatMetrics({
-          instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
-          endpointUrl: "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com",
+        // Reset singleton to test with different options
+        (NetworkStatsbeatMetrics as any).instance = null;
+        const statsbeat = NetworkStatsbeatMetrics.getInstance({
+          instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+          endpointUrl: "https://westus-0.in.applicationinsights.azure.com",
         });
-        assert.strictEqual(statsbeat["host"], "IngestionEndpoint=https://westus-0");
+        assert.strictEqual(statsbeat["host"], "westus");
       });
 
       it("should use EU connection string", () => {
-        const statsbeat = new NetworkStatsbeatMetrics(options);
-        assert.strictEqual(statsbeat["host"], "IngestionEndpoint=https://westeurope-5");
+        // Reset singleton to test with different options
+        (NetworkStatsbeatMetrics as any).instance = null;
+        const statsbeat = NetworkStatsbeatMetrics.getInstance(options);
+        assert.strictEqual(statsbeat["host"], "westeurope");
       });
 
       it("getShortHost", () => {
-        const statsbeat = new NetworkStatsbeatMetrics(options);
+        const statsbeat = NetworkStatsbeatMetrics.getInstance(options);
         assert.strictEqual(
           statsbeat["getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"),
           "westus02",
@@ -114,7 +128,9 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should add correct network properties to the custom metric", () => {
-        const statsbeat = new NetworkStatsbeatMetrics(options);
+        const statsbeat = NetworkStatsbeatMetrics.getInstance(options);
+        // Clear any existing state
+        statsbeat["networkStatsbeatCollection"] = [];
         // eslint-disable-next-line no-unused-expressions
         statsbeat["statsCollectionShortInterval"];
         statsbeat.countSuccess(100);
@@ -124,51 +140,65 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         // Ensure network statsbeat attributes are populated
         assert.strictEqual(statsbeat["attach"], "Manual");
-        assert.strictEqual(
-          statsbeat["cikey"],
-          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
-        );
+        assert.strictEqual(statsbeat["cikey"], "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333");
         assert.strictEqual(statsbeat["language"], "node");
         assert.strictEqual(statsbeat["resourceProvider"], "unknown");
         assert.strictEqual(
           statsbeat["endpointUrl"],
-          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
+          "https://westeurope-5.in.applicationinsights.azure.com",
         );
         assert.ok(statsbeat["os"]);
         assert.ok(statsbeat["runtimeVersion"]);
         assert.ok(statsbeat["version"]);
       });
 
-      it("should add correct attach value to the attach metric", () => {
+      it("should add correct attach value to the attach metric", async () => {
         const originalEnv = process.env;
         const newEnv = <{ [id: string]: string }>{};
         process.env = newEnv;
         newEnv[AZURE_MONITOR_AUTO_ATTACH] = "true";
-        const statsbeat = new NetworkStatsbeatMetrics(options);
-        // eslint-disable-next-line no-unused-expressions
-        statsbeat["statsCollectionShortInterval"];
-        statsbeat.countSuccess(100);
-        const metric = statsbeat["networkStatsbeatCollection"][0];
-        assert.strictEqual(metric.intervalRequestExecutionTime, 100);
 
-        // Ensure network statsbeat attributes are populated
-        assert.strictEqual(statsbeat["attach"], "IntegratedAuto");
-        assert.ok(getContext().tags["ai.internal.sdkVersion"]);
-        process.env = originalEnv;
+        // Reset singleton to pick up new environment variable
+        (NetworkStatsbeatMetrics as any).instance = null;
+        const statsbeat = NetworkStatsbeatMetrics.getInstance(options);
+        try {
+          // Clear any existing state
+          statsbeat["networkStatsbeatCollection"] = [];
+          // eslint-disable-next-line no-unused-expressions
+          statsbeat["statsCollectionShortInterval"];
+          statsbeat.countSuccess(100);
+          const metric = statsbeat["networkStatsbeatCollection"][0];
+          assert.strictEqual(metric.intervalRequestExecutionTime, 100);
+
+          // Ensure network statsbeat attributes are populated
+          assert.strictEqual(statsbeat["attach"], "IntegratedAuto");
+          assert.ok(getContext().tags["ai.internal.sdkVersion"]);
+        } finally {
+          process.env = originalEnv;
+          await statsbeat.shutdown();
+        }
       });
 
-      it("should set common properties correctly", () => {
+      it("should set common properties correctly", async () => {
         const originalEnv = process.env;
         const newEnv = <{ [id: string]: string }>{};
         newEnv.WEBSITE_SITE_NAME = "test";
         process.env = newEnv;
-        const statsbeat = new NetworkStatsbeatMetrics(options);
-        assert.strictEqual(statsbeat["commonProperties"]["rp"], "appsvc");
-        process.env = originalEnv;
+        // Reset the singleton to pick up new environment
+        (NetworkStatsbeatMetrics as any).instance = null;
+        const statsbeat = NetworkStatsbeatMetrics.getInstance(options);
+        try {
+          assert.strictEqual(statsbeat["commonProperties"]["rp"], "appsvc");
+        } finally {
+          process.env = originalEnv;
+          // Reset singleton again for clean state
+          (NetworkStatsbeatMetrics as any).instance = null;
+          await statsbeat.shutdown();
+        }
       });
 
       it("should add correct long interval properties to the custom metric", () => {
-        const longIntervalStatsbeatMetrics = getInstance(options);
+        const longIntervalStatsbeatMetrics = LongIntervalStatsbeatMetrics.getInstance(options);
         assert.ok(longIntervalStatsbeatMetrics);
         // Represents the bitwise OR of NONE and AADHANDLING features
         assert.strictEqual(longIntervalStatsbeatMetrics["feature"], 3);
@@ -209,7 +239,15 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Resource provider function", () => {
-      const statsbeat = new NetworkStatsbeatMetrics(options);
+      let statsbeat: NetworkStatsbeatMetrics;
+
+      beforeEach(() => {
+        statsbeat = NetworkStatsbeatMetrics.getInstance(options);
+      });
+
+      afterEach(async () => {
+        await statsbeat.shutdown();
+      });
 
       it("it should determine if the rp is unknown", async () => {
         await statsbeat["getResourceProvider"]();
@@ -282,18 +320,210 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
     });
 
+    describe("App Service and Azure Functions Detection", () => {
+      let statsbeat: NetworkStatsbeatMetrics;
+
+      beforeEach(() => {
+        statsbeat = NetworkStatsbeatMetrics.getInstance(options);
+      });
+
+      afterEach(async () => {
+        await statsbeat.shutdown();
+      });
+
+      describe("isAppService() detection", () => {
+        it("should detect App Service with WEBSITE_SITE_NAME but no FUNCTIONS_WORKER_RUNTIME", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["WEBSITE_SITE_NAME"] = "my-test-webapp";
+          // Explicitly do not set FUNCTIONS_WORKER_RUNTIME
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
+          assert.strictEqual(statsbeat["resourceIdentifier"], "my-test-webapp");
+        });
+
+        it("should include home stamp name in resource identifier when available", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["WEBSITE_SITE_NAME"] = "my-test-webapp";
+          newEnv["WEBSITE_HOME_STAMPNAME"] = "waws-prod-test-001";
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
+          assert.strictEqual(statsbeat["resourceIdentifier"], "my-test-webapp/waws-prod-test-001");
+        });
+
+        it("should not detect App Service when WEBSITE_SITE_NAME is missing", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["WEBSITE_HOME_STAMPNAME"] = "waws-prod-test-001";
+          // No WEBSITE_SITE_NAME
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          // When no specific environment variables are set, it falls back to VM detection
+          assert.strictEqual(statsbeat["resourceProvider"], "vm");
+        });
+      });
+
+      describe("isFunctionApp() detection", () => {
+        it("should detect Azure Functions with both required environment variables", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["WEBSITE_SITE_NAME"] = "my-function-app";
+          newEnv["FUNCTIONS_WORKER_RUNTIME"] = "node";
+          newEnv["WEBSITE_HOSTNAME"] = "my-function-app.azurewebsites.net";
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          assert.strictEqual(statsbeat["resourceProvider"], "functions");
+          assert.strictEqual(statsbeat["resourceIdentifier"], "my-function-app.azurewebsites.net");
+        });
+
+        it("should detect Azure Functions with different worker runtimes", async () => {
+          const runtimes = ["node", "python", "dotnet", "java", "powershell"];
+
+          for (const runtime of runtimes) {
+            const newEnv = <{ [id: string]: string }>{};
+            newEnv["WEBSITE_SITE_NAME"] = `my-${runtime}-function`;
+            newEnv["FUNCTIONS_WORKER_RUNTIME"] = runtime;
+            newEnv["WEBSITE_HOSTNAME"] = `my-${runtime}-function.azurewebsites.net`;
+            const originalEnv = process.env;
+            process.env = newEnv;
+
+            // Create a new instance for each test to avoid state pollution
+            const testStatsbeat = NetworkStatsbeatMetrics.getInstance(options);
+            await testStatsbeat["getResourceProvider"]();
+
+            process.env = originalEnv;
+            assert.strictEqual(testStatsbeat["resourceProvider"], "functions");
+            assert.strictEqual(
+              testStatsbeat["resourceIdentifier"],
+              `my-${runtime}-function.azurewebsites.net`,
+            );
+
+            await testStatsbeat.shutdown();
+          }
+        });
+
+        it("should not detect Functions when FUNCTIONS_WORKER_RUNTIME is missing", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["WEBSITE_SITE_NAME"] = "my-function-app";
+          newEnv["WEBSITE_HOSTNAME"] = "my-function-app.azurewebsites.net";
+          // No FUNCTIONS_WORKER_RUNTIME
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          // Should be detected as App Service instead
+          assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
+        });
+
+        it("should handle missing WEBSITE_HOSTNAME gracefully", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["WEBSITE_SITE_NAME"] = "my-function-app";
+          newEnv["FUNCTIONS_WORKER_RUNTIME"] = "node";
+          // No WEBSITE_HOSTNAME
+          const originalEnv = process.env;
+          process.env = newEnv;
+          // Explicitly delete WEBSITE_HOSTNAME to ensure it's not set
+          delete process.env.WEBSITE_HOSTNAME;
+
+          // Create a fresh instance to avoid any caching issues
+          const testOptions = {
+            instrumentationKey: "1bb22222-cccc-2ddd-9eee-ffffff4444",
+            endpointUrl: "https://westeurope-5.in.applicationinsights.azure.com",
+          };
+          const testStatsbeat = NetworkStatsbeatMetrics.getInstance(testOptions);
+          await testStatsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          assert.strictEqual(testStatsbeat["resourceProvider"], "functions");
+          assert.strictEqual(testStatsbeat["resourceIdentifier"], "my-function-app");
+
+          await testStatsbeat.shutdown();
+        });
+      });
+
+      describe("Priority and edge cases", () => {
+        it("should prioritize AKS detection over App Service", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["AKS_ARM_NAMESPACE_ID"] =
+            "/subscriptions/test/resourceGroups/test/providers/Microsoft.ContainerService/managedClusters/test-aks";
+          newEnv["WEBSITE_SITE_NAME"] = "my-webapp";
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          assert.strictEqual(statsbeat["resourceProvider"], "aks");
+          assert.strictEqual(
+            statsbeat["resourceIdentifier"],
+            "/subscriptions/test/resourceGroups/test/providers/Microsoft.ContainerService/managedClusters/test-aks",
+          );
+        });
+
+        it("should prioritize Functions detection over App Service when both conditions are met", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["WEBSITE_SITE_NAME"] = "my-function-app";
+          newEnv["FUNCTIONS_WORKER_RUNTIME"] = "node";
+          newEnv["WEBSITE_HOSTNAME"] = "my-function-app.azurewebsites.net";
+          newEnv["WEBSITE_HOME_STAMPNAME"] = "waws-prod-test-001";
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          // Should be detected as Functions, not App Service
+          assert.strictEqual(statsbeat["resourceProvider"], "functions");
+          assert.strictEqual(statsbeat["resourceIdentifier"], "my-function-app.azurewebsites.net");
+        });
+
+        it("should handle empty environment variables gracefully", async () => {
+          const newEnv = <{ [id: string]: string }>{};
+          newEnv["WEBSITE_SITE_NAME"] = "";
+          newEnv["FUNCTIONS_WORKER_RUNTIME"] = "";
+          const originalEnv = process.env;
+          process.env = newEnv;
+
+          await statsbeat["getResourceProvider"]();
+
+          process.env = originalEnv;
+          // With empty environment variables, it falls through to VM detection
+          assert.strictEqual(statsbeat["resourceProvider"], "vm");
+        });
+      });
+    });
+
     describe("Track data from statsbeats", () => {
       let statsbeat: NetworkStatsbeatMetrics;
 
-      beforeAll(() => {
+      beforeEach(() => {
         process.env.WEBSITE_SITE_NAME = "test";
-        statsbeat = new NetworkStatsbeatMetrics({
+        // Reset singleton before each test to ensure clean state
+        (NetworkStatsbeatMetrics as any).instance = null;
+        statsbeat = NetworkStatsbeatMetrics.getInstance({
           ...options,
           networkCollectionInterval: 100,
         });
       });
 
-      afterAll(async () => {
+      afterEach(async () => {
         await statsbeat.shutdown();
         process.env.WEBSITE_SITE_NAME = undefined;
       });
@@ -306,13 +536,13 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         statsbeat.countThrottle(402);
         statsbeat.countException({ name: "Statsbeat", message: "Statsbeat Exception" });
 
-        await new Promise((resolve) => setTimeout(resolve, 120));
+        await new Promise((resolve) => setTimeout(resolve, 200));
         expect(mockExport).toHaveBeenCalled();
         const resourceMetrics = mockExport.mock.calls[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
         assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
         const metrics = scopeMetrics[0].metrics;
-        assert.strictEqual(metrics.length, 8, "Metrics count");
+        assert.strictEqual(metrics.length, 6, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.SUCCESS_COUNT);
         assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.FAILURE_COUNT);
         assert.strictEqual(metrics[2].descriptor.name, StatsbeatCounter.RETRY_COUNT);
@@ -399,7 +629,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should track long interval statsbeats", async () => {
-        const longIntervalStatsbeat = getInstance(options);
+        const longIntervalStatsbeat = LongIntervalStatsbeatMetrics.getInstance(options);
         const mockExport = vi.spyOn(longIntervalStatsbeat["longIntervalAzureExporter"], "export");
 
         await new Promise((resolve) => setTimeout(resolve, 120));
@@ -421,16 +651,66 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         delete process.env.STATSBEAT_FEATURES;
         delete process.env.LONG_INTERVAL_EXPORT_MILLIS;
       });
+
+      it("should not export zero value statsbeats", async () => {
+        // Create a new statsbeat instance to avoid interference from other tests
+        (NetworkStatsbeatMetrics as any).instance = null;
+        const zeroStatsbeat = NetworkStatsbeatMetrics.getInstance({
+          ...options,
+          networkCollectionInterval: 100,
+        });
+
+        try {
+          // Spy on the exporter's export method
+          const mockExport = vi.spyOn(zeroStatsbeat["networkAzureExporter"], "export");
+
+          zeroStatsbeat.countSuccess(0);
+
+          // Wait for the export interval to trigger without adding any counts
+          await new Promise((resolve) => setTimeout(resolve, 500));
+
+          // Check that export was called
+          expect(mockExport).toHaveBeenCalled();
+
+          // Get the metrics that were exported
+          const resourceMetrics = mockExport.mock.calls[0][0];
+          const scopeMetrics = resourceMetrics.scopeMetrics;
+          assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
+
+          // Check the metrics - there should be 0 data points for most metrics
+          // since we're now filtering zero values
+          const metrics = scopeMetrics[0].metrics;
+
+          // Check each metric to ensure zero values are filtered out
+          for (const metric of metrics) {
+            // We expect all metrics to have no data points as they all have zero values
+            assert.strictEqual(
+              metric.dataPoints.length,
+              1,
+              `${metric.descriptor.name} should have no data points apart from success since all other values are zero`,
+            );
+          }
+        } finally {
+          // Clean up
+          await zeroStatsbeat.shutdown();
+        }
+      });
     });
 
     describe("Disable Non-Essential Statsbeat", () => {
       it("should disable statsbeat when the environment variable is set", () => {
         process.env[ENV_DISABLE_STATSBEAT] = "true";
+        // Reset singletons to pick up environment variable
+        (NetworkStatsbeatMetrics as any).instance = null;
+        (LongIntervalStatsbeatMetrics as any).instance = null;
         const exporter = new AzureMonitorTraceExporter(exportOptions);
         assert.ok(exporter["sender"]["networkStatsbeatMetrics"]);
         assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]?.["readFailureGauge"]);
         assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]?.["writeFailureGauge"]);
         delete process.env[ENV_DISABLE_STATSBEAT];
+        // Reset singletons again for clean state
+        (NetworkStatsbeatMetrics as any).instance = null;
+        (LongIntervalStatsbeatMetrics as any).instance = null;
       });
 
       it("should disable all statsbeat when the legacy environment variable is set", () => {
@@ -439,6 +719,35 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]);
         assert.ok(!exporter["sender"]["longIntervalStatsbeatMetrics"]);
         delete process.env[LEGACY_ENV_DISABLE_STATSBEAT];
+      });
+    });
+
+    describe("Long Interval Statsbeat Metrics", () => {
+      it("should properly bind the metric reader to a metric producer", async () => {
+        // Get an instance of LongIntervalStatsbeatMetrics
+        const longIntervalStatsbeat = LongIntervalStatsbeatMetrics.getInstance(options);
+
+        // Create a spy on the collect method to ensure it doesn't throw an error
+        const collectSpy = vi.spyOn(longIntervalStatsbeat["longIntervalMetricReader"], "collect");
+
+        // Attempt to collect metrics - this would throw an error if the MetricReader is not bound
+        // to a MetricProducer properly
+        try {
+          await longIntervalStatsbeat["longIntervalMetricReader"].collect();
+          // If we get here without an error, the test passes
+          assert.ok(true, "Metric reader collect method executed without errors");
+        } catch (error) {
+          // If an error occurs, the test should fail
+          assert.fail(
+            `Metric reader collect method threw an error: ${error instanceof Error ? error.message : String(error)}`,
+          );
+        }
+
+        // Verify the collect method was called
+        expect(collectSpy).toHaveBeenCalled();
+
+        // Restore the spy
+        collectSpy.mockRestore();
       });
     });
   });

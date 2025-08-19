@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified Content Filters associated with the Azure OpenAI account.
  *
  * @summary Deletes the specified Content Filters associated with the Azure OpenAI account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteRaiPolicy.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/DeleteRaiPolicy.json
  */
 async function deleteRaiPolicy() {
   const subscriptionId =
@@ -35,7 +33,7 @@ async function deleteRaiPolicy() {
 }
 
 async function main() {
-  deleteRaiPolicy();
+  await deleteRaiPolicy();
 }
 
 main().catch(console.error);

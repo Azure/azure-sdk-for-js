@@ -6,20 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified commitmentPlan associated with the Cognitive Services account.
  *
  * @summary Deletes the specified commitmentPlan associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteCommitmentPlan.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/DeleteCommitmentPlan.json
  */
 async function deleteCommitmentPlan() {
-  const subscriptionId = process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
+  const subscriptionId =
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
   const accountName = "accountName";
   const commitmentPlanName = "commitmentPlanName";
@@ -34,7 +33,7 @@ async function deleteCommitmentPlan() {
 }
 
 async function main() {
-  deleteCommitmentPlan();
+  await deleteCommitmentPlan();
 }
 
 main().catch(console.error);

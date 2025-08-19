@@ -19,60 +19,6 @@ export interface UserDefinedFunctionHook {
   properties?: UserDefinedFunctionExecutionProperties;
 }
 
-/** Details about a Confidential Ledger user. */
-export interface LedgerUser {
-  /** Represents an assignable role. */
-  assignedRole: "Administrator" | "Contributor" | "Reader";
-}
-
-/** Details about a Confidential Ledger user. */
-export interface LedgerUserMultipleRoles {
-  /** Represents an assignable role. */
-  assignedRoles: Array<"Administrator" | "Contributor" | "Reader">;
-}
-
-export interface Metadata {
-  /** A map of path to method endpoints for the path */
-  endpoints: Record<string, MethodToEndpointProperties>;
-}
-
-export interface InterpreterReusePolicy {
-  key: string;
-}
-
-export interface EndpointProperties {
-  authn_policies: Array<any>;
-  forwarding_required: "sometimes" | "always" | "never";
-  interpreter_reuse?: InterpreterReusePolicy;
-  js_function?: string;
-  js_module?: string;
-  mode?: "readwrite" | "readonly" | "historical";
-  /** Anything */
-  openapi?: any;
-  openapi_hidden?: boolean;
-  redirection_strategy?: "none" | "to_primary" | "to_backup";
-}
-
-export interface MethodToEndpointProperties {
-  get?: EndpointProperties;
-  put?: EndpointProperties;
-  patch?: EndpointProperties;
-  delete?: EndpointProperties;
-}
-
-/** bundle for the user defined endpoints */
-export interface Bundle {
-  metadata: Metadata;
-  /** Any object */
-  modules: Record<string, unknown>;
-}
-
-/** A user defined function in the ledger. */
-export interface UserDefinedFunction {
-  /** Code of the user defined function in JavaScript. */
-  code: string;
-}
-
 /** The properties for executing a user defined function. */
 export interface UserDefinedFunctionExecutionProperties {
   /** Runtime arguments of the user defined function. Defaults to an empty list. */
@@ -91,6 +37,60 @@ export interface JSRuntimeOptions {
   max_heap_bytes?: number;
   max_stack_bytes?: number;
   return_exception_details?: boolean;
+}
+
+/** Details about a Confidential Ledger user. */
+export interface LedgerUser {
+  /** Represents an assignable role. */
+  assignedRole: "Administrator" | "Contributor" | "Reader";
+}
+
+/** Details about a Confidential Ledger user. */
+export interface LedgerUserMultipleRoles {
+  /** Represents an assignable role. */
+  assignedRoles: Array<"Administrator" | "Contributor" | "Reader">;
+}
+
+/** bundle for the user defined endpoints */
+export interface Bundle {
+  metadata: Metadata;
+  /** Any object */
+  modules: Record<string, unknown>;
+}
+
+export interface Metadata {
+  /** A map of path to method endpoints for the path */
+  endpoints: Record<string, MethodToEndpointProperties>;
+}
+
+export interface MethodToEndpointProperties {
+  get?: EndpointProperties;
+  put?: EndpointProperties;
+  patch?: EndpointProperties;
+  delete?: EndpointProperties;
+}
+
+export interface EndpointProperties {
+  authn_policies: Array<any>;
+  forwarding_required: "sometimes" | "always" | "never";
+  interpreter_reuse?: InterpreterReusePolicy;
+  js_function?: string;
+  js_module?: string;
+  mode?: "readwrite" | "readonly" | "historical";
+  /** Anything */
+  openapi?: any;
+  openapi_hidden?: boolean;
+  redirection_strategy?: "none" | "to_primary" | "to_backup";
+}
+
+export interface InterpreterReusePolicy {
+  key: string;
+}
+
+/** A user defined function in the ledger. */
+export interface UserDefinedFunction {
+  /** Code of the user defined function in JavaScript. */
+  code: string;
 }
 
 /** Definition for roles */

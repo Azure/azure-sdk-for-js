@@ -18,7 +18,7 @@ async function main(): Promise<void> {
   const client = MessageTemplateClient(endpoint, credential);
   console.log("Fetch Templates...");
   const response = await client
-    .path("/messages/channels/{channelId}/templates", process.env.CHANNEl_ID || "")
+    .path("/messages/channels/{channelId}/templates", process.env.CHANNEL_ID || "")
     .get({
       queryParameters: { maxPageSize: 2 },
     });

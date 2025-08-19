@@ -4,12 +4,6 @@ parameters:
   TestPipeline: false
 
 steps:
-  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
-    parameters:
-      PackageName: "@azure/template"
-      ServiceDirectory: "template"
-      TestPipeline: ${{ parameters.TestPipeline }}
-
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -57,6 +51,11 @@ steps:
 
   - script: |
       npm ci
+    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
+    displayName: "Install eng-package-utils dependencies"
+
+  - script: |
+      npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Install tool dependencies"
 
@@ -66,54 +65,33 @@ steps:
     displayName: "Analyze library dependencies"
 
   - script: |
-      node common/scripts/install-run-rush.js install
-    displayName: "Install dependencies"
+      npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
+      pnpm install
+    displayName: "Install library dependencies"
 
   - pwsh: |
-      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
-      node eng/tools/rush-runner/index.js lint "$(ChangedServices)" -p max --verbose
+      pnpm build --filter @azure/eslint-plugin-azure-sdk...
+      $env:FORCE_COLOR = "1"
+      node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
-      node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/ci-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)"
     displayName: "Check Format in Libraries"
+
+  - pwsh: |
+      node eng/tools/ci-runner/index.js update-snippets $(ChangedServices) -packages "$(ArtifactPackageNames)"
+    displayName: "Update snippets"
+
+  - pwsh: |
+      eng/tools/check-snippet-changes.ps1
+    displayName: "Check snippet changes"
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
     parameters:
       PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
-
-  - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
-    # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
-    # builds should be sufficient.
-    condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
-    displayName: "Component Detection"
-
-    # Unlink node_modules folders to significantly improve performance of subsequent tasks
-    # which need to walk the directory tree (and are hardcoded to follow symlinks).
-  - script: |
-      node eng/tools/rush-runner/index.js unlink
-    displayName: "Unlink dependencies"
-
-    # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
-    # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
-  - task: CopyFiles@2
-    inputs:
-      sourceFolder: sdk
-      contents: "**/**/*lintReport.html"
-      targetFolder: $(Build.ArtifactStagingDirectory)
-      flattenFolders: true
-    displayName: "Copy lint reports"
-
-  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
-    parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'reports'
-      SbomEnabled: false
-
-  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
-    parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'package-diffs'
-      SbomEnabled: false
 
   - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml

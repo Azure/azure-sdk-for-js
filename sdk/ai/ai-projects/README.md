@@ -1,56 +1,41 @@
 # Azure AI Projects client library for JavaScript
 
-Use the AI Projects client library (in preview) to:
+The AI Projects client library provides easy access to resources in your Azure AI Foundry project.
+Use it to:
 
-- **Enumerate connections** in your Azure AI Foundry project and get connection properties.
-  For example, get the inference endpoint URL and credentials associated with your Azure OpenAI connection.
-- **Develop Agents using the Azure AI Agent Service**, leveraging an extensive ecosystem of models, tools, and capabilities from OpenAI, Microsoft, and other LLM providers. The Azure AI Agent Service enables the building of Agents for a wide range of generative AI use cases. The package is currently in private preview.
-- **Enable OpenTelemetry tracing**.
+- **Create and run Agents** using the `.agents` property on the client.
+- **Get an AzureOpenAI client** using the `.inference.azureOpenAI` method.
+- **Enumerate AI Models** deployed to your Foundry Project using the `.deployments` operations.
+- **Enumerate connected Azure resources** in your Foundry project using the `.connections` operations.
+- **Upload documents and create Datasets** to reference them using the `.datasets` operations.
+- **Create and enumerate Search Indexes** using the `.indexes` operations.
+- **Enable OpenTelemetry tracing** using the `enable_telemetry` function.
 
 [Product documentation](https://aka.ms/azsdk/azure-ai-projects/product-doc)
-
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples)
 | [Package (npm)](https://www.npmjs.com/package/@azure/ai-projects)
-| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-preview)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/ai-projects-readme?view=azure-node-v1)
+| [SDK source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects)
 
 ## Table of contents
 
 - [Getting started](#getting-started)
   - [Prerequisite](#prerequisite)
+  - [Authorization](#authorization)
   - [Install the package](#install-the-package)
 - [Key concepts](#key-concepts)
   - [Create and authenticate the client](#create-and-authenticate-the-client)
 - [Examples](#examples)
-  - [Enumerate connections](#enumerate-connections)
-    - [Get properties of all connections](#get-properties-of-all-connections)
-    - [Get properties of all connections of a particular type](#get-properties-of-all-connections-of-a-particular-type)
-    - [Get properties of a default connection](#get-properties-of-a-default-connection)
-    - [Get properties of a connection by its connection name](#get-properties-of-a-connection-by-its-connection-name)
-  - [Agents (Preview)](#agents-private-preview)
-    - [Create an Agent](#create-agent) with:
-      - [File Search](#create-agent-with-file-search)
-      - [Code interpreter](#create-agent-with-code-interpreter)
-      - [Bing grounding](#create-agent-with-bing-grounding)
-      - [Azure AI Search](#create-agent-with-azure-ai-search)
-      - [Function call](#create-agent-with-function-call)
-      - [Fabric Data](#create-an-agent-with-fabric)
-    - [Create thread](#create-thread) with
-      - [Tool resource](#create-thread-with-tool-resource)
-    - [Create message](#create-message) with:
-      - [File search attachment](#create-message-with-file-search-attachment)
-      - [Code interpreter attachment](#create-message-with-code-interpreter-attachment)
-    - [Execute Run, Create Thread and Run, or Stream](#create-run-run_and_process-or-stream)
-    - [Retrieve message](#retrieve-message)
-    - [Retrieve file](#retrieve-file)
-    - [Tear down by deleting resource](#teardown)
-    - [Tracing](#tracing)
-  - [Tracing](#tracing)
-    - [Installation](#installation)
-    - [Tracing example](#tracing-example)
+  - [Performing Agent operations](#performing-agent-operations)
+  - [Get an authenticated AzureOpenAI client](#get-an-authenticated-azureopenai-client)
+  - [Deployments operations](#deployments-operations)
+  - [Connections operations](#connections-operations)
+  - [Dataset operations](#dataset-operations)
+  - [Indexes operations](#indexes-operations)
 - [Troubleshooting](#troubleshooting)
   - [Exceptions](#exceptions)
   - [Reporting issues](#reporting-issues)
-  - [Next steps](#next-steps)
+- [Next steps](#next-steps)
 - [Contributing](#contributing)
 
 ## Getting started
@@ -60,9 +45,11 @@ Use the AI Projects client library (in preview) to:
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - An [Azure subscription][azure_sub].
 - A [project in Azure AI Foundry](https://learn.microsoft.com/azure/ai-studio/how-to/create-projects?tabs=ai-studio).
-- The project connection string. It can be found in your Azure AI Foundry project overview page, under "Project details". Below we will assume the environment variable `AZURE_AI_PROJECTS_CONNECTION_STRING` was defined to hold this value.
-- Entra ID is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest). To get that working, you will need:
-  - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal.
+
+### Authorization
+
+- [Entra ID][entra_id] is needed to authenticate the client. Your application needs an object that implements the [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential) interface. Code samples here use [DefaultAzureCredential][default_azure_credential]. To get that working, you will need:
+  - The `Contributor` role. Role assigned can be done via the "Access Control (IAM)" tab of your Azure AI Project resource in the Azure portal. Learn more about role assignments [here](https://learn.microsoft.com/azure/role-based-access-control/role-assignments-portal).
   - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) installed.
   - You are logged into your Azure account by running `az login`.
   - Note that if you have multiple Azure subscriptions, the subscription that contains your Azure AI Project resource must be your default subscription. Run `az account list --output table` to list all your subscription and see which one is the default. Run `az account set --subscription "Your Subscription ID or Name"` to change your default subscription.
@@ -77,814 +64,272 @@ npm install @azure/ai-projects @azure/identity
 
 ### Create and authenticate the client
 
-The class factory method `fromConnectionString` is used to construct the client. To construct a client:
+To construct an `AIProjectsClient`, the `endpoint` can be fetched from [endpoint][ai_project_client_endpoint]. Below we will assume the environment variable `AZURE_AI_PROJECT_ENDPOINT_STRING` was defined to hold this value:
 
 ```ts snippet:setup
-import { AIProjectsClient } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const connectionString = process.env.AZURE_AI_PROJECTS_CONNECTION_STRING ?? "<connectionString>";
-const client = AIProjectsClient.fromConnectionString(
-  connectionString,
-  new DefaultAzureCredential(),
-);
+const endpoint = process.env["AZURE_AI_PROJECT_ENDPOINT_STRING"] || "<project endpoint string>";
+const client = new AIProjectClient(endpoint, new DefaultAzureCredential());
 ```
+
+The client uses API version `v1`, refer to the [API documentation][ai_foundry_data_plane_rest_apis] to learn more about the supported features.
 
 ## Examples
 
-### Enumerate connections
+### Performing Agent operations
 
-Your Azure AI Foundry project has a "Management center". When you enter it, you will see a tab named "Connected resources" under your project. The `.connections` operations on the client allow you to enumerate the connections and get connection properties. Connection properties include the resource URL and authentication credentials, among other things.
+The `.agents` property on the `AIProjectClient` gives you access to an authenticated `AgentsClient` from the `azure-ai-agents` package. Below we show how to create an agent and delete it. To see what you can do with the `agent` you created, see the [many samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples) associated with the `azure-ai-agents` package.
 
-Below are code examples of the connection operations. Full samples can be found under the "connections" folder in the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples).
-
-#### Get properties of all connections
-
-To list the properties of all the connections in the Azure AI Foundry project:
-
-```ts snippet:listConnections
-const connections = await client.connections.listConnections();
-for (const connection of connections) {
-  console.log(connection);
-}
-```
-
-#### Get properties of all connections of a particular type
-
-To list the properties of connections of a certain type (here Azure OpenAI):
-
-```ts snippet:filterConnections
-const connections = await client.connections.listConnections({ category: "AzureOpenAI" });
-for (const connection of connections) {
-  console.log(connection);
-}
-```
-
-#### Get properties of a connection by its connection name
-
-To get the connection properties of a connection named `connectionName`:
-
-```ts snippet:getConnection
-const connection = await client.connections.getConnection("connectionName");
-console.log(connection);
-```
-
-To get the connection properties with its authentication credentials:
-
-```ts snippet:getConnectionWithSecrets
-const connection = await client.connections.getConnectionWithSecrets("connectionName");
-console.log(connection);
-```
-
-### Agents (Preview)
-
-Agents in the Azure AI Projects client library are designed to facilitate various interactions and operations within your AI projects. They serve as the core components that manage and execute tasks, leveraging different tools and resources to achieve specific goals. The following steps outline the typical sequence for interacting with Agents. See the "agents" folder in the [package samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples) for additional Agent samples.
-
-Agents are actively being developed. A sign-up form for private preview is coming soon.
-
-#### Create Agent
-
-Here is an example of how to create an Agent:
-
-```ts snippet:createAgent
-const agent = await client.agents.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful assistant",
-});
-```
-
-To allow Agents to access your resources or custom functions, you need tools. You can pass tools to `createAgent` through the `tools` and `toolResources` arguments.
-
-You can use `ToolSet` to do this:
-
-```ts snippet:toolSet
-import { ToolSet } from "@azure/ai-projects";
-
-const toolSet = new ToolSet();
-toolSet.addFileSearchTool([vectorStore.id]);
-toolSet.addCodeInterpreterTool([codeInterpreterFile.id]);
-const agent = await client.agents.createAgent("gpt-4o", {
+```ts snippet:agentsSample
+const agent = await project.agents.createAgent("gpt-4o", {
   name: "my-agent",
   instructions: "You are a helpful agent",
-  tools: toolSet.toolDefinitions,
-  toolResources: toolSet.toolResources,
-});
-console.log(`Created agent, agent ID: ${agent.id}`);
-```
-
-#### Create Agent with File Search
-
-To perform file search by an Agent, we first need to upload a file, create a vector store, and associate the file to the vector store. Here is an example:
-
-```ts snippet:fileSearch
-import { ToolUtility } from "@azure/ai-projects";
-
-const localFileStream = fs.createReadStream(filePath);
-const file = await client.agents.uploadFile(localFileStream, "assistants", {
-  fileName: "sample_file_for_upload.txt",
-});
-console.log(`Uploaded file, ID: ${file.id}`);
-const vectorStore = await client.agents.createVectorStore({
-  fileIds: [file.id],
-  name: "my_vector_store",
-});
-console.log(`Created vector store, ID: ${vectorStore.id}`);
-const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
-const agent = await client.agents.createAgent("gpt-4o", {
-  name: "SDK Test Agent - Retrieval",
-  instructions: "You are helpful agent that can help fetch data from files you know about.",
-  tools: [fileSearchTool.definition],
-  toolResources: fileSearchTool.resources,
 });
 console.log(`Created agent, agent ID : ${agent.id}`);
-```
 
-#### Create Agent with Code Interpreter
-
-Here is an example to upload a file and use it for code interpreter by an Agent:
-
-```ts snippet:codeInterpreter
-import { ToolUtility } from "@azure/ai-projects";
-
-const localFileStream = fs.createReadStream(filePath);
-const localFile = await client.agents.uploadFile(localFileStream, "assistants", {
-  fileName: "localFile",
-});
-console.log(`Uploaded local file, file ID : ${localFile.id}`);
-const codeInterpreterTool = ToolUtility.createCodeInterpreterTool([localFile.id]);
-// Notice that CodeInterpreter must be enabled in the agent creation, otherwise the agent will not be able to see the file attachment
-const agent = await client.agents.createAgent("gpt-4o-mini", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-  tools: [codeInterpreterTool.definition],
-  toolResources: codeInterpreterTool.resources,
-});
-console.log(`Created agent, agent ID: ${agent.id}`);
-```
-
-#### Create Agent with Bing Grounding
-
-To enable your Agent to perform search through Bing search API, you use `ToolUtility.createConnectionTool()` along with a connection.
-
-Here is an example:
-
-```ts snippet:bingGrounding
-import { ToolUtility, connectionToolType } from "@azure/ai-projects";
-
-const bingConnection = await client.connections.getConnection(
-  process.env.BING_CONNECTION_NAME ?? "<connection-name>",
-);
-const connectionId = bingConnection.id;
-const bingTool = ToolUtility.createConnectionTool(connectionToolType.BingGrounding, [connectionId]);
-const agent = await client.agents.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-  tools: [bingTool.definition],
-});
-console.log(`Created agent, agent ID : ${agent.id}`);
-```
-
-#### Create Agent with Azure AI Search
-
-Azure AI Search is an enterprise search system for high-performance applications. It integrates with Azure OpenAI Service and Azure Machine Learning, offering advanced search technologies like vector search and full-text search. Ideal for knowledge base insights, information discovery, and automation
-
-Here is an example to integrate Azure AI Search:
-
-```ts snippet:AISearch
-import { ToolUtility } from "@azure/ai-projects";
-
-const connectionName =
-  process.env.AZURE_AI_SEARCH_CONNECTION_NAME ?? "<AzureAISearchConnectionName>";
-const connection = await client.connections.getConnection(connectionName);
-const azureAISearchTool = ToolUtility.createAzureAISearchTool(connection.id, connection.name);
-const agent = await client.agents.createAgent("gpt-4-0125-preview", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-  tools: [azureAISearchTool.definition],
-  toolResources: azureAISearchTool.resources,
-});
-console.log(`Created agent, agent ID : ${agent.id}`);
-```
-
-#### Create Agent with Function Call
-
-You can enhance your Agents by defining callback functions as function tools. These can be provided to `createAgent` via the combination of `tools` and `toolResources`. Only the function definitions and descriptions are provided to `createAgent`, without the implementations. The `Run` or `event handler of stream` will raise a `requires_action` status based on the function definitions. Your code must handle this status and call the appropriate functions.
-
-Here is an example:
-
-```ts snippet:functionTools
-import {
-  FunctionToolDefinition,
-  ToolUtility,
-  RequiredToolCallOutput,
-  FunctionToolDefinitionOutput,
-  ToolOutput,
-} from "@azure/ai-projects";
-
-class FunctionToolExecutor {
-  private functionTools: {
-    func: Function;
-    definition: FunctionToolDefinition;
-  }[];
-  constructor() {
-    this.functionTools = [
-      {
-        func: this.getUserFavoriteCity,
-        ...ToolUtility.createFunctionTool({
-          name: "getUserFavoriteCity",
-          description: "Gets the user's favorite city.",
-          parameters: {},
-        }),
-      },
-      {
-        func: this.getCityNickname,
-        ...ToolUtility.createFunctionTool({
-          name: "getCityNickname",
-          description: "Gets the nickname of a city, e.g. 'LA' for 'Los Angeles, CA'.",
-          parameters: {
-            type: "object",
-            properties: {
-              location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
-            },
-          },
-        }),
-      },
-      {
-        func: this.getWeather,
-        ...ToolUtility.createFunctionTool({
-          name: "getWeather",
-          description: "Gets the weather for a location.",
-          parameters: {
-            type: "object",
-            properties: {
-              location: { type: "string", description: "The city and state, e.g. Seattle, Wa" },
-              unit: { type: "string", enum: ["c", "f"] },
-            },
-          },
-        }),
-      },
-    ];
-  }
-  private getUserFavoriteCity(): {} {
-    return { location: "Seattle, WA" };
-  }
-  private getCityNickname(location: string): {} {
-    return { nickname: "The Emerald City" };
-  }
-  private getWeather(location: string, unit: string): {} {
-    return { weather: unit === "f" ? "72f" : "22c" };
-  }
-  public invokeTool(
-    toolCall: RequiredToolCallOutput & FunctionToolDefinitionOutput,
-  ): ToolOutput | undefined {
-    console.log(`Function tool call - ${toolCall.function.name}`);
-    const args = [];
-    if (toolCall.function.parameters) {
-      try {
-        const params = JSON.parse(toolCall.function.parameters);
-        for (const key in params) {
-          if (Object.prototype.hasOwnProperty.call(params, key)) {
-            args.push(params[key]);
-          }
-        }
-      } catch (error) {
-        console.error(`Failed to parse parameters: ${toolCall.function.parameters}`, error);
-        return undefined;
-      }
-    }
-    const result = this.functionTools
-      .find((tool) => tool.definition.function.name === toolCall.function.name)
-      ?.func(...args);
-    return result
-      ? {
-          toolCallId: toolCall.id,
-          output: JSON.stringify(result),
-        }
-      : undefined;
-  }
-  public getFunctionDefinitions(): FunctionToolDefinition[] {
-    return this.functionTools.map((tool) => {
-      return tool.definition;
-    });
-  }
-}
-const functionToolExecutor = new FunctionToolExecutor();
-const functionTools = functionToolExecutor.getFunctionDefinitions();
-const agent = await client.agents.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions:
-    "You are a weather bot. Use the provided functions to help answer questions. Customize your responses to the user's preferences as much as possible and use friendly nicknames for cities whenever possible.",
-  tools: functionTools,
-});
-console.log(`Created agent, agent ID: ${agent.id}`);
-```
-
-#### Create Agent With OpenAPI
-
-OpenAPI specifications describe REST operations against a specific endpoint. Agents SDK can read an OpenAPI spec, create a function from it, and call that function against the REST endpoint without additional client-side execution.
-Here is an example creating an OpenAPI tool (using anonymous authentication):
-
-```ts snippet:createAgentWithOpenApi
-import { ToolUtility } from "@azure/ai-projects";
-
-// Read in OpenApi spec
-const filePath = "./data/weatherOpenApi.json";
-const openApiSpec = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-// Define OpenApi function
-const openApiFunction = {
-  name: "getWeather",
-  spec: openApiSpec,
-  description: "Retrieve weather information for a location",
-  auth: {
-    type: "anonymous",
-  },
-  default_params: ["format"], // optional
-};
-// Create OpenApi tool
-const openApiTool = ToolUtility.createOpenApiTool(openApiFunction);
-// Create agent with OpenApi tool
-const agent = await client.agents.createAgent("gpt-4o-mini", {
-  name: "myAgent",
-  instructions: "You are a helpful agent",
-  tools: [openApiTool.definition],
-});
-console.log(`Created agent, agent ID: ${agent.id}`);
-```
-
-#### Create an Agent with Fabric
-
-To enable your Agent to answer queries using Fabric data, use `FabricTool` along with a connection to the Fabric resource.
-
-Here is an example:
-
-```ts snippet:createAgentWithFabric
-import { ToolUtility } from "@azure/ai-projects";
-
-const fabricConnection = await client.connections.getConnection(
-  process.env["FABRIC_CONNECTION_NAME"] || "<connection-name>",
-);
-const connectionId = fabricConnection.id;
-// Initialize agent Microsoft Fabric tool with the connection id
-const fabricTool = ToolUtility.createFabricTool(connectionId);
-// Create agent with the Microsoft Fabric tool and process assistant run
-const agent = await client.agents.createAgent("gpt-4o", {
-  name: "my-agent",
-  instructions: "You are a helpful agent",
-  tools: [fabricTool.definition],
-});
-console.log(`Created agent, agent ID : ${agent.id}`);
-```
-
-#### Create Thread
-
-For each session or conversation, a thread is required. Here is an example:
-
-```ts snippet:createThread
-const thread = await client.agents.createThread();
-```
-
-#### Create Thread with Tool Resource
-
-In some scenarios, you might need to assign specific resources to individual threads. To achieve this, you provide the `toolResources` argument to `createThread`. In the following example, you create a vector store and upload a file, enable an Agent for file search using the `tools` argument, and then associate the file with the thread using the `toolResources` argument.
-
-```ts snippet:threadWithTool
-import { ToolUtility } from "@azure/ai-projects";
-
-const localFileStream = fs.createReadStream(filePath);
-const file = await client.agents.uploadFile(localFileStream, "assistants", {
-  fileName: "sample_file_for_upload.csv",
-});
-console.log(`Uploaded file, ID: ${file.id}`);
-const vectorStore = await client.agents.createVectorStore({
-  fileIds: [file.id],
-});
-console.log(`Created vector store, ID: ${vectorStore.id}`);
-const fileSearchTool = ToolUtility.createFileSearchTool([vectorStore.id]);
-const agent = await client.agents.createAgent("gpt-4o", {
-  name: "myAgent",
-  instructions: "You are helpful agent that can help fetch data from files you know about.",
-  tools: [fileSearchTool.definition],
-});
-console.log(`Created agent, agent ID : ${agent.id}`);
-// Create thread with file resources.
-// If the agent has multiple threads, only this thread can search this file.
-const thread = await client.agents.createThread({ toolResources: fileSearchTool.resources });
-```
-
-#### List Threads
-
-To list all threads attached to a given agent, use the list_threads API:
-
-```ts snippet:listThreads
-const threads = await client.agents.listThreads();
-console.log(`Threads for agent ${agent.id}:`);
-for await (const t of (await threads).data) {
-  console.log(`Thread ID: ${t.id}`);
-  console.log(`Created at: ${t.createdAt}`);
-  console.log(`Metadata: ${t.metadata}`);
-  console.log(`---- `);
-}
-```
-
-#### Create Message
-
-To create a message for assistant to process, you pass `user` as `role` and a question as `content`:
-
-```ts snippet:createMessage
-const message = await client.agents.createMessage(thread.id, {
-  role: "user",
-  content: "hello, world!",
-});
-console.log(`Created message, message ID: ${message.id}`);
-```
-
-#### Create Message with File Search Attachment
-
-To attach a file to a message for content searching, you use `ToolUtility.createFileSearchTool()` and the `attachments` argument:
-
-```ts snippet:messageWithFileSearch
-import { ToolUtility } from "@azure/ai-projects";
-
-const fileSearchTool = ToolUtility.createFileSearchTool();
-const message = await client.agents.createMessage(thread.id, {
-  role: "user",
-  content: "What feature does Smart Eyewear offer?",
-  attachments: {
-    fileId: file.id,
-    tools: [fileSearchTool.definition],
-  },
-});
-```
-
-#### Create Message with Code Interpreter Attachment
-
-To attach a file to a message for data analysis, you use `ToolUtility.createCodeInterpreterTool()` and the `attachment` argument.
-
-Here is an example:
-
-```ts snippet:messageWithCodeInterpreter
-import { ToolUtility } from "@azure/ai-projects";
-
-// notice that CodeInterpreter must be enabled in the agent creation,
-// otherwise the agent will not be able to see the file attachment for code interpretation
-const codeInterpreterTool = ToolUtility.createCodeInterpreterTool();
-const agent = await client.agents.createAgent("gpt-4-1106-preview", {
-  name: "my-assistant",
-  instructions: "You are helpful assistant",
-  tools: [codeInterpreterTool.definition],
-});
-console.log(`Created agent, agent ID: ${agent.id}`);
-const thread = await client.agents.createThread();
-console.log(`Created thread, thread ID: ${thread.id}`);
-const message = await client.agents.createMessage(thread.id, {
-  role: "user",
-  content:
-    "Could you please create bar chart in TRANSPORTATION sector for the operating profit from the uploaded csv file and provide file to me?",
-  attachments: {
-    fileId: file.id,
-    tools: [codeInterpreterTool.definition],
-  },
-});
-console.log(`Created message, message ID: ${message.id}`);
-```
-
-#### Create Message with Image Inputs
-
-You can send messages to Azure agents with image inputs in following ways:
-
-- **Using an image stored as a uploaded file**
-- **Using a public image accessible via URL**
-- **Using a base64 encoded image string**
-
-The following examples demonstrate each method:
-
-##### Create message using uploaded image file
-
-```ts snippet:imageInputWithFile
-// Upload the local image file
-const fileStream = fs.createReadStream(imagePath);
-const imageFile = await client.agents.uploadFile(fileStream, "assistants", {
-  fileName: "image_file.png",
-});
-console.log(`Uploaded file, file ID: ${imageFile.id}`);
-// Create a message with both text and image content
-console.log("Creating message with image content...");
-const inputMessage = "Hello, what is in the image?";
-const content = [
-  {
-    type: "text",
-    text: inputMessage,
-  },
-  {
-    type: "image_file",
-    image_file: {
-      file_id: imageFile.id,
-      detail: "high",
-    },
-  },
-];
-const message = await client.agents.createMessage(thread.id, {
-  role: "user",
-  content: content,
-});
-console.log(`Created message, message ID: ${message.id}`);
-```
-
-##### Create message with an image URL input
-
-```ts snippet:imageInputWithUrl
-// Specify the public image URL
-const imageUrl =
-  "https://github.com/Azure/azure-sdk-for-js/blob/0aa88ceb18d865726d423f73b8393134e783aea6/sdk/ai/ai-projects/data/image_file.png?raw=true";
-// Create content directly referencing image URL
-const inputMessage = "Hello, what is in the image?";
-const content = [
-  {
-    type: "text",
-    text: inputMessage,
-  },
-  {
-    type: "image_url",
-    image_url: {
-      url: imageUrl,
-      detail: "high",
-    },
-  },
-];
-const message = await client.agents.createMessage(thread.id, {
-  role: "user",
-  content: content,
-});
-console.log(`Created message, message ID: ${message.id}`);
-```
-
-##### Create message with base64-encoded image input
-
-```ts snippet:imageInputWithBase64
-function imageToBase64DataUrl(imagePath: string, mimeType: string): string {
-  try {
-    // Read the image file as binary
-    const imageBuffer = fs.readFileSync(imagePath);
-    // Convert to base64
-    const base64Data = imageBuffer.toString("base64");
-    // Format as a data URL
-    return `data:${mimeType};base64,${base64Data}`;
-  } catch (error) {
-    console.error(`Error reading image file at ${imagePath}:`, error);
-    throw error;
-  }
-}
-// Convert your image file to base64 format
-const imageDataUrl = imageToBase64DataUrl(filePath, "image/png");
-// Create a message with both text and image content
-const inputMessage = "Hello, what is in the image?";
-const content = [
-  {
-    type: "text",
-    text: inputMessage,
-  },
-  {
-    type: "image_url",
-    image_url: {
-      url: imageDataUrl,
-      detail: "high",
-    },
-  },
-];
-const message = await client.agents.createMessage(thread.id, {
-  role: "user",
-  content: content,
-});
-console.log(`Created message, message ID: ${message.id}`);
-```
-
-#### Create Run, Run_and_Process, or Stream
-
-Here is an example of `createRun` and poll until the run is completed:
-
-```ts snippet:createRun
-let run = await client.agents.createRun(thread.id, agent.id);
-// Poll the run as long as run status is queued or in progress
-while (
-  run.status === "queued" ||
-  run.status === "in_progress" ||
-  run.status === "requires_action"
-) {
-  // Wait for a second
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  run = await client.agents.getRun(thread.id, run.id);
-}
-```
-
-To have the SDK poll on your behalf, use the `createThreadAndRun` method.
-
-Here is an example:
-
-```ts snippet:createThreadAndRun
-const run = await client.agents.createThreadAndRun(agent.id, {
-  thread: {
-    messages: [
-      {
-        role: "user",
-        content: "hello, world!",
-      },
-    ],
-  },
-});
-```
-
-With streaming, polling also need not be considered.
-
-Here is an example:
-
-```ts snippet:createRunStream
-const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
-```
-
-Event handling can be done as follows:
-
-```ts snippet:eventHandling
-import {
-  RunStreamEvent,
-  ThreadRunOutput,
-  MessageStreamEvent,
-  MessageDeltaChunk,
-  MessageDeltaTextContent,
-  DoneEvent,
-} from "@azure/ai-projects";
-
-const streamEventMessages = await client.agents.createRun(thread.id, agent.id).stream();
-for await (const eventMessage of streamEventMessages) {
-  switch (eventMessage.event) {
-    case RunStreamEvent.ThreadRunCreated:
-      console.log(`ThreadRun status: ${(eventMessage.data as ThreadRunOutput).status}`);
-      break;
-    case MessageStreamEvent.ThreadMessageDelta:
-      {
-        const messageDelta = eventMessage.data as MessageDeltaChunk;
-        messageDelta.delta.content.forEach((contentPart) => {
-          if (contentPart.type === "text") {
-            const textContent = contentPart as MessageDeltaTextContent;
-            const textValue = textContent.text?.value || "No text";
-            console.log(`Text delta received:: ${textValue}`);
-          }
-        });
-      }
-      break;
-    case RunStreamEvent.ThreadRunCompleted:
-      console.log("Thread Run Completed");
-      break;
-    case ErrorEvent.Error:
-      console.log(`An error occurred. Data ${eventMessage.data}`);
-      break;
-    case DoneEvent.Done:
-      console.log("Stream completed.");
-      break;
-  }
-}
-```
-
-#### Retrieve Message
-
-To retrieve messages from agents, use the following example:
-
-```ts snippet:listMessages
-import { MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects";
-
-const messages = await client.agents.listMessages(thread.id);
-while (messages.hasMore) {
-  const nextMessages = await client.agents.listMessages(currentRun.threadId, {
-    after: messages.lastId,
-  });
-  messages.data = messages.data.concat(nextMessages.data);
-  messages.hasMore = nextMessages.hasMore;
-  messages.lastId = nextMessages.lastId;
-}
-// The messages are following in the reverse order,
-// we will iterate them and output only text contents.
-for (const dataPoint of messages.data.reverse()) {
-  const lastMessageContent: MessageContentOutput = dataPoint.content[dataPoint.content.length - 1];
-  console.log(lastMessageContent);
-  if (isOutputOfType<MessageTextContentOutput>(lastMessageContent, "text")) {
-    console.log(
-      `${dataPoint.role}: ${(lastMessageContent as MessageTextContentOutput).text.value}`,
-    );
-  }
-}
-```
-
-### Retrieve File
-
-Files uploaded by Agents cannot be retrieved back. If your use case needs to access the file content uploaded by the Agents, you are advised to keep an additional copy accessible by your application. However, files generated by Agents are retrievable by `getFileContent`.
-
-Here is an example retrieving file ids from messages:
-
-```ts snippet:retrieveFile
-import {
-  isOutputOfType,
-  MessageTextContentOutput,
-  MessageImageFileContentOutput,
-} from "@azure/ai-projects";
-
-const messages = await client.agents.listMessages(thread.id);
-// Get most recent message from the assistant
-const assistantMessage = messages.data.find((msg) => msg.role === "assistant");
-if (assistantMessage) {
-  const textContent = assistantMessage.content.find((content) =>
-    isOutputOfType<MessageTextContentOutput>(content, "text"),
-  ) as MessageTextContentOutput;
-  if (textContent) {
-    console.log(`Last message: ${textContent.text.value}`);
-  }
-}
-const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).imageFile;
-const imageFileName = (await client.agents.getFile(imageFile.fileId)).filename;
-const fileContent = await (
-  await client.agents.getFileContent(imageFile.fileId).asNodeStream()
-).body;
-if (fileContent) {
-  const chunks: Buffer[] = [];
-  for await (const chunk of fileContent) {
-    chunks.push(Buffer.from(chunk));
-  }
-  const buffer = Buffer.concat(chunks);
-  fs.writeFileSync(imageFileName, buffer);
-} else {
-  console.error("Failed to retrieve file content: fileContent is undefined");
-}
-console.log(`Saved image file to: ${imageFileName}`);
-```
-
-#### Teardown
-
-To remove resources after completing tasks, use the following functions:
-
-```ts snippet:teardown
-await client.agents.deleteVectorStore(vectorStore.id);
-console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
-await client.agents.deleteFile(file.id);
-console.log(`Deleted file, file ID: ${file.id}`);
-client.agents.deleteAgent(agent.id);
+// Do something with your Agent!
+// See samples here https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/samples
+await project.agents.deleteAgent(agent.id);
 console.log(`Deleted agent, agent ID: ${agent.id}`);
 ```
 
-### Tracing
+### Get an authenticated AzureOpenAI client
 
-You can add an Application Insights Azure resource to your Azure AI Foundry project. See the Tracing tab in your studio. If one was enabled, you can get the Application Insights connection string, configure your Agents, and observe the full execution path through Azure Monitor. Typically, you might want to start tracing before you create an Agent.
+Your Azure AI Foundry project may have one or more OpenAI models deployed that support chat completions. Use the code below to get an authenticated [AzureOpenAI](https://github.com/openai/openai-python?tab=readme-ov-file#microsoft-azure-openai) from the [openai](https://pypi.org/project/openai/) package, and execute a chat completions call.
 
-#### Installation
+Run the code below. Here we assume `deploymentName` (str) is defined. It's the deployment name of an AI model in your Foundry Project. As shown in the "Models + endpoints" tab, under the "Name" column.
 
-Make sure to install OpenTelemetry and the Azure SDK tracing plugin via
+Update the `api_version` value with one found in the "Data plane - inference" row [in this table](https://learn.microsoft.com/azure/ai-foundry/openai/reference#api-specs).
 
-```bash
-npm install @opentelemetry/api \
-  @opentelemetry/instrumentation \
-  @opentelemetry/sdk-trace-node \
-  @azure/opentelemetry-instrumentation-azure-sdk \
-  @azure/monitor-opentelemetry-exporter
-```
+You also have the option (not shown) to explicitly specify the Azure OpenAI connection name in your AI Foundry Project, which the `inference.azureOpenAI` method will use to get the inference endpoint and authentication credentials. If not present the default Azure OpenAI connection will be used.
 
-You will also need an exporter to send telemetry to your observability backend. You can print traces to the console or use a local viewer such as [Aspire Dashboard](https://learn.microsoft.com/dotnet/aspire/fundamentals/dashboard/standalone?tabs=bash).
-
-To connect to Aspire Dashboard or another OpenTelemetry compatible backend, install OTLP exporter:
-
-```bash
-npm install @opentelemetry/exporter-trace-otlp-proto \
-  @opentelemetry/exporter-metrics-otlp-proto
-```
-
-#### Tracing example
-
-Here is a code sample to be included above `createAgent`:
-
-```ts snippet:tracing
-import {
-  NodeTracerProvider,
-  SimpleSpanProcessor,
-  ConsoleSpanExporter,
-} from "@opentelemetry/sdk-trace-node";
-import { trace } from "@opentelemetry/api";
-import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
-
-const provider = new NodeTracerProvider();
-provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-provider.register();
-const tracer = trace.getTracer("Agents Sample", "1.0.0");
-let appInsightsConnectionString =
-  process.env.APP_INSIGHTS_CONNECTION_STRING ?? "<appInsightsConnectionString>";
-if (appInsightsConnectionString == "<appInsightsConnectionString>") {
-  appInsightsConnectionString = await client.telemetry.getConnectionString();
-}
-if (appInsightsConnectionString) {
-  const exporter = new AzureMonitorTraceExporter({
-    connectionString: appInsightsConnectionString,
-  });
-  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
-}
-await tracer.startActiveSpan("main", async (span) => {
-  client.telemetry.updateSettings({ enableContentRecording: true });
-  // ...
+```ts snippet:openAI
+const client = await project.inference.azureOpenAI({
+  // The API version should match the version of the Azure OpenAI resource.
+  apiVersion: "2024-10-21",
 });
+const response = await client.chat.completions.create({
+  model: deploymentName,
+  messages: [{ role: "user", content: "How many feet are in a mile?" }],
+});
+console.log("response = ", JSON.stringify(response, null, 2));
+```
+
+See the "inference" folder in the [package samples][samples] for additional samples.
+
+### Deployments operations
+
+The code below shows some Deployments operations, which allow you to enumerate the AI models deployed to your AI Foundry Projects. These models can be seen in the "Models + endpoints" tab in your AI Foundry Project. Full samples can be found under the "deployment" folder in the [package samples][samples].
+
+```ts snippet:deployments
+import { ModelDeployment } from "@azure/ai-projects";
+
+const modelPublisher = process.env["MODEL_PUBLISHER"] || "<model publisher>";
+console.log("List all deployments:");
+const deployments: ModelDeployment[] = [];
+const properties: Array<Record<string, string>> = [];
+
+for await (const deployment of project.deployments.list()) {
+  // Check if this is a ModelDeployment (has the required properties)
+  if (
+    deployment.type === "ModelDeployment" &&
+    "modelName" in deployment &&
+    "modelPublisher" in deployment &&
+    "modelVersion" in deployment
+  ) {
+    deployments.push(deployment);
+    properties.push({
+      name: deployment.name,
+      modelPublisher: deployment.modelPublisher,
+      modelName: deployment.modelName,
+    });
+  }
+}
+console.log(`Retrieved deployments: ${JSON.stringify(properties, null, 2)}`);
+
+// List all deployments by a specific model publisher (assuming we have one from the list)
+console.log(`List all deployments by the model publisher '${modelPublisher}':`);
+const filteredDeployments: ModelDeployment[] = [];
+for await (const deployment of project.deployments.list({
+  modelPublisher,
+})) {
+  // Check if this is a ModelDeployment
+  if (
+    deployment.type === "ModelDeployment" &&
+    "modelName" in deployment &&
+    "modelPublisher" in deployment &&
+    "modelVersion" in deployment
+  ) {
+    filteredDeployments.push(deployment);
+  }
+}
+console.log(
+  `Retrieved ${filteredDeployments.length} deployments from model publisher '${modelPublisher}'`,
+);
+
+// Get a single deployment by name
+if (deployments.length > 0) {
+  const deploymentName = deployments[0].name;
+  console.log(`Get a single deployment named '${deploymentName}':`);
+  const singleDeployment = await project.deployments.get(deploymentName);
+  console.log(`Retrieved deployment: ${JSON.stringify(singleDeployment, null, 2)}`);
+}
+```
+
+### Connections operations
+
+The code below shows some Connection operations, which allow you to enumerate the Azure Resources connected to your AI Foundry Projects. These connections can be seen in the "Management Center", in the "Connected resources" tab in your AI Foundry Project. Full samples can be found under the "connections" folder in the [package samples][samples].
+
+```ts snippet:connections
+import { Connection } from "@azure/ai-projects";
+
+// List the details of all the connections
+const connections: Connection[] = [];
+const connectionNames: string[] = [];
+for await (const connection of project.connections.list()) {
+  connections.push(connection);
+  connectionNames.push(connection.name);
+}
+console.log(`Retrieved connections: ${connectionNames}`);
+
+// Get the details of a connection, without credentials
+const connectionName = connections[0].name;
+const connection = await project.connections.get(connectionName);
+console.log(`Retrieved connection ${JSON.stringify(connection, null, 2)}`);
+
+const connectionWithCredentials = await project.connections.getWithCredentials(connectionName);
+console.log(
+  `Retrieved connection with credentials ${JSON.stringify(connectionWithCredentials, null, 2)}`,
+);
+
+// List all connections of a specific type
+const azureAIConnections: Connection[] = [];
+for await (const azureOpenAIConnection of project.connections.list({
+  connectionType: "AzureOpenAI",
+  defaultConnection: true,
+})) {
+  azureAIConnections.push(azureOpenAIConnection);
+}
+console.log(`Retrieved ${azureAIConnections.length} Azure OpenAI connections`);
+
+// Get the details of a default connection
+const defaultConnection = await project.connections.getDefault("AzureOpenAI", true);
+console.log(`Retrieved default connection ${JSON.stringify(defaultConnection, null, 2)}`);
+```
+
+### Dataset operations
+
+The code below shows some Dataset operations. Full samples can be found under the "datasets"
+folder in the [package samples][samples].
+
+```ts snippet:datasets
+import { DatasetVersionUnion } from "@azure/ai-projects";
+
+const VERSION1 = "1.0";
+const VERSION2 = "2.0";
+const VERSION3 = "3.0";
+
+// sample files to use in the demonstration
+const sampleFolder = "sample_folder";
+// Create a unique dataset name for this sample run
+const datasetName = `sample-dataset-basic`;
+console.log("Upload a single file and create a new Dataset to reference the file.");
+console.log("Here we explicitly specify the dataset version.");
+
+const dataset1 = await project.datasets.uploadFile(
+  datasetName,
+  VERSION1,
+  path.join(__dirname, sampleFolder, "sample_file1.txt"),
+);
+console.log("Dataset1 created:", JSON.stringify(dataset1, null, 2));
+
+const credential = project.datasets.getCredentials(dataset1.name, dataset1.version, {});
+console.log("Credential for the dataset:", credential);
+console.log(
+  "Upload all files in a folder (including subfolders) to the existing Dataset to reference the folder.",
+);
+console.log("Here again we explicitly specify a new dataset version");
+const dataset2 = await project.datasets.uploadFolder(
+  datasetName,
+  VERSION2,
+  path.join(__dirname, sampleFolder),
+);
+console.log("Dataset2 created:", JSON.stringify(dataset2, null, 2));
+console.log(
+  "Upload a single file to the existing dataset, while letting the service increment the version",
+);
+const dataset3 = await project.datasets.uploadFile(
+  datasetName,
+  VERSION3,
+  path.join(__dirname, sampleFolder, "sample_file2.txt"),
+);
+console.log("Dataset3 created:", JSON.stringify(dataset3, null, 2));
+
+console.log("Get an existing Dataset version `1`:");
+const datasetVersion1 = await project.datasets.get(datasetName, VERSION1);
+console.log("Dataset version 1:", JSON.stringify(datasetVersion1, null, 2));
+console.log(`Listing all versions of the Dataset named '${datasetName}':`);
+const datasetVersions = await project.datasets.listVersions(datasetName);
+for await (const version of datasetVersions) {
+  console.log("List versions:", version);
+}
+console.log("List latest versions of all Datasets:");
+const latestDatasets = project.datasets.list();
+for await (const dataset of latestDatasets) {
+  console.log("List datasets:", dataset);
+}
+// List the details of all the datasets
+const datasets = project.datasets.listVersions(datasetName);
+const allDatasets: DatasetVersionUnion[] = [];
+for await (const dataset of datasets) {
+  allDatasets.push(dataset);
+}
+console.log(`Retrieved ${allDatasets.length} datasets`);
+console.log("Delete all Datasets created above:");
+await project.datasets.delete(datasetName, VERSION1);
+await project.datasets.delete(datasetName, VERSION2);
+await project.datasets.delete(datasetName, dataset3.version);
+console.log("All specified Datasets have been deleted.");
+```
+
+### Indexes operations
+
+The code below shows some Indexes operations. Full samples can be found under the "indexes"
+folder in the [package samples][samples].
+
+```ts snippet:indexes
+import { AzureAISearchIndex } from "@azure/ai-projects";
+
+const indexName = "sample-index";
+const version = "1";
+const azureAIConnectionConfig: AzureAISearchIndex = {
+  name: indexName,
+  type: "AzureSearch",
+  version,
+  indexName,
+  connectionName: "sample-connection",
+};
+
+// Create a new Index
+const newIndex = await project.indexes.createOrUpdate(indexName, version, azureAIConnectionConfig);
+console.log("Created a new Index:", newIndex);
+console.log(`Get an existing Index version '${version}':`);
+const index = await project.indexes.get(indexName, version);
+console.log(index);
+console.log(`Listing all versions of the Index named '${indexName}':`);
+const indexVersions = project.indexes.listVersions(indexName);
+for await (const indexVersion of indexVersions) {
+  console.log(indexVersion);
+}
+console.log("List all Indexes:");
+const allIndexes = project.indexes.list();
+for await (const i of allIndexes) {
+  console.log("Index:", i);
+}
+console.log("Delete the Index versions created above:");
+await project.indexes.delete(indexName, version);
 ```
 
 ## Troubleshooting
@@ -894,12 +339,12 @@ await tracer.startActiveSpan("main", async (span) => {
 Client methods that make service calls raise an [RestError](https://learn.microsoft.com/javascript/api/%40azure/core-rest-pipeline/resterror) for a non-success HTTP status code response from the service. The exception's `code` will hold the HTTP response status code. The exception's `error.message` contains a detailed message that may be helpful in diagnosing the issue:
 
 ```ts snippet:exceptions
-import { RestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 try {
-  const result = await client.connections.listConnections();
+  const result = await project.connections.list();
 } catch (e) {
-  if (e instanceof RestError) {
+  if (isRestError(e)) {
     console.log(`Status code: ${e.code}`);
     console.log(e.message);
   } else {
@@ -943,9 +388,11 @@ additional questions or comments.
 <!-- LINKS -->
 
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[entra_id]: https://learn.microsoft.com/azure/ai-services/authentication?tabs=powershell#authenticate-with-microsoft-entra-id
-[azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
+[entra_id]: https://learn.microsoft.com/azure/ai-foundry/foundry-models/how-to/configure-entra-id?tabs=javascript&pivots=ai-foundry-portal
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_sub]: https://azure.microsoft.com/free/
 [evaluators]: https://learn.microsoft.com/azure/ai-studio/how-to/develop/evaluate-sdk
 [evaluator_library]: https://learn.microsoft.com/azure/ai-studio/how-to/evaluate-generative-ai-app#view-and-manage-the-evaluators-in-the-evaluator-library
+[ai_foundry_data_plane_rest_apis]: https://learn.microsoft.com/rest/api/aifoundry/aiprojects/operation-groups?view=rest-aifoundry-aiprojects-v1
+[ai_project_client_endpoint]: https://learn.microsoft.com/azure/ai-foundry/how-to/develop/sdk-overview?tabs=sync&pivots=programming-language-javascript
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-projects/samples

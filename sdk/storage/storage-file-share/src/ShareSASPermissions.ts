@@ -73,7 +73,7 @@ export class ShareSASPermissions {
    * order accepted by the service.
    *
    * The order of the characters should be as specified here to ensure correctness.
-   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   * @see https://learn.microsoft.com/rest/api/storageservices/constructing-a-service-sas
    *
    */
   public toString(): string {

@@ -622,6 +622,12 @@ export const SubscriptionQuotaItemList: coreClient.CompositeMapper = {
           },
         },
       },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1984,6 +1990,7 @@ export const ReplicationObject: coreClient.CompositeMapper = {
       },
       endpointType: {
         serializedName: "endpointType",
+        readOnly: true,
         type: {
           name: "String",
         },

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 
 const AzureHealthInsightsClient = require("../src").default,
-  { ClinicalDocumentTypeEnum, getLongRunningPoller, isUnexpected } = require("../src");
+  { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../src");
 
 dotenv.config();
 
@@ -45,13 +45,13 @@ function printResults(radiologyInsightsResult) {
       if ("code" in coding) {
         console.log(
           "   Coding: " +
-            coding.code +
-            ", " +
-            coding.display +
-            " (" +
-            coding.system +
-            "), type: " +
-            coding.type,
+          coding.code +
+          ", " +
+          coding.display +
+          " (" +
+          coding.system +
+          "), type: " +
+          coding.type,
         );
       }
     });
@@ -61,7 +61,7 @@ function printResults(radiologyInsightsResult) {
 // Create request body for radiology insights
 function createRequestBody() {
   const codingData = {
-    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
+    system: "http://www.ama-assn.org/go/cpt",
     code: "26688-1",
     display: "US BREAST - LEFT LIMITED",
   };
@@ -72,7 +72,7 @@ function createRequestBody() {
 
   const patientInfo = {
     sex: "female",
-    birthDate: new Date("1959-11-11T19:00:00+00:00"),
+    birthDate: "1959-11-11T19:00:00+00:00",
   };
 
   const encounterData = {
@@ -115,14 +115,14 @@ function createRequestBody() {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
+    clinicalType: "radiologyReport",
     id: "docid1",
     language: "en",
     authors: [authorData],
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: new Date("2021-05-31T16:00:00.000Z"),
+    createdAt: "2021-05-31T16:00:00.000Z",
     orderedProceduresAsCsv: "US BREAST - LEFT LIMITED",
   };
 
@@ -145,6 +145,9 @@ function createRequestBody() {
     "followupRecommendation",
     "followupCommunication",
     "radiologyProcedure",
+    "scoringAndAssessment",
+    "guidance",
+    "qualityMeasure",
   ];
 
   const followupRecommendationOptions = {

@@ -10,6 +10,7 @@ import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
+  APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
@@ -306,8 +307,7 @@ describe("Main functions", () => {
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_attributes"];
-    console.log(resource);
+    const resource = (span as any)["resource"]["attributes"];
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
       assert.ok(expectedResourceAttributeNamespaces.has(parts[0]));
@@ -330,7 +330,7 @@ describe("Main functions", () => {
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_attributes"];
+    const resource = (span as any)["resource"]["attributes"];
     console.log(resource);
     Object.keys(resource).forEach((attr) => {
       const parts = attr.split(".");
@@ -350,9 +350,9 @@ describe("Main functions", () => {
 
     // Need to access resource attributes of a span to verify the correct resource detectors are enabled.
     // The resource field of a span is a readonly IResource and does not have a getter for the underlying Resource.
-    const resource = (span as any)["resource"]["_attributes"];
+    const resource = (span as any)["resource"]["_rawAttributes"];
     console.log(resource);
-    Object.keys(resource).forEach((attr) => {
+    Object.keys(resource || {}).forEach((attr) => {
       assert.ok(!attr.includes("process"));
     });
   });
@@ -393,5 +393,110 @@ describe("Main functions", () => {
       };
     }
     assert.strictEqual(updatedStatsbeat.instrumentation, StatsbeatInstrumentation.FS);
+  });
+
+  it("should detect MULTI_IKEY feature when AZURE_MONITOR_STATSBEAT_FEATURES has MULTI_IKEY enabled", () => {
+    const env = <{ [id: string]: string }>{};
+    env[AZURE_MONITOR_STATSBEAT_FEATURES] = String(StatsbeatFeature.MULTI_IKEY);
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
+    const features = Number(output["feature"] || 0);
+    assert.ok(features & StatsbeatFeature.MULTI_IKEY, "MULTI_IKEY not detected");
+    void shutdownAzureMonitor();
+  });
+
+  it("should not detect MULTI_IKEY feature when AZURE_MONITOR_STATSBEAT_FEATURES has MULTI_IKEY disabled", () => {
+    const env = <{ [id: string]: string }>{};
+    env[AZURE_MONITOR_STATSBEAT_FEATURES] = String(StatsbeatFeature.DISTRO);
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
+    const features = Number(output["feature"] || 0);
+    assert.ok(
+      !(features & StatsbeatFeature.MULTI_IKEY),
+      "MULTI_IKEY detected when it should not be",
+    );
+    void shutdownAzureMonitor();
+  });
+
+  it("should detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is 'True'", () => {
+    const env = <{ [id: string]: string }>{};
+    env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "True";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
+    const features = Number(output["feature"] || 0);
+    assert.ok(
+      features & StatsbeatFeature.CUSTOMER_SDKSTATS,
+      "CUSTOMER_SDKSTATS feature should be detected when env var is 'True'",
+    );
+    assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should also be set");
+    void shutdownAzureMonitor();
+  });
+
+  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is not 'True'", () => {
+    const env = <{ [id: string]: string }>{};
+    env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "false";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
+    const features = Number(output["feature"] || 0);
+    assert.ok(
+      !(features & StatsbeatFeature.CUSTOMER_SDKSTATS),
+      "CUSTOMER_SDKSTATS feature should not be detected when env var is not 'True'",
+    );
+    assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
+    void shutdownAzureMonitor();
+  });
+
+  it("should not detect CUSTOMER_SDKSTATS feature when APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW is not set", () => {
+    const env = <{ [id: string]: string }>{};
+    delete env[APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"])) as {
+      feature?: number;
+    };
+    const features = Number(output["feature"] || 0);
+    assert.ok(
+      !(features & StatsbeatFeature.CUSTOMER_SDKSTATS),
+      "CUSTOMER_SDKSTATS feature should not be detected when env var is undefined",
+    );
+    assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO feature should still be set");
+    void shutdownAzureMonitor();
   });
 });

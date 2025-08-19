@@ -51,7 +51,11 @@ interface SnippetLocationInfo {
 async function* getAllSnippetFiles(dir: string): AsyncIterable<string> {
   // Only consider markdown files up to a depth of 1 (i.e. _in_ the project folder). This is to prevent grabbing things
   // like samples/*/README.md and other similar files that are not really part of the "source" of the package.
-  yield* findMatchingFiles(dir, (name) => name.endsWith(".md"), { maxDepth: 1 });
+  yield* findMatchingFiles(
+    dir,
+    (name) => name.endsWith(".md") && name.toLowerCase() !== "changelog.md",
+    { maxDepth: 1 },
+  );
 
   if (existsSync(path.join(dir, "src"))) {
     yield* findMatchingFiles(path.join(dir, "src"), (name) => name.endsWith(".ts"));
@@ -83,6 +87,9 @@ async function findAllSnippetLocations(info: ProjectInfo): Promise<SnippetLocati
   let hadError = false;
 
   for await (const f of getAllSnippetFiles(info.path)) {
+    if (f.includes("/node_modules/") || f.includes("\\node_modules\\")) {
+      continue;
+    }
     // We want to use some kind of semantically appropriate comment to allow ignoring a file.
     const ignoreString = f.endsWith(".md") ? IGNORE_MARKDOWN_COMMENT : IGNORE_CODE_COMMENT;
 
@@ -186,10 +193,9 @@ async function parseSnippetDefinitions(
 
   const snippetFile = path.join(project.path, ...SNIPPET_PATH);
 
-  const relativeIndexPath = path.relative(
-    path.dirname(snippetFile),
-    path.join(project.path, "src"),
-  );
+  const relativeIndexPath = path
+    .relative(path.dirname(snippetFile), path.join(project.path, "src"))
+    .replaceAll("\\", "/");
 
   const program = ts.createProgram({
     rootNames: [snippetFile],
@@ -451,8 +457,8 @@ async function parseSnippetDefinitions(
 
           if (
             moduleSpecifierText === relativeIndexPath ||
-            moduleSpecifierText === path.join(relativeIndexPath, "index.js") ||
-            moduleSpecifierText === path.join(relativeIndexPath, "index")
+            moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
+            moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
           ) {
             return { moduleSpecifier: project.name, isDefault: false };
           } else {
@@ -476,8 +482,8 @@ async function parseSnippetDefinitions(
 
         if (
           moduleSpecifierText === relativeIndexPath ||
-          moduleSpecifierText === path.join(relativeIndexPath, "index.js") ||
-          moduleSpecifierText === path.join(relativeIndexPath, "index")
+          moduleSpecifierText === path.posix.join(relativeIndexPath, "index.js") ||
+          moduleSpecifierText === path.posix.join(relativeIndexPath, "index")
         ) {
           return { moduleSpecifier: project.name, isDefault: true };
         } else {

@@ -175,23 +175,25 @@ export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditiona
   return item;
 }
 
-/** An online experiment workspace resource. */
-export interface OnlineExperimentWorkspace extends TrackedResource {
+/** An online experimentation workspace resource. */
+export interface OnlineExperimentationWorkspace extends TrackedResource {
   /** The resource-specific properties for this resource. */
-  properties?: OnlineExperimentWorkspaceProperties;
+  properties?: OnlineExperimentationWorkspaceProperties;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
   /** The SKU (Stock Keeping Unit) assigned to this resource. */
   sku?: OnlineExperimentationWorkspaceSku;
 }
 
-export function onlineExperimentWorkspaceSerializer(item: OnlineExperimentWorkspace): any {
+export function onlineExperimentationWorkspaceSerializer(
+  item: OnlineExperimentationWorkspace,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
     properties: !item["properties"]
       ? item["properties"]
-      : onlineExperimentWorkspacePropertiesSerializer(item["properties"]),
+      : onlineExperimentationWorkspacePropertiesSerializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -199,7 +201,9 @@ export function onlineExperimentWorkspaceSerializer(item: OnlineExperimentWorksp
   };
 }
 
-export function onlineExperimentWorkspaceDeserializer(item: any): OnlineExperimentWorkspace {
+export function onlineExperimentationWorkspaceDeserializer(
+  item: any,
+): OnlineExperimentationWorkspace {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -211,7 +215,7 @@ export function onlineExperimentWorkspaceDeserializer(item: any): OnlineExperime
       : systemDataDeserializer(item["systemData"]),
     properties: !item["properties"]
       ? item["properties"]
-      : onlineExperimentWorkspacePropertiesDeserializer(item["properties"]),
+      : onlineExperimentationWorkspacePropertiesDeserializer(item["properties"]),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -219,26 +223,26 @@ export function onlineExperimentWorkspaceDeserializer(item: any): OnlineExperime
   };
 }
 
-/** The properties of an online experiment workspace. */
-export interface OnlineExperimentWorkspaceProperties {
+/** The properties of an online experimentation workspace. */
+export interface OnlineExperimentationWorkspaceProperties {
   /** The Id of the workspace. */
   readonly workspaceId?: string;
   /** The provisioning state for the resource */
   readonly provisioningState?: ResourceProvisioningState;
-  /** The resource identifier of the Log Analytics workspace which online experiment workspace uses for generating experiment analysis results. */
+  /** The resource identifier of the Log Analytics workspace which online experimentation workspace uses for generating experiment analysis results. */
   logAnalyticsWorkspaceResourceId: string;
-  /** The resource identifier of storage account where logs are exported from Log Analytics workspace. Online Experiment workspace uses it generating experiment analysis results. */
+  /** The resource identifier of storage account where logs are exported from Log Analytics workspace. online experimentation workspace uses it generating experiment analysis results. */
   logsExporterStorageAccountResourceId: string;
-  /** The resource identifier of App Configuration with which this online experiment workspace is tied for experimentation. This is a required field for creating an online experiment workspace. */
+  /** The resource identifier of App Configuration with which this online experimentation workspace is tied for experimentation. This is a required field for creating an online experimentation workspace. */
   appConfigurationResourceId: string;
-  /** The encryption configuration for the online experiment workspace resource. */
+  /** The encryption configuration for the online experimentation workspace resource. */
   encryption?: ResourceEncryptionConfiguration;
-  /** The data plane endpoint for the online experiment workspace resource. */
+  /** The data plane endpoint for the online experimentation workspace resource. */
   readonly endpoint?: string;
 }
 
-export function onlineExperimentWorkspacePropertiesSerializer(
-  item: OnlineExperimentWorkspaceProperties,
+export function onlineExperimentationWorkspacePropertiesSerializer(
+  item: OnlineExperimentationWorkspaceProperties,
 ): any {
   return {
     logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
@@ -250,9 +254,9 @@ export function onlineExperimentWorkspacePropertiesSerializer(
   };
 }
 
-export function onlineExperimentWorkspacePropertiesDeserializer(
+export function onlineExperimentationWorkspacePropertiesDeserializer(
   item: any,
-): OnlineExperimentWorkspaceProperties {
+): OnlineExperimentationWorkspaceProperties {
   return {
     workspaceId: item["workspaceId"],
     provisioningState: item["provisioningState"],
@@ -287,7 +291,7 @@ export enum KnownResourceProvisioningState {
  */
 export type ResourceProvisioningState = string;
 
-/** The encryption configuration for the online experiment workspace resource. */
+/** The encryption configuration for the online experimentation workspace resource. */
 export interface ResourceEncryptionConfiguration {
   /** All Customer-managed key encryption properties for the resource. */
   customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
@@ -437,10 +441,10 @@ export type ManagedServiceIdentityType = string;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The client ID of the assigned identity. */
-  readonly clientId?: string;
   /** The principal ID of the assigned identity. */
   readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
 }
 
 export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
@@ -449,8 +453,8 @@ export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any 
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
-    clientId: item["clientId"],
     principalId: item["principalId"],
+    clientId: item["clientId"],
   };
 }
 
@@ -630,36 +634,89 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** The response of a OnlineExperimentWorkspace list operation. */
-export interface _OnlineExperimentWorkspaceListResult {
-  /** The OnlineExperimentWorkspace items on this page */
-  value: OnlineExperimentWorkspace[];
+/** Partial update of an online experimentation workspace resource. */
+export interface OnlineExperimentationWorkspacePatch {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The SKU (Stock Keeping Unit) assigned to this resource. */
+  sku?: OnlineExperimentationWorkspaceSku;
+  /** Updatable properties of the online experimentation workspace resource. */
+  properties?: {
+    logAnalyticsWorkspaceResourceId?: string;
+    logsExporterStorageAccountResourceId?: string;
+    encryption?: ResourceEncryptionConfiguration;
+  };
+}
+
+export function onlineExperimentationWorkspacePatchSerializer(
+  item: OnlineExperimentationWorkspacePatch,
+): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+    tags: item["tags"],
+    sku: !item["sku"] ? item["sku"] : onlineExperimentationWorkspaceSkuSerializer(item["sku"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : _onlineExperimentationWorkspacePatchPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** model interface _OnlineExperimentationWorkspacePatchProperties */
+export interface _OnlineExperimentationWorkspacePatchProperties {
+  /** The resource identifier of the Log Analytics workspace which online experimentation workspace uses for generating experiment analysis results. */
+  logAnalyticsWorkspaceResourceId?: string;
+  /** The resource identifier of storage account where logs are exported from Log Analytics workspace. online experimentation workspace uses it generating experiment analysis results. */
+  logsExporterStorageAccountResourceId?: string;
+  /** The encryption configuration for the online experimentation workspace resource. */
+  encryption?: ResourceEncryptionConfiguration;
+}
+
+export function _onlineExperimentationWorkspacePatchPropertiesSerializer(
+  item: _OnlineExperimentationWorkspacePatchProperties,
+): any {
+  return {
+    logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
+    logsExporterStorageAccountResourceId: item["logsExporterStorageAccountResourceId"],
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : resourceEncryptionConfigurationSerializer(item["encryption"]),
+  };
+}
+
+/** The response of a OnlineExperimentationWorkspace list operation. */
+export interface _OnlineExperimentationWorkspaceListResult {
+  /** The OnlineExperimentationWorkspace items on this page */
+  value: OnlineExperimentationWorkspace[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _onlineExperimentWorkspaceListResultDeserializer(
+export function _onlineExperimentationWorkspaceListResultDeserializer(
   item: any,
-): _OnlineExperimentWorkspaceListResult {
+): _OnlineExperimentationWorkspaceListResult {
   return {
-    value: onlineExperimentWorkspaceArrayDeserializer(item["value"]),
+    value: onlineExperimentationWorkspaceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function onlineExperimentWorkspaceArraySerializer(
-  result: Array<OnlineExperimentWorkspace>,
+export function onlineExperimentationWorkspaceArraySerializer(
+  result: Array<OnlineExperimentationWorkspace>,
 ): any[] {
   return result.map((item) => {
-    return onlineExperimentWorkspaceSerializer(item);
+    return onlineExperimentationWorkspaceSerializer(item);
   });
 }
 
-export function onlineExperimentWorkspaceArrayDeserializer(
-  result: Array<OnlineExperimentWorkspace>,
+export function onlineExperimentationWorkspaceArrayDeserializer(
+  result: Array<OnlineExperimentationWorkspace>,
 ): any[] {
   return result.map((item) => {
-    return onlineExperimentWorkspaceDeserializer(item);
+    return onlineExperimentationWorkspaceDeserializer(item);
   });
 }
 

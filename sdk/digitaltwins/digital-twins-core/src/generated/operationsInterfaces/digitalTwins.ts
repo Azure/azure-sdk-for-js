@@ -30,7 +30,7 @@ import {
   DigitalTwinsGetComponentOptionalParams,
   DigitalTwinsGetComponentResponse,
   DigitalTwinsUpdateComponentOptionalParams,
-  DigitalTwinsUpdateComponentResponse
+  DigitalTwinsUpdateComponentResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +49,7 @@ export interface DigitalTwins {
    */
   listRelationships(
     id: string,
-    options?: DigitalTwinsListRelationshipsOptionalParams
+    options?: DigitalTwinsListRelationshipsOptionalParams,
   ): PagedAsyncIterableIterator<Record<string, unknown>>;
   /**
    * Retrieves all incoming relationship for a digital twin.
@@ -64,7 +64,7 @@ export interface DigitalTwins {
    */
   listIncomingRelationships(
     id: string,
-    options?: DigitalTwinsListIncomingRelationshipsOptionalParams
+    options?: DigitalTwinsListIncomingRelationshipsOptionalParams,
   ): PagedAsyncIterableIterator<IncomingRelationship>;
   /**
    * Retrieves a digital twin.
@@ -79,7 +79,7 @@ export interface DigitalTwins {
    */
   getById(
     id: string,
-    options?: DigitalTwinsGetByIdOptionalParams
+    options?: DigitalTwinsGetByIdOptionalParams,
   ): Promise<DigitalTwinsGetByIdResponse>;
   /**
    * Adds or replaces a digital twin.
@@ -99,7 +99,7 @@ export interface DigitalTwins {
   add(
     id: string,
     twin: Record<string, unknown>,
-    options?: DigitalTwinsAddOptionalParams
+    options?: DigitalTwinsAddOptionalParams,
   ): Promise<DigitalTwinsAddResponse>;
   /**
    * Deletes a digital twin. All relationships referencing the digital twin must already be deleted.
@@ -136,7 +136,7 @@ export interface DigitalTwins {
   update(
     id: string,
     patchDocument: Record<string, unknown>[],
-    options?: DigitalTwinsUpdateOptionalParams
+    options?: DigitalTwinsUpdateOptionalParams,
   ): Promise<DigitalTwinsUpdateResponse>;
   /**
    * Retrieves a relationship between two digital twins.
@@ -155,7 +155,7 @@ export interface DigitalTwins {
   getRelationshipById(
     id: string,
     relationshipId: string,
-    options?: DigitalTwinsGetRelationshipByIdOptionalParams
+    options?: DigitalTwinsGetRelationshipByIdOptionalParams,
   ): Promise<DigitalTwinsGetRelationshipByIdResponse>;
   /**
    * Adds a relationship between two digital twins.
@@ -181,7 +181,7 @@ export interface DigitalTwins {
     id: string,
     relationshipId: string,
     relationship: Record<string, unknown>,
-    options?: DigitalTwinsAddRelationshipOptionalParams
+    options?: DigitalTwinsAddRelationshipOptionalParams,
   ): Promise<DigitalTwinsAddRelationshipResponse>;
   /**
    * Deletes a relationship between two digital twins.
@@ -202,7 +202,7 @@ export interface DigitalTwins {
   deleteRelationship(
     id: string,
     relationshipId: string,
-    options?: DigitalTwinsDeleteRelationshipOptionalParams
+    options?: DigitalTwinsDeleteRelationshipOptionalParams,
   ): Promise<void>;
   /**
    * Updates the properties on a relationship between two digital twins.
@@ -230,7 +230,7 @@ export interface DigitalTwins {
     id: string,
     relationshipId: string,
     patchDocument: Record<string, unknown>[],
-    options?: DigitalTwinsUpdateRelationshipOptionalParams
+    options?: DigitalTwinsUpdateRelationshipOptionalParams,
   ): Promise<DigitalTwinsUpdateRelationshipResponse>;
   /**
    * Sends telemetry on behalf of a digital twin.
@@ -251,7 +251,7 @@ export interface DigitalTwins {
     id: string,
     messageId: string,
     telemetry: Record<string, unknown>,
-    options?: DigitalTwinsSendTelemetryOptionalParams
+    options?: DigitalTwinsSendTelemetryOptionalParams,
   ): Promise<void>;
   /**
    * Sends telemetry on behalf of a component in a digital twin.
@@ -275,7 +275,7 @@ export interface DigitalTwins {
     componentPath: string,
     messageId: string,
     telemetry: Record<string, unknown>,
-    options?: DigitalTwinsSendComponentTelemetryOptionalParams
+    options?: DigitalTwinsSendComponentTelemetryOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves a component from a digital twin.
@@ -293,7 +293,7 @@ export interface DigitalTwins {
   getComponent(
     id: string,
     componentPath: string,
-    options?: DigitalTwinsGetComponentOptionalParams
+    options?: DigitalTwinsGetComponentOptionalParams,
   ): Promise<DigitalTwinsGetComponentResponse>;
   /**
    * Updates a component on a digital twin.
@@ -317,6 +317,6 @@ export interface DigitalTwins {
     id: string,
     componentPath: string,
     patchDocument: Record<string, unknown>[],
-    options?: DigitalTwinsUpdateComponentOptionalParams
+    options?: DigitalTwinsUpdateComponentOptionalParams,
   ): Promise<DigitalTwinsUpdateComponentResponse>;
 }

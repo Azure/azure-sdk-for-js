@@ -4,7 +4,7 @@
 import { Chunk } from "../src/Chunk.js";
 import { AvroReader } from "@azure/storage-internal-avro";
 import type { BlobChangeFeedEvent } from "../src/index.js";
-import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 
 class FakeAvroReader {
   constructor(
@@ -48,7 +48,11 @@ describe("Chunk", () => {
   });
 
   it("hasNext()", async () => {
-    const avroReaderStub = new AvroReader(expect.anything());
+    const readable = {
+      position: 0,
+      read: () => Promise.resolve(new Uint8Array()),
+    };
+    const avroReaderStub = new AvroReader(readable);
     vi.mocked(avroReaderStub.hasNext).mockReturnValue(true);
 
     const chunk = new Chunk(avroReaderStub as any, 0, 0, "log/00/2020/07/30/2300/");
@@ -62,7 +66,11 @@ describe("Chunk", () => {
     // set up
     const record = { a: 1 };
     const fakeAvroReader = new FakeAvroReader(0, 0, true, record);
-    const avroReaderStub = new AvroReader(expect.anything());
+    const readable = {
+      position: 0,
+      read: () => Promise.resolve(new Uint8Array()),
+    };
+    const avroReaderStub = new AvroReader(readable);
     vi.mocked(avroReaderStub.hasNext).mockImplementation(() => fakeAvroReader.hasNext);
     vi.mocked(avroReaderStub.parseObjects).mockReturnValue(fakeAvroReader.parseObjects());
     vi.spyOn(avroReaderStub, "blockOffset", "get").mockReturnValue(fakeAvroReader.blockOffset);

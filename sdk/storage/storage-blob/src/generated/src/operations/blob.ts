@@ -998,6 +998,7 @@ const copyFromURLOperationSpec: coreClient.OperationSpec = {
     Parameters.sourceContentMD5,
     Parameters.copySourceAuthorization,
     Parameters.copySourceTags,
+    Parameters.fileRequestIntent,
   ],
   isXML: true,
   serializer: xmlSerializer,

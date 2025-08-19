@@ -9,11 +9,11 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   FileServiceProperties as FileServicePropertiesMapper,
-  SharePermission as SharePermissionMapper
+  SharePermission as SharePermissionMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -23,14 +23,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: FileServicePropertiesMapper
+  mapper: FileServicePropertiesMapper,
 };
 
 export const accept: OperationParameter = {
@@ -40,9 +40,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const url: OperationURLParameter = {
@@ -52,10 +52,10 @@ export const url: OperationURLParameter = {
     required: true,
     xmlName: "url",
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const restype: OperationQueryParameter = {
@@ -65,9 +65,9 @@ export const restype: OperationQueryParameter = {
     isConstant: true,
     serializedName: "restype",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const comp: OperationQueryParameter = {
@@ -77,35 +77,35 @@ export const comp: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const timeoutInSeconds: OperationQueryParameter = {
   parameterPath: ["options", "timeoutInSeconds"],
   mapper: {
     constraints: {
-      InclusiveMinimum: 0
+      InclusiveMinimum: 0,
     },
     serializedName: "timeout",
     xmlName: "timeout",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2025-05-05",
+    defaultValue: "2025-11-05",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileRequestIntent: OperationParameter = {
@@ -114,9 +114,9 @@ export const fileRequestIntent: OperationParameter = {
     serializedName: "x-ms-file-request-intent",
     xmlName: "x-ms-file-request-intent",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept1: OperationParameter = {
@@ -126,9 +126,9 @@ export const accept1: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const comp1: OperationQueryParameter = {
@@ -138,9 +138,9 @@ export const comp1: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const prefix: OperationQueryParameter = {
@@ -149,9 +149,9 @@ export const prefix: OperationQueryParameter = {
     serializedName: "prefix",
     xmlName: "prefix",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const marker: OperationQueryParameter = {
@@ -160,23 +160,23 @@ export const marker: OperationQueryParameter = {
     serializedName: "marker",
     xmlName: "marker",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const maxResults: OperationQueryParameter = {
   parameterPath: ["options", "maxResults"],
   mapper: {
     constraints: {
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "maxresults",
     xmlName: "maxresults",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const include: OperationQueryParameter = {
@@ -190,12 +190,12 @@ export const include: OperationQueryParameter = {
       element: {
         type: {
           name: "Enum",
-          allowedValues: ["snapshots", "metadata", "deleted"]
-        }
-      }
-    }
+          allowedValues: ["snapshots", "metadata", "deleted"],
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const restype1: OperationQueryParameter = {
@@ -205,9 +205,9 @@ export const restype1: OperationQueryParameter = {
     isConstant: true,
     serializedName: "restype",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const metadata: OperationParameter = {
@@ -218,23 +218,23 @@ export const metadata: OperationParameter = {
     headerCollectionPrefix: "x-ms-meta-",
     type: {
       name: "Dictionary",
-      value: { type: { name: "String" } }
-    }
-  }
+      value: { type: { name: "String" } },
+    },
+  },
 };
 
 export const quota: OperationParameter = {
   parameterPath: ["options", "quota"],
   mapper: {
     constraints: {
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "x-ms-share-quota",
     xmlName: "x-ms-share-quota",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const accessTier: OperationParameter = {
@@ -244,9 +244,9 @@ export const accessTier: OperationParameter = {
     xmlName: "x-ms-access-tier",
     type: {
       name: "Enum",
-      allowedValues: ["TransactionOptimized", "Hot", "Cool", "Premium"]
-    }
-  }
+      allowedValues: ["TransactionOptimized", "Hot", "Cool", "Premium"],
+    },
+  },
 };
 
 export const enabledProtocols: OperationParameter = {
@@ -255,9 +255,9 @@ export const enabledProtocols: OperationParameter = {
     serializedName: "x-ms-enabled-protocols",
     xmlName: "x-ms-enabled-protocols",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const rootSquash: OperationParameter = {
@@ -267,9 +267,9 @@ export const rootSquash: OperationParameter = {
     xmlName: "x-ms-root-squash",
     type: {
       name: "Enum",
-      allowedValues: ["NoRootSquash", "RootSquash", "AllSquash"]
-    }
-  }
+      allowedValues: ["NoRootSquash", "RootSquash", "AllSquash"],
+    },
+  },
 };
 
 export const enableSnapshotVirtualDirectoryAccess: OperationParameter = {
@@ -278,9 +278,9 @@ export const enableSnapshotVirtualDirectoryAccess: OperationParameter = {
     serializedName: "x-ms-enable-snapshot-virtual-directory-access",
     xmlName: "x-ms-enable-snapshot-virtual-directory-access",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const paidBurstingEnabled: OperationParameter = {
@@ -289,9 +289,9 @@ export const paidBurstingEnabled: OperationParameter = {
     serializedName: "x-ms-share-paid-bursting-enabled",
     xmlName: "x-ms-share-paid-bursting-enabled",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const paidBurstingMaxBandwidthMibps: OperationParameter = {
@@ -300,9 +300,9 @@ export const paidBurstingMaxBandwidthMibps: OperationParameter = {
     serializedName: "x-ms-share-paid-bursting-max-bandwidth-mibps",
     xmlName: "x-ms-share-paid-bursting-max-bandwidth-mibps",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const paidBurstingMaxIops: OperationParameter = {
@@ -311,9 +311,9 @@ export const paidBurstingMaxIops: OperationParameter = {
     serializedName: "x-ms-share-paid-bursting-max-iops",
     xmlName: "x-ms-share-paid-bursting-max-iops",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const shareProvisionedIops: OperationParameter = {
@@ -322,9 +322,9 @@ export const shareProvisionedIops: OperationParameter = {
     serializedName: "x-ms-share-provisioned-iops",
     xmlName: "x-ms-share-provisioned-iops",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const shareProvisionedBandwidthMibps: OperationParameter = {
@@ -333,9 +333,9 @@ export const shareProvisionedBandwidthMibps: OperationParameter = {
     serializedName: "x-ms-share-provisioned-bandwidth-mibps",
     xmlName: "x-ms-share-provisioned-bandwidth-mibps",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const shareSnapshot: OperationQueryParameter = {
@@ -344,9 +344,9 @@ export const shareSnapshot: OperationQueryParameter = {
     serializedName: "sharesnapshot",
     xmlName: "sharesnapshot",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const leaseId: OperationParameter = {
@@ -355,9 +355,9 @@ export const leaseId: OperationParameter = {
     serializedName: "x-ms-lease-id",
     xmlName: "x-ms-lease-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const deleteSnapshots: OperationParameter = {
@@ -367,9 +367,9 @@ export const deleteSnapshots: OperationParameter = {
     xmlName: "x-ms-delete-snapshots",
     type: {
       name: "Enum",
-      allowedValues: ["include", "include-leased"]
-    }
-  }
+      allowedValues: ["include", "include-leased"],
+    },
+  },
 };
 
 export const comp2: OperationQueryParameter = {
@@ -379,9 +379,9 @@ export const comp2: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action: OperationParameter = {
@@ -391,9 +391,9 @@ export const action: OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-lease-action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const duration: OperationParameter = {
@@ -402,9 +402,9 @@ export const duration: OperationParameter = {
     serializedName: "x-ms-lease-duration",
     xmlName: "x-ms-lease-duration",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const proposedLeaseId: OperationParameter = {
@@ -413,9 +413,9 @@ export const proposedLeaseId: OperationParameter = {
     serializedName: "x-ms-proposed-lease-id",
     xmlName: "x-ms-proposed-lease-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const requestId: OperationParameter = {
@@ -424,9 +424,9 @@ export const requestId: OperationParameter = {
     serializedName: "x-ms-client-request-id",
     xmlName: "x-ms-client-request-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action1: OperationParameter = {
@@ -436,9 +436,9 @@ export const action1: OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-lease-action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const leaseId1: OperationParameter = {
@@ -448,9 +448,9 @@ export const leaseId1: OperationParameter = {
     required: true,
     xmlName: "x-ms-lease-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action2: OperationParameter = {
@@ -460,9 +460,9 @@ export const action2: OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-lease-action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action3: OperationParameter = {
@@ -472,9 +472,9 @@ export const action3: OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-lease-action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action4: OperationParameter = {
@@ -484,9 +484,9 @@ export const action4: OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-lease-action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const breakPeriod: OperationParameter = {
@@ -495,9 +495,9 @@ export const breakPeriod: OperationParameter = {
     serializedName: "x-ms-lease-break-period",
     xmlName: "x-ms-lease-break-period",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const comp3: OperationQueryParameter = {
@@ -507,9 +507,9 @@ export const comp3: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType1: OperationParameter = {
@@ -519,14 +519,14 @@ export const contentType1: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sharePermission: OperationParameter = {
   parameterPath: "sharePermission",
-  mapper: SharePermissionMapper
+  mapper: SharePermissionMapper,
 };
 
 export const comp4: OperationQueryParameter = {
@@ -536,9 +536,9 @@ export const comp4: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept2: OperationParameter = {
@@ -548,9 +548,9 @@ export const accept2: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const filePermissionKey: OperationParameter = {
@@ -560,9 +560,9 @@ export const filePermissionKey: OperationParameter = {
     required: true,
     xmlName: "x-ms-file-permission-key",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const filePermissionFormat: OperationParameter = {
@@ -572,9 +572,9 @@ export const filePermissionFormat: OperationParameter = {
     xmlName: "x-ms-file-permission-format",
     type: {
       name: "Enum",
-      allowedValues: ["Sddl", "Binary"]
-    }
-  }
+      allowedValues: ["Sddl", "Binary"],
+    },
+  },
 };
 
 export const comp5: OperationQueryParameter = {
@@ -584,9 +584,9 @@ export const comp5: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const comp6: OperationQueryParameter = {
@@ -596,9 +596,9 @@ export const comp6: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const shareAcl: OperationParameter = {
@@ -613,11 +613,11 @@ export const shareAcl: OperationParameter = {
       element: {
         type: {
           name: "Composite",
-          className: "SignedIdentifier"
-        }
-      }
-    }
-  }
+          className: "SignedIdentifier",
+        },
+      },
+    },
+  },
 };
 
 export const comp7: OperationQueryParameter = {
@@ -627,9 +627,9 @@ export const comp7: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const comp8: OperationQueryParameter = {
@@ -639,9 +639,9 @@ export const comp8: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const deletedShareName: OperationParameter = {
@@ -650,9 +650,9 @@ export const deletedShareName: OperationParameter = {
     serializedName: "x-ms-deleted-share-name",
     xmlName: "x-ms-deleted-share-name",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const deletedShareVersion: OperationParameter = {
@@ -661,9 +661,9 @@ export const deletedShareVersion: OperationParameter = {
     serializedName: "x-ms-deleted-share-version",
     xmlName: "x-ms-deleted-share-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const restype2: OperationQueryParameter = {
@@ -673,9 +673,9 @@ export const restype2: OperationQueryParameter = {
     isConstant: true,
     serializedName: "restype",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const allowTrailingDot: OperationParameter = {
@@ -684,9 +684,9 @@ export const allowTrailingDot: OperationParameter = {
     serializedName: "x-ms-allow-trailing-dot",
     xmlName: "x-ms-allow-trailing-dot",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const filePermission: OperationParameter = {
@@ -695,9 +695,9 @@ export const filePermission: OperationParameter = {
     serializedName: "x-ms-file-permission",
     xmlName: "x-ms-file-permission",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const filePermissionKey1: OperationParameter = {
@@ -706,9 +706,9 @@ export const filePermissionKey1: OperationParameter = {
     serializedName: "x-ms-file-permission-key",
     xmlName: "x-ms-file-permission-key",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileAttributes: OperationParameter = {
@@ -717,9 +717,9 @@ export const fileAttributes: OperationParameter = {
     serializedName: "x-ms-file-attributes",
     xmlName: "x-ms-file-attributes",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileCreatedOn: OperationParameter = {
@@ -728,9 +728,9 @@ export const fileCreatedOn: OperationParameter = {
     serializedName: "x-ms-file-creation-time",
     xmlName: "x-ms-file-creation-time",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileLastWriteOn: OperationParameter = {
@@ -739,9 +739,9 @@ export const fileLastWriteOn: OperationParameter = {
     serializedName: "x-ms-file-last-write-time",
     xmlName: "x-ms-file-last-write-time",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileChangeOn: OperationParameter = {
@@ -750,9 +750,9 @@ export const fileChangeOn: OperationParameter = {
     serializedName: "x-ms-file-change-time",
     xmlName: "x-ms-file-change-time",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const owner: OperationParameter = {
@@ -761,9 +761,9 @@ export const owner: OperationParameter = {
     serializedName: "x-ms-owner",
     xmlName: "x-ms-owner",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const group: OperationParameter = {
@@ -772,9 +772,9 @@ export const group: OperationParameter = {
     serializedName: "x-ms-group",
     xmlName: "x-ms-group",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileMode: OperationParameter = {
@@ -783,9 +783,9 @@ export const fileMode: OperationParameter = {
     serializedName: "x-ms-mode",
     xmlName: "x-ms-mode",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const include1: OperationQueryParameter = {
@@ -799,12 +799,12 @@ export const include1: OperationQueryParameter = {
       element: {
         type: {
           name: "Enum",
-          allowedValues: ["Timestamps", "Etag", "Attributes", "PermissionKey"]
-        }
-      }
-    }
+          allowedValues: ["Timestamps", "Etag", "Attributes", "PermissionKey"],
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const includeExtendedInfo: OperationParameter = {
@@ -813,9 +813,9 @@ export const includeExtendedInfo: OperationParameter = {
     serializedName: "x-ms-file-extended-info",
     xmlName: "x-ms-file-extended-info",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const comp9: OperationQueryParameter = {
@@ -825,9 +825,9 @@ export const comp9: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const recursive: OperationParameter = {
@@ -836,9 +836,9 @@ export const recursive: OperationParameter = {
     serializedName: "x-ms-recursive",
     xmlName: "x-ms-recursive",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const comp10: OperationQueryParameter = {
@@ -848,9 +848,9 @@ export const comp10: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const handleId: OperationParameter = {
@@ -860,9 +860,9 @@ export const handleId: OperationParameter = {
     required: true,
     xmlName: "x-ms-handle-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const comp11: OperationQueryParameter = {
@@ -872,9 +872,9 @@ export const comp11: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const renameSource: OperationParameter = {
@@ -884,9 +884,9 @@ export const renameSource: OperationParameter = {
     required: true,
     xmlName: "x-ms-file-rename-source",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const replaceIfExists: OperationParameter = {
@@ -895,9 +895,9 @@ export const replaceIfExists: OperationParameter = {
     serializedName: "x-ms-file-rename-replace-if-exists",
     xmlName: "x-ms-file-rename-replace-if-exists",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const ignoreReadOnly: OperationParameter = {
@@ -906,9 +906,9 @@ export const ignoreReadOnly: OperationParameter = {
     serializedName: "x-ms-file-rename-ignore-readonly",
     xmlName: "x-ms-file-rename-ignore-readonly",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const sourceLeaseId: OperationParameter = {
@@ -917,24 +917,24 @@ export const sourceLeaseId: OperationParameter = {
     serializedName: "x-ms-source-lease-id",
     xmlName: "x-ms-source-lease-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const destinationLeaseId: OperationParameter = {
   parameterPath: [
     "options",
     "destinationLeaseAccessConditions",
-    "destinationLeaseId"
+    "destinationLeaseId",
   ],
   mapper: {
     serializedName: "x-ms-destination-lease-id",
     xmlName: "x-ms-destination-lease-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileAttributes1: OperationParameter = {
@@ -943,9 +943,9 @@ export const fileAttributes1: OperationParameter = {
     serializedName: "x-ms-file-attributes",
     xmlName: "x-ms-file-attributes",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileCreationTime: OperationParameter = {
@@ -954,9 +954,9 @@ export const fileCreationTime: OperationParameter = {
     serializedName: "x-ms-file-creation-time",
     xmlName: "x-ms-file-creation-time",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileLastWriteTime: OperationParameter = {
@@ -965,9 +965,9 @@ export const fileLastWriteTime: OperationParameter = {
     serializedName: "x-ms-file-last-write-time",
     xmlName: "x-ms-file-last-write-time",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileChangeTime: OperationParameter = {
@@ -976,9 +976,9 @@ export const fileChangeTime: OperationParameter = {
     serializedName: "x-ms-file-change-time",
     xmlName: "x-ms-file-change-time",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const allowSourceTrailingDot: OperationParameter = {
@@ -987,9 +987,9 @@ export const allowSourceTrailingDot: OperationParameter = {
     serializedName: "x-ms-source-allow-trailing-dot",
     xmlName: "x-ms-source-allow-trailing-dot",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const fileContentLength: OperationParameter = {
@@ -999,9 +999,9 @@ export const fileContentLength: OperationParameter = {
     required: true,
     xmlName: "x-ms-content-length",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const fileTypeConstant: OperationParameter = {
@@ -1011,9 +1011,9 @@ export const fileTypeConstant: OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileContentType: OperationParameter = {
@@ -1022,9 +1022,9 @@ export const fileContentType: OperationParameter = {
     serializedName: "x-ms-content-type",
     xmlName: "x-ms-content-type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileContentEncoding: OperationParameter = {
@@ -1033,9 +1033,9 @@ export const fileContentEncoding: OperationParameter = {
     serializedName: "x-ms-content-encoding",
     xmlName: "x-ms-content-encoding",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileContentLanguage: OperationParameter = {
@@ -1044,9 +1044,9 @@ export const fileContentLanguage: OperationParameter = {
     serializedName: "x-ms-content-language",
     xmlName: "x-ms-content-language",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileCacheControl: OperationParameter = {
@@ -1055,9 +1055,9 @@ export const fileCacheControl: OperationParameter = {
     serializedName: "x-ms-cache-control",
     xmlName: "x-ms-cache-control",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileContentMD5: OperationParameter = {
@@ -1066,9 +1066,9 @@ export const fileContentMD5: OperationParameter = {
     serializedName: "x-ms-content-md5",
     xmlName: "x-ms-content-md5",
     type: {
-      name: "ByteArray"
-    }
-  }
+      name: "ByteArray",
+    },
+  },
 };
 
 export const fileContentDisposition: OperationParameter = {
@@ -1077,9 +1077,9 @@ export const fileContentDisposition: OperationParameter = {
     serializedName: "x-ms-content-disposition",
     xmlName: "x-ms-content-disposition",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nfsFileType: OperationParameter = {
@@ -1088,9 +1088,9 @@ export const nfsFileType: OperationParameter = {
     serializedName: "x-ms-file-file-type",
     xmlName: "x-ms-file-file-type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const range: OperationParameter = {
@@ -1099,9 +1099,9 @@ export const range: OperationParameter = {
     serializedName: "x-ms-range",
     xmlName: "x-ms-range",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const rangeGetContentMD5: OperationParameter = {
@@ -1110,9 +1110,9 @@ export const rangeGetContentMD5: OperationParameter = {
     serializedName: "x-ms-range-get-content-md5",
     xmlName: "x-ms-range-get-content-md5",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const fileContentLength1: OperationParameter = {
@@ -1121,9 +1121,9 @@ export const fileContentLength1: OperationParameter = {
     serializedName: "x-ms-content-length",
     xmlName: "x-ms-content-length",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const contentType2: OperationParameter = {
@@ -1133,9 +1133,9 @@ export const contentType2: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
@@ -1144,9 +1144,9 @@ export const body: OperationParameter = {
     serializedName: "body",
     xmlName: "body",
     type: {
-      name: "Stream"
-    }
-  }
+      name: "Stream",
+    },
+  },
 };
 
 export const accept3: OperationParameter = {
@@ -1156,9 +1156,9 @@ export const accept3: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const comp12: OperationQueryParameter = {
@@ -1168,9 +1168,9 @@ export const comp12: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const range1: OperationParameter = {
@@ -1180,9 +1180,9 @@ export const range1: OperationParameter = {
     required: true,
     xmlName: "x-ms-range",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileRangeWrite: OperationParameter = {
@@ -1194,9 +1194,9 @@ export const fileRangeWrite: OperationParameter = {
     xmlName: "x-ms-write",
     type: {
       name: "Enum",
-      allowedValues: ["update", "clear"]
-    }
-  }
+      allowedValues: ["update", "clear"],
+    },
+  },
 };
 
 export const contentLength: OperationParameter = {
@@ -1206,9 +1206,9 @@ export const contentLength: OperationParameter = {
     required: true,
     xmlName: "Content-Length",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const contentMD5: OperationParameter = {
@@ -1217,9 +1217,9 @@ export const contentMD5: OperationParameter = {
     serializedName: "Content-MD5",
     xmlName: "Content-MD5",
     type: {
-      name: "ByteArray"
-    }
-  }
+      name: "ByteArray",
+    },
+  },
 };
 
 export const fileLastWrittenMode: OperationParameter = {
@@ -1229,9 +1229,9 @@ export const fileLastWrittenMode: OperationParameter = {
     xmlName: "x-ms-file-last-write-time",
     type: {
       name: "Enum",
-      allowedValues: ["Now", "Preserve"]
-    }
-  }
+      allowedValues: ["Now", "Preserve"],
+    },
+  },
 };
 
 export const copySource: OperationParameter = {
@@ -1241,9 +1241,9 @@ export const copySource: OperationParameter = {
     required: true,
     xmlName: "x-ms-copy-source",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sourceRange: OperationParameter = {
@@ -1252,9 +1252,9 @@ export const sourceRange: OperationParameter = {
     serializedName: "x-ms-source-range",
     xmlName: "x-ms-source-range",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileRangeWriteFromUrl: OperationParameter = {
@@ -1264,9 +1264,9 @@ export const fileRangeWriteFromUrl: OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-write",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sourceContentCrc64: OperationParameter = {
@@ -1275,39 +1275,39 @@ export const sourceContentCrc64: OperationParameter = {
     serializedName: "x-ms-source-content-crc64",
     xmlName: "x-ms-source-content-crc64",
     type: {
-      name: "ByteArray"
-    }
-  }
+      name: "ByteArray",
+    },
+  },
 };
 
 export const sourceIfMatchCrc64: OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
-    "sourceIfMatchCrc64"
+    "sourceIfMatchCrc64",
   ],
   mapper: {
     serializedName: "x-ms-source-if-match-crc64",
     xmlName: "x-ms-source-if-match-crc64",
     type: {
-      name: "ByteArray"
-    }
-  }
+      name: "ByteArray",
+    },
+  },
 };
 
 export const sourceIfNoneMatchCrc64: OperationParameter = {
   parameterPath: [
     "options",
     "sourceModifiedAccessConditions",
-    "sourceIfNoneMatchCrc64"
+    "sourceIfNoneMatchCrc64",
   ],
   mapper: {
     serializedName: "x-ms-source-if-none-match-crc64",
     xmlName: "x-ms-source-if-none-match-crc64",
     type: {
-      name: "ByteArray"
-    }
-  }
+      name: "ByteArray",
+    },
+  },
 };
 
 export const copySourceAuthorization: OperationParameter = {
@@ -1316,9 +1316,9 @@ export const copySourceAuthorization: OperationParameter = {
     serializedName: "x-ms-copy-source-authorization",
     xmlName: "x-ms-copy-source-authorization",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const comp13: OperationQueryParameter = {
@@ -1328,9 +1328,9 @@ export const comp13: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const prevsharesnapshot: OperationQueryParameter = {
@@ -1339,9 +1339,9 @@ export const prevsharesnapshot: OperationQueryParameter = {
     serializedName: "prevsharesnapshot",
     xmlName: "prevsharesnapshot",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const supportRename: OperationParameter = {
@@ -1350,9 +1350,9 @@ export const supportRename: OperationParameter = {
     serializedName: "x-ms-file-support-rename",
     xmlName: "x-ms-file-support-rename",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const filePermissionCopyMode: OperationParameter = {
@@ -1362,9 +1362,9 @@ export const filePermissionCopyMode: OperationParameter = {
     xmlName: "x-ms-file-permission-copy-mode",
     type: {
       name: "Enum",
-      allowedValues: ["source", "override"]
-    }
-  }
+      allowedValues: ["source", "override"],
+    },
+  },
 };
 
 export const ignoreReadOnly1: OperationParameter = {
@@ -1373,9 +1373,9 @@ export const ignoreReadOnly1: OperationParameter = {
     serializedName: "x-ms-file-copy-ignore-readonly",
     xmlName: "x-ms-file-copy-ignore-readonly",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const setArchiveAttribute: OperationParameter = {
@@ -1384,9 +1384,9 @@ export const setArchiveAttribute: OperationParameter = {
     serializedName: "x-ms-file-copy-set-archive",
     xmlName: "x-ms-file-copy-set-archive",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const fileModeCopyMode: OperationParameter = {
@@ -1396,9 +1396,9 @@ export const fileModeCopyMode: OperationParameter = {
     xmlName: "x-ms-file-mode-copy-mode",
     type: {
       name: "Enum",
-      allowedValues: ["source", "override"]
-    }
-  }
+      allowedValues: ["source", "override"],
+    },
+  },
 };
 
 export const fileOwnerCopyMode: OperationParameter = {
@@ -1408,9 +1408,9 @@ export const fileOwnerCopyMode: OperationParameter = {
     xmlName: "x-ms-file-owner-copy-mode",
     type: {
       name: "Enum",
-      allowedValues: ["source", "override"]
-    }
-  }
+      allowedValues: ["source", "override"],
+    },
+  },
 };
 
 export const comp14: OperationQueryParameter = {
@@ -1420,9 +1420,9 @@ export const comp14: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const copyId: OperationQueryParameter = {
@@ -1432,9 +1432,9 @@ export const copyId: OperationQueryParameter = {
     required: true,
     xmlName: "copyid",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const copyActionAbortConstant: OperationParameter = {
@@ -1444,9 +1444,9 @@ export const copyActionAbortConstant: OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-copy-action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const restype3: OperationQueryParameter = {
@@ -1456,9 +1456,9 @@ export const restype3: OperationQueryParameter = {
     isConstant: true,
     serializedName: "restype",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const linkText: OperationParameter = {
@@ -1468,9 +1468,9 @@ export const linkText: OperationParameter = {
     required: true,
     xmlName: "x-ms-link-text",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const restype4: OperationQueryParameter = {
@@ -1480,9 +1480,9 @@ export const restype4: OperationQueryParameter = {
     isConstant: true,
     serializedName: "restype",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const targetFile: OperationParameter = {
@@ -1492,7 +1492,7 @@ export const targetFile: OperationParameter = {
     required: true,
     xmlName: "x-ms-file-target-file",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

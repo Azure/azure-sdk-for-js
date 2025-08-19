@@ -2,13 +2,13 @@
   "include": [
     {
       "Agent": {
-        "ubuntu-20.04": {
+        "ubuntu": {
           "OSVmImage": "env:LINUXVMIMAGE",
           "Pool": "env:LINUXPOOL"
         }
       },
+      "NodeTestVersion": "env:NODE_VERSION_LTS_MAINTENANCE",
       "TestType": "node",
-      "NodeTestVersion": "18.x",
       "ServiceVersion": ["7.0", "7.1", "7.2"]
     }
   ],

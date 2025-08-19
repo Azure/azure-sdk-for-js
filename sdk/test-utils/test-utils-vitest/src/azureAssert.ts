@@ -5,6 +5,8 @@ import { assert } from "vitest";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { supportsTracing } from "./tracing/azureTraceAssert.js";
 
+// dev-tool snippets ignore
+
 /**
  * Augments Chai with support for Azure specific assertions.
  *

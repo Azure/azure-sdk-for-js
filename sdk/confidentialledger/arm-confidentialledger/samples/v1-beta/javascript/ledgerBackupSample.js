@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ConfidentialLedgerClient } = require("@azure/arm-confidentialledger");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Backs up a Confidential Ledger Resource.
  *
  * @summary Backs up a Confidential Ledger Resource.
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2023-06-28-preview/examples/ConfidentialLedger_Backup.json
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-09-19-preview/examples/ConfidentialLedger_Backup.json
  */
 async function confidentialLedgerBackup() {
   const subscriptionId =
@@ -39,7 +37,7 @@ async function confidentialLedgerBackup() {
 }
 
 async function main() {
-  confidentialLedgerBackup();
+  await confidentialLedgerBackup();
 }
 
 main().catch(console.error);

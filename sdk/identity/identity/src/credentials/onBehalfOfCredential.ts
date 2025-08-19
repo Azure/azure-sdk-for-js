@@ -273,7 +273,7 @@ export class OnBehalfOfCredential implements TokenCredential {
     if (publicKeys.length === 0) {
       throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
     }
-    const thumbprint = createHash("sha1")
+    const thumbprint = createHash("sha1") // CodeQL [SM04514] Needed for backward compatibility reason
       .update(Buffer.from(publicKeys[0], "base64"))
       .digest("hex")
       .toUpperCase();

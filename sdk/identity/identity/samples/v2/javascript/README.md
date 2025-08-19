@@ -3,8 +3,8 @@ page_type: sample
 languages:
   - javascript
 products:
-  - azure
-  - azure-active-directory
+  - entra
+  - entra-id
 urlFragment: identity-javascript
 ---
 

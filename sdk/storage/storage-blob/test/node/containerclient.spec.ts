@@ -119,6 +119,31 @@ describe("ContainerClient Node.js only", () => {
     assert.deepEqual(result.blobPublicAccess, access);
   });
 
+  it("setAccessPolicy with OAuth", async () => {
+    const containerClientWithOAuthToken = new ContainerClient(
+      containerClient.url,
+      createTestCredential(),
+    );
+    configureBlobStorageClient(recorder, containerClientWithOAuthToken);
+    const exists = await containerClientWithOAuthToken.exists();
+    assert.strictEqual(true, exists);
+
+    const containerAcl = [
+      {
+        accessPolicy: {
+          expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
+          permissions: ContainerSASPermissions.parse("rwd").toString(),
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
+        },
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
+    ];
+
+    await containerClientWithOAuthToken.setAccessPolicy(undefined, containerAcl);
+    const result = await containerClient.getAccessPolicy();
+    assert.deepEqual(result.signedIdentifiers, containerAcl);
+  });
+
   it("setAccessPolicy should work when permissions, expiry and start undefined", async () => {
     const access: PublicAccessType = "blob";
     const containerAcl = [

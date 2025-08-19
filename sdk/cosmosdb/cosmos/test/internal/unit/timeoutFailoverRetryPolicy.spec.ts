@@ -13,6 +13,8 @@ import { TimeoutError } from "../../../src/request/TimeoutError.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
+import type { RequestContext } from "../../../src/index.js";
+import { GlobalPartitionEndpointManager } from "../../../src/globalPartitionEndpointManager.js";
 
 describe("TimeoutFailoverRetryPolicy", () => {
   const databaseAccountBody: any = {
@@ -60,10 +62,30 @@ describe("TimeoutFailoverRetryPolicy", () => {
     },
   );
 
+  const gpem = new GlobalPartitionEndpointManager(
+    {
+      connectionPolicy: {
+        enableEndpointDiscovery: true,
+        preferredLocations: ["East US 2", "West US 2"],
+        useMultipleWriteLocations: true,
+      },
+    },
+    gem,
+  );
+
   let retryPolicy: TimeoutFailoverRetryPolicy;
   let retryCtx: RetryContext;
   let timeoutErr: TimeoutError;
   let locEndpoint: string;
+  const rqContext: RequestContext = {
+    globalEndpointManager: gem,
+    connectionPolicy: undefined,
+    requestAgent: undefined,
+    method: undefined,
+    options: undefined,
+    plugins: undefined,
+    globalPartitionEndpointManager: gpem,
+  };
 
   beforeEach(async () => {
     retryPolicy = new TimeoutFailoverRetryPolicy(
@@ -73,6 +95,8 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Read,
       true,
+      false,
+      gpem,
     );
     retryCtx = { retryCount: 2 };
     timeoutErr = new TimeoutError();
@@ -113,6 +137,8 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Read,
       true,
+      false,
+      gpem,
     );
     assert.equal(
       await retryPolicy_post.shouldRetry(
@@ -132,6 +158,8 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Read,
       false,
+      false,
+      gpem,
     );
     assert.equal(
       await retryPolicy_endpointDiscoveryDisabled.shouldRetry(
@@ -187,6 +215,8 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Read,
       true,
+      false,
+      gpem,
     );
 
     for (let i = 0; i < 120; i++) {
@@ -239,6 +269,8 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Create,
       true,
+      false,
+      gpem,
     );
     assert.equal(
       await retryPolicy_multipleWriteLocationsDisabled.shouldRetry(
@@ -278,6 +310,8 @@ describe("TimeoutFailoverRetryPolicy", () => {
       ResourceType.item,
       OperationType.Read,
       true,
+      false,
+      gpem,
     );
     //  initialising redable locations
     await gem_test2.resolveServiceEndpoint(

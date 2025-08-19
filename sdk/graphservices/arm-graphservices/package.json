@@ -5,7 +5,7 @@
   "description": "A generated SDK for GraphServices.",
   "version": "1.0.1",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
@@ -35,7 +35,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.6.0",
     "@azure/logger": "^1.1.4",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "dotenv": "^16.0.0",
@@ -56,28 +56,18 @@
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:browser": "echo skipped",
-    "build:node": "echo skipped",
     "build:samples": "echo skipped.",
-    "build:test": "echo skipped",
     "check-format": "echo skipped",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run extract-api",
     "format": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "echo skipped",
-    "minify": "echo skipped",
     "pack": "npm pack 2>&1",
-    "prepack": "npm run build",
-    "test": "npm run integration-test",
+    "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
-    "test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:vitest",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
@@ -101,7 +91,7 @@
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

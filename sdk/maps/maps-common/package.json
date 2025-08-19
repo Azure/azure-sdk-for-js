@@ -10,7 +10,6 @@
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete",
-    "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "ci": "npm run build && npm run check-format && npm run lint",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log coverage coverage-browser",
@@ -18,18 +17,13 @@
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
-    "lint": "eslint package.json api-extractor.json README.md src",
-    "lint:fix": "eslint package.json api-extractor.json README.md src --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src",
+    "lint:fix": "eslint package.json src --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "echo skipped",
+    "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
-    "test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
+    "test:node": "dev-tool run test:vitest --no-test-proxy",
+    "test:node:esm": "dev-tool run test:vitest --esm --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -39,7 +33,7 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "keywords": [
     "azure",
@@ -69,7 +63,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/logger": "^1.1.4",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "eslint": "^9.9.0",
@@ -79,7 +73,7 @@
   },
   "type": "module",
   "tshy": {
-    "project": "./tsconfig.src.json",
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"

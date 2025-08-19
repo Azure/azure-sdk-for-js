@@ -7,30 +7,22 @@
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
-    "build:browser": "echo skipped",
-    "build:node": "dev-tool run build-package",
     "build:samples": "echo Skipped.",
-    "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm test-dist typings *.tgz *.log",
     "docs": "echo Skipped.",
     "extract-api": "echo skipped",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && concurrently \"npm run tests:server\" \"npm run test:browser-with-proxy\" --kill-others --success first",
-    "integration-test:node": "concurrently \"npm run tests:server\" \"npm run test:node-with-proxy\" --kill-others --success first",
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && npm run unit-test",
-    "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
-    "test:browser-with-proxy": "dev-tool run test:vitest --browser",
-    "test:node": "npm run clean && npm run integration-test:node",
-    "test:node-with-proxy": "dev-tool run test:vitest",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run build-package && dev-tool run build-test && concurrently \"npm run tests:server\" \"npm run test:browser:proxy\" --kill-others --success first",
+    "test:browser:proxy": "dev-tool run test:vitest --browser",
+    "test:node": "concurrently \"npm run tests:server\" \"npm run test:node:proxy\" --kill-others --success first",
+    "test:node:proxy": "dev-tool run test:vitest",
+    "test:node:esm": "echo skipped",
     "tests:server": "node server.mjs",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run integration-test:browser",
-    "unit-test:node": "npm run integration-test:node",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -51,7 +43,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/recorder/",
   "sideEffects": false,
@@ -66,7 +58,7 @@
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "@vitest/browser": "^3.0.9",
     "@vitest/coverage-istanbul": "^3.0.9",
     "concurrently": "^8.2.0",
@@ -91,7 +83,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "exports": {
     "./package.json": "./package.json",

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to List all volume groups for given account
  *
  * @summary List all volume groups for given account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/VolumeGroups_List_Oracle.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/VolumeGroups_List_Oracle.json
  */
 async function volumeGroupsListOracle(): Promise<void> {
   const subscriptionId =
@@ -40,7 +38,7 @@ async function volumeGroupsListOracle(): Promise<void> {
  * This sample demonstrates how to List all volume groups for given account
  *
  * @summary List all volume groups for given account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/VolumeGroups_List_SapHana.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/VolumeGroups_List_SapHana.json
  */
 async function volumeGroupsListSapHana(): Promise<void> {
   const subscriptionId =

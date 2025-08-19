@@ -29,7 +29,7 @@ const logger = credentialLogger(credentialName);
  * certificate that is assigned to an App Registration. More information
  * on how to configure certificate authentication can be found here:
  *
- * https://learn.microsoft.com/en-us/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
+ * https://learn.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-azure-ad
  *
  */
 export class ClientCertificateCredential implements TokenCredential {
@@ -46,6 +46,7 @@ export class ClientCertificateCredential implements TokenCredential {
    * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param certificatePath - The path to a PEM-encoded public/private key certificate on the filesystem.
+   * Ensure that certificate is in PEM format and contains both the public and private keys.
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
@@ -219,7 +220,7 @@ export async function parseCertificate(
     throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
   }
 
-  const thumbprint = createHash("sha1")
+  const thumbprint = createHash("sha1") // CodeQL [SM04514] Needed for backward compatibility reason
     .update(Buffer.from(publicKeys[0], "base64"))
     .digest("hex")
     .toUpperCase();

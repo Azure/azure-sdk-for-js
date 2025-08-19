@@ -6,21 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VirtualNetworkSubnetUsage } from "../operationsInterfaces/index.js";
+import type { VirtualNetworkSubnetUsage } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import {
+import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import type {
   VirtualNetworkSubnetUsageParameter,
   VirtualNetworkSubnetUsageExecuteOptionalParams,
   VirtualNetworkSubnetUsageExecuteResponse,
 } from "../models/index.js";
 
 /** Class containing VirtualNetworkSubnetUsage operations. */
-export class VirtualNetworkSubnetUsageImpl
-  implements VirtualNetworkSubnetUsage
-{
+export class VirtualNetworkSubnetUsageImpl implements VirtualNetworkSubnetUsage {
   private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
@@ -64,11 +62,7 @@ const executeOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ReestablishReplicationRequest,
   NetAppManagementClient,
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots
  *
  * @summary Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-01-01/examples/Volumes_ReestablishReplication.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_ReestablishReplication.json
  */
 async function volumesReestablishReplication(): Promise<void> {
   const subscriptionId =

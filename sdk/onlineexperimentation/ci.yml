@@ -1,0 +1,35 @@
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/onlineexperimentation/
+    exclude:
+      - sdk/onlineexperimentation/ci.mgmt.yml
+      - sdk/onlineexperimentation/arm-onlineexperimentation
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/onlineexperimentation/
+    exclude:
+      - sdk/onlineexperimentation/ci.mgmt.yml
+      - sdk/onlineexperimentation/arm-onlineexperimentation
+
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: onlineexperimentation
+    Artifacts:
+      - name: azure-rest-onlineexperimentation
+        safeName: azureonlineexperimentation

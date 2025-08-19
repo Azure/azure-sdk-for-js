@@ -6,16 +6,16 @@ import type {
   ManagedIdentitySourceNames,
 } from "@azure/msal-node";
 import { AuthError, ManagedIdentityApplication } from "@azure/msal-node";
-import { ManagedIdentityCredential } from "../../../../src/credentials/managedIdentityCredential/index.js";
-import { tokenExchangeMsi } from "../../../../src/credentials/managedIdentityCredential/tokenExchangeMsi.js";
-import { imdsMsi } from "../../../../src/credentials/managedIdentityCredential/imdsMsi.js";
+import { ManagedIdentityCredential } from "@azure/identity";
+import { tokenExchangeMsi } from "$internal/credentials/managedIdentityCredential/tokenExchangeMsi.js";
+import { imdsMsi } from "$internal/credentials/managedIdentityCredential/imdsMsi.js";
 import { RestError } from "@azure/core-rest-pipeline";
-import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../src/errors.js";
+import { AuthenticationRequiredError, CredentialUnavailableError } from "$internal/errors.js";
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
-import type { IdentityClient } from "../../../../src/client/identityClient.js";
-import { serviceFabricErrorMessage } from "../../../../src/credentials/managedIdentityCredential/utils.js";
-import { logger } from "../../../../src/index.js";
+import type { IdentityClient } from "$internal/client/identityClient.js";
+import { serviceFabricErrorMessage } from "$internal/credentials/managedIdentityCredential/utils.js";
+import { logger } from "@azure/identity";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: MockInstance<

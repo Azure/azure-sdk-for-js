@@ -402,6 +402,7 @@ export {
   ListContainersSegmentResponse,
   FilterBlobItem as FilterBlobItemModel,
   FilterBlobSegment as FilterBlobSegmentModel,
+  FileShareTokenIntent,
   ServiceFilterBlobsHeaders,
   Logging,
   Metrics,

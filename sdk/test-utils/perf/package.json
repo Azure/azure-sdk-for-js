@@ -8,30 +8,24 @@
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo Skipped.",
-    "build:test": "npm run build && tsc --project tsconfig.tests.config.json",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
     "docs": "echo Skipped.",
     "extract-api": "echo skipped",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "npm run build:test && node dist-test/test/index.spec.js",
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "perf-test:node": "npm run build:test && node dist-test/test/index.spec.js",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
-    "test:browser": "npm run clean && npm run build:test npm run unit-test:browser",
-    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "npm run build:test && node dist-test/runAllTests.js",
+    "perf-test:node": "npm run build && tsc --project tsconfig.tests.config.json && node dist-test/test/index.spec.js",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "echo skipped",
+    "test:node": "npm run build && tsc --project tsconfig.tests.config.json && node dist-test/runAllTests.js",
+    "test:node:esm": "echo skipped",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
@@ -68,7 +62,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/fs-extra": "^11.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.0.0",
     "eslint": "^9.9.0",
     "typescript": "~5.8.2"
   },

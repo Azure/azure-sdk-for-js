@@ -1,0 +1,130 @@
+{
+  "name": "@azure/arm-kubernetesconfiguration-extensiontypes",
+  "sdk-type": "mgmt",
+  "author": "Microsoft Corporation",
+  "description": "A generated SDK for ExtensionTypesClient.",
+  "version": "1.0.0-beta.1",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-client": "^1.9.4",
+    "@azure/core-paging": "^1.6.2",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "tslib": "^2.8.1"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "cloud"
+  ],
+  "license": "MIT",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "type": "module",
+  "devDependencies": {
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/identity": "^4.10.0",
+    "@azure/logger": "^1.2.0",
+    "@types/node": "^20.0.0",
+    "@vitest/browser": "^3.0.9",
+    "@vitest/coverage-istanbul": "^3.0.9",
+    "dotenv": "^16.0.0",
+    "playwright": "^1.52.0",
+    "typescript": "~5.8.2",
+    "vitest": "^3.0.9"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE",
+    "review/",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "build:samples": "echo skipped.",
+    "check-format": "echo skipped",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "execute:samples": "echo skipped",
+    "extract-api": "dev-tool run extract-api",
+    "format": "echo skipped",
+    "lint": "echo skipped",
+    "pack": "npm pack 2>&1",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "echo skipped",
+    "test:node": "dev-tool run test:vitest",
+    "test:node:esm": "dev-tool run test:vitest --esm",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/extensionTypesClient.ts",
+        "prefix": "packageDetails"
+      }
+    ]
+  },
+  "autoPublish": true,
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes",
+  "tshy": {
+    "project": "../../../tsconfig.src.build.json",
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration-extensiontypes?view=azure-node-preview"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  }
+}

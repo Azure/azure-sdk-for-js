@@ -1,20 +1,83 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AIProjectsClient, AIProjectsClientOptions } from "./aiProjectsClient.js";
-import { ProjectsClientOptions } from "./generated/src/projectsClient.js";
-export { AgentsOperations } from "./agents/index.js";
-export { ConnectionsOperations } from "./connections/index.js";
-export { TelemetryOperations, TelemetryOptions } from "./telemetry/index.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
 
-export * from "./agents/inputOutputs.js";
-export * from "./connections/inputOutput.js";
+export { AIProjectClient } from "./aiProjectClient.js";
 export {
-  AzureAISearchQueryType,
-  CreateAzureAISearchToolOptions,
-  BingCustomSearchToolDefinition,
-  SearchConfigurationList,
-  SearchConfiguration,
-} from "./customization/models.js";
-
-export { AIProjectsClient, AIProjectsClientOptions, ProjectsClientOptions };
+  Connection,
+  ConnectionType,
+  BaseCredentials,
+  BaseCredentialsUnion,
+  CredentialType,
+  ApiKeyCredentials,
+  EntraIDCredentials,
+  CustomCredential,
+  SASCredentials,
+  NoAuthenticationCredentials,
+  DatasetVersion,
+  DatasetVersionUnion,
+  DatasetType,
+  FileDatasetVersion,
+  FolderDatasetVersion,
+  PendingUploadRequest,
+  PendingUploadResponse,
+  BlobReference,
+  SasCredential,
+  AssetCredentialResponse,
+  Index,
+  IndexUnion,
+  IndexType,
+  AzureAISearchIndex,
+  FieldMapping,
+  ManagedAzureAISearchIndex,
+  CosmosDBIndex,
+  EmbeddingConfiguration,
+  Deployment,
+  DeploymentUnion,
+  DeploymentType,
+  ModelDeployment,
+  Sku,
+  PendingUploadType,
+  KnownVersions,
+} from "./models/index.js";
+export { AIProjectClientOptionalParams, DatasetUploadOptions } from "./api/index.js";
+export {
+  ConnectionsListOptionalParams,
+  ConnectionsGetWithCredentialsOptionalParams,
+  ConnectionsGetOptionalParams,
+} from "./api/connections/index.js";
+export {
+  DatasetsGetCredentialsOptionalParams,
+  DatasetsPendingUploadOptionalParams,
+  DatasetsCreateOrUpdateOptionalParams,
+  DatasetsDeleteOptionalParams,
+  DatasetsGetOptionalParams,
+  DatasetsListOptionalParams,
+  DatasetsListVersionsOptionalParams,
+} from "./api/datasets/index.js";
+export {
+  DeploymentsListOptionalParams,
+  DeploymentsGetOptionalParams,
+} from "./api/deployments/index.js";
+export {
+  IndexesCreateOrUpdateOptionalParams,
+  IndexesDeleteOptionalParams,
+  IndexesGetOptionalParams,
+  IndexesListOptionalParams,
+  IndexesListVersionsOptionalParams,
+} from "./api/indexes/index.js";
+export { AzureOpenAIClientOptions, GetAzureOpenAIClientOptions } from "./api/inference/options.js";
+export { InferenceOperations } from "./classic/inference/index.js";
+export { TelemetryOperations } from "./classic/telemetry/index.js";
+export {
+  ConnectionsOperations,
+  DatasetsOperations,
+  DeploymentsOperations,
+  IndexesOperations,
+} from "./classic/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

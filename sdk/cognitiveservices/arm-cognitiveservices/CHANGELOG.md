@@ -1,5 +1,235 @@
 # Release History
     
+## 7.7.0 (2025-07-08)
+    
+### Features Added
+  - Added operation group AccountCapabilityHosts
+  - Added operation group AccountConnections
+  - Added operation group ProjectCapabilityHosts
+  - Added operation group ProjectConnections
+  - Added operation group Projects
+  - Added Interface AADAuthTypeConnectionProperties
+  - Added Interface AccessKeyAuthTypeConnectionProperties
+  - Added Interface AccountCapabilityHostsCreateOrUpdateHeaders
+  - Added Interface AccountCapabilityHostsCreateOrUpdateOptionalParams
+  - Added Interface AccountCapabilityHostsDeleteHeaders
+  - Added Interface AccountCapabilityHostsDeleteOptionalParams
+  - Added Interface AccountCapabilityHostsGetOptionalParams
+  - Added Interface AccountConnectionsCreateOptionalParams
+  - Added Interface AccountConnectionsDeleteOptionalParams
+  - Added Interface AccountConnectionsGetOptionalParams
+  - Added Interface AccountConnectionsListOptionalParams
+  - Added Interface AccountConnectionsUpdateOptionalParams
+  - Added Interface AccountKeyAuthTypeConnectionProperties
+  - Added Interface ApiKeyAuthConnectionProperties
+  - Added Interface CapabilityHost
+  - Added Interface CapabilityHostProperties
+  - Added Interface ConnectionAccessKey
+  - Added Interface ConnectionAccountKey
+  - Added Interface ConnectionApiKey
+  - Added Interface ConnectionManagedIdentity
+  - Added Interface ConnectionOAuth2
+  - Added Interface ConnectionPersonalAccessToken
+  - Added Interface ConnectionPropertiesV2
+  - Added Interface ConnectionPropertiesV2BasicResource
+  - Added Interface ConnectionPropertiesV2BasicResourceArmPaginatedResult
+  - Added Interface ConnectionServicePrincipal
+  - Added Interface ConnectionSharedAccessSignature
+  - Added Interface ConnectionUpdateContent
+  - Added Interface ConnectionUsernamePassword
+  - Added Interface CustomKeys
+  - Added Interface CustomKeysConnectionProperties
+  - Added Interface ManagedIdentityAuthTypeConnectionProperties
+  - Added Interface NetworkInjections
+  - Added Interface NoneAuthTypeConnectionProperties
+  - Added Interface OAuth2AuthTypeConnectionProperties
+  - Added Interface PATAuthTypeConnectionProperties
+  - Added Interface Project
+  - Added Interface ProjectCapabilityHostsCreateOrUpdateHeaders
+  - Added Interface ProjectCapabilityHostsCreateOrUpdateOptionalParams
+  - Added Interface ProjectCapabilityHostsDeleteHeaders
+  - Added Interface ProjectCapabilityHostsDeleteOptionalParams
+  - Added Interface ProjectCapabilityHostsGetOptionalParams
+  - Added Interface ProjectConnectionsCreateOptionalParams
+  - Added Interface ProjectConnectionsDeleteOptionalParams
+  - Added Interface ProjectConnectionsGetOptionalParams
+  - Added Interface ProjectConnectionsListOptionalParams
+  - Added Interface ProjectConnectionsUpdateOptionalParams
+  - Added Interface ProjectListResult
+  - Added Interface ProjectProperties
+  - Added Interface ProjectsCreateOptionalParams
+  - Added Interface ProjectsDeleteOptionalParams
+  - Added Interface ProjectsGetOptionalParams
+  - Added Interface ProjectsListOptionalParams
+  - Added Interface ProjectsUpdateOptionalParams
+  - Added Interface ResourceBase
+  - Added Interface SASAuthTypeConnectionProperties
+  - Added Interface ServicePrincipalAuthTypeConnectionProperties
+  - Added Interface UsernamePasswordAuthTypeConnectionProperties
+  - Interface AccountProperties has a new optional parameter allowProjectManagement
+  - Interface AccountProperties has a new optional parameter associatedProjects
+  - Interface AccountProperties has a new optional parameter defaultProject
+  - Interface AccountProperties has a new optional parameter networkInjections
+  - Interface DeploymentProperties has a new optional parameter spilloverDeploymentName
+  - Added Type Alias AccountCapabilityHostsCreateOrUpdateResponse
+  - Added Type Alias AccountCapabilityHostsDeleteResponse
+  - Added Type Alias AccountCapabilityHostsGetResponse
+  - Added Type Alias AccountConnectionsCreateResponse
+  - Added Type Alias AccountConnectionsGetResponse
+  - Added Type Alias AccountConnectionsListNextResponse
+  - Added Type Alias AccountConnectionsListResponse
+  - Added Type Alias AccountConnectionsUpdateResponse
+  - Added Type Alias CapabilityHostKind
+  - Added Type Alias CapabilityHostProvisioningState
+  - Added Type Alias ConnectionAuthType
+  - Added Type Alias ConnectionCategory
+  - Added Type Alias ConnectionGroup
+  - Added Type Alias ConnectionPropertiesV2Union
+  - Added Type Alias ManagedPERequirement
+  - Added Type Alias ManagedPEStatus
+  - Added Type Alias ProjectCapabilityHostsCreateOrUpdateResponse
+  - Added Type Alias ProjectCapabilityHostsDeleteResponse
+  - Added Type Alias ProjectCapabilityHostsGetResponse
+  - Added Type Alias ProjectConnectionsCreateResponse
+  - Added Type Alias ProjectConnectionsGetResponse
+  - Added Type Alias ProjectConnectionsListNextResponse
+  - Added Type Alias ProjectConnectionsListResponse
+  - Added Type Alias ProjectConnectionsUpdateResponse
+  - Added Type Alias ProjectsCreateResponse
+  - Added Type Alias ProjectsGetResponse
+  - Added Type Alias ProjectsListNextResponse
+  - Added Type Alias ProjectsListResponse
+  - Added Type Alias ProjectsUpdateResponse
+  - Added Type Alias ScenarioType
+  - Added Enum KnownCapabilityHostKind
+  - Added Enum KnownCapabilityHostProvisioningState
+  - Added Enum KnownConnectionAuthType
+  - Added Enum KnownConnectionCategory
+  - Added Enum KnownConnectionGroup
+  - Added Enum KnownManagedPERequirement
+  - Added Enum KnownManagedPEStatus
+  - Added Enum KnownScenarioType
+  - Enum KnownProvisioningState has a new value Canceled
+
+    
+    
+## 7.7.0-beta.1 (2025-05-19)
+Compared with version 7.6.0
+    
+### Features Added
+
+  - Added operation group AccountCapabilityHosts
+  - Added operation group AccountConnection
+  - Added operation group ProjectCapabilityHosts
+  - Added operation group ProjectConnection
+  - Added operation group Projects
+  - Added Interface AADAuthTypeConnectionProperties
+  - Added Interface AccessKeyAuthTypeConnectionProperties
+  - Added Interface AccountCapabilityHostsCreateOrUpdateHeaders
+  - Added Interface AccountCapabilityHostsCreateOrUpdateOptionalParams
+  - Added Interface AccountCapabilityHostsDeleteHeaders
+  - Added Interface AccountCapabilityHostsDeleteOptionalParams
+  - Added Interface AccountCapabilityHostsGetOptionalParams
+  - Added Interface AccountConnectionCreateOptionalParams
+  - Added Interface AccountConnectionDeleteOptionalParams
+  - Added Interface AccountConnectionGetOptionalParams
+  - Added Interface AccountConnectionListNextOptionalParams
+  - Added Interface AccountConnectionListOptionalParams
+  - Added Interface AccountConnectionUpdateOptionalParams
+  - Added Interface AccountKeyAuthTypeConnectionProperties
+  - Added Interface ApiKeyAuthConnectionProperties
+  - Added Interface CapabilityHost
+  - Added Interface CapabilityHostProperties
+  - Added Interface ConnectionAccessKey
+  - Added Interface ConnectionAccountKey
+  - Added Interface ConnectionApiKey
+  - Added Interface ConnectionManagedIdentity
+  - Added Interface ConnectionOAuth2
+  - Added Interface ConnectionPersonalAccessToken
+  - Added Interface ConnectionPropertiesV2
+  - Added Interface ConnectionPropertiesV2BasicResource
+  - Added Interface ConnectionPropertiesV2BasicResourceArmPaginatedResult
+  - Added Interface ConnectionServicePrincipal
+  - Added Interface ConnectionSharedAccessSignature
+  - Added Interface ConnectionUpdateContent
+  - Added Interface ConnectionUsernamePassword
+  - Added Interface CustomKeys
+  - Added Interface CustomKeysConnectionProperties
+  - Added Interface ManagedIdentityAuthTypeConnectionProperties
+  - Added Interface NetworkInjections
+  - Added Interface NoneAuthTypeConnectionProperties
+  - Added Interface OAuth2AuthTypeConnectionProperties
+  - Added Interface PATAuthTypeConnectionProperties
+  - Added Interface Project
+  - Added Interface ProjectCapabilityHostsCreateOrUpdateHeaders
+  - Added Interface ProjectCapabilityHostsCreateOrUpdateOptionalParams
+  - Added Interface ProjectCapabilityHostsDeleteHeaders
+  - Added Interface ProjectCapabilityHostsDeleteOptionalParams
+  - Added Interface ProjectCapabilityHostsGetOptionalParams
+  - Added Interface ProjectConnectionCreateOptionalParams
+  - Added Interface ProjectConnectionDeleteOptionalParams
+  - Added Interface ProjectConnectionGetOptionalParams
+  - Added Interface ProjectConnectionListNextOptionalParams
+  - Added Interface ProjectConnectionListOptionalParams
+  - Added Interface ProjectConnectionUpdateOptionalParams
+  - Added Interface ProjectListResult
+  - Added Interface ProjectProperties
+  - Added Interface ProjectsCreateOptionalParams
+  - Added Interface ProjectsDeleteOptionalParams
+  - Added Interface ProjectsGetOptionalParams
+  - Added Interface ProjectsListNextOptionalParams
+  - Added Interface ProjectsListOptionalParams
+  - Added Interface ProjectsUpdateOptionalParams
+  - Added Interface ResourceBase
+  - Added Interface SASAuthTypeConnectionProperties
+  - Added Interface ServicePrincipalAuthTypeConnectionProperties
+  - Added Interface UsernamePasswordAuthTypeConnectionProperties
+  - Added Type Alias AccountCapabilityHostsCreateOrUpdateResponse
+  - Added Type Alias AccountCapabilityHostsDeleteResponse
+  - Added Type Alias AccountCapabilityHostsGetResponse
+  - Added Type Alias AccountConnectionCreateResponse
+  - Added Type Alias AccountConnectionGetResponse
+  - Added Type Alias AccountConnectionListNextResponse
+  - Added Type Alias AccountConnectionListResponse
+  - Added Type Alias AccountConnectionUpdateResponse
+  - Added Type Alias CapabilityHostKind
+  - Added Type Alias CapabilityHostProvisioningState
+  - Added Type Alias ConnectionAuthType
+  - Added Type Alias ConnectionCategory
+  - Added Type Alias ConnectionGroup
+  - Added Type Alias ConnectionPropertiesV2Union
+  - Added Type Alias ManagedPERequirement
+  - Added Type Alias ManagedPEStatus
+  - Added Type Alias ProjectCapabilityHostsCreateOrUpdateResponse
+  - Added Type Alias ProjectCapabilityHostsDeleteResponse
+  - Added Type Alias ProjectCapabilityHostsGetResponse
+  - Added Type Alias ProjectConnectionCreateResponse
+  - Added Type Alias ProjectConnectionGetResponse
+  - Added Type Alias ProjectConnectionListNextResponse
+  - Added Type Alias ProjectConnectionListResponse
+  - Added Type Alias ProjectConnectionUpdateResponse
+  - Added Type Alias ProjectsCreateResponse
+  - Added Type Alias ProjectsGetResponse
+  - Added Type Alias ProjectsListNextResponse
+  - Added Type Alias ProjectsListResponse
+  - Added Type Alias ProjectsUpdateResponse
+  - Added Type Alias ScenarioType
+  - Interface AccountProperties has a new optional parameter allowProjectManagement
+  - Interface AccountProperties has a new optional parameter associatedProjects
+  - Interface AccountProperties has a new optional parameter defaultProject
+  - Interface AccountProperties has a new optional parameter networkInjections
+  - Interface DeploymentProperties has a new optional parameter spilloverDeploymentName
+  - Added Enum KnownCapabilityHostKind
+  - Added Enum KnownCapabilityHostProvisioningState
+  - Added Enum KnownConnectionAuthType
+  - Added Enum KnownConnectionCategory
+  - Added Enum KnownConnectionGroup
+  - Added Enum KnownManagedPERequirement
+  - Added Enum KnownManagedPEStatus
+  - Added Enum KnownScenarioType
+  - Enum KnownProvisioningState has a new value Canceled
+    
+    
 ## 7.6.0 (2024-12-20)
     
 ### Features Added

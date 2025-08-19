@@ -17,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the resource group.
  *
  * @summary Returns changes that will be made by the deployment if executed at the scope of the resource group.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PostDeploymentWhatIfOnResourceGroup.json
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PostDeploymentWhatIfOnResourceGroup.json
  */
 async function predictTemplateChangesAtResourceGroupScope(): Promise<void> {
   const subscriptionId =

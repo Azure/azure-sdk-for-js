@@ -6,20 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ServerThreatProtectionSettings } from "../operationsInterfaces/index.js";
+import type { ServerThreatProtectionSettings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import type { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
+import type {
   ServerThreatProtectionSettingsModel,
   ServerThreatProtectionSettingsListByServerNextOptionalParams,
   ServerThreatProtectionSettingsListByServerOptionalParams,
@@ -34,9 +31,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerThreatProtectionSettings operations. */
-export class ServerThreatProtectionSettingsImpl
-  implements ServerThreatProtectionSettings
-{
+export class ServerThreatProtectionSettingsImpl implements ServerThreatProtectionSettings {
   private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
@@ -58,11 +53,7 @@ export class ServerThreatProtectionSettingsImpl
     serverName: string,
     options?: ServerThreatProtectionSettingsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerThreatProtectionSettingsModel> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -74,12 +65,7 @@ export class ServerThreatProtectionSettingsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -94,7 +80,7 @@ export class ServerThreatProtectionSettingsImpl
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByServer(resourceGroupName, serverName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -107,7 +93,7 @@ export class ServerThreatProtectionSettingsImpl
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -118,11 +104,7 @@ export class ServerThreatProtectionSettingsImpl
     serverName: string,
     options?: ServerThreatProtectionSettingsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerThreatProtectionSettingsModel> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -193,8 +175,7 @@ export class ServerThreatProtectionSettingsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

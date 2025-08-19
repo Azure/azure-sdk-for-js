@@ -13,15 +13,19 @@ import RadiologyInsightsRestClient, {
   FollowupRecommendationInference,
   GenericProcedureRecommendation,
   getLongRunningPoller,
+  GuidanceInference,
   ImagingProcedure,
   ImagingProcedureRecommendation,
   isUnexpected,
   LateralityDiscrepancyInference,
   LimitedOrderDiscrepancyInference,
+  PresentGuidanceInformation,
+  QualityMeasureInference,
   RadiologyInsightsJobOutput,
   RadiologyProcedureInference,
+  ScoringAndAssessmentInference,
   SexMismatchInference,
-} from "../src/index.js";
+} from "@azure-rest/health-insights-radiologyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -134,10 +138,21 @@ describe("snippets", () => {
     const findingOptions = {
       provideFocusedSentenceEvidence: true,
     };
+    //@ts-preserve-whitespace
+    //the mipscodes (“merit based payment incentive”) need to be filled in for which the qualityMeasure is checked
+    const qualityMeasureOptions = {
+      measureTypes: ["mipsxxx", "mipsyyy", "mipszz"],
+    };
+    //@ts-preserve-whitespace
+    const guidanceOptions = {
+      showGuidanceInHistory: true,
+    };
     // @ts-preserve-whitespace
     const inferenceOptions = {
       followupRecommendationOptions: followupRecommendationOptions,
       findingOptions: findingOptions,
+      GuidanceOptions: guidanceOptions,
+      QualityMeasureOptions: qualityMeasureOptions,
     };
     // @ts-preserve-whitespace
     // Create RI Configuration
@@ -456,6 +471,145 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleGuidance", async () => {
+    function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+      for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+        for (const inference of patientResult?.inferences || []) {
+          if (inference.kind === "guidance") {
+            const guidanceInference = inference as GuidanceInference;
+            console.log("Guidance Inference found: ");
+            // @ts-preserve-whitespace
+            if (guidanceInference.finding) {
+              const find = guidanceInference.finding.finding.code;
+              if (find) {
+                console.log("   Finding Code: ");
+                displayCodes(find);
+              }
+            }
+            // @ts-preserve-whitespace
+            if (guidanceInference.identifier) {
+              console.log("   Identifier: ");
+              displayCodes(guidanceInference.identifier);
+            }
+            // @ts-preserve-whitespace
+            if (guidanceInference.presentGuidanceInformation) {
+              console.log("   Present Guidance Information: ");
+              for (const presentInfo of guidanceInference.presentGuidanceInformation) {
+                displayPresentGuidanceInformation(presentInfo);
+              }
+            }
+            // @ts-preserve-whitespace
+            if (guidanceInference.ranking) {
+              console.log(`   Ranking: , ${guidanceInference.ranking}`);
+            }
+            // @ts-preserve-whitespace
+            if (guidanceInference.recommendationProposals) {
+              console.log("   Recommendation Proposal: ");
+              const recommendationProposals = guidanceInference.recommendationProposals;
+              for (const proposal of recommendationProposals) {
+                console.log(`   Recommended Proposal: ${proposal.kind}`);
+                console.log(
+                  `      Recommendation Procedure:  ${proposal.recommendedProcedure.kind}`,
+                );
+                let imagingprocedure;
+                if (proposal.recommendedProcedure.kind === "imagingProcedureRecommendation") {
+                  imagingprocedure = (
+                    proposal.recommendedProcedure as ImagingProcedureRecommendation
+                  ).imagingProcedures;
+                  if (imagingprocedure) {
+                    console.log("   Imaging Procedure Codes: ");
+                    for (const imagingProcedure of imagingprocedure) {
+                      displayImaging(imagingProcedure);
+                    }
+                  }
+                }
+              }
+            }
+            // @ts-preserve-whitespace
+            for (const missingInfo of guidanceInference.missingGuidanceInformation || []) {
+              console.log("   Missing Guidance Information: ", missingInfo);
+            }
+          }
+        }
+      }
+      // @ts-preserve-whitespace
+      function displayCodes(codeableConcept: CodeableConcept): void {
+        for (const coding of codeableConcept.coding || []) {
+          console.log(`      Coding: ${coding.code}, ${coding.display} (${coding.system})`);
+        }
+      }
+      // @ts-preserve-whitespace
+      function displayPresentGuidanceInformation(presentInfo: PresentGuidanceInformation): void {
+        console.log("     Present Guidance Information Item: ", presentInfo.presentGuidanceItem);
+
+        presentInfo.presentGuidanceValues?.forEach((sizes: any) => {
+          console.log("     Present Guidance Value: ", sizes);
+        });
+        // @ts-preserve-whitespace
+        presentInfo.sizes?.forEach((gsizes: any) => {
+          if ("valueQuantity" in gsizes) {
+            console.log("     Size valueQuantity: ");
+
+            displayQuantityOutput(gsizes.valueQuantity);
+          }
+          if ("valueRange" in gsizes) {
+            if ("low" in gsizes.valueRange) {
+              console.log("     Size ValueRange: min", gsizes.valueRange.low);
+            }
+            if ("high" in gsizes.valueRange) {
+              console.log("     Size ValueRange: max", gsizes.valueRange.high);
+            }
+          }
+        });
+        // @ts-preserve-whitespace
+        if ("maximumDiameterAsInText" in presentInfo) {
+          console.log("     Maximum Diameter As In Text: ");
+          displayQuantityOutput(presentInfo.maximumDiameterAsInText);
+        }
+        // @ts-preserve-whitespace
+        if ("extension" in presentInfo) {
+          console.log("     Extension: ");
+          displaySectionInfo(presentInfo.extension);
+        }
+      }
+      // @ts-preserve-whitespace
+      function displayQuantityOutput(quantity: any): void {
+        console.log(`      Value: ${quantity.value}`);
+        console.log(`      Unit: ${quantity.unit}`);
+      }
+      // @ts-preserve-whitespace
+      function displaySectionInfo(extensions: Extension[]): void {
+        for (const extension of extensions) {
+          if (extension.url === "section") {
+            console.log("   Section:");
+            for (const { url, valueString } of extension.extension || []) {
+              console.log(`      ${url}: ${valueString}`);
+            }
+          }
+        }
+      }
+      // @ts-preserve-whitespace
+      function displayImaging(images: ImagingProcedure): void {
+        console.log("   Modality Codes: ");
+        displayCodes(images.modality);
+        console.log("   Anatomy Codes: ");
+        displayCodes(images.anatomy);
+        if (images.laterality) {
+          console.log("   Laterality Codes: ");
+          displayCodes(images.laterality);
+        }
+        if (images.contrast) {
+          console.log("   Contrast Codes: ");
+          displayCodes(images.contrast.code);
+        }
+        if (images.view) {
+          console.log("   View Codes: ");
+          displayCodes(images.view.code);
+        }
+      }
+    }
+  });
+
   it("ReadmeSampleLateralityDiscrepancy", async () => {
     function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
       for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
@@ -506,6 +660,43 @@ describe("snippets", () => {
         for (const coding of codeableConcept.coding || []) {
           console.log(`      Coding: ${coding.code}, ${coding.display} (${coding.system})`);
         }
+      }
+    }
+  });
+
+  it("ReadmeSampleQualityMeasure", async () => {
+    function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+      for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+        for (const inference of patientResult?.inferences || []) {
+          if (inference.kind === "qualityMeasure") {
+            const qualityMeasureInference = inference as QualityMeasureInference;
+            console.log("Quality Measure Inference found: ");
+            // @ts-preserve-whitespace
+            if (qualityMeasureInference.qualityMeasureDenominator) {
+              console.log("   Quality Measure Denominator: ");
+              console.log(
+                `   Quality Measure Denominator: ${qualityMeasureInference.qualityMeasureDenominator}`,
+              );
+            }
+            // @ts-preserve-whitespace
+            if (qualityMeasureInference.complianceType) {
+              console.log("   Quality Measure Numerator: ");
+              console.log(
+                `   Quality Measure Numerator: ${qualityMeasureInference.complianceType}`,
+              );
+            }
+            // @ts-preserve-whitespace
+            for (const qualityCriteria of qualityMeasureInference.qualityCriteria || []) {
+              console.log(`   Quality Criteria: ${qualityCriteria}`);
+            }
+          }
+        }
+      }
+    }
+    // @ts-preserve-whitespace
+    function displayCodes(codeableConcept: CodeableConcept): void {
+      for (const coding of codeableConcept.coding || []) {
+        console.log(`      Coding: ${coding.code}, ${coding.display} (${coding.system})`);
       }
     }
   });
@@ -565,6 +756,43 @@ describe("snippets", () => {
           console.log("   View Codes: ");
           displayCodes(images.view.code);
         }
+      }
+    }
+  });
+
+  it("ReadmeSampleScoringAndAssessment", async () => {
+    function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
+      for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+        for (const inference of patientResult?.inferences || []) {
+          if (inference.kind === "scoringAndAssessment") {
+            const scoringAndAssessmentInference = inference as ScoringAndAssessmentInference;
+            console.log("Scoring and Assessment Inference found: ");
+            // @ts-preserve-whitespace
+            if (scoringAndAssessmentInference.category) {
+              console.log(`   Category: ${scoringAndAssessmentInference.category}`);
+            }
+            // @ts-preserve-whitespace
+            if (scoringAndAssessmentInference.categoryDescription) {
+              console.log(
+                `   Category Description: "${scoringAndAssessmentInference.categoryDescription}`,
+              );
+            }
+            // @ts-preserve-whitespace
+            if (scoringAndAssessmentInference.singleValue) {
+              console.log(`   Single Value: "${scoringAndAssessmentInference.singleValue}`);
+            }
+            // @ts-preserve-whitespace
+            if (scoringAndAssessmentInference?.rangeValue) {
+              console.log("   Range Value: ");
+              displayValueRange(scoringAndAssessmentInference?.rangeValue);
+            }
+          }
+        }
+      }
+      // @ts-preserve-whitespace
+      function displayValueRange(valueRange: { minimum: string; maximum: string }): void {
+        console.log(`      Low: ${valueRange.minimum}`);
+        console.log(`      High: ${valueRange.maximum}`);
       }
     }
   });

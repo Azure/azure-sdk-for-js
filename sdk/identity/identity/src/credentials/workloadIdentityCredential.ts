@@ -105,7 +105,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions,
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     if (!this.client) {
       const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and federatedTokenFilePath are required parameters. 
       In DefaultAzureCredential and ManagedIdentityCredential, these can be provided as environment variables - 

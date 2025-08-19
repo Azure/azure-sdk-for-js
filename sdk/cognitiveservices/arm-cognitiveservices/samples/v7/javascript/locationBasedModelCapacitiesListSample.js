@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List Location Based ModelCapacities.
  *
  * @summary List Location Based ModelCapacities.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListLocationBasedModelCapacities.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListLocationBasedModelCapacities.json
  */
 async function listLocationBasedModelCapacities() {
   const subscriptionId =
@@ -28,7 +26,7 @@ async function listLocationBasedModelCapacities() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.locationBasedModelCapacities.list(
+  for await (const item of client.locationBasedModelCapacities.list(
     location,
     modelFormat,
     modelName,
@@ -40,7 +38,7 @@ async function listLocationBasedModelCapacities() {
 }
 
 async function main() {
-  listLocationBasedModelCapacities();
+  await listLocationBasedModelCapacities();
 }
 
 main().catch(console.error);

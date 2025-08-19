@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified blocklist Item associated with the custom blocklist.
  *
  * @summary Deletes the specified blocklist Item associated with the custom blocklist.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/DeleteRaiBlocklistItem.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/DeleteRaiBlocklistItem.json
  */
 async function deleteRaiBlocklistItem() {
   const subscriptionId =
@@ -37,7 +35,7 @@ async function deleteRaiBlocklistItem() {
 }
 
 async function main() {
-  deleteRaiBlocklistItem();
+  await deleteRaiBlocklistItem();
 }
 
 main().catch(console.error);

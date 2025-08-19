@@ -6,10 +6,11 @@ import {
   errorResponseDeserializer,
   GenerateAwsTemplateRequest,
   generateAwsTemplateRequestSerializer,
-  _postResponseDeserializer,
+  GenerateAwsTemplateResponse,
+  generateAwsTemplateResponseDeserializer,
 } from "../../models/models.js";
-import { GenerateAwsTemplatePostOptionalParams } from "./options.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { GenerateAwsTemplatePostOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -23,10 +24,10 @@ export function _postSend(
   options: GenerateAwsTemplatePostOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/generateAwsTemplate{?api-version}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/generateAwsTemplate{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api-version": context.apiVersion,
+      "api%2Dversion": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -45,7 +46,7 @@ export function _postSend(
 
 export async function _postDeserialize(
   result: PathUncheckedResponse,
-): Promise<Record<string, any>> {
+): Promise<GenerateAwsTemplateResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -53,7 +54,7 @@ export async function _postDeserialize(
     throw error;
   }
 
-  return _postResponseDeserializer(result.body);
+  return generateAwsTemplateResponseDeserializer(result.body);
 }
 
 /** Retrieve AWS Cloud Formation template */
@@ -61,7 +62,7 @@ export async function post(
   context: Client,
   generateAwsTemplateRequest: GenerateAwsTemplateRequest,
   options: GenerateAwsTemplatePostOptionalParams = { requestOptions: {} },
-): Promise<Record<string, any>> {
+): Promise<GenerateAwsTemplateResponse> {
   const result = await _postSend(context, generateAwsTemplateRequest, options);
   return _postDeserialize(result);
 }

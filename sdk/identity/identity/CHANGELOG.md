@@ -1,6 +1,6 @@
 # Release History
 
-## 4.9.2 (Unreleased)
+## 4.11.2 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,59 @@
 
 ### Other Changes
 
-- Added deprecation warnings for username password usage in `EnvironmentCredential` constructor to warn the users. `UsernamePassword` authentication doesn't support Multi-Factor Authentication (MFA), and MFA will enabled soon on all tenants.  For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure).
+## 4.11.1 (2025-08-05)
+
+### Bugs Fixed
+
+- Fixed an issue in which `AzurePowerShellCredential` command is not parsed correctly. [#35469](https://github.com/Azure/azure-sdk-for-js/pull/35469)
+
+## 4.11.0 (2025-08-05)
+
+- All the features shipped as part of 4.11.0-beta.1 will be GA with this version. The most important features include single credential selection in `DefaultAzureCredential` via `AZURE_TOKEN_CREDENTIALS` environment variable, broker authentication support through `VisualStudioCodeCredential`, and signed-in Windows account support in `DefaultAzureCredential`.
+
+### Bugs Fixed
+
+- Fixed deprecation warnings in `AzureCliCredential` and `AzureDeveloperCliCredential`. [#34878](https://github.com/Azure/azure-sdk-for-js/pull/34878)
+- Fixed an issue where `InteractiveBrowserCredential` did not resolve correctly on Mac OS. [#35406](https://github.com/Azure/azure-sdk-for-js/pull/35406)
+
+## 4.11.0-beta.1 (2025-07-17)
+
+### Features Added
+
+- `VisualStudioCodeCredential` has been restored and now supports **broker authentication** using the Azure account signed in via Visual Studio Code. The credential has been added to `DefaultAzureCredential` [#35150](https://github.com/Azure/azure-sdk-for-js/pull/35150)
+- `DefaultAzureCredential` now supports authentication with the currently signed-in Windows account when the `@azure/identity-broker` package is installed and configured with `useIdentityPlugin`. This auth mechanism is added at the end of the `DefaultAzureCredential` credential chain. [#35213](https://github.com/Azure/azure-sdk-for-js/pull/35213)
+- Added support for more `AZURE_TOKEN_CREDENTIALS` environment variable values to specify a single credential type to use in `DefaultAzureCredential`. In addition to `dev` and `prod`, possible values now include `VisualStudioCodeCredential`, `EnvironmentCredential`, `WorkloadIdentityCredential`, `ManagedIdentityCredential`, `AzureDeveloperCliCredential`, `AzurePowershellCredential` and `AzureCliCredential` - each for the corresponding credential type. [#34966](https://github.com/Azure/azure-sdk-for-js/pull/34966)
+
+### Other Changes
+
+- Added HTTP 410 status code handling to `ManagedIdentityCredential` retry policy with minimum 70-second total retry duration to meet Azure IMDS service requirements. [#34981](https://github.com/Azure/azure-sdk-for-js/pull/34981)
+
+## 4.10.2 (2025-07-02)
+
+### Bugs Fixed
+
+- Fixed an issue in `AzurePowerShellCredential` where `-AsPlainText` is not supported in the `ConvertFrom-SecureString` cmdlet in older versions. [#34902](https://github.com/Azure/azure-sdk-for-js/pull/34902)
+
+### Other Changes
+
+- Added support to specify `subscription` ID or name on `AzureCliCredential` error message. [#34801](https://github.com/Azure/azure-sdk-for-js/pull/34801)
+
+## 4.10.1 (2025-06-12)
+
+### Bugs Fixed
+
+- Fixed the bug in interactive authentication request to account for the correct user login prompt based on the login hint provided, in case there are multiple accounts present in the browser flow. [#34321](https://github.com/Azure/azure-sdk-for-js/pull/34321)
+- Fixed the typing for `WorkloadIdentityCredential.getToken` to better represent the runtime behavior. [#34786](https://github.com/Azure/azure-sdk-for-js/pull/34786)
+
+## 4.10.0 (2025-05-14)
+
+### Features Added
+
+- Added support for the `AZURE_TOKEN_CREDENTIALS` environment variable to `DefaultAzureCredential`, which allows for choosing between 'deployed service' and 'developer tools' credentials. Valid values are 'dev' for developer tools and 'prod' for deployed service. [#34301](https://github.com/Azure/azure-sdk-for-js/pull/34301)
+
+### Other Changes
+
+- Added deprecation warnings for username password usage in `EnvironmentCredential` constructor to warn the users. `UsernamePassword` authentication doesn't support Multi-Factor Authentication (MFA), and MFA will enabled soon on all tenants. For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure). [#34054](https://github.com/Azure/azure-sdk-for-js/pull/34054)
 
 ## 4.9.1 (2025-04-17)
 
@@ -80,8 +132,6 @@
 ### Other Changes
 
 - Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message [#31209](https://github.com/Azure/azure-sdk-for-js/pull/31209)
-
-<!-- dev-tool snippets ignore -->
 
 ## 4.5.0-beta.3 (2024-09-18)
 

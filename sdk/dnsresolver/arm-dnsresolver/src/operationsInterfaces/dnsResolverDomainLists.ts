@@ -21,6 +21,9 @@ import {
   DnsResolverDomainListsDeleteResponse,
   DnsResolverDomainListsGetOptionalParams,
   DnsResolverDomainListsGetResponse,
+  DnsResolverDomainListBulk,
+  DnsResolverDomainListsBulkOptionalParams,
+  DnsResolverDomainListsBulkResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -142,4 +145,35 @@ export interface DnsResolverDomainLists {
     dnsResolverDomainListName: string,
     options?: DnsResolverDomainListsGetOptionalParams,
   ): Promise<DnsResolverDomainListsGetResponse>;
+  /**
+   * Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dnsResolverDomainListName The name of the DNS resolver domain list.
+   * @param parameters Parameters supplied to the bulk domain list operation.
+   * @param options The options parameters.
+   */
+  beginBulk(
+    resourceGroupName: string,
+    dnsResolverDomainListName: string,
+    parameters: DnsResolverDomainListBulk,
+    options?: DnsResolverDomainListsBulkOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DnsResolverDomainListsBulkResponse>,
+      DnsResolverDomainListsBulkResponse
+    >
+  >;
+  /**
+   * Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dnsResolverDomainListName The name of the DNS resolver domain list.
+   * @param parameters Parameters supplied to the bulk domain list operation.
+   * @param options The options parameters.
+   */
+  beginBulkAndWait(
+    resourceGroupName: string,
+    dnsResolverDomainListName: string,
+    parameters: DnsResolverDomainListBulk,
+    options?: DnsResolverDomainListsBulkOptionalParams,
+  ): Promise<DnsResolverDomainListsBulkResponse>;
 }

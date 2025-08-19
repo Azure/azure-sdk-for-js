@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.0 (Unreleased)
+## 1.2.0 (2025-05-13)
 
 ### Features Added
 - Added a new API `WebPubSubGroup.listConnections` to list connections in a group.

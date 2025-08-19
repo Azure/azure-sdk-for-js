@@ -1,14 +1,11 @@
 # Release History
 
-## 1.5.5 (Unreleased)
+## 1.6.0 (2025-06-23)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Support data retention policy.
+- Support thread level and member level metadata.
 
 ## 1.5.4 (2024-10-24)
 

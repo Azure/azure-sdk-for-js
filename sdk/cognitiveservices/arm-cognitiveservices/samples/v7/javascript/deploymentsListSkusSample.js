@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { CognitiveServicesManagementClient } = require("@azure/arm-cognitiveservices");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists the specified deployments skus associated with the Cognitive Services account.
  *
  * @summary Lists the specified deployments skus associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListDeploymentSkus.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListDeploymentSkus.json
  */
 async function listDeploymentSkus() {
   const subscriptionId =
@@ -27,7 +25,7 @@ async function listDeploymentSkus() {
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deployments.listSkus(
+  for await (const item of client.deployments.listSkus(
     resourceGroupName,
     accountName,
     deploymentName,
@@ -38,7 +36,7 @@ async function listDeploymentSkus() {
 }
 
 async function main() {
-  listDeploymentSkus();
+  await listDeploymentSkus();
 }
 
 main().catch(console.error);
