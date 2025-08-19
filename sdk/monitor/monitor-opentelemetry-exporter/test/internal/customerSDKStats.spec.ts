@@ -125,7 +125,7 @@ describe("CustomerSDKStatsMetrics", () => {
 
       customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
-        DropCode.NON_RETRYABLE_STATUS_CODE,
+        DropCode.UNKNOWN,
         exceptionMessage,
       );
 
@@ -136,11 +136,11 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(dropCodeMap).toBeDefined();
       expect(dropCodeMap.size).toBe(1);
 
-      const reasonMap = dropCodeMap.get(DropCode.NON_RETRYABLE_STATUS_CODE);
+      const reasonMap = dropCodeMap.get(DropCode.UNKNOWN);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      // Should have "Non-retryable status" as reason for NON_RETRYABLE_STATUS_CODE
-      expect(reasonMap.get("Non-retryable status")).toBe(2);
+      // Should have "Unknown reason" as reason for UNKNOWN drop code
+      expect(reasonMap.get("Unknown reason")).toBe(2);
     });
 
     it("should aggregate counts for same drop code and exception message", () => {
@@ -312,7 +312,7 @@ describe("CustomerSDKStatsMetrics", () => {
       );
       customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
-        DropCode.NON_RETRYABLE_STATUS_CODE,
+        DropCode.UNKNOWN,
       );
 
       const mockObservableResult = {
@@ -335,11 +335,11 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(clientExceptionCall![2]).toHaveProperty("drop.reason", "Client exception");
 
       // Check that drop.reason is included for other codes too (now)
-      const nonRetryableCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2]["drop.code"] === DropCode.NON_RETRYABLE_STATUS_CODE,
+      const unknownCall = mockObservableResult.observe.mock.calls.find(
+        (call: any) => call[2]["drop.code"] === DropCode.UNKNOWN,
       );
-      expect(nonRetryableCall).toBeDefined();
-      expect(nonRetryableCall![2]).toHaveProperty("drop.reason", "Non-retryable status");
+      expect(unknownCall).toBeDefined();
+      expect(unknownCall![2]).toHaveProperty("drop.reason", "Unknown reason");
     });
 
     it("should include retry.reason in retry count metrics when present", () => {
@@ -527,7 +527,7 @@ describe("CustomerSDKStatsMetrics", () => {
       // Test dropped items with non-CLIENT_EXCEPTION code
       customerSDKStatsMetrics.countDroppedItems(
         createMockEnvelopes(2, TelemetryType.TRACE),
-        DropCode.NON_RETRYABLE_STATUS_CODE,
+        DropCode.UNKNOWN,
         testErrorMessage,
       );
 
@@ -539,11 +539,11 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(nonClientExceptionDropCodeMap.size).toBe(1);
 
       const nonClientExceptionReasonMap = nonClientExceptionDropCodeMap.get(
-        DropCode.NON_RETRYABLE_STATUS_CODE,
+        DropCode.UNKNOWN,
       );
       expect(nonClientExceptionReasonMap).toBeDefined();
       expect(nonClientExceptionReasonMap.size).toBe(1);
-      expect(nonClientExceptionReasonMap.get("Non-retryable status")).toBe(2);
+      expect(nonClientExceptionReasonMap.get("Unknown reason")).toBe(2);
 
       // Test observable callback does not include drop.reason
       const mockObservableResult = {
@@ -558,7 +558,7 @@ describe("CustomerSDKStatsMetrics", () => {
         expect.any(Object), // The observable gauge
         2,
         expect.objectContaining({
-          "drop.code": DropCode.NON_RETRYABLE_STATUS_CODE,
+          "drop.code": DropCode.UNKNOWN,
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),

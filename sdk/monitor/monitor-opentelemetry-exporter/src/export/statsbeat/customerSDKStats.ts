@@ -327,8 +327,6 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
         return "Stale data";
       case DropCode.CLIENT_PERSISTENCE_CAPACITY:
         return "Persistence full";
-      case DropCode.NON_RETRYABLE_STATUS_CODE:
-        return "Non-retryable status";
       case DropCode.UNKNOWN:
       default:
         return "Unknown reason";
@@ -488,7 +486,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       if (exceptionMessage) {
         return this.categorizeExceptionMessage(exceptionMessage);
       }
-      return "unknown_exception";
+      return "Unknown exception";
     }
 
     // Handle status code retry codes (numeric values)
@@ -499,12 +497,10 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     // Handle other enum retry codes
     switch (retryCode) {
       case RetryCode.CLIENT_TIMEOUT:
-        return "client_timeout";
-      case RetryCode.RETRYABLE_STATUS_CODE:
-        return "retryable_status";
+        return "Client timeout";
       case RetryCode.UNKNOWN:
       default:
-        return "unknown_reason";
+        return "Unknown reason";
     }
   }
 

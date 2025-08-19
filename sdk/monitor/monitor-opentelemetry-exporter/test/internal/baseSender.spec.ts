@@ -774,7 +774,7 @@ describe("BaseSender", () => {
       );
     });
 
-    it("should not capture exception.message for NON_RETRYABLE_STATUS_CODE", async () => {
+    it("should not capture exception.message for status code errors", async () => {
       testSender.sendMock.mockResolvedValue({
         statusCode: 400,
         result: "Bad Request",
@@ -796,7 +796,7 @@ describe("BaseSender", () => {
       expect(result.code).toBe(ExportResultCode.FAILED);
       expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400);
 
-      // Verify exception.message is not passed for non-client exceptions
+      // Verify exception.message is not passed for status code errors
       const call = mockCustomerSDKStatsMetrics.countDroppedItems.mock.calls[0];
       expect(call.length).toBe(2); // envelopes array and drop code, but no exception message
     });
