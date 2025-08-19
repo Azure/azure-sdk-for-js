@@ -3,20 +3,20 @@
 
 /**
  * @summary Demonstrates how to run generate custom traces that will be sent to Azure Monitor
+ * 
+ * Works in both CommonJS and ESM environments.
  */
-
-import { context, trace, Span } from "@opentelemetry/api";
-import {
-  useAzureMonitor,
-  shutdownAzureMonitor,
-  AzureMonitorOpenTelemetryOptions,
-} from "@azure/monitor-opentelemetry";
-
-// Load the .env file if it exists
-import "dotenv/config";
 
 export class CustomTraceExample {
   static async run(): Promise<void> {
+    // Import dependencies using dynamic imports for universal compatibility
+    const { context, trace, Span } = await import("@opentelemetry/api");
+    const {
+      useAzureMonitor,
+      shutdownAzureMonitor,
+      AzureMonitorOpenTelemetryOptions,
+    } = await import("@azure/monitor-opentelemetry");
+
     const options: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString:

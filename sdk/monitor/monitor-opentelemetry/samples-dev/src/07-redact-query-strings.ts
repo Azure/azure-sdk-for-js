@@ -3,6 +3,8 @@
  *
  * This example demonstrates how to redact URL query strings from telemetry data
  * to protect sensitive information like SAS tokens.
+ * 
+ * Works in both CommonJS and ESM environments.
  */
 
 /**
@@ -10,6 +12,21 @@
  */
 import { Span, Context } from "@opentelemetry/api";
 class RedactQueryStringProcessor {
+  private semanticConventions: any;
+
+  constructor() {
+    // Load semantic conventions asynchronously during construction
+    this.loadSemanticConventions();
+  }
+
+  private async loadSemanticConventions() {
+    try {
+      this.semanticConventions = await import("@opentelemetry/semantic-conventions");
+    } catch (error) {
+      console.error("Failed to load semantic conventions:", error);
+    }
+  }
+
   forceFlush() {
     return Promise.resolve();
   }
@@ -24,12 +41,10 @@ class RedactQueryStringProcessor {
   }
 
   onEnd(span: Span) {
-    // Import semantic conventions inside the method
-    const {
-      SEMATTRS_HTTP_ROUTE,
-      SEMATTRS_HTTP_TARGET,
-      SEMATTRS_HTTP_URL,
-    } = require("@opentelemetry/semantic-conventions");
+    // Use cached semantic conventions or fallback to string constants
+    const SEMATTRS_HTTP_ROUTE = this.semanticConventions?.SEMATTRS_HTTP_ROUTE || "http.route";
+    const SEMATTRS_HTTP_TARGET = this.semanticConventions?.SEMATTRS_HTTP_TARGET || "http.target";
+    const SEMATTRS_HTTP_URL = this.semanticConventions?.SEMATTRS_HTTP_URL || "http.url";
 
     // Find the index of the query string separator '?' in each HTTP attribute
     const httpRouteIndex = String(span.attributes[SEMATTRS_HTTP_ROUTE] || "").indexOf("?");

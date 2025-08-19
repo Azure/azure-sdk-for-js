@@ -6,15 +6,17 @@
  * - OTEL_SERVICE_NAME (service name)
  * - OTEL_SERVICE_NAMESPACE (service namespace)
  * - OTEL_SERVICE_INSTANCE_ID (service instance ID)
+ * 
+ * Works in both CommonJS and ESM environments.
  */
 
 export class CloudRoleExample {
   static async run() {
-    const { useAzureMonitor } = require("@azure/monitor-opentelemetry");
-    const { resourceFromAttributes } = require("@opentelemetry/resources");
-    const { ATTR_SERVICE_NAME } = require("@opentelemetry/semantic-conventions");
+    const { useAzureMonitor } = await import("@azure/monitor-opentelemetry");
+    const { resourceFromAttributes } = await import("@opentelemetry/resources");
+    const { ATTR_SERVICE_NAME } = await import("@opentelemetry/semantic-conventions");
     const semanticConventionsIncubating =
-      await require("@opentelemetry/semantic-conventions/incubating");
+      await import("@opentelemetry/semantic-conventions/incubating");
     const { ATTR_SERVICE_NAMESPACE, ATTR_SERVICE_INSTANCE_ID } = semanticConventionsIncubating;
 
     try {

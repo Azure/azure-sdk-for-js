@@ -3,17 +3,17 @@
 
 /**
  * @summary Demonstrates how to run generate custom metrics that will be sent to Azure Monitor
+ * 
+ * Works in both CommonJS and ESM environments.
  */
-
-import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
-import { metrics } from "@opentelemetry/api";
-import express from "express";
-
-// Load the .env file if it exists
-import "dotenv/config";
 
 export class CustomMetricExample {
   static async run(): Promise<void> {
+    // Import dependencies using dynamic imports for universal compatibility
+    const { useAzureMonitor, AzureMonitorOpenTelemetryOptions } = await import("@azure/monitor-opentelemetry");
+    const { metrics } = await import("@opentelemetry/api");
+    const express = (await import("express")).default;
+
     const options: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString:
