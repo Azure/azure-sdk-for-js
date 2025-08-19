@@ -60,9 +60,8 @@ async function main(): Promise<void> {
   // this model
 
   console.log("Document Types:");
-  for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    model.docTypes || {},
-  )) {
+  for (const [docType, docTypeDetails] of Object.entries(model.docTypes || {})) {
+    const { description, fieldSchema: schema } = docTypeDetails;
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);
 
