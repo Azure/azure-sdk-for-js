@@ -11,17 +11,17 @@ import {
   _userListResultDeserializer,
 } from "../../models/models.js";
 import {
-  UsersListByMongoClusterOptionalParams,
-  UsersDeleteOptionalParams,
-  UsersCreateOrUpdateOptionalParams,
-  UsersGetOptionalParams,
-} from "./options.js";
-import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  UsersListByMongoClusterOptionalParams,
+  UsersDeleteOptionalParams,
+  UsersCreateOrUpdateOptionalParams,
+  UsersGetOptionalParams,
+} from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -106,13 +106,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {

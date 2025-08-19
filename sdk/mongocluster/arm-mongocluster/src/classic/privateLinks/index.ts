@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
-import { PrivateLinkResource } from "../../models/models.js";
-import { PrivateLinksListByMongoClusterOptionalParams } from "../../api/privateLinks/options.js";
 import { listByMongoCluster } from "../../api/privateLinks/operations.js";
+import { PrivateLinksListByMongoClusterOptionalParams } from "../../api/privateLinks/options.js";
+import { PrivateLinkResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateLinks operations. */
