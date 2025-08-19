@@ -11,9 +11,15 @@ importers:
 
   .:
     devDependencies:
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       cspell:
         specifier: ^8.19.4
         version: 8.19.4
+      mkdirp:
+        specifier: ^3.0.1
+        version: 3.0.1
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
