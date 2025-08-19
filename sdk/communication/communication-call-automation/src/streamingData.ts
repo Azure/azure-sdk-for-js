@@ -14,18 +14,10 @@ import type {
 
 /** Class to handle the parsing of incoming streaming data. */
 export class StreamingData {
-  // Kind of the streaming data ex.AudioData, AudioMetadata, TranscriptionData, TranscriptionMetadata.
-  private static streamingKind: StreamingDataKind;
-
   /** Parses a encoded json string or buffer into a StreamingData object,
             which can be one of the following subtypes: AudioData, AudioMetadata, TranscriptionData, or TranscriptionMetadata. */
   static parse(data: string | ArrayBuffer): StreamingDataResult {
     return StreamingData.parseStreamingData(data);
-  }
-
-  // Get Streaming data Kind.
-  static getStreamingKind(): StreamingDataKind {
-    return StreamingData.streamingKind;
   }
 
   /** Parses a encoded json string or buffer into a StreamingData object,
@@ -46,6 +38,7 @@ export class StreamingData {
     switch (kind) {
       case "TranscriptionMetadata": {
         const transcriptionMetadata: TranscriptionMetadata = {
+          kind: 'TranscriptionMetadata',
           subscriptionId: jsonObject.transcriptionMetadata.subscriptionId,
           locale: jsonObject.transcriptionMetadata.locale,
           callConnectionId: jsonObject.transcriptionMetadata.callConnectionId,
@@ -53,11 +46,11 @@ export class StreamingData {
           speechRecognitionModelEndpointId:
             jsonObject.transcriptionMetadata.speechRecognitionModelEndpointId,
         };
-        StreamingData.streamingKind = kind;
         return transcriptionMetadata;
       }
       case "TranscriptionData": {
         const transcriptionData: TranscriptionData = {
+          kind: 'TranscriptionData',
           text: jsonObject.transcriptionData.text,
           format: jsonObject.transcriptionData.format,
           confidence: jsonObject.transcriptionData.confidence,
@@ -73,21 +66,21 @@ export class StreamingData {
           participant: createIdentifierFromRawId(jsonObject.transcriptionData.participantRawID),
           resultState: jsonObject.transcriptionData.resultStatus,
         };
-        StreamingData.streamingKind = kind;
         return transcriptionData;
       }
       case "AudioMetadata": {
         const audioMetadata: AudioMetadata = {
+          kind: 'AudioMetadata',
           subscriptionId: jsonObject.audioMetadata.subscriptionId,
           encoding: jsonObject.audioMetadata.encoding,
           sampleRate: jsonObject.audioMetadata.sampleRate,
           channels: jsonObject.audioMetadata.channels,
         };
-        StreamingData.streamingKind = kind;
         return audioMetadata;
       }
       case "AudioData": {
         const audioData: AudioData = {
+          kind: 'AudioData',
           data: jsonObject.audioData.data,
           timestamp: jsonObject.audioData.timestamp,
           isSilent: jsonObject.audioData.silent,
@@ -96,14 +89,13 @@ export class StreamingData {
               ? createIdentifierFromRawId(jsonObject.audioData.participantRawID)
               : undefined,
         };
-        StreamingData.streamingKind = kind;
         return audioData;
       }
       case "DtmfData": {
         const dtmfData: DtmfData = {
+          kind: 'DtmfData',
           data: jsonObject.dtmfData.data,
         };
-        StreamingData.streamingKind = kind;
         return dtmfData;
       }
       default:
