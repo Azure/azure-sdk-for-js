@@ -96,8 +96,8 @@ describe("CustomerSDKStatsMetrics", () => {
       const reasonMap = dropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      // Should be categorized as "timeout_exception" instead of raw message
-      expect(reasonMap.get("timeout_exception")).toBe(5);
+      // Should be categorized as "Timeout exception" instead of raw message
+      expect(reasonMap.get("Timeout exception")).toBe(5);
     });
 
     it("should not store drop.reason for CLIENT_EXCEPTION when message not provided", () => {
@@ -116,11 +116,11 @@ describe("CustomerSDKStatsMetrics", () => {
       const reasonMap = dropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      // Should be "unknown_exception" instead of "default"
-      expect(reasonMap.get("unknown_exception")).toBe(3);
+      // Should be "Client exception" instead of "default"
+      expect(reasonMap.get("Client exception")).toBe(3);
     });
 
-    it("should store appropriate drop.reason for non-CLIENT_EXCEPTION drop codes", () => {
+    it("should NOT store drop.reason for non-CLIENT_EXCEPTION drop codes", () => {
       const exceptionMessage = "Some error message";
 
       customerSDKStatsMetrics.countDroppedItems(
@@ -139,8 +139,8 @@ describe("CustomerSDKStatsMetrics", () => {
       const reasonMap = dropCodeMap.get(DropCode.NON_RETRYABLE_STATUS_CODE);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      // Should be "non_retryable_status" instead of "default"
-      expect(reasonMap.get("non_retryable_status")).toBe(2);
+      // Should have "Non-retryable status" as reason for NON_RETRYABLE_STATUS_CODE
+      expect(reasonMap.get("Non-retryable status")).toBe(2);
     });
 
     it("should aggregate counts for same drop code and exception message", () => {
@@ -167,8 +167,8 @@ describe("CustomerSDKStatsMetrics", () => {
       const reasonMap = dropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      // Should aggregate based on categorized reason "other_exception"
-      expect(reasonMap.get("other_exception")).toBe(5);
+      // Should aggregate based on categorized reason "Client exception"
+      expect(reasonMap.get("Client exception")).toBe(5);
     });
 
     it("should create separate entries for different telemetry types", () => {
@@ -193,7 +193,7 @@ describe("CustomerSDKStatsMetrics", () => {
       const traceReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(traceReasonMap).toBeDefined();
       expect(traceReasonMap.size).toBe(1);
-      expect(traceReasonMap.get("other_exception")).toBe(2);
+      expect(traceReasonMap.get("Client exception")).toBe(2);
 
       const dependencyDropCodeMap = counter.totalItemDropCount.get(TelemetryType.DEPENDENCY);
       expect(dependencyDropCodeMap).toBeDefined();
@@ -202,7 +202,7 @@ describe("CustomerSDKStatsMetrics", () => {
       const dependencyReasonMap = dependencyDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(dependencyReasonMap).toBeDefined();
       expect(dependencyReasonMap.size).toBe(1);
-      expect(dependencyReasonMap.get("other_exception")).toBe(3);
+      expect(dependencyReasonMap.get("Client exception")).toBe(3);
     });
   });
 
@@ -226,8 +226,8 @@ describe("CustomerSDKStatsMetrics", () => {
       const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      // Should be categorized as "network_exception" instead of raw message
-      expect(reasonMap.get("network_exception")).toBe(3);
+      // Should be categorized as "Network exception" instead of raw message
+      expect(reasonMap.get("Network exception")).toBe(3);
     });
 
     it("should not store retry.reason for CLIENT_EXCEPTION when message not provided", () => {
@@ -298,7 +298,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
       // Should aggregate to 5 (2 + 3)
-      expect(reasonMap.get("timeout_exception")).toBe(5);
+      expect(reasonMap.get("Timeout exception")).toBe(5);
     });
   });
 
@@ -332,14 +332,14 @@ describe("CustomerSDKStatsMetrics", () => {
         (call: any) => call[2]["drop.code"] === DropCode.CLIENT_EXCEPTION,
       );
       expect(clientExceptionCall).toBeDefined();
-      expect(clientExceptionCall![2]).toHaveProperty("drop.reason", "other_exception");
+      expect(clientExceptionCall![2]).toHaveProperty("drop.reason", "Client exception");
 
       // Check that drop.reason is included for other codes too (now)
       const nonRetryableCall = mockObservableResult.observe.mock.calls.find(
         (call: any) => call[2]["drop.code"] === DropCode.NON_RETRYABLE_STATUS_CODE,
       );
       expect(nonRetryableCall).toBeDefined();
-      expect(nonRetryableCall![2]).toHaveProperty("drop.reason", "non_retryable_status");
+      expect(nonRetryableCall![2]).toHaveProperty("drop.reason", "Non-retryable status");
     });
 
     it("should include retry.reason in retry count metrics when present", () => {
@@ -371,7 +371,7 @@ describe("CustomerSDKStatsMetrics", () => {
         (call: any) => call[2]["retry.code"] === RetryCode.CLIENT_EXCEPTION,
       );
       expect(clientExceptionCall).toBeDefined();
-      expect(clientExceptionCall![2]).toHaveProperty("retry.reason", "other_exception");
+      expect(clientExceptionCall![2]).toHaveProperty("retry.reason", "Client exception");
 
       // Check that retry.reason is included for other codes too (now)
       const retryableCall = mockObservableResult.observe.mock.calls.find(
@@ -397,11 +397,11 @@ describe("CustomerSDKStatsMetrics", () => {
 
       const traceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       const traceDropReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
-      expect(traceDropReasonMap.get("other_exception")).toBe(5);
+      expect(traceDropReasonMap.get("Client exception")).toBe(5);
 
       const traceRetryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       const traceRetryReasonMap = traceRetryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
-      expect(traceRetryReasonMap.get("other_exception")).toBe(3);
+      expect(traceRetryReasonMap.get("Client exception")).toBe(3);
 
       const mockObservableResult = {
         observe: vi.fn(),
@@ -421,11 +421,11 @@ describe("CustomerSDKStatsMetrics", () => {
       // Counts should be reset to zero
       const resetTraceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       const resetTraceDropReasonMap = resetTraceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
-      expect(resetTraceDropReasonMap.get("other_exception")).toBe(0);
+      expect(resetTraceDropReasonMap.get("Client exception")).toBe(0);
 
       const resetTraceRetryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       const resetTraceRetryReasonMap = resetTraceRetryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
-      expect(resetTraceRetryReasonMap.get("other_exception")).toBe(0);
+      expect(resetTraceRetryReasonMap.get("Client exception")).toBe(0);
     });
   });
   describe("Drop Reason Integration Tests", () => {
@@ -450,7 +450,7 @@ describe("CustomerSDKStatsMetrics", () => {
       const integrationReasonMap = integrationDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(integrationReasonMap).toBeDefined();
       expect(integrationReasonMap.size).toBe(1);
-      expect(integrationReasonMap.get("network_exception")).toBe(5);
+      expect(integrationReasonMap.get("Network exception")).toBe(5);
 
       // Test the observable callback includes drop.reason in attributes
       const mockObservableResult = {
@@ -467,7 +467,7 @@ describe("CustomerSDKStatsMetrics", () => {
         5,
         expect.objectContaining({
           "drop.code": DropCode.CLIENT_EXCEPTION,
-          "drop.reason": "network_exception",
+          "drop.reason": "Network exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -496,7 +496,7 @@ describe("CustomerSDKStatsMetrics", () => {
       const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      expect(reasonMap.get("timeout_exception")).toBe(3);
+      expect(reasonMap.get("Timeout exception")).toBe(3);
 
       // Test the observable callback includes retry.reason in attributes
       const mockObservableResult = {
@@ -513,7 +513,7 @@ describe("CustomerSDKStatsMetrics", () => {
         3,
         expect.objectContaining({
           "retry.code": RetryCode.CLIENT_EXCEPTION,
-          "retry.reason": "timeout_exception",
+          "retry.reason": "Timeout exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -543,7 +543,7 @@ describe("CustomerSDKStatsMetrics", () => {
       );
       expect(nonClientExceptionReasonMap).toBeDefined();
       expect(nonClientExceptionReasonMap.size).toBe(1);
-      expect(nonClientExceptionReasonMap.get("non_retryable_status")).toBe(2);
+      expect(nonClientExceptionReasonMap.get("Non-retryable status")).toBe(2);
 
       // Test observable callback does not include drop.reason
       const mockObservableResult = {
@@ -604,7 +604,7 @@ describe("CustomerSDKStatsMetrics", () => {
         3,
         expect.objectContaining({
           "drop.code": DropCode.CLIENT_EXCEPTION,
-          "drop.reason": "timeout_exception",
+          "drop.reason": "Timeout exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -616,7 +616,7 @@ describe("CustomerSDKStatsMetrics", () => {
         2,
         expect.objectContaining({
           "retry.code": RetryCode.CLIENT_EXCEPTION,
-          "retry.reason": "auth_exception",
+          "retry.reason": "Auth exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
@@ -649,7 +649,7 @@ describe("CustomerSDKStatsMetrics", () => {
       const aggregateReasonMap = aggregateDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(aggregateReasonMap).toBeDefined();
       expect(aggregateReasonMap.size).toBe(1);
-      expect(aggregateReasonMap.get("network_exception")).toBe(5); // 2 + 3
+      expect(aggregateReasonMap.get("Network exception")).toBe(5); // 2 + 3
 
       // Test observable callback aggregates the count
       const mockObservableResult = {
@@ -665,7 +665,7 @@ describe("CustomerSDKStatsMetrics", () => {
         5,
         expect.objectContaining({
           "drop.code": DropCode.CLIENT_EXCEPTION,
-          "drop.reason": "network_exception",
+          "drop.reason": "Network exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
