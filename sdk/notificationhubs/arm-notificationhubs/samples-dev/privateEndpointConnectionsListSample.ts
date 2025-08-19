@@ -6,11 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PrivateEndpointConnectionResource } from "@azure/arm-notificationhubs";
-import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns all Private Endpoint Connections that belong to the given Notification Hubs namespace.
 This is a public API that can be called directly by Notification Hubs users.
@@ -19,6 +14,12 @@ This is a public API that can be called directly by Notification Hubs users.
 This is a public API that can be called directly by Notification Hubs users.
  * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/Namespaces/PrivateEndpointConnectionList.json
  */
+
+import type { PrivateEndpointConnectionResource } from "@azure/arm-notificationhubs";
+import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function privateEndpointConnectionsList(): Promise<void> {
   const subscriptionId =
     process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] || "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Create or update a private scheduled action.
+ *
+ * @summary Create or update a private scheduled action.
+ * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-createOrUpdate-private.json
+ */
+
 import type {
   ScheduledAction,
   ScheduledActionsCreateOrUpdateOptionalParams,
@@ -14,12 +21,6 @@ import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create or update a private scheduled action.
- *
- * @summary Create or update a private scheduled action.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-createOrUpdate-private.json
- */
 async function createOrUpdatePrivateScheduledAction(): Promise<void> {
   const name = "monthlyCostByResource";
   const ifMatch = "";

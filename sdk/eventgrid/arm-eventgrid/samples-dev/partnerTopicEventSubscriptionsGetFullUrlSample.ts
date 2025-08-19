@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { EventGridManagementClient } from "@azure/arm-eventgrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the full endpoint URL for an event subscription of a partner topic.
  *
  * @summary Get the full endpoint URL for an event subscription of a partner topic.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PartnerTopicEventSubscriptions_GetFullUrl.json
  */
+
+import { EventGridManagementClient } from "@azure/arm-eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function partnerTopicEventSubscriptionsGetFullUrl(): Promise<void> {
   const subscriptionId =
     process.env["EVENTGRID_SUBSCRIPTION_ID"] ||

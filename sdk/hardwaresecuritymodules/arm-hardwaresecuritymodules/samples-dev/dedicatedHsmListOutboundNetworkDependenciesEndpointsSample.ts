@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified dedicated hsm resource. The operation returns properties of each egress endpoint.
  *
  * @summary gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified dedicated hsm resource. The operation returns properties of each egress endpoint.
  * x-ms-original-file: 2025-03-31/GetOutboundNetworkDependenciesEndpointsList.json
  */
+
+import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listOutboundNetworkDependenciesEndpointsByManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

@@ -6,15 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes a relationship within a hub.
  *
  * @summary Deletes a relationship within a hub.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/RelationshipsDelete.json
  */
+
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function relationshipsDelete(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";

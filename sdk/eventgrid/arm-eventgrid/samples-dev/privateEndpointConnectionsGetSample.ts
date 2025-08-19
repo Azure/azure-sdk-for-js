@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { EventGridManagementClient } from "@azure/arm-eventgrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a specific private endpoint connection under a topic, domain, or partner namespace or namespace.
  *
  * @summary Get a specific private endpoint connection under a topic, domain, or partner namespace or namespace.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PrivateEndpointConnections_Get.json
  */
+
+import { EventGridManagementClient } from "@azure/arm-eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function privateEndpointConnectionsGet(): Promise<void> {
   const subscriptionId =
     process.env["EVENTGRID_SUBSCRIPTION_ID"] ||

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { StorageManagementClient } from "@azure/arm-storage";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes the object replication policy associated with the specified storage account.
  *
  * @summary Deletes the object replication policy associated with the specified storage account.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountDeleteObjectReplicationPolicy.json
  */
+
+import { StorageManagementClient } from "@azure/arm-storage";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function storageAccountDeleteObjectReplicationPolicies(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

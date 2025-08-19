@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { EventsListByBillingAccountOptionalParams } from "@azure/arm-consumption";
-import { ConsumptionManagementClient } from "@azure/arm-consumption";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  *
  * @summary Lists the events that decrements Azure credits or Microsoft Azure consumption commitment for a billing account or a billing profile for a given start and end date.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/EventsGetByBillingAccount.json
  */
+
+import type { EventsListByBillingAccountOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function eventsGetByBillingAccount(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

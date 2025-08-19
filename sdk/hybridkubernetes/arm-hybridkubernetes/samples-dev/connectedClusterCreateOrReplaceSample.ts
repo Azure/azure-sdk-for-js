@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ConnectedCluster } from "@azure/arm-hybridkubernetes";
-import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to API to register a new Kubernetes cluster and create or replace a connected cluster tracked resource in Azure Resource Manager (ARM).
  *
  * @summary API to register a new Kubernetes cluster and create or replace a connected cluster tracked resource in Azure Resource Manager (ARM).
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/preview/2024-12-01-preview/examples/CreateClusterAgentless_KindAWSExample.json
  */
+
+import type { ConnectedCluster } from "@azure/arm-hybridkubernetes";
+import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createClusterAgentlessKindAwsExample(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDKUBERNETES_SUBSCRIPTION_ID"] ||

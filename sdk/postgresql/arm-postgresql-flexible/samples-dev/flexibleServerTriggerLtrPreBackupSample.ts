@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to PreBackup operation performs all the checks that are needed for the subsequent long term retention backup operation to succeed.
+ *
+ * @summary PreBackup operation performs all the checks that are needed for the subsequent long term retention backup operation to succeed.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/LongTermRetentionPreBackup.json
+ */
+
 import {
   LtrPreBackupRequest,
   PostgreSQLManagementFlexibleServerClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to PreBackup operation performs all the checks that are needed for the subsequent long term retention backup operation to succeed.
- *
- * @summary PreBackup operation performs all the checks that are needed for the subsequent long term retention backup operation to succeed.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/LongTermRetentionPreBackup.json
- */
 async function samplePrebackup(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";

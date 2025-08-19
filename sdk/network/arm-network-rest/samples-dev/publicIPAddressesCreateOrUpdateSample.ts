@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { PublicIPAddressesCreateOrUpdateParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressCreateDns.json
  */
+
+import type { PublicIPAddressesCreateOrUpdateParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createPublicIPAddressDns(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
@@ -33,7 +33,8 @@ async function createPublicIPAddressDns(): Promise<void> {
       publicIpAddressName,
     )
     .put(options);
-  const result = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
+  const result = await poller.pollUntilDone();
   console.log(result);
 }
 
@@ -70,7 +71,8 @@ async function createPublicIPAddressAllocationMethod(): Promise<void> {
       publicIpAddressName,
     )
     .put(options);
-  const result = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
+  const result = await poller.pollUntilDone();
   console.log(result);
 }
 
@@ -99,7 +101,8 @@ async function createPublicIPAddressDefaults(): Promise<void> {
       publicIpAddressName,
     )
     .put(options);
-  const result = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
+  const result = await poller.pollUntilDone();
   console.log(result);
 }
 

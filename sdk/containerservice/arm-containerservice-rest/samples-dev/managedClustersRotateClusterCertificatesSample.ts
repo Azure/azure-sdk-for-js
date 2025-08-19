@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import ContainerServiceManagementClient, {
-  getLongRunningPoller,
-} from "@azure-rest/arm-containerservice";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to See [Certificate rotation](https://learn.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
  *
  * @summary See [Certificate rotation](https://learn.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersRotateClusterCertificates.json
  */
+
+import ContainerServiceManagementClient, {
+  getLongRunningPoller,
+} from "@azure-rest/arm-containerservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function rotateClusterCertificates(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";

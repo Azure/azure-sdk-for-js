@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SearchManagementClient } from "@azure/arm-search";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Upgrades the Azure AI Search service to the latest version available.
  *
  * @summary Upgrades the Azure AI Search service to the latest version available.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/UpgradeSearchServiceToLatestVersion.json
  */
+
+import { SearchManagementClient } from "@azure/arm-search";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function upgradeSearchServiceToLatestVersion(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";

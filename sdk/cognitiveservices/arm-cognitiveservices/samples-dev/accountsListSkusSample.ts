@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List available SKUs for the requested Cognitive Services account
  *
  * @summary List available SKUs for the requested Cognitive Services account
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/ListSkus.json
  */
+
+import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listSkUs(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||

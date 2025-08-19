@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
+ *
+ * @summary Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/InboundSecurityRulePut.json
+ */
+
 import type {
   InboundSecurityRule} from "@azure/arm-network";
 import {
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
- *
- * @summary Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/InboundSecurityRulePut.json
- */
 async function createNetworkVirtualApplianceInboundSecurityRules(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

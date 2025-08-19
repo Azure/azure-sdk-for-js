@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Update an existing event subscription for a domain topic.
+ *
+ * @summary Update an existing event subscription for a domain topic.
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/DomainTopicEventSubscriptions_Update.json
+ */
+
 import {
   EventSubscriptionUpdateParameters,
   EventGridManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Update an existing event subscription for a domain topic.
- *
- * @summary Update an existing event subscription for a domain topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/DomainTopicEventSubscriptions_Update.json
- */
 async function domainTopicEventSubscriptionsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTGRID_SUBSCRIPTION_ID"] ||

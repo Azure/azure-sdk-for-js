@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns the properties of the specified connected cluster, including name, identity, properties, and additional cluster details.
  *
  * @summary Returns the properties of the specified connected cluster, including name, identity, properties, and additional cluster details.
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/preview/2024-12-01-preview/examples/GetClusterExample.json
  */
+
+import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getClusterExample(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDKUBERNETES_SUBSCRIPTION_ID"] ||

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to This operation retrieves the route set information for an Express Route Gateway based on their resiliency
+ *
+ * @summary This operation retrieves the route set information for an Express Route Gateway based on their resiliency
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayGetRoutesInformation.json
+ */
+
 import type {
   VirtualNetworkGatewaysGetRoutesInformationOptionalParams} from "@azure/arm-network";
 import {
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to This operation retrieves the route set information for an Express Route Gateway based on their resiliency
- *
- * @summary This operation retrieves the route set information for an Express Route Gateway based on their resiliency
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayGetRoutesInformation.json
- */
 async function getVirtualNetworkGatewayRoutesInformation(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

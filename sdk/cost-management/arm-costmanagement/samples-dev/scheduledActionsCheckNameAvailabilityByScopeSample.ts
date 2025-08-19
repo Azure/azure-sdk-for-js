@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { CheckNameAvailabilityRequest } from "@azure/arm-costmanagement";
-import { CostManagementClient } from "@azure/arm-costmanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Checks availability and correctness of the name for a scheduled action within the given scope.
  *
  * @summary Checks availability and correctness of the name for a scheduled action within the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/checkNameAvailability-shared-scheduledAction.json
  */
+
+import type { CheckNameAvailabilityRequest } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function scheduledActionCheckNameAvailabilityByScope(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {

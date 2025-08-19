@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Update a proximity placement group.
+ *
+ * @summary Update a proximity placement group.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
+ */
+
 import {
   ProximityPlacementGroupUpdate,
   ComputeManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Update a proximity placement group.
- *
- * @summary Update a proximity placement group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
- */
 async function updateAProximityPlacementGroup(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

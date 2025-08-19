@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Create a new database migration to a given SQL VM.
+ *
+ * @summary Create a new database migration to a given SQL VM.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlVmCreateOrUpdateDatabaseMigrationMAX.json
+ */
+
 import {
   DatabaseMigrationSqlVm,
   DataMigrationManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create a new database migration to a given SQL VM.
- *
- * @summary Create a new database migration to a given SQL VM.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlVmCreateOrUpdateDatabaseMigrationMAX.json
- */
 async function createOrUpdateDatabaseMigrationResourceWithMaximumParameters(): Promise<void> {
   const subscriptionId =
     process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||

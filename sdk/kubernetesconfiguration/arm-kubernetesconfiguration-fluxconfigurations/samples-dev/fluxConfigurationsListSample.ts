@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FluxConfigurationClient } from "@azure/arm-kubernetesconfiguration-fluxconfigurations";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List all Flux Configurations.
  *
  * @summary List all Flux Configurations.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/ListFluxConfigurations.json
  */
+
+import { FluxConfigurationClient } from "@azure/arm-kubernetesconfiguration-fluxconfigurations";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listFluxConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
  * x-ms-original-file: 2025-04-01-preview/Operations_List_MaximumSet_Gen.json
  */
+
+import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function operationsListMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";

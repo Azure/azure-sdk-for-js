@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ReservationsDetailsListOptionalParams } from "@azure/arm-consumption";
-import { ConsumptionManagementClient } from "@azure/arm-consumption";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the reservations details for the defined scope and provided date range.
  *
  * @summary Lists the reservations details for the defined scope and provided date range.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingAccountId.json
  */
+
+import type { ReservationsDetailsListOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function reservationDetailsByBillingAccountId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

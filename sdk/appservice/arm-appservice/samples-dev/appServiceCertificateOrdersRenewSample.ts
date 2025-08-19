@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Renew an existing certificate order.
+ *
+ * @summary Description for Renew an existing certificate order.
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-11-01/examples/RenewAppServiceCertificateOrder.json
+ */
+
 import {
   RenewCertificateOrderRequest,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Renew an existing certificate order.
- *
- * @summary Description for Renew an existing certificate order.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-11-01/examples/RenewAppServiceCertificateOrder.json
- */
 async function renewAppServiceCertificateOrder(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

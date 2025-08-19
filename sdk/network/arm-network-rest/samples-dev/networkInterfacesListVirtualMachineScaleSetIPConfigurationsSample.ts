@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the specified network interface ip configuration in a virtual machine scale set.
@@ -11,6 +7,12 @@ import "dotenv/config";
  * @summary Get the specified network interface ip configuration in a virtual machine scale set.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VmssNetworkInterfaceIpConfigList.json
  */
+
+import type { NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

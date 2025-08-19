@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PolicyClient } from "@azure/arm-policy";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to This operation retrieves a list of all the built-in policy definition versions for the given policy definition.
  *
  * @summary This operation retrieves a list of all the built-in policy definition versions for the given policy definition.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/listBuiltInPolicyDefinitionVersions.json
  */
+
+import { PolicyClient } from "@azure/arm-policy";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listBuiltInPolicyDefinitionVersions(): Promise<void> {
   const policyDefinitionName = "06a78e20-9358-41c9-923c-fb736d382a12";
   const credential = new DefaultAzureCredential();

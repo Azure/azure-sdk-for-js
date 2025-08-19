@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { DiskEncryptionSet } from "@azure/arm-compute-profile-2020-09-01-hybrid";
-import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
  * @summary Creates or updates a disk encryption set
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateADiskEncryptionSet.json
  */
+
+import type { DiskEncryptionSet } from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createADiskEncryptionSet(): Promise<void> {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IdentityUpdate, ManagedServiceIdentityClient } from "@azure/arm-msi";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update an identity in the specified subscription and resource group.
  *
  * @summary Update an identity in the specified subscription and resource group.
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2024-11-30/examples/IdentityUpdate.json
  */
+
+import { IdentityUpdate, ManagedServiceIdentityClient } from "@azure/arm-msi";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function identityUpdate(): Promise<void> {
   const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";

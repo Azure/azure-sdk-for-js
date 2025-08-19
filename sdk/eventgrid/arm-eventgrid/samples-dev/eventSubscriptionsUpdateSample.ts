@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Asynchronously updates an existing event subscription.
+ *
+ * @summary Asynchronously updates an existing event subscription.
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_UpdateForCustomTopic.json
+ */
+
 import {
   EventSubscriptionUpdateParameters,
   EventGridManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Asynchronously updates an existing event subscription.
- *
- * @summary Asynchronously updates an existing event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_UpdateForCustomTopic.json
- */
 async function eventSubscriptionsUpdateForCustomTopic(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2";

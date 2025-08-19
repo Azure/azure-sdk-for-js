@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a Asset
  *
  * @summary create a Asset
  * x-ms-original-file: 2024-11-01/Create_Asset_With_DiscoveredAssetRef.json
  */
+
+import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createAssetWithDiscoveredAssetRefs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Create or updates Azure Cosmos DB MongoDB database
+ *
+ * @summary Create or updates Azure Cosmos DB MongoDB database
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBMongoDBDatabaseCreateUpdate.json
+ */
+
 import {
   MongoDBDatabaseCreateUpdateParameters,
   CosmosDBManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create or updates Azure Cosmos DB MongoDB database
- *
- * @summary Create or updates Azure Cosmos DB MongoDB database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBMongoDBDatabaseCreateUpdate.json
- */
 async function cosmosDbMongoDbdatabaseCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes a DNS resolver policy virtual network link. WARNING: This operation cannot be undone.
  *
  * @summary Deletes a DNS resolver policy virtual network link. WARNING: This operation cannot be undone.
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/DnsResolverPolicyVirtualNetworkLink_Delete.json
  */
+
+import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteDnsResolverPolicyVirtualNetworkLink(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||

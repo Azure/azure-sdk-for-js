@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ResourceManagementClient } from "@azure/arm-resources";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets all resource providers for a subscription.
  *
  * @summary Gets all resource providers for a subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/GetProviders.json
  */
+
+import { ResourceManagementClient } from "@azure/arm-resources";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getProviders(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||

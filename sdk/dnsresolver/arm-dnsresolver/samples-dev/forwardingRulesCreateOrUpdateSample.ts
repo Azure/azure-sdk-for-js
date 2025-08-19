@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates or updates a forwarding rule in a DNS forwarding ruleset.
+ *
+ * @summary Creates or updates a forwarding rule in a DNS forwarding ruleset.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/ForwardingRule_Put.json
+ */
+
 import {
   ForwardingRule,
   DnsResolverManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates a forwarding rule in a DNS forwarding ruleset.
- *
- * @summary Creates or updates a forwarding rule in a DNS forwarding ruleset.
- * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/ForwardingRule_Put.json
- */
 async function upsertForwardingRuleInADnsForwardingRuleset(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||

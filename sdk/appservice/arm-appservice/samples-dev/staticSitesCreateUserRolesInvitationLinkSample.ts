@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Creates an invitation link for a user with the role
+ *
+ * @summary Description for Creates an invitation link for a user with the role
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/CreateUserRolesInvitationLink.json
+ */
+
 import {
   StaticSiteUserInvitationRequestResource,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Creates an invitation link for a user with the role
- *
- * @summary Description for Creates an invitation link for a user with the role
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/CreateUserRolesInvitationLink.json
- */
 async function createAnInvitationLinkForAUserForAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

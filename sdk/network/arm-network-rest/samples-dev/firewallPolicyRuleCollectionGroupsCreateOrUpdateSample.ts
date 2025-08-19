@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { FirewallPolicyRuleCollectionGroupsCreateOrUpdateParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
  */
+
+import type { FirewallPolicyRuleCollectionGroupsCreateOrUpdateParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
@@ -57,7 +57,8 @@ async function createFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
       ruleCollectionGroupName,
     )
     .put(options);
-  const result = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
+  const result = await poller.pollUntilDone();
   console.log(result);
 }
 
@@ -110,7 +111,8 @@ async function createFirewallPolicyRuleCollectionGroup(): Promise<void> {
       ruleCollectionGroupName,
     )
     .put(options);
-  const result = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
+  const result = await poller.pollUntilDone();
   console.log(result);
 }
 
@@ -166,7 +168,8 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups(): Promise<vo
       ruleCollectionGroupName,
     )
     .put(options);
-  const result = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
+  const result = await poller.pollUntilDone();
   console.log(result);
 }
 
@@ -218,7 +221,8 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories(): Promi
       ruleCollectionGroupName,
     )
     .put(options);
-  const result = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
+  const result = await poller.pollUntilDone();
   console.log(result);
 }
 

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to List installable Extension Types for the cluster based region and type for the cluster.
+ *
+ * @summary List installable Extension Types for the cluster based region and type for the cluster.
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/ListExtensionTypes.json
+ */
+
 import {
   ExtensionTypesListOptionalParams,
   ExtensionTypesClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to List installable Extension Types for the cluster based region and type for the cluster.
- *
- * @summary List installable Extension Types for the cluster based region and type for the cluster.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/ListExtensionTypes.json
- */
 async function getExtensionTypes(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";

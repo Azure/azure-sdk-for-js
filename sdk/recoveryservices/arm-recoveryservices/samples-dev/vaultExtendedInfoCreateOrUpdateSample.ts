@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create vault extended info.
  *
  * @summary Create vault extended info.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/UpdateVaultExtendedInfo.json
  */
+
+import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function putExtendedInfoOfResource(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Resets the api key for an existing static site.
+ *
+ * @summary Description for Resets the api key for an existing static site.
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/ResetStaticSiteApiKey.json
+ */
+
 import {
   StaticSiteResetPropertiesARMResource,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Resets the api key for an existing static site.
- *
- * @summary Description for Resets the api key for an existing static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/ResetStaticSiteApiKey.json
- */
 async function resetTheApiKeyForAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

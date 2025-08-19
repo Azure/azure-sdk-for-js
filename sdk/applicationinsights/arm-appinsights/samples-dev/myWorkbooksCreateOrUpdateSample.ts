@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Workbook } from "@azure/arm-appinsights";
-import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Create a new private workbook.
  *
  * @summary Create a new private workbook.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2021-03-08/examples/MyWorkbookAdd.json
  */
+
+import type { Workbook } from "@azure/arm-appinsights";
+import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function workbookAdd(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-00000000";
   const resourceGroupName = "my-resource-group";

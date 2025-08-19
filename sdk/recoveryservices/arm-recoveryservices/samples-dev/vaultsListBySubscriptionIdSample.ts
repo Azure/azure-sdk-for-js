@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Fetches all the resources of the specified type in the subscription.
  *
  * @summary Fetches all the resources of the specified type in the subscription.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ListBySubscriptionIds.json
  */
+
+import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listOfRecoveryServicesResourcesInSubscriptionId(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||

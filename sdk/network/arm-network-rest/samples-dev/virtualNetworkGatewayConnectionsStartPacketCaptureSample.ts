@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { VirtualNetworkGatewayConnectionsStartPacketCaptureParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Starts packet capture on virtual network gateway connection in the specified resource group.
  *
  * @summary Starts packet capture on virtual network gateway connection in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayConnectionStartPacketCaptureFilterData.json
  */
+
+import type { VirtualNetworkGatewayConnectionsStartPacketCaptureParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
@@ -33,7 +33,8 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter(): 
       virtualNetworkGatewayConnectionName,
     )
     .post(options);
-  const result = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
+  const result = await poller.pollUntilDone();
   console.log(result);
 }
 
@@ -61,7 +62,8 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter(
       virtualNetworkGatewayConnectionName,
     )
     .post(options);
-  const result = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
+  const result = await poller.pollUntilDone();
   console.log(result);
 }
 

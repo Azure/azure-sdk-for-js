@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { DataBoundaryDefinition } from "@azure/arm-databoundaries";
-import { DataboundariesManegementClient } from "@azure/arm-databoundaries";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Opt-in tenant to data boundary.
  *
  * @summary Opt-in tenant to data boundary.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/PutDataBoundary.json
  */
+
+import type { DataBoundaryDefinition } from "@azure/arm-databoundaries";
+import { DataboundariesManegementClient } from "@azure/arm-databoundaries";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function optInToDataBoundary(): Promise<void> {
   const defaultParam = "default";
   const dataBoundaryDefinition: DataBoundaryDefinition = {

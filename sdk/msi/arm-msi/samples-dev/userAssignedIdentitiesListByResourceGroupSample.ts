@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedServiceIdentityClient } from "@azure/arm-msi";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all the userAssignedIdentities available under the specified ResourceGroup.
  *
  * @summary Lists all the userAssignedIdentities available under the specified ResourceGroup.
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2024-11-30/examples/IdentityListByResourceGroup.json
  */
+
+import { ManagedServiceIdentityClient } from "@azure/arm-msi";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function identityListByResourceGroup(): Promise<void> {
   const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";

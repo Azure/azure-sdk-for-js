@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Get a single private workbook by its resourceName.
  *
  * @summary Get a single private workbook by its resourceName.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2021-03-08/examples/MyWorkbookGet.json
  */
+
+import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function workbookGet(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const resourceGroupName = "my-resource-group";

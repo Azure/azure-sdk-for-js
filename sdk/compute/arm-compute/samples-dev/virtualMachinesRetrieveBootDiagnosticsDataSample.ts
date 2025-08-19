@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.
+ *
+ * @summary The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_RetrieveBootDiagnosticsData.json
+ */
+
 import {
   VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams,
   ComputeManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.
- *
- * @summary The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_RetrieveBootDiagnosticsData.json
- */
 async function retrieveBootDiagnosticsDataOfAVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

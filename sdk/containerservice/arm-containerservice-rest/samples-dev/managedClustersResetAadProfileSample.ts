@@ -6,18 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ManagedClustersResetAADProfileParameters } from "@azure-rest/arm-containerservice";
-import ContainerServiceManagementClient, {
-  getLongRunningPoller,
-} from "@azure-rest/arm-containerservice";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Reset the AAD Profile of a managed cluster.
  *
  * @summary Reset the AAD Profile of a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersResetAADProfile.json
  */
+
+import type { ManagedClustersResetAADProfileParameters } from "@azure-rest/arm-containerservice";
+import ContainerServiceManagementClient, {
+  getLongRunningPoller,
+} from "@azure-rest/arm-containerservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function resetAadProfile(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
