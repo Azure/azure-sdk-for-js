@@ -16,11 +16,7 @@ describe("the List operation gets information about the Cloud HSM Clusters assoc
     const credential = createTestCredential();
     const subscriptionId = env.SUBSCRIPTION_ID || "<SUBSCRIPTION_ID>";
     const clientOptions = recorder.configureClientOptions({});
-    client = new AzureDedicatedHSMResourceProvider(
-      credential,
-      subscriptionId,
-      clientOptions,
-    );
+    client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId, clientOptions);
   });
 
   afterEach(async function () {
@@ -35,10 +31,7 @@ describe("the List operation gets information about the Cloud HSM Clusters assoc
     assert.ok(resArray);
     assert.strictEqual(resArray.length, 2);
     assert.strictEqual(resArray[0].name, "chsm1");
-    assert.strictEqual(
-      resArray[0].type,
-      "Microsoft.HardwareSecurityModules/cloudHsmClusters",
-    );
+    assert.strictEqual(resArray[0].type, "Microsoft.HardwareSecurityModules/cloudHsmClusters");
     assert.strictEqual(
       resArray[0].id,
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgcloudhsm/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/chsm1",

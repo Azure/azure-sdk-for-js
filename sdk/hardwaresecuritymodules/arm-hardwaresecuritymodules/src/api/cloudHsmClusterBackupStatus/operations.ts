@@ -38,20 +38,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<BackupResult> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<BackupResult> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -72,12 +68,6 @@ export async function get(
     requestOptions: {},
   },
 ): Promise<BackupResult | null> {
-  const result = await _getSend(
-    context,
-    resourceGroupName,
-    cloudHsmClusterName,
-    jobId,
-    options,
-  );
+  const result = await _getSend(context, resourceGroupName, cloudHsmClusterName, jobId, options);
   return _getDeserialize(result);
 }

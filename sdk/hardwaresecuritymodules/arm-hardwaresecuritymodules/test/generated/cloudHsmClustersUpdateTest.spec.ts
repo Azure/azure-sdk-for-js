@@ -16,11 +16,7 @@ describe("update a Cloud HSM Cluster in the specified subscription", () => {
     const credential = createTestCredential();
     const subscriptionId = env.SUBSCRIPTION_ID || "<SUBSCRIPTION_ID>";
     const clientOptions = recorder.configureClientOptions({});
-    client = new AzureDedicatedHSMResourceProvider(
-      credential,
-      subscriptionId,
-      clientOptions,
-    );
+    client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId, clientOptions);
   });
 
   afterEach(async function () {
@@ -40,10 +36,7 @@ describe("update a Cloud HSM Cluster in the specified subscription", () => {
     });
     assert.ok(result);
     assert.strictEqual(result.name, "chsm1");
-    assert.strictEqual(
-      result.type,
-      "Microsoft.HardwareSecurityModules/cloudHsmClusters",
-    );
+    assert.strictEqual(result.type, "Microsoft.HardwareSecurityModules/cloudHsmClusters");
     assert.strictEqual(
       result.id,
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgcloudhsm/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/chsm1",

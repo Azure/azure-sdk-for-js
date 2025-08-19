@@ -30,10 +30,7 @@ import {
   DedicatedHsmOperations,
   _getDedicatedHsmOperations,
 } from "./classic/dedicatedHsm/index.js";
-import {
-  OperationsOperations,
-  _getOperationsOperations,
-} from "./classic/operations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   PrivateEndpointConnectionsOperations,
   _getPrivateEndpointConnectionsOperations,
@@ -58,24 +55,20 @@ export class AzureDedicatedHSMResourceProvider {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAzureDedicatedHSMResourceProvider(
-      credential,
-      subscriptionId,
-      { ...options, userAgentOptions: { userAgentPrefix } },
-    );
+    this._client = createAzureDedicatedHSMResourceProvider(credential, subscriptionId, {
+      ...options,
+      userAgentOptions: { userAgentPrefix },
+    });
     this.pipeline = this._client.pipeline;
     this.dedicatedHsm = _getDedicatedHsmOperations(this._client);
     this.cloudHsmClusterPrivateEndpointConnections =
       _getCloudHsmClusterPrivateEndpointConnectionsOperations(this._client);
-    this.cloudHsmClusterRestoreStatus =
-      _getCloudHsmClusterRestoreStatusOperations(this._client);
-    this.cloudHsmClusterBackupStatus =
-      _getCloudHsmClusterBackupStatusOperations(this._client);
-    this.cloudHsmClusterPrivateLinkResources =
-      _getCloudHsmClusterPrivateLinkResourcesOperations(this._client);
-    this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(
+    this.cloudHsmClusterRestoreStatus = _getCloudHsmClusterRestoreStatusOperations(this._client);
+    this.cloudHsmClusterBackupStatus = _getCloudHsmClusterBackupStatusOperations(this._client);
+    this.cloudHsmClusterPrivateLinkResources = _getCloudHsmClusterPrivateLinkResourcesOperations(
       this._client,
     );
+    this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.cloudHsmClusters = _getCloudHsmClustersOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }

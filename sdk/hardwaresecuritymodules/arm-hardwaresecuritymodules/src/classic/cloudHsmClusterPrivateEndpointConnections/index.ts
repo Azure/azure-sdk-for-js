@@ -55,14 +55,7 @@ function _getCloudHsmClusterPrivateEndpointConnections(
       cloudHsmClusterName: string,
       peConnectionName: string,
       options?: CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        resourceGroupName,
-        cloudHsmClusterName,
-        peConnectionName,
-        options,
-      ),
+    ) => $delete(context, resourceGroupName, cloudHsmClusterName, peConnectionName, options),
     create: (
       resourceGroupName: string,
       cloudHsmClusterName: string,
@@ -83,14 +76,7 @@ function _getCloudHsmClusterPrivateEndpointConnections(
       cloudHsmClusterName: string,
       peConnectionName: string,
       options?: CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
-    ) =>
-      get(
-        context,
-        resourceGroupName,
-        cloudHsmClusterName,
-        peConnectionName,
-        options,
-      ),
+    ) => get(context, resourceGroupName, cloudHsmClusterName, peConnectionName, options),
   };
 }
 

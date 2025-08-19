@@ -41,15 +41,13 @@ export function _listByCloudHsmClusterSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByCloudHsmClusterDeserialize(
@@ -76,13 +74,7 @@ export function listByCloudHsmCluster(
 ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByCloudHsmClusterSend(
-        context,
-        resourceGroupName,
-        cloudHsmClusterName,
-        options,
-      ),
+    () => _listByCloudHsmClusterSend(context, resourceGroupName, cloudHsmClusterName, options),
     _listByCloudHsmClusterDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

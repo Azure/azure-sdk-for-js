@@ -17,9 +17,7 @@ export interface CloudHsmClusterRestoreStatusOperations {
   ) => Promise<RestoreResult | null>;
 }
 
-function _getCloudHsmClusterRestoreStatus(
-  context: AzureDedicatedHSMResourceProviderContext,
-) {
+function _getCloudHsmClusterRestoreStatus(context: AzureDedicatedHSMResourceProviderContext) {
   return {
     get: (
       resourceGroupName: string,

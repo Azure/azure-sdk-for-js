@@ -16,11 +16,7 @@ describe("the List operation gets information about the dedicated HSMs associate
     const credential = createTestCredential();
     const subscriptionId = env.SUBSCRIPTION_ID || "<SUBSCRIPTION_ID>";
     const clientOptions = recorder.configureClientOptions({});
-    client = new AzureDedicatedHSMResourceProvider(
-      credential,
-      subscriptionId,
-      clientOptions,
-    );
+    client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId, clientOptions);
   });
 
   afterEach(async function () {
@@ -29,18 +25,13 @@ describe("the List operation gets information about the dedicated HSMs associate
 
   it("should the List operation gets information about the dedicated HSMs associated with the subscription and within the specified resource group for listDedicatedHSMDevicesInAResourceGroup", async function () {
     const resArray = new Array();
-    for await (const item of client.dedicatedHsm.listByResourceGroup(
-      "hsm-group",
-    )) {
+    for await (const item of client.dedicatedHsm.listByResourceGroup("hsm-group")) {
       resArray.push(item);
     }
     assert.ok(resArray);
     assert.strictEqual(resArray.length, 2);
     assert.strictEqual(resArray[0].name, "hsm1");
-    assert.strictEqual(
-      resArray[0].type,
-      "Microsoft.HardwareSecurityModules/dedicatedHSMs",
-    );
+    assert.strictEqual(resArray[0].type, "Microsoft.HardwareSecurityModules/dedicatedHSMs");
     assert.strictEqual(
       resArray[0].id,
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/hsm-group/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/hsm1",
@@ -50,18 +41,13 @@ describe("the List operation gets information about the dedicated HSMs associate
 
   it("should the List operation gets information about the dedicated HSMs associated with the subscription and within the specified resource group for listDedicatedHSMDevicesInAResourceGroupIncludingPaymentHSM", async function () {
     const resArray = new Array();
-    for await (const item of client.dedicatedHsm.listByResourceGroup(
-      "hsm-group",
-    )) {
+    for await (const item of client.dedicatedHsm.listByResourceGroup("hsm-group")) {
       resArray.push(item);
     }
     assert.ok(resArray);
     assert.strictEqual(resArray.length, 2);
     assert.strictEqual(resArray[0].name, "hsm1");
-    assert.strictEqual(
-      resArray[0].type,
-      "Microsoft.HardwareSecurityModules/dedicatedHSMs",
-    );
+    assert.strictEqual(resArray[0].type, "Microsoft.HardwareSecurityModules/dedicatedHSMs");
     assert.strictEqual(
       resArray[0].id,
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/hsm-group/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/hsm1",

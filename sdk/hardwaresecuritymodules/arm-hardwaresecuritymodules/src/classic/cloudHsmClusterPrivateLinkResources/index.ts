@@ -25,13 +25,7 @@ function _getCloudHsmClusterPrivateLinkResources(
       resourceGroupName: string,
       cloudHsmClusterName: string,
       options?: CloudHsmClusterPrivateLinkResourcesListByCloudHsmClusterOptionalParams,
-    ) =>
-      listByCloudHsmCluster(
-        context,
-        resourceGroupName,
-        cloudHsmClusterName,
-        options,
-      ),
+    ) => listByCloudHsmCluster(context, resourceGroupName, cloudHsmClusterName, options),
   };
 }
 

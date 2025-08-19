@@ -14,9 +14,7 @@ export enum AzureClouds {
 /** The supported values for cloud setting as a string literal type */
 export type AzureSupportedClouds = `${AzureClouds}`;
 
-export function getArmEndpoint(
-  cloudSetting?: AzureSupportedClouds,
-): string | undefined {
+export function getArmEndpoint(cloudSetting?: AzureSupportedClouds): string | undefined {
   if (cloudSetting === undefined) {
     return undefined;
   }

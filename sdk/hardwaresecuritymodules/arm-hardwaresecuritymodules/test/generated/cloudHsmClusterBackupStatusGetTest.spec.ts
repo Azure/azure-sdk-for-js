@@ -16,11 +16,7 @@ describe("gets the backup operation status of the specified Cloud HSM Cluster", 
     const credential = createTestCredential();
     const subscriptionId = env.SUBSCRIPTION_ID || "<SUBSCRIPTION_ID>";
     const clientOptions = recorder.configureClientOptions({});
-    client = new AzureDedicatedHSMResourceProvider(
-      credential,
-      subscriptionId,
-      clientOptions,
-    );
+    client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId, clientOptions);
   });
 
   afterEach(async function () {
@@ -38,18 +34,9 @@ describe("gets the backup operation status of the specified Cloud HSM Cluster", 
       result.properties.azureStorageBlobContainerUri,
       "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
     );
-    assert.strictEqual(
-      result.properties.endTime,
-      "2022-09-12T12:00:00.0000000Z",
-    );
-    assert.strictEqual(
-      result.properties.jobId,
-      "572a45927fc240e1ac075de27371680b",
-    );
-    assert.strictEqual(
-      result.properties.startTime,
-      "2022-09-12T12:00:00.0000000Z",
-    );
+    assert.strictEqual(result.properties.endTime, "2022-09-12T12:00:00.0000000Z");
+    assert.strictEqual(result.properties.jobId, "572a45927fc240e1ac075de27371680b");
+    assert.strictEqual(result.properties.startTime, "2022-09-12T12:00:00.0000000Z");
     assert.strictEqual(result.properties.status, "InProgress");
   });
 });

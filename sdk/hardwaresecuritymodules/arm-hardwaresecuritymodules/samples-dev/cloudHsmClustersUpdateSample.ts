@@ -13,10 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function cloudHsmClusterUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new AzureDedicatedHSMResourceProvider(
-    credential,
-    subscriptionId,
-  );
+  const client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId);
   const result = await client.cloudHsmClusters.update("rgcloudhsm", "chsm1", {
     identity: {
       type: "UserAssigned",

@@ -16,11 +16,7 @@ describe("list the operations for the provider", () => {
     const credential = createTestCredential();
     const subscriptionId = env.SUBSCRIPTION_ID || "<SUBSCRIPTION_ID>";
     const clientOptions = recorder.configureClientOptions({});
-    client = new AzureDedicatedHSMResourceProvider(
-      credential,
-      subscriptionId,
-      clientOptions,
-    );
+    client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId, clientOptions);
   });
 
   afterEach(async function () {
@@ -34,10 +30,7 @@ describe("list the operations for the provider", () => {
     }
     assert.ok(resArray);
     assert.strictEqual(resArray.length, 2);
-    assert.strictEqual(
-      resArray[0].name,
-      "Microsoft.HardwareSecurityModules/dedicatedhsms/read",
-    );
+    assert.strictEqual(resArray[0].name, "Microsoft.HardwareSecurityModules/dedicatedhsms/read");
     assert.strictEqual(resArray[0].isDataAction, false);
     assert.strictEqual(resArray[0].origin, "system");
   });

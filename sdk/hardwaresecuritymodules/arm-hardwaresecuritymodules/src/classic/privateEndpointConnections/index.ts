@@ -17,21 +17,13 @@ export interface PrivateEndpointConnectionsOperations {
   ) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
 
-function _getPrivateEndpointConnections(
-  context: AzureDedicatedHSMResourceProviderContext,
-) {
+function _getPrivateEndpointConnections(context: AzureDedicatedHSMResourceProviderContext) {
   return {
     listByCloudHsmCluster: (
       resourceGroupName: string,
       cloudHsmClusterName: string,
       options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams,
-    ) =>
-      listByCloudHsmCluster(
-        context,
-        resourceGroupName,
-        cloudHsmClusterName,
-        options,
-      ),
+    ) => listByCloudHsmCluster(context, resourceGroupName, cloudHsmClusterName, options),
   };
 }
 

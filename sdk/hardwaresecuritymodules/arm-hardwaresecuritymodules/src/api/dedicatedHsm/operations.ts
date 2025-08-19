@@ -58,15 +58,13 @@ export function _listOutboundNetworkDependenciesEndpointsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listOutboundNetworkDependenciesEndpointsDeserialize(
@@ -93,13 +91,7 @@ export function listOutboundNetworkDependenciesEndpoints(
 ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listOutboundNetworkDependenciesEndpointsSend(
-        context,
-        resourceGroupName,
-        name,
-        options,
-      ),
+    () => _listOutboundNetworkDependenciesEndpointsSend(context, resourceGroupName, name, options),
     _listOutboundNetworkDependenciesEndpointsDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -123,15 +115,13 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -182,15 +172,13 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -241,14 +229,10 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .delete({ ...operationOptionsToRequestParameters(options) });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -271,18 +255,12 @@ export function $delete(
   name: string,
   options: DedicatedHsmDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _$deleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _$deleteSend(context, resourceGroupName, name, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _$deleteSend(context, resourceGroupName, name, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -304,22 +282,18 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .patch({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: dedicatedHsmPatchParametersSerializer(parameters),
-    });
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: dedicatedHsmPatchParametersSerializer(parameters),
+  });
 }
 
-export async function _updateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<DedicatedHsm> {
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<DedicatedHsm> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -341,8 +315,7 @@ export function update(
   return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, name, parameters, options),
+    getInitialResponse: () => _updateSend(context, resourceGroupName, name, parameters, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<DedicatedHsm>, DedicatedHsm>;
 }
@@ -366,17 +339,15 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: "application/json",
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      body: dedicatedHsmSerializer(parameters),
-    });
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: dedicatedHsmSerializer(parameters),
+  });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -400,24 +371,13 @@ export function createOrUpdate(
   parameters: DedicatedHsm,
   options: DedicatedHsmCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DedicatedHsm>, DedicatedHsm> {
-  return getLongRunningPoller(
-    context,
-    _createOrUpdateDeserialize,
-    ["200", "201", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _createOrUpdateSend(
-          context,
-          resourceGroupName,
-          name,
-          parameters,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<DedicatedHsm>, DedicatedHsm>;
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(context, resourceGroupName, name, parameters, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<DedicatedHsm>, DedicatedHsm>;
 }
 
 export function _getSend(
@@ -438,20 +398,16 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-    });
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<DedicatedHsm> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<DedicatedHsm> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

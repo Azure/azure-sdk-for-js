@@ -105,9 +105,7 @@ export interface CloudHsmClustersOperations {
   ) => Promise<CloudHsmCluster>;
 }
 
-function _getCloudHsmClusters(
-  context: AzureDedicatedHSMResourceProviderContext,
-) {
+function _getCloudHsmClusters(context: AzureDedicatedHSMResourceProviderContext) {
   return {
     restore: (
       resourceGroupName: string,
@@ -115,24 +113,12 @@ function _getCloudHsmClusters(
       restoreRequestProperties: RestoreRequestProperties,
       options?: CloudHsmClustersRestoreOptionalParams,
     ) =>
-      restore(
-        context,
-        resourceGroupName,
-        cloudHsmClusterName,
-        restoreRequestProperties,
-        options,
-      ),
+      restore(context, resourceGroupName, cloudHsmClusterName, restoreRequestProperties, options),
     validateRestoreProperties: (
       resourceGroupName: string,
       cloudHsmClusterName: string,
       options?: CloudHsmClustersValidateRestorePropertiesOptionalParams,
-    ) =>
-      validateRestoreProperties(
-        context,
-        resourceGroupName,
-        cloudHsmClusterName,
-        options,
-      ),
+    ) => validateRestoreProperties(context, resourceGroupName, cloudHsmClusterName, options),
     backup: (
       resourceGroupName: string,
       cloudHsmClusterName: string,
@@ -142,16 +128,9 @@ function _getCloudHsmClusters(
       resourceGroupName: string,
       cloudHsmClusterName: string,
       options?: CloudHsmClustersValidateBackupPropertiesOptionalParams,
-    ) =>
-      validateBackupProperties(
-        context,
-        resourceGroupName,
-        cloudHsmClusterName,
-        options,
-      ),
-    listBySubscription: (
-      options?: CloudHsmClustersListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, options),
+    ) => validateBackupProperties(context, resourceGroupName, cloudHsmClusterName, options),
+    listBySubscription: (options?: CloudHsmClustersListBySubscriptionOptionalParams) =>
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: CloudHsmClustersListByResourceGroupOptionalParams,
@@ -172,14 +151,7 @@ function _getCloudHsmClusters(
       cloudHsmClusterName: string,
       body: CloudHsmCluster,
       options?: CloudHsmClustersCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        cloudHsmClusterName,
-        body,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, cloudHsmClusterName, body, options),
     get: (
       resourceGroupName: string,
       cloudHsmClusterName: string,

@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureDedicatedHSMResourceProvider } from "../src/index.js";
-import {
-  DefaultAzureCredential,
-  InteractiveBrowserCredential,
-} from "@azure/identity";
+import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
@@ -24,10 +21,7 @@ describe("snippets", () => {
       clientId: "<YOUR_CLIENT_ID>",
     });
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new AzureDedicatedHSMResourceProvider(
-      credential,
-      subscriptionId,
-    );
+    const client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {

@@ -4,5 +4,4 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface CloudHsmClusterRestoreStatusGetOptionalParams
-  extends OperationOptions {}
+export interface CloudHsmClusterRestoreStatusGetOptionalParams extends OperationOptions {}
