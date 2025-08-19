@@ -32,6 +32,13 @@ jobs:
     ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
       timeoutInMinutes: 240
 
+    # Only run CG internal build job
+    ${{ if eq(variables['System.TeamProject'], 'internal') }}:
+      templateContext:
+        sdl:
+          componentgovernance:
+            enabled: true
+
     pool:
       name: $(LINUXPOOL)
       image: $(LINUXVMIMAGE)

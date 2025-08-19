@@ -61,7 +61,6 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "lint": "echo skipped",
     "pack": "npm pack 2>&1",
-    "prepack": "npm run build",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest",
