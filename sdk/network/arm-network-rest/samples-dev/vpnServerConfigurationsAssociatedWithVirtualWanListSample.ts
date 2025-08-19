@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group.
  *
