@@ -147,7 +147,12 @@ stages:
                           PackageName: ${{ artifact.name }}
 
                       - bash: |
-                          npm install
+                          npm ci
+                        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
+                        displayName: Install eng-package-utils tool dependencies
+
+                      - bash: |
+                          npm ci
                         workingDirectory: ./eng/tools/versioning
                         displayName: Install versioning tool dependencies
 
@@ -156,7 +161,11 @@ stages:
                         displayName: Increment package version
 
                       - bash: |
-                          node common/scripts/install-run-rush.js install
+                          npm install -g pnpm
+                        displayName: Install Pnpm
+
+                      - bash: |
+                          pnpm install --no-frozen-lockfile
                         displayName: "Install dependencies"
 
                       # Disabled until packages can be updated to support ES2019 syntax.

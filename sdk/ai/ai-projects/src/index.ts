@@ -71,7 +71,7 @@ export {
   IndexesListOptionalParams,
   IndexesListVersionsOptionalParams,
 } from "./api/indexes/index.js";
-export { AzureOpenAIClientOptions } from "./api/inference/options.js";
+export { AzureOpenAIClientOptions, GetAzureOpenAIClientOptions } from "./api/inference/options.js";
 export { InferenceOperations } from "./classic/inference/index.js";
 export { TelemetryOperations } from "./classic/telemetry/index.js";
 export {

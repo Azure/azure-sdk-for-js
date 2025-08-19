@@ -1,5 +1,21 @@
 # Release History
 
+## 2.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.0.0 (2025-08-05)
+
+### Other Changes
+
+All the features shipped as part of 2.0.0-beta.1 will be GA with this version. The most important feature is providing `vsCodePlugin` compatible with `@azure/identity` v4.11.0.
+
 ## 2.0.0-beta.1 (2025-07-17)
 
 This package is revived and is compatible with `@azure/identity` v4.11.0. See [Readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-vscode/README.md) for more details and examples on how to use this package.

@@ -13,17 +13,17 @@ In order to run the minimum and maximum semver dependency testing **locally on y
 
 ### Setup your local dev environment to simulate min/max testing
 
-1. Go to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run rush update and build package along with all its dependencies.
+1. Go to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run pnpm install and build package along with all its dependencies.
 
 ```
-   rush update
-   rush build -t "package-name" --verbose
+   pnpm install
+   pnpm build --filter <package-name>... --verbose
 ```
 
 For example:
 
 ```
-   rush build -t "@azure/communication-sms" --verbose
+   pnpm build --filter @azure/communication-sms... --verbose
 ```
 
 2. Install the dependency-testing package dependencies:
@@ -48,13 +48,13 @@ node index.js --artifact-name "@azure/communication-sms" --version-type "min" --
 
 (Note: You may not need to do `npm install` every time you are testing, only once should be enough).
 
-4. Go back to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run `rush update`
+4. Go back to the repo root (e.g. `C:\repos\azure-sdk-for-js`) and run `pnpm install`
 5. Go to your package's `test\public` folder and run these steps from inside it:
 
 ```
 cd sdk/communication/communication-sms/test/public
-rushx build
-rushx test:node
+pnpm build
+pnpm test:node
 ```
 
 ### Restore your local dev environment
@@ -63,11 +63,11 @@ rushx test:node
 2. Revert the modified test files: run `git checkout -- .`
 3. Delete the uncommitted files added to the test folder: (package.json, tsconfig.json etc.)
 4. Delete the `node_modules` folder under the package's `test\public` folder
-5. Run the fowing steps from the root of the repo (e.g. `C:\repos\azure-sdk-for-js`)
+5. Run the following steps from the root of the repo (e.g. `C:\repos\azure-sdk-for-js`)
 
 ```
-rush update
-rush rebuild
+pnpm install
+pnpm rebuild
 ```
 
 Note : If the above step fails, you can reset the repo: `git clean -f -x -d` (Warning: this will delete all unversioned files including those ignored by gitignore. Backup any .env files and push any commits you wanted to etc)

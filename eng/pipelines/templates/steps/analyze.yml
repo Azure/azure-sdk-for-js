@@ -51,6 +51,11 @@ steps:
 
   - script: |
       npm ci
+    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
+    displayName: "Install eng-package-utils dependencies"
+
+  - script: |
+      npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Install tool dependencies"
 
@@ -60,21 +65,25 @@ steps:
     displayName: "Analyze library dependencies"
 
   - script: |
-      node common/scripts/install-run-rush.js install
-    displayName: "Install dependencies"
+      npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
+      pnpm install
+    displayName: "Install library dependencies"
 
   - pwsh: |
-      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
+      pnpm build --filter @azure/eslint-plugin-azure-sdk...
       $env:FORCE_COLOR = "1"
-      node eng/tools/rush-runner/index.js lint "$(ChangedServices)" -p max --verbose
+      node eng/tools/ci-runner/index.js lint "$(ChangedServices)"
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
-      node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/ci-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)"
     displayName: "Check Format in Libraries"
 
   - pwsh: |
-      node eng/tools/rush-runner/index.js update-snippets $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/ci-runner/index.js update-snippets $(ChangedServices) -packages "$(ArtifactPackageNames)"
     displayName: "Update snippets"
 
   - pwsh: |
@@ -84,11 +93,5 @@ steps:
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
     parameters:
       PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
-
-  - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
-    # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
-    # builds should be sufficient.
-    condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
-    displayName: "Component Detection"
 
   - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml
