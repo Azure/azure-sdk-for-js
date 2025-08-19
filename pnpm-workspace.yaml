@@ -15,7 +15,6 @@ packages:
   - '!sdk/batch/batch'
   - '!sdk/cosmosdb/cosmos/MultiRegionWriteSample'
   - '!sdk/identity/identity/integration/**'
-  - '!sdk/identity/identity/test/**'
-  - '!sdk/servicebus/service-bus/test/**'
-  - '!sdk/eventhub/event-hubs/test/**'
-
+  - '!sdk/identity/identity/test/manual*/**'
+  - '!sdk/servicebus/service-bus/test/stress/**'
+  - '!sdk/eventhub/event-hubs/test/stress/**'
