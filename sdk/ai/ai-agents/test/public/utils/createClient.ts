@@ -20,7 +20,10 @@ const replaceableVariables: Record<string, string> = {
   USER_OBJECT_ID: "00000000-0000-0000-0000-000000000000",
   API_KEY: "00000000000000000000000000000000000000000000000000000000000000000000",
   PROJECT_NAME: "00000",
+  AZURE_BING_CONNECTION_ID: "00000000-0000-0000-0000-000000000000",
   PROJECT_ENDPOINT: `https://Sanitized.azure.com/api/projects/00000`,
+  MCP_SERVER_URL: "https://Sanitized.azure.com/Azure/azure-rest-api-specs",
+  MCP_SERVER_LABEL: "github",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {

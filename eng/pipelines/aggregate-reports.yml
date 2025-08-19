@@ -96,8 +96,6 @@ stages:
               ExclusionDataBaseFileName: "JavaScriptPoliCheckExclusion"
               PublishAnalysisLogs: false
 
-          - template: /eng/common/pipelines/templates/steps/credscan.yml
-
           - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
             displayName: 'Publish Security Analysis Logs'
             condition: succeededOrFailed()

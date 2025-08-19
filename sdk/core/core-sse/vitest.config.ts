@@ -9,7 +9,6 @@ export default mergeConfig(
   defineConfig({
     test: {
       fileParallelism: false,
-      testTimeout: 30000,
       globalSetup: "test/server/start.mts",
     },
   }),

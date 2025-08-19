@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ResourceManagementClient.",
-  "version": "6.1.0",
+  "version": "7.0.0",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -33,7 +33,7 @@
     "typescript": "~5.8.2",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.7.0",
+    "@azure/identity": "^4.6.0",
     "@azure/logger": "^1.1.4",
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-credential": "^2.0.0",
@@ -65,7 +65,6 @@
     "format": "echo skipped",
     "lint": "echo skipped",
     "pack": "npm pack 2>&1",
-    "prepack": "npm run build",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest",
@@ -98,7 +97,7 @@
       "react-native"
     ],
     "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "project": "../../../tsconfig.src.build.json"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources/arm-resources",
   "//sampleConfiguration": {

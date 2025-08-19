@@ -11,10 +11,8 @@
  * @summary This method checks whether a proposed top-level resource name is valid and available.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/Services_CheckNameAvailability.json
  */
-import {
-  NameAvailabilityRequest,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { NameAvailabilityRequest } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function servicesCheckNameAvailability(): Promise<void> {
@@ -22,14 +20,11 @@ async function servicesCheckNameAvailability(): Promise<void> {
   const location = "eastus";
   const parameters: NameAvailabilityRequest = {
     name: "DmsSdkService",
-    type: "services"
+    type: "services",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.services.checkNameAvailability(
-    location,
-    parameters
-  );
+  const result = await client.services.checkNameAvailability(location, parameters);
   console.log(result);
 }
 

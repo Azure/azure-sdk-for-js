@@ -4,14 +4,42 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
+import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import { OperationState } from '@azure/core-lro';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
+
+// @public
+export interface AccessRule {
+    name?: string;
+    properties?: AccessRuleProperties;
+}
+
+// @public
+export type AccessRuleDirection = string;
+
+// @public
+export interface AccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: AccessRuleDirection;
+    emailAddresses?: string[];
+    fullyQualifiedDomainNames?: string[];
+    networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    phoneNumbers?: string[];
+    subscriptions?: AccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface AccessRulePropertiesSubscriptionsItem {
+    id?: string;
+}
+
+// @public
+export type ActionType = string;
 
 // @public
 export type AdminKeyKind = "primary" | "secondary";
@@ -100,14 +128,6 @@ export interface EncryptionWithCmk {
 }
 
 // @public
-export type FeatureName = string;
-
-// @public (undocumented)
-export interface FeatureOffering {
-    name?: FeatureName;
-}
-
-// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -119,7 +139,7 @@ export interface Identity {
     readonly tenantId?: string;
     type: IdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedManagedIdentity;
+        [propertyName: string]: UserAssignedIdentity;
     };
 }
 
@@ -129,6 +149,20 @@ export type IdentityType = string;
 // @public
 export interface IpRule {
     value?: string;
+}
+
+// @public
+export type IssueType = string;
+
+// @public
+export enum KnownAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
+}
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
@@ -146,24 +180,37 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownFeatureName {
-    AvailabilityZones = "AvailabilityZones",
-    DocumentIntelligence = "DocumentIntelligence",
-    Grok = "Grok",
-    ImageVectorization = "ImageVectorization",
-    MegaStore = "MegaStore",
-    QueryRewrite = "QueryRewrite",
-    S3 = "S3",
-    SemanticSearch = "SemanticSearch",
-    StorageOptimized = "StorageOptimized"
-}
-
-// @public
 export enum KnownIdentityType {
     None = "None",
     SystemAssigned = "SystemAssigned",
     SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownIssueType {
+    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+    MissingIdentityConfiguration = "MissingIdentityConfiguration",
+    MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -179,19 +226,26 @@ export enum KnownPrivateLinkServiceConnectionProvisioningState {
 // @public
 export enum KnownPublicNetworkAccess {
     Disabled = "disabled",
-    Enabled = "enabled"
+    Enabled = "enabled",
+    SecuredByPerimeter = "securedByPerimeter"
+}
+
+// @public
+export enum KnownResourceAssociationAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
 }
 
 // @public
 export enum KnownSearchBypass {
-    AzurePortal = "AzurePortal",
     AzureServices = "AzureServices",
     None = "None"
 }
 
 // @public
-export enum KnownSearchDisabledDataExfiltrationOption {
-    All = "All"
+export enum KnownSearchDataExfiltrationProtection {
+    BlockAll = "BlockAll"
 }
 
 // @public
@@ -199,6 +253,12 @@ export enum KnownSearchSemanticSearch {
     Disabled = "disabled",
     Free = "free",
     Standard = "standard"
+}
+
+// @public
+export enum KnownSeverity {
+    Error = "Error",
+    Warning = "Warning"
 }
 
 // @public
@@ -243,6 +303,12 @@ export enum KnownUnavailableNameReason {
 }
 
 // @public
+export enum KnownUpgradeAvailable {
+    Available = "available",
+    NotAvailable = "notAvailable"
+}
+
+// @public
 export interface ListQueryKeysResult {
     readonly nextLink?: string;
     readonly value?: QueryKey[];
@@ -255,20 +321,34 @@ export interface NetworkRuleSet {
 }
 
 // @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
 export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
-    networkSecurityPerimeter?: NSPConfigPerimeter;
-    profile?: NSPConfigProfile;
-    // (undocumented)
-    provisioningIssues?: NSPProvisioningIssue[];
-    readonly provisioningState?: string;
-    resourceAssociation?: NSPConfigAssociation;
+    properties?: NetworkSecurityPerimeterConfigurationProperties;
 }
 
 // @public
 export interface NetworkSecurityPerimeterConfigurationListResult {
-    readonly nextLink?: string;
-    readonly value?: NetworkSecurityPerimeterConfiguration[];
+    nextLink?: string;
+    value?: NetworkSecurityPerimeterConfiguration[];
 }
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    profile?: NetworkSecurityProfile;
+    readonly provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    resourceAssociation?: ResourceAssociation;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
 
 // @public
 export interface NetworkSecurityPerimeterConfigurations {
@@ -315,123 +395,21 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams e
 export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfigurationsReconcileHeaders;
 
 // @public
-export interface NSPConfigAccessRule {
-    // (undocumented)
+export interface NetworkSecurityProfile {
+    accessRules?: AccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    enabledLogCategories?: string[];
     name?: string;
-    properties?: NSPConfigAccessRuleProperties;
-}
-
-// @public
-export interface NSPConfigAccessRuleProperties {
-    // (undocumented)
-    addressPrefixes?: string[];
-    // (undocumented)
-    direction?: string;
-    // (undocumented)
-    fullyQualifiedDomainNames?: string[];
-    // (undocumented)
-    networkSecurityPerimeters?: NSPConfigNetworkSecurityPerimeterRule[];
-    // (undocumented)
-    subscriptions?: string[];
-}
-
-// @public
-export interface NSPConfigAssociation {
-    // (undocumented)
-    accessMode?: string;
-    // (undocumented)
-    name?: string;
-}
-
-// @public
-export interface NSPConfigNetworkSecurityPerimeterRule {
-    // (undocumented)
-    id?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    perimeterGuid?: string;
-}
-
-// @public
-export interface NSPConfigPerimeter {
-    // (undocumented)
-    id?: string;
-    // (undocumented)
-    location?: string;
-    // (undocumented)
-    perimeterGuid?: string;
-}
-
-// @public
-export interface NSPConfigProfile {
-    // (undocumented)
-    accessRules?: NSPConfigAccessRule[];
-    // (undocumented)
-    accessRulesVersion?: string;
-    // (undocumented)
-    name?: string;
-}
-
-// @public
-export interface NSPProvisioningIssue {
-    // (undocumented)
-    name?: string;
-    properties?: NSPProvisioningIssueProperties;
-}
-
-// @public
-export interface NSPProvisioningIssueProperties {
-    // (undocumented)
-    description?: string;
-    // (undocumented)
-    issueType?: string;
-    // (undocumented)
-    severity?: string;
-    // (undocumented)
-    suggestedAccessRules?: string[];
-    // (undocumented)
-    suggestedResourceIds?: string[];
-}
-
-// @public
-export interface Offerings {
-    list(options?: OfferingsListOptionalParams): PagedAsyncIterableIterator<OfferingsByRegion>;
-}
-
-// @public (undocumented)
-export interface OfferingsByRegion {
-    features?: FeatureOffering[];
-    regionName?: string;
-    skus?: SkuOffering[];
-}
-
-// @public
-export interface OfferingsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OfferingsListResponse = OfferingsListResult;
-
-// @public
-export interface OfferingsListResult {
-    readonly nextLink?: string;
-    value?: OfferingsByRegion[];
 }
 
 // @public
 export interface Operation {
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
-    readonly origin?: string;
-    readonly properties?: OperationProperties;
-}
-
-// @public
-export interface OperationAvailability {
-    readonly blobDuration?: string;
-    readonly timeGrain?: string;
+    readonly origin?: Origin;
 }
 
 // @public
@@ -449,43 +427,8 @@ export interface OperationListResult {
 }
 
 // @public
-export interface OperationLogsSpecification {
-    readonly blobDuration?: string;
-    readonly displayName?: string;
-    readonly name?: string;
-}
-
-// @public
-export interface OperationMetricDimension {
-    readonly displayName?: string;
-    readonly name?: string;
-}
-
-// @public
-export interface OperationMetricsSpecification {
-    readonly aggregationType?: string;
-    readonly availabilities?: OperationAvailability[];
-    readonly dimensions?: OperationMetricDimension[];
-    readonly displayDescription?: string;
-    readonly displayName?: string;
-    readonly name?: string;
-    readonly unit?: string;
-}
-
-// @public
-export interface OperationProperties {
-    readonly serviceSpecification?: OperationServiceSpecification;
-}
-
-// @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationServiceSpecification {
-    readonly logSpecifications?: OperationLogsSpecification[];
-    readonly metricSpecifications?: OperationMetricsSpecification[];
 }
 
 // @public
@@ -494,6 +437,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Origin = string;
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
@@ -612,7 +558,22 @@ export type PrivateLinkServiceConnectionProvisioningState = string;
 export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 // @public
-export type ProvisioningState = "Succeeded" | "Provisioning" | "Failed";
+export interface ProvisioningIssue {
+    readonly name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    readonly description?: string;
+    readonly issueType?: IssueType;
+    readonly severity?: Severity;
+    readonly suggestedAccessRules?: AccessRule[];
+    readonly suggestedResourceIds?: string[];
+}
+
+// @public
+export type ProvisioningState = "succeeded" | "provisioning" | "failed";
 
 // @public
 export interface ProxyResource extends Resource {
@@ -688,14 +649,24 @@ export interface QuotaUsagesListResult {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface ResourceAssociation {
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type ResourceAssociationAccessMode = string;
 
 // @public
 export type SearchBypass = string;
 
 // @public
-export type SearchDisabledDataExfiltrationOption = string;
+export type SearchDataExfiltrationProtection = string;
 
 // @public
 export type SearchEncryptionComplianceStatus = "Compliant" | "NonCompliant";
@@ -708,15 +679,12 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SearchManagementClientOptionalParams);
-    constructor(credentials: coreAuth.TokenCredential, options?: SearchManagementClientOptionalParams);
     // (undocumented)
     adminKeys: AdminKeys;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
-    // (undocumented)
-    offerings: Offerings;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -730,7 +698,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     sharedPrivateLinkResources: SharedPrivateLinkResources;
     // (undocumented)
-    subscriptionId?: string;
+    subscriptionId: string;
     usageBySubscriptionSku(location: string, skuName: string, options?: UsageBySubscriptionSkuOptionalParams): Promise<UsageBySubscriptionSkuResponse>;
     // (undocumented)
     usages: Usages;
@@ -755,7 +723,7 @@ export type SearchSemanticSearch = string;
 export interface SearchService extends TrackedResource {
     authOptions?: DataPlaneAuthOptions;
     computeType?: ComputeType;
-    disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
+    dataExfiltrationProtections?: SearchDataExfiltrationProtection[];
     disableLocalAuth?: boolean;
     encryptionWithCmk?: EncryptionWithCmk;
     endpoint?: string;
@@ -769,13 +737,12 @@ export interface SearchService extends TrackedResource {
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
     semanticSearch?: SearchSemanticSearch;
-    readonly serviceUpgradeDate?: Date;
+    readonly serviceUpgradedAt?: Date;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
-    readonly systemData?: SystemData;
-    readonly upgradeAvailable?: boolean;
+    upgradeAvailable?: UpgradeAvailable;
 }
 
 // @public
@@ -791,7 +758,7 @@ export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "deg
 export interface SearchServiceUpdate extends Resource {
     authOptions?: DataPlaneAuthOptions;
     computeType?: ComputeType;
-    disabledDataExfiltrationOptions?: SearchDisabledDataExfiltrationOption[];
+    dataExfiltrationProtections?: SearchDataExfiltrationProtection[];
     disableLocalAuth?: boolean;
     encryptionWithCmk?: EncryptionWithCmk;
     endpoint?: string;
@@ -806,16 +773,15 @@ export interface SearchServiceUpdate extends Resource {
     publicNetworkAccess?: PublicNetworkAccess;
     replicaCount?: number;
     semanticSearch?: SearchSemanticSearch;
-    readonly serviceUpgradeDate?: Date;
+    readonly serviceUpgradedAt?: Date;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
-    readonly upgradeAvailable?: boolean;
+    upgradeAvailable?: UpgradeAvailable;
 }
 
 // @public
@@ -919,6 +885,9 @@ export interface ServicesUpgradeOptionalParams extends coreClient.OperationOptio
 export type ServicesUpgradeResponse = SearchService;
 
 // @public
+export type Severity = string;
+
+// @public
 export interface ShareablePrivateLinkResourceProperties {
     readonly description?: string;
     readonly groupId?: string;
@@ -1020,23 +989,6 @@ export interface Sku {
 // @public
 export type SkuName = string;
 
-// @public (undocumented)
-export interface SkuOffering {
-    limits?: SkuOfferingLimits;
-    sku?: Sku;
-}
-
-// @public
-export interface SkuOfferingLimits {
-    indexers?: number;
-    indexes?: number;
-    partitions?: number;
-    partitionStorageInGigabytes?: number;
-    partitionVectorStorageInGigabytes?: number;
-    replicas?: number;
-    searchUnits?: number;
-}
-
 // @public
 export interface SystemData {
     createdAt?: Date;
@@ -1057,6 +1009,9 @@ export interface TrackedResource extends Resource {
 
 // @public
 export type UnavailableNameReason = string;
+
+// @public
+export type UpgradeAvailable = string;
 
 // @public
 export interface UsageBySubscriptionSkuOptionalParams extends coreClient.OperationOptions {
@@ -1088,7 +1043,7 @@ export interface UsagesListBySubscriptionOptionalParams extends coreClient.Opera
 export type UsagesListBySubscriptionResponse = QuotaUsagesListResult;
 
 // @public
-export interface UserAssignedManagedIdentity {
+export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }

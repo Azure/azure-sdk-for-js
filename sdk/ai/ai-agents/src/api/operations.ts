@@ -23,8 +23,11 @@ import {
   MessageStreamEvent,
   RunStepStreamEvent,
   RunStreamEvent,
-  ThreadStreamEvent,
   ToolOutput,
+  messageDeltaChunkDeserializer,
+  runStepDeltaChunkDeserializer,
+  runStepDeserializer,
+  threadMessageDeserializer,
 } from "../models/models.js";
 import type {
   CreateThreadAndRunOptionalParams,
@@ -409,12 +412,6 @@ export async function createAgent(
   const result = await _createAgentSend(context, model, options);
   return _createAgentDeserialize(result);
 }
-const handlers = [
-  { events: Object.values(ThreadStreamEvent) as string[] },
-  { events: Object.values(RunStreamEvent) as string[] },
-  { events: Object.values(RunStepStreamEvent) as string[] },
-  { events: Object.values(MessageStreamEvent) as string[] },
-];
 
 function createAgentStream(stream: EventMessageStream): AgentEventMessageStream {
   const asyncIterator = toAsyncIterable(stream);
@@ -432,24 +429,22 @@ async function* toAsyncIterable(stream: EventMessageStream): AsyncIterable<Agent
 function deserializeEventData(event: EventMessage): AgentEventStreamData {
   try {
     const jsonData = JSON.parse(event.data);
+    if (Object.values(RunStepStreamEvent).includes(event.event as RunStepStreamEvent)) {
+      if (event.event === RunStepStreamEvent.ThreadRunStepDelta) {
+        return runStepDeltaChunkDeserializer(jsonData);
+      }
+      return runStepDeserializer(jsonData);
+    }
+    if (Object.values(MessageStreamEvent).includes(event.event as MessageStreamEvent)) {
+      if (event.event === MessageStreamEvent.ThreadMessageDelta) {
+        return messageDeltaChunkDeserializer(jsonData);
+      }
+      return threadMessageDeserializer(jsonData);
+    }
     if (Object.values(RunStreamEvent).includes(event.event as RunStreamEvent)) {
       return threadRunDeserializer(jsonData);
     }
-    switch (event.event) {
-      case MessageStreamEvent.ThreadMessageDelta:
-        return jsonData;
-      case RunStepStreamEvent.ThreadRunStepDelta:
-        return jsonData;
-      default: {
-        for (const { events } of handlers) {
-          if (events.includes(event.event)) {
-            return jsonData;
-          }
-        }
-
-        return jsonData;
-      }
-    }
+    return jsonData;
   } catch (ex) {
     logger.error(`Failed to parse event data  ${event.event} - error: ${ex}`);
     return event.data;

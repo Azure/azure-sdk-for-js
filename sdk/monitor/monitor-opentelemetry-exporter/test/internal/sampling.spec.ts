@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-base";
-import { ApplicationInsightsSampler } from "../../src/sampling.js";
 import { context, trace, TraceFlags, SpanKind } from "@opentelemetry/api";
 import { describe, it, assert } from "vitest";
 import { AzureMonitorSampleRate } from "../../src/utils/constants/applicationinsights.js";
+import { ApplicationInsightsSampler } from "../../src/index.js";
+import { getSamplingHashCode } from "../../src/sampling/samplingUtils.js";
 
 // Helper to create a fake parent span with attributes and context
 function createParentSpan({
@@ -173,9 +174,8 @@ describe("Library/ApplicationInsightsSampler", () => {
       ];
 
       const csharpMax = 2147483647;
-      const sampler = new ApplicationInsightsSampler();
       for (let i = 0; i < testArray.length; ++i) {
-        const res = sampler["_getSamplingHashCode"](<string>testArray[i][0]);
+        const res = getSamplingHashCode(<string>testArray[i][0]);
         assert.equal(res, (<number>testArray[i][1] / csharpMax) * 100);
       }
     });
@@ -188,7 +188,7 @@ describe("Library/ApplicationInsightsSampler", () => {
       const ctx = trace.setSpan(context.active(), parent as any);
       const result = sampler.shouldSample(ctx, "abc", "span", SpanKind.INTERNAL, {}, []);
       assert.equal(result.decision, SamplingDecision.RECORD_AND_SAMPLED);
-      assert.equal(sampler["_sampleRate"], 75);
+      assert.equal(sampler["_sampleRate"], 10); // Should not update sampler rate only result
       // Should not add sample rate attribute if 100, but here it's 75 so it should
       assert.equal(result.attributes?.[AzureMonitorSampleRate], 75);
     });
@@ -199,7 +199,7 @@ describe("Library/ApplicationInsightsSampler", () => {
       const ctx = trace.setSpan(context.active(), parent as any);
       const result = sampler.shouldSample(ctx, "abc", "span", SpanKind.INTERNAL, {}, []);
       assert.equal(result.decision, SamplingDecision.NOT_RECORD);
-      assert.equal(sampler["_sampleRate"], 25);
+      assert.equal(sampler["_sampleRate"], 90); // Should not update sampler rate only result
       assert.equal(result.attributes?.[AzureMonitorSampleRate], 25);
     });
 
@@ -209,7 +209,7 @@ describe("Library/ApplicationInsightsSampler", () => {
       const ctx = trace.setSpan(context.active(), parent as any);
       const result = sampler.shouldSample(ctx, "abc", "span", SpanKind.INTERNAL, {}, []);
       assert.equal(result.decision, SamplingDecision.RECORD_AND_SAMPLED);
-      assert.equal(sampler["_sampleRate"], 100);
+      assert.equal(sampler["_sampleRate"], 50); // Should not update sampler rate only result
       // Should not add sample rate attribute if 100
       assert.ok(!result.attributes || !(AzureMonitorSampleRate in result.attributes));
     });

@@ -23,7 +23,9 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LocationBasedModelCapacities operations. */
-export class LocationBasedModelCapacitiesImpl implements LocationBasedModelCapacities {
+export class LocationBasedModelCapacitiesImpl
+  implements LocationBasedModelCapacities
+{
   private readonly client: CognitiveServicesManagementClient;
 
   /**
@@ -49,7 +51,13 @@ export class LocationBasedModelCapacitiesImpl implements LocationBasedModelCapac
     modelVersion: string,
     options?: LocationBasedModelCapacitiesListOptionalParams,
   ): PagedAsyncIterableIterator<ModelCapacityListResultValueItem> {
-    const iter = this.listPagingAll(location, modelFormat, modelName, modelVersion, options);
+    const iter = this.listPagingAll(
+      location,
+      modelFormat,
+      modelName,
+      modelVersion,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -84,7 +92,13 @@ export class LocationBasedModelCapacitiesImpl implements LocationBasedModelCapac
     let result: LocationBasedModelCapacitiesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(location, modelFormat, modelName, modelVersion, options);
+      result = await this._list(
+        location,
+        modelFormat,
+        modelName,
+        modelVersion,
+        options,
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -149,7 +163,10 @@ export class LocationBasedModelCapacitiesImpl implements LocationBasedModelCapac
     nextLink: string,
     options?: LocationBasedModelCapacitiesListNextOptionalParams,
   ): Promise<LocationBasedModelCapacitiesListNextResponse> {
-    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { location, nextLink, options },
+      listNextOperationSpec,
+    );
   }
 }
 // Operation Specifications
@@ -172,7 +189,11 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.modelName,
     Parameters.modelVersion,
   ],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

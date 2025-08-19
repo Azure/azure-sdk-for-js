@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { DataMigrationManagementClient } = require("@azure/arm-datamigration");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
- * This sample demonstrates how to Stop migrations in progress for the database
+ * This sample demonstrates how to Stop in-progress database migration to SQL Managed Instance.
  *
- * @summary Stop migrations in progress for the database
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/SqlMiCancelDatabaseMigration.json
+ * @summary Stop in-progress database migration to SQL Managed Instance.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlMiCancelDatabaseMigration.json
  */
 async function stopOngoingMigrationForTheDatabase() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["DATAMIGRATION_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["DATAMIGRATION_RESOURCE_GROUP"] || "testrg";
   const managedInstanceName = "managedInstance1";
   const targetDbName = "db1";
   const parameters = {
@@ -31,9 +31,13 @@ async function stopOngoingMigrationForTheDatabase() {
     resourceGroupName,
     managedInstanceName,
     targetDbName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-stopOngoingMigrationForTheDatabase().catch(console.error);
+async function main() {
+  await stopOngoingMigrationForTheDatabase();
+}
+
+main().catch(console.error);

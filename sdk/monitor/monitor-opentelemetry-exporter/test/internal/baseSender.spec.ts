@@ -6,7 +6,7 @@ import { diag } from "@opentelemetry/api";
 import { ExportResultCode } from "@opentelemetry/core";
 import {
   RetriableRestErrorTypes,
-  ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW,
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
 } from "../../src/Declarations/Constants.js";
 import type { SenderResult } from "../../src/types.js";
 
@@ -92,7 +92,7 @@ vi.mock("../../src/export/statsbeat/longIntervalStatsbeatMetrics.js", () => {
   };
 });
 
-export const mockCustomerStatsbeatMetrics = {
+export const mockCustomerSDKStatsMetrics = {
   countSuccessfulItems: vi.fn(),
   countDroppedItems: vi.fn(),
   countRetryItems: vi.fn(),
@@ -100,11 +100,11 @@ export const mockCustomerStatsbeatMetrics = {
   shutdown: vi.fn(),
 };
 
-vi.mock("../../src/export/statsbeat/customerStatsbeat.js", () => {
+vi.mock("../../src/export/statsbeat/customerSDKStats.js", () => {
   return {
-    CustomerStatsbeatMetrics: {
+    CustomerSDKStatsMetrics: {
       getInstance: vi.fn().mockImplementation(() => {
-        return mockCustomerStatsbeatMetrics;
+        return mockCustomerSDKStatsMetrics;
       }),
       shutdown: vi.fn(),
     },
@@ -166,8 +166,8 @@ class TestBaseSender extends BaseSender {
       value: mockLongIntervalStats,
       writable: true,
     });
-    Object.defineProperty(this, "customerStatsbeatMetrics", {
-      value: mockCustomerStatsbeatMetrics,
+    Object.defineProperty(this, "customerSDKStatsMetrics", {
+      value: mockCustomerSDKStatsMetrics,
       writable: true,
     });
     Object.defineProperty(this, "persister", {
@@ -490,7 +490,7 @@ describe("BaseSender", () => {
       nonRetriableError.statusCode = 400;
 
       // Mock isTimeoutError to return false so timeout logic isn't triggered
-      mockCustomerStatsbeatMetrics.isTimeoutError.mockReturnValue(false);
+      mockCustomerSDKStatsMetrics.isTimeoutError.mockReturnValue(false);
 
       sender.sendMock.mockRejectedValue(nonRetriableError);
 
@@ -592,7 +592,7 @@ describe("BaseSender", () => {
 
       await sender.exportEnvelopes([performanceCounterEnvelope]);
 
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalledWith([
         performanceCounterEnvelope,
       ]);
     });
@@ -631,7 +631,7 @@ describe("BaseSender", () => {
 
       await sender.exportEnvelopes([customMetricEnvelope]);
 
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalledWith([
         customMetricEnvelope,
       ]);
     });
@@ -675,21 +675,21 @@ describe("BaseSender", () => {
       await sender.exportEnvelopes([mixedMetricEnvelope]);
 
       // Should be counted as performance counter since it contains at least one
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalledWith([
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalledWith([
         mixedMetricEnvelope,
       ]);
     });
   });
 
-  describe("Customer Statsbeat Exception Message Handling", () => {
+  describe("Customer SDK Stats Exception Message Handling", () => {
     let testSender: TestBaseSender;
     let originalEnv: string | undefined;
 
     beforeEach(() => {
       // Save original environment variable
-      originalEnv = process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
-      // Set environment variable to enable customer statsbeat metrics
-      process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = "true";
+      originalEnv = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
+      // Set environment variable to enable Customer SDK Stats metrics
+      process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = "true";
 
       testSender = new TestBaseSender({
         endpointUrl: "https://example.com",
@@ -706,9 +706,9 @@ describe("BaseSender", () => {
     afterEach(() => {
       // Restore original environment variable
       if (originalEnv === undefined) {
-        delete process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW];
+        delete process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW];
       } else {
-        process.env[ENV_APPLICATIONINSIGHTS_STATSBEAT_ENABLED_PREVIEW] = originalEnv;
+        process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW] = originalEnv;
       }
     });
 
@@ -737,7 +737,7 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
-      expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
         envelopes,
         "CLIENT_EXCEPTION",
         "Circular redirect",
@@ -768,7 +768,7 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
-      expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
         envelopes,
         "CLIENT_EXCEPTION",
       );
@@ -794,10 +794,10 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
-      expect(mockCustomerStatsbeatMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400);
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400);
 
       // Verify exception.message is not passed for non-client exceptions
-      const call = mockCustomerStatsbeatMetrics.countDroppedItems.mock.calls[0];
+      const call = mockCustomerSDKStatsMetrics.countDroppedItems.mock.calls[0];
       expect(call.length).toBe(2); // envelopes array and drop code, but no exception message
     });
 
@@ -821,9 +821,9 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.SUCCESS);
-      expect(mockCustomerStatsbeatMetrics.countSuccessfulItems).toHaveBeenCalled();
-      expect(mockCustomerStatsbeatMetrics.countDroppedItems).not.toHaveBeenCalled();
-      expect(mockCustomerStatsbeatMetrics.countRetryItems).not.toHaveBeenCalled();
+      expect(mockCustomerSDKStatsMetrics.countSuccessfulItems).toHaveBeenCalled();
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).not.toHaveBeenCalled();
+      expect(mockCustomerSDKStatsMetrics.countRetryItems).not.toHaveBeenCalled();
     });
   });
 });

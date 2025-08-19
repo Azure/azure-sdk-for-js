@@ -6,7 +6,7 @@ Azure EventGrid Management Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/arm-eventgrid) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-eventgrid) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-eventgrid) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-eventgrid?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -105,6 +105,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
+
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

@@ -19,9 +19,9 @@ import {
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
-  getPackageVersion,
   getPlaywrightVersion,
   getVersionInfo,
+  getPackageVersion,
 } from "../utils/utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
@@ -72,6 +72,9 @@ const getServiceConfig = (
 ): PlaywrightTestConfig => {
   validatePlaywrightVersion();
   validateServiceUrl();
+
+  // Set environment variable to indicate user is using service config
+  process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] = "true";
   const playwrightVersionInfo = getVersionInfo(getPlaywrightVersion());
   const isMultipleGlobalFileSupported =
     playwrightVersionInfo.major >= 1 && playwrightVersionInfo.minor >= 49;
@@ -148,12 +151,9 @@ const getServiceConfig = (
     globalFunctions.globalSetup = globalPaths.setup;
     globalFunctions.globalTeardown = globalPaths.teardown;
   }
+
   performOneTimeOperation(options);
-  if (options?.useCloudHostedBrowsers === false) {
-    return {
-      ...globalFunctions,
-    };
-  }
+
   if (!process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED]) {
     process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] = "true";
     console.log("\nRunning tests using Azure Playwright service.");
@@ -209,10 +209,11 @@ const getServiceConfig = (
  * ```
  */
 const getConnectOptions = async (
-  options?: Omit<PlaywrightServiceAdditionalOptions, "serviceAuthType">,
+  options?: PlaywrightServiceAdditionalOptions,
 ): Promise<BrowserConnectOptions> => {
   const playwrightServiceConfig = new PlaywrightServiceConfig();
-  playwrightServiceConfig.setOptions(options);
+
+  playwrightServiceConfig.setOptions(options, true);
 
   const token = await fetchOrValidateAccessToken(options?.credential);
   return {

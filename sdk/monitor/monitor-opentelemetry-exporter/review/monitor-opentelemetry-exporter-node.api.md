@@ -80,6 +80,14 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
 }
 
 // @public
+export class RateLimitedSampler implements Sampler {
+    constructor(tracesPerSecond: number);
+    getSampleRate(): number;
+    shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult;
+    toString(): string;
+}
+
+// @public
 export enum ServiceApiVersion {
     V2 = "2020-09-15_Preview"
 }

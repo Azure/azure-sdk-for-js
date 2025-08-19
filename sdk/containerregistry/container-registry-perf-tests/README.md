@@ -1,6 +1,6 @@
 ### Guide
 
-1. Build the container-registry perf tests package `rush build -t perf-container-registry`.
+1. Build the container-registry perf tests package `pnpm build --filter perf-container-registry...`.
 2. Copy the `sample.env` file and name it as `.env`.
 3. Create an Azure Container Registry with Standard SKU and populate the `.env` file.
 4. Import docker images into the newly created registry
