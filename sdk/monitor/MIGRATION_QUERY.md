@@ -1,4 +1,4 @@
-# How to migrate away from @azure/monitor-query
+# How to migrate away from `@azure/monitor-query`
 
 To migrate away from the deprecated [@azure/monitor-query](https://www.npmjs.com/package/@azure/monitor-query) package, see the table below.
 
