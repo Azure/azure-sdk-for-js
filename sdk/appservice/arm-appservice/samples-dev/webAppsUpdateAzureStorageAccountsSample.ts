@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Updates the Azure storage account configurations of an app.
+ *
+ * @summary Description for Updates the Azure storage account configurations of an app.
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/UpdateAzureStorageAccounts.json
+ */
+
 import {
   AzureStoragePropertyDictionaryResource,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Updates the Azure storage account configurations of an app.
- *
- * @summary Description for Updates the Azure storage account configurations of an app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/UpdateAzureStorageAccounts.json
- */
 async function updateAzureStorageAccounts(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

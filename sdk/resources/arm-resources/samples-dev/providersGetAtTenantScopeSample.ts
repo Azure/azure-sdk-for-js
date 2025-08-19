@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Gets the specified resource provider at the tenant level.
+ *
+ * @summary Gets the specified resource provider at the tenant level.
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/GetNamedProviderAtTenant.json
+ */
+
 import {
   ProvidersGetAtTenantScopeOptionalParams,
   ResourceManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Gets the specified resource provider at the tenant level.
- *
- * @summary Gets the specified resource provider at the tenant level.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/GetNamedProviderAtTenant.json
- */
 async function getAResourceProviderAtTenantScope(): Promise<void> {
   const expand = "resourceTypes/aliases";
   const resourceProviderNamespace = "Microsoft.Storage";

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Returns the list of group Ids for a specific LDAP User
+ *
+ * @summary Returns the list of group Ids for a specific LDAP User
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/GroupIdListForLDAPUser.json
+ */
+
 import {
   GetGroupIdListForLdapUserRequest,
   NetAppManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Returns the list of group Ids for a specific LDAP User
- *
- * @summary Returns the list of group Ids for a specific LDAP User
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/GroupIdListForLDAPUser.json
- */
 async function getGroupIdListForUser(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||

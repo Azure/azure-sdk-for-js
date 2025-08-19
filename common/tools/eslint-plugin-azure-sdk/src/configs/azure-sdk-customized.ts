@@ -214,4 +214,10 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  {
+    files: ["**/src/**/*.ts"],
+    rules: {
+      "@azure/azure-sdk/ts-use-cjs-polyfill": "error",
+    },
+  },
 ];

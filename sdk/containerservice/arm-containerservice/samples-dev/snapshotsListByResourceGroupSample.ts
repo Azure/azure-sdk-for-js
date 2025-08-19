@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ContainerServiceClient } from "@azure/arm-containerservice";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists snapshots in the specified subscription and resource group.
  *
  * @summary Lists snapshots in the specified subscription and resource group.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-05-02-preview/examples/SnapshotsListByResourceGroup.json
  */
+
+import { ContainerServiceClient } from "@azure/arm-containerservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listSnapshotsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||

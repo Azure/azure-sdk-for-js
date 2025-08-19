@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets a private endpoint connection.
  *
  * @summary Gets a private endpoint connection.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2025-02-19-preview/examples/privateEndpoint/PrivateEndpointConnection_Get.json
  */
+
+import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getsPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||

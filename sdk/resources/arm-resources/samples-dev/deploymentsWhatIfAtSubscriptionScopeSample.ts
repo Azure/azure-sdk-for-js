@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the subscription.
+ *
+ * @summary Returns changes that will be made by the deployment if executed at the scope of the subscription.
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PostDeploymentWhatIfOnSubscription.json
+ */
+
 import {
   DeploymentWhatIf,
   ResourceManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the subscription.
- *
- * @summary Returns changes that will be made by the deployment if executed at the scope of the subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PostDeploymentWhatIfOnSubscription.json
- */
 async function predictTemplateChangesAtSubscriptionScope(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||

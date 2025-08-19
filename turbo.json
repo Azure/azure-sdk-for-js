@@ -1,10 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "ui": "tui",
+  "ui": "stream",
+  "daemon": false,
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "dist-esm/**", "dist-test/**", "types/**"]
+      "outputs": ["dist/**", "review/*", "temp/*", "dist-esm/**", "dist-test/**", "types/**"]
     },
     "build:samples": {
       "cache": false

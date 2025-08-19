@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DashboardManagementClient } from "@azure/arm-dashboard";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get specific private link resource information for this grafana resource
  *
  * @summary get specific private link resource information for this grafana resource
  * x-ms-original-file: 2024-11-01-preview/PrivateLinkResources_Get.json
  */
+
+import { DashboardManagementClient } from "@azure/arm-dashboard";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function privateLinkResourcesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

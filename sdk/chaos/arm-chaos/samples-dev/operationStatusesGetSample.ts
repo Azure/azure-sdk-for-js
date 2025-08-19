@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementClient } from "@azure/arm-chaos";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to returns the current status of an async operation.
  *
  * @summary returns the current status of an async operation.
  * x-ms-original-file: 2025-01-01/OperationStatuses_Get.json
  */
+
+import { ChaosManagementClient } from "@azure/arm-chaos";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getsChaosStudioAsyncOperationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "e25c0d12-0335-4fec-8ef8-3b4f9a10649e";

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The operation to get network information of hybrid machine
  *
  * @summary The operation to get network information of hybrid machine
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2025-02-19-preview/examples/NetworkProfile_Get.json
  */
+
+import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getNetworkProfile(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||

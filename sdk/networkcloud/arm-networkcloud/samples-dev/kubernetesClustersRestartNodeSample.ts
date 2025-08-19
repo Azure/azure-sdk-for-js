@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Restart a targeted node of a Kubernetes cluster.
+ *
+ * @summary Restart a targeted node of a Kubernetes cluster.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/KubernetesClusters_RestartNode.json
+ */
+
 import {
   KubernetesClusterRestartNodeParameters,
   NetworkCloud,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Restart a targeted node of a Kubernetes cluster.
- *
- * @summary Restart a targeted node of a Kubernetes cluster.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/KubernetesClusters_RestartNode.json
- */
 async function restartAKubernetesClusterNode(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||

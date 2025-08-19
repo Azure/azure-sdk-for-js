@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create or update a service in serviceConfiguration for the endpoint resource.
  *
  * @summary create or update a service in serviceConfiguration for the endpoint resource.
  * x-ms-original-file: 2024-12-01/ServiceConfigurationsPutSSH.json
  */
+
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function serviceConfigurationsPutSSH(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";

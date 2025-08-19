@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Calculate the hash of the given template.
  *
  * @summary Calculate the hash of the given template.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/CalculateTemplateHash.json
  */
+
+import { DeploymentsClient } from "@azure/arm-resourcesdeployments";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function calculateTemplateHash(): Promise<void> {
   const template: Record<string, unknown> = {
     $schema:

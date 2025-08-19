@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists DNS resolver domain lists in all resource groups of a subscription.
  *
  * @summary Lists DNS resolver domain lists in all resource groups of a subscription.
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/DnsResolverDomainList_ListBySubscription.json
  */
+
+import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listDnsResolverDomainListsBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||

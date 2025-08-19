@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NginxManagementClient } from "@azure/arm-nginx";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the specified API Key of the given Nginx deployment
  *
  * @summary Get the specified API Key of the given Nginx deployment
  * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_Get.json
  */
+
+import { NginxManagementClient } from "@azure/arm-nginx";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function apiKeysGet(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||

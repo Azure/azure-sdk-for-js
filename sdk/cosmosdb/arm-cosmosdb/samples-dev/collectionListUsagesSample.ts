@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Retrieves the usages (most recent storage data) for the given collection.
+ *
+ * @summary Retrieves the usages (most recent storage data) for the given collection.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBCollectionGetUsages.json
+ */
+
 import {
   CollectionListUsagesOptionalParams,
   CosmosDBManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Retrieves the usages (most recent storage data) for the given collection.
- *
- * @summary Retrieves the usages (most recent storage data) for the given collection.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBCollectionGetUsages.json
- */
 async function cosmosDbCollectionGetUsages(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";

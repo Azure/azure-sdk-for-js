@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ListClusterUserCredentialProperties } from "@azure/arm-hybridkubernetes";
-import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets cluster user credentials of the connected cluster with a specified resource group and name.
  *
  * @summary Gets cluster user credentials of the connected cluster with a specified resource group and name.
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/preview/2024-12-01-preview/examples/ConnectedClustersListClusterCredentialResultHPAAD.json
  */
+
+import type { ListClusterUserCredentialProperties } from "@azure/arm-hybridkubernetes";
+import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listClusterUserCredentialCspExample(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDKUBERNETES_SUBSCRIPTION_ID"] ||

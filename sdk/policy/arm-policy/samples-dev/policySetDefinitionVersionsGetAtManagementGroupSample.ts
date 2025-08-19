@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PolicyClient } from "@azure/arm-policy";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to This operation retrieves the policy set definition version in the given management group with the given name and version.
  *
  * @summary This operation retrieves the policy set definition version in the given management group with the given name and version.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/getPolicySetDefinitionVersionAtManagementGroup.json
  */
+
+import { PolicyClient } from "@azure/arm-policy";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function retrieveAPolicySetDefinitionVersionAtManagementGroupLevel(): Promise<void> {
   const managementGroupName = "MyManagementGroup";
   const policySetDefinitionName = "CostManagement";

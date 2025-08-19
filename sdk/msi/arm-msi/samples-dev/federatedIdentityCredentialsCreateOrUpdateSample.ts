@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Create or update a federated identity credential under the specified user assigned identity.
+ *
+ * @summary Create or update a federated identity credential under the specified user assigned identity.
+ * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2024-11-30/examples/FederatedIdentityCredentialCreate.json
+ */
+
 import {
   FederatedIdentityCredential,
   ManagedServiceIdentityClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create or update a federated identity credential under the specified user assigned identity.
- *
- * @summary Create or update a federated identity credential under the specified user assigned identity.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2024-11-30/examples/FederatedIdentityCredentialCreate.json
- */
 async function federatedIdentityCredentialCreate(): Promise<void> {
   const subscriptionId =
     process.env["MSI_SUBSCRIPTION_ID"] ||

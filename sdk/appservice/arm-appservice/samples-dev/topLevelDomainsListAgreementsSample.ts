@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Gets all legal agreements that user needs to accept before purchasing a domain.
+ *
+ * @summary Description for Gets all legal agreements that user needs to accept before purchasing a domain.
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-11-01/examples/ListTopLevelDomainAgreements.json
+ */
+
 import {
   TopLevelDomainAgreementOption,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Gets all legal agreements that user needs to accept before purchasing a domain.
- *
- * @summary Description for Gets all legal agreements that user needs to accept before purchasing a domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-11-01/examples/ListTopLevelDomainAgreements.json
- */
 async function listTopLevelDomainAgreements(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

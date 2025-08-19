@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates or updates a peering in the specified virtual network.
+ *
+ * @summary Creates or updates a peering in the specified virtual network.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkV6SubnetPeeringCreate.json
+ */
+
 import type {
   VirtualNetworkPeering,
   VirtualNetworkPeeringsCreateOrUpdateOptionalParams} from "@azure/arm-network";
@@ -15,12 +22,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates a peering in the specified virtual network.
- *
- * @summary Creates or updates a peering in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkV6SubnetPeeringCreate.json
- */
 async function createV6SubnetPeering(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "peerTest";

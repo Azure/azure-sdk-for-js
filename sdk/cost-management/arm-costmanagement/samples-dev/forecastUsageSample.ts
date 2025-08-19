@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ForecastDefinition } from "@azure/arm-costmanagement";
-import { CostManagementClient } from "@azure/arm-costmanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the forecast charges for scope defined.
  *
  * @summary Lists the forecast charges for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountForecast.json
  */
+
+import type { ForecastDefinition } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function billingAccountForecast(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789";
   const parameters: ForecastDefinition = {

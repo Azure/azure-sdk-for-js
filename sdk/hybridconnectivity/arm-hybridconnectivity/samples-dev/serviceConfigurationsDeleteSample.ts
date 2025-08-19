@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to deletes the service details to the target resource.
  *
  * @summary deletes the service details to the target resource.
  * x-ms-original-file: 2024-12-01/ServiceConfigurationsDeleteSSH.json
  */
+
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function serviceConfigurationsDeleteSSH(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";

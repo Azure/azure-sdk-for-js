@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Gets a list of service tag information resources with pagination.
+ *
+ * @summary Gets a list of service tag information resources with pagination.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/ServiceTagInformationListResult.json
+ */
+
 import type {
   ServiceTagInformationListOptionalParams} from "@azure/arm-network";
 import {
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Gets a list of service tag information resources with pagination.
- *
- * @summary Gets a list of service tag information resources with pagination.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/ServiceTagInformationListResult.json
- */
 async function getListOfServiceTags(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westeurope";

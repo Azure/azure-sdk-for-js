@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
+ *
+ * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic.json
+ */
+
 import {
   EventSubscription,
   EventGridManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- *
- * @summary Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/EventSubscriptions_CreateOrUpdateForCustomTopic.json
- */
 async function eventSubscriptionsCreateOrUpdateForCustomTopic(): Promise<void> {
   const scope =
     "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";

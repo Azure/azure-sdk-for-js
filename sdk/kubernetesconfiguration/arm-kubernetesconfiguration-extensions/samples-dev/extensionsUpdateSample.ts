@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Patch an existing Kubernetes Cluster Extension.
+ *
+ * @summary Patch an existing Kubernetes Cluster Extension.
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/PatchExtension.json
+ */
+
 import {
   PatchExtension,
   ExtensionsClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Patch an existing Kubernetes Cluster Extension.
- *
- * @summary Patch an existing Kubernetes Cluster Extension.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensions/stable/2024-11-01/examples/PatchExtension.json
- */
 async function updateExtension(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";

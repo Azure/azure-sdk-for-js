@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB SQL database
+ *
+ * @summary Update RUs per second of an Azure Cosmos DB SQL database
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBSqlDatabaseThroughputUpdate.json
+ */
+
 import {
   ThroughputSettingsUpdateParameters,
   CosmosDBManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB SQL database
- *
- * @summary Update RUs per second of an Azure Cosmos DB SQL database
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBSqlDatabaseThroughputUpdate.json
- */
 async function cosmosDbSqlDatabaseThroughputUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";

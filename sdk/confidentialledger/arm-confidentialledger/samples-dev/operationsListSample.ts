@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Retrieves a list of available API operations
  *
  * @summary Retrieves a list of available API operations
  * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-09-19-preview/examples/Operations_Get.json
  */
+
+import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function operationsGet(): Promise<void> {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||

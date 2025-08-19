@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Register a user provided function app with a static site
+ *
+ * @summary Description for Register a user provided function app with a static site
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/RegisterUserProvidedFunctionAppWithStaticSite.json
+ */
+
 import {
   StaticSiteUserProvidedFunctionAppARMResource,
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Register a user provided function app with a static site
- *
- * @summary Description for Register a user provided function app with a static site
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/RegisterUserProvidedFunctionAppWithStaticSite.json
- */
 async function registerAUserProvidedFunctionAppWithAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

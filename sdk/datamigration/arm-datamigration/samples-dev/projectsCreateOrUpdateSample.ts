@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to The project resource is a nested resource representing a stored migration project. The PUT method creates a new project or updates an existing one.
+ *
+ * @summary The project resource is a nested resource representing a stored migration project. The PUT method creates a new project or updates an existing one.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Projects_CreateOrUpdate.json
+ */
+
 import {
   Project,
   DataMigrationManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to The project resource is a nested resource representing a stored migration project. The PUT method creates a new project or updates an existing one.
- *
- * @summary The project resource is a nested resource representing a stored migration project. The PUT method creates a new project or updates an existing one.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Projects_CreateOrUpdate.json
- */
 async function projectsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||

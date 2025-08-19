@@ -8,6 +8,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/**
+ * This sample demonstrates how to The operation to create an Azure Site Recovery fabric (for e.g. Hyper-V site).
+ *
+ * @summary The operation to create an Azure Site Recovery fabric (for e.g. Hyper-V site).
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationFabrics_Create.json
+ */
+
 import {
   FabricCreationInput,
   SiteRecoveryManagementClient,
@@ -15,12 +22,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to The operation to create an Azure Site Recovery fabric (for e.g. Hyper-V site).
- *
- * @summary The operation to create an Azure Site Recovery fabric (for e.g. Hyper-V site).
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationFabrics_Create.json
- */
 async function createsAnAzureSiteRecoveryFabric(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

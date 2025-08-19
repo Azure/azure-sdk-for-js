@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Deployment, DeploymentsClient } from "@azure/arm-resourcesdeployments";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
  *
  * @summary Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/PostDeploymentValidateOnSubscription.json
  */
+
+import { Deployment, DeploymentsClient } from "@azure/arm-resourcesdeployments";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function validatesATemplateAtSubscriptionScope(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||

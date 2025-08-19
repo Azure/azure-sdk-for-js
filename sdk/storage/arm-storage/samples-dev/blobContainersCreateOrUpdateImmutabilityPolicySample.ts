@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
+ *
+ * @summary Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersPutImmutabilityPolicy.json
+ */
+
 import {
   ImmutabilityPolicy,
   BlobContainersCreateOrUpdateImmutabilityPolicyOptionalParams,
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
- *
- * @summary Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but not required for this operation.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersPutImmutabilityPolicy.json
- */
 async function createOrUpdateImmutabilityPolicy(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

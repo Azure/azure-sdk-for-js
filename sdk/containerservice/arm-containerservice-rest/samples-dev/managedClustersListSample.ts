@@ -6,15 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import ContainerServiceManagementClient, { paginate } from "@azure-rest/arm-containerservice";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets a list of managed clusters in the specified subscription.
  *
  * @summary Gets a list of managed clusters in the specified subscription.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersList.json
  */
+
+import ContainerServiceManagementClient, { paginate } from "@azure-rest/arm-containerservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listManagedClusters(): Promise<void> {
   const subscriptionId = "subid1";
   const credential = new DefaultAzureCredential();

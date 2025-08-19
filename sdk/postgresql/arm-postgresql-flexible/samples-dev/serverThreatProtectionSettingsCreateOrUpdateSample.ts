@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates or updates a server's Advanced Threat Protection settings.
+ *
+ * @summary Creates or updates a server's Advanced Threat Protection settings.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerThreatProtectionSettingsCreateOrUpdate.json
+ */
+
 import {
   ServerThreatProtectionSettingsModel,
   PostgreSQLManagementFlexibleServerClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates a server's Advanced Threat Protection settings.
- *
- * @summary Creates or updates a server's Advanced Threat Protection settings.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/ServerThreatProtectionSettingsCreateOrUpdate.json
- */
 async function updateAServerThreatProtectionSettings(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";

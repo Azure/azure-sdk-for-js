@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NginxManagementClient } from "@azure/arm-nginx";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
  *
  * @summary Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
  * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_CreateOrUpdate.json
  */
+
+import { NginxManagementClient } from "@azure/arm-nginx";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function apiKeysCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||

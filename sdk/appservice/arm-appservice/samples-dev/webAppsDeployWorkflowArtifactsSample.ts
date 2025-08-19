@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Creates the artifacts for web site, or a deployment slot.
+ *
+ * @summary Description for Creates the artifacts for web site, or a deployment slot.
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/DeleteDeployWorkflowArtifacts.json
+ */
+
 import {
   WorkflowArtifacts,
   WebAppsDeployWorkflowArtifactsOptionalParams,
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Creates the artifacts for web site, or a deployment slot.
- *
- * @summary Description for Creates the artifacts for web site, or a deployment slot.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/DeleteDeployWorkflowArtifacts.json
- */
 async function deleteWorkflowArtifacts(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

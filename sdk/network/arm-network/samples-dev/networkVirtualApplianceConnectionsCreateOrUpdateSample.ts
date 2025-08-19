@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA connection'
+ *
+ * @summary Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA connection'
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkVirtualApplianceConnectionPut.json
+ */
+
 import type {
   NetworkVirtualApplianceConnection} from "@azure/arm-network";
 import {
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA connection'
- *
- * @summary Creates a connection to Network Virtual Appliance, if it doesn't exist else updates the existing NVA connection'
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkVirtualApplianceConnectionPut.json
- */
 async function networkVirtualApplianceConnectionPut(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

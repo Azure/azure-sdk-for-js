@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates or updates a managed cluster.
+ *
+ * @summary Creates or updates a managed cluster.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersAssociate_CRG.json
+ */
+
 import type {
   ContainerServiceClient,
   ManagedClustersCreateOrUpdateParameters,
@@ -15,12 +22,6 @@ import ContainerServiceManagementClient, {
 } from "@azure-rest/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
-/**
- * This sample demonstrates how to Creates or updates a managed cluster.
- *
- * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersAssociate_CRG.json
- */
 async function associateManagedClusterWithCapacityReservationGroup(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
