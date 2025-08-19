@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Checks whether the configuration store name is available for use.
+ *
+ * @summary Checks whether the configuration store name is available for use.
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-06-01/examples/CheckNameAvailable.json
+ */
+
 import {
   CheckNameAvailabilityParameters,
   AppConfigurationManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Checks whether the configuration store name is available for use.
- *
- * @summary Checks whether the configuration store name is available for use.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-06-01/examples/CheckNameAvailable.json
- */
 async function configurationStoresCheckNameAvailable(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||

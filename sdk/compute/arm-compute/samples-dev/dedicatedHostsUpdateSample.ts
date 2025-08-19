@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Update a dedicated host .
+ *
+ * @summary Update a dedicated host .
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
+ */
+
 import {
   DedicatedHostUpdate,
   ComputeManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Update a dedicated host .
- *
- * @summary Update a dedicated host .
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
- */
 async function dedicatedHostUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

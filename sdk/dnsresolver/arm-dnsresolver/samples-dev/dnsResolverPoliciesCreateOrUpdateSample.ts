@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates or updates a DNS resolver policy.
+ *
+ * @summary Creates or updates a DNS resolver policy.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/DnsResolverPolicy_Put.json
+ */
+
 import {
   DnsResolverPolicy,
   DnsResolverManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates a DNS resolver policy.
- *
- * @summary Creates or updates a DNS resolver policy.
- * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/DnsResolverPolicy_Put.json
- */
 async function upsertDnsResolverPolicy(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||

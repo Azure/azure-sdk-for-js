@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ExtensionTypesClient } from "@azure/arm-kubernetesconfiguration-extensiontypes";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get an extension type for the location.
  *
  * @summary Get an extension type for the location.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/extensionTypes/preview/2024-11-01-preview/examples/GetExtensionTypeByLocation.json
  */
+
+import { ExtensionTypesClient } from "@azure/arm-kubernetesconfiguration-extensiontypes";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getExtensionType(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";

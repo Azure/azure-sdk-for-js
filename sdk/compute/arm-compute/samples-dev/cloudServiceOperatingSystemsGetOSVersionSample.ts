@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ComputeManagementClient } from "@azure/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets properties of a guest operating system version that can be specified in the XML service configuration (.cscfg) for a cloud service.
  *
  * @summary Gets properties of a guest operating system version that can be specified in the XML service configuration (.cscfg) for a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudServiceOSVersion_Get.json
  */
+
+import { ComputeManagementClient } from "@azure/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getCloudServiceOSVersion(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

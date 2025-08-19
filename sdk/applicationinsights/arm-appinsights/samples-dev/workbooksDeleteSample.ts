@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete a workbook.
  *
  * @summary Delete a workbook.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookDelete.json
  */
+
+import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function workbookDelete(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||

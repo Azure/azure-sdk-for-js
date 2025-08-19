@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ScheduledActionsListOptionalParams } from "@azure/arm-costmanagement";
-import { CostManagementClient } from "@azure/arm-costmanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List all private scheduled actions.
  *
  * @summary List all private scheduled actions.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledActions-list-private.json
  */
+
+import type { ScheduledActionsListOptionalParams } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function privateScheduledActionsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);

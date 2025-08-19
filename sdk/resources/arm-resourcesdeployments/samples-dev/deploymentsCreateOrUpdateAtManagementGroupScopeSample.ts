@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
+ *
+ * @summary You can provide the template and parameters directly in the request or link to JSON files.
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/PutDeploymentAtManagementGroup.json
+ */
+
 import {
   ScopedDeployment,
   DeploymentsClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
- *
- * @summary You can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/deployments/stable/2025-04-01/examples/PutDeploymentAtManagementGroup.json
- */
 async function createDeploymentAtManagementGroupScope(): Promise<void> {
   const groupId = "my-management-group-id";
   const deploymentName = "my-deployment";

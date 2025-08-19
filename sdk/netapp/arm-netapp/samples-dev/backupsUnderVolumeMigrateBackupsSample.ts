@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Migrate the backups under volume to backup vault
+ *
+ * @summary Migrate the backups under volume to backup vault
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupsUnderVolume_Migrate.json
+ */
+
 import {
   BackupsMigrationRequest,
   NetAppManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Migrate the backups under volume to backup vault
- *
- * @summary Migrate the backups under volume to backup vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupsUnderVolume_Migrate.json
- */
 async function backupsUnderVolumeMigrate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { WebSiteManagementClient } from "@azure/arm-appservice";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns details of all backends linked to a static site build
  *
  * @summary Returns details of all backends linked to a static site build
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/GetLinkedBackendsForStaticSiteBuild.json
  */
+
+import { WebSiteManagementClient } from "@azure/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getDetailsOfTheLinkedBackendsRegisteredWithAStaticSiteBuild(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

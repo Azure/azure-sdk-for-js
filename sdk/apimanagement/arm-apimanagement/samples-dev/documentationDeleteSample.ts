@@ -8,16 +8,17 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ApiManagementClient } from "@azure/arm-apimanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes the specified Documentation from an API.
  *
  * @summary Deletes the specified Documentation from an API.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementDeleteDocumentation.json
  */
+
+import { ApiManagementClient } from "@azure/arm-apimanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function apiManagementDeleteDocumentation(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

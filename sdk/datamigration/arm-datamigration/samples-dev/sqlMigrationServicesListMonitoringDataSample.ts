@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataMigrationManagementClient } from "@azure/arm-datamigration";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Retrieve the registered Integration Runtime nodes and their monitoring data for a given Database Migration Service.
  *
  * @summary Retrieve the registered Integration Runtime nodes and their monitoring data for a given Database Migration Service.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/GetMonitorDataSqlMigrationService.json
  */
+
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function retrieveTheMonitoringData(): Promise<void> {
   const subscriptionId =
     process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
+ *
+ * @summary Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImage_List_MaximumSet_Gen.json
+ */
+
 import {
   VirtualMachineImagesListOptionalParams,
   ComputeManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
- *
- * @summary Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineImageExamples/VirtualMachineImage_List_MaximumSet_Gen.json
- */
 async function virtualMachineImageListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

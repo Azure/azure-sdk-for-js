@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to List workflow runs.
+ *
+ * @summary List workflow runs.
+ * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflowRuns.json
+ */
+
 import type {
   CancelWorkflowRunParameters,
   ListWorkflowRunsParameters,
@@ -10,12 +17,6 @@ import createPurviewWorkflowClient, { isUnexpected, paginate } from "@azure-rest
 import { UsernamePasswordCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to List workflow runs.
- *
- * @summary List workflow runs.
- * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ListWorkflowRuns.json
- */
 async function workflowRunsList(
   client: PurviewWorkflowClient,
   queryParameter: ListWorkflowRunsParameters,

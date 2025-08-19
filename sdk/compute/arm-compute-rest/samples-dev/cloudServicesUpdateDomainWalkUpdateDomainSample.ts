@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CloudServicesUpdateDomainWalkUpdateDomainParameters } from "@azure-rest/arm-compute";
-import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates the role instances in the specified update domain.
  *
  * @summary Updates the role instances in the specified update domain.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudServiceUpdateDomain_Update.json
  */
+
+import type { CloudServicesUpdateDomainWalkUpdateDomainParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function updateCloudServiceToSpecifiedDomain(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);

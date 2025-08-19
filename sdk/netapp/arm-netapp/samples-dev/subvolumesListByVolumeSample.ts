@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetAppManagementClient } from "@azure/arm-netapp";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns a list of the subvolumes in the volume
  *
  * @summary Returns a list of the subvolumes in the volume
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Subvolumes_List.json
  */
+
+import { NetAppManagementClient } from "@azure/arm-netapp";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function subvolumesList(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||

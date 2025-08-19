@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { RouteTablesCreateOrUpdateParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or updates a route table in a specified resource group.
  *
  * @summary Create or updates a route table in a specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteTableCreate.json
  */
+
+import type { RouteTablesCreateOrUpdateParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createRouteTable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

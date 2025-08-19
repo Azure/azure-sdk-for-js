@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Creates or updates a domain.
+ *
+ * @summary Description for Creates or updates a domain.
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-11-01/examples/UpdateAppServiceDomain.json
+ */
+
 import {
   DomainPatchResource,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Creates or updates a domain.
- *
- * @summary Description for Creates or updates a domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-11-01/examples/UpdateAppServiceDomain.json
- */
 async function updateAppServiceDomain(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Update a specific private endpoint connection under a topic, domain or partner namespace.
+ *
+ * @summary Update a specific private endpoint connection under a topic, domain or partner namespace.
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PrivateEndpointConnections_Update.json
+ */
+
 import {
   PrivateEndpointConnection,
   EventGridManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Update a specific private endpoint connection under a topic, domain or partner namespace.
- *
- * @summary Update a specific private endpoint connection under a topic, domain or partner namespace.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PrivateEndpointConnections_Update.json
- */
 async function privateEndpointConnectionsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTGRID_SUBSCRIPTION_ID"] ||

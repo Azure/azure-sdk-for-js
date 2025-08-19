@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the session details of a config tuning session.
  *
  * @summary Gets the session details of a config tuning session.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/TuningConfiguration_ListSessionDetails.json
  */
+
+import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function tuningConfigurationListSessionDetails(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";

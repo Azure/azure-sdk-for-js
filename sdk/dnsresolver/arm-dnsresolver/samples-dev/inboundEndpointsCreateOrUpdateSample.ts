@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates or updates an inbound endpoint for a DNS resolver.
+ *
+ * @summary Creates or updates an inbound endpoint for a DNS resolver.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/InboundEndpoint_Put.json
+ */
+
 import {
   InboundEndpoint,
   DnsResolverManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates an inbound endpoint for a DNS resolver.
- *
- * @summary Creates or updates an inbound endpoint for a DNS resolver.
- * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/InboundEndpoint_Put.json
- */
 async function upsertInboundEndpointForDnsResolver(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||

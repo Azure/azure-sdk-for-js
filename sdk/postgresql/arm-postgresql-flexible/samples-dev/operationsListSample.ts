@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all of the available REST API operations.
  *
  * @summary Lists all of the available REST API operations.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/OperationList.json
  */
+
+import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function operationList(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

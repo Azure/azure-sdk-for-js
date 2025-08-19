@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns daily data volume cap (quota) status for an Application Insights component.
  *
  * @summary Returns daily data volume cap (quota) status for an Application Insights component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/QuotaStatusGet.json
  */
+
+import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function componentCurrentBillingFeaturesGet(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";

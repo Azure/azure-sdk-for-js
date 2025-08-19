@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataboundariesManegementClient } from "@azure/arm-databoundaries";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get data boundary of tenant.
  *
  * @summary Get data boundary of tenant.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/GetTenantDataBoundary.json
  */
+
+import { DataboundariesManegementClient } from "@azure/arm-databoundaries";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getDataBoundaryForTenant(): Promise<void> {
   const defaultParam = "default";
   const credential = new DefaultAzureCredential();

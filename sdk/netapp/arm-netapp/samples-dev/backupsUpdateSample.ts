@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Patch a Backup under the Backup Vault
+ *
+ * @summary Patch a Backup under the Backup Vault
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupsUnderBackupVault_Update.json
+ */
+
 import {
   BackupPatch,
   BackupsUpdateOptionalParams,
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Patch a Backup under the Backup Vault
- *
- * @summary Patch a Backup under the Backup Vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupsUnderBackupVault_Update.json
- */
 async function backupsUnderBackupVaultUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||

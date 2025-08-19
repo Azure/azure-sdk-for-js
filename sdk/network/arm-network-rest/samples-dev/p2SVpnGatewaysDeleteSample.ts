@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { P2SVpnGatewaysDeleteParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes a virtual wan p2s vpn gateway.
  *
  * @summary Deletes a virtual wan p2s vpn gateway.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/P2SVpnGatewayDelete.json
  */
+
+import type { P2SVpnGatewaysDeleteParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function p2SVpnGatewayDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

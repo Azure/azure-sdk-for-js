@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DnsManagementClient } from "@azure/arm-dns";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the DNS zones within a resource group.
  *
  * @summary Lists the DNS zones within a resource group.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/ListZonesByResourceGroup.json
  */
+
+import { DnsManagementClient } from "@azure/arm-dns";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listZonesByResourceGroup(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Create a new Kubernetes Flux Configuration.
+ *
+ * @summary Create a new Kubernetes Flux Configuration.
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/CreateFluxConfiguration.json
+ */
+
 import {
   FluxConfiguration,
   FluxConfigurationClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create a new Kubernetes Flux Configuration.
- *
- * @summary Create a new Kubernetes Flux Configuration.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/fluxConfigurations/stable/2025-04-01/examples/CreateFluxConfiguration.json
- */
 async function createFluxConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";

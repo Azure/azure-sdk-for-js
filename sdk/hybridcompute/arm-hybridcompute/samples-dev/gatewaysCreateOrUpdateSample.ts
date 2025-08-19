@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to The operation to create or update a gateway.
+ *
+ * @summary The operation to create or update a gateway.
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2025-02-19-preview/examples/gateway/Gateway_CreateOrUpdate.json
+ */
+
 import {
   Gateway,
   HybridComputeManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to The operation to create or update a gateway.
- *
- * @summary The operation to create or update a gateway.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2025-02-19-preview/examples/gateway/Gateway_CreateOrUpdate.json
- */
 async function createOrUpdateAGateway(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||

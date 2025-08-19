@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Updates a configuration store with the specified parameters.
+ *
+ * @summary Updates a configuration store with the specified parameters.
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-06-01/examples/ConfigurationStoresUpdate.json
+ */
+
 import {
   ConfigurationStoreUpdateParameters,
   AppConfigurationManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates a configuration store with the specified parameters.
- *
- * @summary Updates a configuration store with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-06-01/examples/ConfigurationStoresUpdate.json
- */
 async function configurationStoresUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||

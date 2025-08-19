@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SearchManagementClient } from "@azure/arm-search";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets a list of all Search services in the given subscription.
  *
  * @summary Gets a list of all Search services in the given subscription.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/SearchListServicesBySubscription.json
  */
+
+import { SearchManagementClient } from "@azure/arm-search";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function searchListServicesBySubscription(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();

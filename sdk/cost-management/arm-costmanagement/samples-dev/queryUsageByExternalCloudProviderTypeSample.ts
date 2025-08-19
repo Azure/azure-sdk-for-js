@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { QueryDefinition } from "@azure/arm-costmanagement";
-import { CostManagementClient } from "@azure/arm-costmanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Query the usage data for external cloud provider type defined.
  *
  * @summary Query the usage data for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalBillingAccountsQuery.json
  */
+
+import type { QueryDefinition } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function externalBillingAccountQueryList(): Promise<void> {
   const externalCloudProviderType = "externalBillingAccounts";
   const externalCloudProviderId = "100";

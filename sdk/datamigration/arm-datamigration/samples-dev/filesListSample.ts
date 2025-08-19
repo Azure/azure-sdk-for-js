@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataMigrationManagementClient } from "@azure/arm-datamigration";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The project resource is a nested resource representing a stored migration project. This method returns a list of files owned by a project resource.
  *
  * @summary The project resource is a nested resource representing a stored migration project. This method returns a list of files owned by a project resource.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Files_List.json
  */
+
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function filesList(): Promise<void> {
   const subscriptionId =
     process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||

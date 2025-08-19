@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Updates the configuration of an app.
+ *
+ * @summary Description for Updates the configuration of an app.
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/UpdateSiteConfig.json
+ */
+
 import {
   SiteConfigResource,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Updates the configuration of an app.
- *
- * @summary Description for Updates the configuration of an app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/UpdateSiteConfig.json
- */
 async function updateSiteConfig(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

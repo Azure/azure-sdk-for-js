@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { VirtualHubBgpConnectionCreateOrUpdateParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a VirtualHubBgpConnection resource if it doesn't exist else updates the existing VirtualHubBgpConnection.
  *
  * @summary Creates a VirtualHubBgpConnection resource if it doesn't exist else updates the existing VirtualHubBgpConnection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualHubBgpConnectionPut.json
  */
+
+import type { VirtualHubBgpConnectionCreateOrUpdateParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualHubRouteTableV2Put(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

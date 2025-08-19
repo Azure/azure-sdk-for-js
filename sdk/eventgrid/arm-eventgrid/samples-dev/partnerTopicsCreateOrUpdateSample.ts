@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PartnerTopic, EventGridManagementClient } from "@azure/arm-eventgrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Asynchronously creates a new partner topic with the specified parameters.
  *
  * @summary Asynchronously creates a new partner topic with the specified parameters.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PartnerTopics_CreateOrUpdate.json
  */
+
+import { PartnerTopic, EventGridManagementClient } from "@azure/arm-eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function partnerTopicsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTGRID_SUBSCRIPTION_ID"] ||

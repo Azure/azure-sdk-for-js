@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkManagementClient } from "@azure/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes the specified connection monitor.
  *
  * @summary Deletes the specified connection monitor.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkWatcherConnectionMonitorDelete.json
  */
+
+import { NetworkManagementClient } from "@azure/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteConnectionMonitor(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

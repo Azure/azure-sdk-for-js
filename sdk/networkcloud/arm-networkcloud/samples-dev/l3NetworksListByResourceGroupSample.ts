@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkCloud } from "@azure/arm-networkcloud";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a list of layer 3 (L3) networks in the provided resource group.
  *
  * @summary Get a list of layer 3 (L3) networks in the provided resource group.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/L3Networks_ListByResourceGroup.json
  */
+
+import { NetworkCloud } from "@azure/arm-networkcloud";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listL3NetworksForResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||

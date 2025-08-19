@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ResourceManagementClient } from "@azure/arm-resources";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the provider permissions.
  *
  * @summary Get the provider permissions.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/GetProviderPermissions.json
  */
+
+import { ResourceManagementClient } from "@azure/arm-resources";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getProviderResourceTypes(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Regenerate a new set of Authentication Keys for Self Hosted Integration Runtime.
+ *
+ * @summary Regenerate a new set of Authentication Keys for Self Hosted Integration Runtime.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/RegenAuthKeysSqlMigrationService.json
+ */
+
 import {
   RegenAuthKeys,
   DataMigrationManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Regenerate a new set of Authentication Keys for Self Hosted Integration Runtime.
- *
- * @summary Regenerate a new set of Authentication Keys for Self Hosted Integration Runtime.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/RegenAuthKeysSqlMigrationService.json
- */
 async function regenerateTheOfAuthenticationKeys(): Promise<void> {
   const subscriptionId =
     process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||

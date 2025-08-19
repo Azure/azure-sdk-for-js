@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ComputeManagementClient } from "@azure/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the status of the latest virtual machine scale set rolling upgrade.
  *
  * @summary Gets the status of the latest virtual machine scale set rolling upgrade.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_GetLatest_MaximumSet_Gen.json
  */
+
+import { ComputeManagementClient } from "@azure/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualMachineScaleSetRollingUpgradeGetLatestMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

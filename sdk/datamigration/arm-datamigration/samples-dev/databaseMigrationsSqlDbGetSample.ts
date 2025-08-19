@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Retrieve the Database Migration resource.
+ *
+ * @summary Retrieve the Database Migration resource.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlDbGetDatabaseMigrationExpanded.json
+ */
+
 import {
   DatabaseMigrationsSqlDbGetOptionalParams,
   DataMigrationManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Retrieve the Database Migration resource.
- *
- * @summary Retrieve the Database Migration resource.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlDbGetDatabaseMigrationExpanded.json
- */
 async function getSqlDbDatabaseMigrationWithTheExpandParameter(): Promise<void> {
   const subscriptionId =
     process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||

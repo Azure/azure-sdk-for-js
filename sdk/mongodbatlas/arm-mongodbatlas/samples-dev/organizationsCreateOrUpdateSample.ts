@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AtlasClient } from "@azure/arm-mongodbatlas";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a OrganizationResource
  *
  * @summary create a OrganizationResource
  * x-ms-original-file: 2025-06-01/Organizations_CreateOrUpdate_MaximumSet_Gen.json
  */
+
+import { AtlasClient } from "@azure/arm-mongodbatlas";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function organizationsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "AD4FE133-6EF1-4ED8-82DB-5C1CBA58597E";

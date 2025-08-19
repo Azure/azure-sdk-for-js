@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the RUs per second of the SQL database under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary Gets the RUs per second of the SQL database under an existing Azure Cosmos DB database account with the provided name.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBSqlDatabaseThroughputGet.json
  */
+
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function cosmosDbSqlDatabaseThroughputGet(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";

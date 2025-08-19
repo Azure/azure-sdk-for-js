@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { Budget } from "@azure/arm-consumption";
-import { ConsumptionManagementClient } from "@azure/arm-consumption";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  *
  * @summary The operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/CreateOrUpdateBudget.json
  */
+
+import type { Budget } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateBudget(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
+ *
+ * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Create_WithMultiRole.json
+ */
+
 import {
   CloudService,
   CloudServicesCreateOrUpdateOptionalParams,
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- *
- * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2024-11-04/examples/CloudService_Create_WithMultiRole.json
- */
 async function createNewCloudServiceWithMultipleRoles(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists DNS security rules for a DNS resolver policy.
  *
  * @summary Lists DNS security rules for a DNS resolver policy.
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/DnsSecurityRule_List.json
  */
+
+import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listDnsSecurityRulesByDnsResolverPolicy(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||

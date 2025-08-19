@@ -6,13 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  CurrentQuotaLimitBase,
-  AzureQuotaExtensionAPI,
-} from "@azure/arm-quota";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
 1. Use the GET operation for quotas and usages to determine how much quota remains for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
@@ -23,6 +16,14 @@ import "dotenv/config";
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2025-03-01/examples/putNetworkOneSkuQuotaRequest.json
  */
+
+import {
+  CurrentQuotaLimitBase,
+  AzureQuotaExtensionAPI,
+} from "@azure/arm-quota";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function quotasPutRequestForNetwork(): Promise<void> {
   const resourceName = "MinPublicIpInterNetworkPrefixLength";
   const scope =

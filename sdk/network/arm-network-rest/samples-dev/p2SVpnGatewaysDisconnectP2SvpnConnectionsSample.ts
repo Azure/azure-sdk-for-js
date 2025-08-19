@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { P2SVpnGatewaysDisconnectP2SVpnConnectionsParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
  *
  * @summary Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/P2sVpnGatewaysDisconnectP2sVpnConnections.json
  */
+
+import type { P2SVpnGatewaysDisconnectP2SVpnConnectionsParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function disconnectVpnConnectionsFromP2SVpnGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

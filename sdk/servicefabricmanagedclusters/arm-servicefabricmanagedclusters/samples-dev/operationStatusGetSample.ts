@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get long running operation status.
  *
  * @summary get long running operation status.
  * x-ms-original-file: 2025-03-01-preview/OperationStatusFailed_example.json
  */
+
+import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function errorResponseDescribingWhyTheOperationFailed(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

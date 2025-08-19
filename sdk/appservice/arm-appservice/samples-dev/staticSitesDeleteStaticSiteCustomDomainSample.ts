@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { WebSiteManagementClient } from "@azure/arm-appservice";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Description for Deletes a custom domain.
  *
  * @summary Description for Deletes a custom domain.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/DeleteStaticSiteCustomDomain.json
  */
+
+import { WebSiteManagementClient } from "@azure/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteACustomDomainForAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

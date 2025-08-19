@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Create or update an Azure Cosmos DB SQL userDefinedFunction
+ *
+ * @summary Create or update an Azure Cosmos DB SQL userDefinedFunction
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBSqlUserDefinedFunctionCreateUpdate.json
+ */
+
 import {
   SqlUserDefinedFunctionCreateUpdateParameters,
   CosmosDBManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create or update an Azure Cosmos DB SQL userDefinedFunction
- *
- * @summary Create or update an Azure Cosmos DB SQL userDefinedFunction
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBSqlUserDefinedFunctionCreateUpdate.json
- */
 async function cosmosDbSqlUserDefinedFunctionCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";

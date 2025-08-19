@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetAppManagementClient } from "@azure/arm-netapp";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the details of the specified volume's bucket. A bucket allows additional services, such as AI services, connect to the volume data contained in those buckets.
  *
  * @summary Get the details of the specified volume's bucket. A bucket allows additional services, such as AI services, connect to the volume data contained in those buckets.
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/Buckets_Get.json
  */
+
+import { NetAppManagementClient } from "@azure/arm-netapp";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function bucketsGet(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||

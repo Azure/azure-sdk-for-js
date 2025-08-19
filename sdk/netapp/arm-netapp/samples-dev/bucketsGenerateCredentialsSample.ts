@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Generate the access key and secret key used for accessing the specified volume bucket. Also return expiry date and time of key pair (in UTC).
+ *
+ * @summary Generate the access key and secret key used for accessing the specified volume bucket. Also return expiry date and time of key pair (in UTC).
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/Buckets_GenerateCredentials.json
+ */
+
 import {
   BucketCredentialsExpiry,
   NetAppManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Generate the access key and secret key used for accessing the specified volume bucket. Also return expiry date and time of key pair (in UTC).
- *
- * @summary Generate the access key and secret key used for accessing the specified volume bucket. Also return expiry date and time of key pair (in UTC).
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2025-01-01-preview/examples/Buckets_GenerateCredentials.json
- */
 async function bucketsGenerateCredentials(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the configuration stores for a given resource group.
  *
  * @summary Lists the configuration stores for a given resource group.
  * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-06-01/examples/ConfigurationStoresListByResourceGroup.json
  */
+
+import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function configurationStoresListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] ||

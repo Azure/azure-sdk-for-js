@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CostManagementClient } from "@azure/arm-costmanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The operation to delete a export.
  *
  * @summary The operation to delete a export.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportDeleteByBillingAccount.json
  */
+
+import { CostManagementClient } from "@azure/arm-costmanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function exportDeleteByBillingAccount(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/123456";
   const exportName = "TestExport";

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { TriggerSupportPackageRequest } from "@azure/arm-databoxedge";
-import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Triggers support package on the device
  *
  * @summary Triggers support package on the device
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/TriggerSupportPackage.json
  */
+
+import type { TriggerSupportPackageRequest } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function triggerSupportPackage(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";

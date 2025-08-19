@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ProjectResource } from "@azure/arm-visualstudio";
-import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates a Team Services project in the collection with the specified name. 'VersionControlOption' and 'ProcessTemplateId' must be specified in the resource properties. Valid values for VersionControlOption: Git, Tfvc. Valid values for ProcessTemplateId: 6B724908-EF14-45CF-84F8-768B5384DA45, ADCC42AB-9882-485E-A3ED-7678F01F66BC, 27450541-8E31-4150-9947-DC59F998FC01 (these IDs correspond to Scrum, Agile, and CMMI process templates).
  *
  * @summary Creates a Team Services project in the collection with the specified name. 'VersionControlOption' and 'ProcessTemplateId' must be specified in the resource properties. Valid values for VersionControlOption: Git, Tfvc. Valid values for ProcessTemplateId: 6B724908-EF14-45CF-84F8-768B5384DA45, ADCC42AB-9882-485E-A3ED-7678F01F66BC, 27450541-8E31-4150-9947-DC59F998FC01 (these IDs correspond to Scrum, Agile, and CMMI process templates).
  * x-ms-original-file: specification/visualstudio/resource-manager/Microsoft.VisualStudio/preview/2014-04-01-preview/examples/CreateProjectResource.json
  */
+
+import type { ProjectResource } from "@azure/arm-visualstudio";
+import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createAProjectResource(): Promise<void> {
   const subscriptionId = "0de7f055-dbea-498d-8e9e-da287eedca90";
   const resourceGroupName = "VS-Example-Group";

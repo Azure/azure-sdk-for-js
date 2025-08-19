@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import ContainerServiceManagementClient, {
-  getLongRunningPoller,
-} from "@azure-rest/arm-containerservice";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to See [starting a cluster](https://learn.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
  *
  * @summary See [starting a cluster](https://learn.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersStart.json
  */
+
+import ContainerServiceManagementClient, {
+  getLongRunningPoller,
+} from "@azure-rest/arm-containerservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function startManagedCluster(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";

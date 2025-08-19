@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataMigrationManagementClient } from "@azure/arm-datamigration";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The services resource is the top-level resource that represents the Azure Database Migration Service (classic). The DELETE method deletes a service. Any running tasks will be canceled.
  *
  * @summary The services resource is the top-level resource that represents the Azure Database Migration Service (classic). The DELETE method deletes a service. Any running tasks will be canceled.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Services_Delete.json
  */
+
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function servicesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get quota usages at specified location in a given subscription.
  *
  * @summary Get quota usages at specified location in a given subscription.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/QuotaUsagesForFlexibleServers.json
  */
+
+import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listOfQuotaUsagesForFlexibleServers(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";

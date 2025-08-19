@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkManagementClient } from "@azure/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the specific private end point connection by specific private link service in the resource group.
  *
  * @summary Get the specific private end point connection by specific private link service in the resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/PrivateLinkServiceGetPrivateEndpointConnection.json
  */
+
+import { NetworkManagementClient } from "@azure/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getPrivateEndPointConnection(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

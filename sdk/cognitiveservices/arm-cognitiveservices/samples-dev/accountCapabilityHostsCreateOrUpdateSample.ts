@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Create or update account capabilityHost.
+ *
+ * @summary Create or update account capabilityHost.
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/AccountCapabilityHost/createOrUpdate.json
+ */
+
 import {
   CapabilityHost,
   CognitiveServicesManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create or update account capabilityHost.
- *
- * @summary Create or update account capabilityHost.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/AccountCapabilityHost/createOrUpdate.json
- */
 async function createOrUpdateAccountCapabilityHost(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||

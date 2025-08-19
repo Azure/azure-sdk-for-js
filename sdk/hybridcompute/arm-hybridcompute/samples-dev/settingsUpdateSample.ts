@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Updates the base Settings of the target resource.
+ *
+ * @summary Updates the base Settings of the target resource.
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2025-02-19-preview/examples/settings/SettingsUpdate.json
+ */
+
 import {
   Settings,
   HybridComputeManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates the base Settings of the target resource.
- *
- * @summary Updates the base Settings of the target resource.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2025-02-19-preview/examples/settings/SettingsUpdate.json
- */
 async function settingsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||

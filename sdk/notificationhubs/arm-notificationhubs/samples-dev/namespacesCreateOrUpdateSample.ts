@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { NamespaceResource } from "@azure/arm-notificationhubs";
-import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates / Updates a Notification Hub namespace. This operation is idempotent.
  *
  * @summary Creates / Updates a Notification Hub namespace. This operation is idempotent.
  * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/Namespaces/CreateOrUpdate.json
  */
+
+import type { NamespaceResource } from "@azure/arm-notificationhubs";
+import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function namespacesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] || "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";

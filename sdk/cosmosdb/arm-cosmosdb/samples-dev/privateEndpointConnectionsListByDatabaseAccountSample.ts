@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List all private endpoint connections on a Cosmos DB account.
  *
  * @summary List all private endpoint connections on a Cosmos DB account.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBPrivateEndpointConnectionListGet.json
  */
+
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getsPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||

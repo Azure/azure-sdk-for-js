@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
+ *
+ * @summary Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Capture_MaximumSet_Gen.json
+ */
+
 import {
   VirtualMachineCaptureParameters,
   ComputeManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
- *
- * @summary Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_Capture_MaximumSet_Gen.json
- */
 async function virtualMachineCaptureMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

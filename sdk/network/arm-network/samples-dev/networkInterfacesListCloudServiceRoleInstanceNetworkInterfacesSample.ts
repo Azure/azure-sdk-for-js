@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkManagementClient } from "@azure/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets information about all network interfaces in a role instance in a cloud service.
  *
  * @summary Gets information about all network interfaces in a role instance in a cloud service.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/CloudServiceRoleInstanceNetworkInterfaceList.json
  */
+
+import { NetworkManagementClient } from "@azure/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listCloudServiceRoleInstanceNetworkInterfaces(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

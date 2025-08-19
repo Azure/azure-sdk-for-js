@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { SessionIds} from "@azure/arm-network";
-import { NetworkManagementClient } from "@azure/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns the list of currently active sessions on the Bastion.
  *
  * @summary Returns the list of currently active sessions on the Bastion.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/BastionSessionDelete.json
  */
+
+import type { SessionIds} from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deletesTheSpecifiedActiveSession(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

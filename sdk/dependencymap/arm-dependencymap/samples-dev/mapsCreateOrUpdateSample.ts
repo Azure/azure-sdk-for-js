@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DependencyMapClient } from "@azure/arm-dependencymap";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a MapsResource
  *
  * @summary create a MapsResource
  * x-ms-original-file: 2025-01-31-preview/Maps_CreateOrUpdate.json
  */
+
+import { DependencyMapClient } from "@azure/arm-dependencymap";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function mapsCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "D6E58BDB-45F1-41EC-A884-1FC945058848";

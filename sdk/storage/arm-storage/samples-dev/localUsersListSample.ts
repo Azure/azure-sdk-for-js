@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to List the local users associated with the storage account.
+ *
+ * @summary List the local users associated with the storage account.
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/LocalUsersList.json
+ */
+
 import {
   LocalUsersListOptionalParams,
   StorageManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to List the local users associated with the storage account.
- *
- * @summary List the local users associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/LocalUsersList.json
- */
 async function listLocalUsers(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

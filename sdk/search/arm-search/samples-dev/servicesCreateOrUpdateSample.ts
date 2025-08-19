@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SearchService, SearchManagementClient } from "@azure/arm-search";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  *
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/SearchCreateOrUpdateService.json
  */
+
+import { SearchService, SearchManagementClient } from "@azure/arm-search";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function searchCreateOrUpdateService(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Get custom hostnames under this subscription
+ *
+ * @summary Get custom hostnames under this subscription
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/ListCustomHostNameSites.json
+ */
+
 import {
   ListCustomHostNameSitesOptionalParams,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Get custom hostnames under this subscription
- *
- * @summary Get custom hostnames under this subscription
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/ListCustomHostNameSites.json
- */
 async function getCustomHostnamesUnderSubscription(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

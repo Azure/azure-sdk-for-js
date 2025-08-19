@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Update Custom Dns Suffix configuration of an App Service Environment
+ *
+ * @summary Update Custom Dns Suffix configuration of an App Service Environment
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/UpdateAseCustomDnsSuffixConfiguration.json
+ */
+
 import {
   CustomDnsSuffixConfiguration,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Update Custom Dns Suffix configuration of an App Service Environment
- *
- * @summary Update Custom Dns Suffix configuration of an App Service Environment
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/UpdateAseCustomDnsSuffixConfiguration.json
- */
 async function updateAseCustomDnsSuffixConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

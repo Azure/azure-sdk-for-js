@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+ *
+ * @summary Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PostDeploymentValidateOnTenant.json
+ */
+
 import {
   ScopedDeployment,
   ResourceManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
- *
- * @summary Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PostDeploymentValidateOnTenant.json
- */
 async function validatesATemplateAtTenantScope(): Promise<void> {
   const deploymentName = "my-deployment";
   const parameters: ScopedDeployment = {

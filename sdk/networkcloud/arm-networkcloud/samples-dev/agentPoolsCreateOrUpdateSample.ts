@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AgentPool, NetworkCloud } from "@azure/arm-networkcloud";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a new Kubernetes cluster agent pool or update the properties of the existing one.
  *
  * @summary Create a new Kubernetes cluster agent pool or update the properties of the existing one.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/AgentPools_Create.json
  */
+
+import { AgentPool, NetworkCloud } from "@azure/arm-networkcloud";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateKubernetesClusterAgentPool(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||

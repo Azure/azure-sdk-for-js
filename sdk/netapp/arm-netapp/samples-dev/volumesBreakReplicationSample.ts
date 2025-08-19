@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Break the replication connection on the destination volume
+ *
+ * @summary Break the replication connection on the destination volume
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_BreakReplication.json
+ */
+
 import {
   BreakReplicationRequest,
   VolumesBreakReplicationOptionalParams,
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Break the replication connection on the destination volume
- *
- * @summary Break the replication connection on the destination volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_BreakReplication.json
- */
 async function volumesBreakReplication(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||

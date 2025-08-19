@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
+ *
+ * @summary Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/CreateProject.json
+ */
+
 import {
   Project,
   CognitiveServicesManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
- *
- * @summary Create Cognitive Services Account's Project. Project is a sub-resource of an account which give AI developer it's individual container to work on.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/CreateProject.json
- */
 async function createProject(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||

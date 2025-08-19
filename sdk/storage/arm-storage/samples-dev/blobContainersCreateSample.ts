@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BlobContainer, StorageManagementClient } from "@azure/arm-storage";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
  *
  * @summary Creates a new container under the specified account as described by request body. The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersPutDefaultEncryptionScope.json
  */
+
+import { BlobContainer, StorageManagementClient } from "@azure/arm-storage";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function putContainerWithDefaultEncryptionScope(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

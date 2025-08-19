@@ -6,15 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets all Visual Studio Team Services account resources under the resource group linked to the specified Azure subscription.
  *
  * @summary Gets all Visual Studio Team Services account resources under the resource group linked to the specified Azure subscription.
  * x-ms-original-file: specification/visualstudio/resource-manager/Microsoft.VisualStudio/preview/2014-04-01-preview/examples/GetResources_List.json
  */
+
+import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getAListOfAccountResourcesInTheResourceGroup(): Promise<void> {
   const subscriptionId = "0de7f055-dbea-498d-8e9e-da287eedca90";
   const resourceGroupName = "VS-Example-Group";

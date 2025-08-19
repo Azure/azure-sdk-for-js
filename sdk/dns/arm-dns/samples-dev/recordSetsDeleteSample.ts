@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DnsManagementClient } from "@azure/arm-dns";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
  *
  * @summary Deletes a record set from a DNS zone. This operation cannot be undone. Record sets of type SOA cannot be deleted (they are deleted when the DNS zone is deleted).
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/DeleteARecordset.json
  */
+
+import { DnsManagementClient } from "@azure/arm-dns";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteARecordset(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Updates a Cognitive Services account
+ *
+ * @summary Updates a Cognitive Services account
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/UpdateAccount.json
+ */
+
 import {
   Account,
   CognitiveServicesManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates a Cognitive Services account
- *
- * @summary Updates a Cognitive Services account
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/examples/UpdateAccount.json
- */
 async function updateAccount(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||

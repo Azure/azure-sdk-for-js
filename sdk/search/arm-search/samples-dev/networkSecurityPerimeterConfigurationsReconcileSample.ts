@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SearchManagementClient } from "@azure/arm-search";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.
  *
  * @summary Reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/NetworkSecurityPerimeterConfigurationsReconcile.json
  */
+
+import { SearchManagementClient } from "@azure/arm-search";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function reconcileNspConfig(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";

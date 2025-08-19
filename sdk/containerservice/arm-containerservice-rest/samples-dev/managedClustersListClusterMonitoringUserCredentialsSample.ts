@@ -6,15 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import ContainerServiceManagementClient from "@azure-rest/arm-containerservice";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Lists the cluster monitoring user credentials of a managed cluster.
  *
  * @summary Lists the cluster monitoring user credentials of a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersListClusterCredentialResult.json
  */
+
+import ContainerServiceManagementClient from "@azure-rest/arm-containerservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getManagedCluster(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";

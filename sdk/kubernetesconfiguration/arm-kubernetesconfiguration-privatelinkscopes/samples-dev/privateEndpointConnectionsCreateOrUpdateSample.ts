@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
+ *
+ * @summary Approve or reject a private endpoint connection with a given name.
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/privateLinkScopes/preview/2024-11-01-preview/examples/PrivateEndpointConnectionUpdate.json
+ */
+
 import {
   PrivateEndpointConnection,
   PrivateLinkScopesClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
- *
- * @summary Approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/privateLinkScopes/preview/2024-11-01-preview/examples/PrivateEndpointConnectionUpdate.json
- */
 async function approveOrRejectAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] ||

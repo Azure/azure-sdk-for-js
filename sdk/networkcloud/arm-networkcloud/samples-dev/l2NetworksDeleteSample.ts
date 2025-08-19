@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkCloud } from "@azure/arm-networkcloud";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete the provided layer 2 (L2) network.
  *
  * @summary Delete the provided layer 2 (L2) network.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/L2Networks_Delete.json
  */
+
+import { NetworkCloud } from "@azure/arm-networkcloud";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteL2Network(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||

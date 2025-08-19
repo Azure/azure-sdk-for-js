@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration.
+ *
+ * @summary Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration.
+ * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_ScanRuntime.json
+ */
+
 import {
   ClusterScanRuntimeParameters,
   ClustersScanRuntimeOptionalParams,
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration.
- *
- * @summary Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration.
- * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/Clusters_ScanRuntime.json
- */
 async function executeARuntimeProtectionScanOnTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||

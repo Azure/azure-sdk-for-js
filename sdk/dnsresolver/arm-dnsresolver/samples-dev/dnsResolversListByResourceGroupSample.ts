@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists DNS resolvers within a resource group.
  *
  * @summary Lists DNS resolvers within a resource group.
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/DnsResolver_ListByResourceGroup.json
  */
+
+import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listDnsResolversByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkManagementClient } from "@azure/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all the network manager security admin configurations in a network manager, in a paginated format.
  *
  * @summary Lists all the network manager security admin configurations in a network manager, in a paginated format.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerSecurityAdminConfigurationList.json
  */
+
+import { NetworkManagementClient } from "@azure/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listSecurityAdminConfigurationsInANetworkManager(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||

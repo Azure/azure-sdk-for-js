@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to API to get details about capabilities provided by Microsoft.RecoveryServices RP
+ *
+ * @summary API to get details about capabilities provided by Microsoft.RecoveryServices RP
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Capabilities.json
+ */
+
 import {
   ResourceCapabilities,
   RecoveryServicesClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to API to get details about capabilities provided by Microsoft.RecoveryServices RP
- *
- * @summary API to get details about capabilities provided by Microsoft.RecoveryServices RP
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Capabilities.json
- */
 async function capabilitiesForMicrosoftRecoveryServicesOrVaults(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||

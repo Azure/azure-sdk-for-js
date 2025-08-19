@@ -8,6 +8,13 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/**
+ * This sample demonstrates how to Operation to create a protection container.
+ *
+ * @summary Operation to create a protection container.
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectionContainers_Create.json
+ */
+
 import {
   CreateProtectionContainerInput,
   SiteRecoveryManagementClient,
@@ -15,12 +22,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Operation to create a protection container.
- *
- * @summary Operation to create a protection container.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectionContainers_Create.json
- */
 async function createAProtectionContainer(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

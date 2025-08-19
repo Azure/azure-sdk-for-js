@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { Snapshot } from "@azure/arm-compute-profile-2020-09-01-hybrid";
-import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
  *
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription.json
  */
+
+import type { Snapshot } from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription(): Promise<void> {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";

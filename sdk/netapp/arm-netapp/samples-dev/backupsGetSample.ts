@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetAppManagementClient } from "@azure/arm-netapp";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the specified Backup under Backup Vault.
  *
  * @summary Get the specified Backup under Backup Vault.
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupsUnderBackupVault_Get.json
  */
+
+import { NetAppManagementClient } from "@azure/arm-netapp";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function backupsUnderBackupVaultGet(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||

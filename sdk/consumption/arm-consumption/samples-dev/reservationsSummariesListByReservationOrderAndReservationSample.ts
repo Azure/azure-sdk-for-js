@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ReservationsSummariesListByReservationOrderAndReservationOptionalParams } from "@azure/arm-consumption";
-import { ConsumptionManagementClient } from "@azure/arm-consumption";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
  *
  * @summary Lists the reservations summaries for daily or monthly grain.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDailyWithReservationId.json
  */
+
+import type { ReservationsSummariesListByReservationOrderAndReservationOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function reservationSummariesDailyWithReservationId(): Promise<void> {
   const subscriptionId =
     process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

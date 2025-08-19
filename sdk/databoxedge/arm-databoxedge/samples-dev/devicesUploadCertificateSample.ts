@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { UploadCertificateRequest } from "@azure/arm-databoxedge";
-import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Uploads registration certificate for the device.
  *
  * @summary Uploads registration certificate for the device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/UploadCertificatePost.json
  */
+
+import type { UploadCertificateRequest } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function uploadCertificatePost(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";

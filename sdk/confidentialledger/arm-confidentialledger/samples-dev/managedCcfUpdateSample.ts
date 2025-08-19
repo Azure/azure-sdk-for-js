@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Updates properties of Managed CCF
+ *
+ * @summary Updates properties of Managed CCF
+ * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-09-19-preview/examples/ManagedCCF_Update.json
+ */
+
 import type {
   ManagedCCF} from "@azure/arm-confidentialledger";
 import {
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates properties of Managed CCF
- *
- * @summary Updates properties of Managed CCF
- * x-ms-original-file: specification/confidentialledger/resource-manager/Microsoft.ConfidentialLedger/preview/2024-09-19-preview/examples/ManagedCCF_Update.json
- */
 async function managedCcfUpdate(): Promise<void> {
   const subscriptionId =
     process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||

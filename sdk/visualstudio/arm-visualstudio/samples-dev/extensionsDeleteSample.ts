@@ -6,15 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Removes an extension resource registration for a Visual Studio Team Services account.
  *
  * @summary Removes an extension resource registration for a Visual Studio Team Services account.
  * x-ms-original-file: specification/visualstudio/resource-manager/Microsoft.VisualStudio/preview/2014-04-01-preview/examples/DeleteExtensionResource.json
  */
+
+import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deleteAnExtensionResource(): Promise<void> {
   const subscriptionId = "0de7f055-dbea-498d-8e9e-da287eedca90";
   const resourceGroupName = "VS-Example-Group";

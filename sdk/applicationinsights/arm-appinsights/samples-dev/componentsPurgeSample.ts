@@ -6,13 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  ComponentPurgeBody,
-  ApplicationInsightsManagementClient,
-} from "@azure/arm-appinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Purges data in an Application Insights component by a set of user-defined filters.
 
@@ -25,6 +18,14 @@ In order to manage system resources, purge requests are throttled at 50 requests
 Note: this operation is intended for Classic resources, for  workspace-based Application Insights resource please run purge operation (directly on the workspace)(  https://learn.microsoft.com/rest/api/loganalytics/workspace-purge/purge) , scoped to specific resource id.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/examples/ComponentsPurge.json
  */
+
+import {
+  ComponentPurgeBody,
+  ApplicationInsightsManagementClient,
+} from "@azure/arm-appinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function componentPurge(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||

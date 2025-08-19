@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Deletes a routing rule.
+ *
+ * @summary Deletes a routing rule.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerRoutingRuleDelete.json
+ */
+
 import type {
   RoutingRulesDeleteOptionalParams} from "@azure/arm-network";
 import {
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Deletes a routing rule.
- *
- * @summary Deletes a routing rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerRoutingRuleDelete.json
- */
 async function deletesARoutingRule(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||

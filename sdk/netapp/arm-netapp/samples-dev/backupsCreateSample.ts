@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Backup, NetAppManagementClient } from "@azure/arm-netapp";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a backup under the Backup Vault
  *
  * @summary Create a backup under the Backup Vault
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupsUnderBackupVault_Create.json
  */
+
+import { Backup, NetAppManagementClient } from "@azure/arm-netapp";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function backupsUnderBackupVaultCreate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||

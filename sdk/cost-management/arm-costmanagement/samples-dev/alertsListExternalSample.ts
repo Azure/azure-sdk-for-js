@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CostManagementClient } from "@azure/arm-costmanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the Alerts for external cloud provider type defined.
  *
  * @summary Lists the Alerts for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalBillingAccountAlerts.json
  */
+
+import { CostManagementClient } from "@azure/arm-costmanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function externalBillingAccountAlerts(): Promise<void> {
   const externalCloudProviderType = "externalBillingAccounts";
   const externalCloudProviderId = "100";

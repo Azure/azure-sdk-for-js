@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Deployment, ResourceManagementClient } from "@azure/arm-resources";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-03-01/examples/PutDeploymentResourceGroup.json
  */
+
+import { Deployment, ResourceManagementClient } from "@azure/arm-resources";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||

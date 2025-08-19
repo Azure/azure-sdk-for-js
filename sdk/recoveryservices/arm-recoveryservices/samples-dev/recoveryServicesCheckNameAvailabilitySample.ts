@@ -6,13 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  CheckNameAvailabilityParameters,
-  RecoveryServicesClient,
-} from "@azure/arm-recoveryservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to API to check for resource name availability.
 A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
@@ -23,6 +16,14 @@ A name is available if no other resource exists that has the same SubscriptionId
 or if one or more such resources exist, each of these must be GC'd and their time of deletion be more than 24 Hours Ago
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/CheckNameAvailability_Available.json
  */
+
+import {
+  CheckNameAvailabilityParameters,
+  RecoveryServicesClient,
+} from "@azure/arm-recoveryservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||

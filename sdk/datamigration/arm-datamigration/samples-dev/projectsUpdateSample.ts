@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to The project resource is a nested resource representing a stored migration project. The PATCH method updates an existing project.
+ *
+ * @summary The project resource is a nested resource representing a stored migration project. The PATCH method updates an existing project.
+ * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Projects_Update.json
+ */
+
 import {
   Project,
   DataMigrationManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to The project resource is a nested resource representing a stored migration project. The PATCH method updates an existing project.
- *
- * @summary The project resource is a nested resource representing a stored migration project. The PATCH method updates an existing project.
- * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Projects_Update.json
- */
 async function projectsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAMIGRATION_SUBSCRIPTION_ID"] ||
