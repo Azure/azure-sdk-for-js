@@ -8,12 +8,12 @@ import {
   _privateLinkResourceListResultDeserializer,
   PrivateLinkResource,
 } from "../../models/models.js";
-import { PrivateLinksListByMongoClusterOptionalParams } from "./options.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { PrivateLinksListByMongoClusterOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,

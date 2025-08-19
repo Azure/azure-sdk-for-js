@@ -21,6 +21,12 @@ import {
   promoteReplicaRequestSerializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   MongoClustersPromoteOptionalParams,
   MongoClustersCheckNameAvailabilityOptionalParams,
   MongoClustersListConnectionStringsOptionalParams,
@@ -31,12 +37,6 @@ import {
   MongoClustersCreateOrUpdateOptionalParams,
   MongoClustersGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -67,10 +67,6 @@ export function _promoteSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
     body: promoteReplicaRequestSerializer(body),
   });
 }
@@ -344,13 +340,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
