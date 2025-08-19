@@ -21,6 +21,7 @@ import { isRetriable } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
+  ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   RetriableRestErrorTypes,
 } from "../../Declarations/Constants.js";
 import { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
@@ -65,10 +66,23 @@ export abstract class BaseSender {
         disableOfflineStorage: this.disableOfflineStorage,
       });
       if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW]) {
+        let exportInterval: number | undefined;
+        if (process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL]) {
+          const envValue = process.env[ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL];
+          const exportIntervalSeconds = parseInt(envValue, 10);
+          if (!isNaN(exportIntervalSeconds) && exportIntervalSeconds > 0) {
+            exportInterval = exportIntervalSeconds * 1000; // Convert seconds to milliseconds
+          } else {
+            diag.warn(
+              `Invalid value for APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL environment variable: '${envValue}'. Expected a positive number (seconds). Using default export interval.`,
+            );
+          }
+        }
         this.customerSDKStatsMetrics = CustomerSDKStatsMetrics.getInstance({
           instrumentationKey: options.instrumentationKey,
           endpointUrl: options.endpointUrl,
           disableOfflineStorage: this.disableOfflineStorage,
+          networkCollectionInterval: exportInterval,
         });
       }
     }
