@@ -97,7 +97,9 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
       // Should be categorized as "timeout_exception" instead of raw message
-      expect(reasonMap.get("timeout_exception")).toBe(5);
+      const successMap = reasonMap.get("timeout_exception");
+      expect(successMap).toBeDefined();
+      expect(successMap.get(null)).toBe(5);
     });
 
     it("should not store drop.reason for CLIENT_EXCEPTION when message not provided", () => {
@@ -117,7 +119,9 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
       // Should be "unknown_exception" instead of "default"
-      expect(reasonMap.get("unknown_exception")).toBe(3);
+      const successMap = reasonMap.get("unknown_exception");
+      expect(successMap).toBeDefined();
+      expect(successMap.get(null)).toBe(3);
     });
 
     it("should store appropriate drop.reason for non-CLIENT_EXCEPTION drop codes", () => {
@@ -140,7 +144,9 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
       // Should be "non_retryable_status" instead of "default"
-      expect(reasonMap.get("non_retryable_status")).toBe(2);
+      const successMap = reasonMap.get("non_retryable_status");
+      expect(successMap).toBeDefined();
+      expect(successMap.get(null)).toBe(2);
     });
 
     it("should aggregate counts for same drop code and exception message", () => {
@@ -168,7 +174,9 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
       // Should aggregate based on categorized reason "other_exception"
-      expect(reasonMap.get("other_exception")).toBe(5);
+      const successMap = reasonMap.get("other_exception");
+      expect(successMap).toBeDefined();
+      expect(successMap.get(null)).toBe(5);
     });
 
     it("should create separate entries for different telemetry types", () => {
@@ -193,7 +201,9 @@ describe("CustomerSDKStatsMetrics", () => {
       const traceReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(traceReasonMap).toBeDefined();
       expect(traceReasonMap.size).toBe(1);
-      expect(traceReasonMap.get("other_exception")).toBe(2);
+      const traceSuccessMap = traceReasonMap.get("other_exception");
+      expect(traceSuccessMap).toBeDefined();
+      expect(traceSuccessMap.get(null)).toBe(2);
 
       const dependencyDropCodeMap = counter.totalItemDropCount.get(TelemetryType.DEPENDENCY);
       expect(dependencyDropCodeMap).toBeDefined();
@@ -202,7 +212,9 @@ describe("CustomerSDKStatsMetrics", () => {
       const dependencyReasonMap = dependencyDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(dependencyReasonMap).toBeDefined();
       expect(dependencyReasonMap.size).toBe(1);
-      expect(dependencyReasonMap.get("other_exception")).toBe(3);
+      const dependencySuccessMap = dependencyReasonMap.get("other_exception");
+      expect(dependencySuccessMap).toBeDefined();
+      expect(dependencySuccessMap.get(null)).toBe(3);
     });
   });
 
@@ -397,7 +409,8 @@ describe("CustomerSDKStatsMetrics", () => {
 
       const traceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       const traceDropReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
-      expect(traceDropReasonMap.get("other_exception")).toBe(5);
+      const traceDropSuccessMap = traceDropReasonMap.get("other_exception");
+      expect(traceDropSuccessMap.get(null)).toBe(5);
 
       const traceRetryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       const traceRetryReasonMap = traceRetryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
@@ -421,7 +434,8 @@ describe("CustomerSDKStatsMetrics", () => {
       // Counts should be reset to zero
       const resetTraceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       const resetTraceDropReasonMap = resetTraceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
-      expect(resetTraceDropReasonMap.get("other_exception")).toBe(0);
+      const resetTraceDropSuccessMap = resetTraceDropReasonMap.get("other_exception");
+      expect(resetTraceDropSuccessMap.get(null)).toBe(0);
 
       const resetTraceRetryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
       const resetTraceRetryReasonMap = resetTraceRetryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
@@ -450,7 +464,9 @@ describe("CustomerSDKStatsMetrics", () => {
       const integrationReasonMap = integrationDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(integrationReasonMap).toBeDefined();
       expect(integrationReasonMap.size).toBe(1);
-      expect(integrationReasonMap.get("network_exception")).toBe(5);
+      const integrationSuccessMap = integrationReasonMap.get("network_exception");
+      expect(integrationSuccessMap).toBeDefined();
+      expect(integrationSuccessMap.get(null)).toBe(5);
 
       // Test the observable callback includes drop.reason in attributes
       const mockObservableResult = {
@@ -543,7 +559,9 @@ describe("CustomerSDKStatsMetrics", () => {
       );
       expect(nonClientExceptionReasonMap).toBeDefined();
       expect(nonClientExceptionReasonMap.size).toBe(1);
-      expect(nonClientExceptionReasonMap.get("non_retryable_status")).toBe(2);
+      const nonClientExceptionSuccessMap = nonClientExceptionReasonMap.get("non_retryable_status");
+      expect(nonClientExceptionSuccessMap).toBeDefined();
+      expect(nonClientExceptionSuccessMap.get(null)).toBe(2);
 
       // Test observable callback does not include drop.reason
       const mockObservableResult = {
@@ -649,7 +667,9 @@ describe("CustomerSDKStatsMetrics", () => {
       const aggregateReasonMap = aggregateDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(aggregateReasonMap).toBeDefined();
       expect(aggregateReasonMap.size).toBe(1);
-      expect(aggregateReasonMap.get("network_exception")).toBe(5); // 2 + 3
+      const aggregateSuccessMap = aggregateReasonMap.get("network_exception");
+      expect(aggregateSuccessMap).toBeDefined();
+      expect(aggregateSuccessMap.get(null)).toBe(5); // 2 + 3
 
       // Test observable callback aggregates the count
       const mockObservableResult = {

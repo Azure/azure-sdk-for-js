@@ -743,6 +743,7 @@ describe("BaseSender", () => {
         envelopes,
         "CLIENT_EXCEPTION",
         "Circular redirect",
+        undefined,
       );
     });
 
@@ -773,6 +774,8 @@ describe("BaseSender", () => {
       expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
         envelopes,
         "CLIENT_EXCEPTION",
+        undefined,
+        undefined,
       );
     });
 
@@ -796,11 +799,11 @@ describe("BaseSender", () => {
       const result = await testSender.exportEnvelopes(envelopes);
 
       expect(result.code).toBe(ExportResultCode.FAILED);
-      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400);
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(envelopes, 400, undefined, undefined);
 
       // Verify exception.message is not passed for non-client exceptions
       const call = mockCustomerSDKStatsMetrics.countDroppedItems.mock.calls[0];
-      expect(call.length).toBe(2); // envelopes array and drop code, but no exception message
+      expect(call.length).toBe(4); // envelopes array, drop code, drop reason, and telemetry success
     });
 
     it("should handle successful export without calling error tracking", async () => {

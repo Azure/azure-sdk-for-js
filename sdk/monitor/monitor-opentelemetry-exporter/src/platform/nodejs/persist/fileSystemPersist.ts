@@ -154,7 +154,7 @@ export class FileSystemPersist implements PersistentStorage {
     } catch (error: any) {
       // Check if error is due to permission/readonly issues
       if (error?.code === "EACCES" || error?.code === "EPERM") {
-        this._customerSDKStatsMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_READONLY);
+        this._customerSDKStatsMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_READONLY, undefined);
         diag.warn(
           `Permission denied while checking/creating directory: ${this._tempDirectory}`,
           error?.message,
@@ -172,6 +172,7 @@ export class FileSystemPersist implements PersistentStorage {
         this._customerSDKStatsMetrics?.countDroppedItems(
           envelopes,
           DropCode.CLIENT_PERSISTENCE_CAPACITY,
+          undefined,
         );
         diag.warn(
           `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`,

@@ -186,8 +186,9 @@ export abstract class BaseSender {
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countFailure(duration, statusCode);
             // Count dropped items for customer SDK Stats for non-retriable status codes
+            const filteredSuccessfulEnvelopes = successfulEnvelopes.filter(Boolean);
             this.customerSDKStatsMetrics?.countDroppedItems(
-              successfulEnvelopes.filter(Boolean),
+              filteredSuccessfulEnvelopes,
               statusCode,
             );
           }
