@@ -8,9 +8,8 @@ The cache is implemented using Azure Blob Storage, and it uses the `@azure/stora
 
 ### Prerequisites
 
-- Node.js 20.x or later
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Azure Storage account
-- Azure Storage connection string
 
 ### Running the Cache Locally
 
@@ -20,7 +19,7 @@ You will need to log into Azure and create a storage account. You can do this us
 az login
 ```
 
-To build the package, run the following command:
+To build the package, run the following command under the project directory:
 
 ```bash
 pnpm build
@@ -138,12 +137,10 @@ Enabling logging may help uncover useful information about failures. In order to
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-This module's tests are a mixture of live and unit tests, which require you to have an Azure Notification Hubs instance. To execute the tests you'll need to run:
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code. Here's an example of building and running tests
 
 1. `pnpm install`
 2. `pnpm build --filter=@azure-tools/@azure/turborepo-remote-cache...`
-3. Create a .env file with these contents in the `common/tools/turborepo-remote-cache` folder with the contents from the `example.env` file with local values.
+3. Create a .env file with these contents in the `common/tools/turborepo-remote-cache` folder with the contents from the `example.env` file with local values
 4. `cd common/tools/turborepo-remote-cache`
-5. `pnpm test`.
+5. `pnpm test`
