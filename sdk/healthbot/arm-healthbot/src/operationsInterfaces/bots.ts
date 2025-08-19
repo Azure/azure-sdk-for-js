@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   HealthBot,
   BotsListByResourceGroupOptionalParams,
@@ -19,7 +19,11 @@ import {
   HealthBotUpdateParameters,
   BotsUpdateOptionalParams,
   BotsUpdateResponse,
-  BotsDeleteOptionalParams
+  BotsDeleteOptionalParams,
+  BotsListSecretsOptionalParams,
+  BotsListSecretsResponse,
+  BotsRegenerateApiJwtSecretOptionalParams,
+  BotsRegenerateApiJwtSecretResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +36,7 @@ export interface Bots {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: BotsListByResourceGroupOptionalParams
+    options?: BotsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<HealthBot>;
   /**
    * Returns all the resources of a particular type belonging to a subscription.
@@ -50,9 +54,9 @@ export interface Bots {
     resourceGroupName: string,
     botName: string,
     parameters: HealthBot,
-    options?: BotsCreateOptionalParams
+    options?: BotsCreateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<BotsCreateResponse>, BotsCreateResponse>
+    SimplePollerLike<OperationState<BotsCreateResponse>, BotsCreateResponse>
   >;
   /**
    * Create a new Azure Health Bot.
@@ -65,7 +69,7 @@ export interface Bots {
     resourceGroupName: string,
     botName: string,
     parameters: HealthBot,
-    options?: BotsCreateOptionalParams
+    options?: BotsCreateOptionalParams,
   ): Promise<BotsCreateResponse>;
   /**
    * Get a HealthBot.
@@ -76,7 +80,7 @@ export interface Bots {
   get(
     resourceGroupName: string,
     botName: string,
-    options?: BotsGetOptionalParams
+    options?: BotsGetOptionalParams,
   ): Promise<BotsGetResponse>;
   /**
    * Patch a HealthBot.
@@ -85,11 +89,26 @@ export interface Bots {
    * @param parameters The parameters to provide for the required Azure Health Bot.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     resourceGroupName: string,
     botName: string,
     parameters: HealthBotUpdateParameters,
-    options?: BotsUpdateOptionalParams
+    options?: BotsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<BotsUpdateResponse>, BotsUpdateResponse>
+  >;
+  /**
+   * Patch a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param parameters The parameters to provide for the required Azure Health Bot.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    botName: string,
+    parameters: HealthBotUpdateParameters,
+    options?: BotsUpdateOptionalParams,
   ): Promise<BotsUpdateResponse>;
   /**
    * Delete a HealthBot.
@@ -100,8 +119,8 @@ export interface Bots {
   beginDelete(
     resourceGroupName: string,
     botName: string,
-    options?: BotsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: BotsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a HealthBot.
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
@@ -111,6 +130,28 @@ export interface Bots {
   beginDeleteAndWait(
     resourceGroupName: string,
     botName: string,
-    options?: BotsDeleteOptionalParams
+    options?: BotsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * List all secrets of a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsListSecretsOptionalParams,
+  ): Promise<BotsListSecretsResponse>;
+  /**
+   * Regenerate the API JWT Secret of a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param options The options parameters.
+   */
+  regenerateApiJwtSecret(
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsRegenerateApiJwtSecretOptionalParams,
+  ): Promise<BotsRegenerateApiJwtSecretResponse>;
 }
