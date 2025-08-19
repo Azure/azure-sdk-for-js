@@ -21,7 +21,7 @@ useIdentityPlugin(nativeBrokerPlugin);
 
 > Note: For local development with `@azure/identity-broker`, you may need to install additional tools. [node-gyp](https://github.com/nodejs/node-gyp) is used to compile [addons](https://nodejs.org/api/addons.html) for accessing system APIs. Installation requirements are listed in the [node-gyp README](https://github.com/nodejs/node-gyp#installation).
 
-On Linux, the dependency library uses `libsecret` so you may need to install it. Depending on your distribution, you will need to run the following command:
+On Linux, the library uses `libsecret` so you may need to install it. Depending on your distribution, you will need to run the following command:
 
 - Debian/Ubuntu: `sudo apt-get install libsecret-1-dev`
 - Red Hat-based: `sudo yum install libsecret-devel`
