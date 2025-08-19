@@ -17,9 +17,6 @@ importers:
       cspell:
         specifier: ^8.19.4
         version: 8.19.4
-      eslint:
-        specifier: ^9.9.0
-        version: 9.32.0
       mkdirp:
         specifier: ^3.0.1
         version: 3.0.1
