@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ExpressRouteProviderPortsGetParameters } from "@azure-rest/arm-network";
+
+import type { ExpressRouteProviderPortParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +17,7 @@ async function expressRouteProviderPort(): Promise<void> {
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
   const providerport = "abc";
-  const options: ExpressRouteProviderPortsGetParameters = {
+  const options: ExpressRouteProviderPortParameters = {
     queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client

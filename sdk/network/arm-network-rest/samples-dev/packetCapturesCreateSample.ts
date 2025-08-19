@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { PacketCapturesCreateParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -46,8 +47,7 @@ async function createPacketCapture(): Promise<void> {
       packetCaptureName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 

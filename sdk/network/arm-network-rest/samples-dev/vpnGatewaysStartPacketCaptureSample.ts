@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { VpnGatewaysStartPacketCaptureParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,8 +33,7 @@ async function startPacketCaptureOnVpnGatewayWithFilter(): Promise<void> {
       gatewayName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -61,8 +61,7 @@ async function startPacketCaptureOnVpnGatewayWithoutFilter(): Promise<void> {
       gatewayName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 

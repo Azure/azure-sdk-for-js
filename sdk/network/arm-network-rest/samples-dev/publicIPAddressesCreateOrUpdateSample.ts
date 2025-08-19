@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { PublicIPAddressesCreateOrUpdateParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,8 +33,7 @@ async function createPublicIPAddressDns(): Promise<void> {
       publicIpAddressName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -70,8 +70,7 @@ async function createPublicIPAddressAllocationMethod(): Promise<void> {
       publicIpAddressName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -100,8 +99,7 @@ async function createPublicIPAddressDefaults(): Promise<void> {
       publicIpAddressName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 

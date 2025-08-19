@@ -29,6 +29,7 @@ async function putExtendedInfoOfResource(): Promise<void> {
   const result = await client.vaultExtendedInfo.createOrUpdate(
     resourceGroupName,
     vaultName,
+    {},
   );
   console.log(result);
 }
