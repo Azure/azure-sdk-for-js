@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
  *

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to The GetBgpPeerStatus operation retrieves the status of all BGP peers.
  *

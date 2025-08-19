@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.
  *

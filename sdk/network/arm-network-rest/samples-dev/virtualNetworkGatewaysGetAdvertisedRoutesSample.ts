@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
  *
