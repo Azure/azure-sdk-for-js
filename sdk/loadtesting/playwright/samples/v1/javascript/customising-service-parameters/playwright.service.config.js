@@ -14,7 +14,6 @@ const playwrightServiceAdditionalOptions = {
   timeout: 30000, // Maximum time in milliseconds to wait for the connection to be established
   slowMo: 0, // Slows down Playwright operations by the specified amount of milliseconds
   exposeNetwork: "<loopback>", // Exposes network available on the connecting client to the browser being connected to
-  useCloudHostedBrowsers: true, // Use cloud hosted browsers
   credential: azureCredential, // Custom token credential for Entra ID authentication
   runName: "JavaScript V1 - Sample Run", // Run name for the test run
 };

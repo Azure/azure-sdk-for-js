@@ -97,7 +97,7 @@ To build all packages:
 To build specific package(s), use `--filter=@azure/package-name...` pnpm command-line option:
 
 6. Install and link all dependencies (`pnpm install`)
-7. Build the package, for example, `pnpm build --filter=@azure/service-bus...`. Alternatively when under the package directory, `pnpm -r build`
+7. Build the package, for example, `pnpm build --filter=@azure/service-bus...`. Alternatively when under the package directory, `npx turbo build`
 
 ## Development Workflows
 
@@ -129,10 +129,9 @@ On the other hand, if you know your library does not work with the existing vers
 
 ### Building using pnpm
 
-Run `pnpm build` from anywhere in the repo to build any projects that have been modified since the last build.
-Run `pnpm rebuild` from anywhere in the repo to rebuild all projects from scratch.
+Run `pnpm build` from repo root directory to build any projects that have been modified since the last build.
 
-Run `pnpm build --filter=<packagename>...` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. This works for `pnpm rebuild` as well. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`. To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm build --filter=@azure/communication-chat...`. To build in the local directory for the service you wish to build, you can run `pnpm -r build` which recursively builds all projects for the current project.
+Run `pnpm build --filter=<packagename>...` to build a single project, and all local projects that it depends on. You can pass `--filter` multiple times to build multiple projects. Keep in mind that pnpm refers to packages by their full names, so packages will be named something like `@azure/<servicename>`.  To ensure that it builds all of its dependencies, you must use the `...` suffix. For example, to build the `@azure/communication-chat` package, you would run `pnpm build --filter=@azure/communication-chat...`.  Alternatively, you can run `npx turbo build` to build current package's dependencies then the package itself.
 
 ### Testing
 
@@ -212,7 +211,7 @@ Generally speaking, the following commands are roughly equivalent:
 | `npm build`                          | `pnpm build`                                  | Repo root         | Build all projects in the pnpm workspace                         |
 |                                      | `pnpm build --filter=<package>...`            | Repo root         | Build named project and any projects it depends on               |
 |                                      | `pnpm build`                                  | Package directory | Build the current project only                                   |
-|                                      | `pnpm -F {./}... build`                       | Package directory | Build the project and its dependencies                           |
+|                                      | `pnpm -F {./}... build`                       | Package directory | Build the current project and its dependencies                   |
 |                                      | `pnpm --filter=<package>... build`            | Package directory | Build named project and its dependencies                         |
 | `npm test`                           | `pnpm test`                                   | Repo root         | Run dev tests in all projects in the pnpm workspace              |
 |                                      | `pnpm test --filter=<packagename>...`         | Repo root         | Run dev tests in named project and any projects it depends on    |

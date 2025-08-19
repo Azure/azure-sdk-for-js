@@ -9,9 +9,12 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      alias: {
-        "../commonjs/state.js": resolve("./src/state-cjs.cts"),
-      },
+      alias: [
+        {
+          find: "../commonjs/state.js",
+          replacement: resolve("./src/state-cjs.cts"),
+        },
+      ],
     },
   }),
 );
