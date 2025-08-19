@@ -349,10 +349,7 @@ describe("CustomerSDKStatsMetrics", () => {
         RetryCode.CLIENT_EXCEPTION,
         "Retry error",
       );
-      customerSDKStatsMetrics.countRetryItems(
-        createMockEnvelopes(1, TelemetryType.TRACE),
-        502,
-      );
+      customerSDKStatsMetrics.countRetryItems(createMockEnvelopes(1, TelemetryType.TRACE), 502);
 
       const mockObservableResult = {
         observe: vi.fn(),
@@ -538,9 +535,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(nonClientExceptionDropCodeMap).toBeDefined();
       expect(nonClientExceptionDropCodeMap.size).toBe(1);
 
-      const nonClientExceptionReasonMap = nonClientExceptionDropCodeMap.get(
-        DropCode.UNKNOWN,
-      );
+      const nonClientExceptionReasonMap = nonClientExceptionDropCodeMap.get(DropCode.UNKNOWN);
       expect(nonClientExceptionReasonMap).toBeDefined();
       expect(nonClientExceptionReasonMap.size).toBe(1);
       expect(nonClientExceptionReasonMap.get("Unknown reason")).toBe(2);
