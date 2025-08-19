@@ -40,6 +40,16 @@ export interface ApplicationServerVmDetails {
 }
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface CentralServerConfiguration {
     instanceCount: number;
     subnetId: string;
@@ -187,7 +197,7 @@ export interface EnqueueServerProperties {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -1269,6 +1279,7 @@ export class WorkloadsClient {
 // @public
 export interface WorkloadsClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // (No @packageDocumentation comment for this package)

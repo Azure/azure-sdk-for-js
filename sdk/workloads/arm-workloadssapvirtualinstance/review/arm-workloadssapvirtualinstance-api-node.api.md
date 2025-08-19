@@ -14,6 +14,7 @@ export function createWorkloads(credential: TokenCredential, subscriptionId: str
 // @public
 export interface WorkloadsClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
