@@ -5,6 +5,7 @@
 ### Other Changes
 
 - Renamed Customer Statsbeat feature to customer SDK Stats.
+- Update drop.reason values for customer SDK Stats.
 
 ## 1.0.0-beta.33 (2025-08-04)
 
