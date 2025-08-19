@@ -30,7 +30,7 @@ async function getProjectConnection(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.projectConnection.get(
+  const result = await client.projectConnections.get(
     resourceGroupName,
     accountName,
     projectName,

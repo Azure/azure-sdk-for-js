@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { PublicIPPrefixesCreateOrUpdateParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,8 +34,7 @@ async function createPublicIPPrefixAllocationMethod(): Promise<void> {
       publicIpPrefixName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -67,8 +67,7 @@ async function createPublicIPPrefixDefaults(): Promise<void> {
       publicIpPrefixName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 

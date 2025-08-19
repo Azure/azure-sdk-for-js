@@ -7,7 +7,7 @@
  */
 
 import {
-  ProjectConnectionListOptionalParams,
+  ProjectConnectionsListOptionalParams,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -29,14 +29,14 @@ async function listProjectConnection(): Promise<void> {
   const projectName = "project-1";
   const target = "[tartget url]";
   const category = "ContainerRegistry";
-  const options: ProjectConnectionListOptionalParams = { target, category };
+  const options: ProjectConnectionsListOptionalParams = { target, category };
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
     subscriptionId,
   );
   const resArray = new Array();
-  for await (const item of client.projectConnection.list(
+  for await (const item of client.projectConnections.list(
     resourceGroupName,
     accountName,
     projectName,

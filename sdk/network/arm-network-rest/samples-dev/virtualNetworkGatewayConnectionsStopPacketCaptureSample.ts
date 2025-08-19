@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { VirtualNetworkGatewayConnectionsStopPacketCaptureParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -32,8 +33,7 @@ async function stopPacketCaptureOnVirtualNetworkGatewayConnection(): Promise<voi
       virtualNetworkGatewayConnectionName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 

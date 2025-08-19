@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { VirtualHubsGetEffectiveVirtualHubRoutesParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -33,8 +34,7 @@ async function effectiveRoutesForAConnectionResource(): Promise<void> {
       virtualHubName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -67,8 +67,7 @@ async function effectiveRoutesForARouteTableResource(): Promise<void> {
       virtualHubName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -97,8 +96,7 @@ async function effectiveRoutesForTheVirtualHub(): Promise<void> {
       virtualHubName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 

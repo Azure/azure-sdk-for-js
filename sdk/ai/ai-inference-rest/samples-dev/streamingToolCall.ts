@@ -150,16 +150,16 @@ export async function main(): Promise<void> {
       })
       .asNodeStream();
 
-    const stream = response.body;
-    if (!stream) {
-      throw new Error("The response stream is undefined");
+    if (!response.body) {
+      throw new Error("The response body is undefined");
     }
 
     if (response.status !== "200") {
-      throw createRestError(response);
+      const body = JSON.parse(await streamToString(response.body));
+      throw createRestError({ ...response, body });
     }
 
-    const sses = createSseStream(stream as IncomingMessage);
+    const sses = createSseStream(response.body as IncomingMessage);
     const functionArray: Array<any> = [];
 
     for await (const event of sses) {
@@ -199,7 +199,7 @@ export async function main(): Promise<void> {
 /*
  * This function creates a model client.
  */
-function createModelClient(): ModelClient {
+function createModelClient() {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)

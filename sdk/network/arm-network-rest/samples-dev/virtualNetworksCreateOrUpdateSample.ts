@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { VirtualNetworksCreateOrUpdateParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,8 +36,7 @@ async function createVirtualNetwork(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -72,8 +72,7 @@ async function createVirtualNetworkWithBgpCommunities(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -121,8 +120,7 @@ async function createVirtualNetworkWithDelegatedSubnets(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -158,8 +156,7 @@ async function createVirtualNetworkWithEncryption(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -202,8 +199,7 @@ async function createVirtualNetworkWithServiceEndpoints(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -251,8 +247,7 @@ async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -287,8 +282,7 @@ async function createVirtualNetworkWithSubnet(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
@@ -328,8 +322,7 @@ async function createVirtualNetworkWithSubnetContainingAddressPrefixes(): Promis
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await getLongRunningPoller(client, initialResponse);
   console.log(result);
 }
 
