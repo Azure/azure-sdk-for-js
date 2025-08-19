@@ -366,6 +366,10 @@ interface ContainerListBlobsSegmentOptions extends CommonOptions {
    * specify one or more datasets to include in the response.
    */
   include?: ListBlobsIncludeItem[];
+  /** Specifies the relative path to list paths from. 
+   * For non-recursive list, only one entity level is supported; 
+   * For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
 }
 
 /**
@@ -503,6 +507,10 @@ export interface ContainerListBlobsOptions extends CommonOptions {
    * Specifies whether blob legal hold be returned in the response.
    */
   includeLegalHold?: boolean;
+  /** Specifies the relative path to list paths from. 
+   * For non-recursive list, only one entity level is supported; 
+   * For recursive list, multiple entity levels are supported. (Inclusive) */
+  startFrom?: string;
 }
 
 /**

@@ -79,6 +79,13 @@ export interface BlobSASSignatureValues {
   identifier?: string;
 
   /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  delegatedUserObjectId?: string;
+
+  /**
    * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
    */
   encryptionScope?: string;
@@ -1160,7 +1167,7 @@ function generateBlobSASQueryParametersUDK20250705(
     undefined, // agentObjectId
     blobSASSignatureValues.correlationId,
     undefined, // SignedKeyDelegatedUserTenantId, will be added in a future release.
-    undefined, // SignedDelegatedUserObjectId, will be added in future release.
+    blobSASSignatureValues.delegatedUserObjectId,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
     blobSASSignatureValues.protocol ? blobSASSignatureValues.protocol : "",
     blobSASSignatureValues.version,
@@ -1197,6 +1204,7 @@ function generateBlobSASQueryParametersUDK20250705(
       blobSASSignatureValues.preauthorizedAgentObjectId,
       blobSASSignatureValues.correlationId,
       blobSASSignatureValues.encryptionScope,
+      blobSASSignatureValues.delegatedUserObjectId
     ),
     stringToSign: stringToSign,
   };
