@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Automation } from "@azure/arm-security";
-import { SecurityCenter } from "@azure/arm-security";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Validates the security automation model before create or update. Any validation errors are returned to the client.
  *
  * @summary Validates the security automation model before create or update. Any validation errors are returned to the client.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/Automations/ValidateAutomation_example.json
  */
+
+import type { Automation } from "@azure/arm-security";
+import { SecurityCenter } from "@azure/arm-security";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function validateTheSecurityAutomationModelBeforeCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "a5caac9c-5c04-49af-b3d0-e204f40345d5";

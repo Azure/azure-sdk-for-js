@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LanguageExtensionsList } from "@azure/arm-synapse";
-import { SynapseManagementClient } from "@azure/arm-synapse";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Remove a list of language extensions that can run within KQL queries.
  *
  * @summary Remove a list of language extensions that can run within KQL queries.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolLanguageExtensionsRemove.json
  */
+
+import type { LanguageExtensionsList } from "@azure/arm-synapse";
+import { SynapseManagementClient } from "@azure/arm-synapse";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function kustoPoolRemoveLanguageExtensions(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";

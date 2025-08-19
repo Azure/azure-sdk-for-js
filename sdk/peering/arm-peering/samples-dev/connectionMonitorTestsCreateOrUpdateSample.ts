@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectionMonitorTest } from "@azure/arm-peering";
-import { PeeringManagementClient } from "@azure/arm-peering";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates or updates a connection monitor test with the specified name under the given subscription, resource group and peering service.
  *
  * @summary Creates or updates a connection monitor test with the specified name under the given subscription, resource group and peering service.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreateOrUpdateConnectionMonitorTest.json
  */
+
+import type { ConnectionMonitorTest } from "@azure/arm-peering";
+import { PeeringManagementClient } from "@azure/arm-peering";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createOrUpdateConnectionMonitorTest(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";

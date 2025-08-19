@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ActivityLogsListOptionalParams } from "@azure/arm-monitor";
-import { MonitorClient } from "@azure/arm-monitor";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Provides the list of records from the activity logs.
  *
  * @summary Provides the list of records from the activity logs.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json
  */
+
+import type { ActivityLogsListOptionalParams } from "@azure/arm-monitor";
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getActivityLogsWithFilter(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "089bd33f-d4ec-47fe-8ba5-0753aa5c5b33";

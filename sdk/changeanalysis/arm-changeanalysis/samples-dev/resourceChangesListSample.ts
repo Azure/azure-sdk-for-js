@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureChangeAnalysisManagementClient } from "@azure/arm-changeanalysis";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to List the changes of a resource within the specified time range. Customer data will be masked if the user doesn't have access.
  *
  * @summary List the changes of a resource within the specified time range. Customer data will be masked if the user doesn't have access.
  * x-ms-original-file: specification/changeanalysis/resource-manager/Microsoft.ChangeAnalysis/stable/2021-04-01/examples/ResourceChangesList.json
  */
+
+import { AzureChangeAnalysisManagementClient } from "@azure/arm-changeanalysis";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function resourceChangesList(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceId =

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementClient } from "@azure/arm-mysql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Stops a running server.
  *
  * @summary Stops a running server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2020-01-01/examples/ServerStop.json
  */
+
+import { MySQLManagementClient } from "@azure/arm-mysql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function serverStop(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TestGroup";

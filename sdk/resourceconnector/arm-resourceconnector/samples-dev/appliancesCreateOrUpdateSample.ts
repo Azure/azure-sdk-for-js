@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Appliance } from "@azure/arm-resourceconnector";
-import { ResourceConnectorManagementClient } from "@azure/arm-resourceconnector";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates an Appliance in the specified Subscription and Resource Group.
  *
  * @summary Creates or updates an Appliance in the specified Subscription and Resource Group.
  * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesCreate_Update.json
  */
+
+import type { Appliance } from "@azure/arm-resourceconnector";
+import { ResourceConnectorManagementClient } from "@azure/arm-resourceconnector";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateAppliance(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";

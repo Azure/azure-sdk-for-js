@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AutoscaleSettingResource } from "@azure/arm-monitor";
-import { MonitorClient } from "@azure/arm-monitor";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates an autoscale setting.
  *
  * @summary Creates or updates an autoscale setting.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/examples/createOrUpdateAutoscaleSetting.json
  */
+
+import type { AutoscaleSettingResource } from "@azure/arm-monitor";
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateAnAutoscaleSetting(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "b67f7fec-69fc-4974-9099-a26bd6ffeda3";

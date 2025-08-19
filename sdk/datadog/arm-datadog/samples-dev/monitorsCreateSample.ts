@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DatadogMonitorResource, MonitorsCreateOptionalParams } from "@azure/arm-datadog";
-import { MicrosoftDatadogClient } from "@azure/arm-datadog";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a monitor resource.
  *
  * @summary Create a monitor resource.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/Monitors_Create.json
  */
+
+import type { DatadogMonitorResource, MonitorsCreateOptionalParams } from "@azure/arm-datadog";
+import { MicrosoftDatadogClient } from "@azure/arm-datadog";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function monitorsCreate(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

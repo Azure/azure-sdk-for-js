@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the details of a protection container mapping.
  *
  * @summary Gets the details of a protection container mapping.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectionContainerMappings_Get.json
  */
+
+import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getsAProtectionContainerMapping(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

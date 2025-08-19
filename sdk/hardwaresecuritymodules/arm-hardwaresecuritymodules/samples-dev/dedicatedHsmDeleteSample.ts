@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to deletes the specified Azure Dedicated HSM.
  *
  * @summary deletes the specified Azure Dedicated HSM.
  * x-ms-original-file: 2025-03-31/DedicatedHsm_Delete.json
  */
+
+import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deleteADedicatedHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

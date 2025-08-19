@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete a Service Fabric application resource with the specified name.
  *
  * @summary Delete a Service Fabric application resource with the specified name.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationDeleteOperation_example.json
  */
+
+import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteAnApplication(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

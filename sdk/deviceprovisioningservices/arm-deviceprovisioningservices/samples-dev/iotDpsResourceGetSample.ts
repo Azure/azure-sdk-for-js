@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the metadata of the provisioning service without SAS keys.
  *
  * @summary Get the metadata of the provisioning service without SAS keys.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSGet.json
  */
+
+import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function dpsGet(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||

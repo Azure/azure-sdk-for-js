@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to The operation to create an ASR network mapping.
+ *
+ * @summary The operation to create an ASR network mapping.
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationNetworkMappings_Create.json
+ */
+
 import {
   CreateNetworkMappingInput,
   SiteRecoveryManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to The operation to create an ASR network mapping.
- *
- * @summary The operation to create an ASR network mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationNetworkMappings_Create.json
- */
 async function createsNetworkMapping(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

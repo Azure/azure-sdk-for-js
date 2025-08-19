@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WikiContract, ApiManagementClient } from "@azure/arm-apimanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a new Wiki for a Product or updates an existing one.
  *
  * @summary Creates a new Wiki for a Product or updates an existing one.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateProductWiki.json
  */
+
+import { WikiContract, ApiManagementClient } from "@azure/arm-apimanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function apiManagementCreateProductWiki(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

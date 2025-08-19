@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataFactoryManagementClient } from "@azure/arm-datafactory";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a pipeline run by its run ID.
  *
  * @summary Get a pipeline run by its run ID.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/PipelineRuns_Get.json
  */
+
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function pipelineRunsGet(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||

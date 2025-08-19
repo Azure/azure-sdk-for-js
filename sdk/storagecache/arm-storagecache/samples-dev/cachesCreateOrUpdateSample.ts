@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Cache } from "@azure/arm-storagecache";
-import { StorageCacheManagementClient } from "@azure/arm-storagecache";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update a cache.
  *
  * @summary Create or update a cache.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/Caches_CreateOrUpdate.json
  */
+
+import type { Cache } from "@azure/arm-storagecache";
+import { StorageCacheManagementClient } from "@azure/arm-storagecache";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function cachesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

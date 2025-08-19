@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to List AssessedSqlDatabaseV2 resources by SqlAssessmentV2
+ *
+ * @summary List AssessedSqlDatabaseV2 resources by SqlAssessmentV2
+ * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/AssessmentProjects/stable/2023-03-15/examples/AssessedSqlDatabaseV2Operations_ListBySqlAssessmentV2_MaximumSet_Gen.json
+ */
+
 import {
   AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2OptionalParams,
   AzureMigrateAssessmentService,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to List AssessedSqlDatabaseV2 resources by SqlAssessmentV2
- *
- * @summary List AssessedSqlDatabaseV2 resources by SqlAssessmentV2
- * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/AssessmentProjects/stable/2023-03-15/examples/AssessedSqlDatabaseV2Operations_ListBySqlAssessmentV2_MaximumSet_Gen.json
- */
 async function assessedSqlDatabaseV2OperationsListBySqlAssessmentV2MaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] ||

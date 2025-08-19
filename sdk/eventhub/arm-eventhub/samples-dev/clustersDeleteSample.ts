@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventHubManagementClient } from "@azure/arm-eventhub";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes an existing Event Hubs Cluster. This operation is idempotent.
  *
  * @summary Deletes an existing Event Hubs Cluster. This operation is idempotent.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/Clusters/ClusterDelete.json
  */
+
+import { EventHubManagementClient } from "@azure/arm-eventhub";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function clusterDelete(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||

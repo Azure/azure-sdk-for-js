@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Adds a group to the specified product via link.
+ *
+ * @summary Adds a group to the specified product via link.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateProductGroupLink.json
+ */
+
 import {
   ProductGroupLinkContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Adds a group to the specified product via link.
- *
- * @summary Adds a group to the specified product via link.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateProductGroupLink.json
- */
 async function apiManagementCreateProductGroupLink(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

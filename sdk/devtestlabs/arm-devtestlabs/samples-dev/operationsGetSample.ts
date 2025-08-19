@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevTestLabsClient } from "@azure/arm-devtestlabs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Get operation.
  *
  * @summary Get operation.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Operations_Get.json
  */
+
+import { DevTestLabsClient } from "@azure/arm-devtestlabs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function operationsGet(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const locationName = "{locationName}";

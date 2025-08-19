@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get all the certificates tied to the provisioning service.
  *
  * @summary Get all the certificates tied to the provisioning service.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSGetCertificates.json
  */
+
+import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function dpsGetCertificates(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||

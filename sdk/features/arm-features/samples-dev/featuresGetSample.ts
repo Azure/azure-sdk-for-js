@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FeatureClient } from "@azure/arm-features";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets the preview feature with the specified name.
  *
  * @summary Gets the preview feature with the specified name.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/examples/getFeature.json
  */
+
+import { FeatureClient } from "@azure/arm-features";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getFeature(): Promise<void> {
   const subscriptionId = "subid";
   const resourceProviderNamespace = "Resource Provider Namespace";

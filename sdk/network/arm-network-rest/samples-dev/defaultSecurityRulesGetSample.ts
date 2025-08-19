@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DefaultSecurityRulesGetParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the specified default network security rule.
  *
  * @summary Get the specified default network security rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DefaultSecurityRuleGet.json
  */
+
+import type { DefaultSecurityRulesGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function defaultSecurityRuleGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

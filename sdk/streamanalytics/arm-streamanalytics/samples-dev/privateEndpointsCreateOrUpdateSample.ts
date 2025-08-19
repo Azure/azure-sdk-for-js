@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrivateEndpoint } from "@azure/arm-streamanalytics";
-import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a Stream Analytics Private Endpoint or replaces an already existing Private Endpoint.
  *
  * @summary Creates a Stream Analytics Private Endpoint or replaces an already existing Private Endpoint.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2020-03-01-preview/examples/PrivateEndpoint_Create.json
  */
+
+import type { PrivateEndpoint } from "@azure/arm-streamanalytics";
+import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createAPrivateEndpoint(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

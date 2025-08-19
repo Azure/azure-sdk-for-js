@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Provides the information of the backed up data identified using RecoveryPointID. This is an asynchronous operation.
 To know the status of the operation, call the GetProtectedItemOperationResult API.
@@ -13,6 +9,11 @@ To know the status of the operation, call the GetProtectedItemOperationResult AP
 To know the status of the operation, call the GetProtectedItemOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/RecoveryPoints_Get.json
  */
+
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getAzureVMRecoveryPointDetails(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

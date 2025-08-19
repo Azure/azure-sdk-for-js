@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientGroupsGetOptionalParams } from "@azure/arm-servicemap";
-import { ServiceMap } from "@azure/arm-servicemap";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Retrieves the specified client group
  *
  * @summary Retrieves the specified client group
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/ClientGroups/SMClientGroupsGetGet.json
  */
+
+import type { ClientGroupsGetOptionalParams } from "@azure/arm-servicemap";
+import { ServiceMap } from "@azure/arm-servicemap";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function smClientGroupsGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICE-MAP_SUBSCRIPTION_ID"] || "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";

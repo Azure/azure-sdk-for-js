@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CatalogUpdate } from "@azure/arm-sphere";
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update a Catalog
  *
  * @summary Update a Catalog
  * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PatchCatalog.json
  */
+
+import type { CatalogUpdate } from "@azure/arm-sphere";
+import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function catalogsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

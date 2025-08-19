@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ScVmm } from "@azure/arm-scvmm";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List of VirtualMachineTemplates in a resource group.
  *
  * @summary List of VirtualMachineTemplates in a resource group.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineTemplates_ListByResourceGroup_MaximumSet_Gen.json
  */
+
+import { ScVmm } from "@azure/arm-scvmm";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualMachineTemplatesListByResourceGroupMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";

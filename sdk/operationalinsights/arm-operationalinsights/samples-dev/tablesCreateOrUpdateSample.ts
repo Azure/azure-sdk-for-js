@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Table } from "@azure/arm-operationalinsights";
-import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update or Create a Log Analytics workspace table.
  *
  * @summary Update or Create a Log Analytics workspace table.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/TablesUpsert.json
  */
+
+import type { Table } from "@azure/arm-operationalinsights";
+import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function tablesUpsert(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";

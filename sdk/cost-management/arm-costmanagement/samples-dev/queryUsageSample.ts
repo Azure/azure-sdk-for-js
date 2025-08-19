@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { QueryDefinition } from "@azure/arm-costmanagement";
-import { CostManagementClient } from "@azure/arm-costmanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Query the usage data for scope defined.
  *
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountQuery.json
  */
+
+import type { QueryDefinition } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function billingAccountQueryLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/70664866";
   const parameters: QueryDefinition = {

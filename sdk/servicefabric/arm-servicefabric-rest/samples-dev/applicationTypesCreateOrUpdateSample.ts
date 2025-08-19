@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApplicationTypesCreateOrUpdateParameters } from "@azure-rest/arm-servicefabric";
-import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Create or update a Service Fabric application type name resource with the specified name.
  *
  * @summary Create or update a Service Fabric application type name resource with the specified name.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationTypeNamePutOperation_example.json
  */
+
+import type { ApplicationTypesCreateOrUpdateParameters } from "@azure-rest/arm-servicefabric";
+import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function putAnApplicationType(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";

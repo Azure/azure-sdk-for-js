@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
+ *
+ * @summary Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseCreate.json
+ */
+
 import {
   Cluster,
   RedisEnterpriseManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
- *
- * @summary Creates or updates an existing (overwrite/recreate, with potential downtime) cache cluster
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseCreate.json
- */
 async function redisEnterpriseCreate(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||

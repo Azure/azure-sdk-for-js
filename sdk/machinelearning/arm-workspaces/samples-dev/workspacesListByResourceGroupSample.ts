@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MachineLearningWorkspacesManagementClient } from "@azure/arm-workspaces";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Lists all the available machine learning workspaces under the specified resource group.
  *
  * @summary Lists all the available machine learning workspaces under the specified resource group.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2019-10-01/examples/ListWorkspaceResourceGroup.json
  */
+
+import { MachineLearningWorkspacesManagementClient } from "@azure/arm-workspaces";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function workspaceListResourceGroup(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "myResourceGroup";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkManagementClient } from "@azure/arm-network-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets load balancer backend address pool.
  *
  * @summary Gets load balancer backend address pool.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2018-11-01/examples/LoadBalancerBackendAddressPoolGet.json
  */
+
+import { NetworkManagementClient } from "@azure/arm-network-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function loadBalancerBackendAddressPoolGet(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";

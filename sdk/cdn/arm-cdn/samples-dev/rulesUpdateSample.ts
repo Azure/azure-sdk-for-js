@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RuleUpdateParameters } from "@azure/arm-cdn";
-import { CdnManagementClient } from "@azure/arm-cdn";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates an existing delivery rule within a rule set.
  *
  * @summary Updates an existing delivery rule within a rule set.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Rules_Update.json
  */
+
+import type { RuleUpdateParameters } from "@azure/arm-cdn";
+import { CdnManagementClient } from "@azure/arm-cdn";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function rulesUpdate(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";

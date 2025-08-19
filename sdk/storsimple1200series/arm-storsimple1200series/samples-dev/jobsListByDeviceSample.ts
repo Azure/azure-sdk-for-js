@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JobsListByDeviceOptionalParams } from "@azure/arm-storsimple1200series";
-import { StorSimpleManagementClient } from "@azure/arm-storsimple1200series";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Retrieves all the jobs in a device.
  *
  * @summary Retrieves all the jobs in a device.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/JobsListByDevice.json
  */
+
+import type { JobsListByDeviceOptionalParams } from "@azure/arm-storsimple1200series";
+import { StorSimpleManagementClient } from "@azure/arm-storsimple1200series";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function jobsListByDevice(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HSDK-ARCSX4MVKZ";

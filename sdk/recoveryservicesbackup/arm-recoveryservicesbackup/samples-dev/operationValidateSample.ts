@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Validate operation for specified backed up item. This is a synchronous operation.
+ *
+ * @summary Validate operation for specified backed up item. This is a synchronous operation.
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk.json
+ */
+
 import {
   ValidateOperationRequestResource,
   RecoveryServicesBackupClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Validate operation for specified backed up item. This is a synchronous operation.
- *
- * @summary Validate operation for specified backed up item. This is a synchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk.json
- */
 async function validateOperation(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

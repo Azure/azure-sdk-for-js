@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PeeringManagementClient } from "@azure/arm-peering";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Lists all of the legacy peerings under the given subscription matching the specified kind and location.
  *
  * @summary Lists all of the legacy peerings under the given subscription matching the specified kind and location.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListLegacyPeerings.json
  */
+
+import { PeeringManagementClient } from "@azure/arm-peering";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listLegacyPeerings(): Promise<void> {
   const subscriptionId = "subId";
   const peeringLocation = "peeringLocation0";

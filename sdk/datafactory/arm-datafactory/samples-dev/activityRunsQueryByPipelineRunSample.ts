@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Query activity runs based on input filter conditions.
+ *
+ * @summary Query activity runs based on input filter conditions.
+ * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ActivityRuns_QueryByPipelineRun.json
+ */
+
 import {
   RunFilterParameters,
   DataFactoryManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Query activity runs based on input filter conditions.
- *
- * @summary Query activity runs based on input filter conditions.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ActivityRuns_QueryByPipelineRun.json
- */
 async function activityRunsQueryByPipelineRun(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||

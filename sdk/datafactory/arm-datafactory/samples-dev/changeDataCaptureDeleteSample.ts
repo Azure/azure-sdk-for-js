@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataFactoryManagementClient } from "@azure/arm-datafactory";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes a change data capture.
  *
  * @summary Deletes a change data capture.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ChangeDataCapture_Delete.json
  */
+
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function changeDataCaptureDelete(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||

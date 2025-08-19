@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PoolUpdate } from "@azure/arm-devcenter";
-import { DevCenterClient } from "@azure/arm-devcenter";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Partially updates a machine pool
  *
  * @summary Partially updates a machine pool
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_Patch.json
  */
+
+import type { PoolUpdate } from "@azure/arm-devcenter";
+import { DevCenterClient } from "@azure/arm-devcenter";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function poolsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";

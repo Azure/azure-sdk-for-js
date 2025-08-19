@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ScVmm } from "@azure/arm-scvmm";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns the list of inventoryItems in the given VmmServer.
  *
  * @summary Returns the list of inventoryItems in the given VmmServer.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/InventoryItems_ListByVmmServer_MaximumSet_Gen.json
  */
+
+import { ScVmm } from "@azure/arm-scvmm";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function inventoryItemsListByVmmServerMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";

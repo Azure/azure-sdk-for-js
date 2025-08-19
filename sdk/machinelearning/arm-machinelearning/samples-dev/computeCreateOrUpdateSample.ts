@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeResource } from "@azure/arm-machinelearning";
-import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  *
  * @summary Creates or updates compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation. If your intent is to create a new compute, do a GET first to verify that it does not exist yet.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/createOrUpdate/KubernetesCompute.json
  */
+
+import type { ComputeResource } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function attachAKubernetesCompute(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

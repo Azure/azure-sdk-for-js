@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApiManagementClient } from "@azure/arm-apimanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the client secret details of the Identity Provider.
  *
  * @summary Gets the client secret details of the Identity Provider.
  * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementIdentityProviderListSecrets.json
  */
+
+import { ApiManagementClient } from "@azure/arm-apimanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function apiManagementIdentityProviderListSecrets(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

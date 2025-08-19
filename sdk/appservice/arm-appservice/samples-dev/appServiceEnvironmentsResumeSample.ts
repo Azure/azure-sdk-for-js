@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { WebSiteManagementClient } from "@azure/arm-appservice";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Description for Resume an App Service Environment.
  *
  * @summary Description for Resume an App Service Environment.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/AppServiceEnvironments_Resume.json
  */
+
+import { WebSiteManagementClient } from "@azure/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function resumeAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

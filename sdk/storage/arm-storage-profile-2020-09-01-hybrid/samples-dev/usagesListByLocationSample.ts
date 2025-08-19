@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageManagementClient } from "@azure/arm-storage-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the current usage count and the limit for the resources of the location under the subscription.
  *
  * @summary Gets the current usage count and the limit for the resources of the location under the subscription.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2019-06-01/examples/StorageAccountListLocationUsage.json
  */
+
+import { StorageManagementClient } from "@azure/arm-storage-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function usageList(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "eastus2(stage)";

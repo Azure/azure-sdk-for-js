@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject } from "@azure/arm-mobilenetwork";
-import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates site tags.
  *
  * @summary Updates site tags.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SiteUpdateTags.json
  */
+
+import type { TagsObject } from "@azure/arm-mobilenetwork";
+import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function updateMobileNetworkSiteTags(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

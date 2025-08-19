@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementClient } from "@azure/arm-mysql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Get a server's security alert policy.
  *
  * @summary Get a server's security alert policy.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/ServerSecurityAlertsGet.json
  */
+
+import { MySQLManagementClient } from "@azure/arm-mysql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getAServerThreatDetectionPolicy(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "securityalert-4799";

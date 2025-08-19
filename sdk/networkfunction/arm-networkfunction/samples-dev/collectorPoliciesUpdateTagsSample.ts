@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject } from "@azure/arm-networkfunction";
-import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Updates the specified Collector Policy tags.
  *
  * @summary Updates the specified Collector Policy tags.
  * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyUpdateTags.json
  */
+
+import type { TagsObject } from "@azure/arm-networkfunction";
+import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function updateCollectorPolicyTags(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";

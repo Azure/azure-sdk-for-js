@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ScVmm } from "@azure/arm-scvmm";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all of the virtual machine instances within the specified parent resource.
  *
  * @summary Lists all of the virtual machine instances within the specified parent resource.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_List_MaximumSet_Gen.json
  */
+
+import { ScVmm } from "@azure/arm-scvmm";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualMachineInstancesListMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();

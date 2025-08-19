@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApplicationGatewayPrivateLinkResourcesListParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all private link resources on an application gateway.
  *
  * @summary Lists all private link resources on an application gateway.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayPrivateLinkResourceList.json
  */
+
+import type { ApplicationGatewayPrivateLinkResourcesListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listsAllPrivateLinkResourcesOnApplicationGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

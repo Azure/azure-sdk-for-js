@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CustomEntityStoreAssignmentRequest } from "@azure/arm-security";
-import { SecurityCenter } from "@azure/arm-security";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a custom entity store assignment for the provided subscription, if not already exists.
  *
  * @summary Creates a custom entity store assignment for the provided subscription, if not already exists.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2021-07-01-preview/examples/CustomEntityStoreAssignments/customEntityStoreAssignmentCreate_example.json
  */
+
+import type { CustomEntityStoreAssignmentRequest } from "@azure/arm-security";
+import { SecurityCenter } from "@azure/arm-security";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createACustomEntityStoreAssignment(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "e5d1b86c-3051-44d5-8802-aa65d45a279b";

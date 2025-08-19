@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates or updates a Managed Environment used to host container apps.
+ *
+ * @summary Creates or updates a Managed Environment used to host container apps.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
+ */
+
 import {
   ManagedEnvironment,
   ContainerAppsAPIClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates a Managed Environment used to host container apps.
- *
- * @summary Creates or updates a Managed Environment used to host container apps.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
- */
 async function createEnvironmentWithCustomInfrastructureResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||

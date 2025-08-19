@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SynapseManagementClient } from "@azure/arm-synapse";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get all private link resources for a workspaces
  *
  * @summary Get all private link resources for a workspaces
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListPrivateLinkResources.json
  */
+
+import { SynapseManagementClient } from "@azure/arm-synapse";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getPrivateLinkResourcesForWorkspace(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "01234567-89ab-4def-0123-456789abcdef";

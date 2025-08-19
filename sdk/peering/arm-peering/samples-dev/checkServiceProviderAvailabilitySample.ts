@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CheckServiceProviderAvailabilityInput } from "@azure/arm-peering";
-import { PeeringManagementClient } from "@azure/arm-peering";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Checks if the peering service provider is present within 1000 miles of customer's location
  *
  * @summary Checks if the peering service provider is present within 1000 miles of customer's location
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CheckServiceProviderAvailability.json
  */
+
+import type { CheckServiceProviderAvailabilityInput } from "@azure/arm-peering";
+import { PeeringManagementClient } from "@azure/arm-peering";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function checkIfPeeringServiceProviderIsAvailableInCustomerLocation(): Promise<void> {
   const subscriptionId = "subId";
   const checkServiceProviderAvailabilityInput: CheckServiceProviderAvailabilityInput = {

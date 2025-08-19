@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevTestLabsClient } from "@azure/arm-devtestlabs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Get virtual machine.
  *
  * @summary Get virtual machine.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachines_Get.json
  */
+
+import { DevTestLabsClient } from "@azure/arm-devtestlabs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function virtualMachinesGet(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";

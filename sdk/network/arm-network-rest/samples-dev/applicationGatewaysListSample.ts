@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApplicationGatewaysListParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all application gateways in a resource group.
  *
  * @summary Lists all application gateways in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayList.json
  */
+
+import type { ApplicationGatewaysListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listsAllApplicationGatewaysInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
+ *
+ * @summary Approve or reject a private endpoint connection with a given name.
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBPrivateEndpointConnectionUpdate.json
+ */
+
 import {
   PrivateEndpointConnection,
   CosmosDBManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
- *
- * @summary Approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBPrivateEndpointConnectionUpdate.json
- */
 async function approveOrRejectAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] ||

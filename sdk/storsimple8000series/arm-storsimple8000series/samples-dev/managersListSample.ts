@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Retrieves all the managers in a subscription.
  *
  * @summary Retrieves all the managers in a subscription.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/ManagersList.json
  */
+
+import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function managersList(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const credential = new DefaultAzureCredential();

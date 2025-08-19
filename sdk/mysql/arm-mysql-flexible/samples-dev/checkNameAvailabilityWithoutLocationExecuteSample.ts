@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NameAvailabilityRequest } from "@azure/arm-mysql-flexible";
-import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Check the availability of name for server
  *
  * @summary Check the availability of name for server
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/CheckNameAvailability.json
  */
+
+import type { NameAvailabilityRequest } from "@azure/arm-mysql-flexible";
+import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function checkNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";

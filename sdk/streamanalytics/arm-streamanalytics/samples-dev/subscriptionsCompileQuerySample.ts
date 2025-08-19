@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CompileQuery } from "@azure/arm-streamanalytics";
-import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Compile the Stream Analytics query.
  *
  * @summary Compile the Stream Analytics query.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Subscription_CompileQuery.json
  */
+
+import type { CompileQuery } from "@azure/arm-streamanalytics";
+import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function compileTheStreamAnalyticsQuery(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ReservationOrderGetOptionalParams } from "@azure/arm-reservations";
-import { AzureReservationAPI } from "@azure/arm-reservations";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the details of the `ReservationOrder`.
  *
  * @summary Get the details of the `ReservationOrder`.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetReservationOrderDetails.json
  */
+
+import type { ReservationOrderGetOptionalParams } from "@azure/arm-reservations";
+import { AzureReservationAPI } from "@azure/arm-reservations";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getReservationOrder(): Promise<void> {
   const reservationOrderId = "a075419f-44cc-497f-b68a-14ee811d48b9";
   const credential = new DefaultAzureCredential();

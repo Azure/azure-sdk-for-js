@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SourceControlCreateOrUpdateParameters } from "@azure/arm-automation";
-import { AutomationClient } from "@azure/arm-automation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a source control.
  *
  * @summary Create a source control.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/sourceControl/createOrUpdateSourceControl.json
  */
+
+import type { SourceControlCreateOrUpdateParameters } from "@azure/arm-automation";
+import { AutomationClient } from "@azure/arm-automation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateASourceControl(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";

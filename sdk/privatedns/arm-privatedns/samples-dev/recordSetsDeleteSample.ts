@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes a record set from a Private DNS zone. This operation cannot be undone.
  *
  * @summary Deletes a record set from a Private DNS zone. This operation cannot be undone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetADelete.json
  */
+
+import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deletePrivateDnsZoneARecordSet(): Promise<void> {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";

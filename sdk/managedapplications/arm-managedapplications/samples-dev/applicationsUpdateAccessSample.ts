@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UpdateAccessDefinition } from "@azure/arm-managedapplications";
-import { ApplicationClient } from "@azure/arm-managedapplications";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update access for application.
  *
  * @summary Update access for application.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/updateAccess.json
  */
+
+import type { UpdateAccessDefinition } from "@azure/arm-managedapplications";
+import { ApplicationClient } from "@azure/arm-managedapplications";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function updateAccessForApplication(): Promise<void> {
   const subscriptionId = process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MANAGEDAPPLICATIONS_RESOURCE_GROUP"] || "rg";

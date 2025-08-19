@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenter } from "@azure/arm-security";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets a list of API collections within a resource group that have been onboarded to Microsoft Defender for APIs.
  *
  * @summary Gets a list of API collections within a resource group that have been onboarded to Microsoft Defender for APIs.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2023-11-15/examples/ApiCollections/APICollections_ListByResourceGroup_example.json
  */
+
+import { SecurityCenter } from "@azure/arm-security";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getsAListOfApiCollectionsWithinAResourceGroupThatHaveBeenOnboardedToMicrosoftDefenderForApIs(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "3fa85f64-5717-4562-b3fc-2c963f66afa6";

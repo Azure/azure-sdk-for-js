@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { InventoryItem } from "@azure/arm-scvmm";
-import { ScVmm } from "@azure/arm-scvmm";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create Or Update InventoryItem.
  *
  * @summary Create Or Update InventoryItem.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/InventoryItems_Create_MaximumSet_Gen.json
  */
+
+import type { InventoryItem } from "@azure/arm-scvmm";
+import { ScVmm } from "@azure/arm-scvmm";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function inventoryItemsCreateMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";

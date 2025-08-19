@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { InvoicesListByBillingAccountOptionalParams } from "@azure/arm-billing";
-import { BillingManagementClient } from "@azure/arm-billing";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the invoices for a billing account for a given start date and end date. The operation is supported for all billing account types.
  *
  * @summary Lists the invoices for a billing account for a given start date and end date. The operation is supported for all billing account types.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoicesListByBillingAccount.json
  */
+
+import type { InvoicesListByBillingAccountOptionalParams } from "@azure/arm-billing";
+import { BillingManagementClient } from "@azure/arm-billing";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function invoicesListByBillingAccount(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";

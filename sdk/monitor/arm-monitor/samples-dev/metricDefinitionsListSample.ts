@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MetricDefinitionsListOptionalParams } from "@azure/arm-monitor";
-import { MonitorClient } from "@azure/arm-monitor";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the metric definitions for the resource.
  *
  * @summary Lists the metric definitions for the resource.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricDefinitionsApplicationInsights.json
  */
+
+import type { MetricDefinitionsListOptionalParams } from "@azure/arm-monitor";
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getApplicationInsightsMetricDefinitionsWithoutFilter(): Promise<void> {
   const resourceUri =
     "subscriptions/182c901a-129a-4f5d-86e4-cc6b294590a2/resourceGroups/hyr-log/providers/microsoft.insights/components/f1-bill/providers/microsoft.insights/metricdefinitions";

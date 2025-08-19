@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DefaultAccountsRemoveOptionalParams } from "@azure/arm-purview";
-import { PurviewManagementClient } from "@azure/arm-purview";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Removes the default account from the scope.
  *
  * @summary Removes the default account from the scope.
  * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/DefaultAccounts_Remove.json
  */
+
+import type { DefaultAccountsRemoveOptionalParams } from "@azure/arm-purview";
+import { PurviewManagementClient } from "@azure/arm-purview";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function defaultAccountsRemove(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const scopeTenantId = "11733A4E-BA84-46FF-91D1-AFF1A3215A90";

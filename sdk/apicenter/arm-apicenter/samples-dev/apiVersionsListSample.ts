@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureAPICenter } from "@azure/arm-apicenter";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns a collection of API versions.
  *
  * @summary Returns a collection of API versions.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/ApiVersions_List.json
  */
+
+import { AzureAPICenter } from "@azure/arm-apicenter";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function apiVersionsListByApi(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

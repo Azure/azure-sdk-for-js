@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Cluster } from "@azure/arm-streamanalytics";
-import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a Stream Analytics Cluster or replaces an already existing cluster.
  *
  * @summary Creates a Stream Analytics Cluster or replaces an already existing cluster.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2020-03-01-preview/examples/Cluster_Create.json
  */
+
+import type { Cluster } from "@azure/arm-streamanalytics";
+import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createANewCluster(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

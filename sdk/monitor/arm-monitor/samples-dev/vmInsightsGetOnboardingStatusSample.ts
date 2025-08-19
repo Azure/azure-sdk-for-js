@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorClient } from "@azure/arm-monitor";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Retrieves the VM Insights onboarding status for the specified resource or resource scope.
  *
  * @summary Retrieves the VM Insights onboarding status for the specified resource or resource scope.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusVMScaleSet.json
  */
+
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getStatusForAVMScaleSetThatIsActivelyReportingData(): Promise<void> {
   const resourceUri =
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/my-service-cluster/providers/Microsoft.Compute/virtualMachineScaleSets/scale-set-01";

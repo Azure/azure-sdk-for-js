@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the properties of a session pool.
  *
  * @summary Get the properties of a session pool.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/SessionPools_Get.json
  */
+
+import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getSessionPool(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||

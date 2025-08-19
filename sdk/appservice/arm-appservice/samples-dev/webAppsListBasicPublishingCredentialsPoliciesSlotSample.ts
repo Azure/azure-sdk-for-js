@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { WebSiteManagementClient } from "@azure/arm-appservice";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
  *
  * @summary Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/ListPublishingCredentialsPoliciesSlot.json
  */
+
+import { WebSiteManagementClient } from "@azure/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listPublishingCredentialsPolicies(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

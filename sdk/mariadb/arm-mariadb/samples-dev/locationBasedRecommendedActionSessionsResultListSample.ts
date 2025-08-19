@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MariaDBManagementClient } from "@azure/arm-mariadb";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Recommendation action session operation result.
  *
  * @summary Recommendation action session operation result.
  * x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/RecommendedActionSessionResult.json
  */
+
+import { MariaDBManagementClient } from "@azure/arm-mariadb";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function recommendedActionSessionResult(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "WestUS";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SynapseManagementClient } from "@azure/arm-synapse";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists available operations for the Kusto sub-resources inside Microsoft.Synapse provider.
  *
  * @summary Lists available operations for the Kusto sub-resources inside Microsoft.Synapse provider.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoOperationsList.json
  */
+
+import { SynapseManagementClient } from "@azure/arm-synapse";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function kustoOperationsList(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

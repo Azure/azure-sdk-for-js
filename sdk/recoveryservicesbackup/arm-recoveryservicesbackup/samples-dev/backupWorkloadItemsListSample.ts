@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  BackupWorkloadItemsListOptionalParams,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Provides a pageable list of workload item of a specific container according to the query filter and the pagination
 parameters.
@@ -16,6 +9,14 @@ parameters.
 parameters.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureWorkload/BackupWorkloadItems_List.json
  */
+
+import {
+  BackupWorkloadItemsListOptionalParams,
+  RecoveryServicesBackupClient,
+} from "@azure/arm-recoveryservicesbackup";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listWorkloadItemsInContainer(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

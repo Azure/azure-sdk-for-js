@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Database } from "@azure/arm-postgresql";
-import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/DatabaseCreate.json
  */
+
+import type { Database } from "@azure/arm-postgresql";
+import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function databaseCreate(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TestGroup";

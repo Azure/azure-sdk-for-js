@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccountSasParameters } from "@azure/arm-storage-profile-2020-09-01-hybrid";
-import { StorageManagementClient } from "@azure/arm-storage-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List SAS credentials of a storage account.
  *
  * @summary List SAS credentials of a storage account.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2019-06-01/examples/StorageAccountListAccountSAS.json
  */
+
+import type { AccountSasParameters } from "@azure/arm-storage-profile-2020-09-01-hybrid";
+import { StorageManagementClient } from "@azure/arm-storage-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function storageAccountListAccountSas(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7985";

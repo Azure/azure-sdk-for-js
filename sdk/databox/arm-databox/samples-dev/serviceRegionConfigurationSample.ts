@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to This API provides configuration details specific to given region/location at Subscription level.
+ *
+ * @summary This API provides configuration details specific to given region/location at Subscription level.
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/RegionConfiguration.json
+ */
+
 import {
   RegionConfigurationRequest,
   DataBoxManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to This API provides configuration details specific to given region/location at Subscription level.
- *
- * @summary This API provides configuration details specific to given region/location at Subscription level.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/RegionConfiguration.json
- */
 async function regionConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";

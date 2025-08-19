@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { QuantumWorkspace } from "@azure/arm-quantum";
-import { AzureQuantumManagementClient } from "@azure/arm-quantum";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a workspace resource.
  *
  * @summary Creates or updates a workspace resource.
  * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesPut.json
  */
+
+import type { QuantumWorkspace } from "@azure/arm-quantum";
+import { AzureQuantumManagementClient } from "@azure/arm-quantum";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function quantumWorkspacesPut(): Promise<void> {
   const subscriptionId =
     process.env["QUANTUM_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";

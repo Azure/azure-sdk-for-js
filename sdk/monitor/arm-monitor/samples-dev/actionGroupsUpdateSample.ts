@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ActionGroupPatchBody } from "@azure/arm-monitor";
-import { MonitorClient } from "@azure/arm-monitor";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates an existing action group's tags. To update other fields use the CreateOrUpdate method.
  *
  * @summary Updates an existing action group's tags. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/patchActionGroup.json
  */
+
+import type { ActionGroupPatchBody } from "@azure/arm-monitor";
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function patchAnActionGroup(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "187f412d-1758-44d9-b052-169e2564721d";

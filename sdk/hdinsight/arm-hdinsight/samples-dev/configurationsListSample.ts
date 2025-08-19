@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HDInsightManagementClient } from "@azure/arm-hdinsight";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets all configuration information for an HDI cluster.
  *
  * @summary Gets all configuration information for an HDI cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Configurations_List.json
  */
+
+import { HDInsightManagementClient } from "@azure/arm-hdinsight";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getAllConfigurationInformation(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";

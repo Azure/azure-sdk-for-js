@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NewRelicObservability } from "@azure/arm-newrelicobservability";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List all Azure resources associated to the same NewRelic organization and account as the target resource.
  *
  * @summary List all Azure resources associated to the same NewRelic organization and account as the target resource.
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/LinkedResources_List.json
  */
+
+import { NewRelicObservability } from "@azure/arm-newrelicobservability";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function monitorsListLinkedResources(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

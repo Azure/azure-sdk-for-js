@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Counts devices in product. '.default' and '.unassigned' are system defined values and cannot be used for product name.
  *
  * @summary Counts devices in product. '.default' and '.unassigned' are system defined values and cannot be used for product name.
  * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PostCountDevicesProduct.json
  */
+
+import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function productsCountDevices(): Promise<void> {
   const subscriptionId =
     process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

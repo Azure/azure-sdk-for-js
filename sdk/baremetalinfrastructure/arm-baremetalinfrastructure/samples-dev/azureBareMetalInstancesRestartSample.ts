@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BareMetalInfrastructureClient } from "@azure/arm-baremetalinfrastructure";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The operation to restart an Azure Bare Metal Instance
  *
  * @summary The operation to restart an Azure Bare Metal Instance
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalInstances_Restart.json
  */
+
+import { BareMetalInfrastructureClient } from "@azure/arm-baremetalinfrastructure";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function restartAnAzureBareMetalInstance(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||

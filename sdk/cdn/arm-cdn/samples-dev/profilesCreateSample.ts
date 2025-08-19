@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Profile } from "@azure/arm-cdn";
-import { CdnManagementClient } from "@azure/arm-cdn";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile name under the specified subscription and resource group.
  *
  * @summary Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile name under the specified subscription and resource group.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Profiles_Create.json
  */
+
+import type { Profile } from "@azure/arm-cdn";
+import { CdnManagementClient } from "@azure/arm-cdn";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function profilesCreate(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";

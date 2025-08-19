@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationsManagementClient } from "@azure/arm-operations";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes the ManagementConfiguration in the subscription.
  *
  * @summary Deletes the ManagementConfiguration in the subscription.
  * x-ms-original-file: specification/operationsmanagement/resource-manager/Microsoft.OperationsManagement/preview/2015-11-01-preview/examples/ManagementConfigurationDelete.json
  */
+
+import { OperationsManagementClient } from "@azure/arm-operations";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function managementConfigurationDelete(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";

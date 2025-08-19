@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkConnectionUpdate } from "@azure/arm-devcenter";
-import { DevCenterClient } from "@azure/arm-devcenter";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Partially updates a Network Connection
  *
  * @summary Partially updates a Network Connection
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/NetworkConnections_Patch.json
  */
+
+import type { NetworkConnectionUpdate } from "@azure/arm-devcenter";
+import { DevCenterClient } from "@azure/arm-devcenter";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function networkConnectionsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";

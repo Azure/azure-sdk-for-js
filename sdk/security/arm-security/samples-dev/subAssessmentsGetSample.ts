@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenter } from "@azure/arm-security";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a security sub-assessment on your scanned resource
  *
  * @summary Get a security sub-assessment on your scanned resource
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/SubAssessments/GetSubAssessment_example.json
  */
+
+import { SecurityCenter } from "@azure/arm-security";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getSecurityRecommendationTaskFromSecurityDataLocation(): Promise<void> {
   const scope =
     "subscriptions/212f9889-769e-45ae-ab43-6da33674bd26/resourceGroups/DEMORG/providers/Microsoft.Compute/virtualMachines/vm2";

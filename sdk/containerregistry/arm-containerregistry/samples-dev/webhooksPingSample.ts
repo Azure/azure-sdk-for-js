@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Triggers a ping event to be sent to the webhook.
  *
  * @summary Triggers a ping event to be sent to the webhook.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/WebhookPing.json
  */
+
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function webhookPing(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||

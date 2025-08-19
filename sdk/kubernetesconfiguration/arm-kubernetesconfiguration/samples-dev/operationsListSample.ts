@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SourceControlConfigurationClient } from "@azure/arm-kubernetesconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List all the available operations the KubernetesConfiguration resource provider supports.
  *
  * @summary List all the available operations the KubernetesConfiguration resource provider supports.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/OperationsList.json
  */
+
+import { SourceControlConfigurationClient } from "@azure/arm-kubernetesconfiguration";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function batchAccountDelete(): Promise<void> {
   const subscriptionId =
     process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] ||

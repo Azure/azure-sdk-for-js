@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventHubManagementClient } from "@azure/arm-eventhub";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets all Alias(Disaster Recovery configurations)
  *
  * @summary Gets all Alias(Disaster Recovery configurations)
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/disasterRecoveryConfigs/EHAliasList.json
  */
+
+import { EventHubManagementClient } from "@azure/arm-eventhub";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function ehAliasList(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";

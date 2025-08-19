@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Initiates an async request to create both the Azure AD B2C tenant and the corresponding Azure resource linked to a subscription.
+ *
+ * @summary Initiates an async request to create both the Azure AD B2C tenant and the corresponding Azure resource linked to a subscription.
+ * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/createTenant.json
+ */
+
 import type {
   CreateTenantRequestBody,
   B2CTenantsCreateOptionalParams,
@@ -8,12 +15,6 @@ import type {
 import { ExternalIdentitiesConfigurationClient } from "@azure/arm-azureadexternalidentities";
 import { DefaultAzureCredential } from "@azure/identity";
 
-/**
- * This sample demonstrates how to Initiates an async request to create both the Azure AD B2C tenant and the corresponding Azure resource linked to a subscription.
- *
- * @summary Initiates an async request to create both the Azure AD B2C tenant and the corresponding Azure resource linked to a subscription.
- * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/createTenant.json
- */
 async function createTenant(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = "contosoResourceGroup";

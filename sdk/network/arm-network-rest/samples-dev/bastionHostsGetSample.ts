@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BastionHostsGetParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the specified Bastion Host.
  *
  * @summary Gets the specified Bastion Host.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/BastionHostGet.json
  */
+
+import type { BastionHostsGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getBastionHost(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

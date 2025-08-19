@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ProvisioningServiceDescription } from "@azure/arm-deviceprovisioningservices";
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
  *
  * @summary Create or update the metadata of the provisioning service. The usual pattern to modify a property is to retrieve the provisioning service metadata and security metadata, and then combine them with the modified values in a new body to update the provisioning service.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSCreate.json
  */
+
+import type { ProvisioningServiceDescription } from "@azure/arm-deviceprovisioningservices";
+import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function dpsCreate(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||

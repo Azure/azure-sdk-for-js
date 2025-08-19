@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RouteMapsGetParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Retrieves the details of a RouteMap.
  *
  * @summary Retrieves the details of a RouteMap.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteMapGet.json
  */
+
+import type { RouteMapsGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function routeMapGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecordSet } from "@azure/arm-privatedns";
-import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates a record set within a Private DNS zone.
  *
  * @summary Updates a record set within a Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAPatch.json
  */
+
+import type { RecordSet } from "@azure/arm-privatedns";
+import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function patchPrivateDnsZoneARecordSet(): Promise<void> {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IotCentralClient } from "@azure/arm-iotcentral";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Get the metadata of an IoT Central application.
  *
  * @summary Get the metadata of an IoT Central application.
  * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/Apps_Get.json
  */
+
+import { IotCentralClient } from "@azure/arm-iotcentral";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function appsGet(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";

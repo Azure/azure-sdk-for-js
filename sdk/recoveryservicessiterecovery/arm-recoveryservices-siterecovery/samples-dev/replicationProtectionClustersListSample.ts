@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Gets the list of ASR replication protected clusters in the vault.
+ *
+ * @summary Gets the list of ASR replication protected clusters in the vault.
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectionClusters_List.json
+ */
+
 import {
   ReplicationProtectionClustersListOptionalParams,
   SiteRecoveryManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Gets the list of ASR replication protected clusters in the vault.
- *
- * @summary Gets the list of ASR replication protected clusters in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectionClusters_List.json
- */
 async function getsTheListOfReplicationProtectionClustersInVault(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

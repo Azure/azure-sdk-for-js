@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets all subscriptions for a tenant.
  *
  * @summary Gets all subscriptions for a tenant.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/GetSubscriptions.json
  */
+
+import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getAllSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);

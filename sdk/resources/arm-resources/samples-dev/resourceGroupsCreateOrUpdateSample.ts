@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ResourceGroup, ResourceManagementClient } from "@azure/arm-resources";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a resource group.
  *
  * @summary Creates or updates a resource group.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/CreateResourceGroup.json
  */
+
+import { ResourceGroup, ResourceManagementClient } from "@azure/arm-resources";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||

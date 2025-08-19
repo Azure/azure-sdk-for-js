@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets the details of the specified job name.
  *
  * @summary Gets the details of the specified job name.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/JobsGet.json
  */
+
+import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function jobsGet(): Promise<void> {
   const subscriptionId = "d3ebfe71-b7a9-4c57-92b9-68a2afde4de5";
   const deviceName = "sca07forsdktest";

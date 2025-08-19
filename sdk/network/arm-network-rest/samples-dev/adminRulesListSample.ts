@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AdminRulesListParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List all network manager security configuration admin rules.
  *
  * @summary List all network manager security configuration admin rules.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRuleList.json
  */
+
+import type { AdminRulesListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listSecurityAdminRules(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

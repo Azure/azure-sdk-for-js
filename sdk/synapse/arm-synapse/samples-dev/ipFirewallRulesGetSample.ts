@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SynapseManagementClient } from "@azure/arm-synapse";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a firewall rule
  *
  * @summary Get a firewall rule
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetIpFirewallRule.json
  */
+
+import { SynapseManagementClient } from "@azure/arm-synapse";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getIPFirewallRule(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "01234567-89ab-4def-0123-456789abcdef";

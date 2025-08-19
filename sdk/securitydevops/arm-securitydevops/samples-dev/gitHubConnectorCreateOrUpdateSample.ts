@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { GitHubConnector } from "@azure/arm-securitydevops";
-import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update a monitored GitHub Connector resource.
  *
  * @summary Create or update a monitored GitHub Connector resource.
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/GitHubConnectorCreateOrUpdate.json
  */
+
+import type { GitHubConnector } from "@azure/arm-securitydevops";
+import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function gitHubConnectorCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

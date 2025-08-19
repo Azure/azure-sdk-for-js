@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Gen1EnvironmentCreateOrUpdateParameters } from "@azure/arm-timeseriesinsights";
-import { TimeSeriesInsightsClient } from "@azure/arm-timeseriesinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update an environment in the specified subscription and resource group.
  *
  * @summary Create or update an environment in the specified subscription and resource group.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EnvironmentsCreate.json
  */
+
+import type { Gen1EnvironmentCreateOrUpdateParameters } from "@azure/arm-timeseriesinsights";
+import { TimeSeriesInsightsClient } from "@azure/arm-timeseriesinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function environmentsCreate(): Promise<void> {
   const subscriptionId = process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "rg1";

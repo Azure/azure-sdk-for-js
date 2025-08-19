@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { GenerateCapabilityImageRequest } from "@azure/arm-sphere";
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Generates the capability image for the device. Use '.unassigned' or '.default' for the device group and product names to generate the image for a device that does not belong to a specific device group and product.
  *
  * @summary Generates the capability image for the device. Use '.unassigned' or '.default' for the device group and product names to generate the image for a device that does not belong to a specific device group and product.
  * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PostGenerateDeviceCapabilityImage.json
  */
+
+import type { GenerateCapabilityImageRequest } from "@azure/arm-sphere";
+import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function devicesGenerateCapabilityImage(): Promise<void> {
   const subscriptionId =
     process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

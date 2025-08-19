@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BillingAccountsListOptionalParams } from "@azure/arm-billing";
-import { BillingManagementClient } from "@azure/arm-billing";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the billing accounts that a user has access to.
  *
  * @summary Lists the billing accounts that a user has access to.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountForLegacyAccountDetails.json
  */
+
+import type { BillingAccountsListOptionalParams } from "@azure/arm-billing";
+import { BillingManagementClient } from "@azure/arm-billing";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function billingAccountForLegacyAccountDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MetricsListOptionalParams } from "@azure/arm-monitor-profile-2020-09-01-hybrid";
-import { MonitorClient } from "@azure/arm-monitor-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to **Lists the metric values for a resource**.
  *
  * @summary **Lists the metric values for a resource**.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetric.json
  */
+
+import type { MetricsListOptionalParams } from "@azure/arm-monitor-profile-2020-09-01-hybrid";
+import { MonitorClient } from "@azure/arm-monitor-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getMetricForData(): Promise<void> {
   const resourceUri =
     "subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default";

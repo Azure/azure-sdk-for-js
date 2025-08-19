@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SplitRequest } from "@azure/arm-reservations";
-import { AzureReservationAPI } from "@azure/arm-reservations";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Split a `Reservation` into two `Reservation`s with specified quantity distribution.
  *
  * @summary Split a `Reservation` into two `Reservation`s with specified quantity distribution.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/SplitReservation.json
  */
+
+import type { SplitRequest } from "@azure/arm-reservations";
+import { AzureReservationAPI } from "@azure/arm-reservations";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function split(): Promise<void> {
   const reservationOrderId = "276e7ae4-84d0-4da6-ab4b-d6b94f3557da";
   const body: SplitRequest = {

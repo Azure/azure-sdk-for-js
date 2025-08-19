@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomUUID } from "node:crypto";
-import { AzureKeyCredential } from "@azure/core-auth";
-import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
-import { readFileSync } from "node:fs";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to create a liveness detection with face verification session with a verification image.
  *
  * @summary Liveness detection with face verification with verification image.
  */
+
+import { randomUUID } from "node:crypto";
+import { AzureKeyCredential } from "@azure/core-auth";
+import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
+import { readFileSync } from "node:fs";
+import "dotenv/config";
 
 function pressAnyKeyToContinue(): Promise<void> {
   return new Promise<void>((resolve) => {

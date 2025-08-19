@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Create a HypervCollector
+ *
+ * @summary Create a HypervCollector
+ * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/AssessmentProjects/stable/2023-03-15/examples/HypervCollectorsOperations_Create_MaximumSet_Gen.json
+ */
+
 import {
   HypervCollector,
   AzureMigrateAssessmentService,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create a HypervCollector
- *
- * @summary Create a HypervCollector
- * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/AssessmentProjects/stable/2023-03-15/examples/HypervCollectorsOperations_Create_MaximumSet_Gen.json
- */
 async function hypervCollectorsOperationsCreateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] ||

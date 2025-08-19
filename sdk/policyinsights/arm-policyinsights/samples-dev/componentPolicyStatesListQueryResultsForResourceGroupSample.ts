@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Queries component policy states under resource group scope.
  *
  * @summary Queries component policy states under resource group scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceGroupScopeGroupByComponentTypeWithAggregate.json
  */
+
+import type { ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams } from "@azure/arm-policyinsights";
+import { PolicyInsightsClient } from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceGroupScopeFilteredByGivenAssignment(): Promise<void> {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";

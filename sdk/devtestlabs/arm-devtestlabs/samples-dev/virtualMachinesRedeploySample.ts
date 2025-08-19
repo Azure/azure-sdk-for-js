@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevTestLabsClient } from "@azure/arm-devtestlabs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Redeploy a virtual machine This operation can take a while to complete.
  *
  * @summary Redeploy a virtual machine This operation can take a while to complete.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachines_Redeploy.json
  */
+
+import { DevTestLabsClient } from "@azure/arm-devtestlabs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function virtualMachinesRedeploy(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";

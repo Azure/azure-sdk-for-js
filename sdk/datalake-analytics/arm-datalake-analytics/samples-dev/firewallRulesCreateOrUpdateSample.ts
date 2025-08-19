@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CreateOrUpdateFirewallRuleParameters } from "@azure/arm-datalake-analytics";
-import { DataLakeAnalyticsAccountManagementClient } from "@azure/arm-datalake-analytics";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates or updates the specified firewall rule. During update, the firewall rule with the specified name will be replaced with this new firewall rule.
  *
  * @summary Creates or updates the specified firewall rule. During update, the firewall rule with the specified name will be replaced with this new firewall rule.
  * x-ms-original-file: specification/datalake-analytics/resource-manager/Microsoft.DataLakeAnalytics/preview/2019-11-01-preview/examples/FirewallRules_CreateOrUpdate.json
  */
+
+import type { CreateOrUpdateFirewallRuleParameters } from "@azure/arm-datalake-analytics";
+import { DataLakeAnalyticsAccountManagementClient } from "@azure/arm-datalake-analytics";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createsOrUpdatesTheSpecifiedFirewallRule(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = "contosorg";

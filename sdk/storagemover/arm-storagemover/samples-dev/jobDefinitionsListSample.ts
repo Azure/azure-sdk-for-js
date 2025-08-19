@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageMoverClient } from "@azure/arm-storagemover";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all Job Definitions in a Project.
  *
  * @summary Lists all Job Definitions in a Project.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobDefinitions_List.json
  */
+
+import { StorageMoverClient } from "@azure/arm-storagemover";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function jobDefinitionsList(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] || "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";

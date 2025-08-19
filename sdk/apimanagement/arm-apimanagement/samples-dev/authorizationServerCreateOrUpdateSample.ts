@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates new authorization server or updates an existing authorization server.
+ *
+ * @summary Creates new authorization server or updates an existing authorization server.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateAuthorizationServer.json
+ */
+
 import {
   AuthorizationServerContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates new authorization server or updates an existing authorization server.
- *
- * @summary Creates new authorization server or updates an existing authorization server.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateAuthorizationServer.json
- */
 async function apiManagementCreateAuthorizationServer(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VirtualRouterPeeringsGetParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the specified Virtual Router Peering.
  *
  * @summary Gets the specified Virtual Router Peering.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterPeeringGet.json
  */
+
+import type { VirtualRouterPeeringsGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getVirtualRouterPeering(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

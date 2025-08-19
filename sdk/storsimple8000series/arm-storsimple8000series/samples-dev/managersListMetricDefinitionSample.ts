@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets the metric definitions for the specified manager.
  *
  * @summary Gets the metric definitions for the specified manager.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/ManagersListMetricDefinition.json
  */
+
+import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function managersListMetricDefinition(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const resourceGroupName = "ResourceGroupForSDKTest";

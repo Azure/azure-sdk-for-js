@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates or updates policy configuration for the API.
+ *
+ * @summary Creates or updates policy configuration for the API.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateWorkspaceApiPolicy.json
+ */
+
 import {
   PolicyContract,
   WorkspaceApiPolicyCreateOrUpdateOptionalParams,
@@ -9,12 +16,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates policy configuration for the API.
- *
- * @summary Creates or updates policy configuration for the API.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateWorkspaceApiPolicy.json
- */
 async function apiManagementCreateWorkspaceApiPolicy(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

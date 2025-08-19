@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureBotService } from "@azure/arm-botservice";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns all the Connection Settings registered to a particular BotService resource
  *
  * @summary Returns all the Connection Settings registered to a particular BotService resource
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/ListConnectionsByBotService.json
  */
+
+import { AzureBotService } from "@azure/arm-botservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listConnectionSettings(): Promise<void> {
   const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";

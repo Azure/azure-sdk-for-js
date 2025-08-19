@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccountPatchResource } from "@azure/arm-graphservices";
-import { GraphServices } from "@azure/arm-graphservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update account details.
  *
  * @summary Update account details.
  * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/stable/2023-04-13/examples/Accounts_Update.json
  */
+
+import type { AccountPatchResource } from "@azure/arm-graphservices";
+import { GraphServices } from "@azure/arm-graphservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function updateAccountResource(): Promise<void> {
   const subscriptionId =
     process.env["GRAPHSERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

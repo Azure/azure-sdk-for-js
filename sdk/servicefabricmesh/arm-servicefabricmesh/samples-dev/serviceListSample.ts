@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the information about all services of an application resource. The information include the description and other properties of the Service.
  *
  * @summary Gets the information about all services of an application resource. The information include the description and other properties of the Service.
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/applications/services/list.json
  */
+
+import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listServices(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

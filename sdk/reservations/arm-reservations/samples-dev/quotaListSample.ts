@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureReservationAPI } from "@azure/arm-reservations";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets a list of current quotas (service limits) and usage for all resources. The response from the list quota operation can be leveraged to request quota updates.
  *
  * @summary Gets a list of current quotas (service limits) and usage for all resources. The response from the list quota operation can be leveraged to request quota updates.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/getComputeUsages.json
  */
+
+import { AzureReservationAPI } from "@azure/arm-reservations";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function quotasListUsagesForCompute(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const providerId = "Microsoft.Compute";

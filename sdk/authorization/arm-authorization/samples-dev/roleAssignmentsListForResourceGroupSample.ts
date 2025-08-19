@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthorizationManagementClient } from "@azure/arm-authorization";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List all role assignments that apply to a resource group.
  *
  * @summary List all role assignments that apply to a resource group.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/examples/RoleAssignments_ListForResourceGroup.json
  */
+
+import { AuthorizationManagementClient } from "@azure/arm-authorization";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listRoleAssignmentsForResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "a925f2f7-5c63-4b7b-8799-25a5f97bc3b2";

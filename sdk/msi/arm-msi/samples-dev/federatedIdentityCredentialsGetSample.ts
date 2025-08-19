@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedServiceIdentityClient } from "@azure/arm-msi";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the federated identity credential.
  *
  * @summary Gets the federated identity credential.
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2024-11-30/examples/FederatedIdentityCredentialGet.json
  */
+
+import { ManagedServiceIdentityClient } from "@azure/arm-msi";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function federatedIdentityCredentialGet(): Promise<void> {
   const subscriptionId =
     process.env["MSI_SUBSCRIPTION_ID"] ||

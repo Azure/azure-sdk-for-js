@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ProviderInstance } from "@azure/arm-hanaonazure";
-import { HanaManagementClient } from "@azure/arm-hanaonazure";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
  *
  * @summary Creates a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
  * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/ProviderInstances_Create.json
  */
+
+import type { ProviderInstance } from "@azure/arm-hanaonazure";
+import { HanaManagementClient } from "@azure/arm-hanaonazure";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createASapMonitor(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";

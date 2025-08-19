@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Queries component policy states under subscription scope.
  *
  * @summary Queries component policy states under subscription scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QuerySubscriptionScopeGroupByComponentTypeWithAggregate.json
  */
+
+import type { ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams } from "@azure/arm-policyinsights";
+import { PolicyInsightsClient } from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtSubscriptionScopeFilteredByGivenAssignment(): Promise<void> {
   const subscriptionId = "e78961ba-36fe-4739-9212-e3031b4c8db7";
   const componentPolicyStatesResource = "latest";

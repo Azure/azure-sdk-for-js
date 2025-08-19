@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgreementTerms } from "@azure/arm-marketplaceordering";
-import { MarketplaceOrderingAgreements } from "@azure/arm-marketplaceordering";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Save marketplace terms.
  *
  * @summary Save marketplace terms.
  * x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/SetMarketplaceTerms.json
  */
+
+import type { AgreementTerms } from "@azure/arm-marketplaceordering";
+import { MarketplaceOrderingAgreements } from "@azure/arm-marketplaceordering";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function setMarketplaceTerms(): Promise<void> {
   const subscriptionId = process.env["MARKETPLACEORDERING_SUBSCRIPTION_ID"] || "subid";
   const offerType = "virtualmachine";

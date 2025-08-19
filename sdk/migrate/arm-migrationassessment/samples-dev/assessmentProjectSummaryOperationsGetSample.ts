@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMigrateAssessmentService } from "@azure/arm-migrationassessment";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a AssessmentProjectSummary
  *
  * @summary Get a AssessmentProjectSummary
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/AssessmentProjects/stable/2023-03-15/examples/AssessmentProjectSummaryOperations_Get_MaximumSet_Gen.json
  */
+
+import { AzureMigrateAssessmentService } from "@azure/arm-migrationassessment";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function assessmentProjectSummaryOperationsGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] ||

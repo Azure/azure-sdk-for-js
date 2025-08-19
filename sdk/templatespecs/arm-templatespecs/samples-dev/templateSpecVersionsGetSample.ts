@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TemplateSpecsClient } from "@azure/arm-templatespecs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets a Template Spec version from a specific Template Spec.
  *
  * @summary Gets a Template Spec version from a specific Template Spec.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-05-01/examples/TemplateSpecVersionsGet.json
  */
+
+import { TemplateSpecsClient } from "@azure/arm-templatespecs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function templateSpecVersionsGet(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "templateSpecRG";

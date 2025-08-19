@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ProtectionContainerResource,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Registers the container with Recovery Services vault.
 This is an asynchronous operation. To track the operation status, use location header to call get latest status of
@@ -18,6 +11,14 @@ This is an asynchronous operation. To track the operation status, use location h
 the operation.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureStorage/ProtectionContainers_Register.json
  */
+
+import {
+  ProtectionContainerResource,
+  RecoveryServicesBackupClient,
+} from "@azure/arm-recoveryservicesbackup";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function registerAzureStorageProtectionContainers(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

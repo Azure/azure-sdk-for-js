@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EntityExpandParameters } from "@azure/arm-securityinsight";
-import { SecurityInsights } from "@azure/arm-securityinsight";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Expands an entity.
  *
  * @summary Expands an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/expand/PostExpandEntity.json
  */
+
+import type { EntityExpandParameters } from "@azure/arm-securityinsight";
+import { SecurityInsights } from "@azure/arm-securityinsight";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function expandAnEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

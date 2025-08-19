@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the ErrorSummaries resource in springbootsites.
  *
  * @summary Lists the ErrorSummaries resource in springbootsites.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/ErrorSummaries_ListBySite_MaximumSet_Gen.json
  */
+
+import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function errorSummariesListBySiteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "libzegdqkcxmhqhhhcxm";

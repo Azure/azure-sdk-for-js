@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SourceControlConfigurationClient } from "@azure/arm-kubernetesconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List all Flux Configurations.
  *
  * @summary List all Flux Configurations.
  * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/ListFluxConfigurations.json
  */
+
+import { SourceControlConfigurationClient } from "@azure/arm-kubernetesconfiguration";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listFluxConfiguration(): Promise<void> {
   const subscriptionId = process.env["KUBERNETESCONFIGURATION_SUBSCRIPTION_ID"] || "subId1";
   const resourceGroupName = process.env["KUBERNETESCONFIGURATION_RESOURCE_GROUP"] || "rg1";

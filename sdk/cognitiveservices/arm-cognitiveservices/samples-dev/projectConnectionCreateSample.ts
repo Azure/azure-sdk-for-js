@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Create or update Cognitive Services project connection under the specified project.
+ *
+ * @summary Create or update Cognitive Services project connection under the specified project.
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/preview/2025-04-01-preview/examples/ProjectConnection/create.json
+ */
+
 import {
   ConnectionPropertiesV2BasicResource,
   ProjectConnectionCreateOptionalParams,
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create or update Cognitive Services project connection under the specified project.
- *
- * @summary Create or update Cognitive Services project connection under the specified project.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/preview/2025-04-01-preview/examples/ProjectConnection/create.json
- */
 async function createProjectConnection(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||

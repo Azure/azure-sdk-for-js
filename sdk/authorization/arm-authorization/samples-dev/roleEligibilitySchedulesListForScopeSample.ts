@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RoleEligibilitySchedulesListForScopeOptionalParams } from "@azure/arm-authorization";
-import { AuthorizationManagementClient } from "@azure/arm-authorization";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets role eligibility schedules for a resource scope.
  *
  * @summary Gets role eligibility schedules for a resource scope.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview/examples/GetRoleEligibilitySchedulesByScope.json
  */
+
+import type { RoleEligibilitySchedulesListForScopeOptionalParams } from "@azure/arm-authorization";
+import { AuthorizationManagementClient } from "@azure/arm-authorization";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getRoleEligibilitySchedulesByScope(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";

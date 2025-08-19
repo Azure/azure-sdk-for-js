@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureReservationAPI } from "@azure/arm-reservations";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List of all the `ReservationOrder`s that the user has access to in the current tenant.
  *
  * @summary List of all the `ReservationOrder`s that the user has access to in the current tenant.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetReservationOrders.json
  */
+
+import { AzureReservationAPI } from "@azure/arm-reservations";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function reservationOrderList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AzureReservationAPI(credential);

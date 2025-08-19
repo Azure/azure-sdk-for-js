@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CheckNameAvailabilityRequest } from "@azure/arm-managementgroups";
-import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Checks if the specified management group name is valid and unique
  *
  * @summary Checks if the specified management group name is valid and unique
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/CheckManagementGroupNameAvailability.json
  */
+
+import type { CheckNameAvailabilityRequest } from "@azure/arm-managementgroups";
+import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function checkManagementGroupNameAvailability(): Promise<void> {
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "nameTocheck",

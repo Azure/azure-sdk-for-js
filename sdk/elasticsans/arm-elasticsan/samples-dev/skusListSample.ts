@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to List all the available Skus in the region and information related to them
+ *
+ * @summary List all the available Skus in the region and information related to them
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Skus_List_MaximumSet_Gen.json
+ */
+
 import {
   SkusListOptionalParams,
   ElasticSanManagement,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to List all the available Skus in the region and information related to them
- *
- * @summary List all the available Skus in the region and information related to them
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/Skus_List_MaximumSet_Gen.json
- */
 async function skusListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

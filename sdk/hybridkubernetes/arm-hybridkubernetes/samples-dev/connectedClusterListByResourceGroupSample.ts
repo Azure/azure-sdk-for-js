@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to API to enumerate registered connected K8s clusters under a Resource Group
  *
  * @summary API to enumerate registered connected K8s clusters under a Resource Group
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/preview/2024-12-01-preview/examples/GetClustersByResourceGroupExample.json
  */
+
+import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getClustersExample(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDKUBERNETES_SUBSCRIPTION_ID"] ||

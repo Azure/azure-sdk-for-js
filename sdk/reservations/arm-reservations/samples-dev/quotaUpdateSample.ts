@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CurrentQuotaLimitBase } from "@azure/arm-reservations";
-import { AzureReservationAPI } from "@azure/arm-reservations";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update the quota (service limits) of this resource to the requested value.
   • To get the quota information for specific resource, send a GET request.
@@ -20,6 +15,12 @@ import "dotenv/config";
   • To update the quota. use the PATCH operation.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/patchComputeQuotaRequest.json
  */
+
+import type { CurrentQuotaLimitBase } from "@azure/arm-reservations";
+import { AzureReservationAPI } from "@azure/arm-reservations";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function quotasRequestPatchForCompute(): Promise<void> {
   const subscriptionId = "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3";
   const providerId = "Microsoft.Compute";

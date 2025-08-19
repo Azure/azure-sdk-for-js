@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SavingsPlanPurchaseValidateRequest } from "@azure/arm-billingbenefits";
-import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Validate savings plan purchase.
  *
  * @summary Validate savings plan purchase.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlanValidatePurchase.json
  */
+
+import type { SavingsPlanPurchaseValidateRequest } from "@azure/arm-billingbenefits";
+import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function savingsPlanValidatePurchase(): Promise<void> {
   const body: SavingsPlanPurchaseValidateRequest = {
     benefits: [

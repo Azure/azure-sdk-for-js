@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets an IPv6 firewall rule.
  *
  * @summary Gets an IPv6 firewall rule.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/IPv6FirewallRuleGet.json
  */
+
+import { SqlManagementClient } from "@azure/arm-sql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getIPv6FirewallRule(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes a firewall rule.
  *
  * @summary Deletes a firewall rule.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2023-06-01-preview/examples/FirewallRuleDelete.json
  */
+
+import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteAFirewallRule(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";

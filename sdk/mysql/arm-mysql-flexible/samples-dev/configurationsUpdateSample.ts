@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Configuration } from "@azure/arm-mysql-flexible";
-import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates a configuration of a server.
  *
  * @summary Updates a configuration of a server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2023-06-01-preview/examples/ConfigurationUpdate.json
  */
+
+import type { Configuration } from "@azure/arm-mysql-flexible";
+import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function updateAUserConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";

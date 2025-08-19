@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagedPrivateEndpoint } from "@azure/arm-kusto";
-import { KustoManagementClient } from "@azure/arm-kusto";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a managed private endpoint.
  *
  * @summary Creates a managed private endpoint.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsCreateOrUpdate.json
  */
+
+import type { ManagedPrivateEndpoint } from "@azure/arm-kusto";
+import { KustoManagementClient } from "@azure/arm-kusto";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function kustoManagedPrivateEndpointsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";

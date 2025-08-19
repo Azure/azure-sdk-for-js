@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AutomationClient } from "@azure/arm-automation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Retrieve a list of hybrid runbook worker groups.
  *
  * @summary Retrieve a list of hybrid runbook worker groups.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-02-22/examples/listHybridRunbookWorkerGroup.json
  */
+
+import { AutomationClient } from "@azure/arm-automation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listHybridWorkerGroupsByAutomationAccount(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";

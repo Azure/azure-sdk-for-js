@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Regenerates the Redis Enterprise database's access keys.
+ *
+ * @summary Regenerates the Redis Enterprise database's access keys.
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseDatabasesRegenerateKey.json
+ */
+
 import {
   RegenerateKeyParameters,
   RedisEnterpriseManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Regenerates the Redis Enterprise database's access keys.
- *
- * @summary Regenerates the Redis Enterprise database's access keys.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseDatabasesRegenerateKey.json
- */
 async function redisEnterpriseDatabasesRegenerateKey(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||

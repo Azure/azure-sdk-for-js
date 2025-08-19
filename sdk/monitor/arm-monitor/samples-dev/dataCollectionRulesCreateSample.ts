@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates or updates a data collection rule.
+ *
+ * @summary Creates or updates a data collection rule.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesCreate.json
+ */
+
 import type {
   DataCollectionRuleResource,
   DataCollectionRulesCreateOptionalParams,
@@ -9,12 +16,6 @@ import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates a data collection rule.
- *
- * @summary Creates or updates a data collection rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesCreate.json
- */
 async function createOrUpdateDataCollectionRule(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "703362b3-f278-4e4b-9179-c76eaf41ffc2";

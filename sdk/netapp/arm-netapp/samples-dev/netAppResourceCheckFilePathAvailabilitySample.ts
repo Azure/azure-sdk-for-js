@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Check if a file path is available.
+ *
+ * @summary Check if a file path is available.
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/CheckFilePathAvailability.json
+ */
+
 import {
   NetAppResourceCheckFilePathAvailabilityOptionalParams,
   NetAppManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Check if a file path is available.
- *
- * @summary Check if a file path is available.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/CheckFilePathAvailability.json
- */
 async function checkFilePathAvailability(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||

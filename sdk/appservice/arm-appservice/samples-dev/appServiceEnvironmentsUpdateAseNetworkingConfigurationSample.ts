@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Update networking configuration of an App Service Environment
+ *
+ * @summary Description for Update networking configuration of an App Service Environment
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/AppServiceEnvironments_UpdateAseNetworkingConfiguration.json
+ */
+
 import {
   AseV3NetworkingConfiguration,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Update networking configuration of an App Service Environment
- *
- * @summary Description for Update networking configuration of an App Service Environment
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/AppServiceEnvironments_UpdateAseNetworkingConfiguration.json
- */
 async function updateNetworkingConfigurationOfAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

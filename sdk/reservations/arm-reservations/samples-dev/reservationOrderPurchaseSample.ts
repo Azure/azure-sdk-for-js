@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PurchaseRequest } from "@azure/arm-reservations";
-import { AzureReservationAPI } from "@azure/arm-reservations";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Purchase `ReservationOrder` and create resource under the specified URI.
  *
  * @summary Purchase `ReservationOrder` and create resource under the specified URI.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/PurchaseReservationOrder.json
  */
+
+import type { PurchaseRequest } from "@azure/arm-reservations";
+import { AzureReservationAPI } from "@azure/arm-reservations";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function purchase(): Promise<void> {
   const reservationOrderId = "a075419f-44cc-497f-b68a-14ee811d48b9";
   const body: PurchaseRequest = {

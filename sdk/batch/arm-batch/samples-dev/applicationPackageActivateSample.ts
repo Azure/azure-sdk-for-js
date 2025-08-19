@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ActivateApplicationPackageParameters } from "@azure/arm-batch";
-import { BatchManagementClient } from "@azure/arm-batch";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Activates the specified application package. This should be done after the `ApplicationPackage` was created and uploaded. This needs to be done before an `ApplicationPackage` can be used on Pools or Tasks.
  *
  * @summary Activates the specified application package. This should be done after the `ApplicationPackage` was created and uploaded. This needs to be done before an `ApplicationPackage` can be used on Pools or Tasks.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationPackageActivate.json
  */
+
+import type { ActivateApplicationPackageParameters } from "@azure/arm-batch";
+import { BatchManagementClient } from "@azure/arm-batch";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function applicationPackageActivate(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";

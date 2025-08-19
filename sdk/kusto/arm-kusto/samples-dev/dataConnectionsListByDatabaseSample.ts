@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KustoManagementClient } from "@azure/arm-kusto";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns the list of data connections of the given Kusto database.
  *
  * @summary Returns the list of data connections of the given Kusto database.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDataConnectionsListByDatabase.json
  */
+
+import { KustoManagementClient } from "@azure/arm-kusto";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function kustoDatabasesListByCluster(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";

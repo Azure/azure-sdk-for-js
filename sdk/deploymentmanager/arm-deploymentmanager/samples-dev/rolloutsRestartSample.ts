@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RolloutsRestartOptionalParams } from "@azure/arm-deploymentmanager";
-import { AzureDeploymentManager } from "@azure/arm-deploymentmanager";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Only failed rollouts can be restarted.
  *
  * @summary Only failed rollouts can be restarted.
  * x-ms-original-file: specification/deploymentmanager/resource-manager/Microsoft.DeploymentManager/preview/2019-11-01-preview/examples/rollout_post_restart.json
  */
+
+import type { RolloutsRestartOptionalParams } from "@azure/arm-deploymentmanager";
+import { AzureDeploymentManager } from "@azure/arm-deploymentmanager";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function restartRollout(): Promise<void> {
   const subscriptionId = "caac1590-e859-444f-a9e0-62091c0f5929";
   const resourceGroupName = "myResourceGroup";

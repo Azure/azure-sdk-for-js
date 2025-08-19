@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceBusManagementClient } from "@azure/arm-servicebus";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes an existing Private Endpoint Connection.
  *
  * @summary Deletes an existing Private Endpoint Connection.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/PrivateEndPointConnectionDelete.json
  */
+
+import { ServiceBusManagementClient } from "@azure/arm-servicebus";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function nameSpacePrivateEndPointConnectionDelete(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebService } from "@azure/arm-webservices";
-import { AzureMLWebServicesManagementClient } from "@azure/arm-webservices";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Create or update a web service. This call will overwrite an existing web service. Note that there is no warning or confirmation. This is a nonrecoverable operation. If your intent is to create a new web service, call the Get operation first to verify that it does not exist.
  *
  * @summary Create or update a web service. This call will overwrite an existing web service. Note that there is no warning or confirmation. This is a nonrecoverable operation. If your intent is to create a new web service, call the Get operation first to verify that it does not exist.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2017-01-01/examples/putWebService.json
  */
+
+import type { WebService } from "@azure/arm-webservices";
+import { AzureMLWebServicesManagementClient } from "@azure/arm-webservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function putWebService(): Promise<void> {
   const subscriptionId = "subscription-id";
   const resourceGroupName = "OneResourceGroupName";

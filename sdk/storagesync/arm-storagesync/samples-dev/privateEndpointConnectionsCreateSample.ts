@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrivateEndpointConnection } from "@azure/arm-storagesync";
-import { MicrosoftStorageSync } from "@azure/arm-storagesync";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the storage sync service.
  *
  * @summary Update the state of specified private endpoint connection associated with the storage sync service.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/PrivateEndpointConnections_Create.json
  */
+
+import type { PrivateEndpointConnection } from "@azure/arm-storagesync";
+import { MicrosoftStorageSync } from "@azure/arm-storagesync";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function privateEndpointConnectionsCreate(): Promise<void> {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "res7687";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Download evidence file.
  *
  * @summary Download evidence file.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Evidence_Download.json
  */
+
+import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function evidenceDownload(): Promise<void> {
   const reportName = "testReportName";
   const evidenceName = "evidence1";

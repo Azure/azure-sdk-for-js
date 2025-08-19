@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DryrunResource } from "@azure/arm-servicelinker";
-import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to create a dryrun job to do necessary check before actual creation
  *
  * @summary create a dryrun job to do necessary check before actual creation
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/PutDryrun.json
  */
+
+import type { DryrunResource } from "@azure/arm-servicelinker";
+import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function putDryrun(): Promise<void> {
   const resourceUri =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app";

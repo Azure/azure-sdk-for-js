@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates an existing IdentityProvider configuration.
+ *
+ * @summary Updates an existing IdentityProvider configuration.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateIdentityProvider.json
+ */
+
 import {
   IdentityProviderUpdateParameters,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates an existing IdentityProvider configuration.
- *
- * @summary Updates an existing IdentityProvider configuration.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateIdentityProvider.json
- */
 async function apiManagementUpdateIdentityProvider(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

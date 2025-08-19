@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VaultAccessPolicyParameters } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
-import { KeyVaultManagementClient } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update access policies in a key vault in the specified subscription.
  *
  * @summary Update access policies in a key vault in the specified subscription.
  * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2019-09-01/examples/updateAccessPoliciesAdd.json
  */
+
+import type { VaultAccessPolicyParameters } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
+import { KeyVaultManagementClient } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function addAnAccessPolicyOrUpdateAnAccessPolicyWithNewPermissions(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

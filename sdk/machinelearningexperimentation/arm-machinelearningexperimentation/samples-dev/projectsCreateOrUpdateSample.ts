@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Project } from "@azure/arm-machinelearningexperimentation";
-import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a project with the specified parameters.
  *
  * @summary Creates or updates a project with the specified parameters.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/CreateProject.json
  */
+
+import type { Project } from "@azure/arm-machinelearningexperimentation";
+import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createProject(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||

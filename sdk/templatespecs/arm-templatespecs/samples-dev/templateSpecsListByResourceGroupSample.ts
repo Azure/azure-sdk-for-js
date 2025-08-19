@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TemplateSpecsClient } from "@azure/arm-templatespecs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Lists all the Template Specs within the specified resource group.
  *
  * @summary Lists all the Template Specs within the specified resource group.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-05-01/examples/TemplateSpecsListByResourceGroup.json
  */
+
+import { TemplateSpecsClient } from "@azure/arm-templatespecs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function templateSpecsListByResourceGroup(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "templateSpecRG";

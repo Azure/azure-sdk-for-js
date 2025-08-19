@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Power off virtual machine, options: shutdown, poweroff, and suspend
+ *
+ * @summary Power off virtual machine, options: shutdown, poweroff, and suspend
+ * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/StopInBodyVirtualMachine.json
+ */
+
 import type {
   VirtualMachineStopMode,
   VirtualMachinesStopOptionalParams,
@@ -9,12 +16,6 @@ import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Power off virtual machine, options: shutdown, poweroff, and suspend
- *
- * @summary Power off virtual machine, options: shutdown, poweroff, and suspend
- * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/StopInBodyVirtualMachine.json
- */
 async function stopInBodyVirtualMachine(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";

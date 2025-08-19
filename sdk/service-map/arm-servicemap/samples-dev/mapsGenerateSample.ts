@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Generates the specified map.
+ *
+ * @summary Generates the specified map.
+ * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/Maps/SMMapsGenerateMachineGroupDependencyPost.json
+ */
+
 import type {
   MachineGroupMapRequest,
   MachineListMapRequest,
@@ -10,12 +17,6 @@ import { ServiceMap } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Generates the specified map.
- *
- * @summary Generates the specified map.
- * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/Maps/SMMapsGenerateMachineGroupDependencyPost.json
- */
 async function smMapsGenerateMachineGroupDependencyPost(): Promise<void> {
   const subscriptionId =
     process.env["SERVICE-MAP_SUBSCRIPTION_ID"] || "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates an existing Redis Enterprise cluster
+ *
+ * @summary Updates an existing Redis Enterprise cluster
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseUpdate.json
+ */
+
 import {
   ClusterUpdate,
   RedisEnterpriseManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates an existing Redis Enterprise cluster
- *
- * @summary Updates an existing Redis Enterprise cluster
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseUpdate.json
- */
 async function redisEnterpriseUpdate(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||

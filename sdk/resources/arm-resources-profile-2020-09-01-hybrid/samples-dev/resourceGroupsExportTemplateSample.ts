@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ExportTemplateRequest } from "@azure/arm-resources-profile-2020-09-01-hybrid";
-import { ResourceManagementClient } from "@azure/arm-resources-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Captures the specified resource group as a template.
  *
  * @summary Captures the specified resource group as a template.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2019-10-01/examples/ExportResourceGroup.json
  */
+
+import type { ExportTemplateRequest } from "@azure/arm-resources-profile-2020-09-01-hybrid";
+import { ResourceManagementClient } from "@azure/arm-resources-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function exportAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "eaee6a92-e973-4922-9471-3a0a6abf81cd";

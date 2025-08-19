@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Deployment } from "@azure/arm-resources-profile-2020-09-01-hybrid";
-import { ResourceManagementClient } from "@azure/arm-resources-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
  *
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2019-10-01/examples/PutDeploymentWithOnErrorDeploymentSpecificDeployment.json
  */
+
+import type { Deployment } from "@azure/arm-resources-profile-2020-09-01-hybrid";
+import { ResourceManagementClient } from "@azure/arm-resources-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure(): Promise<void> {
   const subscriptionId = process.env["RESOURCES_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName = process.env["RESOURCES_RESOURCE_GROUP"] || "myResourceGroup";

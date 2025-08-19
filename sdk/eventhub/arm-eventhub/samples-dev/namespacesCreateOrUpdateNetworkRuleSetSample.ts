@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkRuleSet, EventHubManagementClient } from "@azure/arm-eventhub";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update NetworkRuleSet for a Namespace.
  *
  * @summary Create or update NetworkRuleSet for a Namespace.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/VirtualNetworkRule/EHNetworkRuleSetCreate.json
  */
+
+import { NetworkRuleSet, EventHubManagementClient } from "@azure/arm-eventhub";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function nameSpaceNetworkRuleSetCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "Subscription";

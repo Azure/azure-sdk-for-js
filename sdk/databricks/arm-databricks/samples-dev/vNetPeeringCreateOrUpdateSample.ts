@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VirtualNetworkPeering } from "@azure/arm-databricks";
-import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates vNet Peering for workspace.
  *
  * @summary Creates vNet Peering for workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceVirtualNetworkPeeringCreateOrUpdate.json
  */
+
+import type { VirtualNetworkPeering } from "@azure/arm-databricks";
+import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createVNetPeeringForWorkspace(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Get object metadata from an integration runtime
+ *
+ * @summary Get object metadata from an integration runtime
+ * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimeObjectMetadata_List.json
+ */
+
 import type {
   GetSsisObjectMetadataRequest,
   IntegrationRuntimeObjectMetadataListOptionalParams,
@@ -9,12 +16,6 @@ import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Get object metadata from an integration runtime
- *
- * @summary Get object metadata from an integration runtime
- * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimeObjectMetadata_List.json
- */
 async function getIntegrationRuntimeObjectMetadata(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-12345678abc";

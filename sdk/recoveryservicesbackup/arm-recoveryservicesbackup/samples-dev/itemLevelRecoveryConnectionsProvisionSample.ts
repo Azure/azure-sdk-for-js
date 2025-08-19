@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ILRRequestResource,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Provisions a script which invokes an iSCSI connection to the backup data. Executing this script opens a file
 explorer displaying all the recoverable files and folders. This is an asynchronous operation. To know the status of
@@ -18,6 +11,14 @@ explorer displaying all the recoverable files and folders. This is an asynchrono
 provisioning, call GetProtectedItemOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/Provision_Ilr.json
  */
+
+import {
+  ILRRequestResource,
+  RecoveryServicesBackupClient,
+} from "@azure/arm-recoveryservicesbackup";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function provisionInstantItemLevelRecoveryForAzureVM(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

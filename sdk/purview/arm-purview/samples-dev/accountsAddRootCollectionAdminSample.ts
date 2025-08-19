@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CollectionAdminUpdate } from "@azure/arm-purview";
-import { PurviewManagementClient } from "@azure/arm-purview";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Add the administrator for root collection associated with this account.
  *
  * @summary Add the administrator for root collection associated with this account.
  * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/Accounts_AddRootCollectionAdmin.json
  */
+
+import type { CollectionAdminUpdate } from "@azure/arm-purview";
+import { PurviewManagementClient } from "@azure/arm-purview";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function accountsAddRootCollectionAdmin(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = "SampleResourceGroup";

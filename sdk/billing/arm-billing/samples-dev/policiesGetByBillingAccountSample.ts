@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BillingManagementClient } from "@azure/arm-billing";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the policies for a billing account of Enterprise Agreement type.
  *
  * @summary Get the policies for a billing account of Enterprise Agreement type.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/policiesGetByBillingAccount.json
  */
+
+import { BillingManagementClient } from "@azure/arm-billing";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function policiesGetByBillingAccount(): Promise<void> {
   const billingAccountName = "1234567";
   const credential = new DefaultAzureCredential();

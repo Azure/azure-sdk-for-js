@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the Summaries resource.
  *
  * @summary Gets the Summaries resource.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/Summaries_Get_MaximumSet_Gen.json
  */
+
+import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function summariesGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "libzegdqkcxmhqhhhcxm";

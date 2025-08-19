@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ReceivedRoutesListByPeeringOptionalParams } from "@azure/arm-peering";
-import { PeeringManagementClient } from "@azure/arm-peering";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Lists the prefixes received over the specified peering under the given subscription and resource group.
  *
  * @summary Lists the prefixes received over the specified peering under the given subscription and resource group.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/GetPeeringReceivedRoutes.json
  */
+
+import type { ReceivedRoutesListByPeeringOptionalParams } from "@azure/arm-peering";
+import { PeeringManagementClient } from "@azure/arm-peering";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listsThePrefixesReceivedOverTheSpecifiedPeeringUnderTheGivenSubscriptionAndResourceGroup(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to The operation to start the unplanned failover of a recovery plan.
+ *
+ * @summary The operation to start the unplanned failover of a recovery plan.
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationRecoveryPlans_UnplannedFailover.json
+ */
+
 import {
   RecoveryPlanUnplannedFailoverInput,
   SiteRecoveryManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to The operation to start the unplanned failover of a recovery plan.
- *
- * @summary The operation to start the unplanned failover of a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationRecoveryPlans_UnplannedFailover.json
- */
 async function executeUnplannedFailoverOfTheRecoveryPlan(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

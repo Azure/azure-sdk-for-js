@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Workspace } from "@azure/arm-databricks";
-import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a new workspace.
  *
  * @summary Creates a new workspace.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/PrepareEncryption.json
  */
+
+import type { Workspace } from "@azure/arm-databricks";
+import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createAWorkspaceWhichIsReadyForCustomerManagedKeyCmkEncryption(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";

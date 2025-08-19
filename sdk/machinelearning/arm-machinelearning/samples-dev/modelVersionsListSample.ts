@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ModelVersionsListOptionalParams } from "@azure/arm-machinelearning";
-import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List model versions.
  *
  * @summary List model versions.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/ModelVersion/list.json
  */
+
+import type { ModelVersionsListOptionalParams } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listWorkspaceModelVersion(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";

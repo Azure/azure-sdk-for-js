@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PatchedWebService } from "@azure/arm-webservices";
-import { AzureMLWebServicesManagementClient } from "@azure/arm-webservices";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Modifies an existing web service resource. The PATCH API call is an asynchronous operation. To determine whether it has completed successfully, you must perform a Get operation.
  *
  * @summary Modifies an existing web service resource. The PATCH API call is an asynchronous operation. To determine whether it has completed successfully, you must perform a Get operation.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2017-01-01/examples/patchWebService.json
  */
+
+import type { PatchedWebService } from "@azure/arm-webservices";
+import { AzureMLWebServicesManagementClient } from "@azure/arm-webservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function patchWebService(): Promise<void> {
   const subscriptionId = "subscription-id";
   const resourceGroupName = "OneResourceGroupName";

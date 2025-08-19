@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationInputs } from "@azure/arm-iotcentral";
-import { IotCentralClient } from "@azure/arm-iotcentral";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Check if an IoT Central application subdomain is available.
  *
  * @summary Check if an IoT Central application subdomain is available.
  * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/Apps_CheckSubdomainAvailability.json
  */
+
+import type { OperationInputs } from "@azure/arm-iotcentral";
+import { IotCentralClient } from "@azure/arm-iotcentral";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function appsSubdomainAvailability(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const operationInputs: OperationInputs = {

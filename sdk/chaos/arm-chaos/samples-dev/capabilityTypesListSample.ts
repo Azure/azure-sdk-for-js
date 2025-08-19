@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementClient } from "@azure/arm-chaos";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get a list of Capability Type resources for given Target Type and location.
  *
  * @summary get a list of Capability Type resources for given Target Type and location.
  * x-ms-original-file: 2025-01-01/CapabilityTypes_List.json
  */
+
+import { ChaosManagementClient } from "@azure/arm-chaos";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listAllCapabilityTypesForAVirtualMachineTargetResourceOnWestus2Location(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";

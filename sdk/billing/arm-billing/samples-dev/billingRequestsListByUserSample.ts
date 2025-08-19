@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BillingRequestsListByUserOptionalParams } from "@azure/arm-billing";
-import { BillingManagementClient } from "@azure/arm-billing";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The list of billing requests submitted by a user.
  *
  * @summary The list of billing requests submitted by a user.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingRequestsListByUser.json
  */
+
+import type { BillingRequestsListByUserOptionalParams } from "@azure/arm-billing";
+import { BillingManagementClient } from "@azure/arm-billing";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function billingRequestsListByUser(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);

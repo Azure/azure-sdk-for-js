@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LoadTestResourcePatchRequestBody } from "@azure/arm-loadtesting";
-import { LoadTestClient } from "@azure/arm-loadtesting";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update a loadtest resource.
  *
  * @summary Update a loadtest resource.
  * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_Update.json
  */
+
+import type { LoadTestResourcePatchRequestBody } from "@azure/arm-loadtesting";
+import { LoadTestClient } from "@azure/arm-loadtesting";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function loadTestsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes the hierarchy settings defined at the Management Group level.
 
@@ -12,6 +9,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/DeleteHierarchySettings.json
  */
+
+import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getGroupSettings(): Promise<void> {
   const groupId = "root";
   const credential = new DefaultAzureCredential();

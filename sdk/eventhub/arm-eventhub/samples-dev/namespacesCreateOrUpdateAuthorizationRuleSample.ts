@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates or updates an AuthorizationRule for a Namespace.
+ *
+ * @summary Creates or updates an AuthorizationRule for a Namespace.
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceAuthorizationRuleCreate.json
+ */
+
 import {
   AuthorizationRule,
   EventHubManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates an AuthorizationRule for a Namespace.
- *
- * @summary Creates or updates an AuthorizationRule for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceAuthorizationRuleCreate.json
- */
 async function nameSpaceAuthorizationRuleCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||

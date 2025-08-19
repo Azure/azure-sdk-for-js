@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NetworkManagementClient } from "@azure/arm-network-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the specified public IP address in a specified resource group.
  *
  * @summary Gets the specified public IP address in a specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2018-11-01/examples/PublicIpAddressGet.json
  */
+
+import { NetworkManagementClient } from "@azure/arm-network-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getPublicIPAddress(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

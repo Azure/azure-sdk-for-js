@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MariaDBManagementClient } from "@azure/arm-mariadb";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Lists all of the available REST API operations.
  *
  * @summary Lists all of the available REST API operations.
  * x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/OperationList.json
  */
+
+import { MariaDBManagementClient } from "@azure/arm-mariadb";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function operationList(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();

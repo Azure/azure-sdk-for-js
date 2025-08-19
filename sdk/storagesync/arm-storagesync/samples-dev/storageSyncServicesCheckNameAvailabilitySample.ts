@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CheckNameAvailabilityParameters } from "@azure/arm-storagesync";
-import { MicrosoftStorageSync } from "@azure/arm-storagesync";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Check the give namespace name availability.
  *
  * @summary Check the give namespace name availability.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/StorageSyncServiceCheckNameAvailability_AlreadyExists.json
  */
+
+import type { CheckNameAvailabilityParameters } from "@azure/arm-storagesync";
+import { MicrosoftStorageSync } from "@azure/arm-storagesync";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function storageSyncServiceCheckNameAvailabilityAlreadyExists(): Promise<void> {
   const subscriptionId = "5c6bc8e1-1eaf-4192-94d8-58ce463ac86c";
   const locationName = "westus";

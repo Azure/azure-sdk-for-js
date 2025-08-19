@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureQuantumManagementClient } from "@azure/arm-quantum";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns the list of all provider offerings available for the given location.
  *
  * @summary Returns the list of all provider offerings available for the given location.
  * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/offeringsList.json
  */
+
+import { AzureQuantumManagementClient } from "@azure/arm-quantum";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function offeringsList(): Promise<void> {
   const subscriptionId =
     process.env["QUANTUM_SUBSCRIPTION_ID"] || "1C4B2828-7D49-494F-933D-061373BE28C2";

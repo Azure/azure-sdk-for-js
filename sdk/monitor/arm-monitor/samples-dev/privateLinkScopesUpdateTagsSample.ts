@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsResource } from "@azure/arm-monitor";
-import { MonitorClient } from "@azure/arm-monitor";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
  *
  * @summary Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateLinkScopesUpdateTagsOnly.json
  */
+
+import type { TagsResource } from "@azure/arm-monitor";
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function privateLinkScopeUpdateTagsOnly(): Promise<void> {
   const subscriptionId = process.env["MONITOR_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "my-resource-group";

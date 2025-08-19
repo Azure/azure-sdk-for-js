@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { GovernanceRule } from "@azure/arm-security";
-import { SecurityCenter } from "@azure/arm-security";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a governance rule over a given scope
  *
  * @summary Creates or updates a governance rule over a given scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/PutManagementGroupGovernanceRule_example.json
  */
+
+import type { GovernanceRule } from "@azure/arm-security";
+import { SecurityCenter } from "@azure/arm-security";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateGovernanceRuleOverManagementGroupScope(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/contoso";
   const ruleId = "ad9a8e26-29d9-4829-bb30-e597a58cdbb8";

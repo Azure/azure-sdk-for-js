@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules.
+ *
+ * @summary Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayNatRulePut.json
+ */
+
 import type {
   VirtualNetworkGatewayNatRule} from "@azure/arm-network";
 import {
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules.
- *
- * @summary Creates a nat rule to a scalable virtual network gateway if it doesn't exist else updates the existing nat rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayNatRulePut.json
- */
 async function virtualNetworkGatewayNatRulePut(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
+ *
+ * @summary The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
+ */
+
 import {
   UpdateMobilityServiceRequest,
   SiteRecoveryManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
- *
- * @summary The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
- */
 async function updateTheMobilityServiceOnAProtectedItem(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Fetches the result of any operation.
  *
  * @summary Fetches the result of any operation.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/CancelJobOperationResult.json
  */
+
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function cancelJobOperationResult(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

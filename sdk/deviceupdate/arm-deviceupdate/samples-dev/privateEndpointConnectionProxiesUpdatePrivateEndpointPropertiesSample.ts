@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrivateEndpointUpdate } from "@azure/arm-deviceupdate";
-import { DeviceUpdate } from "@azure/arm-deviceupdate";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to (INTERNAL - DO NOT USE) Updates a private endpoint inside the private endpoint connection proxy object.
  *
  * @summary (INTERNAL - DO NOT USE) Updates a private endpoint inside the private endpoint connection proxy object.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_PrivateEndpointUpdate.json
  */
+
+import type { PrivateEndpointUpdate } from "@azure/arm-deviceupdate";
+import { DeviceUpdate } from "@azure/arm-deviceupdate";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function privateEndpointConnectionProxyPrivateEndpointUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

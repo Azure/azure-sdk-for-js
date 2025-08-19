@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Database } from "@azure/arm-mysql-flexible";
-import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a new database or updates an existing database.
  *
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Databases/preview/2023-06-01-preview/examples/DatabaseCreate.json
  */
+
+import type { Database } from "@azure/arm-mysql-flexible";
+import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createADatabase(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";

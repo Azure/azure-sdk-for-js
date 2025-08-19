@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PacketCapture } from "@azure/arm-mobilenetwork";
-import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a packet capture.
  *
  * @summary Creates or updates a packet capture.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCaptureCreate.json
  */
+
+import type { PacketCapture } from "@azure/arm-mobilenetwork";
+import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createPacketCapture(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

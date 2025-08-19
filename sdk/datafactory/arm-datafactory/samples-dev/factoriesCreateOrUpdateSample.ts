@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Factory, DataFactoryManagementClient } from "@azure/arm-datafactory";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a factory.
  *
  * @summary Creates or updates a factory.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Factories_CreateOrUpdate.json
  */
+
+import { Factory, DataFactoryManagementClient } from "@azure/arm-datafactory";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function factoriesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||

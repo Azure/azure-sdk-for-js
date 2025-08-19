@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  PatchManagementGroupRequest,
-  ManagementGroupsUpdateOptionalParams,
-} from "@azure/arm-managementgroups";
-import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Update a management group.
 
@@ -16,6 +9,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/PatchManagementGroup.json
  */
+
+import type {
+  PatchManagementGroupRequest,
+  ManagementGroupsUpdateOptionalParams,
+} from "@azure/arm-managementgroups";
+import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function patchManagementGroup(): Promise<void> {
   const groupId = "ChildGroup";
   const cacheControl = "no-cache";

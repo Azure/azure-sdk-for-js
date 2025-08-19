@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfigurationListResult } from "@azure/arm-mariadb";
-import { MariaDBManagementClient } from "@azure/arm-mariadb";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Update a list of configurations in a given server.
  *
  * @summary Update a list of configurations in a given server.
  * x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ConfigurationsUpdateByServer.json
  */
+
+import type { ConfigurationListResult } from "@azure/arm-mariadb";
+import { MariaDBManagementClient } from "@azure/arm-mariadb";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function configurationList(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "testrg";

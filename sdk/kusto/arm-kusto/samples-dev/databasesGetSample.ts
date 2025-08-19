@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KustoManagementClient } from "@azure/arm-kusto";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns a database.
  *
  * @summary Returns a database.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesGet.json
  */
+
+import { KustoManagementClient } from "@azure/arm-kusto";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function kustoDatabasesGet(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";

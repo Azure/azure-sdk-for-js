@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a Deployment. '.default' and '.unassigned' are system defined values and cannot be used for product or device group name.
  *
  * @summary Get a Deployment. '.default' and '.unassigned' are system defined values and cannot be used for product or device group name.
  * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/GetDeployment.json
  */
+
+import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deploymentsGet(): Promise<void> {
   const subscriptionId =
     process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

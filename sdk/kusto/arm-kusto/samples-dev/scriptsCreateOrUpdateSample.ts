@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Script } from "@azure/arm-kusto";
-import { KustoManagementClient } from "@azure/arm-kusto";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a Kusto database script.
  *
  * @summary Creates a Kusto database script.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoScriptsCreateOrUpdate.json
  */
+
+import type { Script } from "@azure/arm-kusto";
+import { KustoManagementClient } from "@azure/arm-kusto";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function kustoScriptsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";

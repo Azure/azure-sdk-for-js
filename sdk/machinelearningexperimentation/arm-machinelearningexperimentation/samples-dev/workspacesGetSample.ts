@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the properties of the specified machine learning workspace.
  *
  * @summary Gets the properties of the specified machine learning workspace.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/WorkspaceGet.json
  */
+
+import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function workspaceGet(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DestinationAsset } from "@azure/arm-machinelearning";
-import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Publish version asset into registry.
  *
  * @summary Publish version asset into registry.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/DataVersionBase/publish.json
  */
+
+import type { DestinationAsset } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function publishWorkspaceDataVersionBase(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";

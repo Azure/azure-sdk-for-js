@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PeeringManagementClient } from "@azure/arm-peering";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Lists all connection monitor tests under the given subscription, resource group and peering service.
  *
  * @summary Lists all connection monitor tests under the given subscription, resource group and peering service.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListConnectionMonitorTestsByPeeringService.json
  */
+
+import { PeeringManagementClient } from "@azure/arm-peering";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listAllConnectionMonitorTestsAssociatedWithThePeeringService(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";

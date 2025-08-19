@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { QueryRequest } from "@azure/arm-resourcegraph";
-import { ResourceGraphClient } from "@azure/arm-resourcegraph";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  *
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesPropertiesQuery.json
  */
+
+import type { QueryRequest } from "@azure/arm-resourcegraph";
+import { ResourceGraphClient } from "@azure/arm-resourcegraph";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function accessAPropertiesField(): Promise<void> {
   const query: QueryRequest = {
     query:

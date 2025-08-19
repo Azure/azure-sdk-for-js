@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GraphServices } from "@azure/arm-graphservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes a account resource.
  *
  * @summary Deletes a account resource.
  * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/stable/2023-04-13/examples/Accounts_Delete.json
  */
+
+import { GraphServices } from "@azure/arm-graphservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteAccountResource(): Promise<void> {
   const subscriptionId =
     process.env["GRAPHSERVICES_SUBSCRIPTION_ID"] || "11111111-aaaa-1111-bbbb-111111111111";

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Update the state of specified private endpoint connection associated with the container registry.
+ *
+ * @summary Update the state of specified private endpoint connection associated with the container registry.
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/PrivateEndpointConnectionCreateOrUpdate.json
+ */
+
 import {
   PrivateEndpointConnection,
   ContainerRegistryManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Update the state of specified private endpoint connection associated with the container registry.
- *
- * @summary Update the state of specified private endpoint connection associated with the container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/PrivateEndpointConnectionCreateOrUpdate.json
- */
 async function privateEndpointConnectionCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||

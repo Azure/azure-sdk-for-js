@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementClient } from "@azure/arm-mysql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Recommendation action session operation result.
  *
  * @summary Recommendation action session operation result.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2018-06-01/examples/RecommendedActionSessionResult.json
  */
+
+import { MySQLManagementClient } from "@azure/arm-mysql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function recommendedActionSessionResult(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "WestUS";

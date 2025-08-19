@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServerForCreate } from "@azure/arm-postgresql";
-import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates a new server, or will overwrite an existing server.
  *
  * @summary Creates a new server, or will overwrite an existing server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/ServerCreatePointInTimeRestore.json
  */
+
+import type { ServerForCreate } from "@azure/arm-postgresql";
+import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createADatabaseAsAPointInTimeRestore(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TargetResourceGroup";

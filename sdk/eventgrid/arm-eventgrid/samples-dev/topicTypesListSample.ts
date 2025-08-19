@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { EventGridManagementClient } from "@azure/arm-eventgrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List all registered topic types.
  *
  * @summary List all registered topic types.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/TopicTypes_List.json
  */
+
+import { EventGridManagementClient } from "@azure/arm-eventgrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function topicTypesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);

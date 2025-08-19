@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogClient } from "@azure/arm-datadog";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List Datadog marketplace agreements in the subscription.
  *
  * @summary List Datadog marketplace agreements in the subscription.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/MarketplaceAgreements_List.json
  */
+
+import { MicrosoftDatadogClient } from "@azure/arm-datadog";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function marketplaceAgreementsList(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

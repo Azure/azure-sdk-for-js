@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagementGroupSubscriptionsCreateOptionalParams } from "@azure/arm-managementgroups";
-import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Associates existing subscription with the management group.
 
@@ -13,6 +9,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/AddManagementGroupSubscription.json
  */
+
+import type { ManagementGroupSubscriptionsCreateOptionalParams } from "@azure/arm-managementgroups";
+import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function addSubscriptionToManagementGroup(): Promise<void> {
   const groupId = "Group";
   const subscriptionId = "728bcbe4-8d56-4510-86c2-4921b8beefbc";

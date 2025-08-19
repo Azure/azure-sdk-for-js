@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadsClient } from "@azure/arm-migrationdiscoverysap";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List the operations for the provider
  *
  * @summary List the operations for the provider
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/operations/preview/2023-10-01-preview/examples/Operations_List.json
  */
+
+import { WorkloadsClient } from "@azure/arm-migrationdiscoverysap";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listTheOperationsForTheProvider(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATIONDISCOVERY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

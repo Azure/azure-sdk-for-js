@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityInsights } from "@azure/arm-securityinsight";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets all data connectors.
  *
  * @summary Gets all data connectors.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/GetDataConnectors.json
  */
+
+import { SecurityInsights } from "@azure/arm-securityinsight";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getAllDataConnectors(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

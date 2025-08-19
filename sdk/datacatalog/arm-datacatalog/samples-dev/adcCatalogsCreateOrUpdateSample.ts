@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ADCCatalog } from "@azure/arm-datacatalog";
-import { DataCatalogRestClient } from "@azure/arm-datacatalog";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to The Create Azure Data Catalog service operation creates a new data catalog service with the specified parameters. If the specific service already exists, then any patchable properties will be updated and any immutable properties will remain unchanged.
  *
  * @summary The Create Azure Data Catalog service operation creates a new data catalog service with the specified parameters. If the specific service already exists, then any patchable properties will be updated and any immutable properties will remain unchanged.
  * x-ms-original-file: specification/datacatalog/resource-manager/Microsoft.DataCatalog/stable/2016-03-30/examples/CreateOrUpdateADCCatalog.json
  */
+
+import type { ADCCatalog } from "@azure/arm-datacatalog";
+import { DataCatalogRestClient } from "@azure/arm-datacatalog";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createAzureDataCatalogService(): Promise<void> {
   const subscriptionId = "12345678-1234-1234-12345678abc";
   const resourceGroupName = "exampleResourceGroup";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LogicManagementClient } from "@azure/arm-logic";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the managed Api operations.
  *
  * @summary Gets the managed Api operations.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/IntegrationServiceEnvironments_ManagedApis_ListApiOperations.json
  */
+
+import { LogicManagementClient } from "@azure/arm-logic";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getsTheIntegrationServiceEnvironmentManagedApis(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "80d4fe69-c95b-4dd2-a938-9250f1c8ab03";

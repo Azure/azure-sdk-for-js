@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to List all the performance tiers for a PostgreSQL server.
  *
  * @summary List all the performance tiers for a PostgreSQL server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/PerformanceTiersListByServer.json
  */
+
+import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function performanceTiersList(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TestGroup";

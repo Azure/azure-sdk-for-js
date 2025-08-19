@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PeeringManagementClient } from "@azure/arm-peering";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets an existing registered prefix with the specified name under the given subscription, resource group and peering.
  *
  * @summary Gets an existing registered prefix with the specified name under the given subscription, resource group and peering.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/GetRegisteredPrefix.json
  */
+
+import { PeeringManagementClient } from "@azure/arm-peering";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getARegisteredPrefixAssociatedWithThePeering(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";

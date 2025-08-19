@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates Vault encryption config.
+ *
+ * @summary Updates Vault encryption config.
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/BackupResourceEncryptionConfig_Put.json
+ */
+
 import {
   BackupResourceEncryptionConfigResource,
   RecoveryServicesBackupClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates Vault encryption config.
- *
- * @summary Updates Vault encryption config.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/BackupResourceEncryptionConfig_Put.json
- */
 async function updateVaultEncryptionConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

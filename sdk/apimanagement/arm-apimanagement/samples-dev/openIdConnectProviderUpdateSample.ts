@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates the specific OpenID Connect Provider.
+ *
+ * @summary Updates the specific OpenID Connect Provider.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateOpenIdConnectProvider.json
+ */
+
 import {
   OpenidConnectProviderUpdateContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates the specific OpenID Connect Provider.
- *
- * @summary Updates the specific OpenID Connect Provider.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateOpenIdConnectProvider.json
- */
 async function apiManagementUpdateOpenIdConnectProvider(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

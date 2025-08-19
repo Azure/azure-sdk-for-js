@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PurviewManagementClient } from "@azure/arm-purview";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets a list of privately linkable resources for an account
  *
  * @summary Gets a list of privately linkable resources for an account
  * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/PrivateLinkResources_ListByAccount.json
  */
+
+import { PurviewManagementClient } from "@azure/arm-purview";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function privateLinkResourcesListByAccount(): Promise<void> {
   const subscriptionId = "12345678-1234-1234-12345678abc";
   const resourceGroupName = "SampleResourceGroup";

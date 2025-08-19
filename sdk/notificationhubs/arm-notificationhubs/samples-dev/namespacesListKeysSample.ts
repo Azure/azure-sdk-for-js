@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the Primary and Secondary ConnectionStrings to the namespace.
  *
  * @summary Gets the Primary and Secondary ConnectionStrings to the namespace.
  * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/Namespaces/AuthorizationRuleListKeys.json
  */
+
+import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function namespacesListKeys(): Promise<void> {
   const subscriptionId =
     process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] || "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";

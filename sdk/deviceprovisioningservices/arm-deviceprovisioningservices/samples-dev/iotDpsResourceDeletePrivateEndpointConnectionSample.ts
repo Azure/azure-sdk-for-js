@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete private endpoint connection with the specified name
  *
  * @summary Delete private endpoint connection with the specified name
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSDeletePrivateEndpointConnection.json
  */
+
+import { IotDpsClient } from "@azure/arm-deviceprovisioningservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function privateEndpointConnectionDelete(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||

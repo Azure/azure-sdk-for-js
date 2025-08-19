@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates the specified compute policy.
+ *
+ * @summary Updates the specified compute policy.
+ * x-ms-original-file: specification/datalake-analytics/resource-manager/Microsoft.DataLakeAnalytics/preview/2019-11-01-preview/examples/ComputePolicies_Update.json
+ */
+
 import type {
   UpdateComputePolicyParameters,
   ComputePoliciesUpdateOptionalParams,
@@ -8,12 +15,6 @@ import type {
 import { DataLakeAnalyticsAccountManagementClient } from "@azure/arm-datalake-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
-/**
- * This sample demonstrates how to Updates the specified compute policy.
- *
- * @summary Updates the specified compute policy.
- * x-ms-original-file: specification/datalake-analytics/resource-manager/Microsoft.DataLakeAnalytics/preview/2019-11-01-preview/examples/ComputePolicies_Update.json
- */
 async function updatesTheSpecifiedComputePolicy(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = "contosorg";

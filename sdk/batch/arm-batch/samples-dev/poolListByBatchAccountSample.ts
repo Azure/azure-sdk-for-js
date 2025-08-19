@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PoolListByBatchAccountOptionalParams } from "@azure/arm-batch";
-import { BatchManagementClient } from "@azure/arm-batch";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all of the pools in the specified account.
  *
  * @summary Lists all of the pools in the specified account.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/PoolList.json
  */
+
+import type { PoolListByBatchAccountOptionalParams } from "@azure/arm-batch";
+import { BatchManagementClient } from "@azure/arm-batch";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listPool(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";

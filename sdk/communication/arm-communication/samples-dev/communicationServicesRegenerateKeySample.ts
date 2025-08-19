@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RegenerateKeyParameters } from "@azure/arm-communication";
-import { CommunicationServiceManagementClient } from "@azure/arm-communication";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
  *
  * @summary Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at the same time.
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/regenerateKey.json
  */
+
+import type { RegenerateKeyParameters } from "@azure/arm-communication";
+import { CommunicationServiceManagementClient } from "@azure/arm-communication";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function regenerateKey(): Promise<void> {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "11112222-3333-4444-5555-666677778888";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenter } from "@azure/arm-security";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a specific governance rule for the requested scope by ruleId
  *
  * @summary Get a specific governance rule for the requested scope by ruleId
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceRules/GetManagementGroupGovernanceRule_example.json
  */
+
+import { SecurityCenter } from "@azure/arm-security";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getAGovernanceRuleOverManagementGroupScope(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/contoso";
   const ruleId = "ad9a8e26-29d9-4829-bb30-e597a58cdbb8";

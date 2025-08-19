@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List PreRulesResource resources by Tenant
  *
  * @summary List PreRulesResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_List_MaximumSet_Gen.json
  */
+
+import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function preRulesListMaximumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();

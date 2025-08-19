@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LogicManagementClient } from "@azure/arm-logic";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets an OpenAPI definition for the workflow.
  *
  * @summary Gets an OpenAPI definition for the workflow.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/Workflows_ListSwagger.json
  */
+
+import { LogicManagementClient } from "@azure/arm-logic";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getTheSwaggerForAWorkflow(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

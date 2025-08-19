@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
+ *
+ * @summary Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
+ * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/DnsResolverDomainList_BulkDownload.json
+ */
+
 import {
   DnsResolverDomainListBulk,
   DnsResolverManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
- *
- * @summary Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link.
- * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/stable/2025-05-01/examples/DnsResolverDomainList_BulkDownload.json
- */
 async function downloadDnsResolverDomainListDomains(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||

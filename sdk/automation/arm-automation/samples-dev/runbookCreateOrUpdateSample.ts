@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RunbookCreateOrUpdateParameters } from "@azure/arm-automation";
-import { AutomationClient } from "@azure/arm-automation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create the runbook identified by runbook name.
  *
  * @summary Create the runbook identified by runbook name.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2018-06-30/examples/createOrUpdateRunbook.json
  */
+
+import type { RunbookCreateOrUpdateParameters } from "@azure/arm-automation";
+import { AutomationClient } from "@azure/arm-automation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateRunbookAndPublishIt(): Promise<void> {
   const subscriptionId = process.env["AUTOMATION_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "rg";

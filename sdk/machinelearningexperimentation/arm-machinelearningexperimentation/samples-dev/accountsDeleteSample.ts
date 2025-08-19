@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes a machine learning team account.
  *
  * @summary Deletes a machine learning team account.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/DeleteAccount.json
  */
+
+import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function accountDelete(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||

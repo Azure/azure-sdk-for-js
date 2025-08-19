@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AdvisorManagementClient } from "@azure/arm-advisor";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the list of metadata entities.
  *
  * @summary Gets the list of metadata entities.
  * x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListRecommendationMetadata.json
  */
+
+import { AdvisorManagementClient } from "@azure/arm-advisor";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getMetadata(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new AdvisorManagementClient(credential);

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftVoiceServices } from "@azure/arm-voiceservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a TestLine
  *
  * @summary Get a TestLine
  * x-ms-original-file: specification/voiceservices/resource-manager/Microsoft.VoiceServices/stable/2023-01-31/examples/TestLines_Get.json
  */
+
+import { MicrosoftVoiceServices } from "@azure/arm-voiceservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getTestLineResource(): Promise<void> {
   const subscriptionId =
     process.env["VOICESERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

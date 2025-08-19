@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClustersUpdateParameters } from "@azure-rest/arm-servicefabric";
-import ServiceFabricManagementClient, { getLongRunningPoller } from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Update the configuration of a Service Fabric cluster resource with the specified name.
  *
  * @summary Update the configuration of a Service Fabric cluster resource with the specified name.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterPatchOperation_example.json
  */
+
+import type { ClustersUpdateParameters } from "@azure-rest/arm-servicefabric";
+import ServiceFabricManagementClient, { getLongRunningPoller } from "@azure-rest/arm-servicefabric";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function patchACluster(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";

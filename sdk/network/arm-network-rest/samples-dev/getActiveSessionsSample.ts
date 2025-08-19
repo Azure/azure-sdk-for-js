@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Returns the list of currently active sessions on the Bastion.
+ *
+ * @summary Returns the list of currently active sessions on the Bastion.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/BastionSessionsList.json
+ */
+
 import type { GetActiveSessionsParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, {
   // getLongRunningPoller,
@@ -9,12 +16,6 @@ import createNetworkManagementClient, {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Returns the list of currently active sessions on the Bastion.
- *
- * @summary Returns the list of currently active sessions on the Bastion.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/BastionSessionsList.json
- */
 async function returnsAListOfCurrentlyActiveSessionsOnTheBastion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

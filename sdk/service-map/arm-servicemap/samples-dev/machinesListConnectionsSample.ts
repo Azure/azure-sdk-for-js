@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MachinesListConnectionsOptionalParams } from "@azure/arm-servicemap";
-import { ServiceMap } from "@azure/arm-servicemap";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns a collection of connections terminating or originating at the specified machine
  *
  * @summary Returns a collection of connections terminating or originating at the specified machine
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/Machines/SMMachinesListConnectionsGet.json
  */
+
+import type { MachinesListConnectionsOptionalParams } from "@azure/arm-servicemap";
+import { ServiceMap } from "@azure/arm-servicemap";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function smMachinesListConnectionsGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICE-MAP_SUBSCRIPTION_ID"] || "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";

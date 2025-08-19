@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataFactoryManagementClient } from "@azure/arm-datafactory";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Retrieves the authentication keys for an integration runtime.
  *
  * @summary Retrieves the authentication keys for an integration runtime.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_ListAuthKeys.json
  */
+
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function integrationRuntimesListAuthKeys(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||

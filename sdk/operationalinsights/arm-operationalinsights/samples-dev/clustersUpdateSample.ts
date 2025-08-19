@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClusterPatch } from "@azure/arm-operationalinsights";
-import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates a Log Analytics cluster.
  *
  * @summary Updates a Log Analytics cluster.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersUpdate.json
  */
+
+import type { ClusterPatch } from "@azure/arm-operationalinsights";
+import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function clustersPatch(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMigrateAssessmentService } from "@azure/arm-migrationassessment";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a AssessedSqlDatabaseV2
  *
  * @summary Get a AssessedSqlDatabaseV2
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/AssessmentProjects/stable/2023-03-15/examples/AssessedSqlDatabaseV2Operations_Get_MaximumSet_Gen.json
  */
+
+import { AzureMigrateAssessmentService } from "@azure/arm-migrationassessment";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function assessedSqlDatabaseV2OperationsGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] ||

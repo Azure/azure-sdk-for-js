@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SoftwareUpdateConfigurationsListOptionalParams } from "@azure/arm-automation";
-import { AutomationClient } from "@azure/arm-automation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get all software update configurations for the account.
  *
  * @summary Get all software update configurations for the account.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfiguration/listSoftwareUpdateConfigurations.json
  */
+
+import type { SoftwareUpdateConfigurationsListOptionalParams } from "@azure/arm-automation";
+import { AutomationClient } from "@azure/arm-automation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listSoftwareUpdateConfigurations(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] || "1a7d4044-286c-4acb-969a-96639265bf2e";

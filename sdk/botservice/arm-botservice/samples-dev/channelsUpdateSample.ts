@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates a Channel registration for a Bot Service
+ *
+ * @summary Updates a Channel registration for a Bot Service
+ * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateAlexaChannel.json
+ */
+
 import type {
   ChannelsUpdateOptionalParams,
   EmailChannel,
@@ -12,12 +19,6 @@ import { AzureBotService } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates a Channel registration for a Bot Service
- *
- * @summary Updates a Channel registration for a Bot Service
- * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/UpdateAlexaChannel.json
- */
 async function updateAlexaChannel(): Promise<void> {
   const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";

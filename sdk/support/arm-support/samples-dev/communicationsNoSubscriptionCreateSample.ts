@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommunicationDetails } from "@azure/arm-support";
-import { MicrosoftSupport } from "@azure/arm-support";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Adds a new customer communication to an Azure support ticket.
  *
  * @summary Adds a new customer communication to an Azure support ticket.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/CreateNoSubscriptionSupportTicketCommunication.json
  */
+
+import type { CommunicationDetails } from "@azure/arm-support";
+import { MicrosoftSupport } from "@azure/arm-support";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function addCommunicationToNoSubscriptionTicket(): Promise<void> {
   const supportTicketName = "testticket";
   const communicationName = "testcommunication";

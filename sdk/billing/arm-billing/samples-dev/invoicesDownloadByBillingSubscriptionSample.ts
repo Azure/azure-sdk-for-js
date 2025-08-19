@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { InvoicesDownloadByBillingSubscriptionOptionalParams } from "@azure/arm-billing";
-import { BillingManagementClient } from "@azure/arm-billing";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets a URL to download an invoice by billing subscription. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
  *
  * @summary Gets a URL to download an invoice by billing subscription. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/invoicesDownloadByBillingSubscription.json
  */
+
+import type { InvoicesDownloadByBillingSubscriptionOptionalParams } from "@azure/arm-billing";
+import { BillingManagementClient } from "@azure/arm-billing";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function invoicesDownloadByBillingSubscription(): Promise<void> {
   const subscriptionId =
     process.env["BILLING_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

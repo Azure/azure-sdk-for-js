@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete a PostRulesResource
  *
  * @summary Delete a PostRulesResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_Delete_MaximumSet_Gen.json
  */
+
+import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function postRulesDeleteMaximumSetGen(): Promise<void> {
   const globalRulestackName = "lrs1";
   const priority = "1";

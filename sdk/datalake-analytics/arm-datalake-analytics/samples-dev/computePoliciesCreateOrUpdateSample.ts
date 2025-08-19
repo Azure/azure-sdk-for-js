@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CreateOrUpdateComputePolicyParameters } from "@azure/arm-datalake-analytics";
-import { DataLakeAnalyticsAccountManagementClient } from "@azure/arm-datalake-analytics";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates or updates the specified compute policy. During update, the compute policy with the specified name will be replaced with this new compute policy. An account supports, at most, 50 policies
  *
  * @summary Creates or updates the specified compute policy. During update, the compute policy with the specified name will be replaced with this new compute policy. An account supports, at most, 50 policies
  * x-ms-original-file: specification/datalake-analytics/resource-manager/Microsoft.DataLakeAnalytics/preview/2019-11-01-preview/examples/ComputePolicies_CreateOrUpdate.json
  */
+
+import type { CreateOrUpdateComputePolicyParameters } from "@azure/arm-datalake-analytics";
+import { DataLakeAnalyticsAccountManagementClient } from "@azure/arm-datalake-analytics";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createsOrUpdatesTheSpecifiedComputePolicy(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = "contosorg";

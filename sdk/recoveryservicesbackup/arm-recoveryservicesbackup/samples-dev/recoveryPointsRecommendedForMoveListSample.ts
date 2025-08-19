@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Lists the recovery points recommended for move to another tier
+ *
+ * @summary Lists the recovery points recommended for move to another tier
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
+ */
+
 import {
   ListRecoveryPointsRecommendedForMoveRequest,
   RecoveryServicesBackupClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Lists the recovery points recommended for move to another tier
- *
- * @summary Lists the recovery points recommended for move to another tier
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/RecoveryPointsRecommendedForMove_List.json
- */
 async function getProtectedAzureVMRecoveryPointsRecommendedForMove(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

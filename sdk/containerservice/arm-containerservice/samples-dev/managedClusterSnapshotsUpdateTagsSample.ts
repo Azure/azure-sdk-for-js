@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Updates tags on a managed cluster snapshot.
+ *
+ * @summary Updates tags on a managed cluster snapshot.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-05-02-preview/examples/ManagedClusterSnapshotsUpdateTags.json
+ */
+
 import type {
   TagsObject} from "@azure/arm-containerservice";
 import {
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates tags on a managed cluster snapshot.
- *
- * @summary Updates tags on a managed cluster snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-05-02-preview/examples/ManagedClusterSnapshotsUpdateTags.json
- */
 async function updateManagedClusterSnapshotTags(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventHubManagementClient } from "@azure/arm-eventhub";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the resource description of the specified Event Hubs Cluster.
  *
  * @summary Gets the resource description of the specified Event Hubs Cluster.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/Clusters/ClusterGet.json
  */
+
+import { EventHubManagementClient } from "@azure/arm-eventhub";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function clusterGet(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QumuloStorage } from "@azure/arm-qumulo";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List the operations for the provider
  *
  * @summary List the operations for the provider
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/Operations_List_MaximumSet_Gen.json
  */
+
+import { QumuloStorage } from "@azure/arm-qumulo";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function operationsList(): Promise<void> {
   const subscriptionId =
     process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

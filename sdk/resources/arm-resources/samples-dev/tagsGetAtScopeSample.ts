@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ResourceManagementClient } from "@azure/arm-resources";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the entire set of tags on a resource or subscription.
  *
  * @summary Gets the entire set of tags on a resource or subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2025-04-01/examples/GetTagsResource.json
  */
+
+import { ResourceManagementClient } from "@azure/arm-resources";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getTagsOnAResource(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/my-resource-group/providers/myPRNameSpace/VM/myVm";

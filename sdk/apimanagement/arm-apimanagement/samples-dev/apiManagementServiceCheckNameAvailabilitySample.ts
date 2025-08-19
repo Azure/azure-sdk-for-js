@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Checks availability and correctness of a name for an API Management service.
+ *
+ * @summary Checks availability and correctness of a name for an API Management service.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementServiceCheckNameAvailability.json
+ */
+
 import {
   ApiManagementServiceCheckNameAvailabilityParameters,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Checks availability and correctness of a name for an API Management service.
- *
- * @summary Checks availability and correctness of a name for an API Management service.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementServiceCheckNameAvailability.json
- */
 async function apiManagementServiceCheckNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

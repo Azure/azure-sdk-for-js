@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HealthcareApisManagementClient } from "@azure/arm-healthcareapis";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the operation result for a long running operation.
  *
  * @summary Get the operation result for a long running operation.
  * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/OperationResultsGet.json
  */
+
+import { HealthcareApisManagementClient } from "@azure/arm-healthcareapis";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getOperationResult(): Promise<void> {
   const subscriptionId = process.env["HEALTHCAREAPIS_SUBSCRIPTION_ID"] || "subid";
   const locationName = "westus";

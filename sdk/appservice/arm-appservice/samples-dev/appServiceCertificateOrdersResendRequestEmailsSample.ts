@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NameIdentifier, WebSiteManagementClient } from "@azure/arm-appservice";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order
  *
  * @summary Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order
  * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-11-01/examples/ResendDomainOwnershipVerificationEmail.json
  */
+
+import { NameIdentifier, WebSiteManagementClient } from "@azure/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function resendDomainOwnershipVerificationEmail(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

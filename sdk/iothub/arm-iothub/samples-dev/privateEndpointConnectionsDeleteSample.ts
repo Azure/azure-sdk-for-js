@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IotHubClient } from "@azure/arm-iothub";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete private endpoint connection with the specified name
  *
  * @summary Delete private endpoint connection with the specified name
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/iothub_deleteprivateendpointconnection.json
  */
+
+import { IotHubClient } from "@azure/arm-iothub";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function privateEndpointConnectionDelete(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";

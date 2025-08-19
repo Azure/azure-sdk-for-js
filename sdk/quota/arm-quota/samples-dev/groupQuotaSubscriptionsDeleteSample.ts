@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Removes the subscription from GroupQuotas. The request's TenantId is validated against the subscription's TenantId.
  *
  * @summary Removes the subscription from GroupQuotas. The request's TenantId is validated against the subscription's TenantId.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2025-03-01/examples/GroupQuotasSubscriptions/DeleteGroupQuotaSubscriptions.json
  */
+
+import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function groupQuotaSubscriptionsDeleteSubscriptions(): Promise<void> {
   const subscriptionId =
     process.env["QUOTA_SUBSCRIPTION_ID"] ||

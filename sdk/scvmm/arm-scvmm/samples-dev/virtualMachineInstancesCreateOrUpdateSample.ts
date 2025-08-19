@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VirtualMachineInstance } from "@azure/arm-scvmm";
-import { ScVmm } from "@azure/arm-scvmm";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  *
  * @summary The operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_CreateOrUpdate_MaximumSet_Gen.json
  */
+
+import type { VirtualMachineInstance } from "@azure/arm-scvmm";
+import { ScVmm } from "@azure/arm-scvmm";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualMachineInstancesCreateOrUpdateMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const resource: VirtualMachineInstance = {

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComponentPolicyStatesListQueryResultsForResourceOptionalParams } from "@azure/arm-policyinsights";
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Queries component policy states for the resource.
  *
  * @summary Queries component policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceScopeFilterByComponentId.json
  */
+
+import type { ComponentPolicyStatesListQueryResultsForResourceOptionalParams } from "@azure/arm-policyinsights";
+import { PolicyInsightsClient } from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function queryLatestComponentPolicyComplianceStateAtResourceScopeFilteredByGivenComponentId(): Promise<void> {
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServerForCreate } from "@azure/arm-mariadb";
-import { MariaDBManagementClient } from "@azure/arm-mariadb";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
  *
  * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
  * x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerCreatePointInTimeRestore.json
  */
+
+import type { ServerForCreate } from "@azure/arm-mariadb";
+import { MariaDBManagementClient } from "@azure/arm-mariadb";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createADatabaseAsAPointInTimeRestore(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TargetResourceGroup";

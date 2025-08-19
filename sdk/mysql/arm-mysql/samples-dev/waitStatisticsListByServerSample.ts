@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WaitStatisticsInput } from "@azure/arm-mysql";
-import { MySQLManagementClient } from "@azure/arm-mysql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Retrieve wait statistics for specified aggregation window.
  *
  * @summary Retrieve wait statistics for specified aggregation window.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2018-06-01/examples/WaitStatisticsListByServer.json
  */
+
+import type { WaitStatisticsInput } from "@azure/arm-mysql";
+import { MySQLManagementClient } from "@azure/arm-mysql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function waitStatisticsListByServer(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "testResourceGroupName";

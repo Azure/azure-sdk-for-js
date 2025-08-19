@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PeerAsn } from "@azure/arm-peering";
-import { PeeringManagementClient } from "@azure/arm-peering";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription.
  *
  * @summary Creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreatePeerAsn.json
  */
+
+import type { PeerAsn } from "@azure/arm-peering";
+import { PeeringManagementClient } from "@azure/arm-peering";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createAPeerAsn(): Promise<void> {
   const subscriptionId = "subId";
   const peerAsnName = "peerAsnName";

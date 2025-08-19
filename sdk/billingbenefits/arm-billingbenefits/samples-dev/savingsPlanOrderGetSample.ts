@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SavingsPlanOrderGetOptionalParams } from "@azure/arm-billingbenefits";
-import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Get a savings plan order.
  *
  * @summary Get a savings plan order.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/SavingsPlanOrderGet.json
  */
+
+import type { SavingsPlanOrderGetOptionalParams } from "@azure/arm-billingbenefits";
+import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function savingsPlanOrderGet(): Promise<void> {
   const savingsPlanOrderId = "20000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();

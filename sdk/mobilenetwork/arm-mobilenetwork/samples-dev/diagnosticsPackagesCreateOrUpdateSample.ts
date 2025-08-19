@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a diagnostics package.
  *
  * @summary Creates or updates a diagnostics package.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/DiagnosticsPackageCreate.json
  */
+
+import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createDiagnosticsPackage(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

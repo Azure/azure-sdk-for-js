@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Cloud } from "@azure/arm-scvmm";
-import { ScVmm } from "@azure/arm-scvmm";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Onboards the ScVmm fabric cloud as an Azure cloud resource.
  *
  * @summary Onboards the ScVmm fabric cloud as an Azure cloud resource.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/Clouds_CreateOrUpdate_MaximumSet_Gen.json
  */
+
+import type { Cloud } from "@azure/arm-scvmm";
+import { ScVmm } from "@azure/arm-scvmm";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function cloudsCreateOrUpdateMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";

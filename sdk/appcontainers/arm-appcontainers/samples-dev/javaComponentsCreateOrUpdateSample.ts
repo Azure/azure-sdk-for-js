@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates or updates a Java Component in a Managed Environment.
+ *
+ * @summary Creates or updates a Java Component in a Managed Environment.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/JavaComponents_CreateOrUpdate.json
+ */
+
 import {
   JavaComponent,
   ContainerAppsAPIClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates a Java Component in a Managed Environment.
- *
- * @summary Creates or updates a Java Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/JavaComponents_CreateOrUpdate.json
- */
 async function createOrUpdateJavaComponent(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||

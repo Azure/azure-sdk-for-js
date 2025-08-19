@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to The List operation gets information about the vaults associated with the subscription.
+ *
+ * @summary The List operation gets information about the vaults associated with the subscription.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/listVaultBySubscription.json
+ */
+
 import {
   VaultsListBySubscriptionOptionalParams,
   KeyVaultManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to The List operation gets information about the vaults associated with the subscription.
- *
- * @summary The List operation gets information about the vaults associated with the subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/listVaultBySubscription.json
- */
 async function listVaultsInTheSpecifiedSubscription(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||

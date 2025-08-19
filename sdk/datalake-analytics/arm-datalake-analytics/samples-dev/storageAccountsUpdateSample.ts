@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates the Data Lake Analytics account to replace Azure Storage blob account details, such as the access key and/or suffix.
+ *
+ * @summary Updates the Data Lake Analytics account to replace Azure Storage blob account details, such as the access key and/or suffix.
+ * x-ms-original-file: specification/datalake-analytics/resource-manager/Microsoft.DataLakeAnalytics/preview/2019-11-01-preview/examples/StorageAccounts_Update.json
+ */
+
 import type {
   UpdateStorageAccountParameters,
   StorageAccountsUpdateOptionalParams,
@@ -8,12 +15,6 @@ import type {
 import { DataLakeAnalyticsAccountManagementClient } from "@azure/arm-datalake-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
-/**
- * This sample demonstrates how to Updates the Data Lake Analytics account to replace Azure Storage blob account details, such as the access key and/or suffix.
- *
- * @summary Updates the Data Lake Analytics account to replace Azure Storage blob account details, such as the access key and/or suffix.
- * x-ms-original-file: specification/datalake-analytics/resource-manager/Microsoft.DataLakeAnalytics/preview/2019-11-01-preview/examples/StorageAccounts_Update.json
- */
 async function replacesAzureStorageBlobAccountDetails(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = "contosorg";

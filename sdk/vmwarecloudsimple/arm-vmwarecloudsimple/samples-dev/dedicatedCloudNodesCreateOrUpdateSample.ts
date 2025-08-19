@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DedicatedCloudNode } from "@azure/arm-vmwarecloudsimple";
-import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns dedicated cloud node by its name
  *
  * @summary Returns dedicated cloud node by its name
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/CreateDedicatedCloudNode.json
  */
+
+import type { DedicatedCloudNode } from "@azure/arm-vmwarecloudsimple";
+import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createDedicatedCloudNode(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";

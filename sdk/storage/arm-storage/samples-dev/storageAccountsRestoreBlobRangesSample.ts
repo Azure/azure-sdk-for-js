@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Restore blobs in the specified blob ranges
+ *
+ * @summary Restore blobs in the specified blob ranges
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobRangesRestore.json
+ */
+
 import {
   BlobRestoreParameters,
   StorageManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Restore blobs in the specified blob ranges
- *
- * @summary Restore blobs in the specified blob ranges
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobRangesRestore.json
- */
 async function blobRangesRestore(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

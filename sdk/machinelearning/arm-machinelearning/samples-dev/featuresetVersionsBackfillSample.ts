@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FeaturesetVersionBackfillRequest } from "@azure/arm-machinelearning";
-import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Backfill.
  *
  * @summary Backfill.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/FeaturesetVersion/backfill.json
  */
+
+import type { FeaturesetVersionBackfillRequest } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function backfillWorkspaceFeaturesetVersion(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";

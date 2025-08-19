@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
+ *
+ * @summary Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
+ * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesSearch.json
+ */
+
 import type {
   LogAnalyticsQueryPackQuerySearchProperties,
   QueriesSearchOptionalParams,
@@ -9,12 +16,6 @@ import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsig
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
- *
- * @summary Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
- * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesSearch.json
- */
 async function querySearch(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "86dc51d3-92ed-4d7e-947a-775ea79b4918";

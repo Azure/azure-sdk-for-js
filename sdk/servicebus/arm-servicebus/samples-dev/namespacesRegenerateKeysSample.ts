@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RegenerateAccessKeyParameters } from "@azure/arm-servicebus";
-import { ServiceBusManagementClient } from "@azure/arm-servicebus";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Regenerates the primary or secondary connection strings for the namespace.
  *
  * @summary Regenerates the primary or secondary connection strings for the namespace.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/SBNameSpaceAuthorizationRuleRegenerateKey.json
  */
+
+import type { RegenerateAccessKeyParameters } from "@azure/arm-servicebus";
+import { ServiceBusManagementClient } from "@azure/arm-servicebus";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function nameSpaceAuthorizationRuleRegenerateKey(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "5f750a97-50d9-4e36-8081-c9ee4c0210d4";

@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  CreateManagementGroupRequest,
-  ManagementGroupsCreateOrUpdateOptionalParams,
-} from "@azure/arm-managementgroups";
-import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Create or update a management group.
 If a management group is already created and a subsequent create request is issued with different properties, the management group properties will be updated.
@@ -18,6 +11,14 @@ If a management group is already created and a subsequent create request is issu
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/PutManagementGroup.json
  */
+
+import type {
+  CreateManagementGroupRequest,
+  ManagementGroupsCreateOrUpdateOptionalParams,
+} from "@azure/arm-managementgroups";
+import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function putManagementGroup(): Promise<void> {
   const groupId = "ChildGroup";
   const cacheControl = "no-cache";

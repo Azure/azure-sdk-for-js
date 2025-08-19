@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClusterForUpdate } from "@azure/arm-cosmosdbforpostgresql";
-import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  *
  * @summary Updates an existing cluster. The request body can contain one or several properties from the cluster definition.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterScaleCompute.json
  */
+
+import type { ClusterForUpdate } from "@azure/arm-cosmosdbforpostgresql";
+import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function scaleComputeUpOrDown(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";

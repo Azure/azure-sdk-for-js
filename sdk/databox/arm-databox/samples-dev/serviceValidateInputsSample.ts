@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to This method does all necessary pre-job creation validation under subscription.
+ *
+ * @summary This method does all necessary pre-job creation validation under subscription.
+ * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/ValidateInputs.json
+ */
+
 import {
   CreateJobValidations,
   DataBoxManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to This method does all necessary pre-job creation validation under subscription.
- *
- * @summary This method does all necessary pre-job creation validation under subscription.
- * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/ValidateInputs.json
- */
 async function validateInputs(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";

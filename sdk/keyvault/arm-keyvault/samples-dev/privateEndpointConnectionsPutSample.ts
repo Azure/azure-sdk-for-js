@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates the specified private endpoint connection associated with the key vault.
+ *
+ * @summary Updates the specified private endpoint connection associated with the key vault.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/putPrivateEndpointConnection.json
+ */
+
 import {
   PrivateEndpointConnection,
   KeyVaultManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates the specified private endpoint connection associated with the key vault.
- *
- * @summary Updates the specified private endpoint connection associated with the key vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/putPrivateEndpointConnection.json
- */
 async function keyVaultPutPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||

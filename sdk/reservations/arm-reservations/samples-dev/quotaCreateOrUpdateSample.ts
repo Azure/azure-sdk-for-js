@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CurrentQuotaLimitBase } from "@azure/arm-reservations";
-import { AzureReservationAPI } from "@azure/arm-reservations";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update the quota (service limits) of a resource to the requested value.
  Steps:
@@ -22,6 +17,12 @@ import "dotenv/config";
   The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putComputeOneSkuQuotaRequest.json
  */
+
+import type { CurrentQuotaLimitBase } from "@azure/arm-reservations";
+import { AzureReservationAPI } from "@azure/arm-reservations";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function quotasRequestPutForCompute(): Promise<void> {
   const subscriptionId = "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3";
   const providerId = "Microsoft.Compute";

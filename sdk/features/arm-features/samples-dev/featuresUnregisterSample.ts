@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FeatureClient } from "@azure/arm-features";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Unregisters the preview feature for the subscription.
  *
  * @summary Unregisters the preview feature for the subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/examples/unregisterFeature.json
  */
+
+import { FeatureClient } from "@azure/arm-features";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function registerFeature(): Promise<void> {
   const subscriptionId = "ff23096b-f5a2-46ea-bd62-59c3e93fef9a";
   const resourceProviderNamespace = "Resource Provider Namespace";

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS changes.
+ *
+ * @summary Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS changes.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementApplyNetworkConfigurationUpdates.json
+ */
+
 import {
   ApiManagementServiceApplyNetworkConfigurationParameters,
   ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams,
@@ -9,12 +16,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS changes.
- *
- * @summary Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS changes.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementApplyNetworkConfigurationUpdates.json
- */
 async function apiManagementApplyNetworkConfigurationUpdates(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

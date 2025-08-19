@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CheckNameAvailability } from "@azure/arm-servicebus";
-import { ServiceBusManagementClient } from "@azure/arm-servicebus";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Check the give namespace name availability.
  *
  * @summary Check the give namespace name availability.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/SBAliasCheckNameAvailability.json
  */
+
+import type { CheckNameAvailability } from "@azure/arm-servicebus";
+import { ServiceBusManagementClient } from "@azure/arm-servicebus";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function aliasNameAvailability(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "exampleResourceGroup";

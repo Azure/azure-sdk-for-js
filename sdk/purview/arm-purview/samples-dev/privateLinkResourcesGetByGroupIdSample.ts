@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PurviewManagementClient } from "@azure/arm-purview";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets a privately linkable resources for an account with given group identifier
  *
  * @summary Gets a privately linkable resources for an account with given group identifier
  * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/PrivateLinkResources_GetByGroupId.json
  */
+
+import { PurviewManagementClient } from "@azure/arm-purview";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function privateLinkResourcesGetByGroupId(): Promise<void> {
   const subscriptionId = "12345678-1234-1234-12345678abc";
   const resourceGroupName = "SampleResourceGroup";

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all of the available API operations for Connected Cluster resource.
  *
  * @summary Lists all of the available API operations for Connected Cluster resource.
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/preview/2024-12-01-preview/examples/ListConnectedClusterOperationsExample.json
  */
+
+import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listConnectedClusterOperationsExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConnectedKubernetesClient(credential);

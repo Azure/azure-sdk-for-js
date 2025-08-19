@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Deployment } from "@azure/arm-apicenter";
-import { AzureAPICenter } from "@azure/arm-apicenter";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates new or updates existing API deployment.
  *
  * @summary Creates new or updates existing API deployment.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Deployments_CreateOrUpdate.json
  */
+
+import type { Deployment } from "@azure/arm-apicenter";
+import { AzureAPICenter } from "@azure/arm-apicenter";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deploymentsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

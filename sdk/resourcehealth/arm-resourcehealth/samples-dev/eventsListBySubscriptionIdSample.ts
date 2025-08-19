@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventsListBySubscriptionIdOptionalParams } from "@azure/arm-resourcehealth";
-import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists service health events in the subscription.
  *
  * @summary Lists service health events in the subscription.
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/Events_ListBySubscriptionId.json
  */
+
+import type { EventsListBySubscriptionIdOptionalParams } from "@azure/arm-resourcehealth";
+import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listEventsBySubscriptionId(): Promise<void> {
   const subscriptionId = process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] || "subscriptionId";
   const filter = "service eq 'Virtual Machines' or region eq 'West US'";

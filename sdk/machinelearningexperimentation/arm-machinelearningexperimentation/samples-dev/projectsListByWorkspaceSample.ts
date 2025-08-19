@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all the available machine learning projects under the specified workspace.
  *
  * @summary Lists all the available machine learning projects under the specified workspace.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/ProjectListByWorkspaces.json
  */
+
+import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function projectListByWorkspaces(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LabDetails } from "@azure/arm-education";
-import { EducationManagementClient } from "@azure/arm-education";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a new lab or update a previously created lab.
  *
  * @summary Create a new lab or update a previously created lab.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/CreateLab.json
  */
+
+import type { LabDetails } from "@azure/arm-education";
+import { EducationManagementClient } from "@azure/arm-education";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createLab(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";

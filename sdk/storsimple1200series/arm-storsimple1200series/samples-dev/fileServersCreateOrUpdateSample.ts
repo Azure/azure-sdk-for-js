@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FileServer } from "@azure/arm-storsimple1200series";
-import { StorSimpleManagementClient } from "@azure/arm-storsimple1200series";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates or updates the file server.
  *
  * @summary Creates or updates the file server.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/FileServersCreateOrUpdate.json
  */
+
+import type { FileServer } from "@azure/arm-storsimple1200series";
+import { StorSimpleManagementClient } from "@azure/arm-storsimple1200series";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function fileServersCreateOrUpdate(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HSDK-4XY4FI2IVG";

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates or updates a new Alias(Disaster Recovery configuration)
+ *
+ * @summary Creates or updates a new Alias(Disaster Recovery configuration)
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/disasterRecoveryConfigs/EHAliasCreate.json
+ */
+
 import {
   ArmDisasterRecovery,
   EventHubManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates a new Alias(Disaster Recovery configuration)
- *
- * @summary Creates or updates a new Alias(Disaster Recovery configuration)
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/disasterRecoveryConfigs/EHAliasCreate.json
- */
 async function ehAliasCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";

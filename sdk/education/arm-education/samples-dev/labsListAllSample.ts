@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LabsListAllOptionalParams } from "@azure/arm-education";
-import { EducationManagementClient } from "@azure/arm-education";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a list of labs associated with the provided billing account name and billing profile name.
  *
  * @summary Get a list of labs associated with the provided billing account name and billing profile name.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/LabList.json
  */
+
+import type { LabsListAllOptionalParams } from "@azure/arm-education";
+import { EducationManagementClient } from "@azure/arm-education";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function labList(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";

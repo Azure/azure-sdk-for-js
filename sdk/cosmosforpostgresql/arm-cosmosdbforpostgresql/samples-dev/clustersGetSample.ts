@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets information about a cluster such as compute and storage configuration and cluster lifecycle metadata such as cluster creation date and time.
  *
  * @summary Gets information about a cluster such as compute and storage configuration and cluster lifecycle metadata such as cluster creation date and time.
  * x-ms-original-file: specification/postgresqlhsc/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-02-preview/examples/ClusterGet.json
  */
+
+import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";

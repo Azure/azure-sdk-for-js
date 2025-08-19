@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BareMetalMachineKeySet, NetworkCloud } from "@azure/arm-networkcloud";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a new bare metal machine key set or update the existing one for the provided cluster.
  *
  * @summary Create a new bare metal machine key set or update the existing one for the provided cluster.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/stable/2025-02-01/examples/BareMetalMachineKeySets_Create.json
  */
+
+import { BareMetalMachineKeySet, NetworkCloud } from "@azure/arm-networkcloud";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateBareMetalMachineKeySetOfCluster(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||

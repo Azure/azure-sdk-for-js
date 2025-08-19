@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the Container Apps in a given resource group.
  *
  * @summary Get the Container Apps in a given resource group.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ContainerApps_ListByResourceGroup.json
  */
+
+import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listContainerAppsByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||

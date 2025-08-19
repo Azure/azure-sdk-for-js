@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { GuestConfigurationAssignment } from "@azure/arm-guestconfiguration";
-import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates an association between a VM and guest configuration
  *
  * @summary Creates an association between a VM and guest configuration
  * x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/createOrUpdateGuestConfigurationAssignment.json
  */
+
+import type { GuestConfigurationAssignment } from "@azure/arm-guestconfiguration";
+import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateGuestConfigurationAssignment(): Promise<void> {
   const subscriptionId = process.env["GUESTCONFIGURATION_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const guestConfigurationAssignmentName = "NotInstalledApplicationForWindows";

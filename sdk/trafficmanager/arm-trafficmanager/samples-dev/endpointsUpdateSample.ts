@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Endpoint } from "@azure/arm-trafficmanager";
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update a Traffic Manager endpoint.
  *
  * @summary Update a Traffic Manager endpoint.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Endpoint-PATCH-External-Target.json
  */
+
+import type { Endpoint } from "@azure/arm-trafficmanager";
+import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function endpointPatchExternalTarget(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =

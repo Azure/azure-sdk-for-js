@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageCacheManagementClient } from "@azure/arm-storagecache";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Tells the cache to write all dirty data to the Storage Target's backend storage. Client requests to this storage target's namespace will return errors until the flush operation completes.
  *
  * @summary Tells the cache to write all dirty data to the Storage Target's backend storage. Client requests to this storage target's namespace will return errors until the flush operation completes.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/StorageTargets_Flush.json
  */
+
+import { StorageCacheManagementClient } from "@azure/arm-storagecache";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function storageTargetsFlush(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

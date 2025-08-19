@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadsClient } from "@azure/arm-workloadssapvirtualinstance";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to updates the Database resource.
  *
  * @summary updates the Database resource.
  * x-ms-original-file: 2024-09-01/SapDatabaseInstances_Update.json
  */
+
+import { WorkloadsClient } from "@azure/arm-workloadssapvirtualinstance";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function sapDatabaseInstancesUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The operation to perform a consistency check on the fabric.
  *
  * @summary The operation to perform a consistency check on the fabric.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationFabrics_CheckConsistency.json
  */
+
+import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function checksTheConsistencyOfTheAsrFabric(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

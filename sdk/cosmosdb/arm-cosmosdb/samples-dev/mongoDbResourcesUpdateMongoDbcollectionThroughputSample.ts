@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Update the RUs per second of an Azure Cosmos DB MongoDB collection
+ *
+ * @summary Update the RUs per second of an Azure Cosmos DB MongoDB collection
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBMongoDBCollectionThroughputUpdate.json
+ */
+
 import {
   ThroughputSettingsUpdateParameters,
   CosmosDBManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Update the RUs per second of an Azure Cosmos DB MongoDB collection
- *
- * @summary Update the RUs per second of an Azure Cosmos DB MongoDB collection
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2025-04-15/examples/CosmosDBMongoDBCollectionThroughputUpdate.json
- */
 async function cosmosDbMongoDbcollectionThroughputUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";

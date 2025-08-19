@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Get a SSIS integration runtime object metadata by specified path. The return is pageable metadata list.
+ *
+ * @summary Get a SSIS integration runtime object metadata by specified path. The return is pageable metadata list.
+ * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimeObjectMetadata_Get.json
+ */
+
 import {
   GetSsisObjectMetadataRequest,
   IntegrationRuntimeObjectMetadataGetOptionalParams,
@@ -9,12 +16,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Get a SSIS integration runtime object metadata by specified path. The return is pageable metadata list.
- *
- * @summary Get a SSIS integration runtime object metadata by specified path. The return is pageable metadata list.
- * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimeObjectMetadata_Get.json
- */
 async function integrationRuntimeObjectMetadataGet(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||

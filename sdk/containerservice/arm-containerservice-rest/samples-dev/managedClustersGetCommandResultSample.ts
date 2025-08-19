@@ -6,15 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import ContainerServiceManagementClient from "@azure-rest/arm-containerservice";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/RunCommandResultFailed.json
  */
+
+import ContainerServiceManagementClient from "@azure-rest/arm-containerservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function commandFailedResult(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";

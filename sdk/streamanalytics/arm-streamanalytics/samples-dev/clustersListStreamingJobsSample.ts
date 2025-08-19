@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all of the streaming jobs in the given cluster.
  *
  * @summary Lists all of the streaming jobs in the given cluster.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2020-03-01-preview/examples/Cluster_ListStreamingJobs.json
  */
+
+import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listAllStreamingJobsInCluster(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

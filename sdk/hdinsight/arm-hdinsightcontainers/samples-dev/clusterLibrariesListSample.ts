@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get all libraries of HDInsight on AKS cluster.
  *
  * @summary Get all libraries of HDInsight on AKS cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListPredefinedClusterLibraries.json
  */
+
+import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listPredefinedClusterLibraries(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

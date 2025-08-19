@@ -6,17 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { BenefitUtilizationSummariesListByBillingAccountIdOptionalParams } from "@azure/arm-costmanagement";
-import { CostManagementClient } from "@azure/arm-costmanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists savings plan utilization summaries for the enterprise agreement scope. Supported at grain values: 'Daily' and 'Monthly'.
  *
  * @summary Lists savings plan utilization summaries for the enterprise agreement scope. Supported at grain values: 'Daily' and 'Monthly'.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BenefitUtilizationSummaries/SavingsPlan-BillingAccount.json
  */
+
+import type { BenefitUtilizationSummariesListByBillingAccountIdOptionalParams } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function savingsPlanUtilizationSummariesBillingAccount(): Promise<void> {
   const billingAccountId = "12345";
   const filter = "properties/usageDate ge 2022-10-15 and properties/usageDate le 2022-10-18";

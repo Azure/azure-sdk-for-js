@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Adds or Updates a specific Analytics Item within an Application Insights component.
+ *
+ * @summary Adds or Updates a specific Analytics Item within an Application Insights component.
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/AnalyticsItemPut.json
+ */
+
 import {
   ApplicationInsightsComponentAnalyticsItem,
   ApplicationInsightsManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Adds or Updates a specific Analytics Item within an Application Insights component.
- *
- * @summary Adds or Updates a specific Analytics Item within an Application Insights component.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/AnalyticsItemPut.json
- */
 async function analyticsItemPut(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";

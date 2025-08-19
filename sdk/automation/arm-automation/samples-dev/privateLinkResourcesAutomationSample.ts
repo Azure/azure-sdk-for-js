@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AutomationClient } from "@azure/arm-automation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the private link resources that need to be created for Automation account.
  *
  * @summary Gets the private link resources that need to be created for Automation account.
  * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/PrivateLinkResourceListGet.json
  */
+
+import { AutomationClient } from "@azure/arm-automation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getsPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["AUTOMATION_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";

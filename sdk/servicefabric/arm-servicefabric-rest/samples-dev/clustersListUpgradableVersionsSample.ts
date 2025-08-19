@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClustersListUpgradableVersionsParameters } from "@azure-rest/arm-servicefabric";
-import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to If a target is not provided, it will get the minimum and maximum versions available from the current cluster version. If a target is given, it will provide the required path to get from the current cluster version to the target version.
  *
  * @summary If a target is not provided, it will get the minimum and maximum versions available from the current cluster version. If a target is given, it will provide the required path to get from the current cluster version to the target version.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ListUpgradableVersionsMinMax_example.json
  */
+
+import type { ClustersListUpgradableVersionsParameters } from "@azure-rest/arm-servicefabric";
+import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getMinimumAndMaximumCodeVersions(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";

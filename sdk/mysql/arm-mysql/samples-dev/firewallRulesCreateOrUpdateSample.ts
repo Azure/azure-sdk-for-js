@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FirewallRule } from "@azure/arm-mysql";
-import { MySQLManagementClient } from "@azure/arm-mysql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates a new firewall rule or updates an existing firewall rule.
  *
  * @summary Creates a new firewall rule or updates an existing firewall rule.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/FirewallRuleCreate.json
  */
+
+import type { FirewallRule } from "@azure/arm-mysql";
+import { MySQLManagementClient } from "@azure/arm-mysql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function firewallRuleCreate(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TestGroup";

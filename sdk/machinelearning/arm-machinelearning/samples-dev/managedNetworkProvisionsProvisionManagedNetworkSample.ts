@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Provisions the managed network of a machine learning workspace.
+ *
+ * @summary Provisions the managed network of a machine learning workspace.
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/ManagedNetwork/provision.json
+ */
+
 import type {
   ManagedNetworkProvisionOptions,
   ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
@@ -9,12 +16,6 @@ import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machine
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Provisions the managed network of a machine learning workspace.
- *
- * @summary Provisions the managed network of a machine learning workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/ManagedNetwork/provision.json
- */
 async function provisionManagedNetwork(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";

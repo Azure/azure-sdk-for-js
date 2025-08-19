@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete a connected cluster, removing the tracked resource in Azure Resource Manager (ARM).
  *
  * @summary Delete a connected cluster, removing the tracked resource in Azure Resource Manager (ARM).
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/preview/2024-12-01-preview/examples/DeleteClusterExample.json
  */
+
+import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteClusterExample(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDKUBERNETES_SUBSCRIPTION_ID"] ||

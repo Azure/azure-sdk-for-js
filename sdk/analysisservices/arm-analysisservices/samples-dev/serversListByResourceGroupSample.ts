@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureAnalysisServices } from "@azure/arm-analysisservices";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets all the Analysis Services servers for the given resource group.
  *
  * @summary Gets all the Analysis Services servers for the given resource group.
  * x-ms-original-file: specification/analysisservices/resource-manager/Microsoft.AnalysisServices/stable/2017-08-01/examples/listServersInResourceGroup.json
  */
+
+import { AzureAnalysisServices } from "@azure/arm-analysisservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listExistingServersInTheResourceGroup(): Promise<void> {
   const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
   const resourceGroupName = "TestRG";

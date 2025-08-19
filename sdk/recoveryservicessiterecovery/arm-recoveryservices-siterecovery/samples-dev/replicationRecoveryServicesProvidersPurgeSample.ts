@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The operation to purge(force delete) a recovery services provider from the vault.
  *
  * @summary The operation to purge(force delete) a recovery services provider from the vault.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationRecoveryServicesProviders_Purge.json
  */
+
+import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function purgesRecoveryServiceProviderFromFabric(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

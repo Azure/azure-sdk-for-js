@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetworkDevicePatchParameters } from "@azure/arm-managednetworkfabric";
-import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update certain properties of the Network Device resource.
  *
  * @summary Update certain properties of the Network Device resource.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkDevices_Update_MaximumSet_Gen.json
  */
+
+import type { NetworkDevicePatchParameters } from "@azure/arm-managednetworkfabric";
+import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function networkDevicesUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";

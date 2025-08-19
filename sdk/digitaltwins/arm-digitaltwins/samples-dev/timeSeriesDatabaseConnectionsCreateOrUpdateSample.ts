@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TimeSeriesDatabaseConnection } from "@azure/arm-digitaltwins";
-import { AzureDigitalTwinsManagementClient } from "@azure/arm-digitaltwins";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update a time series database connection.
  *
  * @summary Create or update a time series database connection.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/TimeSeriesDatabaseConnectionsPut_WithUserIdentity_example.json
  */
+
+import type { TimeSeriesDatabaseConnection } from "@azure/arm-digitaltwins";
+import { AzureDigitalTwinsManagementClient } from "@azure/arm-digitaltwins";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrReplaceATimeSeriesDatabaseConnectionForADigitalTwinsInstanceWithUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] || "50016170-c839-41ba-a724-51e9df440b9e";

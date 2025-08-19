@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all of the Front Doors within a resource group under a subscription.
  *
  * @summary Lists all of the Front Doors within a resource group under a subscription.
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorList.json
  */
+
+import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listFrontDoorsInAResourceGroup(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";

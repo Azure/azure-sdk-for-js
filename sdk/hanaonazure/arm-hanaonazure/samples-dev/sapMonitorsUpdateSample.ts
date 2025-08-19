@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Tags } from "@azure/arm-hanaonazure";
-import { HanaManagementClient } from "@azure/arm-hanaonazure";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
  *
  * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
  * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_PatchTags_Delete.json
  */
+
+import type { Tags } from "@azure/arm-hanaonazure";
+import { HanaManagementClient } from "@azure/arm-hanaonazure";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deleteTagsFieldOfASapMonitor(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";

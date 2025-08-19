@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeploymentWhatIf } from "@azure/arm-resources-profile-2020-09-01-hybrid";
-import { ResourceManagementClient } from "@azure/arm-resources-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the resource group.
  *
  * @summary Returns changes that will be made by the deployment if executed at the scope of the resource group.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2019-10-01/examples/PostDeploymentWhatIfOnResourceGroup.json
  */
+
+import type { DeploymentWhatIf } from "@azure/arm-resources-profile-2020-09-01-hybrid";
+import { ResourceManagementClient } from "@azure/arm-resources-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function predictTemplateChangesAtResourceGroupScope(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000001";

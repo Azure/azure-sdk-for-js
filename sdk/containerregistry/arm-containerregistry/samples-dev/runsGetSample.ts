@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the detailed information for a given run.
  *
  * @summary Gets the detailed information for a given run.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/RunsGet.json
  */
+
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function runsGet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||

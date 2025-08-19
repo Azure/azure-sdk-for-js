@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlVmTroubleshooting } from "@azure/arm-sqlvirtualmachine";
-import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Starts SQL virtual machine troubleshooting.
  *
  * @summary Starts SQL virtual machine troubleshooting.
  * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/TroubleshootSqlVirtualMachine.json
  */
+
+import type { SqlVmTroubleshooting } from "@azure/arm-sqlvirtualmachine";
+import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function startSqlVirtualMachineTroubleshootingOperation(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";

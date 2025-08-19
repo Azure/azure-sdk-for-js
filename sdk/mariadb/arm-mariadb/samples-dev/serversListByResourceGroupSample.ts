@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MariaDBManagementClient } from "@azure/arm-mariadb";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to List all the servers in a given resource group.
  *
  * @summary List all the servers in a given resource group.
  * x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerListByResourceGroup.json
  */
+
+import { MariaDBManagementClient } from "@azure/arm-mariadb";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function serverListByResourceGroup(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "testrg";

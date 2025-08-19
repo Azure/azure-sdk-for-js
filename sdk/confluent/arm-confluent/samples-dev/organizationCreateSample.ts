@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OrganizationResource, OrganizationCreateOptionalParams } from "@azure/arm-confluent";
-import { ConfluentManagementClient } from "@azure/arm-confluent";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create Organization resource
  *
  * @summary Create Organization resource
  * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_Create.json
  */
+
+import type { OrganizationResource, OrganizationCreateOptionalParams } from "@azure/arm-confluent";
+import { ConfluentManagementClient } from "@azure/arm-confluent";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function organizationCreate(): Promise<void> {
   const subscriptionId =
     process.env["CONFLUENT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

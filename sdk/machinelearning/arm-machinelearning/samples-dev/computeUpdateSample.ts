@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClusterUpdateParameters } from "@azure/arm-machinelearning";
-import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates properties of a compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation.
  *
  * @summary Updates properties of a compute. This call will overwrite a compute if it exists. This is a nonrecoverable operation.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Compute/patch.json
  */
+
+import type { ClusterUpdateParameters } from "@azure/arm-machinelearning";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function updateAAmlCompute(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

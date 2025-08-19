@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PolicyInsightsClient } from "@azure/arm-policyinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Summarizes policy states for the subscription level policy assignment.
  *
  * @summary Summarizes policy states for the subscription level policy assignment.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_SummarizeSubscriptionLevelPolicyAssignmentScope.json
  */
+
+import { PolicyInsightsClient } from "@azure/arm-policyinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function summarizeAtPolicyAssignmentScope(): Promise<void> {
   const policyStatesSummaryResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";

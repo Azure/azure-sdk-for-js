@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates or updates an association.
+ *
+ * @summary Creates or updates an association.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRuleAssociationsCreate.json
+ */
+
 import type {
   DataCollectionRuleAssociationProxyOnlyResource,
   DataCollectionRuleAssociationsCreateOptionalParams,
@@ -9,12 +16,6 @@ import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates an association.
- *
- * @summary Creates or updates an association.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRuleAssociationsCreate.json
- */
 async function createOrUpdateAssociation(): Promise<void> {
   const resourceUri =
     "subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthConfig, ContainerAppsAPIClient } from "@azure/arm-appcontainers";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update the AuthConfig for a Container App.
  *
  * @summary Create or update the AuthConfig for a Container App.
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/AuthConfigs_CreateOrUpdate.json
  */
+
+import { AuthConfig, ContainerAppsAPIClient } from "@azure/arm-appcontainers";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateContainerAppAuthConfig(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||

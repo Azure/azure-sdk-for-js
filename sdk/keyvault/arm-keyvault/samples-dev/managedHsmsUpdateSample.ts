@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagedHsm, KeyVaultManagementClient } from "@azure/arm-keyvault";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update a managed HSM Pool in the specified subscription.
  *
  * @summary Update a managed HSM Pool in the specified subscription.
  * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_Update.json
  */
+
+import { ManagedHsm, KeyVaultManagementClient } from "@azure/arm-keyvault";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function updateAnExistingManagedHsmPool(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||

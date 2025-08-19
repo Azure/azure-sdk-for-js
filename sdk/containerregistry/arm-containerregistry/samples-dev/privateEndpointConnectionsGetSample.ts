@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the specified private endpoint connection associated with the container registry.
  *
  * @summary Get the specified private endpoint connection associated with the container registry.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/PrivateEndpointConnectionGet.json
  */
+
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function privateEndpointConnectionGet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||

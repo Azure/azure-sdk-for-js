@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HciEdgeDevice } from "@azure/arm-azurestackhci";
-import { AzureStackHCIClient } from "@azure/arm-azurestackhci";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a EdgeDevice
  *
  * @summary Create a EdgeDevice
  * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/CreateHciEdgeDevice.json
  */
+
+import type { HciEdgeDevice } from "@azure/arm-azurestackhci";
+import { AzureStackHCIClient } from "@azure/arm-azurestackhci";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createHciEdgeDevice(): Promise<void> {
   const resourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/ArcInstance-rg/providers/Microsoft.HybridCompute/machines/Node-1";

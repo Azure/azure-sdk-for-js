@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClusterUpdateParameters } from "@azure/arm-servicefabric";
-import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update the configuration of a Service Fabric cluster resource with the specified name.
  *
  * @summary Update the configuration of a Service Fabric cluster resource with the specified name.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterPatchOperation_example.json
  */
+
+import type { ClusterUpdateParameters } from "@azure/arm-servicefabric";
+import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function patchACluster(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

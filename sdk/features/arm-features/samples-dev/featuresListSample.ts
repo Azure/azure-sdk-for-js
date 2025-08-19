@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FeatureClient } from "@azure/arm-features";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets all the preview features in a provider namespace that are available through AFEC for the subscription.
  *
  * @summary Gets all the preview features in a provider namespace that are available through AFEC for the subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/examples/listProviderFeatures.json
  */
+
+import { FeatureClient } from "@azure/arm-features";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listProviderFeatures(): Promise<void> {
   const subscriptionId = "subid";
   const resourceProviderNamespace = "Resource Provider Namespace";

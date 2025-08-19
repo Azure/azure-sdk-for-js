@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevTestLabsClient } from "@azure/arm-devtestlabs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Execute a schedule. This operation can take a while to complete.
  *
  * @summary Execute a schedule. This operation can take a while to complete.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Schedules_Execute.json
  */
+
+import { DevTestLabsClient } from "@azure/arm-devtestlabs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function schedulesExecute(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";

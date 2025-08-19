@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AnomalySecurityMLAnalyticsSettings } from "@azure/arm-securityinsight";
-import { SecurityInsights } from "@azure/arm-securityinsight";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates the Security ML Analytics Settings.
  *
  * @summary Creates or updates the Security ML Analytics Settings.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/securityMLAnalyticsSettings/CreateAnomalySecurityMLAnalyticsSetting.json
  */
+
+import type { AnomalySecurityMLAnalyticsSettings } from "@azure/arm-securityinsight";
+import { SecurityInsights } from "@azure/arm-securityinsight";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createsOrUpdatesAAnomalySecurityMlAnalyticsSettings(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

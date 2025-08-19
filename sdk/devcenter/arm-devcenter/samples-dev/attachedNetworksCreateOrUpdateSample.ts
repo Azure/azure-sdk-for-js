@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AttachedNetworkConnection } from "@azure/arm-devcenter";
-import { DevCenterClient } from "@azure/arm-devcenter";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates an attached NetworkConnection.
  *
  * @summary Creates or updates an attached NetworkConnection.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/AttachedNetworks_Create.json
  */
+
+import type { AttachedNetworkConnection } from "@azure/arm-devcenter";
+import { DevCenterClient } from "@azure/arm-devcenter";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function attachedNetworksCreate(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";

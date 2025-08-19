@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates a Guest Usages resource, which is used to linking a subscription to an instance of Azure AD External Identities. [Learn more](https://aka.ms/extidbilling).
+ *
+ * @summary Creates a Guest Usages resource, which is used to linking a subscription to an instance of Azure AD External Identities. [Learn more](https://aka.ms/extidbilling).
+ * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/GuestUsagesCreate.json
+ */
+
 import type {
   GuestUsagesResource,
   GuestUsagesCreateOptionalParams,
@@ -8,12 +15,6 @@ import type {
 import { ExternalIdentitiesConfigurationClient } from "@azure/arm-azureadexternalidentities";
 import { DefaultAzureCredential } from "@azure/identity";
 
-/**
- * This sample demonstrates how to Creates a Guest Usages resource, which is used to linking a subscription to an instance of Azure AD External Identities. [Learn more](https://aka.ms/extidbilling).
- *
- * @summary Creates a Guest Usages resource, which is used to linking a subscription to an instance of Azure AD External Identities. [Learn more](https://aka.ms/extidbilling).
- * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/GuestUsagesCreate.json
- */
 async function guestUsagesCreate(): Promise<void> {
   const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const resourceGroupName = "contosoResourceGroup";

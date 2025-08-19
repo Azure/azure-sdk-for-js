@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DigitalTwinsEndpointResource } from "@azure/arm-digitaltwins";
-import { AzureDigitalTwinsManagementClient } from "@azure/arm-digitaltwins";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update DigitalTwinsInstance endpoint.
  *
  * @summary Create or update DigitalTwinsInstance endpoint.
  * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsEndpointPut_example.json
  */
+
+import type { DigitalTwinsEndpointResource } from "@azure/arm-digitaltwins";
+import { AzureDigitalTwinsManagementClient } from "@azure/arm-digitaltwins";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function putADigitalTwinsEndpointResource(): Promise<void> {
   const subscriptionId =
     process.env["DIGITALTWINS_SUBSCRIPTION_ID"] || "50016170-c839-41ba-a724-51e9df440b9e";

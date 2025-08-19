@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchAccountCreateParameters } from "@azure/arm-batch";
-import { BatchManagementClient } from "@azure/arm-batch";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  *
  * @summary Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/BatchAccountCreate_BYOS.json
  */
+
+import type { BatchAccountCreateParameters } from "@azure/arm-batch";
+import { BatchManagementClient } from "@azure/arm-batch";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function batchAccountCreateByos(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";

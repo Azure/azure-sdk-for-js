@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all Redis Enterprise clusters in a resource group.
  *
  * @summary Lists all Redis Enterprise clusters in a resource group.
  * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseListByResourceGroup.json
  */
+
+import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function redisEnterpriseListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||

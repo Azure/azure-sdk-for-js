@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes the PostgreSQL Server key with the given name.
  *
  * @summary Deletes the PostgreSQL Server key with the given name.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2020-01-01/examples/ServerKeyDelete.json
  */
+
+import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deleteThePostgreSqlServerKey(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const serverName = "testserver";

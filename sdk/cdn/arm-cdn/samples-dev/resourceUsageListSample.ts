@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CdnManagementClient } from "@azure/arm-cdn";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Check the quota and actual usage of the CDN profiles under the given subscription.
  *
  * @summary Check the quota and actual usage of the CDN profiles under the given subscription.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/ResourceUsage_List.json
  */
+
+import { CdnManagementClient } from "@azure/arm-cdn";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function resourceUsageList(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();

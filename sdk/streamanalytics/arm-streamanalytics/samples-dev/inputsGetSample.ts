@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets details about the specified input.
  *
  * @summary Gets details about the specified input.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Get_Reference_Blob_CSV.json
  */
+
+import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getAReferenceBlobInputWithCsvSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";

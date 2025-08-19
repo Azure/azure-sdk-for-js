@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DefaultAccountPayload } from "@azure/arm-purview";
-import { PurviewManagementClient } from "@azure/arm-purview";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Sets the default account for the scope.
  *
  * @summary Sets the default account for the scope.
  * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/DefaultAccounts_Set.json
  */
+
+import type { DefaultAccountPayload } from "@azure/arm-purview";
+import { PurviewManagementClient } from "@azure/arm-purview";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function defaultAccountsSet(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const defaultAccountPayload: DefaultAccountPayload = {

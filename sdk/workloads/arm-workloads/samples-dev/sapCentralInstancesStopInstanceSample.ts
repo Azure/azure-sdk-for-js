@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Stops the SAP Central Services Instance.
+ *
+ * @summary Stops the SAP Central Services Instance.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPCentralInstances_StopInstance.json
+ */
+
 import type {
   StopRequest,
   SAPCentralInstancesStopInstanceOptionalParams,
@@ -9,12 +16,6 @@ import { WorkloadsClient } from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Stops the SAP Central Services Instance.
- *
- * @summary Stops the SAP Central Services Instance.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPCentralInstances_StopInstance.json
- */
 async function stopTheSapCentralServicesInstance(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] || "8e17e36c-42e9-4cd5-a078-7b44883414e0";

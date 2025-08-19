@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ResourceSyncRule } from "@azure/arm-extendedlocation";
-import { CustomLocationsManagementClient } from "@azure/arm-extendedlocation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a Resource Sync Rule in the parent Custom Location, Subscription Id and Resource Group
  *
  * @summary Creates or updates a Resource Sync Rule in the parent Custom Location, Subscription Id and Resource Group
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/ResourceSyncRulesCreate_Update.json
  */
+
+import type { ResourceSyncRule } from "@azure/arm-extendedlocation";
+import { CustomLocationsManagementClient } from "@azure/arm-extendedlocation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateResourceSyncRule(): Promise<void> {
   const subscriptionId =
     process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";

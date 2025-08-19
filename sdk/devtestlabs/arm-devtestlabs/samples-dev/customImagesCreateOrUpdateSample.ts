@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CustomImage } from "@azure/arm-devtestlabs";
-import { DevTestLabsClient } from "@azure/arm-devtestlabs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Create or replace an existing custom image. This operation can take a while to complete.
  *
  * @summary Create or replace an existing custom image. This operation can take a while to complete.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/CustomImages_CreateOrUpdate.json
  */
+
+import type { CustomImage } from "@azure/arm-devtestlabs";
+import { DevTestLabsClient } from "@azure/arm-devtestlabs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function customImagesCreateOrUpdate(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";

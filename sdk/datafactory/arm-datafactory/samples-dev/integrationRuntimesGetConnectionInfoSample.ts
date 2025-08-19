@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataFactoryManagementClient } from "@azure/arm-datafactory";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the on-premises integration runtime connection information for encrypting the on-premises data source credentials.
  *
  * @summary Gets the on-premises integration runtime connection information for encrypting the on-premises data source credentials.
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_GetConnectionInfo.json
  */
+
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function integrationRuntimesGetConnectionInfo(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||

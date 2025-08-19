@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CheckEndpointNameAvailabilityInput } from "@azure/arm-cdn";
-import { CdnManagementClient } from "@azure/arm-cdn";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Check the availability of an afdx endpoint name, and return the globally unique endpoint host name.
  *
  * @summary Check the availability of an afdx endpoint name, and return the globally unique endpoint host name.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDProfiles_CheckEndpointNameAvailability.json
  */
+
+import type { CheckEndpointNameAvailabilityInput } from "@azure/arm-cdn";
+import { CdnManagementClient } from "@azure/arm-cdn";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function checkEndpointNameAvailability(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "myResourceGroup";

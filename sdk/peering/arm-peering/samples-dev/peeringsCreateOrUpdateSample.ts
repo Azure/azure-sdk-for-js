@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Peering } from "@azure/arm-peering";
-import { PeeringManagementClient } from "@azure/arm-peering";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates a new peering or updates an existing peering with the specified name under the given subscription and resource group.
  *
  * @summary Creates a new peering or updates an existing peering with the specified name under the given subscription and resource group.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/CreateDirectPeering.json
  */
+
+import type { Peering } from "@azure/arm-peering";
+import { PeeringManagementClient } from "@azure/arm-peering";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createADirectPeering(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";

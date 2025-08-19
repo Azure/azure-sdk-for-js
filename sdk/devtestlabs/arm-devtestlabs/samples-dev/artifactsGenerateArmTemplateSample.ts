@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { GenerateArmTemplateRequest } from "@azure/arm-devtestlabs";
-import { DevTestLabsClient } from "@azure/arm-devtestlabs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Generates an ARM template for the given artifact, uploads the required files to a storage account, and validates the generated artifact.
  *
  * @summary Generates an ARM template for the given artifact, uploads the required files to a storage account, and validates the generated artifact.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Artifacts_GenerateArmTemplate.json
  */
+
+import type { GenerateArmTemplateRequest } from "@azure/arm-devtestlabs";
+import { DevTestLabsClient } from "@azure/arm-devtestlabs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function artifactsGenerateArmTemplate(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";

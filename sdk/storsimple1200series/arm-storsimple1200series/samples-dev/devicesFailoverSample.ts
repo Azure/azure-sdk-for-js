@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FailoverRequest } from "@azure/arm-storsimple1200series";
-import { StorSimpleManagementClient } from "@azure/arm-storsimple1200series";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Fails over the device to another device.
  *
  * @summary Fails over the device to another device.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/DevicesFailover.json
  */
+
+import type { FailoverRequest } from "@azure/arm-storsimple1200series";
+import { StorSimpleManagementClient } from "@azure/arm-storsimple1200series";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function devicesFailover(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HSDK-0NZI14MDTF";

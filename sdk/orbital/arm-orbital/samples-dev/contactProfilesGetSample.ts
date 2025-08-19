@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureOrbital } from "@azure/arm-orbital";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the specified contact Profile in a specified resource group.
  *
  * @summary Gets the specified contact Profile in a specified resource group.
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/ContactProfileGet.json
  */
+
+import { AzureOrbital } from "@azure/arm-orbital";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getAContactProfile(): Promise<void> {
   const subscriptionId =
     process.env["ORBITAL_SUBSCRIPTION_ID"] || "c1be1141-a7c9-4aac-9608-3c2e2f1152c3";

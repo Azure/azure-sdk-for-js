@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LinkerResource } from "@azure/arm-servicelinker";
-import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update Linker resource.
  *
  * @summary Create or update Linker resource.
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/PutLinker.json
  */
+
+import type { LinkerResource } from "@azure/arm-servicelinker";
+import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function putLinker(): Promise<void> {
   const resourceUri =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app";

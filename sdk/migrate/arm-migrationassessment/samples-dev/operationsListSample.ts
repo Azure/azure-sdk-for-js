@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMigrateAssessmentService } from "@azure/arm-migrationassessment";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List the operations for the provider
  *
  * @summary List the operations for the provider
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/AssessmentProjects/stable/2023-03-15/examples/Operations_List_MaximumSet_Gen.json
  */
+
+import { AzureMigrateAssessmentService } from "@azure/arm-migrationassessment";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function operationsListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] ||

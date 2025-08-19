@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagementLockClient } from "@azure/arm-locks";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets all the management locks for a scope.
  *
  * @summary Gets all the management locks for a scope.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2020-05-01/examples/ManagementLocks_ListAtScope.json
  */
+
+import { ManagementLockClient } from "@azure/arm-locks";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listManagementLocksAtScope(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/subscriptionId";

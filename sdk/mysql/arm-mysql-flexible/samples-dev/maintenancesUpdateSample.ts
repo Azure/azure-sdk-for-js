@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Update maintenances.
+ *
+ * @summary Update maintenances.
+ * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Maintenance/preview/2023-10-01-preview/examples/MaintenanceUpdate.json
+ */
+
 import type {
   MaintenanceUpdate,
   MaintenancesUpdateOptionalParams,
@@ -9,12 +16,6 @@ import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Update maintenances.
- *
- * @summary Update maintenances.
- * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Maintenance/preview/2023-10-01-preview/examples/MaintenanceUpdate.json
- */
 async function updateMaintenanceOnAServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";

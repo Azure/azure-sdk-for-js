@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagerExtendedInfo } from "@azure/arm-storsimple8000series";
-import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Updates the extended info of the manager.
  *
  * @summary Updates the extended info of the manager.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/ManagersUpdateExtendedInfo.json
  */
+
+import type { ManagerExtendedInfo } from "@azure/arm-storsimple8000series";
+import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function managersUpdateExtendedInfo(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const resourceGroupName = "ResourceGroupForSDKTest";

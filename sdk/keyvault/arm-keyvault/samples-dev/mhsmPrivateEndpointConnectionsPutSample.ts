@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates the specified private endpoint connection associated with the managed hsm pool.
+ *
+ * @summary Updates the specified private endpoint connection associated with the managed hsm pool.
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_putPrivateEndpointConnection.json
+ */
+
 import {
   MhsmPrivateEndpointConnection,
   KeyVaultManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates the specified private endpoint connection associated with the managed hsm pool.
- *
- * @summary Updates the specified private endpoint connection associated with the managed hsm pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/ManagedHsm_putPrivateEndpointConnection.json
- */
 async function managedHsmPutPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||

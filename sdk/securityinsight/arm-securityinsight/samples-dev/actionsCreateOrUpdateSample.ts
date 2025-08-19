@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ActionRequest } from "@azure/arm-securityinsight";
-import { SecurityInsights } from "@azure/arm-securityinsight";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates the action of alert rule.
  *
  * @summary Creates or updates the action of alert rule.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/actions/CreateActionOfAlertRule.json
  */
+
+import type { ActionRequest } from "@azure/arm-securityinsight";
+import { SecurityInsights } from "@azure/arm-securityinsight";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createsOrUpdatesAnActionOfAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

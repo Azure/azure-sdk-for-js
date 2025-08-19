@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VirtualMachineInstancesDeleteOptionalParams } from "@azure/arm-scvmm";
-import { ScVmm } from "@azure/arm-scvmm";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The operation to delete a virtual machine instance.
  *
  * @summary The operation to delete a virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_Delete_MaximumSet_Gen.json
  */
+
+import type { VirtualMachineInstancesDeleteOptionalParams } from "@azure/arm-scvmm";
+import { ScVmm } from "@azure/arm-scvmm";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualMachineInstancesDeleteMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const force = "true";

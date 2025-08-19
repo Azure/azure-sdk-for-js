@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMigrateAssessmentService } from "@azure/arm-migrationassessment";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List Assessment resources by Group
  *
  * @summary List Assessment resources by Group
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/AssessmentProjects/stable/2023-03-15/examples/AssessmentsOperations_ListByGroup_MaximumSet_Gen.json
  */
+
+import { AzureMigrateAssessmentService } from "@azure/arm-migrationassessment";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function assessmentsOperationsListByGroupMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] ||

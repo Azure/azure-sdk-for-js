@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeploymentStack } from "@azure/arm-resourcesdeploymentstacks";
-import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Runs preflight validation on the Subscription scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
  *
  * @summary Runs preflight validation on the Subscription scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackSubscriptionValidate.json
  */
+
+import type { DeploymentStack } from "@azure/arm-resourcesdeploymentstacks";
+import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deploymentStacksSubscriptionValidate(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCESDEPLOYMENTSTACKS_SUBSCRIPTION_ID"] ||

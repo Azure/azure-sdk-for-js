@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IscsiServersListMetricsOptionalParams } from "@azure/arm-storsimple1200series";
-import { StorSimpleManagementClient } from "@azure/arm-storsimple1200series";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets the iSCSI server metrics
  *
  * @summary Gets the iSCSI server metrics
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/IscsiServersListMetrics.json
  */
+
+import type { IscsiServersListMetricsOptionalParams } from "@azure/arm-storsimple1200series";
+import { StorSimpleManagementClient } from "@azure/arm-storsimple1200series";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function iscsiServersListMetrics(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HSDK-UGU4PITWNI";

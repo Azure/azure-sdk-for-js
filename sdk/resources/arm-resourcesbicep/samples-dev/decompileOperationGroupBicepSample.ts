@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BicepClient } from "@azure/arm-resourcesbicep";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to decompiles an ARM json template into a Bicep template
  *
  * @summary decompiles an ARM json template into a Bicep template
  * x-ms-original-file: 2023-11-01/DecompileBicep.json
  */
+
+import { BicepClient } from "@azure/arm-resourcesbicep";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function decompileAnARMJsonTemplateIntoABicepFile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

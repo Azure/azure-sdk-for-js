@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientGroupsGetMembersCountOptionalParams } from "@azure/arm-servicemap";
-import { ServiceMap } from "@azure/arm-servicemap";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns the approximate number of members in the client group.
  *
  * @summary Returns the approximate number of members in the client group.
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/ClientGroups/SMClientGroupsGetMembersCountGet.json
  */
+
+import type { ClientGroupsGetMembersCountOptionalParams } from "@azure/arm-servicemap";
+import { ServiceMap } from "@azure/arm-servicemap";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function smClientGroupsGetMembersCountGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICE-MAP_SUBSCRIPTION_ID"] || "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CheckNameAvailabilityRequest } from "@azure/arm-oep";
-import { OpenEnergyPlatformManagementServiceAPIs } from "@azure/arm-oep";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Checks the name availability of the resource with requested resource name.
  *
  * @summary Checks the name availability of the resource with requested resource name.
  * x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2021-06-01-preview/examples/Locations_CheckNameAvailability.json
  */
+
+import type { CheckNameAvailabilityRequest } from "@azure/arm-oep";
+import { OpenEnergyPlatformManagementServiceAPIs } from "@azure/arm-oep";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function locationsCheckNameAvailability(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const body: CheckNameAvailabilityRequest = {

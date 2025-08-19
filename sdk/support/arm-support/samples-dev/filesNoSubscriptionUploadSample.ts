@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UploadFile } from "@azure/arm-support";
-import { MicrosoftSupport } from "@azure/arm-support";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to This API allows you to upload content to a file
  *
  * @summary This API allows you to upload content to a file
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UploadFile.json
  */
+
+import type { UploadFile } from "@azure/arm-support";
+import { MicrosoftSupport } from "@azure/arm-support";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function uploadFile(): Promise<void> {
   const fileWorkspaceName = "testworkspaceName";
   const fileName = "test.txt";

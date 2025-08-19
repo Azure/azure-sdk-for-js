@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Assign Certificate entity to Gateway entity as Certificate Authority.
+ *
+ * @summary Assign Certificate entity to Gateway entity as Certificate Authority.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateGatewayCertificateAuthority.json
+ */
+
 import {
   GatewayCertificateAuthorityContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Assign Certificate entity to Gateway entity as Certificate Authority.
- *
- * @summary Assign Certificate entity to Gateway entity as Certificate Authority.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateGatewayCertificateAuthority.json
- */
 async function apiManagementCreateGatewayCertificateAuthority(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

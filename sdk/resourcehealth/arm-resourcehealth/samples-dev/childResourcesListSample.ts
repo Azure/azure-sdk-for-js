@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the all the children and its current health status for a parent resource. Use the nextLink property in the response to get the next page of children current health
  *
  * @summary Lists the all the children and its current health status for a parent resource. Use the nextLink property in the response to get the next page of children current health
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/ChildResources_List.json
  */
+
+import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getCurrentChildHealthByResource(): Promise<void> {
   const resourceUri = "resourceUri";
   const credential = new DefaultAzureCredential();

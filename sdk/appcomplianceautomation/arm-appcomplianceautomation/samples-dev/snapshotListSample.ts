@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SnapshotListOptionalParams } from "@azure/arm-appcomplianceautomation";
-import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the AppComplianceAutomation snapshot list.
  *
  * @summary Get the AppComplianceAutomation snapshot list.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Snapshot_List.json
  */
+
+import type { SnapshotListOptionalParams } from "@azure/arm-appcomplianceautomation";
+import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function snapshotList(): Promise<void> {
   const skipToken = "1";
   const top = 100;

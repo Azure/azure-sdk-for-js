@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates a new developer portal's content item specified by the provided content type.
+ *
+ * @summary Creates a new developer portal's content item specified by the provided content type.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateContentTypeContentItem.json
+ */
+
 import {
   ContentItemContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates a new developer portal's content item specified by the provided content type.
- *
- * @summary Creates a new developer portal's content item specified by the provided content type.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateContentTypeContentItem.json
- */
 async function apiManagementCreateContentTypeContentItem(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

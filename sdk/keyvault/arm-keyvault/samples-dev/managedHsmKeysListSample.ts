@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultManagementClient } from "@azure/arm-keyvault";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the keys in the specified managed HSM.
  *
  * @summary Lists the keys in the specified managed HSM.
  * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/managedHsmListKeys.json
  */
+
+import { KeyVaultManagementClient } from "@azure/arm-keyvault";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listKeysInTheManagedHsm(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||

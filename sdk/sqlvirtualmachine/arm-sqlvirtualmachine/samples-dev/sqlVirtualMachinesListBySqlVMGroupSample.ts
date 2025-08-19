@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the list of sql virtual machines in a SQL virtual machine group.
  *
  * @summary Gets the list of sql virtual machines in a SQL virtual machine group.
  * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/ListBySqlVirtualMachineGroupSqlVirtualMachine.json
  */
+
+import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getsTheListOfSqlVirtualMachinesInASqlVirtualMachineGroup(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";

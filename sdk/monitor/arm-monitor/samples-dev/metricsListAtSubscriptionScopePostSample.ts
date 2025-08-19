@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
+ *
+ * @summary **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMultiResourceMetric.json
+ */
+
 import type {
   MetricsListAtSubscriptionScopePostOptionalParams,
   SubscriptionScopeMetricsRequestBodyParameters,
@@ -9,12 +16,6 @@ import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
- *
- * @summary **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMultiResourceMetric.json
- */
 async function postRequestForSubscriptionLevelMetricData(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "92d2a2d8-b514-432d-8cc9-a5f9272630d5";

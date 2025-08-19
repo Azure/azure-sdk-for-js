@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HealthbotClient } from "@azure/arm-healthbot";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Delete a HealthBot.
  *
  * @summary Delete a HealthBot.
  * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/ResourceDeletionDelete.json
  */
+
+import { HealthbotClient } from "@azure/arm-healthbot";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function botDelete(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "healthbotClient";

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PredictionResourceFormat } from "@azure/arm-customerinsights";
-import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates a Prediction or updates an existing Prediction in the hub.
  *
  * @summary Creates a Prediction or updates an existing Prediction in the hub.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/PredictionsCreateOrUpdate.json
  */
+
+import type { PredictionResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function predictionsCreateOrUpdate(): Promise<void> {
   const subscriptionId = "c909e979-ef71-4def-a970-bc7c154db8c5";
   const resourceGroupName = "TestHubRG";

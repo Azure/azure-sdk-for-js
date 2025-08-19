@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrivateEndpointConnection } from "@azure/arm-servicebus";
-import { ServiceBusManagementClient } from "@azure/arm-servicebus";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates PrivateEndpointConnections of service namespace.
  *
  * @summary Creates or updates PrivateEndpointConnections of service namespace.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/PrivateEndPointConnectionCreate.json
  */
+
+import type { PrivateEndpointConnection } from "@azure/arm-servicebus";
+import { ServiceBusManagementClient } from "@azure/arm-servicebus";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function nameSpacePrivateEndPointConnectionCreate(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subID";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ArunMonocle";

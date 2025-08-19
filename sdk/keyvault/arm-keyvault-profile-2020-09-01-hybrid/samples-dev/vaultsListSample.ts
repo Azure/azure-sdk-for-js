@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VaultsListOptionalParams } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
-import { KeyVaultManagementClient } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The List operation gets information about the vaults associated with the subscription.
  *
  * @summary The List operation gets information about the vaults associated with the subscription.
  * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2019-09-01/examples/listVault.json
  */
+
+import type { VaultsListOptionalParams } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
+import { KeyVaultManagementClient } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listVaultsInTheSpecifiedSubscription(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

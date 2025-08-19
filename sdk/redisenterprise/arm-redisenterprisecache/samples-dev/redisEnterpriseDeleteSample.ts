@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes a Redis Enterprise cache cluster.
  *
  * @summary Deletes a Redis Enterprise cache cluster.
  * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseDelete.json
  */
+
+import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function redisEnterpriseDelete(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||

@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrate how to request a batch of reverse geocoding.
+ */
+
 import type { GeocodingBatchResponseOutput } from "@azure-rest/maps-search";
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * @summary Demonstrate how to request a batch of reverse geocoding.
- */
 async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:

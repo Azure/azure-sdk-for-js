@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ComputeScheduleClient } from "@azure/arm-computeschedule";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to virtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary virtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteDeallocate_MaximumSet_Gen.json
  */
+
+import { ComputeScheduleClient } from "@azure/arm-computeschedule";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function scheduledActionsVirtualMachinesExecuteDeallocateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";

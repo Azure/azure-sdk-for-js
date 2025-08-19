@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ApplicationClient } from "@azure/arm-managedapplications";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Refresh Permissions for application.
  *
  * @summary Refresh Permissions for application.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/refreshApplicationPermissions.json
  */
+
+import { ApplicationClient } from "@azure/arm-managedapplications";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function refreshManagedApplicationPermissions(): Promise<void> {
   const subscriptionId = process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MANAGEDAPPLICATIONS_RESOURCE_GROUP"] || "rg";

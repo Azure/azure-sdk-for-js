@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PutAliasRequest } from "@azure/arm-subscriptions";
-import { SubscriptionClient } from "@azure/arm-subscriptions";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Create Alias Subscription.
  *
  * @summary Create Alias Subscription.
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/createAlias.json
  */
+
+import type { PutAliasRequest } from "@azure/arm-subscriptions";
+import { SubscriptionClient } from "@azure/arm-subscriptions";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createAlias(): Promise<void> {
   const aliasName = "aliasForNewSub";
   const body: PutAliasRequest = {

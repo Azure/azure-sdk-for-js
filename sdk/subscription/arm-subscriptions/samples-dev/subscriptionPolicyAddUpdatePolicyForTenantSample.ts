@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PutTenantPolicyRequestProperties } from "@azure/arm-subscriptions";
-import { SubscriptionClient } from "@azure/arm-subscriptions";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Create or Update Subscription tenant policy for user's tenant.
  *
  * @summary Create or Update Subscription tenant policy for user's tenant.
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/changeTenantPolicy.json
  */
+
+import type { PutTenantPolicyRequestProperties } from "@azure/arm-subscriptions";
+import { SubscriptionClient } from "@azure/arm-subscriptions";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function tenantPolicy(): Promise<void> {
   const body: PutTenantPolicyRequestProperties = {
     blockSubscriptionsIntoTenant: true,

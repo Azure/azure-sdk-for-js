@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Retrieves information about the view of a license.
  *
  * @summary Retrieves information about the view of a license.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2025-02-19-preview/examples/license/License_Get.json
  */
+
+import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getLicense(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";

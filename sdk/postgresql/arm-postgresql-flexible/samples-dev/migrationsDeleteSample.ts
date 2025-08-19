@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deletes a migration.
  *
  * @summary Deletes a migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Delete.json
  */
+
+import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function migrationsDelete(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";

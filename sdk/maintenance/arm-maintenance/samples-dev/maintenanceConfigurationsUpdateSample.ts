@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MaintenanceConfiguration } from "@azure/arm-maintenance";
-import { MaintenanceManagementClient } from "@azure/arm-maintenance";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Patch configuration record
  *
  * @summary Patch configuration record
  * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_UpdateForResource.json
  */
+
+import type { MaintenanceConfiguration } from "@azure/arm-maintenance";
+import { MaintenanceManagementClient } from "@azure/arm-maintenance";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function maintenanceConfigurationsUpdateForResource(): Promise<void> {
   const subscriptionId =
     process.env["MAINTENANCE_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RoleAssignmentCreateParameters } from "@azure/arm-authorization-profile-2020-09-01-hybrid";
-import { AuthorizationManagementClient } from "@azure/arm-authorization-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a role assignment.
  *
  * @summary Creates a role assignment.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/PutRoleAssignment.json
  */
+
+import type { RoleAssignmentCreateParameters } from "@azure/arm-authorization-profile-2020-09-01-hybrid";
+import { AuthorizationManagementClient } from "@azure/arm-authorization-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createRoleAssignment(): Promise<void> {
   const subscriptionId =
     process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

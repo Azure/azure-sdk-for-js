@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClustersCreateOrUpdateParameters } from "@azure-rest/arm-servicefabric";
-import ServiceFabricManagementClient, { getLongRunningPoller } from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Create or update a Service Fabric cluster resource with the specified name.
  *
  * @summary Create or update a Service Fabric cluster resource with the specified name.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterPutOperation_example_max.json
  */
+
+import type { ClustersCreateOrUpdateParameters } from "@azure-rest/arm-servicefabric";
+import ServiceFabricManagementClient, { getLongRunningPoller } from "@azure-rest/arm-servicefabric";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function putAClusterWithMaximumParameters(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";

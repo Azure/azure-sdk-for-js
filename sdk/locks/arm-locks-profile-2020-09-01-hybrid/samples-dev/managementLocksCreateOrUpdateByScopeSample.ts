@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagementLockObject } from "@azure/arm-locks-profile-2020-09-01-hybrid";
-import { ManagementLockClient } from "@azure/arm-locks-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update a management lock by scope.
  *
  * @summary Create or update a management lock by scope.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2016-09-01/examples/ManagementLocks_CreateOrUpdateAtScope.json
  */
+
+import type { ManagementLockObject } from "@azure/arm-locks-profile-2020-09-01-hybrid";
+import { ManagementLockClient } from "@azure/arm-locks-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createManagementLockAtScope(): Promise<void> {
   const subscriptionId =
     process.env["LOCKS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

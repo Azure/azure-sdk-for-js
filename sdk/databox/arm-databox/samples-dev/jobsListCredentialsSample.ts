@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataBoxManagementClient } from "@azure/arm-databox";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to This method gets the unencrypted secrets related to the job.
  *
  * @summary This method gets the unencrypted secrets related to the job.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsListCredentials.json
  */
+
+import { DataBoxManagementClient } from "@azure/arm-databox";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function jobsListCredentials(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";

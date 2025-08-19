@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EnvironmentTypeUpdate } from "@azure/arm-devcenter";
-import { DevCenterClient } from "@azure/arm-devcenter";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Partially updates an environment type.
  *
  * @summary Partially updates an environment type.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/EnvironmentTypes_Patch.json
  */
+
+import type { EnvironmentTypeUpdate } from "@azure/arm-devcenter";
+import { DevCenterClient } from "@azure/arm-devcenter";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function environmentTypesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] || "0ac520ee-14c0-480f-b6c9-0a90c58ffff";

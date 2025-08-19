@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the operation result of operation triggered by Export Jobs API. If the operation is successful, then it also
 contains URL of a Blob and a SAS key to access the same. The blob contains exported jobs in JSON serialized format.
@@ -13,6 +9,11 @@ contains URL of a Blob and a SAS key to access the same. The blob contains expor
 contains URL of a Blob and a SAS key to access the same. The blob contains exported jobs in JSON serialized format.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/ExportJobsOperationResult.json
  */
+
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function exportJobsOperationResults(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

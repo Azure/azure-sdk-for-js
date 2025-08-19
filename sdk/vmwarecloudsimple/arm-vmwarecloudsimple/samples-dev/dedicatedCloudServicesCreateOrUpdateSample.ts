@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DedicatedCloudService } from "@azure/arm-vmwarecloudsimple";
-import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create dedicate cloud service
  *
  * @summary Create dedicate cloud service
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/CreateDedicatedCloudService.json
  */
+
+import type { DedicatedCloudService } from "@azure/arm-vmwarecloudsimple";
+import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createDedicatedCloudService(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";

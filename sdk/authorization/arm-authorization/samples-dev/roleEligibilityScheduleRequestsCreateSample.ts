@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RoleEligibilityScheduleRequest } from "@azure/arm-authorization";
-import { AuthorizationManagementClient } from "@azure/arm-authorization";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a role eligibility schedule request.
  *
  * @summary Creates a role eligibility schedule request.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/PutRoleEligibilityScheduleRequest.json
  */
+
+import type { RoleEligibilityScheduleRequest } from "@azure/arm-authorization";
+import { AuthorizationManagementClient } from "@azure/arm-authorization";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function putRoleEligibilityScheduleRequest(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";

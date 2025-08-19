@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureChangeAnalysisManagementClient } from "@azure/arm-changeanalysis";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to List the changes of a resource group within the specified time range. Customer data will always be masked.
  *
  * @summary List the changes of a resource group within the specified time range. Customer data will always be masked.
  * x-ms-original-file: specification/changeanalysis/resource-manager/Microsoft.ChangeAnalysis/stable/2021-04-01/examples/ChangesListChangesByResourceGroup.json
  */
+
+import { AzureChangeAnalysisManagementClient } from "@azure/arm-changeanalysis";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function changesListChangesByResourceGroup(): Promise<void> {
   const subscriptionId = "4d962866-1e3f-47f2-bd18-450c08f914c1";
   const resourceGroupName = "MyResourceGroup";

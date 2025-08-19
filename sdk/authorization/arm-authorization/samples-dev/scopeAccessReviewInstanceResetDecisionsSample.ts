@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthorizationManagementClient } from "@azure/arm-authorization";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to An action to reset all decisions for an access review instance.
  *
  * @summary An action to reset all decisions for an access review instance.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2021-12-01-preview/examples/AccessReviewInstanceResetDecisions.json
  */
+
+import { AuthorizationManagementClient } from "@azure/arm-authorization";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getAccessReview(): Promise<void> {
   const scope = "subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d";
   const scheduleDefinitionId = "fa73e90b-5bf1-45fd-a182-35ce5fc0674d";

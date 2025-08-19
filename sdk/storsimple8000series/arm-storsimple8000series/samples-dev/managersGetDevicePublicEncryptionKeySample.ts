@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Returns the public encryption key of the device.
  *
  * @summary Returns the public encryption key of the device.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/ManagersGetDevicePublicEncryptionKey.json
  */
+
+import { StorSimple8000SeriesManagementClient } from "@azure/arm-storsimple8000series";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function managersGetDevicePublicEncryptionKey(): Promise<void> {
   const subscriptionId = "d3ebfe71-b7a9-4c57-92b9-68a2afde4de5";
   const deviceName = "sca01forsdktest";

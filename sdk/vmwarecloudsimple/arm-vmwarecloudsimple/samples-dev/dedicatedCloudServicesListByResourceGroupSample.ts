@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns list of dedicated cloud services within a resource group
  *
  * @summary Returns list of dedicated cloud services within a resource group
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/ListRGDedicatedCloudServices.json
  */
+
+import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listRgDedicatedCloudServices(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";

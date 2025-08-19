@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMLWebServicesManagementClient } from "@azure/arm-webservices";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets the web services in the specified subscription.
  *
  * @summary Gets the web services in the specified subscription.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2017-01-01/examples/getWebServicesBySubscriptionId.json
  */
+
+import { AzureMLWebServicesManagementClient } from "@azure/arm-webservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getWebServicesBySubscriptionId(): Promise<void> {
   const subscriptionId = "subscription-id";
   const credential = new DefaultAzureCredential();

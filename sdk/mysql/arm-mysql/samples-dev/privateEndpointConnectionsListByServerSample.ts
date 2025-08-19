@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MySQLManagementClient } from "@azure/arm-mysql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets all private endpoint connections on a server.
  *
  * @summary Gets all private endpoint connections on a server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2018-06-01/examples/PrivateEndpointConnectionList.json
  */
+
+import { MySQLManagementClient } from "@azure/arm-mysql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getsListOfPrivateEndpointConnectionsOnAServer(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "Default";

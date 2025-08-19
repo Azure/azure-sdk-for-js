@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BillingSubscriptionSplitRequest } from "@azure/arm-billing";
-import { BillingManagementClient } from "@azure/arm-billing";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Splits a subscription into a new subscription with quantity less than current subscription quantity and not equal to 0.
  *
  * @summary Splits a subscription into a new subscription with quantity less than current subscription quantity and not equal to 0.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingSubscriptionsSplit.json
  */
+
+import type { BillingSubscriptionSplitRequest } from "@azure/arm-billing";
+import { BillingManagementClient } from "@azure/arm-billing";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function billingSubscriptionsSplit(): Promise<void> {
   const billingAccountName =
     "00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31";

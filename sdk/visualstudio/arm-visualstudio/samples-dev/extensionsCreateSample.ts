@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { ExtensionResourceRequest } from "@azure/arm-visualstudio";
-import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Registers the extension with a Visual Studio Team Services account.
  *
  * @summary Registers the extension with a Visual Studio Team Services account.
  * x-ms-original-file: specification/visualstudio/resource-manager/Microsoft.VisualStudio/preview/2014-04-01-preview/examples/CreateExtensionResource.json
  */
+
+import type { ExtensionResourceRequest } from "@azure/arm-visualstudio";
+import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createAnExtensionResource(): Promise<void> {
   const subscriptionId = "0de7f055-dbea-498d-8e9e-da287eedca90";
   const resourceGroupName = "VS-Example-Group";

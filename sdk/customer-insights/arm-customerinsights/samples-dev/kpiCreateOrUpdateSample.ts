@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { KpiResourceFormat } from "@azure/arm-customerinsights";
-import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates a KPI or updates an existing KPI in the hub.
  *
  * @summary Creates a KPI or updates an existing KPI in the hub.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/KpiCreateOrUpdate.json
  */
+
+import type { KpiResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function kpiCreateOrUpdate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";

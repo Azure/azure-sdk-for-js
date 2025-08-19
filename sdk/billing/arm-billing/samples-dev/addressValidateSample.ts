@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AddressDetails } from "@azure/arm-billing";
-import { BillingManagementClient } from "@azure/arm-billing";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Validates an address. Use the operation to validate an address before using it as soldTo or a billTo address.
  *
  * @summary Validates an address. Use the operation to validate an address before using it as soldTo or a billTo address.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/addressValidateInvalid.json
  */
+
+import type { AddressDetails } from "@azure/arm-billing";
+import { BillingManagementClient } from "@azure/arm-billing";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function addressValidateInvalid(): Promise<void> {
   const parameters: AddressDetails = {
     addressLine1: "1 Test",

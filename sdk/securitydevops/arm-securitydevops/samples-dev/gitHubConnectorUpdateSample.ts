@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Update monitored GitHub Connector details.
+ *
+ * @summary Update monitored GitHub Connector details.
+ * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/GitHubConnectorUpdate.json
+ */
+
 import type {
   GitHubConnector,
   GitHubConnectorUpdateOptionalParams,
@@ -9,12 +16,6 @@ import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Update monitored GitHub Connector details.
- *
- * @summary Update monitored GitHub Connector details.
- * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/GitHubConnectorUpdate.json
- */
 async function gitHubConnectorUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

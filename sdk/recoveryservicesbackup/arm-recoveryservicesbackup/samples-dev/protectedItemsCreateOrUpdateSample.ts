@@ -1,13 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ProtectedItemResource,
-  RecoveryServicesBackupClient,
-} from "@azure/arm-recoveryservicesbackup";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Enables backup of an item or to modifies the backup policy information of an already backed up item. This is an
 asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
@@ -16,6 +9,14 @@ asynchronous operation. To know the status of the operation, call the GetItemOpe
 asynchronous operation. To know the status of the operation, call the GetItemOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/ConfigureProtection.json
  */
+
+import {
+  ProtectedItemResource,
+  RecoveryServicesBackupClient,
+} from "@azure/arm-recoveryservicesbackup";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function enableProtectionOnAzureIaasVM(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

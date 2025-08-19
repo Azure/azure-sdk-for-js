@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a new AppComplianceAutomation webhook or update an exiting AppComplianceAutomation webhook.
  *
  * @summary Create a new AppComplianceAutomation webhook or update an exiting AppComplianceAutomation webhook.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Webhook_CreateOrUpdate.json
  */
+
+import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function webhookCreateOrUpdate(): Promise<void> {
   const reportName = "testReportName";
   const webhookName = "testWebhookName";

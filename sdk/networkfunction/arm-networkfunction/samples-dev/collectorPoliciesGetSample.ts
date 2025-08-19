@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets the collector policy in a specified Traffic Collector
  *
  * @summary Gets the collector policy in a specified Traffic Collector
  * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyGet.json
  */
+
+import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getCollectionPolicy(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChangesClient } from "@azure/arm-changes";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Obtains a list of change resources from the past 14 days for the target resource
  *
  * @summary Obtains a list of change resources from the past 14 days for the target resource
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-05-01/examples/ListChanges.json
  */
+
+import { ChangesClient } from "@azure/arm-changes";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listChanges(): Promise<void> {
   const subscriptionId = "subscriptionId1";
   const resourceGroupName = "resourceGroup1";

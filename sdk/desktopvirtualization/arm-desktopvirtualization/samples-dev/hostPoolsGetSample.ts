@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DesktopVirtualizationAPIClient } from "@azure/arm-desktopvirtualization";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a host pool.
  *
  * @summary Get a host pool.
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/HostPool_Get.json
  */
+
+import { DesktopVirtualizationAPIClient } from "@azure/arm-desktopvirtualization";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function hostPoolGet(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] || "daefabc0-95b4-48b3-b645-8a753a63c4fa";

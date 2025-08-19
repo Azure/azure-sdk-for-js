@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthBot } from "@azure/arm-healthbot";
-import { HealthbotClient } from "@azure/arm-healthbot";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Create a new Azure Health Bot.
  *
  * @summary Create a new Azure Health Bot.
  * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/ResourceCreationPut.json
  */
+
+import type { HealthBot } from "@azure/arm-healthbot";
+import { HealthbotClient } from "@azure/arm-healthbot";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function botCreate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "healthbotClient";

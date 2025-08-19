@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceUpdate } from "@azure/arm-apicenter";
-import { AzureAPICenter } from "@azure/arm-apicenter";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates existing service.
  *
  * @summary Updates existing service.
  * x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Services_Update.json
  */
+
+import type { ServiceUpdate } from "@azure/arm-apicenter";
+import { AzureAPICenter } from "@azure/arm-apicenter";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function servicesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APICENTER_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

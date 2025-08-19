@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NameAvailabilityCheckRequestParameters } from "@azure/arm-hdinsight";
-import { HDInsightManagementClient } from "@azure/arm-hdinsight";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Check the cluster name is available or not.
  *
  * @summary Check the cluster name is available or not.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Locations_CheckClusterNameAvailability.json
  */
+
+import type { NameAvailabilityCheckRequestParameters } from "@azure/arm-hdinsight";
+import { HDInsightManagementClient } from "@azure/arm-hdinsight";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getTheSubscriptionUsagesForSpecificLocation(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";

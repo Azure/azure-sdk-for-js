@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FileDetails } from "@azure/arm-support";
-import { MicrosoftSupport } from "@azure/arm-support";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a new file under a workspace.
  *
  * @summary Creates a new file under a workspace.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/CreateFile.json
  */
+
+import type { FileDetails } from "@azure/arm-support";
+import { MicrosoftSupport } from "@azure/arm-support";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createAFileWorkspace(): Promise<void> {
   const fileWorkspaceName = "testworkspace";
   const fileName = "test.txt";

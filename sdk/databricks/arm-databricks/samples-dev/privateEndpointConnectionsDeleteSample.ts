@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Remove private endpoint connection with the specified name
  *
  * @summary Remove private endpoint connection with the specified name
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/PrivateEndpointConnectionsDelete.json
  */
+
+import { AzureDatabricksManagementClient } from "@azure/arm-databricks";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function removeAPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["DATABRICKS_SUBSCRIPTION_ID"] || "11111111-1111-1111-1111-111111111111";

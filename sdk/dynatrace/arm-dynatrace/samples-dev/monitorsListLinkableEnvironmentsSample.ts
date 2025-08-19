@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LinkableEnvironmentRequest } from "@azure/arm-dynatrace";
-import { DynatraceObservability } from "@azure/arm-dynatrace";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets all the Dynatrace environments that a user can link a azure resource to
  *
  * @summary Gets all the Dynatrace environments that a user can link a azure resource to
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListLinkableEnvironments_MaximumSet_Gen.json
  */
+
+import type { LinkableEnvironmentRequest } from "@azure/arm-dynatrace";
+import { DynatraceObservability } from "@azure/arm-dynatrace";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function monitorsListLinkableEnvironmentsMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

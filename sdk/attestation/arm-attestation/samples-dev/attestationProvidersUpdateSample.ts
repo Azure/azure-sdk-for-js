@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AttestationServicePatchParams } from "@azure/arm-attestation";
-import { AttestationManagementClient } from "@azure/arm-attestation";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Updates the Attestation Provider.
  *
  * @summary Updates the Attestation Provider.
  * x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/Update_AttestationProvider.json
  */
+
+import type { AttestationServicePatchParams } from "@azure/arm-attestation";
+import { AttestationManagementClient } from "@azure/arm-attestation";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function attestationProvidersUpdate(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "MyResourceGroup";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAGet.json
  */
+
+import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getPrivateDnsZoneARecordSet(): Promise<void> {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName = process.env["PRIVATEDNS_RESOURCE_GROUP"] || "resourceGroup1";

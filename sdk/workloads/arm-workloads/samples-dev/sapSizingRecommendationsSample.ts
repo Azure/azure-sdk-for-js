@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadsClient } from "@azure/arm-workloads";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get SAP sizing recommendations by providing input SAPS for application tier and memory required for database tier
  *
  * @summary Get SAP sizing recommendations by providing input SAPS for application tier and memory required for database tier
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/stable/2023-04-01/examples/sapvirtualinstances/SAPSizingRecommendations_S4HANA_Distributed.json
  */
+
+import { WorkloadsClient } from "@azure/arm-workloads";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function sapSizingRecommendationsS4HanaDistributed(): Promise<void> {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] || "8e17e36c-42e9-4cd5-a078-7b44883414e0";

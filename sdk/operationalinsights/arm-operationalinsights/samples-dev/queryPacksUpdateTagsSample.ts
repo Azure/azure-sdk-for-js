@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsResource } from "@azure/arm-operationalinsights";
-import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates an existing QueryPack's tags. To update other fields use the CreateOrUpdate method.
  *
  * @summary Updates an existing QueryPack's tags. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksUpdateTagsOnly.json
  */
+
+import type { TagsResource } from "@azure/arm-operationalinsights";
+import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function queryPackUpdateTagsOnly(): Promise<void> {
   const subscriptionId = process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Replica } from "@azure/arm-signalr";
-import { SignalRManagementClient } from "@azure/arm-signalr";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update a replica.
  *
  * @summary Create or update a replica.
  * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRReplicas_CreateOrUpdate.json
  */
+
+import type { Replica } from "@azure/arm-signalr";
+import { SignalRManagementClient } from "@azure/arm-signalr";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function signalRReplicasCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SIGNALR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

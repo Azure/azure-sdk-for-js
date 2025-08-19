@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Generate configurations for a Linker.
+ *
+ * @summary Generate configurations for a Linker.
+ * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/LinkerGenerateConfigurations.json
+ */
+
 import type {
   ConfigurationInfo,
   LinkersGenerateConfigurationsOptionalParams,
@@ -9,12 +16,6 @@ import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Generate configurations for a Linker.
- *
- * @summary Generate configurations for a Linker.
- * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/LinkerGenerateConfigurations.json
- */
 async function generateConfiguration(): Promise<void> {
   const resourceUri =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app";

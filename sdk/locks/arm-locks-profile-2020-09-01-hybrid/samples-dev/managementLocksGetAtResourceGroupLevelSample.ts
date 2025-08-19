@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagementLockClient } from "@azure/arm-locks-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets a management lock at the resource group level.
  *
  * @summary Gets a management lock at the resource group level.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2016-09-01/examples/ManagementLocks_GetAtResourceGroupLevel.json
  */
+
+import { ManagementLockClient } from "@azure/arm-locks-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getManagementLockAtResourceGroupLevel(): Promise<void> {
   const subscriptionId = process.env["LOCKS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName = process.env["LOCKS_RESOURCE_GROUP"] || "resourcegroupname";

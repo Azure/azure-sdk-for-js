@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to List all the migrations on a given target server.
+ *
+ * @summary List all the migrations on a given target server.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_ListByTargetServer.json
+ */
+
 import {
   MigrationsListByTargetServerOptionalParams,
   PostgreSQLManagementFlexibleServerClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to List all the migrations on a given target server.
- *
- * @summary List all the migrations on a given target server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_ListByTargetServer.json
- */
 async function migrationsListByTargetServer(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";

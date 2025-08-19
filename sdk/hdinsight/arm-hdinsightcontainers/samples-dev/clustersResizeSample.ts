@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClusterResizeData } from "@azure/arm-hdinsightcontainers";
-import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Resize an existing Cluster.
  *
  * @summary Resize an existing Cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ResizeCluster.json
  */
+
+import type { ClusterResizeData } from "@azure/arm-hdinsightcontainers";
+import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function hdInsightClusterResize(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "10e32bab-26da-4cc4-a441-52b318f824e6";

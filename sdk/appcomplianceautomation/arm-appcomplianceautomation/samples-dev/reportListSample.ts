@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ReportListOptionalParams } from "@azure/arm-appcomplianceautomation";
-import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the AppComplianceAutomation report list for the tenant.
  *
  * @summary Get the AppComplianceAutomation report list for the tenant.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_List.json
  */
+
+import type { ReportListOptionalParams } from "@azure/arm-appcomplianceautomation";
+import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function reportList(): Promise<void> {
   const skipToken = "1";
   const top = 100;

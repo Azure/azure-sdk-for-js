@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Forcibly removes the link to the specified database resource.
+ *
+ * @summary Forcibly removes the link to the specified database resource.
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseDatabasesForceUnlink.json
+ */
+
 import {
   ForceUnlinkParameters,
   RedisEnterpriseManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Forcibly removes the link to the specified database resource.
- *
- * @summary Forcibly removes the link to the specified database resource.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseDatabasesForceUnlink.json
- */
 async function howToUnlinkADatabaseDuringARegionalOutage(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||

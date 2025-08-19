@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AutomanageClient } from "@azure/arm-automanage";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete a configuration profile version
  *
  * @summary Delete a configuration profile version
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/deleteConfigurationProfileVersion.json
  */
+
+import { AutomanageClient } from "@azure/arm-automanage";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteAConfigurationProfileVersion(): Promise<void> {
   const subscriptionId = process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["AUTOMANAGE_RESOURCE_GROUP"] || "rg";

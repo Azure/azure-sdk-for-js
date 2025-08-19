@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevSpacesManagementClient } from "@azure/arm-devspaces";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes an existing Azure Dev Spaces Controller.
  *
  * @summary Deletes an existing Azure Dev Spaces Controller.
  * x-ms-original-file: specification/devspaces/resource-manager/Microsoft.DevSpaces/stable/2019-04-01/examples/ControllersDelete_example.json
  */
+
+import { DevSpacesManagementClient } from "@azure/arm-devspaces";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function controllersDelete(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";

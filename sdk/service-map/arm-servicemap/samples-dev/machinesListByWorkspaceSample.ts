@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MachinesListByWorkspaceOptionalParams } from "@azure/arm-servicemap";
-import { ServiceMap } from "@azure/arm-servicemap";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns a collection of machines matching the specified conditions.  The returned collection represents either machines that are active/live during the specified interval  of time (`live=true` and `startTime`/`endTime` are specified) or that are known to have existed at or  some time prior to the specified point in time (`live=false` and `timestamp` is specified).
  *
  * @summary Returns a collection of machines matching the specified conditions.  The returned collection represents either machines that are active/live during the specified interval  of time (`live=true` and `startTime`/`endTime` are specified) or that are known to have existed at or  some time prior to the specified point in time (`live=false` and `timestamp` is specified).
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/Machines/SMMachinesListByWorkspaceGet.json
  */
+
+import type { MachinesListByWorkspaceOptionalParams } from "@azure/arm-servicemap";
+import { ServiceMap } from "@azure/arm-servicemap";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function smMachinesListByWorkspaceGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICE-MAP_SUBSCRIPTION_ID"] || "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";

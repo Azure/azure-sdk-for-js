@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates new or updates existing specified Schema of the workspace in an API Management service instance.
+ *
+ * @summary Creates new or updates existing specified Schema of the workspace in an API Management service instance.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateWorkspaceSchema.json
+ */
+
 import {
   GlobalSchemaContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates new or updates existing specified Schema of the workspace in an API Management service instance.
- *
- * @summary Creates new or updates existing specified Schema of the workspace in an API Management service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateWorkspaceSchema.json
- */
 async function apiManagementCreateWorkspaceSchema(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

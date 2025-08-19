@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Asynchronously creates a new partner destination with the specified parameters.
+ *
+ * @summary Asynchronously creates a new partner destination with the specified parameters.
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PartnerDestinations_CreateOrUpdate.json
+ */
+
 import {
   PartnerDestination,
   EventGridManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Asynchronously creates a new partner destination with the specified parameters.
- *
- * @summary Asynchronously creates a new partner destination with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PartnerDestinations_CreateOrUpdate.json
- */
 async function partnerDestinationsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTGRID_SUBSCRIPTION_ID"] ||

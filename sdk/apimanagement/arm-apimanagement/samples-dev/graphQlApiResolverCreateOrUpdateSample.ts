@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates a new resolver in the GraphQL API or updates an existing one.
+ *
+ * @summary Creates a new resolver in the GraphQL API or updates an existing one.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateGraphQLApiResolver.json
+ */
+
 import {
   ResolverContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates a new resolver in the GraphQL API or updates an existing one.
- *
- * @summary Creates a new resolver in the GraphQL API or updates an existing one.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateGraphQLApiResolver.json
- */
 async function apiManagementCreateGraphQlApiResolver(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

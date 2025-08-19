@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RoleManagementPolicyAssignment } from "@azure/arm-authorization";
-import { AuthorizationManagementClient } from "@azure/arm-authorization";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a role management policy assignment
  *
  * @summary Create a role management policy assignment
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2020-10-01-preview/examples/PutRoleManagementPolicyAssignment.json
  */
+
+import type { RoleManagementPolicyAssignment } from "@azure/arm-authorization";
+import { AuthorizationManagementClient } from "@azure/arm-authorization";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function putRoleManagementPolicyAssignment(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/129ff972-28f8-46b8-a726-e497be039368";

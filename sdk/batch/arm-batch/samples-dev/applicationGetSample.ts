@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BatchManagementClient } from "@azure/arm-batch";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets information about the specified application.
  *
  * @summary Gets information about the specified application.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/ApplicationGet.json
  */
+
+import { BatchManagementClient } from "@azure/arm-batch";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function applicationGet(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";

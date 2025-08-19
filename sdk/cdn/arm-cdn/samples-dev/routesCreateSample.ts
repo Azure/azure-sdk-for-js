@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Route } from "@azure/arm-cdn";
-import { CdnManagementClient } from "@azure/arm-cdn";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a new route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
  *
  * @summary Creates a new route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
  * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/Routes_Create.json
  */
+
+import type { Route } from "@azure/arm-cdn";
+import { CdnManagementClient } from "@azure/arm-cdn";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function routesCreate(): Promise<void> {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["CDN_RESOURCE_GROUP"] || "RG";

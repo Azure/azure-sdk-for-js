@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManagementLockObject } from "@azure/arm-locks";
-import { ManagementLockClient } from "@azure/arm-locks";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to When you apply a lock at a parent scope, all child resources inherit the same lock. To create management locks, you must have access to Microsoft.Authorization/* or Microsoft.Authorization/locks/* actions. Of the built-in roles, only Owner and User Access Administrator are granted those actions.
  *
  * @summary When you apply a lock at a parent scope, all child resources inherit the same lock. To create management locks, you must have access to Microsoft.Authorization/* or Microsoft.Authorization/locks/* actions. Of the built-in roles, only Owner and User Access Administrator are granted those actions.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2020-05-01/examples/ManagementLocks_CreateOrUpdateAtResourceLevel.json
  */
+
+import type { ManagementLockObject } from "@azure/arm-locks";
+import { ManagementLockClient } from "@azure/arm-locks";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createManagementLockAtResourceLevel(): Promise<void> {
   const subscriptionId = "subscriptionId";
   const resourceGroupName = "resourcegroupname";

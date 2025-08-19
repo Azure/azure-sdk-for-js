@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfigurationProfile } from "@azure/arm-automanage";
-import { AutomanageClient } from "@azure/arm-automanage";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a configuration profile version
  *
  * @summary Creates a configuration profile version
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/createOrUpdateConfigurationProfileVersion.json
  */
+
+import type { ConfigurationProfile } from "@azure/arm-automanage";
+import { AutomanageClient } from "@azure/arm-automanage";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateConfigurationProfileVersion(): Promise<void> {
   const subscriptionId = process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const configurationProfileName = "customConfigurationProfile";

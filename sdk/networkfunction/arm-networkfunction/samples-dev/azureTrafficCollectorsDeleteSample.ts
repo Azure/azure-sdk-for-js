@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes a specified Azure Traffic Collector resource.
  *
  * @summary Deletes a specified Azure Traffic Collector resource.
  * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/AzureTrafficCollectorDelete.json
  */
+
+import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deleteTrafficCollector(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";

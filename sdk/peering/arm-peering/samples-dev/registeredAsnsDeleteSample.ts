@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PeeringManagementClient } from "@azure/arm-peering";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes an existing registered ASN with the specified name under the given subscription, resource group and peering.
  *
  * @summary Deletes an existing registered ASN with the specified name under the given subscription, resource group and peering.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/DeleteRegisteredAsn.json
  */
+
+import { PeeringManagementClient } from "@azure/arm-peering";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deletesARegisteredAsnAssociatedWithThePeering(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";

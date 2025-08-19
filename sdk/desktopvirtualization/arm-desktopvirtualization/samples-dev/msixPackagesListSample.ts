@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MsixPackagesListOptionalParams } from "@azure/arm-desktopvirtualization";
-import { DesktopVirtualizationAPIClient } from "@azure/arm-desktopvirtualization";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List MSIX packages in hostpool.
  *
  * @summary List MSIX packages in hostpool.
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/MsixPackage_List.json
  */
+
+import type { MsixPackagesListOptionalParams } from "@azure/arm-desktopvirtualization";
+import { DesktopVirtualizationAPIClient } from "@azure/arm-desktopvirtualization";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function msixPackageList(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] || "daefabc0-95b4-48b3-b645-8a753a63c4fa";

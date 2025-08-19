@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UpdateAdministrativeState } from "@azure/arm-managednetworkfabric";
-import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates the Workload Management BFD Configuration of the underlying resources in the given Network Fabric instance.
  *
  * @summary Updates the Workload Management BFD Configuration of the underlying resources in the given Network Fabric instance.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkFabrics_UpdateWorkloadManagementBfdConfiguration_MaximumSet_Gen.json
  */
+
+import type { UpdateAdministrativeState } from "@azure/arm-managednetworkfabric";
+import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function networkFabricsUpdateWorkloadManagementBfdConfigurationMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";

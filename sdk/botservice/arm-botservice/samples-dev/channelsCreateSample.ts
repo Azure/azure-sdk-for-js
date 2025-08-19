@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BotChannel } from "@azure/arm-botservice";
-import { AzureBotService } from "@azure/arm-botservice";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a Channel registration for a Bot Service
  *
  * @summary Creates a Channel registration for a Bot Service
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/PutAlexaChannel.json
  */
+
+import type { BotChannel } from "@azure/arm-botservice";
+import { AzureBotService } from "@azure/arm-botservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createAlexaChannel(): Promise<void> {
   const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";

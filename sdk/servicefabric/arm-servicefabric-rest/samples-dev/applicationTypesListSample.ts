@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets all application type name resources created or in the process of being created in the Service Fabric cluster resource.
  *
  * @summary Gets all application type name resources created or in the process of being created in the Service Fabric cluster resource.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationTypeNameListOperation_example.json
  */
+
+import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getAListOfApplicationTypeNameResources(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";

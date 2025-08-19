@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Patches a certificate. Currently only patching of tags is supported
+ *
+ * @summary Patches a certificate. Currently only patching of tags is supported
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/Certificates_Patch.json
+ */
+
 import {
   CertificatePatch,
   ContainerAppsAPIClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Patches a certificate. Currently only patching of tags is supported
- *
- * @summary Patches a certificate. Currently only patching of tags is supported
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/Certificates_Patch.json
- */
 async function patchCertificate(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||

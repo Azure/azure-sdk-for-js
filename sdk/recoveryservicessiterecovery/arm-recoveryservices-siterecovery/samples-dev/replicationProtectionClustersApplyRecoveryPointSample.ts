@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Operation to apply a new cluster recovery point on the Protection cluster.
+ *
+ * @summary Operation to apply a new cluster recovery point on the Protection cluster.
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectionClusters_ApplyRecoveryPoint.json
+ */
+
 import {
   ApplyClusterRecoveryPointInput,
   SiteRecoveryManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Operation to apply a new cluster recovery point on the Protection cluster.
- *
- * @summary Operation to apply a new cluster recovery point on the Protection cluster.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationProtectionClusters_ApplyRecoveryPoint.json
- */
 async function executeTheChangeRecoveryPointOperationForCluster(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftStorageSync } from "@azure/arm-storagesync";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Get a PrivateEndpointConnection List.
  *
  * @summary Get a PrivateEndpointConnection List.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/PrivateEndpointConnections_ListByStorageSyncService.json
  */
+
+import { MicrosoftStorageSync } from "@azure/arm-storagesync";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function privateEndpointConnectionsListByStorageSyncService(): Promise<void> {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "res6977";

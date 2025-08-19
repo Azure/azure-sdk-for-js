@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes a specified Collector Policy resource.
  *
  * @summary Deletes a specified Collector Policy resource.
  * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyDelete.json
  */
+
+import { AzureTrafficCollectorClient } from "@azure/arm-networkfunction";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deleteCollectionPolicy(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";

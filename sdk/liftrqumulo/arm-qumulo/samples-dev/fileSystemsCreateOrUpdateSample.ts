@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FileSystemResource } from "@azure/arm-qumulo";
-import { QumuloStorage } from "@azure/arm-qumulo";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a FileSystemResource
  *
  * @summary Create a FileSystemResource
  * x-ms-original-file: specification/liftrqumulo/resource-manager/Qumulo.Storage/stable/2024-06-19/examples/FileSystems_CreateOrUpdate_MaximumSet_Gen.json
  */
+
+import type { FileSystemResource } from "@azure/arm-qumulo";
+import { QumuloStorage } from "@azure/arm-qumulo";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function fileSystemsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["LIFTRQUMULO_SUBSCRIPTION_ID"] || "382E8C7A-AC80-4D70-8580-EFE99537B9B7";

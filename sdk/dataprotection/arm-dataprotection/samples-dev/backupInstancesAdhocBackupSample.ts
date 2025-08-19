@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TriggerBackupRequest } from "@azure/arm-dataprotection";
-import { DataProtectionClient } from "@azure/arm-dataprotection";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Trigger adhoc backup
  *
  * @summary Trigger adhoc backup
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerBackup.json
  */
+
+import type { TriggerBackupRequest } from "@azure/arm-dataprotection";
+import { DataProtectionClient } from "@azure/arm-dataprotection";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function triggerAdhocBackup(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";

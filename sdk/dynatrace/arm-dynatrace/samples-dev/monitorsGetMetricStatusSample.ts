@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DynatraceObservability } from "@azure/arm-dynatrace";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get metric status
  *
  * @summary Get metric status
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetMetricStatus_MaximumSet_Gen.json
  */
+
+import { DynatraceObservability } from "@azure/arm-dynatrace";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function monitorsGetMetricStatusMaximumSetGen(): Promise<void> {
   const subscriptionId = process.env["DYNATRACE_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
   const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "rgDynatrace";

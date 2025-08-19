@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CustomLocation } from "@azure/arm-extendedlocation";
-import { CustomLocationsManagementClient } from "@azure/arm-extendedlocation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a Custom Location in the specified Subscription and Resource Group
  *
  * @summary Creates or updates a Custom Location in the specified Subscription and Resource Group
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsCreate_Update.json
  */
+
+import type { CustomLocation } from "@azure/arm-extendedlocation";
+import { CustomLocationsManagementClient } from "@azure/arm-extendedlocation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateCustomLocation(): Promise<void> {
   const subscriptionId =
     process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";

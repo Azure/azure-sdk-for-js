@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { StorageManagementClient } from "@azure/arm-storage";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get the local user of the storage account by username.
  *
  * @summary Get the local user of the storage account by username.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/LocalUserGet.json
  */
+
+import { StorageManagementClient } from "@azure/arm-storage";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getLocalUser(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

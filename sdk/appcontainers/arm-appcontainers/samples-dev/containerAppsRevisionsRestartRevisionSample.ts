@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Restarts a revision for a Container App
  *
  * @summary Restarts a revision for a Container App
  * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/Revisions_Restart.json
  */
+
+import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function restartContainerAppRevision(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||

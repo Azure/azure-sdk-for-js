@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Catalog } from "@azure/arm-sphere";
-import { AzureSphereManagementClient } from "@azure/arm-sphere";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create a Catalog
  *
  * @summary Create a Catalog
  * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PutCatalog.json
  */
+
+import type { Catalog } from "@azure/arm-sphere";
+import { AzureSphereManagementClient } from "@azure/arm-sphere";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function catalogsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SPHERE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

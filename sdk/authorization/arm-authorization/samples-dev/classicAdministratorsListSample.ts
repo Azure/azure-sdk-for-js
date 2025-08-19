@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthorizationManagementClient } from "@azure/arm-authorization";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets service administrator, account administrator, and co-administrators for the subscription.
  *
  * @summary Gets service administrator, account administrator, and co-administrators for the subscription.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01/examples/GetClassicAdministrators.json
  */
+
+import { AuthorizationManagementClient } from "@azure/arm-authorization";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listClassicAdministrators(): Promise<void> {
   const subscriptionId = process.env["AUTHORIZATION_SUBSCRIPTION_ID"] || "subId";
   const credential = new DefaultAzureCredential();

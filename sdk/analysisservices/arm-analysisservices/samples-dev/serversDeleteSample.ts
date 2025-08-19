@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureAnalysisServices } from "@azure/arm-analysisservices";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes the specified Analysis Services server.
  *
  * @summary Deletes the specified Analysis Services server.
  * x-ms-original-file: specification/analysisservices/resource-manager/Microsoft.AnalysisServices/stable/2017-08-01/examples/deleteServer.json
  */
+
+import { AzureAnalysisServices } from "@azure/arm-analysisservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deleteAServer(): Promise<void> {
   const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
   const resourceGroupName = "TestRG";

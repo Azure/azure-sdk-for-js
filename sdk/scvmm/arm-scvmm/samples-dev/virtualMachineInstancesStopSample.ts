@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StopVirtualMachineOptions } from "@azure/arm-scvmm";
-import { ScVmm } from "@azure/arm-scvmm";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The operation to power off (stop) a virtual machine instance.
  *
  * @summary The operation to power off (stop) a virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_Stop_MaximumSet_Gen.json
  */
+
+import type { StopVirtualMachineOptions } from "@azure/arm-scvmm";
+import { ScVmm } from "@azure/arm-scvmm";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualMachineInstancesStopMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const body: StopVirtualMachineOptions = { skipShutdown: "true" };

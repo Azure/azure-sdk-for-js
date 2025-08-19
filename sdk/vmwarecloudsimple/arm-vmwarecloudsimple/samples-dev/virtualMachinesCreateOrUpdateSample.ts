@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VirtualMachine } from "@azure/arm-vmwarecloudsimple";
-import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create Or Update Virtual Machine
  *
  * @summary Create Or Update Virtual Machine
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/CreateVirtualMachine.json
  */
+
+import type { VirtualMachine } from "@azure/arm-vmwarecloudsimple";
+import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createVirtualMachine(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";

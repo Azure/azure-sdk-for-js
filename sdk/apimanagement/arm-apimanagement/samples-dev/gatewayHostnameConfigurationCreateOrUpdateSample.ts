@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates of updates hostname configuration for a Gateway.
+ *
+ * @summary Creates of updates hostname configuration for a Gateway.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateGatewayHostnameConfiguration.json
+ */
+
 import {
   GatewayHostnameConfigurationContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates of updates hostname configuration for a Gateway.
- *
- * @summary Creates of updates hostname configuration for a Gateway.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateGatewayHostnameConfiguration.json
- */
 async function apiManagementCreateGatewayHostnameConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

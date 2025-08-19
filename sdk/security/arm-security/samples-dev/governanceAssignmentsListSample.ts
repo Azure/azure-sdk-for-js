@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecurityCenter } from "@azure/arm-security";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get governance assignments on all of your resources inside a scope
  *
  * @summary Get governance assignments on all of your resources inside a scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceAssignments/ListGovernanceAssignments_example.json
  */
+
+import { SecurityCenter } from "@azure/arm-security";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listGovernanceAssignments(): Promise<void> {
   const scope = "subscriptions/c32e05d9-7207-4e22-bdf4-4f7d9c72e5fd";
   const assessmentName = "6b9421dd-5555-2251-9b3d-2be58e2f82cd";

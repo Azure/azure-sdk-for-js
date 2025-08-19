@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Regenerates the primary or secondary connection strings for the specified Namespace.
+ *
+ * @summary Regenerates the primary or secondary connection strings for the specified Namespace.
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceAuthorizationRuleRegenerateKey.json
+ */
+
 import {
   RegenerateAccessKeyParameters,
   EventHubManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Regenerates the primary or secondary connection strings for the specified Namespace.
- *
- * @summary Regenerates the primary or secondary connection strings for the specified Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceAuthorizationRuleRegenerateKey.json
- */
 async function nameSpaceAuthorizationRuleRegenerateKey(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||

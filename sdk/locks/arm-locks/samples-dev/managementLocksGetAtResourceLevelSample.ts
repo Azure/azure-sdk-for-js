@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagementLockClient } from "@azure/arm-locks";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Get the management lock of a resource or any level below resource.
  *
  * @summary Get the management lock of a resource or any level below resource.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2020-05-01/examples/ManagementLocks_GetAtResourceLevel.json
  */
+
+import { ManagementLockClient } from "@azure/arm-locks";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getManagementLockAtResourceLevel(): Promise<void> {
   const subscriptionId = "subscriptionId";
   const resourceGroupName = "resourcegroupname";

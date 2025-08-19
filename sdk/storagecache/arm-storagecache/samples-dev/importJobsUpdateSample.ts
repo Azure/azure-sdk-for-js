@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ImportJobUpdate } from "@azure/arm-storagecache";
-import { StorageCacheManagementClient } from "@azure/arm-storagecache";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update an import job instance.
  *
  * @summary Update an import job instance.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/importJob_Update.json
  */
+
+import type { ImportJobUpdate } from "@azure/arm-storagecache";
+import { StorageCacheManagementClient } from "@azure/arm-storagecache";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function importJobsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

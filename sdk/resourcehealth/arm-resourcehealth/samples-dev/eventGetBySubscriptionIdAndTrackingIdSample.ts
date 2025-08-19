@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventGetBySubscriptionIdAndTrackingIdOptionalParams } from "@azure/arm-resourcehealth";
-import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Service health event in the subscription by event tracking id
  *
  * @summary Service health event in the subscription by event tracking id
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/Event_GetBySubscriptionIdAndTrackingId.json
  */
+
+import type { EventGetBySubscriptionIdAndTrackingIdOptionalParams } from "@azure/arm-resourcehealth";
+import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function securityAdvisoriesEventBySubscriptionIdAndTrackingId(): Promise<void> {
   const subscriptionId = process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] || "subscriptionId";
   const filter = "properties/status eq 'Active'";

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventGetByTenantIdAndTrackingIdOptionalParams } from "@azure/arm-resourcehealth";
-import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Service health event in the tenant by event tracking id
  *
  * @summary Service health event in the tenant by event tracking id
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/Event_GetByTenantIdAndTrackingId.json
  */
+
+import type { EventGetByTenantIdAndTrackingIdOptionalParams } from "@azure/arm-resourcehealth";
+import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function eventByTenantIdAndTrackingId(): Promise<void> {
   const filter = "properties/status eq 'Active'";
   const queryStartTime = "7/10/2022";

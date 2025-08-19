@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to List VolumeGroups.
+ *
+ * @summary List VolumeGroups.
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_ListByElasticSan_MaximumSet_Gen.json
+ */
+
 import {
   VolumeGroupsListByElasticSanOptionalParams,
   ElasticSanManagement,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to List VolumeGroups.
- *
- * @summary List VolumeGroups.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-07-01-preview/examples/VolumeGroups_ListByElasticSan_MaximumSet_Gen.json
- */
 async function volumeGroupsListByElasticSanMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

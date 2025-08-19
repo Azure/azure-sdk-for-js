@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Uploads a certificate for a resource.
+ *
+ * @summary Uploads a certificate for a resource.
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVaultCred.json
+ */
+
 import {
   CertificateRequest,
   RecoveryServicesClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Uploads a certificate for a resource.
- *
- * @summary Uploads a certificate for a resource.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVaultCred.json
- */
 async function downloadVaultCredentialFile(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||

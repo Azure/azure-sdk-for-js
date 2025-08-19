@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ResourcesHistoryRequest } from "@azure/arm-resourcegraph";
-import { ResourceGraphClient } from "@azure/arm-resourcegraph";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to List all snapshots of a resource for a given time interval.
  *
  * @summary List all snapshots of a resource for a given time interval.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesHistoryMgsGet.json
  */
+
+import type { ResourcesHistoryRequest } from "@azure/arm-resourcegraph";
+import { ResourceGraphClient } from "@azure/arm-resourcegraph";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function resourceHistoryManagementGroupScopeQuery(): Promise<void> {
   const request: ResourcesHistoryRequest = {
     managementGroups: ["e927f598-c1d4-4f72-8541-95d83a6a4ac8", "ProductionMG"],

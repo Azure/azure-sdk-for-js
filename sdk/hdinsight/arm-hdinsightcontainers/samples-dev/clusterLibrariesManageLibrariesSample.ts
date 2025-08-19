@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClusterLibraryManagementOperation } from "@azure/arm-hdinsightcontainers";
-import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Library management operations on HDInsight on AKS cluster.
  *
  * @summary Library management operations on HDInsight on AKS cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/InstallNewClusterLibraries.json
  */
+
+import type { ClusterLibraryManagementOperation } from "@azure/arm-hdinsightcontainers";
+import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function installNewClusterLibraries(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

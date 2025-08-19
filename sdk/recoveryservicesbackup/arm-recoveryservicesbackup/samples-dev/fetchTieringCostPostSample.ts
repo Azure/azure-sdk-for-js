@@ -1,6 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Provides the details of the tiering related sizes and cost.
+Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
+ *
+ * @summary Provides the details of the tiering related sizes and cost.
+Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/TieringCost/FetchTieringCostForRehydrate.json
+ */
+
 import {
   FetchTieringCostInfoForRehydrationRequest,
   FetchTieringCostSavingsInfoForPolicyRequest,
@@ -11,14 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Provides the details of the tiering related sizes and cost.
-Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- *
- * @summary Provides the details of the tiering related sizes and cost.
-Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/TieringCost/FetchTieringCostForRehydrate.json
- */
 async function getTheRehydrationCostForRecoveryPoint(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

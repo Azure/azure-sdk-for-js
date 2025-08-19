@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMLWebServicesManagementClient } from "@azure/arm-webservices";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes the specified web service.
  *
  * @summary Deletes the specified web service.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2017-01-01/examples/deleteWebService.json
  */
+
+import { AzureMLWebServicesManagementClient } from "@azure/arm-webservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deleteWebService(): Promise<void> {
   const subscriptionId = "subscription-id";
   const resourceGroupName = "OneResourceGroupName";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceTopologyResource } from "@azure/arm-deploymentmanager";
-import { AzureDeploymentManager } from "@azure/arm-deploymentmanager";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Synchronously creates a new service topology or updates an existing service topology.
  *
  * @summary Synchronously creates a new service topology or updates an existing service topology.
  * x-ms-original-file: specification/deploymentmanager/resource-manager/Microsoft.DeploymentManager/preview/2019-11-01-preview/examples/servicetopology_createorupdate.json
  */
+
+import type { ServiceTopologyResource } from "@azure/arm-deploymentmanager";
+import { AzureDeploymentManager } from "@azure/arm-deploymentmanager";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createATopologyWithArtifactSource(): Promise<void> {
   const subscriptionId = "caac1590-e859-444f-a9e0-62091c0f5929";
   const resourceGroupName = "myResourceGroup";

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { GetImageUploadUrlInput } from "@azure/arm-customerinsights";
-import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets data image upload URL.
  *
  * @summary Gets data image upload URL.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/ImagesGetUploadUrlForData.json
  */
+
+import type { GetImageUploadUrlInput } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function imagesGetUploadUrlForData(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";

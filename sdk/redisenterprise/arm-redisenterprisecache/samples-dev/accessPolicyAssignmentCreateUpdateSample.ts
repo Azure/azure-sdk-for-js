@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates/Updates a particular access policy assignment for a database
+ *
+ * @summary Creates/Updates a particular access policy assignment for a database
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseAccessPolicyAssignmentCreateUpdate.json
+ */
+
 import {
   AccessPolicyAssignment,
   RedisEnterpriseManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates/Updates a particular access policy assignment for a database
- *
- * @summary Creates/Updates a particular access policy assignment for a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseAccessPolicyAssignmentCreateUpdate.json
- */
 async function redisEnterpriseAccessPolicyAssignmentCreateUpdate(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||

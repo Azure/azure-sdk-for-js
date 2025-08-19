@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
+ *
+ * @summary Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_MigrateToVirtualMachineScaleSet.json
+ */
+
 import {
   MigrateVMToVirtualMachineScaleSetInput,
   VirtualMachinesMigrateToVMScaleSetOptionalParams,
@@ -14,12 +21,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
- *
- * @summary Migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/examples/virtualMachineExamples/VirtualMachine_MigrateToVirtualMachineScaleSet.json
- */
 async function migrateAVirtualMachineToFlexibleVirtualMachineScaleSer(): Promise<void> {
   const subscriptionId =
     process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

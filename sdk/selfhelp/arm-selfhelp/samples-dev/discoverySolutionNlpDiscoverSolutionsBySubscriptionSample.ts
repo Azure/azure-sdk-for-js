@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue summary and subscription.
+ *
+ * @summary Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue summary and subscription.
+ * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/DiscoverSolutionsAtSubscriptionScope.json
+ */
+
 import type {
   DiscoveryNlpRequest,
   DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams,
@@ -9,12 +16,6 @@ import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue summary and subscription.
- *
- * @summary Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue summary and subscription.
- * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/DiscoverSolutionsAtSubscriptionScope.json
- */
 async function discoverySolutionsUsingIssueSummaryAndServiceId(): Promise<void> {
   const subscriptionId = "0d0fcd2e-c4fd-4349-8497-200edb3923c6";
   const discoverSolutionRequest: DiscoveryNlpRequest = {

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChangesClient } from "@azure/arm-changes";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Obtains the specified change resource for the target resource
  *
  * @summary Obtains the specified change resource for the target resource
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-05-01/examples/GetChange.json
  */
+
+import { ChangesClient } from "@azure/arm-changes";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getChange(): Promise<void> {
   const subscriptionId = "subscriptionId1";
   const resourceGroupName = "resourceGroup1";

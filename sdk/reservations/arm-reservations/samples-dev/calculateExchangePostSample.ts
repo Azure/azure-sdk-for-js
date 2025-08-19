@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CalculateExchangeRequest } from "@azure/arm-reservations";
-import { AzureReservationAPI } from "@azure/arm-reservations";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Calculates price for exchanging `Reservations` if there are no policy errors.
 
@@ -14,6 +9,12 @@ import "dotenv/config";
 
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/CalculateExchange.json
  */
+
+import type { CalculateExchangeRequest } from "@azure/arm-reservations";
+import { AzureReservationAPI } from "@azure/arm-reservations";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function calculateExchange(): Promise<void> {
   const body: CalculateExchangeRequest = {
     properties: {

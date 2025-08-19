@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates a new Private Endpoint Connection or updates an existing one.
+ *
+ * @summary Creates a new Private Endpoint Connection or updates an existing one.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementApproveOrRejectPrivateEndpointConnection.json
+ */
+
 import {
   PrivateEndpointConnectionRequest,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates a new Private Endpoint Connection or updates an existing one.
- *
- * @summary Creates a new Private Endpoint Connection or updates an existing one.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementApproveOrRejectPrivateEndpointConnection.json
- */
 async function apiManagementApproveOrRejectPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

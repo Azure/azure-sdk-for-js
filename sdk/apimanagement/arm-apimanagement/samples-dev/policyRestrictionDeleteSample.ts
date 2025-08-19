@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Deletes the policy restriction configuration of the Api Management Service.
+ *
+ * @summary Deletes the policy restriction configuration of the Api Management Service.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementDeletePolicyRestriction.json
+ */
+
 import {
   PolicyRestrictionDeleteOptionalParams,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Deletes the policy restriction configuration of the Api Management Service.
- *
- * @summary Deletes the policy restriction configuration of the Api Management Service.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementDeletePolicyRestriction.json
- */
 async function apiManagementDeletePolicyRestriction(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

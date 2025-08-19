@@ -6,13 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  CurrentQuotaLimitBase,
-  AzureQuotaExtensionAPI,
-} from "@azure/arm-quota";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Update the quota limit for a specific resource to the specified value:
 1. Use the Usages-GET and Quota-GET operations to determine the remaining quota for the specific resource and to calculate the new quota limit. These steps are detailed in [this example](https://techcommunity.microsoft.com/t5/azure-governance-and-management/using-the-new-quota-rest-api/ba-p/2183670).
@@ -23,6 +16,14 @@ import "dotenv/config";
 2. Use this PUT operation to update the quota limit. Please check the URI in location header for the detailed status of the request.
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2025-03-01/examples/patchComputeQuotaRequest.json
  */
+
+import {
+  CurrentQuotaLimitBase,
+  AzureQuotaExtensionAPI,
+} from "@azure/arm-quota";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function quotasRequestPatchForCompute(): Promise<void> {
   const resourceName = "standardFSv2Family";
   const scope =

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Fetches the backup management usage summaries of the vault.
+ *
+ * @summary Fetches the backup management usage summaries of the vault.
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/BackupProtectionContainers_UsageSummary_Get.json
+ */
+
 import {
   BackupUsageSummariesListOptionalParams,
   RecoveryServicesBackupClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Fetches the backup management usage summaries of the vault.
- *
- * @summary Fetches the backup management usage summaries of the vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/BackupProtectionContainers_UsageSummary_Get.json
- */
 async function getProtectedContainersUsagesSummary(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

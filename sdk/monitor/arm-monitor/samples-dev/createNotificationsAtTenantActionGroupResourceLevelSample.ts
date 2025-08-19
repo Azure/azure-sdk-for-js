@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TenantNotificationRequestBody } from "@azure/arm-monitor";
-import { MonitorClient } from "@azure/arm-monitor";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Send test notifications to a set of provided receivers
  *
  * @summary Send test notifications to a set of provided receivers
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2023-05-01-preview/examples/postTestNotificationsAtTenantActionGroupResourceLevel.json
  */
+
+import type { TenantNotificationRequestBody } from "@azure/arm-monitor";
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createNotificationsAtTenantActionGroupLevel(): Promise<void> {
   const managementGroupId = "11111111-1111-1111-1111-111111111111";
   const tenantActionGroupName = "testTenantActionGroup";

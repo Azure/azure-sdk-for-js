@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RoleAssignmentScheduleRequest } from "@azure/arm-authorization";
-import { AuthorizationManagementClient } from "@azure/arm-authorization";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a role assignment schedule request.
  *
  * @summary Creates a role assignment schedule request.
  * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/preview/2022-04-01-preview/examples/PutRoleAssignmentScheduleRequest.json
  */
+
+import type { RoleAssignmentScheduleRequest } from "@azure/arm-authorization";
+import { AuthorizationManagementClient } from "@azure/arm-authorization";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function putRoleAssignmentScheduleRequest(): Promise<void> {
   const scope =
     "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f";

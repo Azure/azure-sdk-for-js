@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get a FqdnListGlobalRulestackResource
  *
  * @summary Get a FqdnListGlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListGlobalRulestack_Get_MaximumSet_Gen.json
  */
+
+import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function fqdnListGlobalRulestackGetMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const name = "armid1";

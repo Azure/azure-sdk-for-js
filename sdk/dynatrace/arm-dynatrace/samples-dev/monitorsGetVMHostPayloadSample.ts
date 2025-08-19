@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DynatraceObservability } from "@azure/arm-dynatrace";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns the payload that needs to be passed in the request body for installing Dynatrace agent on a VM.
  *
  * @summary Returns the payload that needs to be passed in the request body for installing Dynatrace agent on a VM.
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetVMHostPayload_MaximumSet_Gen.json
  */
+
+import { DynatraceObservability } from "@azure/arm-dynatrace";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function monitorsGetVMHostPayloadMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

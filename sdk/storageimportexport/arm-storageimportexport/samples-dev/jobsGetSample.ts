@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageImportExport } from "@azure/arm-storageimportexport";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets information about an existing job.
  *
  * @summary Gets information about an existing job.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/GetExportJob.json
  */
+
+import { StorageImportExport } from "@azure/arm-storageimportexport";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getExportJob(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";

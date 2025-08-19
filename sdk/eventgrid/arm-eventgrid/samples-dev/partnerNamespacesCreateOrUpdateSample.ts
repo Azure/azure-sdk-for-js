@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Asynchronously creates a new partner namespace with the specified parameters.
+ *
+ * @summary Asynchronously creates a new partner namespace with the specified parameters.
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PartnerNamespaces_CreateOrUpdate.json
+ */
+
 import {
   PartnerNamespace,
   EventGridManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Asynchronously creates a new partner namespace with the specified parameters.
- *
- * @summary Asynchronously creates a new partner namespace with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2025-04-01-preview/examples/PartnerNamespaces_CreateOrUpdate.json
- */
 async function partnerNamespacesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTGRID_SUBSCRIPTION_ID"] ||

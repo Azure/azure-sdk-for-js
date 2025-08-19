@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Gets a PostgreSQL Server key.
  *
  * @summary Gets a PostgreSQL Server key.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2020-01-01/examples/ServerKeyGet.json
  */
+
+import { PostgreSQLManagementClient } from "@azure/arm-postgresql";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getThePostgreSqlServerKey(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "testrg";

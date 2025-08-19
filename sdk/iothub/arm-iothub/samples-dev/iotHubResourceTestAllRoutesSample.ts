@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TestAllRoutesInput } from "@azure/arm-iothub";
-import { IotHubClient } from "@azure/arm-iothub";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Test all routes configured in this Iot Hub
  *
  * @summary Test all routes configured in this Iot Hub
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/iothub_testallroutes.json
  */
+
+import type { TestAllRoutesInput } from "@azure/arm-iothub";
+import { IotHubClient } from "@azure/arm-iothub";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function iotHubResourceTestAllRoutes(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";

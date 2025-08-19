@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UpdateSensitivitySettingsRequest } from "@azure/arm-security";
-import { SecurityCenter } from "@azure/arm-security";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates data sensitivity settings for sensitive data discovery
  *
  * @summary Updates data sensitivity settings for sensitive data discovery
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-02-15-preview/examples/SensitivitySettings/PutSensitivitySettings_example.json
  */
+
+import type { UpdateSensitivitySettingsRequest } from "@azure/arm-security";
+import { SecurityCenter } from "@azure/arm-security";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function updateSensitivitySettings(): Promise<void> {
   const sensitivitySettings: UpdateSensitivitySettingsRequest = {
     sensitiveInfoTypesIds: [

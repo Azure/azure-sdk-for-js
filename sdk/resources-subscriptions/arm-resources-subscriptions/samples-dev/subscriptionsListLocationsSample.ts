@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SubscriptionsListLocationsOptionalParams } from "@azure/arm-resources-subscriptions";
-import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list.
  *
  * @summary This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/GetLocations.json
  */
+
+import type { SubscriptionsListLocationsOptionalParams } from "@azure/arm-resources-subscriptions";
+import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getLocationsWithASubscriptionId(): Promise<void> {
   const subscriptionId = "a1ffc958-d2c7-493e-9f1e-125a0477f536";
   const credential = new DefaultAzureCredential();

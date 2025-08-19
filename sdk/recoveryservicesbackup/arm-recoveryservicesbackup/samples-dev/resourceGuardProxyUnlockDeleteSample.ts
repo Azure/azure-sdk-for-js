@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Secures delete ResourceGuardProxy operations.
+ *
+ * @summary Secures delete ResourceGuardProxy operations.
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
+ */
+
 import {
   UnlockDeleteRequest,
   RecoveryServicesBackupClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Secures delete ResourceGuardProxy operations.
- *
- * @summary Secures delete ResourceGuardProxy operations.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ResourceGuardProxyCRUD/UnlockDeleteResourceGuardProxy.json
- */
 async function unlockDeleteResourceGuardProxy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

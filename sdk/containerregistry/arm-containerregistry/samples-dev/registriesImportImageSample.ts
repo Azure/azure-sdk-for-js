@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
+ *
+ * @summary Copies an image to this container registry from the specified container registry.
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ImportImageByManifestDigest.json
+ */
+
 import {
   ImportImageParameters,
   ContainerRegistryManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Copies an image to this container registry from the specified container registry.
- *
- * @summary Copies an image to this container registry from the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2025-03-01-preview/examples/ImportImageByManifestDigest.json
- */
 async function importImageByManifestDigest(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||

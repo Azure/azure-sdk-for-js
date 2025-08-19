@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
+ *
+ * @summary Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PrivateEndpointConnection/PutPrivateEndpointConnection.json
+ */
+
 import {
   PrivateEndpointConnectionResource,
   RecoveryServicesBackupClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
- *
- * @summary Approve or Reject Private Endpoint requests. This call is made by Backup Admin.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PrivateEndpointConnection/PutPrivateEndpointConnection.json
- */
 async function updatePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

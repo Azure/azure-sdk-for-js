@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed
 or failed. You can refer to the OperationStatus enum for all the possible states of an operation. Some operations
@@ -15,6 +11,11 @@ or failed. You can refer to the OperationStatus enum for all the possible states
 create jobs. This method returns the list of jobs when the operation is complete.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/Common/ProtectedItem_Delete_OperationStatus.json
  */
+
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getProtectedItemDeleteOperationStatus(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

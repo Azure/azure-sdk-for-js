@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Workflow } from "@azure/arm-logic";
-import { LogicManagementClient } from "@azure/arm-logic";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Validates the workflow definition.
  *
  * @summary Validates the workflow definition.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/Workflows_ValidateByLocation.json
  */
+
+import type { Workflow } from "@azure/arm-logic";
+import { LogicManagementClient } from "@azure/arm-logic";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function validateAWorkflow(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

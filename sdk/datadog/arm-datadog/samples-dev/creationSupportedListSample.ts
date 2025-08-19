@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogClient } from "@azure/arm-datadog";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Informs if the current subscription is being already monitored for selected Datadog organization.
  *
  * @summary Informs if the current subscription is being already monitored for selected Datadog organization.
  * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/CreationSupported_List.json
  */
+
+import { MicrosoftDatadogClient } from "@azure/arm-datadog";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function creationSupportedList(): Promise<void> {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

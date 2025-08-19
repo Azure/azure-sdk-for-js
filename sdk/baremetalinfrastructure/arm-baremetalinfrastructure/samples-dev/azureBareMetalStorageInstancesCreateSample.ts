@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBareMetalStorageInstance } from "@azure/arm-baremetalinfrastructure";
-import { BareMetalInfrastructureClient } from "@azure/arm-baremetalinfrastructure";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create an azure bare metal storage resource.
  *
  * @summary Create an azure bare metal storage resource.
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalStorageInstances_Create.json
  */
+
+import type { AzureBareMetalStorageInstance } from "@azure/arm-baremetalinfrastructure";
+import { BareMetalInfrastructureClient } from "@azure/arm-baremetalinfrastructure";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function putANewAzureBareMetalStorageInstance(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||

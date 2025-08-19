@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Bot } from "@azure/arm-botservice";
-import { AzureBotService } from "@azure/arm-botservice";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a Bot Service. Bot Service is a resource group wide resource type.
  *
  * @summary Creates a Bot Service. Bot Service is a resource group wide resource type.
  * x-ms-original-file: specification/botservice/resource-manager/Microsoft.BotService/stable/2022-09-15/examples/CreateBot.json
  */
+
+import type { Bot } from "@azure/arm-botservice";
+import { AzureBotService } from "@azure/arm-botservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createBot(): Promise<void> {
   const subscriptionId = process.env["BOTSERVICE_SUBSCRIPTION_ID"] || "subscription-id";
   const resourceGroupName = process.env["BOTSERVICE_RESOURCE_GROUP"] || "OneResourceGroupName";

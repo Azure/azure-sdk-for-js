@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets all application type version resources created or in the process of being created in the Service Fabric application type name resource.
  *
  * @summary Gets all application type version resources created or in the process of being created in the Service Fabric application type name resource.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationTypeVersionListOperation_example.json
  */
+
+import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getAListOfApplicationTypeVersionResources(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

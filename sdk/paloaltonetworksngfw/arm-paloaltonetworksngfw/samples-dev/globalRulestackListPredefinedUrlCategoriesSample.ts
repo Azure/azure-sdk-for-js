@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { GlobalRulestackListPredefinedUrlCategoriesOptionalParams } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List predefined URL categories for rulestack
  *
  * @summary List predefined URL categories for rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listPredefinedUrlCategories_MaximumSet_Gen.json
  */
+
+import type { GlobalRulestackListPredefinedUrlCategoriesOptionalParams } from "@azure/arm-paloaltonetworksngfw";
+import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function globalRulestackListPredefinedUrlCategoriesMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const skip = "a6a321";

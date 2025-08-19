@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DetachDiskProperties } from "@azure/arm-devtestlabs";
-import { DevTestLabsClient } from "@azure/arm-devtestlabs";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Detach and break the lease of the disk attached to the virtual machine. This operation can take a while to complete.
  *
  * @summary Detach and break the lease of the disk attached to the virtual machine. This operation can take a while to complete.
  * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Disks_Detach.json
  */
+
+import type { DetachDiskProperties } from "@azure/arm-devtestlabs";
+import { DevTestLabsClient } from "@azure/arm-devtestlabs";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function disksDetach(): Promise<void> {
   const subscriptionId = "{subscriptionId}";
   const resourceGroupName = "resourceGroupName";

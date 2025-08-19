@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PolicyClient } from "@azure/arm-policy";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to This operation retrieves the policy set definition version in the given subscription with the given name and version.
  *
  * @summary This operation retrieves the policy set definition version in the given subscription with the given name and version.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2024-05-01/examples/getPolicySetDefinitionVersion.json
  */
+
+import { PolicyClient } from "@azure/arm-policy";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function retrieveAPolicySetDefinitionVersion(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Portal } from "@azure/arm-portal";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets all the Dashboards within a resource group.
  *
  * @summary Gets all the Dashboards within a resource group.
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/listDashboardsByResourceGroup.json
  */
+
+import { Portal } from "@azure/arm-portal";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listAllCustomResourceProvidersOnTheResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["PORTAL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

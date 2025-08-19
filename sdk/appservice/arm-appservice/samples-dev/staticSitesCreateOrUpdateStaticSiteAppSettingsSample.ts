@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Description for Creates or updates the app settings of a static site.
+ *
+ * @summary Description for Creates or updates the app settings of a static site.
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/CreateOrUpdateStaticSiteAppSettings.json
+ */
+
 import {
   StringDictionary,
   WebSiteManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Description for Creates or updates the app settings of a static site.
- *
- * @summary Description for Creates or updates the app settings of a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-11-01/examples/CreateOrUpdateStaticSiteAppSettings.json
- */
 async function createsOrUpdatesTheAppSettingsOfAStaticSite(): Promise<void> {
   const subscriptionId =
     process.env["APPSERVICE_SUBSCRIPTION_ID"] ||

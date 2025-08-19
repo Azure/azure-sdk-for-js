@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureAnalysisServices } from "@azure/arm-analysisservices";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Dissociates a Unified Gateway associated with the server.
  *
  * @summary Dissociates a Unified Gateway associated with the server.
  * x-ms-original-file: specification/analysisservices/resource-manager/Microsoft.AnalysisServices/stable/2017-08-01/examples/dissociateGateway.json
  */
+
+import { AzureAnalysisServices } from "@azure/arm-analysisservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getDetailsOfAServer(): Promise<void> {
   const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
   const resourceGroupName = "TestRG";

@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CostManagementClient } from "@azure/arm-costmanagement";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the result of the specified operation. The link with this operationId is provided as a response header of the initial request.
  *
  * @summary Gets the result of the specified operation. The link with this operationId is provided as a response header of the initial request.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/GenerateDetailedCostReportOperationResultsBySubscriptionScope.json
  */
+
+import { CostManagementClient } from "@azure/arm-costmanagement";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getDetailsOfTheOperationResult(): Promise<void> {
   const operationId = "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";

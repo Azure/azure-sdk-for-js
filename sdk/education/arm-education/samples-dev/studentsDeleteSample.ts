@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EducationManagementClient } from "@azure/arm-education";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete the specified student based on the student alias.
  *
  * @summary Delete the specified student based on the student alias.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/DeleteStudent.json
  */
+
+import { EducationManagementClient } from "@azure/arm-education";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteLab(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";

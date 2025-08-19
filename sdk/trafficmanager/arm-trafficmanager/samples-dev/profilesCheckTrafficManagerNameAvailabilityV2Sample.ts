@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CheckTrafficManagerRelativeDnsNameAvailabilityParameters } from "@azure/arm-trafficmanager";
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Checks the availability of a Traffic Manager Relative DNS name.
  *
  * @summary Checks the availability of a Traffic Manager Relative DNS name.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/NameAvailabilityV2Test_NameAvailable-POST-example-21.json
  */
+
+import type { CheckTrafficManagerRelativeDnsNameAvailabilityParameters } from "@azure/arm-trafficmanager";
+import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function nameAvailabilityV2TestNameAvailablePost21(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters = {

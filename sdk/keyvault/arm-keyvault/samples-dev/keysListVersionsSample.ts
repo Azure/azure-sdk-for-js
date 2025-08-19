@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultManagementClient } from "@azure/arm-keyvault";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists the versions of the specified key in the specified key vault.
  *
  * @summary Lists the versions of the specified key in the specified key vault.
  * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2024-11-01/examples/listKeyVersions.json
  */
+
+import { KeyVaultManagementClient } from "@azure/arm-keyvault";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listKeyVersionsInTheVault(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||

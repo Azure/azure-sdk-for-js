@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates the details of the authorization server specified by its identifier.
+ *
+ * @summary Updates the details of the authorization server specified by its identifier.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateAuthorizationServer.json
+ */
+
 import {
   AuthorizationServerUpdateContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates the details of the authorization server specified by its identifier.
- *
- * @summary Updates the details of the authorization server specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateAuthorizationServer.json
- */
 async function apiManagementUpdateAuthorizationServer(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

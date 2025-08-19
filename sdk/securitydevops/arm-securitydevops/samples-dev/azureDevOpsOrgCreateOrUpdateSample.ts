@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureDevOpsOrg } from "@azure/arm-securitydevops";
-import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates an Azure DevOps Org.
  *
  * @summary Creates or updates an Azure DevOps Org.
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/AzureDevOpsOrgCreateOrUpdate.json
  */
+
+import type { AzureDevOpsOrg } from "@azure/arm-securitydevops";
+import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function azureDevOpsOrgCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

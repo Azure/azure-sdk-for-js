@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates or updates an API Management gateway. This is long running operation and could take several minutes to complete.
+ *
+ * @summary Creates or updates an API Management gateway. This is long running operation and could take several minutes to complete.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateStandardGateway.json
+ */
+
 import {
   ApiManagementGatewayResource,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates an API Management gateway. This is long running operation and could take several minutes to complete.
- *
- * @summary Creates or updates an API Management gateway. This is long running operation and could take several minutes to complete.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementCreateStandardGateway.json
- */
 async function apiManagementCreateStandardGateway(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

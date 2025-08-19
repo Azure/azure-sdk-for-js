@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UpdateJobParameters } from "@azure/arm-storageimportexport";
-import { StorageImportExport } from "@azure/arm-storageimportexport";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates specific properties of a job. You can call this operation to notify the Import/Export service that the hard drives comprising the import or export job have been shipped to the Microsoft data center. It can also be used to cancel an existing job.
  *
  * @summary Updates specific properties of a job. You can call this operation to notify the Import/Export service that the hard drives comprising the import or export job have been shipped to the Microsoft data center. It can also be used to cancel an existing job.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/UpdateExportJob.json
  */
+
+import type { UpdateJobParameters } from "@azure/arm-storageimportexport";
+import { StorageImportExport } from "@azure/arm-storageimportexport";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function updateExportJob(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";

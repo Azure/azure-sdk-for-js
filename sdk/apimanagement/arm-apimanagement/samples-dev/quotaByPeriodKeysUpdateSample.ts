@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates an existing quota counter value in the specified service instance.
+ *
+ * @summary Updates an existing quota counter value in the specified service instance.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateQuotaCounterKeyByQuotaPeriod.json
+ */
+
 import {
   QuotaCounterValueUpdateContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates an existing quota counter value in the specified service instance.
- *
- * @summary Updates an existing quota counter value in the specified service instance.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateQuotaCounterKeyByQuotaPeriod.json
- */
 async function apiManagementUpdateQuotaCounterKeyByQuotaPeriod(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

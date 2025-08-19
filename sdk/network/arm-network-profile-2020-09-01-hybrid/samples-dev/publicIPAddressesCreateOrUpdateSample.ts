@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PublicIPAddress } from "@azure/arm-network-profile-2020-09-01-hybrid";
-import { NetworkManagementClient } from "@azure/arm-network-profile-2020-09-01-hybrid";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
  *
  * @summary Creates or updates a static or dynamic public IP address.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2018-11-01/examples/PublicIpAddressCreateDns.json
  */
+
+import type { PublicIPAddress } from "@azure/arm-network-profile-2020-09-01-hybrid";
+import { NetworkManagementClient } from "@azure/arm-network-profile-2020-09-01-hybrid";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createPublicIPAddressDns(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";

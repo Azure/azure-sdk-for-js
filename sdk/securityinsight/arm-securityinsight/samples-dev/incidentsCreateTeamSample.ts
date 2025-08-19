@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TeamProperties } from "@azure/arm-securityinsight";
-import { SecurityInsights } from "@azure/arm-securityinsight";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates a Microsoft team to investigate the incident by sharing information and insights between participants.
  *
  * @summary Creates a Microsoft team to investigate the incident by sharing information and insights between participants.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/CreateTeam.json
  */
+
+import type { TeamProperties } from "@azure/arm-securityinsight";
+import { SecurityInsights } from "@azure/arm-securityinsight";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createsIncidentTeamsGroup(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "9023f5b5-df22-4313-8fbf-b4b75af8a6d9";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets an Experiment by ExperimentName
  *
  * @summary Gets an Experiment by ExperimentName
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2019-11-01/examples/NetworkExperimentGetExperiment.json
  */
+
+import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getsAnExperimentByExperimentName(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "MyResourceGroup";

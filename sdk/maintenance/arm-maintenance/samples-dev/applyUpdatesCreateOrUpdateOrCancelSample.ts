@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApplyUpdate } from "@azure/arm-maintenance";
-import { MaintenanceManagementClient } from "@azure/arm-maintenance";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Apply maintenance updates to resource
  *
  * @summary Apply maintenance updates to resource
  * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/ApplyUpdates_CreateOrUpdateOnly_NoCancellation.json
  */
+
+import type { ApplyUpdate } from "@azure/arm-maintenance";
+import { MaintenanceManagementClient } from "@azure/arm-maintenance";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function applyUpdatesCreateOrUpdateOnlyNoCancellation(): Promise<void> {
   const subscriptionId =
     process.env["MAINTENANCE_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfigurationProfileAssignment } from "@azure/arm-automanage";
-import { AutomanageClient } from "@azure/arm-automanage";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates an association between a ARC machine and Automanage configuration profile
  *
  * @summary Creates an association between a ARC machine and Automanage configuration profile
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/createOrUpdateConfigurationProfileHCRPAssignment.json
  */
+
+import type { ConfigurationProfileAssignment } from "@azure/arm-automanage";
+import { AutomanageClient } from "@azure/arm-automanage";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateHcrpConfigurationProfileAssignment(): Promise<void> {
   const subscriptionId = process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName = process.env["AUTOMANAGE_RESOURCE_GROUP"] || "myResourceGroupName";

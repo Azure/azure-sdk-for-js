@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AnalysisServicesServer, AzureAnalysisServices } from "@azure/arm-analysisservices";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Provisions the specified Analysis Services server based on the configuration specified in the request.
  *
  * @summary Provisions the specified Analysis Services server based on the configuration specified in the request.
  * x-ms-original-file: specification/analysisservices/resource-manager/Microsoft.AnalysisServices/stable/2017-08-01/examples/createServer.json
  */
+
+import { AnalysisServicesServer, AzureAnalysisServices } from "@azure/arm-analysisservices";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createAServer(): Promise<void> {
   const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
   const resourceGroupName = "TestRG";

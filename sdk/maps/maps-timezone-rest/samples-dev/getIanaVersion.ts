@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DefaultAzureCredential } from "@azure/identity";
-import MapsTimezone, { isUnexpected } from "@azure-rest/maps-timezone";
-
 /**
  * @summary How to get the IANA version number.
  */
+
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsTimezone, { isUnexpected } from "@azure-rest/maps-timezone";
+
 async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";

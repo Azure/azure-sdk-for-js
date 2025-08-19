@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete a springbootsites resource.
  *
  * @summary Delete a springbootsites resource.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootsites_Delete_MaximumSet_Gen.json
  */
+
+import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function springbootsitesDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "chshxczdscjpcyvyethat";

@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Updates the details of the Diagnostic for an API specified by its identifier.
+ *
+ * @summary Updates the details of the Diagnostic for an API specified by its identifier.
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateApiDiagnostic.json
+ */
+
 import {
   DiagnosticContract,
   ApiManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Updates the details of the Diagnostic for an API specified by its identifier.
- *
- * @summary Updates the details of the Diagnostic for an API specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementUpdateApiDiagnostic.json
- */
 async function apiManagementUpdateApiDiagnostic(): Promise<void> {
   const subscriptionId =
     process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] ||

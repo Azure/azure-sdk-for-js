@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { GlobalRulestackListCountriesOptionalParams } from "@azure/arm-paloaltonetworksngfw";
-import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List of countries for Rulestack
  *
  * @summary List of countries for Rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listCountries_MaximumSet_Gen.json
  */
+
+import type { GlobalRulestackListCountriesOptionalParams } from "@azure/arm-paloaltonetworksngfw";
+import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function globalRulestackListCountriesMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const skip = "a6a321";

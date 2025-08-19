@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BareMetalInfrastructureClient } from "@azure/arm-baremetalinfrastructure";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets a list of AzureBareMetalStorage instances in the specified subscription. The operations returns various properties of each Azure Bare Metal Instance.
  *
  * @summary Gets a list of AzureBareMetalStorage instances in the specified subscription. The operations returns various properties of each Azure Bare Metal Instance.
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalStorageInstances_ListBySubscription.json
  */
+
+import { BareMetalInfrastructureClient } from "@azure/arm-baremetalinfrastructure";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listAllAzureBareMetalStorageInstancesInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OpenEnergyPlatformManagementServiceAPIs } from "@azure/arm-oep";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes oep resource
  *
  * @summary Deletes oep resource
  * x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2021-06-01-preview/examples/OepResource_Delete.json
  */
+
+import { OpenEnergyPlatformManagementServiceAPIs } from "@azure/arm-oep";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function oepResourceDelete(): Promise<void> {
   const subscriptionId = "0000000-0000-0000-0000-000000000001";
   const resourceGroupName = "DummyResourceGroupName";

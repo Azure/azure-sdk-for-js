@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TagsObject } from "@azure/arm-orbital";
-import { AzureOrbital } from "@azure/arm-orbital";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates the specified spacecraft tags.
  *
  * @summary Updates the specified spacecraft tags.
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/SpacecraftUpdateTags.json
  */
+
+import type { TagsObject } from "@azure/arm-orbital";
+import { AzureOrbital } from "@azure/arm-orbital";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function updateSpacecraftTags(): Promise<void> {
   const subscriptionId =
     process.env["ORBITAL_SUBSCRIPTION_ID"] || "c1be1141-a7c9-4aac-9608-3c2e2f1152c3";

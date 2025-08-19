@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackManagementClient } from "@azure/arm-azurestack";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Deletes a customer subscription under a registration.
  *
  * @summary Deletes a customer subscription under a registration.
  * x-ms-original-file: specification/azurestack/resource-manager/Microsoft.AzureStack/preview/2020-06-01-preview/examples/CustomerSubscription/Delete.json
  */
+
+import { AzureStackManagementClient } from "@azure/arm-azurestack";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deletesACustomerSubscriptionUnderARegistration(): Promise<void> {
   const subscriptionId = "dd8597b4-8739-4467-8b10-f8679f62bfbf";
   const resourceGroup = "azurestack";

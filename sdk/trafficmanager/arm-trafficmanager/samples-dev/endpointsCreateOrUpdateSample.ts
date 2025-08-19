@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Endpoint } from "@azure/arm-trafficmanager";
-import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update a Traffic Manager endpoint.
  *
  * @summary Create or update a Traffic Manager endpoint.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Endpoint-PUT-External-WithAlwaysServe.json
  */
+
+import type { Endpoint } from "@azure/arm-trafficmanager";
+import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function endpointPutExternalWithAlwaysServe(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { GitHubOAuthCallRequest, GitHubOAuthOptionalParams } from "@azure/arm-devhub";
-import { DeveloperHubServiceClient } from "@azure/arm-devhub";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App.
  *
  * @summary Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App.
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuth.json
  */
+
+import type { GitHubOAuthCallRequest, GitHubOAuthOptionalParams } from "@azure/arm-devhub";
+import { DeveloperHubServiceClient } from "@azure/arm-devhub";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function gitHubOAuth(): Promise<void> {
   const subscriptionId = process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const location = "eastus2euap";

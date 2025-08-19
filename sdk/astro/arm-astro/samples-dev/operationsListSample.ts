@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AstroManagementClient } from "@azure/arm-astro";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List the operations for the provider
  *
  * @summary List the operations for the provider
  * x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Operations_List_MaximumSet_Gen.json
  */
+
+import { AstroManagementClient } from "@azure/arm-astro";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function operationsListGeneratedByMaximumSetRule(): Promise<void> {
   const subscriptionId =
     process.env["ASTRO_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

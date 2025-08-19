@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ProvisionedCluster } from "@azure/arm-hybridcontainerservice";
-import { HybridContainerServiceClient } from "@azure/arm-hybridcontainerservice";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates the provisioned cluster instance
  *
  * @summary Creates or updates the provisioned cluster instance
  * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/stable/2024-01-01/examples/PutProvisionedClusterInstance.json
  */
+
+import type { ProvisionedCluster } from "@azure/arm-hybridcontainerservice";
+import { HybridContainerServiceClient } from "@azure/arm-hybridcontainerservice";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function putProvisionedClusterInstance(): Promise<void> {
   const connectedClusterResourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.Kubernetes/connectedClusters/test-hybridakscluster";

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataBoxManagementClient } from "@azure/arm-databox";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Lists all the jobs available under the given resource group.
  *
  * @summary Lists all the jobs available under the given resource group.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2025-02-01/examples/JobsListByResourceGroup.json
  */
+
+import { DataBoxManagementClient } from "@azure/arm-databox";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function jobsListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";

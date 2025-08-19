@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AgentUpdateParameters } from "@azure/arm-storagemover";
-import { StorageMoverClient } from "@azure/arm-storagemover";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates an Agent resource.
  *
  * @summary Creates or updates an Agent resource.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Agents_Update.json
  */
+
+import type { AgentUpdateParameters } from "@azure/arm-storagemover";
+import { StorageMoverClient } from "@azure/arm-storagemover";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function agentsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] || "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";

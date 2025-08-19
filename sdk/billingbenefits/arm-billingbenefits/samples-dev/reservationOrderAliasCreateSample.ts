@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ReservationOrderAliasRequest } from "@azure/arm-billingbenefits";
-import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Create a reservation order alias.
  *
  * @summary Create a reservation order alias.
  * x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/ReservationOrderAliasCreate.json
  */
+
+import type { ReservationOrderAliasRequest } from "@azure/arm-billingbenefits";
+import { BillingBenefitsRP } from "@azure/arm-billingbenefits";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function reservationOrderAliasCreate(): Promise<void> {
   const reservationOrderAliasName = "reservationOrderAlias123";
   const body: ReservationOrderAliasRequest = {

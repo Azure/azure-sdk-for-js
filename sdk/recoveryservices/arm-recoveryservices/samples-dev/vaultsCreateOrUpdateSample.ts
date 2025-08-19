@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Vault, RecoveryServicesClient } from "@azure/arm-recoveryservices";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/PUTVault.json
  */
+
+import { Vault, RecoveryServicesClient } from "@azure/arm-recoveryservices";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateRecoveryServicesVault(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||

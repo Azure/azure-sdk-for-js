@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SerialPort } from "@azure/arm-serialconsole";
-import { MicrosoftSerialConsoleClient } from "@azure/arm-serialconsole";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Creates or updates a serial port
  *
  * @summary Creates or updates a serial port
  * x-ms-original-file: specification/serialconsole/resource-manager/Microsoft.SerialConsole/stable/2018-05-01/examples/CreateSerialPort.json
  */
+
+import type { SerialPort } from "@azure/arm-serialconsole";
+import { MicrosoftSerialConsoleClient } from "@azure/arm-serialconsole";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createANewSerialPortResource(): Promise<void> {
   const subscriptionId = "00000000-00000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";

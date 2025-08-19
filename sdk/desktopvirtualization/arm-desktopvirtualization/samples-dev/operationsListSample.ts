@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DesktopVirtualizationAPIClient } from "@azure/arm-desktopvirtualization";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to List all of the available operations the Desktop Virtualization resource provider supports.
  *
  * @summary List all of the available operations the Desktop Virtualization resource provider supports.
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/OperationDescription_List.json
  */
+
+import { DesktopVirtualizationAPIClient } from "@azure/arm-desktopvirtualization";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function operationDescriptionList(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

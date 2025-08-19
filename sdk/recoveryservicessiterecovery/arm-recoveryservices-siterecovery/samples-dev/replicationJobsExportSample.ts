@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to The operation to export the details of the Azure Site Recovery jobs of the vault.
+ *
+ * @summary The operation to export the details of the Azure Site Recovery jobs of the vault.
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationJobs_Export.json
+ */
+
 import {
   JobQueryParameter,
   SiteRecoveryManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to The operation to export the details of the Azure Site Recovery jobs of the vault.
- *
- * @summary The operation to export the details of the Azure Site Recovery jobs of the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-01-01/examples/ReplicationJobs_Export.json
- */
 async function exportsTheDetailsOfTheAzureSiteRecoveryJobsOfTheVault(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||

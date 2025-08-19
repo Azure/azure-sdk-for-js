@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RegenerateKeyRequest } from "@azure/arm-fluidrelay";
-import { FluidRelayManagementClient } from "@azure/arm-fluidrelay";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Regenerate the primary or secondary key for this server.
  *
  * @summary Regenerate the primary or secondary key for this server.
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_RegenerateKeys.json
  */
+
+import type { RegenerateKeyRequest } from "@azure/arm-fluidrelay";
+import { FluidRelayManagementClient } from "@azure/arm-fluidrelay";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function regenerateKeysForAFluidRelayServer(): Promise<void> {
   const subscriptionId = process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";

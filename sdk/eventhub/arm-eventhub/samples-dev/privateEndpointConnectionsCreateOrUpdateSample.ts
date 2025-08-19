@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Creates or updates PrivateEndpointConnections of service namespace.
+ *
+ * @summary Creates or updates PrivateEndpointConnections of service namespace.
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/PrivateEndPointConnectionCreate.json
+ */
+
 import {
   PrivateEndpointConnection,
   EventHubManagementClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates or updates PrivateEndpointConnections of service namespace.
- *
- * @summary Creates or updates PrivateEndpointConnections of service namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/PrivateEndPointConnectionCreate.json
- */
 async function nameSpacePrivateEndPointConnectionCreate(): Promise<void> {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
   const resourceGroupName =

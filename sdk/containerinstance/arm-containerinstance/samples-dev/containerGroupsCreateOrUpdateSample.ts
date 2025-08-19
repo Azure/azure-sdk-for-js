@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerGroup } from "@azure/arm-containerinstance";
-import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Create or update container groups with specified configurations.
  *
  * @summary Create or update container groups with specified configurations.
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupCreateConfidential.json
  */
+
+import type { ContainerGroup } from "@azure/arm-containerinstance";
+import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function confidentialContainerGroup(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";

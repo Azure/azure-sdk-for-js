@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Checks the report's nested resource name availability, e.g: Webhooks, Evidences, Snapshots.
  *
  * @summary Checks the report's nested resource name availability, e.g: Webhooks, Evidences, Snapshots.
  * x-ms-original-file: specification/appcomplianceautomation/resource-manager/Microsoft.AppComplianceAutomation/stable/2024-06-27/examples/Report_NestedResourceCheckNameAvailability_Report_Evidence_Check_Name_Availability.json
  */
+
+import { AppComplianceAutomationToolForMicrosoft365 } from "@azure/arm-appcomplianceautomation";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function reportEvidenceCheckNameAvailability(): Promise<void> {
   const reportName = "reportABC";
   const credential = new DefaultAzureCredential();

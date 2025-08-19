@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LogicManagementClient } from "@azure/arm-logic";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Cancels a workflow run.
  *
  * @summary Cancels a workflow run.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/WorkflowRuns_Cancel.json
  */
+
+import { LogicManagementClient } from "@azure/arm-logic";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function cancelAWorkflowRun(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

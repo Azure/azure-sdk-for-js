@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Trigger refresh springbootsites action
  *
  * @summary Trigger refresh springbootsites action
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootsites_TriggerRefreshSite_MaximumSet_Gen.json
  */
+
+import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function springbootsitesTriggerRefreshSiteMaximumSetGen(): Promise<void> {
   const subscriptionId = process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "z";
   const resourceGroupName = process.env["SPRINGAPPDISCOVERY_RESOURCE_GROUP"] || "rgspringbootsites";

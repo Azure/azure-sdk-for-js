@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Get all Workbooks defined within a specified resource group and category.
+ *
+ * @summary Get all Workbooks defined within a specified resource group and category.
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbooksList.json
+ */
+
 import {
   WorkbooksListByResourceGroupOptionalParams,
   ApplicationInsightsManagementClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Get all Workbooks defined within a specified resource group and category.
- *
- * @summary Get all Workbooks defined within a specified resource group and category.
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbooksList.json
- */
 async function workbooksList(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||

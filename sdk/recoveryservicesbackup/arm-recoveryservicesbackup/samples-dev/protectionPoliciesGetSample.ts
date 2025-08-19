@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
 operation. Status of the operation can be fetched using GetPolicyOperationResult API.
@@ -13,6 +9,11 @@ operation. Status of the operation can be fetched using GetPolicyOperationResult
 operation. Status of the operation can be fetched using GetPolicyOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/AzureIaasVm/V2Policy/v2-Get-Policy.json
  */
+
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getAzureIaasVMEnhancedProtectionPolicyDetails(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||

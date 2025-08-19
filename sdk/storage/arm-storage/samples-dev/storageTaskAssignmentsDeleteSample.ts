@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { StorageManagementClient } from "@azure/arm-storage";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Delete the storage task assignment sub-resource
  *
  * @summary Delete the storage task assignment sub-resource
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/storageTaskAssignmentsCrud/DeleteStorageTaskAssignment.json
  */
+
+import { StorageManagementClient } from "@azure/arm-storage";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deleteStorageTaskAssignment(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] ||

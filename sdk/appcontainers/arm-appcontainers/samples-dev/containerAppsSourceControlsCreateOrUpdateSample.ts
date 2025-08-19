@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to Create or update the SourceControl for a Container App.
+ *
+ * @summary Create or update the SourceControl for a Container App.
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/SourceControls_CreateOrUpdate.json
+ */
+
 import {
   SourceControl,
   ContainerAppsAPIClient,
@@ -8,12 +15,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Create or update the SourceControl for a Container App.
- *
- * @summary Create or update the SourceControl for a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/SourceControls_CreateOrUpdate.json
- */
 async function createOrUpdateContainerAppSourceControl(): Promise<void> {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||

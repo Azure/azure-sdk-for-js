@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BatchManagementClient } from "@azure/arm-batch";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the Batch service quotas for the specified subscription at the given location.
  *
  * @summary Gets the Batch service quotas for the specified subscription at the given location.
  * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-07-01/examples/LocationGetQuotas.json
  */
+
+import { BatchManagementClient } from "@azure/arm-batch";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function locationGetQuotas(): Promise<void> {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const locationName = "japaneast";

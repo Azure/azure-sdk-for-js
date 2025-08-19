@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupport } from "@azure/arm-support";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns chatTranscript details for a no subscription support ticket.
  *
  * @summary Returns chatTranscript details for a no subscription support ticket.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetchatTranscriptDetailsForSupportTicket.json
  */
+
+import { MicrosoftSupport } from "@azure/arm-support";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getChatTranscriptDetailsForASubscriptionSupportTicket(): Promise<void> {
   const supportTicketName = "testticket";
   const chatTranscriptName = "b371192a-b094-4a71-b093-7246029b0a54";

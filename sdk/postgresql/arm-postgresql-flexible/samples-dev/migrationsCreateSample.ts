@@ -6,6 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/**
+ * This sample demonstrates how to Creates a new migration.
+ *
+ * @summary Creates a new migration.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Create_Other_SourceTypes_Validate_Migrate.json
+ */
+
 import {
   MigrationResource,
   PostgreSQLManagementFlexibleServerClient,
@@ -13,12 +20,6 @@ import {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to Creates a new migration.
- *
- * @summary Creates a new migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2025-01-01-preview/examples/Migrations_Create_Other_SourceTypes_Validate_Migrate.json
- */
 async function createMigrationWithOtherSourceTypesForValidateAndMigrate(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";

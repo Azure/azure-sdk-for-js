@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ImportRDBParameters } from "@azure/arm-rediscache";
-import { RedisManagementClient } from "@azure/arm-rediscache";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Import data into Redis cache.
  *
  * @summary Import data into Redis cache.
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheImport.json
  */
+
+import type { ImportRDBParameters } from "@azure/arm-rediscache";
+import { RedisManagementClient } from "@azure/arm-rediscache";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function redisCacheImport(): Promise<void> {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";

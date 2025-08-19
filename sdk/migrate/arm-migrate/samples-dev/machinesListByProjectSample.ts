@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMigrateV2 } from "@azure/arm-migrate";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Get data of all the machines available in the project. Returns a json array of objects of type 'machine' defined in Models section.
  *
  * @summary Get data of all the machines available in the project. Returns a json array of objects of type 'machine' defined in Models section.
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/Machines_ListByProject.json
  */
+
+import { AzureMigrateV2 } from "@azure/arm-migrate";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function machinesListByProject(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] || "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
