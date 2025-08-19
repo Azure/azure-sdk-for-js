@@ -6,10 +6,8 @@ The Azure management API provides a RESTful set of web services that interact wi
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-hardwaresecuritymodules)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hardwaresecuritymodules?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples)
 
 ## Getting started
 
@@ -52,25 +50,26 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { AzureHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
+import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new AzureHSMResourceProvider(new DefaultAzureCredential(), subscriptionId);
+const client = new AzureDedicatedHSMResourceProvider(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { AzureHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
+import { AzureDedicatedHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
-});
-const client = new AzureHSMResourceProvider(credential, subscriptionId);
+ });
+
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId);
 ```
 
 
@@ -97,9 +96,6 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-## Next steps
-
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 

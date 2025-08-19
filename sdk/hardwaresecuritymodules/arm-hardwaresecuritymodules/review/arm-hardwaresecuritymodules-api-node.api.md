@@ -17,6 +17,7 @@ export interface AzureDedicatedHSMResourceProviderContext extends Client {
 // @public
 export interface AzureDedicatedHSMResourceProviderOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public

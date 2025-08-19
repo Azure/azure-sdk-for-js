@@ -20,6 +20,12 @@ import {
   restoreResultDeserializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   CloudHsmClustersRestoreOptionalParams,
   CloudHsmClustersValidateRestorePropertiesOptionalParams,
   CloudHsmClustersBackupOptionalParams,
@@ -31,12 +37,6 @@ import {
   CloudHsmClustersCreateOrUpdateOptionalParams,
   CloudHsmClustersGetOptionalParams,
 } from "./options.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -64,18 +64,22 @@ export function _restoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: restoreRequestPropertiesSerializer(restoreRequestProperties),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: restoreRequestPropertiesSerializer(restoreRequestProperties),
+    });
 }
 
-export async function _restoreDeserialize(result: PathUncheckedResponse): Promise<RestoreResult> {
+export async function _restoreDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RestoreResult> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -129,17 +133,21 @@ export function _validateRestorePropertiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["restoreRequestProperties"]
-      ? options["restoreRequestProperties"]
-      : restoreRequestPropertiesSerializer(options["restoreRequestProperties"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options["restoreRequestProperties"]
+        ? options["restoreRequestProperties"]
+        : restoreRequestPropertiesSerializer(
+            options["restoreRequestProperties"],
+          ),
+    });
 }
 
 export async function _validateRestorePropertiesDeserialize(
@@ -164,13 +172,23 @@ export function validateRestoreProperties(
     requestOptions: {},
   },
 ): PollerLike<OperationState<RestoreResult>, RestoreResult> {
-  return getLongRunningPoller(context, _validateRestorePropertiesDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _validateRestorePropertiesSend(context, resourceGroupName, cloudHsmClusterName, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<RestoreResult>, RestoreResult>;
+  return getLongRunningPoller(
+    context,
+    _validateRestorePropertiesDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _validateRestorePropertiesSend(
+          context,
+          resourceGroupName,
+          cloudHsmClusterName,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<RestoreResult>, RestoreResult>;
 }
 
 export function _backupSend(
@@ -191,20 +209,24 @@ export function _backupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["backupRequestProperties"]
-      ? options["backupRequestProperties"]
-      : backupRequestPropertiesSerializer(options["backupRequestProperties"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options["backupRequestProperties"]
+        ? options["backupRequestProperties"]
+        : backupRequestPropertiesSerializer(options["backupRequestProperties"]),
+    });
 }
 
-export async function _backupDeserialize(result: PathUncheckedResponse): Promise<BackupResult> {
+export async function _backupDeserialize(
+  result: PathUncheckedResponse,
+): Promise<BackupResult> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -225,7 +247,8 @@ export function backup(
   return getLongRunningPoller(context, _backupDeserialize, ["202", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
-    getInitialResponse: () => _backupSend(context, resourceGroupName, cloudHsmClusterName, options),
+    getInitialResponse: () =>
+      _backupSend(context, resourceGroupName, cloudHsmClusterName, options),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<BackupResult>, BackupResult>;
 }
@@ -250,17 +273,19 @@ export function _validateBackupPropertiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["backupRequestProperties"]
-      ? options["backupRequestProperties"]
-      : backupRequestPropertiesSerializer(options["backupRequestProperties"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options["backupRequestProperties"]
+        ? options["backupRequestProperties"]
+        : backupRequestPropertiesSerializer(options["backupRequestProperties"]),
+    });
 }
 
 export async function _validateBackupPropertiesDeserialize(
@@ -285,13 +310,23 @@ export function validateBackupProperties(
     requestOptions: {},
   },
 ): PollerLike<OperationState<BackupResult>, BackupResult> {
-  return getLongRunningPoller(context, _validateBackupPropertiesDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _validateBackupPropertiesSend(context, resourceGroupName, cloudHsmClusterName, options),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<BackupResult>, BackupResult>;
+  return getLongRunningPoller(
+    context,
+    _validateBackupPropertiesDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _validateBackupPropertiesSend(
+          context,
+          resourceGroupName,
+          cloudHsmClusterName,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<BackupResult>, BackupResult>;
 }
 
 export function _listBySubscriptionSend(
@@ -311,13 +346,15 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -368,13 +405,15 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -425,16 +464,14 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -457,13 +494,18 @@ export function $delete(
   cloudHsmClusterName: string,
   options: CloudHsmClustersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _$deleteSend(context, resourceGroupName, cloudHsmClusterName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _$deleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _$deleteSend(context, resourceGroupName, cloudHsmClusterName, options),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(
@@ -485,18 +527,22 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: cloudHsmClusterPatchParametersSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: cloudHsmClusterPatchParametersSerializer(body),
+    });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<CloudHsmCluster> {
+export async function _updateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CloudHsmCluster> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -519,7 +565,13 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, cloudHsmClusterName, body, options),
+      _updateSend(
+        context,
+        resourceGroupName,
+        cloudHsmClusterName,
+        body,
+        options,
+      ),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<CloudHsmCluster>, CloudHsmCluster>;
 }
@@ -545,21 +597,23 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: cloudHsmClusterSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: cloudHsmClusterSerializer(body),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CloudHsmCluster> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -579,13 +633,24 @@ export function createOrUpdate(
     requestOptions: {},
   },
 ): PollerLike<OperationState<CloudHsmCluster>, CloudHsmCluster> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, cloudHsmClusterName, body, options),
-    resourceLocationConfig: "original-uri",
-  }) as PollerLike<OperationState<CloudHsmCluster>, CloudHsmCluster>;
+  return getLongRunningPoller(
+    context,
+    _createOrUpdateDeserialize,
+    ["200", "201", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _createOrUpdateSend(
+          context,
+          resourceGroupName,
+          cloudHsmClusterName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "original-uri",
+    },
+  ) as PollerLike<OperationState<CloudHsmCluster>, CloudHsmCluster>;
 }
 
 export function _getSend(
@@ -606,16 +671,20 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<CloudHsmCluster> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<CloudHsmCluster> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -633,6 +702,11 @@ export async function get(
   cloudHsmClusterName: string,
   options: CloudHsmClustersGetOptionalParams = { requestOptions: {} },
 ): Promise<CloudHsmCluster> {
-  const result = await _getSend(context, resourceGroupName, cloudHsmClusterName, options);
+  const result = await _getSend(
+    context,
+    resourceGroupName,
+    cloudHsmClusterName,
+    options,
+  );
   return _getDeserialize(result);
 }

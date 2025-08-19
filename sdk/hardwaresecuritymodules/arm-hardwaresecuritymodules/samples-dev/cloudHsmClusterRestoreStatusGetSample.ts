@@ -13,12 +13,16 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function cloudHsmClusterGetRestoreStatusMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId);
-  await client.cloudHsmClusterRestoreStatus.get(
+  const client = new AzureDedicatedHSMResourceProvider(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.cloudHsmClusterRestoreStatus.get(
     "rgcloudhsm",
     "chsm1",
     "572a45927fc240e1ac075de27371680b",
   );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

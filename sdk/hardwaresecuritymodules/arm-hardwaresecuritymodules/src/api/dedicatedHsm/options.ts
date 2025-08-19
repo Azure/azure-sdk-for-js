@@ -8,13 +8,15 @@ export interface DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalPar
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DedicatedHsmListBySubscriptionOptionalParams extends OperationOptions {
+export interface DedicatedHsmListBySubscriptionOptionalParams
+  extends OperationOptions {
   /** Maximum number of results to return. */
   top?: number;
 }
 
 /** Optional parameters. */
-export interface DedicatedHsmListByResourceGroupOptionalParams extends OperationOptions {
+export interface DedicatedHsmListByResourceGroupOptionalParams
+  extends OperationOptions {
   /** Maximum number of results to return. */
   top?: number;
 }
@@ -32,7 +34,8 @@ export interface DedicatedHsmUpdateOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface DedicatedHsmCreateOrUpdateOptionalParams extends OperationOptions {
+export interface DedicatedHsmCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

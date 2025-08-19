@@ -4,7 +4,5 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface CloudHsmClusterRestoreStatusGetOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
+export interface CloudHsmClusterRestoreStatusGetOptionalParams
+  extends OperationOptions {}

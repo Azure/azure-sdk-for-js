@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
-import { PrivateEndpointConnection } from "../../models/models.js";
-import { PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams } from "../../api/privateEndpointConnections/options.js";
 import { listByCloudHsmCluster } from "../../api/privateEndpointConnections/operations.js";
+import { PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams } from "../../api/privateEndpointConnections/options.js";
+import { PrivateEndpointConnection } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateEndpointConnections operations. */
@@ -17,13 +17,21 @@ export interface PrivateEndpointConnectionsOperations {
   ) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
 
-function _getPrivateEndpointConnections(context: AzureDedicatedHSMResourceProviderContext) {
+function _getPrivateEndpointConnections(
+  context: AzureDedicatedHSMResourceProviderContext,
+) {
   return {
     listByCloudHsmCluster: (
       resourceGroupName: string,
       cloudHsmClusterName: string,
       options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams,
-    ) => listByCloudHsmCluster(context, resourceGroupName, cloudHsmClusterName, options),
+    ) =>
+      listByCloudHsmCluster(
+        context,
+        resourceGroupName,
+        cloudHsmClusterName,
+        options,
+      ),
   };
 }
 

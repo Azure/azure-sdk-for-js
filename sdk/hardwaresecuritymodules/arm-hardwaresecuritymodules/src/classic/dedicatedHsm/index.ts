@@ -3,10 +3,14 @@
 
 import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
 import {
-  DedicatedHsm,
-  DedicatedHsmPatchParameters,
-  OutboundEnvironmentEndpoint,
-} from "../../models/models.js";
+  listOutboundNetworkDependenciesEndpoints,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/dedicatedHsm/operations.js";
 import {
   DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
   DedicatedHsmListBySubscriptionOptionalParams,
@@ -17,14 +21,10 @@ import {
   DedicatedHsmGetOptionalParams,
 } from "../../api/dedicatedHsm/options.js";
 import {
-  listOutboundNetworkDependenciesEndpoints,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/dedicatedHsm/operations.js";
+  DedicatedHsm,
+  DedicatedHsmPatchParameters,
+  OutboundEnvironmentEndpoint,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -84,15 +84,25 @@ function _getDedicatedHsm(context: AzureDedicatedHSMResourceProviderContext) {
       resourceGroupName: string,
       name: string,
       options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
-    ) => listOutboundNetworkDependenciesEndpoints(context, resourceGroupName, name, options),
-    listBySubscription: (options?: DedicatedHsmListBySubscriptionOptionalParams) =>
-      listBySubscription(context, options),
+    ) =>
+      listOutboundNetworkDependenciesEndpoints(
+        context,
+        resourceGroupName,
+        name,
+        options,
+      ),
+    listBySubscription: (
+      options?: DedicatedHsmListBySubscriptionOptionalParams,
+    ) => listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: DedicatedHsmListByResourceGroupOptionalParams,
     ) => listByResourceGroup(context, resourceGroupName, options),
-    delete: (resourceGroupName: string, name: string, options?: DedicatedHsmDeleteOptionalParams) =>
-      $delete(context, resourceGroupName, name, options),
+    delete: (
+      resourceGroupName: string,
+      name: string,
+      options?: DedicatedHsmDeleteOptionalParams,
+    ) => $delete(context, resourceGroupName, name, options),
     update: (
       resourceGroupName: string,
       name: string,
@@ -105,8 +115,11 @@ function _getDedicatedHsm(context: AzureDedicatedHSMResourceProviderContext) {
       parameters: DedicatedHsm,
       options?: DedicatedHsmCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, name, parameters, options),
-    get: (resourceGroupName: string, name: string, options?: DedicatedHsmGetOptionalParams) =>
-      get(context, resourceGroupName, name, options),
+    get: (
+      resourceGroupName: string,
+      name: string,
+      options?: DedicatedHsmGetOptionalParams,
+    ) => get(context, resourceGroupName, name, options),
   };
 }
 

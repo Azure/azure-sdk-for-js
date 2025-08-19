@@ -13,7 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getADedicatedHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId);
+  const client = new AzureDedicatedHSMResourceProvider(
+    credential,
+    subscriptionId,
+  );
   const result = await client.dedicatedHsm.get("hsm-group", "hsm1");
   console.log(result);
 }
@@ -27,7 +30,10 @@ async function getADedicatedHSM(): Promise<void> {
 async function getAPaymentHSM(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId);
+  const client = new AzureDedicatedHSMResourceProvider(
+    credential,
+    subscriptionId,
+  );
   const result = await client.dedicatedHsm.get("hsm-group", "hsm1");
   console.log(result);
 }
@@ -41,7 +47,10 @@ async function getAPaymentHSM(): Promise<void> {
 async function getAPaymentHSMWith20181031PreviewApiVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId);
+  const client = new AzureDedicatedHSMResourceProvider(
+    credential,
+    subscriptionId,
+  );
   const result = await client.dedicatedHsm.get("hsm-group", "hsm1");
   console.log(result);
 }

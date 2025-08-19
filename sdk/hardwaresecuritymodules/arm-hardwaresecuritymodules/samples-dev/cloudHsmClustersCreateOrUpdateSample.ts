@@ -13,20 +13,27 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function cloudHsmClusterCreateOrUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new AzureDedicatedHSMResourceProvider(credential, subscriptionId);
-  const result = await client.cloudHsmClusters.createOrUpdate("rgcloudhsm", "chsm1", {
-    identity: {
-      type: "UserAssigned",
-      userAssignedIdentities: {
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-resources/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity-1":
-          {},
+  const client = new AzureDedicatedHSMResourceProvider(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.cloudHsmClusters.createOrUpdate(
+    "rgcloudhsm",
+    "chsm1",
+    {
+      identity: {
+        type: "UserAssigned",
+        userAssignedIdentities: {
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-resources/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity-1":
+            {},
+        },
       },
+      location: "eastus2",
+      properties: { publicNetworkAccess: "Disabled" },
+      sku: { name: "Standard_B1", family: "B" },
+      tags: { Dept: "hsm", Environment: "dogfood" },
     },
-    location: "eastus2",
-    properties: { publicNetworkAccess: "Disabled" },
-    sku: { name: "Standard_B1", family: "B" },
-    tags: { Dept: "hsm", Environment: "dogfood" },
-  });
+  );
   console.log(result);
 }
 

@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import { AzureDedicatedHSMResourceProviderContext } from "../../api/azureDedicatedHSMResourceProviderContext.js";
-import { PrivateEndpointConnection } from "../../models/models.js";
-import {
-  CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
-  CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams,
-  CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
-} from "../../api/cloudHsmClusterPrivateEndpointConnections/options.js";
 import {
   $delete,
   create,
   get,
 } from "../../api/cloudHsmClusterPrivateEndpointConnections/operations.js";
+import {
+  CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
+  CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams,
+  CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
+} from "../../api/cloudHsmClusterPrivateEndpointConnections/options.js";
+import { PrivateEndpointConnection } from "../../models/models.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudHsmClusterPrivateEndpointConnections operations. */
@@ -55,7 +55,14 @@ function _getCloudHsmClusterPrivateEndpointConnections(
       cloudHsmClusterName: string,
       peConnectionName: string,
       options?: CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
-    ) => $delete(context, resourceGroupName, cloudHsmClusterName, peConnectionName, options),
+    ) =>
+      $delete(
+        context,
+        resourceGroupName,
+        cloudHsmClusterName,
+        peConnectionName,
+        options,
+      ),
     create: (
       resourceGroupName: string,
       cloudHsmClusterName: string,
@@ -76,7 +83,14 @@ function _getCloudHsmClusterPrivateEndpointConnections(
       cloudHsmClusterName: string,
       peConnectionName: string,
       options?: CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
-    ) => get(context, resourceGroupName, cloudHsmClusterName, peConnectionName, options),
+    ) =>
+      get(
+        context,
+        resourceGroupName,
+        cloudHsmClusterName,
+        peConnectionName,
+        options,
+      ),
   };
 }
 
