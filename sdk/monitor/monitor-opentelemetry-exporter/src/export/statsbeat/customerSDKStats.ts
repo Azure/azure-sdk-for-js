@@ -323,8 +323,6 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
         return "Expired data";
       case DropCode.CLIENT_READONLY:
         return "Readonly mode";
-      case DropCode.CLIENT_STALE_DATA:
-        return "Stale data";
       case DropCode.CLIENT_PERSISTENCE_CAPACITY:
         return "Persistence full";
       case DropCode.UNKNOWN:
