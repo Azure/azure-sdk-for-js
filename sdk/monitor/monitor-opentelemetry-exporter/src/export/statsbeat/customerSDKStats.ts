@@ -346,7 +346,12 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     if (message.includes("timeout") || message.includes("timed out")) {
       return "Timeout exception";
     }
-    if (message.includes("network") || message.includes("connection") || message.includes("dns") || message.includes("socket")) {
+    if (
+      message.includes("network") ||
+      message.includes("connection") ||
+      message.includes("dns") ||
+      message.includes("socket")
+    ) {
       return "Network exception";
     }
     if (
@@ -358,13 +363,28 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     ) {
       return "Auth exception";
     }
-    if (message.includes("parsing") || message.includes("parse") || message.includes("invalid") || message.includes("json") || message.includes("xml")) {
+    if (
+      message.includes("parsing") ||
+      message.includes("parse") ||
+      message.includes("invalid") ||
+      message.includes("json") ||
+      message.includes("xml")
+    ) {
       return "Parse exception";
     }
-    if (message.includes("disk") || message.includes("storage") || message.includes("file") || message.includes("persist")) {
+    if (
+      message.includes("disk") ||
+      message.includes("storage") ||
+      message.includes("file") ||
+      message.includes("persist")
+    ) {
       return "Storage exception";
     }
-    if (message.includes("memory") || message.includes("out of memory") || message.includes("heap")) {
+    if (
+      message.includes("memory") ||
+      message.includes("out of memory") ||
+      message.includes("heap")
+    ) {
       return "Memory exception";
     }
 
