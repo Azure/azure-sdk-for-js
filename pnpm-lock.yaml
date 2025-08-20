@@ -6,6 +6,12 @@ settings:
 
 catalogs:
   arm:
+    '@azure/arm-cognitiveservices':
+      specifier: 7.6.0
+      version: 7.6.0
+    '@azure/arm-storage':
+      specifier: 18.5.0
+      version: 18.5.0
     '@azure/arm-webpubsub':
       specifier: 1.2.0
       version: 1.2.0
@@ -2676,8 +2682,8 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-storage':
-        specifier: ^18.3.0
-        version: link:../../storage/arm-storage
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -3374,8 +3380,8 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
-        specifier: ^7.6.0
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -3453,7 +3459,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
-        specifier: 7.6.0
+        specifier: catalog:arm
         version: 7.6.0
       '@azure/core-util':
         specifier: workspace:^
@@ -9433,11 +9439,11 @@ importers:
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/arm-cognitiveservices':
-        specifier: ^7.6.0
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/arm-storage':
-        specifier: ^18.4.0
-        version: link:../../storage/arm-storage
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -10433,8 +10439,8 @@ importers:
         specifier: ^32.2.0
         version: 32.2.0
       '@azure/arm-storage':
-        specifier: ^18.0.0
-        version: link:../../storage/arm-storage
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -11276,11 +11282,11 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-cognitiveservices':
-        specifier: ^7.6.0
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/arm-storage':
-        specifier: ^18.4.0
-        version: link:../../storage/arm-storage
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -17287,8 +17293,8 @@ importers:
         specifier: ^9.0.0
         version: link:../../operationalinsights/arm-operationalinsights
       '@azure/arm-storage':
-        specifier: ^18.0.0
-        version: link:../../storage/arm-storage
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -19026,8 +19032,8 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-cognitiveservices':
-        specifier: ^7.5.0
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/arm-search':
         specifier: ^3.2.0
         version: link:../../search/arm-search
@@ -26382,8 +26388,8 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-storage':
-        specifier: ^18.4.0
-        version: link:../../storage/arm-storage
+        specifier: catalog:arm
+        version: 18.5.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -26984,7 +26990,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
-        specifier: 7.6.0
+        specifier: catalog:arm
         version: 7.6.0
       '@azure/dev-tool':
         specifier: workspace:^
@@ -27210,8 +27216,8 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
-        specifier: ^7.6.0
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -27277,8 +27283,8 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
-        specifier: ^7.6.0
-        version: link:../../cognitiveservices/arm-cognitiveservices
+        specifier: catalog:arm
+        version: 7.6.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -28170,6 +28176,10 @@ packages:
   '@azure/arm-servicebus@6.1.0':
     resolution: {integrity: sha512-KxZFSseqIwXlQkQ3jSV9d0O1ccF/VcpVQwCBZsGaSiTBgKjht1c4279543ZdmvXOZyxn5e7ckEwJ8KIFlJ4OZA==}
     engines: {node: '>=14.0.0'}
+
+  '@azure/arm-storage@18.5.0':
+    resolution: {integrity: sha512-eMHYmNn/WP5tCfu39efAV7IkdfdHQ3mE5B9V7Z4BkryetfwFUJokgNkHP5wXDpr0tVh71iqEnHIql/vVE0dqmg==}
+    engines: {node: '>=18.0.0'}
 
   '@azure/arm-webpubsub@1.2.0':
     resolution: {integrity: sha512-FZMMUv6EFy5GTURJShQxMyZ/oH6qoD8uclv280qrR1d/NSXsgfOs6mnQ4pbG2iZJaG1hzM5dwwl/QTVEphpwvA==}
@@ -33226,6 +33236,18 @@ snapshots:
   '@azure/arm-servicebus@6.1.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.10.0
+      '@azure/core-client': 1.10.0
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-storage@18.5.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.0
       '@azure/core-client': 1.10.0
       '@azure/core-lro': 2.7.2
