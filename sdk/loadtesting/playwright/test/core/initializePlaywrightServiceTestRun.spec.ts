@@ -3,7 +3,7 @@
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { initializePlaywrightServiceTestRun } from "$internal/core/initializePlaywrightServiceTestRun.js";
-import { TestRunCreatePayload } from "$internal/common/types.js";
+import type { TestRunCreatePayload } from "$internal/common/types.js";
 
 // Create a mock state object that will be accessible from both tests and mocks
 const mockState = {
@@ -15,13 +15,13 @@ const mockState = {
 };
 
 // Mock modules using only inline function definitions
-vi.mock("../../src/utils/playwrightServiceApicall.js", () => ({
+vi.mock("$internal/utils/playwrightServiceApicall.js", () => ({
   PlaywrightServiceApiCall: vi.fn().mockImplementation(() => ({
     patchTestRunAPI: (...args: any[]) => mockState.patchTestRunAPI(...args),
   })),
 }));
 
-vi.mock("../../src/common/playwrightServiceConfig.js", () => ({
+vi.mock("$internal/common/playwrightServiceConfig.js", () => ({
   PlaywrightServiceConfig: {
     get instance() {
       return {
@@ -36,11 +36,11 @@ vi.mock("../../src/common/playwrightServiceConfig.js", () => ({
   },
 }));
 
-vi.mock("../../src/utils/utils.js", () => ({
+vi.mock("$internal/utils/utils.js", () => ({
   getTestRunConfig: (...args: any[]) => mockState.getTestRunConfig(...args),
 }));
 
-vi.mock("../../src/utils/cIInfoProvider.js", () => ({
+vi.mock("$internal/utils/cIInfoProvider.js", () => ({
   CIInfoProvider: {
     getCIInfo: (...args: any[]) => mockState.getCIInfo(...args),
   },

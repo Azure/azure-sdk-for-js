@@ -5,13 +5,13 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ServiceAuth } from "$internal/common/constants.js";
 
 // Mock the modules needed
-vi.mock("../../../src/common/customerConfig.js", () => ({
+vi.mock("$internal/common/customerConfig.js", () => ({
   default: {
     globalSetup: null,
   },
 }));
 
-vi.mock("../../../src/common/executor.js", () => ({
+vi.mock("$internal/common/executor.js", () => ({
   loadCustomerGlobalFunction: vi.fn(),
 }));
 

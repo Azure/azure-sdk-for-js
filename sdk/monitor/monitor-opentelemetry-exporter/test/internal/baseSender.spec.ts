@@ -60,13 +60,13 @@ export const mockPersist: MockFilePersist = {
 };
 
 // Mock the persist module
-vi.mock("../../src/platform/nodejs/persist/index.js", () => {
+vi.mock("$internal/platform/nodejs/persist/index.js", () => {
   return {
     FileSystemPersist: vi.fn().mockImplementation(() => mockPersist),
   };
 });
 
-vi.mock("../../src/export/statsbeat/networkStatsbeatMetrics.js", () => {
+vi.mock("$internal/export/statsbeat/networkStatsbeatMetrics.js", () => {
   return {
     NetworkStatsbeatMetrics: class MockNetworkStatsbeatMetrics {
       static getInstance = vi.fn().mockImplementation(() => {
@@ -80,7 +80,7 @@ vi.mock("../../src/export/statsbeat/networkStatsbeatMetrics.js", () => {
   };
 });
 
-vi.mock("../../src/export/statsbeat/longIntervalStatsbeatMetrics.js", () => {
+vi.mock("$internal/export/statsbeat/longIntervalStatsbeatMetrics.js", () => {
   return {
     LongIntervalStatsbeatMetrics: class MockLongIntervalStatsbeatMetrics {
       static getInstance = vi.fn().mockImplementation(() => {
@@ -102,7 +102,7 @@ export const mockCustomerSDKStatsMetrics = {
   shutdown: vi.fn(),
 };
 
-vi.mock("../../src/export/statsbeat/customerSDKStats.js", () => {
+vi.mock("$internal/export/statsbeat/customerSDKStats.js", () => {
   return {
     CustomerSDKStatsMetrics: {
       getInstance: vi.fn().mockImplementation(() => {
@@ -113,8 +113,8 @@ vi.mock("../../src/export/statsbeat/customerSDKStats.js", () => {
   };
 });
 
-vi.mock("../../src/utils/breezeUtils.js", () => {
-  const actual = vi.importActual("../../src/utils/breezeUtils.js");
+vi.mock("$internal/utils/breezeUtils.js", () => {
+  const actual = vi.importActual("$internal/utils/breezeUtils.js");
   return {
     ...actual,
     // Keep the actual implementation for tests to use

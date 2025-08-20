@@ -27,7 +27,7 @@ interface Resource {
   [key: string]: any;
 }
 
-vi.mock("../../../../src/index.js", async (importActual) => {
+vi.mock("@azure/cosmos", async (importActual) => {
   const ContainerMock = vi.fn();
 
   const actual = await importActual<typeof import("@azure/cosmos")>();

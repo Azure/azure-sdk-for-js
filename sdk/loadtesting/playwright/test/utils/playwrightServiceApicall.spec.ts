@@ -5,7 +5,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { PlaywrightServiceApiCall } from "$internal/utils/playwrightServiceApicall.js";
 import { Constants } from "$internal/common/constants.js";
 import { ServiceErrorMessageConstants } from "$internal/common/messages.js";
-import { TestRunCreatePayload } from "$internal/common/types.js";
+import type { TestRunCreatePayload } from "$internal/common/types.js";
 
 // Create a mock state object that will be accessible from both tests and mocks
 const mockState = {
@@ -18,13 +18,13 @@ const mockState = {
 };
 
 // Mock modules using only inline function definitions to avoid hoisting issues
-vi.mock("../../src/common/httpService.js", () => ({
+vi.mock("$internal/common/httpService.js", () => ({
   HttpService: vi.fn().mockImplementation(() => ({
     callAPI: (...args: any[]) => mockState.callAPI(...args),
   })),
 }));
 
-vi.mock("../../src/utils/utils.js", () => ({
+vi.mock("$internal/utils/utils.js", () => ({
   getTestRunApiUrl: (...args: any[]) => mockState.getTestRunApiUrl(...args),
   getAccessToken: (...args: any[]) => mockState.getAccessToken(...args),
   exitWithFailureMessage: (...args: any[]) => mockState.exitWithFailureMessage(...args),

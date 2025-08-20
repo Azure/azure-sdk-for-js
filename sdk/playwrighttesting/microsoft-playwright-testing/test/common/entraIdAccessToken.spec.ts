@@ -10,7 +10,7 @@ import { EntraIdAccessToken } from "$internal/common/entraIdAccessToken.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { parseJwt } from "$internal/utils/parseJwt.js";
 
-vi.mock("../../src/utils/parseJwt.js", () => ({
+vi.mock("$internal/utils/parseJwt.js", () => ({
   parseJwt: vi.fn(),
 }));
 

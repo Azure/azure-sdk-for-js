@@ -5,7 +5,7 @@ import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
 import fs from "node:fs";
 import { PlaywrightServiceInitialize } from "$internal/initialize.js";
 
-vi.mock("../src/utils.js", (imported) => {
+vi.mock("$internal/utils.js", (imported) => {
   return {
     ...imported,
     executeCommand: vi.fn(),
