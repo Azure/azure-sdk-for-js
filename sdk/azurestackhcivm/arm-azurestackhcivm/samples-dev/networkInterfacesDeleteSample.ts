@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to the operation to delete a network interface.
  *
  * @summary the operation to delete a network interface.
  * x-ms-original-file: 2025-06-01-preview/NetworkInterfaces_Delete.json
  */
+
+import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deleteNetworkInterface(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";

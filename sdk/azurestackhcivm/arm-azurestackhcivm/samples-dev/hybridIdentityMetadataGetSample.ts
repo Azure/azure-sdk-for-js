@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to implements HybridIdentityMetadata GET method.
  *
  * @summary implements HybridIdentityMetadata GET method.
  * x-ms-original-file: 2025-06-01-preview/HybridIdentityMetadataGroup_Get.json
  */
+
+import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getHybridIdentityMetadata(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
