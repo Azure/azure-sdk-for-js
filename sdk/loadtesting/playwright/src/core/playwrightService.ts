@@ -28,13 +28,11 @@ import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { globalPaths } from "./playwrightServiceUtils.js";
 
-export const performOneTimeOperation = (options?: { serviceAuthType?: string }): void => {
+const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): void => {
   const oneTimeOperationFlag =
     process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] === "true";
   if (oneTimeOperationFlag) return;
-
   process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
-
   if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
     warnIfAccessTokenCloseToExpiry();
   }
