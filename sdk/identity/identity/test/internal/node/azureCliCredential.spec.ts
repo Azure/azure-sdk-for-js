@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AzureCliCredential } from "@azure/identity";
+import { azureCliPublicErrorMessages } from "$internal/credentials/azureCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
 import child_process from "node:child_process";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
@@ -140,7 +141,7 @@ describe("AzureCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
+          azureCliPublicErrorMessages.notInstalled,
         );
       }
     } else {
@@ -153,7 +154,7 @@ describe("AzureCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
+          azureCliPublicErrorMessages.notInstalled,
         );
       }
     }
@@ -162,14 +163,14 @@ describe("AzureCliCredential (internal)", function () {
   it("get access token when azure cli not login in", async () => {
     stdout = "";
     stderr =
-      "Please run 'az login' from a command prompt to authenticate before using this credential.";
+      azureCliPublicErrorMessages.login;
     const credential = new AzureCliCredential();
     try {
       await credential.getToken("https://service/.default");
     } catch (error: any) {
       assert.equal(
         error.message,
-        "Please run 'az login' from a command prompt to authenticate before using this credential.",
+        azureCliPublicErrorMessages.login,
       );
     }
   });
@@ -190,7 +191,7 @@ describe("AzureCliCredential (internal)", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `Failed to get token. Run 'az login --claims-challenge ${claimsChallenge} --scope ${scope}' to authenticate.`,
+      `${azureCliPublicErrorMessages.claim} az login --claims-challenge ${claimsChallenge} --scope ${scope}`,
     );
   });
 
@@ -214,7 +215,7 @@ describe("AzureCliCredential (internal)", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `Failed to get token. Run 'az login --claims-challenge ${claimsChallenge} --scope ${scope} --tenant ${tenantId}' to authenticate.`,
+      `${azureCliPublicErrorMessages.claim} az login --claims-challenge ${claimsChallenge} --scope ${scope} --tenant ${tenantId}`,
     );
   });
 
@@ -224,7 +225,7 @@ describe("AzureCliCredential (internal)", function () {
     const scope = "https://service/.default";
 
     const credential = new AzureCliCredential();
-    
+
     // Should not throw an error for empty claims
     const actualToken = await credential.getToken(scope, { claims: "" });
     assert.equal(actualToken!.token, "token");
@@ -238,7 +239,7 @@ describe("AzureCliCredential (internal)", function () {
     stderr = "";
     const scope = "https://service/.default";
     const credential = new AzureCliCredential();
-    
+
     // Should not throw an error for undefined claims
     const actualToken = await credential.getToken(scope, { claims: undefined });
     assert.equal(actualToken!.token, "token");

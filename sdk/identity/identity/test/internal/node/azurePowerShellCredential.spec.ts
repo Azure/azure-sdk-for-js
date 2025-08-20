@@ -98,7 +98,30 @@ describe("AzurePowerShellCredential", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `Failed to get token. Please run 'Connect-AzAccount -- ClaimsChallenge ${claimsChallenge}' to authenticate.`,
+      `${powerShellPublicErrorMessages.claim} ${claimsChallenge}`,
+    );
+  });
+
+  it("throws an expected error when claims challenge is provided with tenant", async function () {
+    const credential = new AzurePowerShellCredential();
+    const claimsChallenge = "urn:microsoft:req1";
+    const tenantId = "12345678-1234-1234-1234-123456789012";
+
+    let error: Error | null = null;
+    try {
+      await credential.getToken(scope, { 
+        claims: claimsChallenge,
+        tenantId: tenantId 
+      });
+    } catch (e: any) {
+      error = e;
+    }
+
+    assert.ok(error);
+    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(
+      error?.message,
+      `${powerShellPublicErrorMessages.claim} ${claimsChallenge}`,
     );
   });
 

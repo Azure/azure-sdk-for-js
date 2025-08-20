@@ -17,6 +17,18 @@ import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils.js";
 const logger = credentialLogger("AzureDeveloperCliCredential");
 
 /**
+ * Messages to use when throwing in this credential.
+ * @internal
+ */
+export const azureDeveloperCliPublicErrorMessages = {
+  notInstalled:
+    "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+  login:
+    "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+  unknown: "Unknown error while trying to retrieve the access token",
+};
+
+/**
  * Mockable reference to the Developer CLI credential cliCredentialFunctions
  * @internal
  */
@@ -50,10 +62,16 @@ export const developerCliCredentialInternals = {
     scopes: string[],
     tenantId?: string,
     timeout?: number,
+    claims?: string
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     let tenantSection: string[] = [];
     if (tenantId) {
       tenantSection = ["--tenant-id", tenantId];
+    }
+
+    let claimsSections: string[] = [];
+    if (claims) {
+      claimsSections = ["--claims", claims]
     }
     return new Promise((resolve, reject) => {
       try {
@@ -67,6 +85,7 @@ export const developerCliCredentialInternals = {
             [],
           ),
           ...tenantSection,
+          ...claimsSections,
         ];
         const command = ["azd", ...args].join(" ");
         child_process.exec(
@@ -172,6 +191,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           scopeList,
           tenantId,
           this.timeout,
+          options.claims
         );
         const isNotLoggedInError =
           obj.stderr?.match("not logged in, run `azd login` to login") ||
@@ -182,7 +202,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotInstallError || (obj.error && (obj.error as any).code === "ENOENT")) {
           const error = new CredentialUnavailableError(
-            "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+            azureDeveloperCliPublicErrorMessages.notInstalled,
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -190,7 +210,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotLoggedInError) {
           const error = new CredentialUnavailableError(
-            "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+            azureDeveloperCliPublicErrorMessages.login,
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -215,8 +235,8 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-                (err as Error).message || "Unknown error while trying to retrieve the access token",
-              );
+              (err as Error).message || azureDeveloperCliPublicErrorMessages.unknown,
+            );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
