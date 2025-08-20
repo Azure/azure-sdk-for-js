@@ -9,7 +9,7 @@ import {
   ShareClient,
   ShareFileClient,
   ShareServiceClient,
-} from "../../src/index.js";
+} from "@azure/storage-file-share";
 import { AnonymousCredential } from "@azure/storage-common";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
 import { FileSASPermissions } from "@azure/storage-file-share";

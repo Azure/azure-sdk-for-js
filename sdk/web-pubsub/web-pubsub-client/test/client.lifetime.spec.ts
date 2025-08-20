@@ -11,7 +11,7 @@ import type {
   WebPubSubClientOptions,
   WebPubSubResult,
   WebPubSubRetryOptions,
-} from "../src/models/index.js";
+} from "@azure/web-pubsub-client";
 import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { delay } from "@azure/core-util";
 import { TestWebSocketClient } from "./testWebSocketClient.js";

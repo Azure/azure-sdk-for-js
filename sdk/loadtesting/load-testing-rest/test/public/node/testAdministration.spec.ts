@@ -6,7 +6,7 @@ import type {
   AppComponent,
   AzureLoadTestingClient,
   TestAppComponentsOutput,
-} from "../../../src/index.js";
+} from "@azure-rest/load-testing";
 import { isUnexpected } from "@azure-rest/load-testing";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";

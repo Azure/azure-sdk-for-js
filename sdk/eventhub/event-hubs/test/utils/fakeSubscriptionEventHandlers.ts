@@ -5,7 +5,7 @@ import type {
   PartitionContext,
   ReceivedEventData,
   SubscriptionEventHandlers,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 
 export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers {
   public events: Map<string, ReceivedEventData[]> = new Map();

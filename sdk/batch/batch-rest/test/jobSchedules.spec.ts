@@ -9,7 +9,7 @@ import type {
   CreateJobScheduleParameters,
   BatchClient,
   CreatePoolParameters,
-} from "../src/index.js";
+} from "@azure-rest/batch";
 import { isUnexpected } from "@azure-rest/batch";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName } from "./utils/helpers.js";

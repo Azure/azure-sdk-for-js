@@ -8,7 +8,7 @@ import type {
   Connection,
   DatasetVersionUnion,
   ModelDeployment,
-} from "../src/index.js";
+} from "@azure/ai-projects";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";

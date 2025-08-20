@@ -5,7 +5,7 @@ import {
   ChangeFeedForEpkRange,
   ChangeFeedIteratorResponse,
   ChangeFeedMode,
-} from "../../../../src/client/ChangeFeed/index.js";
+} from "$internal/client/ChangeFeed/index.js";
 import type { ClientContext } from "@azure/cosmos";
 import {
   Constants,
@@ -13,7 +13,7 @@ import {
   ErrorResponse,
   StatusCodes,
   TimeoutError,
-} from "../../../../src/index.js";
+} from "@azure/cosmos";
 import { PartitionKeyRangeCache, QueryRange } from "$internal/routing/index.js";
 import { ChangeFeedRange } from "$internal/client/ChangeFeed/ChangeFeedRange.js";
 import { MockedClientContext } from "../../../public/common/MockClientContext.js";

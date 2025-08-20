@@ -5,7 +5,7 @@ import { AccessToken } from "@azure/core-auth";
 import {
   createBrowserRelayCredential,
   RelayAuthenticationError,
-} from "../src/browserRelayCredential.js";
+} from "$internal/browserRelayCredential.js";
 import { describe, it, assert, expect, vi } from "vitest";
 
 describe("browserRelayCredential", () => {

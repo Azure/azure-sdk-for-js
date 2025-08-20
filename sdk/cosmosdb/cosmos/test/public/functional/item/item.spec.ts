@@ -9,7 +9,7 @@ import type {
   ItemDefinition,
   PatchOperation,
   RequestOptions,
-} from "../../../../src/index.js";
+} from "@azure/cosmos";
 import { CosmosClient } from "@azure/cosmos";
 import {
   bulkDeleteItems,
@@ -30,7 +30,7 @@ import type { PartitionKey, PartitionKeyDefinition } from "$internal/documents/i
 import {
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
-} from "../../../../src/documents/index.js";
+} from "@azure/cosmos";
 import { PriorityLevel } from "$internal/documents/PriorityLevel.js";
 import { getCurrentTimestampInMs } from "$internal/utils/time.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";

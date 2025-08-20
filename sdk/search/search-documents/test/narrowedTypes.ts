@@ -13,7 +13,7 @@ import type {
   SearchPick,
   SelectArray,
   SuggestNarrowedModel,
-} from "../src/indexModels.js";
+} from "@azure/search-documents";
 
 type Equals<T1, T2> =
   (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;

@@ -7,7 +7,7 @@ import {
   ChangeFeedRetentionTimeSpan,
   ChangeFeedPolicy,
   ChangeFeedMode,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import type { Container, ContainerDefinition } from "@azure/cosmos";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
 import {

@@ -4,14 +4,14 @@ import type {
   CertificateBundle,
   CertificateOperation as CoreCertificateOperation,
   DeletedCertificateItem,
-} from "../../src/models/models.ts";
+} from "$internal/models/index.js";
 import {
   getCertificateFromCertificateBundle,
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle,
   getDeletedCertificateFromItem,
   getPropertiesFromCertificateBundle,
-} from "../../src/transformations.js";
+} from "$internal/transformations.js";
 import { describe, it, assert } from "vitest";
 
 describe("transformations", function () {

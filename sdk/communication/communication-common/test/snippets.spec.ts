@@ -5,7 +5,7 @@ import { InteractiveBrowserCredential } from "@azure/identity";
 import {
   AzureCommunicationTokenCredential,
   EntraCommunicationTokenCredentialOptions,
-} from "../src/index.js";
+} from "@azure/communication-common";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 

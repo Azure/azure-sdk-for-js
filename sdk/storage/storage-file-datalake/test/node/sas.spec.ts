@@ -7,7 +7,7 @@ import type {
   StorageSharedKeyCredential,
   UserDelegationKey,
   FileSystemListPathsResponse,
-} from "../../src/index.js";
+} from "@azure/storage-file-datalake";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -22,7 +22,7 @@ import {
   generateDataLakeSASQueryParameters,
   newPipeline,
   SASQueryParameters,
-} from "../../src/index.js";
+} from "@azure/storage-file-datalake";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
 import { DirectorySASPermissions } from "@azure/storage-file-datalake";
 import { SASProtocol } from "@azure/storage-file-datalake";

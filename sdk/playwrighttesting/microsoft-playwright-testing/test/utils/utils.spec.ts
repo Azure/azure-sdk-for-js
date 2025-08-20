@@ -6,7 +6,7 @@ import {
   InternalEnvironmentVariables,
   MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
   ServiceEnvironmentVariable,
-} from "../../src/common/constants.js";
+} from "$internal/common/constants.js";
 import {
   getAccessToken,
   getServiceBaseURL,
@@ -21,7 +21,7 @@ import {
   fetchOrValidateAccessToken,
   emitReportingUrl,
   populateValuesFromServiceUrl,
-} from "../../src/utils/utils.js";
+} from "$internal/utils/utils.js";
 import * as packageManager from "$internal/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import process from "node:process";

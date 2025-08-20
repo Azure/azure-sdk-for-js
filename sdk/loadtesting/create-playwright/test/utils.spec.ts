@@ -9,7 +9,7 @@ import {
   getLanguageAndConfigInfoFromDirectory,
   executeCommand,
   getFileReferenceForImport,
-} from "../src/utils.js";
+} from "$internal/utils.js";
 import { Languages } from "$internal/constants.js";
 
 describe("Utility functions", () => {

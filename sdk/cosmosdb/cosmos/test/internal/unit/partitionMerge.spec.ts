@@ -11,7 +11,7 @@ import type {
   QueryIterator,
   PartitionKeyRange,
   Resource,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import {
   ClientContext,
   ConsistencyLevel,
@@ -19,7 +19,7 @@ import {
   CosmosDbDiagnosticLevel,
   GlobalEndpointManager,
   StatusCodes,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext.js";
 import { SubStatusCodes } from "$internal/common/index.js";
 import { describe, it, assert, expect, vi } from "vitest";

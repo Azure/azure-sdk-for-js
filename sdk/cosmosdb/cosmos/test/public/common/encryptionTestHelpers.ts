@@ -18,7 +18,7 @@ import type {
   RequestOptions,
   SqlQuerySpec,
   StatusCode,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import {
   Constants,
   EncryptionAlgorithm,
@@ -26,7 +26,7 @@ import {
   EncryptionQueryBuilder,
   ErrorResponse,
   StatusCodes,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import { assert } from "vitest";
 
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {

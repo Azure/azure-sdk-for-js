@@ -10,7 +10,7 @@ import {
   KnownLifecycleStage,
   KnownExperimentMetricType,
   paginate,
-} from "../../src/index.js";
+} from "@azure-rest/onlineexperimentation";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

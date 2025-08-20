@@ -5,7 +5,7 @@ import {
   sanitizeURL,
   extractConnectionStringParts,
   isIpEndpointStyle,
-} from "../src/utils/utils.common.js";
+} from "$internal/utils/utils.common.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { describe, it, assert } from "vitest";
 

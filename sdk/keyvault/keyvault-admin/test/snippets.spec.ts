@@ -7,7 +7,7 @@ import {
   KeyVaultSettingsClient,
   KnownKeyVaultDataAction,
   KnownKeyVaultRoleScope,
-} from "../src/index.js";
+} from "@azure/keyvault-admin";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

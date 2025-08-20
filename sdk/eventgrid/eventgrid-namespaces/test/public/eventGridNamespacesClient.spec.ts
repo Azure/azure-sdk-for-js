@@ -9,7 +9,7 @@ import type {
   ReceiveResult,
   RejectResult,
   RenewLocksResult,
-} from "../../src/index.js";
+} from "@azure/eventgrid-namespaces";
 import { EventGridDeserializer } from "@azure/eventgrid-namespaces";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import { Buffer } from "buffer";

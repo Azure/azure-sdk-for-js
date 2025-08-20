@@ -8,7 +8,7 @@ import type {
   AIProjectClient,
   DeploymentsOperations,
   ModelDeployment,
-} from "../../../src/index.js";
+} from "@azure/ai-projects";
 
 describe("deployments - basic", () => {
   let recorder: Recorder;

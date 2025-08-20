@@ -20,7 +20,7 @@ import type {
   CallParticipant,
   MediaStreamingOptions,
   TranscriptionOptions,
-} from "../../src/models/models.js";
+} from "@azure/communication-call-automation";
 import { DtmfTone } from "@azure/communication-call-automation";
 import type {
   CallMediaRecognizeDtmfOptions,
@@ -42,7 +42,7 @@ import type {
   StopMediaStreamingOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
   PlayToAllOptions,
-} from "../../src/index.js";
+} from "@azure/communication-call-automation";
 
 // Current directory imports
 import {

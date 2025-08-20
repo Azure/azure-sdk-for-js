@@ -13,7 +13,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type {
   QuotaBucketRequest,
   QuotaBucketRequestPropertiesDimensions,
-} from "../src/models/index.js";
+} from "@azure/arm-loadtesting";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

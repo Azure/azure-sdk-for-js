@@ -7,12 +7,12 @@ import type {
   FileSystemListPathsResponse,
   DataLakeServiceClient,
   FileSystemListDeletedPathsResponse,
-} from "../src/index.js";
+} from "@azure/storage-file-datalake";
 import {
   DataLakeFileSystemClient,
   DataLakeFileClient,
   DataLakeDirectoryClient,
-} from "../src/index.js";
+} from "@azure/storage-file-datalake";
 import {
   getDataLakeServiceClient,
   getEncryptionScope,

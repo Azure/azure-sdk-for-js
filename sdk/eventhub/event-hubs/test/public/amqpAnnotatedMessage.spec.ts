@@ -8,7 +8,7 @@ import type {
   EventPosition,
   ReceivedEventData,
   Subscription,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import type { BodyTypes } from "$internal/dataTransformer.js";
 import { Buffer } from "buffer";

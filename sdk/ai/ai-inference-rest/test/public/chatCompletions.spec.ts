@@ -10,7 +10,7 @@ import type {
   ChatCompletionsToolCall,
   ChatMessageContentItem,
   ChatMessageImageContentItem,
-} from "../../src/index.js";
+} from "@azure-rest/ai-inference";
 import { isUnexpected } from "@azure-rest/ai-inference";
 
 describe("chat test suite", () => {

@@ -9,11 +9,11 @@ import type {
   ContainerServiceClient,
   ManagedClusterOutput,
   ManagedClusterUpgradeProfileOutput,
-} from "../../src/index.js";
+} from "@azure-rest/arm-containerservice";
 import ContainerServiceManagementClient, {
   getLongRunningPoller,
   paginate,
-} from "../../src/index.js";
+} from "@azure-rest/arm-containerservice";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {

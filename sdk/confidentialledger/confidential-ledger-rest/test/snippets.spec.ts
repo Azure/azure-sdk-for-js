@@ -6,7 +6,7 @@ import ConfidentialLedger, {
   LedgerEntry,
   getLedgerIdentity,
   isUnexpected,
-} from "../src/index.js";
+} from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

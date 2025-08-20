@@ -7,7 +7,7 @@ import type {
   DocumentField,
   DocumentObjectField,
   DocumentValueField,
-} from "../../src/models/index.js";
+} from "@azure/ai-form-recognizer";
 import { logger } from "./recordedClients.js";
 import { assert } from "vitest";
 

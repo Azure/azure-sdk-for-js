@@ -8,7 +8,7 @@ import type {
   ModelClient,
   GetImageEmbeddingsBodyParam,
   EmbeddingsResultOutput,
-} from "../../../src/index.js";
+} from "@azure-rest/ai-inference";
 import { isUnexpected } from "@azure-rest/ai-inference";
 import fs from "node:fs";
 import path from "node:path";

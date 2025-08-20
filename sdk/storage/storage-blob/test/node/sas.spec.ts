@@ -5,7 +5,7 @@ import type {
   Tags,
   UserDelegationKey,
   BlobImmutabilityPolicyMode,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -22,7 +22,7 @@ import {
   BlobClient,
   SASProtocol,
   BlobBatch,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   configureBlobStorageClient,
   getBSU,

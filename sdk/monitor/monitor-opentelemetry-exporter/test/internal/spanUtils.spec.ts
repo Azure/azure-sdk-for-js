@@ -57,7 +57,7 @@ import type {
   TelemetryExceptionData,
   MessageData,
   MonitorDomain,
-} from "../../src/generated/index.js";
+} from "$internal/generated/index.js";
 import { KnownContextTagKeys } from "$internal/generated/index.js";
 import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
 import { DependencyTypes } from "$internal/utils/constants/applicationinsights.js";

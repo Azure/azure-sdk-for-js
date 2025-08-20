@@ -9,7 +9,7 @@ import type {
   GetTranslationStatus200Response,
   StartTranslationDefaultResponse,
   TranslationStatusOutput,
-} from "../../../src/index.js";
+} from "@azure-rest/ai-translation-document";
 import { getLongRunningPoller, isUnexpected } from "@azure-rest/ai-translation-document";
 import {
   createDocumentTranslationClient,

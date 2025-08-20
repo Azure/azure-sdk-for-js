@@ -4,7 +4,7 @@
 import type {
   AnalyzeAction,
   KnownAnalyzeTextLROTaskKind,
-} from "../../src/generated/models/index.js";
+} from "$internal/generated/models/index.js";
 import type { AnalyzeActionName, AnalyzeBatchActionName } from "@azure/ai-language-text";
 import type { AssertEqual } from "./utils.js";
 import { describe, it, assert } from "vitest";

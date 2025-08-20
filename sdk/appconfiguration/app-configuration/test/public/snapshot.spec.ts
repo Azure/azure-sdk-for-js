@@ -8,7 +8,7 @@ import type {
   ConfigurationSettingsFilter,
   CreateSnapshotResponse,
   ConfigurationSettingId,
-} from "../../src/models.js";
+} from "@azure/app-configuration";
 import {
   assertEqualSnapshot,
   assertThrowsAbortError,

@@ -11,7 +11,7 @@ import type {
   ServiceBusSessionReceiver,
   ServiceBusSender,
   ServiceBusReceiverOptions,
-} from "../../src/index.js";
+} from "@azure/service-bus";
 import { isServiceBusError, ServiceBusClient } from "@azure/service-bus";
 import type { ServiceBusReceivedMessage } from "$internal/serviceBusMessage.js";
 import { DispositionType } from "$internal/serviceBusMessage.js";

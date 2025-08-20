@@ -4,7 +4,7 @@
 import type {
   AzureCommunicationRoutingServiceClient,
   RouterJobOutput,
-} from "../../../src/index.js";
+} from "@azure-rest/communication-job-router";
 import type { RouterJob } from "@azure-rest/communication-job-router";
 
 export async function pollForJobQueued(

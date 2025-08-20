@@ -7,7 +7,7 @@ import type { PurviewWorkflowClient } from "$internal/clientDefinitions.js";
 import type {
   ApproveApprovalTaskParameters,
   RejectApprovalTaskParameters,
-} from "../../src/parameters.js";
+} from "@azure-rest/purview-workflow";
 import { isUnexpected } from "@azure-rest/purview-workflow";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

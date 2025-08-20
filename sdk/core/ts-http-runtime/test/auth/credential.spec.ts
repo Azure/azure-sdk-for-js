@@ -8,7 +8,7 @@ import {
   isBasicCredential,
   isBearerTokenCredential,
   isOAuth2TokenCredential,
-} from "../../src/auth/credentials.js";
+} from "$internal/auth/credentials.js";
 
 const fakeApiKeyCredential: ClientCredential = {
   key: "fakeKey",

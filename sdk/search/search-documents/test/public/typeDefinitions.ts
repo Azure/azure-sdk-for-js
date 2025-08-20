@@ -7,7 +7,7 @@ import type {
   KnownSemanticSearchResultsType,
   KnownVectorFilterMode,
   KnownVectorQueryKind,
-} from "../../src/generated/data/index.js";
+} from "$internal/generated/data/index.js";
 import type {
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
@@ -32,7 +32,7 @@ import type {
   KnownVectorSearchAlgorithmKind,
   KnownVectorSearchAlgorithmMetric,
   KnownVisualFeature,
-} from "../../src/generated/service/index.js";
+} from "$internal/generated/service/index.js";
 
 import type { IsEqual } from "type-plus";
 

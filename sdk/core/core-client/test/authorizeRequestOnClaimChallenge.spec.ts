@@ -13,7 +13,7 @@ import {
 import {
   authorizeRequestOnClaimChallenge,
   parseCAEChallenge,
-} from "../src/authorizeRequestOnClaimChallenge.js";
+} from "$internal/authorizeRequestOnClaimChallenge.js";
 import { encodeString } from "$internal/base64.js";
 
 describe("authorizeRequestOnClaimChallenge", function () {

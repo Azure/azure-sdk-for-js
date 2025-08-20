@@ -20,7 +20,7 @@ import type {
   TelemetryItem as Envelope,
   RemoteDependencyData,
   RequestData,
-} from "../../src/generated/index.js";
+} from "$internal/generated/index.js";
 import { KnownContextTagKeys } from "$internal/generated/index.js";
 import type { Tags } from "$internal/types.js";
 import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "$internal/types.js";

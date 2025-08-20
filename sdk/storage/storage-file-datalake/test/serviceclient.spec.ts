@@ -8,7 +8,7 @@ import type {
   DataLakeServiceProperties,
   FileSystemItem,
   ServiceListFileSystemsSegmentResponse,
-} from "../src/index.js";
+} from "@azure/storage-file-datalake";
 import { DataLakeServiceClient } from "@azure/storage-file-datalake";
 import {
   getDataLakeServiceClient,

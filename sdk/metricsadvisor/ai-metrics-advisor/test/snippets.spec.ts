@@ -5,7 +5,7 @@ import {
   MetricsAdvisorAdministrationClient,
   MetricsAdvisorClient,
   MetricsAdvisorKeyCredential,
-} from "../src/index.js";
+} from "@azure/ai-metrics-advisor";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

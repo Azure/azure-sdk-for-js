@@ -9,7 +9,7 @@ import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-} from "../../src/interfaces.js";
+} from "@typespec/ts-http-runtime";
 import { createEmptyPipeline, type PipelinePolicy } from "$internal/pipeline.js";
 import { createHttpHeaders } from "@typespec/ts-http-runtime";
 import { isNodeLike } from "$internal/util/checkEnvironment.js";

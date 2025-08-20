@@ -6,12 +6,12 @@ import type {
   AppConfigurationClient,
   ConfigurationSetting,
   SecretReferenceValue,
-} from "../../src/index.js";
+} from "@azure/app-configuration";
 import {
   isSecretReference,
   parseSecretReference,
   secretReferenceContentType,
-} from "../../src/index.js";
+} from "@azure/app-configuration";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

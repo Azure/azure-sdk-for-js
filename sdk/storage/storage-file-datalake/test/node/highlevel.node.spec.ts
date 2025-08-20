@@ -18,7 +18,7 @@ import {
   FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
   BLOCK_BLOB_MAX_BLOCKS,
   FILE_UPLOAD_MAX_CHUNK_SIZE,
-} from "../../src/utils/constants.js";
+} from "$internal/utils/constants.js";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";
 import { Readable, PassThrough } from "node:stream";
 import { streamToBuffer2 } from "$internal/utils/utils.js";

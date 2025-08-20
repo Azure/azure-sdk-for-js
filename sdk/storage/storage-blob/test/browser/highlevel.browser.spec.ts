@@ -15,7 +15,7 @@ import type {
   BlobClient,
   BlockBlobClient,
   BlobServiceClient,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("Highlevel", () => {

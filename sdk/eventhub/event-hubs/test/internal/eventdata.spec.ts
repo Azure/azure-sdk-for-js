@@ -8,7 +8,7 @@ import {
   dataSectionTypeCode,
   sequenceSectionTypeCode,
   valueSectionTypeCode,
-} from "../../src/dataTransformer.js";
+} from "$internal/dataTransformer.js";
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import type { Message } from "rhea-promise";
 import { describe, it } from "vitest";

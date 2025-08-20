@@ -6,7 +6,7 @@ import type {
   DocumentTranslateDefaultResponse,
   DocumentTranslateParameters,
   DocumentTranslationClient,
-} from "../../src/index.js";
+} from "@azure-rest/ai-translation-document";
 import { isUnexpected } from "@azure-rest/ai-translation-document";
 import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

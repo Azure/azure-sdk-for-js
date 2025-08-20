@@ -5,7 +5,7 @@ import {
   EventHubProducerClient,
   EventHubConsumerClient,
   earliestEventPosition,
-} from "../src/index.js";
+} from "@azure/event-hubs";
 import { DefaultAzureCredential } from "@azure/identity";
 // @ts-ignore
 import { ContainerClient } from "@azure/storage-blob";

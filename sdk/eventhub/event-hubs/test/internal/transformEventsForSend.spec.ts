@@ -10,7 +10,7 @@ import type { EventDataInternal } from "$internal/eventData.js";
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
-} from "../../src/util/constants.js";
+} from "$internal/util/constants.js";
 import type { Message } from "rhea-promise";
 import { message } from "rhea-promise";
 import { TRACEPARENT_PROPERTY } from "$internal/diagnostics/instrumentEventData.js";

@@ -4,7 +4,7 @@
 import type {
   DigitalTwinsClient,
   DigitalTwinsAddRelationshipOptionalParams,
-} from "../../src/index.js";
+} from "@azure/digital-twins-core";
 import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isRestError } from "@azure/core-rest-pipeline";

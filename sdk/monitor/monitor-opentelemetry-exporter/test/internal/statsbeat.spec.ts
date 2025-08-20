@@ -7,7 +7,7 @@ import {
   DEFAULT_BREEZE_ENDPOINT,
   ENV_DISABLE_STATSBEAT,
   LEGACY_ENV_DISABLE_STATSBEAT,
-} from "../../src/Declarations/Constants.js";
+} from "$internal/Declarations/Constants.js";
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "$internal/export/statsbeat/networkStatsbeatMetrics.js";
 import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "$internal/export/statsbeat/types.js";

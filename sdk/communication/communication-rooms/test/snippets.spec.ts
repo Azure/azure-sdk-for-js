@@ -7,7 +7,7 @@ import {
   RoomParticipantPatch,
   RoomsClient,
   UpdateRoomOptions,
-} from "../src/index.js";
+} from "@azure/communication-rooms";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

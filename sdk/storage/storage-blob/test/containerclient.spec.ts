@@ -20,7 +20,7 @@ import type {
   BlobServiceClient,
   BlockBlobClient,
   BlobHTTPHeaders,
-} from "../src/index.js";
+} from "@azure/storage-blob";
 import { ContainerClient, BlockBlobTier } from "@azure/storage-blob";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import type { Tags } from "$internal/models.js";

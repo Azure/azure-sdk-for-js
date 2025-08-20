@@ -7,7 +7,7 @@ import type {
   ServiceBusReceiver,
   ProcessErrorArgs,
   ServiceBusSender,
-} from "../../src/index.js";
+} from "@azure/service-bus";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils.js";
 

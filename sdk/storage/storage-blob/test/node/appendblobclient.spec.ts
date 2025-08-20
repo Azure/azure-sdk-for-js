@@ -4,13 +4,13 @@ import type {
   StorageSharedKeyCredential,
   ContainerClient,
   BlobServiceClient,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   AppendBlobClient,
   newPipeline,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   getBSU,
   getConnectionStringFromEnvironment,

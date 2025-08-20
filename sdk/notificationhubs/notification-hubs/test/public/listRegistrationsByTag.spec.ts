@@ -9,7 +9,7 @@ import {
   createRegistration,
   deleteRegistration,
   listRegistrationsByTag,
-} from "../../src/api/index.js";
+} from "$internal/api/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
 

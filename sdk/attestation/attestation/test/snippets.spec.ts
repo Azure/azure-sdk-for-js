@@ -9,7 +9,7 @@ import {
   AttestationClient,
   createAttestationPolicyToken,
   KnownAttestationType,
-} from "../src/index.js";
+} from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
 
 describe("snippets", () => {

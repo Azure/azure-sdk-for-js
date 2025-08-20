@@ -6,7 +6,7 @@ import {
   deserializeSignedIdentifier,
   serialize,
   serializeSignedIdentifiers,
-} from "../../src/serialization.js";
+} from "$internal/serialization.js";
 
 import type { Edm } from "@azure/data-tables";
 import { describe, it, assert } from "vitest";

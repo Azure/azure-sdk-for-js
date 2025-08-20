@@ -10,7 +10,7 @@ import {
   isNodeRuntime,
   isReactNative,
   isWebWorker,
-} from "../../src/util/checkEnvironment.js";
+} from "$internal/util/checkEnvironment.js";
 
 describe("checkEnvironment (node)", function () {
   describe("isBun (node)", function () {

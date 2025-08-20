@@ -16,7 +16,7 @@ import {
   DataLakeFileSystemClient,
   FileSystemSASPermissions,
   newPipeline,
-} from "../../src/index.js";
+} from "@azure/storage-file-datalake";
 import type { PublicAccessType } from "$internal/models.js";
 import { getDataLakeServiceAccountAudience } from "@azure/storage-file-datalake";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";

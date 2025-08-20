@@ -5,7 +5,7 @@ import type {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
   ConfigurationSetting,
-} from "../../src/index.js";
+} from "@azure/app-configuration";
 import { featureFlagContentType, featureFlagPrefix } from "@azure/app-configuration";
 import type { FeatureFlagValue } from "$internal/featureFlag.js";
 import { isFeatureFlag, parseFeatureFlag } from "@azure/app-configuration";

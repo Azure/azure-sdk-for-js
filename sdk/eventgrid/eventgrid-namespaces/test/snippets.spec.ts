@@ -5,7 +5,7 @@ import {
   AzureKeyCredential,
   EventGridReceiverClient,
   EventGridSenderClient,
-} from "../src/index.js";
+} from "@azure/eventgrid-namespaces";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

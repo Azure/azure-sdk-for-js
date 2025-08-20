@@ -7,7 +7,7 @@ import type {
   QueryInfo,
   QueryIterator,
   Resource,
-} from "../../../../src/index.js";
+} from "@azure/cosmos";
 import { CosmosDbDiagnosticLevel } from "@azure/cosmos";
 import type { ClientContext } from "@azure/cosmos";
 import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext.js";

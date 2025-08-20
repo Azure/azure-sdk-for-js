@@ -12,7 +12,7 @@ import {
   generateQueueSASQueryParameters,
   QueueServiceClient,
   newPipeline,
-} from "../../src/index.js";
+} from "@azure/storage-queue";
 import { SASProtocol } from "@azure/storage-queue";
 import {
   configureStorageClient,

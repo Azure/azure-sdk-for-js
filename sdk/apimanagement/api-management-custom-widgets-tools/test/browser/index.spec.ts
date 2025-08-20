@@ -5,7 +5,7 @@ import {
   APIM_EDITOR_DATA_KEY,
   APIM_ON_CHANGE_MESSAGE_KEY,
   onChangeWithOrigin,
-} from "../../src/index.js";
+} from "@azure/api-management-custom-widgets-tools";
 import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "$internal/utils.js";
 import { describe, it, assert, vi } from "vitest";
 

@@ -6,7 +6,7 @@ import type {
   CampaignBrief,
   CampaignBriefSummary,
   TollFreeVerificationClient,
-} from "../../../src/index.js";
+} from "@azure-tools/communication-toll-free-verification";
 import { BusinessInformationMapper, BusinessPointOfContactMapper } from "@azure-tools/communication-toll-free-verification";
 import type { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";

@@ -13,7 +13,7 @@ import type {
   ServiceBusSender,
   ServiceBusReceivedMessage,
   ProcessErrorArgs,
-} from "../../src/index.js";
+} from "@azure/service-bus";
 import { InvalidOperationForPeekedMessage } from "$internal/util/errors.js";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
 import { assert, should } from "../public/utils/chai.js";

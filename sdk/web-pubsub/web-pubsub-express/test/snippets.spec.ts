@@ -5,7 +5,7 @@ import {
   MqttConnectRequest,
   MqttDisconnectedRequest,
   WebPubSubEventHandler,
-} from "../src/index.js";
+} from "@azure/web-pubsub-express";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 // @ts-ignore

@@ -8,7 +8,7 @@ import type {
   GetKeyOptions,
   KeyClient,
   UpdateKeyPropertiesOptions,
-} from "../../src/index.js";
+} from "@azure/keyvault-keys";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";

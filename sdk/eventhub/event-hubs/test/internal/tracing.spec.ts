@@ -10,7 +10,7 @@ import { toSpanOptions, tracingClient } from "$internal/diagnostics/tracing.js";
 import {
   instrumentEventData,
   TRACEPARENT_PROPERTY,
-} from "../../src/diagnostics/instrumentEventData.js";
+} from "$internal/diagnostics/instrumentEventData.js";
 import { assert, expect } from "../utils/chai.js";
 
 type ClientCommonMethods = Pick<

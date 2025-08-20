@@ -18,7 +18,7 @@ import type {
   VirtualNetworksGetParameters,
   VirtualNetworksListParameters,
   VirtualNetworksUpdateTagsParameters,
-} from "../../src/index.js";
+} from "@azure-rest/arm-network";
 import { getLongRunningPoller, isUnexpected, paginate } from "@azure-rest/arm-network";
 import { createTestNetworkManagementClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

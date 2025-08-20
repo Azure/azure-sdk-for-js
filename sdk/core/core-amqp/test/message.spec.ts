@@ -7,7 +7,7 @@ import {
   AmqpMessageHeader,
   AmqpMessageProperties,
   Constants,
-} from "../src/index.js";
+} from "@azure/core-amqp";
 import type {
   MessageHeader as RheaMessageHeader,
   MessageProperties as RheaMessageProperties,

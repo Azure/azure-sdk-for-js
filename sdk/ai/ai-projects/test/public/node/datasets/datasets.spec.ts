@@ -12,7 +12,7 @@ import type {
   AIProjectClient,
   DatasetVersionUnion,
   DatasetsOperations,
-} from "../../../../src/index.js";
+} from "@azure/ai-projects";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

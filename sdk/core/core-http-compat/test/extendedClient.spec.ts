@@ -15,7 +15,7 @@ import { ExtendedServiceClient, disableKeepAlivePolicyName } from "@azure/core-h
 import {
   pipelineContainsDisableKeepAlivePolicy,
   createDisableKeepAlivePolicy,
-} from "../src/policies/disableKeepAlivePolicy.js";
+} from "$internal/policies/disableKeepAlivePolicy.js";
 
 describe("Extended Client", () => {
   it("should add the disable keep alive policy", () => {

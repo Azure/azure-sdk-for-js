@@ -13,7 +13,7 @@ import type {
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
   ModelClient,
-} from "../../src/index.js";
+} from "@azure-rest/ai-inference";
 import { isUnexpected } from "@azure-rest/ai-inference";
 import type {
   AddEventOptions,

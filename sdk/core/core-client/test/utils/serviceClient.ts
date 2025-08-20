@@ -7,7 +7,7 @@ import type {
   OperationRequest,
   OperationResponseMap,
   Serializer,
-} from "../../src/index.js";
+} from "@azure/core-client";
 import { ServiceClient, createSerializer, deserializationPolicy } from "@azure/core-client";
 import type { HttpClient, HttpHeaders, HttpMethods } from "@azure/core-rest-pipeline";
 import { createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";

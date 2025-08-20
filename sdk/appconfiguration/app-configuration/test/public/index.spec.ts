@@ -6,7 +6,7 @@ import type {
   ConfigurationSetting,
   ConfigurationSettingParam,
   ListConfigurationSettingPage,
-} from "../../src/index.js";
+} from "@azure/app-configuration";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {

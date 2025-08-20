@@ -9,7 +9,7 @@ import {
   isNodeRuntime,
   isReactNative,
   isWebWorker,
-} from "../../src/util/checkEnvironment.js";
+} from "$internal/util/checkEnvironment.js";
 import { describe, it, assert } from "vitest";
 
 describe("checkEnvironment (browser)", function () {

@@ -6,7 +6,7 @@ import {
   BatchingReceiver,
   getRemainingWaitTimeInMsFn,
   BatchingReceiverLite,
-} from "../../../src/core/batchingReceiver.js";
+} from "$internal/core/batchingReceiver.js";
 import { defer, createConnectionContextForTests } from "./unittestUtils.js";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils.js";
 import type { ServiceBusMessageImpl } from "$internal/serviceBusMessage.js";

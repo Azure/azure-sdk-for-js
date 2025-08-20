@@ -6,7 +6,7 @@ import {
   parseNotificationHubJobEntry,
   parseNotificationHubJobFeed,
   serializeNotificationHubJobEntry,
-} from "../../../src/serializers/notificationHubJobSerializer.js";
+} from "$internal/serializers/notificationHubJobSerializer.js";
 import type { NotificationHubJob } from "$internal/models/notificationHubJob.js";
 
 const HUB_JOB_OUTGOING = `<?xml version="1.0" encoding="utf-8"?>

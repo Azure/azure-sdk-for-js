@@ -16,7 +16,7 @@ import {
   createWindowsRawNotification,
   createWindowsTileNotification,
   createWindowsToastNotification,
-} from "../../../src/models/notification.js";
+} from "$internal/models/notification.js";
 
 describe("createAppleNotification", () => {
   it("should create an apple message with defaults", () => {

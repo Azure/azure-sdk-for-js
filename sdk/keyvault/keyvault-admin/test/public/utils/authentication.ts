@@ -13,7 +13,7 @@ import {
   KeyVaultAccessControlClient,
   KeyVaultBackupClient,
   KeyVaultSettingsClient,
-} from "../../../src/index.js";
+} from "@azure/keyvault-admin";
 
 import { getEnvironmentVariable } from "./common.js";
 import { randomUUID } from "@azure/core-util";

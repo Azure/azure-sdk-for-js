@@ -8,7 +8,7 @@ import type {
   ServiceBusSender,
   SqlRuleAction,
   SqlRuleFilter,
-} from "../../src/index.js";
+} from "@azure/service-bus";
 import { TestClientType } from "../public/utils/testUtils.js";
 import type { ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import { createServiceBusClientForTests } from "../public/utils/testutils2.js";

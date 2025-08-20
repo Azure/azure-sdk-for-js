@@ -9,7 +9,7 @@ import type {
   PartitionOwnership,
   ReceivedEventData,
   SubscriptionEventHandlers,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import { CloseReason, earliestEventPosition, latestEventPosition } from "@azure/event-hubs";
 import type { Dictionary } from "rhea-promise";
 import { loopUntil } from "../utils/testUtils.js";

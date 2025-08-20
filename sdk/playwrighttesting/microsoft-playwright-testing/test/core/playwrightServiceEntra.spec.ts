@@ -5,7 +5,7 @@ import * as utils from "$internal/utils/utils.js";
 import {
   EntraIdAccessTokenConstants,
   ServiceEnvironmentVariable,
-} from "../../src/common/constants.js";
+} from "$internal/common/constants.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("playwrightServiceEntra", () => {

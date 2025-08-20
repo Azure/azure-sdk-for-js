@@ -7,12 +7,12 @@ import type {
   HttpResponseField,
   HttpResponseFields,
   ConfigurationSettingId,
-} from "../../src/index.js";
+} from "@azure/app-configuration";
 import {
   featureFlagContentType,
   secretReferenceContentType,
   KnownAppConfigAudience,
-} from "../../src/index.js";
+} from "@azure/app-configuration";
 import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
@@ -26,7 +26,7 @@ import {
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
   getScope,
-} from "../../src/internal/helpers.js";
+} from "$internal/internal/helpers.js";
 import type { FeatureFlagValue } from "$internal/featureFlag.js";
 import type { WebResourceLike } from "@azure/core-http-compat";
 import type { SecretReferenceValue } from "$internal/secretReference.js";

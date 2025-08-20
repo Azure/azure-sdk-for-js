@@ -10,7 +10,7 @@ import {
   globalNoProxyList,
   loadNoProxy,
   proxyPolicy,
-} from "../../src/policies/proxyPolicy.js";
+} from "$internal/policies/proxyPolicy.js";
 
 interface ProxyAgent extends Agent {
   proxy: URL;

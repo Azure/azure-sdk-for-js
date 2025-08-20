@@ -10,7 +10,7 @@ import {
   DiagnosticNodeInternal,
   PartitionKeyDefinition,
   PartitionKeyKind,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 
 describe("computePartitionKeyRangeId edge case handling", () => {
   let partitionKeyRangeCache: PartitionKeyRangeCache;

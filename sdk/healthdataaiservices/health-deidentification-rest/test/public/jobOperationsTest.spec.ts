@@ -13,7 +13,7 @@ import type { DeidentificationJob } from "$internal/models.js";
 import type {
   DeidentificationJobOutput,
   DeidentificationDocumentDetailsOutput,
-} from "../../src/outputModels.js";
+} from "@azure-rest/health-deidentification";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import type { ErrorResponse } from "@azure-rest/core-client";

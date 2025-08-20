@@ -6,7 +6,7 @@ import type {
   ProcessErrorArgs,
   ServiceBusReceiver,
   ServiceBusSender,
-} from "../../src/index.js";
+} from "@azure/service-bus";
 import { delay } from "@azure/service-bus";
 import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "$internal/util/errors.js";
 import { TestMessage, checkWithTimeout, TestClientType } from "../public/utils/testUtils.js";

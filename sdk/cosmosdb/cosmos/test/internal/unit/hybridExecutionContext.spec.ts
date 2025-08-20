@@ -5,13 +5,13 @@ import {
   CosmosDbDiagnosticLevel,
   DiagnosticNodeInternal,
   DiagnosticNodeType,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import type { ClientContext, FeedOptions, QueryInfo } from "@azure/cosmos";
 import type { ComponentWeight } from "$internal/queryExecutionContext/hybridQueryExecutionContext.js";
 import {
   HybridQueryExecutionContext,
   HybridQueryExecutionContextBaseStates,
-} from "../../../src/queryExecutionContext/hybridQueryExecutionContext.js";
+} from "$internal/queryExecutionContext/hybridQueryExecutionContext.js";
 import type { HybridSearchQueryInfo } from "$internal/request/ErrorResponse.js";
 import type { GlobalStatistics } from "$internal/request/globalStatistics.js";
 import type { HybridSearchQueryResult } from "$internal/request/hybridSearchQueryResult.js";

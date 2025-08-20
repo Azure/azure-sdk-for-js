@@ -6,7 +6,7 @@ import CancerProfilingRestClient, {
   getLongRunningPoller,
   isUnexpected,
   OncoPhenotypeData,
-} from "../src/index.js";
+} from "@azure-rest/health-insights-cancerprofiling";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 

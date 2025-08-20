@@ -15,7 +15,7 @@ import {
 import type {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-} from "../../src/serviceBusMessage.js";
+} from "$internal/serviceBusMessage.js";
 import { DispositionType } from "$internal/serviceBusMessage.js";
 import { testLogger } from "./utils/misc.js";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
