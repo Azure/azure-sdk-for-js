@@ -22,6 +22,10 @@ export interface WebPubSubClientOptions {
    */
   autoRejoinGroups?: boolean;
   /**
+   * Whether to automatically resend unacknowledged stream messages
+   */
+  autoResendStreamMessages?: boolean;
+  /**
    * The retry options for operations like joining group and sending messages
    */
   messageRetryOptions?: WebPubSubRetryOptions;

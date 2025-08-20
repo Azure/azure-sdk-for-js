@@ -231,6 +231,8 @@ export class Stream {
     get groupName(): string;
     // @internal
     _handleStreamAck(sequenceId: number, success: boolean, error?: StreamAckMessageError): void;
+    // @internal
+    _hasUnackedMessages(): boolean;
     onError(callback: (error: StreamAckMessageError) => void): void;
     publish(content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, abortSignal?: AbortSignalLike): Promise<void>;
     publishWithSequenceId(sequenceId: number, content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, abortSignal?: AbortSignalLike): Promise<void>;
@@ -339,6 +341,7 @@ export interface WebPubSubClientCredential {
 export interface WebPubSubClientOptions {
     autoReconnect?: boolean;
     autoRejoinGroups?: boolean;
+    autoResendStreamMessages?: boolean;
     messageRetryOptions?: WebPubSubRetryOptions;
     protocol?: WebPubSubClientProtocol;
     reconnectRetryOptions?: WebPubSubRetryOptions;

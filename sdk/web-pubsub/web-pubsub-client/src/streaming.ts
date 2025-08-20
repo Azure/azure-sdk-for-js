@@ -7,6 +7,16 @@ import type { WebPubSubDataType, StreamAckMessageError } from "./models/messages
 import { logger } from "./logger.js";
 
 /**
+ * Stream message for buffering
+ */
+interface StreamMessage {
+  content: JSONTypes | ArrayBuffer;
+  dataType: WebPubSubDataType;
+  sequenceId: number;
+  endOfStream: boolean;
+}
+
+/**
  * Stream handler for processing stream messages
  */
 export class StreamHandler {
@@ -58,16 +68,6 @@ export class StreamHandler {
   public _handleError(error: StreamAckMessageError): void {
     this._onError?.(error);
   }
-}
-
-/**
- * Stream message for buffering
- */
-interface StreamMessage {
-  content: JSONTypes | ArrayBuffer;
-  dataType: WebPubSubDataType;
-  sequenceId: number;
-  endOfStream: boolean;
 }
 
 /**
@@ -315,7 +315,7 @@ export class Stream {
    * @internal
    * Handle stream ack from service
    */
-  public _handleStreamAck(sequenceId: number, success: boolean, error?: StreamAckMessageError): void {
+  public _handleStreamAck(sequenceId: number, success: boolean, autoResendStreamMessages: boolean, error?: StreamAckMessageError): void {
     if (success) {
       const beforeSize = this._buffer.length;
       this._buffer = this._buffer.filter(msg => msg.sequenceId > sequenceId);
@@ -328,7 +328,7 @@ export class Stream {
       }
     } else {
       // Resend unacked (buffered) messages if receive InvalidSequenceId exception
-      if (error && error.name === "InvalidSequenceId") {
+      if (autoResendStreamMessages && error && error.name === "InvalidSequenceId") {
         this._resendUnackedMessages();
       }
       this._handleError(error || {
@@ -403,6 +403,15 @@ export class Stream {
     } finally {
       this._isResending = false;
     }
+  }
+
+  /**
+   * @internal
+   * Check if the stream has unacked messages that need to be resent
+   * @returns true if there are unacked messages in the buffer
+   */
+  public _hasUnackedMessages(): boolean {
+    return this._buffer.length > 0 && !this._isDisposed;
   }
 
   /**

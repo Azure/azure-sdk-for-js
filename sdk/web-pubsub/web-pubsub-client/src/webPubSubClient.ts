@@ -185,7 +185,7 @@ export class WebPubSubClient {
     }
 
     try {
-      logger.verbose("Staring reconnecting.");
+      logger.verbose("Starting reconnecting.");
       await this._startCore(abortSignal);
     } catch (err) {
       this._changeState(WebPubSubClientState.Disconnected);
@@ -734,7 +734,8 @@ export class WebPubSubClient {
         const handleStreamAckMessage = (message: StreamAckMessage): void => {
           const stream = this._streams.get(message.streamId);
           if (stream) {
-            stream._handleStreamAck(message.lastProcessedSequenceId, message.success, message.error);
+            const autoResendStreamMessages = this._options.autoResendStreamMessages || true;
+            stream._handleStreamAck(message.lastProcessedSequenceId, message.success, autoResendStreamMessages, message.error);
           }
         };
 
@@ -1031,6 +1032,22 @@ export class WebPubSubClient {
         try {
           await this._connectCore.call(this, recoveryUri);
           recovered = true;
+          // Resend buffered stream messages
+          if (this._options && this._options.autoResendStreamMessages) {
+            logger.info("Resending buffered stream messages after reconnecting");
+            const handleStreamReconnectPromises: Promise<void>[] = [];
+            if (this._streams.size > 0) {
+              this._streams.forEach((stream) => {
+                if (stream._hasUnackedMessages()) {
+                  handleStreamReconnectPromises.push(stream._resendUnackedMessages(abortSignal));
+                }
+              });
+            }
+            // Wait for all stream reconnect promises to settle
+            await Promise.all(handleStreamReconnectPromises).catch((err) => {
+              logger.error("Failed to resend buffered stream messages while reconnecting", err);
+            });
+          }
           return;
         } catch {
           await delay(1000);
@@ -1095,6 +1112,10 @@ export class WebPubSubClient {
 
     if (clientOptions.protocol == null) {
       clientOptions.protocol = WebPubSubJsonReliableProtocol();
+    }
+
+    if (clientOptions.autoResendStreamMessages == null) {
+      clientOptions.autoResendStreamMessages = true;
     }
 
     this._buildMessageRetryOptions(clientOptions);
