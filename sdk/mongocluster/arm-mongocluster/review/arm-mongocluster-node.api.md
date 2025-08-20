@@ -31,6 +31,16 @@ export interface AuthConfigProperties {
 export type AuthenticationMode = string;
 
 // @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
 export interface BackupProperties {
     readonly earliestRestoreTime?: string;
 }
@@ -75,12 +85,6 @@ export type CreatedByType = string;
 export type CreateMode = string;
 
 // @public
-export interface CustomerManagedKeyEncryptionProperties {
-    keyEncryptionKeyIdentity: KeyEncryptionKeyIdentity;
-    keyEncryptionKeyUrl: string;
-}
-
-// @public
 export type DataApiMode = string;
 
 // @public
@@ -92,11 +96,6 @@ export interface DataApiProperties {
 export interface DatabaseRole {
     db: string;
     role: UserRole;
-}
-
-// @public
-export interface EncryptionProperties {
-    customerManagedKeyEncryption?: CustomerManagedKeyEncryptionProperties;
 }
 
 // @public
@@ -191,15 +190,6 @@ export type IdentityProviderType = string;
 export type IdentityProviderUnion = EntraIdentityProvider | IdentityProvider;
 
 // @public
-export interface KeyEncryptionKeyIdentity {
-    identityType: KeyEncryptionKeyIdentityType;
-    userAssignedIdentityResourceId: string;
-}
-
-// @public
-export type KeyEncryptionKeyIdentityType = string;
-
-// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -254,19 +244,6 @@ export enum KnownHighAvailabilityMode {
 // @public
 export enum KnownIdentityProviderType {
     MicrosoftEntraID = "MicrosoftEntraID"
-}
-
-// @public
-export enum KnownKeyEncryptionKeyIdentityType {
-    UserAssignedIdentity = "UserAssignedIdentity"
-}
-
-// @public
-export enum KnownManagedServiceIdentityType {
-    None = "None",
-    SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -358,7 +335,7 @@ export enum KnownStorageType {
 
 // @public
 export enum KnownUserRole {
-    Root = "root"
+    DatabaseOwner = "dbOwner"
 }
 
 // @public
@@ -368,7 +345,7 @@ export enum KnownVersions {
     V20240701 = "2024-07-01",
     V20241001Preview = "2024-10-01-preview",
     V20250401Preview = "2025-04-01-preview",
-    V20250701Preview = "2025-07-01-preview"
+    V20250530Preview = "2025-05-30-preview"
 }
 
 // @public
@@ -377,19 +354,7 @@ export interface ListConnectionStringsResult {
 }
 
 // @public
-export interface ManagedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
-}
-
-// @public
-export type ManagedServiceIdentityType = string;
-
-// @public
 export interface MongoCluster extends TrackedResource {
-    identity?: ManagedServiceIdentity;
     properties?: MongoClusterProperties;
 }
 
@@ -409,6 +374,7 @@ export class MongoClusterManagementClient {
 // @public
 export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -421,7 +387,6 @@ export interface MongoClusterProperties {
     readonly connectionString?: string;
     createMode?: CreateMode;
     dataApi?: DataApiProperties;
-    encryption?: EncryptionProperties;
     highAvailability?: HighAvailabilityProperties;
     readonly infrastructureVersion?: string;
     previewFeatures?: PreviewFeature[];
@@ -506,7 +471,6 @@ export interface MongoClustersUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface MongoClusterUpdate {
-    identity?: ManagedServiceIdentity;
     properties?: MongoClusterUpdateProperties;
     tags?: Record<string, string>;
 }
@@ -755,12 +719,6 @@ export interface TrackedResource extends Resource {
 // @public
 export interface User extends ProxyResource {
     properties?: UserProperties;
-}
-
-// @public
-export interface UserAssignedIdentity {
-    readonly clientId?: string;
-    readonly principalId?: string;
 }
 
 // @public

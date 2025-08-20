@@ -9,7 +9,6 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongocluster/arm-mongocluster)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-mongocluster)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongocluster/arm-mongocluster/samples)
 
 ## Getting started
 
@@ -97,9 +96,6 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-## Next steps
-
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongocluster/arm-mongocluster/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
