@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthClient } from "@azure/arm-cloudhealth";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a DiscoveryRule
  *
  * @summary create a DiscoveryRule
  * x-ms-original-file: 2025-05-01-preview/DiscoveryRules_CreateOrUpdate.json
  */
+
+import { CloudHealthClient } from "@azure/arm-cloudhealth";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function discoveryRulesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

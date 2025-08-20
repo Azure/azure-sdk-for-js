@@ -155,11 +155,6 @@ const getServiceConfig = (
     globalFunctions.globalSetup = globalPaths.setup;
     globalFunctions.globalTeardown = globalPaths.teardown;
   }
-  if (options?.useCloudHostedBrowsers === false) {
-    return {
-      ...globalFunctions,
-    };
-  }
 
   performOneTimeOperation(options);
 

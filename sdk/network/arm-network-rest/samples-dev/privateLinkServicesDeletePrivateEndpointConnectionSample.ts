@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PrivateLinkServicesDeletePrivateEndpointConnectionParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete private end point connection for a private link service in a subscription.
@@ -11,6 +7,12 @@ import "dotenv/config";
  * @summary Delete private end point connection for a private link service in a subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateLinkServiceDeletePrivateEndpointConnection.json
  */
+
+import type { PrivateLinkServicesDeletePrivateEndpointConnectionParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function deletePrivateEndPointConnectionForAPrivateLinkService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

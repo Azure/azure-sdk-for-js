@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DashboardManagementClient } from "@azure/arm-dashboard";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to list IntegrationFabric resources by ManagedGrafana
  *
  * @summary list IntegrationFabric resources by ManagedGrafana
  * x-ms-original-file: 2024-11-01-preview/IntegrationFabrics_List.json
  */
+
+import { DashboardManagementClient } from "@azure/arm-dashboard";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function integrationFabricsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to adds check global name availability operation, normally used if a resource name must be globally unique.
  *
  * @summary adds check global name availability operation, normally used if a resource name must be globally unique.
  * x-ms-original-file: 2024-12-01/Accounts_CheckNameAvailability.json
  */
+
+import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function accountsCheckNameAvailability(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
