@@ -11,7 +11,7 @@ import {
   EventHubBufferedProducerClient,
   type EventHubBufferedProducerClientOptions,
   earliestEventPosition,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { assert } from "./chai.js";

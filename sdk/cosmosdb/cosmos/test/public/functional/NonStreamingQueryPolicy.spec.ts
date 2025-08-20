@@ -6,7 +6,7 @@ import {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
-} from "../../../src/documents/index.js";
+} from "@azure/cosmos";
 import { getTestDatabase } from "../common/TestHelpers.js";
 import type { Database } from "$internal/client/Database/Database.js";
 import type { Container } from "$internal/client/index.js";

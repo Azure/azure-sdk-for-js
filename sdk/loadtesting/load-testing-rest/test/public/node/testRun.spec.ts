@@ -9,7 +9,7 @@ import type {
   AzureLoadTestingClient,
   TestProfileRunOutput,
   TestRunAppComponentsOutput,
-} from "../../../src/index.js";
+} from "@azure-rest/load-testing";
 import { isUnexpected } from "@azure-rest/load-testing";
 import fs from "node:fs";
 import { getLongRunningPoller } from "@azure-rest/load-testing";

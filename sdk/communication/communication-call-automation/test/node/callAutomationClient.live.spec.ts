@@ -24,7 +24,7 @@ import type {
   CallConnection,
   CreateCallOptions,
   AnswerCallOptions,
-} from "../../src/index.js";
+} from "@azure/communication-call-automation";
 import { isNodeLike } from "@azure/core-util";
 
 describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => {

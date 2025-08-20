@@ -7,7 +7,7 @@ import {
   ServiceAuth,
   ServiceEnvironmentVariable,
   ServiceOS,
-} from "../../src/common/constants.js";
+} from "$internal/common/constants.js";
 import { ServiceErrorMessageConstants } from "$internal/common/messages.js";
 import * as utils from "$internal/utils/utils.js";
 import { PlaywrightServiceConfig } from "$internal/common/playwrightServiceConfig.js";

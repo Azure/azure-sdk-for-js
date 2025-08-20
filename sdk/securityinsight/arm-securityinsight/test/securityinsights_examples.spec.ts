@@ -12,7 +12,7 @@ import { SecurityInsights } from "@azure/arm-securityinsight";
 import {
   SentinelOnboardingState,
   SentinelOnboardingStatesCreateOptionalParams,
-} from "../src/models/index.js";
+} from "@azure/arm-securityinsight";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

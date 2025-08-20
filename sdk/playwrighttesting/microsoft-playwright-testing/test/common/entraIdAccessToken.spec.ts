@@ -5,7 +5,7 @@ import {
   EntraIdAccessTokenConstants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
-} from "../../src/common/constants.js";
+} from "$internal/common/constants.js";
 import { EntraIdAccessToken } from "$internal/common/entraIdAccessToken.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { parseJwt } from "$internal/utils/parseJwt.js";

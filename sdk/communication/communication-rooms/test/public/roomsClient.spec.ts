@@ -11,7 +11,7 @@ import type {
   CommunicationRoom,
   RoomParticipantPatch,
   RoomParticipant,
-} from "../../src/models/models.js";
+} from "@azure/communication-rooms";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("RoomsClient", () => {

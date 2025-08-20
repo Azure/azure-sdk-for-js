@@ -11,7 +11,7 @@ import type {
   ReplaceNodeUserParameters,
   UploadBatchServiceLogsOptions,
   UploadNodeLogsParameters,
-} from "../src/index.js";
+} from "@azure-rest/batch";
 import { isUnexpected, type ListNodes200Response, type BatchNodeOutput } from "@azure-rest/batch";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";

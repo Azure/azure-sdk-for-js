@@ -9,7 +9,7 @@ import type {
   CreatePoolParameters,
   EnablePoolAutoScaleParameters,
   EvaluatePoolAutoScaleParameters,
-} from "../src/index.js";
+} from "@azure-rest/batch";
 import { isUnexpected, type GetPool200Response } from "@azure-rest/batch";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";

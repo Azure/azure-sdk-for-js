@@ -6,7 +6,7 @@ import type {
   CreateOperationInput,
   FeedOptions,
   PluginConfig,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import { CosmosClient } from "@azure/cosmos";
 import type { Container } from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";

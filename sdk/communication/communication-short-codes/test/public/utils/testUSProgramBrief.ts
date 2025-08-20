@@ -8,7 +8,7 @@ import {
   MessageDetailsMapper,
   ProgramDetailsMapper,
   TrafficDetailsMapper,
-} from "../../../src/index.js";
+} from "@azure-tools/communication-short-codes";
 import type { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { randomUUID } from "@azure/core-util";

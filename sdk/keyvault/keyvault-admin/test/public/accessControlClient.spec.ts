@@ -9,7 +9,7 @@ import {
   type KeyVaultPermission,
   type KeyVaultRoleDefinition,
   KnownKeyVaultDataAction,
-} from "../../src/index.js";
+} from "@azure/keyvault-admin";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 import { KnownRoleScope } from "$internal/generated/src/index.js";

@@ -9,7 +9,7 @@ import {
   KnownPiiEntityDomain,
   KnownStringIndexType,
   KnownTextAnalysisErrorCode,
-} from "../../src/index.js";
+} from "@azure/ai-language-text";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";

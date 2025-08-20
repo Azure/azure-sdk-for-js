@@ -9,12 +9,12 @@ import type {
   DocumentTable,
   DocumentModelDetails,
   DocumentBarcode,
-} from "../../../src/index.js";
+} from "@azure/ai-form-recognizer";
 import {
   DocumentAnalysisClient,
   DocumentModelAdministrationClient,
   FormRecognizerFeature,
-} from "../../../src/index.js";
+} from "@azure/ai-form-recognizer";
 import type { DocumentSelectionMarkField } from "$internal/models/fields.js";
 import {
   authMethods,

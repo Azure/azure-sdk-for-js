@@ -13,13 +13,13 @@ import type {
   BlockBlobClient,
   ContainerClient,
   StorageSharedKeyCredential,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   BlobClient,
   BlobSASPermissions,
   generateBlobSASQueryParameters,
   newPipeline,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   base64encode,
   bodyToString,

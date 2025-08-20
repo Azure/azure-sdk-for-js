@@ -9,7 +9,7 @@ import type {
   IndexesOperations,
   AzureAISearchIndex,
   IndexUnion,
-} from "../../../src/index.js";
+} from "@azure/ai-projects";
 
 describe("indexes - basic", () => {
   let recorder: Recorder;

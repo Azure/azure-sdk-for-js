@@ -6,7 +6,7 @@ import type {
   EventHubBufferedProducerClient,
   OnSendEventsErrorContext,
   OnSendEventsSuccessContext,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { assert } from "../utils/chai.js";
 import { createBufferedProducer } from "../utils/clients.js";

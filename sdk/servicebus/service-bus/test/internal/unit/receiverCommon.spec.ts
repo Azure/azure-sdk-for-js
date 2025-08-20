@@ -7,7 +7,7 @@ import {
   settleMessage,
   settleMessageOperation,
   wrapProcessErrorHandler,
-} from "../../../src/receivers/receiverCommon.js";
+} from "$internal/receivers/receiverCommon.js";
 import type { ServiceBusReceiver } from "$internal/receivers/receiver.js";
 import type { ServiceBusLogger } from "$internal/log.js";
 import { createServiceBusLogger } from "$internal/log.js";
@@ -17,7 +17,7 @@ import { MessagingError, RetryOperationType } from "@azure/core-amqp";
 import type {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-} from "../../../src/serviceBusMessage.js";
+} from "$internal/serviceBusMessage.js";
 import { DispositionType } from "$internal/serviceBusMessage.js";
 import type { ConnectionContext } from "$internal/connectionContext.js";
 import type { DispositionStatusOptions } from "$internal/core/managementClient.js";

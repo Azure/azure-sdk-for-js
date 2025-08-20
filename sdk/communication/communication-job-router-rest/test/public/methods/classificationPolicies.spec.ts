@@ -5,7 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   AzureCommunicationRoutingServiceClient,
   ClassificationPolicyOutput,
-} from "../../../src/index.js";
+} from "@azure-rest/communication-job-router";
 import { paginate } from "@azure-rest/communication-job-router";
 import {
   getClassificationPolicyRequest,

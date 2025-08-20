@@ -9,7 +9,7 @@ import {
   isNamedKeyCredential,
   isSASCredential,
   isTokenCredential,
-} from "../src/index.js";
+} from "@azure/core-auth";
 import { describe, it, assert } from "vitest";
 
 describe("AzureKeyCredential", () => {

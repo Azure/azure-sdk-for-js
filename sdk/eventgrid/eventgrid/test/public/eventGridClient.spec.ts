@@ -10,7 +10,7 @@ import { getRandomNumber } from "./utils/testUtils.js";
 import {
   TraceParentHeaderName,
   TraceStateHeaderName,
-} from "../../src/cloudEventDistrubtedTracingEnricherPolicy.js";
+} from "$internal/cloudEventDistrubtedTracingEnricherPolicy.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 

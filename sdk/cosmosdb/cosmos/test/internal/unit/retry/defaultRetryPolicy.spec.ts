@@ -8,7 +8,7 @@ import {
   DiagnosticNodeType,
   OperationType,
   StatusCodes,
-} from "../../../../src/index.js";
+} from "@azure/cosmos";
 import { CosmosDbDiagnosticLevel } from "../../../../dist/esm/index.js";
 
 describe("DefaultRetryPolicy", () => {

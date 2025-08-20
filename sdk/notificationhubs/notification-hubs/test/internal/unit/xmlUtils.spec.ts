@@ -7,7 +7,7 @@ import {
   parseXMLError,
   sanitizeSerializableObject,
   serializeToAtomXmlRequest,
-} from "../../../src/utils/xmlUtils.js";
+} from "$internal/utils/xmlUtils.js";
 
 const NOTIFICATION_XML_ERROR = `
 <Error>

@@ -11,7 +11,7 @@ import {
   delay,
   retry,
   translate,
-} from "../src/index.js";
+} from "@azure/core-amqp";
 import debugModule from "debug";
 
 const debug = debugModule("azure:core-amqp:retry-spec");

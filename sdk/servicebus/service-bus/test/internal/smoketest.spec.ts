@@ -7,7 +7,7 @@ import type {
   ServiceBusMessage,
   ProcessErrorArgs,
   ServiceBusSender,
-} from "../../src/index.js";
+} from "@azure/service-bus";
 import { delay } from "@azure/service-bus";
 import { TestClientType } from "../public/utils/testUtils.js";
 import { getEntityNameFromConnectionString } from "$internal/constructorHelpers.js";

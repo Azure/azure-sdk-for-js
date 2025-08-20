@@ -6,7 +6,7 @@ import {
   TRACEPARENT_PROPERTY,
   instrumentMessage,
   toProcessingSpanOptions,
-} from "../../../src/diagnostics/instrumentServiceBusMessage.js";
+} from "$internal/diagnostics/instrumentServiceBusMessage.js";
 import { toSpanOptions, tracingClient } from "$internal/diagnostics/tracing.js";
 import type { TracingContext } from "@azure/core-tracing";
 import Long from "long";

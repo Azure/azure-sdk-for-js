@@ -7,7 +7,7 @@ import type {
   RequestPolicyFactory,
   RequestPolicyOptionsLike,
   WebResourceLike,
-} from "../src/index.js";
+} from "@azure/core-http-compat";
 
 export interface MutateOptions {
   headersToSet?: { [name: string]: string };

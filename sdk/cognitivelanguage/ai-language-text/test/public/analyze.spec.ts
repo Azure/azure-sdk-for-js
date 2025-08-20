@@ -8,7 +8,7 @@ import {
   KnownPiiEntityDomain,
   KnownStringIndexType,
   KnownTextAnalysisErrorCode,
-} from "../../src/index.js";
+} from "@azure/ai-language-text";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { assertActionResults, assertRestError } from "./utils/resultHelper.js";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers.js";

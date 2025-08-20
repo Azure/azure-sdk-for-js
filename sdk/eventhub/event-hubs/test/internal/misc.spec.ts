@@ -8,11 +8,11 @@ import type {
   EventHubProperties,
   ReceivedEventData,
   Subscription,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import {
   TRACEPARENT_PROPERTY,
   extractSpanContextFromEventData,
-} from "../../src/diagnostics/instrumentEventData.js";
+} from "$internal/diagnostics/instrumentEventData.js";
 import { SubscriptionHandlerForTests } from "../utils/subscriptionHandlerForTests.js";
 import debugModule from "debug";
 import { tracingClient } from "$internal/diagnostics/tracing.js";

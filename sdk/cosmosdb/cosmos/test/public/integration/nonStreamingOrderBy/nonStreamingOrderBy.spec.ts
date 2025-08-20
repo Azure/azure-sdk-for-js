@@ -11,7 +11,7 @@ import {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
-} from "../../../../src/documents/index.js";
+} from "@azure/cosmos";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 describe("Test nonStreaming Queries", { timeout: 30000 }, () => {

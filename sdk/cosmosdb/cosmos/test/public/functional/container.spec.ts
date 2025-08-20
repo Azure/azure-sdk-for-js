@@ -8,7 +8,7 @@ import {
   PartitionKeyKind,
   ResourceType,
   StatusCodes,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import type { ContainerDefinition, Database, Container } from "@azure/cosmos";
 import type { ContainerRequest } from "@azure/cosmos";
 import type { IndexedPath, IndexingPolicy } from "@azure/cosmos";

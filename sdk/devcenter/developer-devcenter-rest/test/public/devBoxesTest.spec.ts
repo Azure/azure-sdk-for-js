@@ -14,7 +14,7 @@ import type {
   DelayActionsParameters,
   DevBoxActionDelayResultOutput,
   CreateDevBoxParameters,
-} from "../../src/index.js";
+} from "@azure-rest/developer-devcenter";
 import { getLongRunningPoller, isUnexpected, paginate } from "@azure-rest/developer-devcenter";
 
 const testPollingOptions = {

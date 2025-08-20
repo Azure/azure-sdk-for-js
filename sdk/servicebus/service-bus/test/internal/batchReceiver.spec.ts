@@ -5,7 +5,7 @@ import type {
   ServiceBusMessage,
   ServiceBusSender,
   ServiceBusReceivedMessage,
-} from "../../src/index.js";
+} from "@azure/service-bus";
 import { delay } from "@azure/service-bus";
 import { InvalidOperationForPeekedMessage } from "$internal/util/errors.js";
 import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
@@ -23,7 +23,7 @@ import { ReceiverEvents } from "rhea-promise";
 import type {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
-} from "../../src/receivers/sessionReceiver.js";
+} from "$internal/receivers/sessionReceiver.js";
 import type { LinkEntity } from "$internal/core/linkEntity.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import type { BatchingReceiver } from "$internal/core/batchingReceiver.js";

@@ -7,14 +7,14 @@ import { entityPathMisMatchError } from "$internal/util/errors.js";
 import {
   createConnectionContextForConnectionString,
   createConnectionContextForCredential,
-} from "../../../src/constructorHelpers.js";
+} from "$internal/constructorHelpers.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { ConnectionContext } from "$internal/connectionContext.js";
 import { createConnectionContextForTestsWithSessionId } from "./unittestUtils.js";
 import type {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
-} from "../../../src/receivers/sessionReceiver.js";
+} from "$internal/receivers/sessionReceiver.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ServiceBusSenderImpl } from "$internal/sender.js";
 import type { MessageReceiver } from "$internal/core/messageReceiver.js";

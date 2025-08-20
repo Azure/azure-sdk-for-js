@@ -7,7 +7,7 @@ import {
   EncryptionKeyStoreProvider,
   KeyEncryptionKey,
   ProtectedDataEncryptionKey,
-} from "../../../../src/encryption/index.js";
+} from "$internal/encryption/index.js";
 import { ProtectedDataEncryptionKeyCache } from "$internal/encryption/Cache/ProtectedDataEncryptionKeyCache.js";
 import { ErrorResponse, StatusCodes } from "@azure/cosmos";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

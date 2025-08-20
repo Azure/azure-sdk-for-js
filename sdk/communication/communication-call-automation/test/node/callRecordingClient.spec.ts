@@ -19,7 +19,7 @@ import type {
   CreateCallOptions,
   PlayOptions,
   StartRecordingOptions,
-} from "../../src/models/options.js";
+} from "@azure/communication-call-automation";
 import { apiVersion } from "$internal/generated/src/models/parameters.js";
 import type { ChannelAffinity } from "@azure/communication-call-automation";
 import type {

@@ -24,7 +24,7 @@ import type {
   RawResponse,
   ResourceLocationConfig,
   ResponseBody,
-} from "../../src/http/models.js";
+} from "$internal/http/models.js";
 import { AbortError } from "@azure/abort-controller";
 import { createCoreRestPipelineLro } from "./coreRestPipelineLro.js";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";

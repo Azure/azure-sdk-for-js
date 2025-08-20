@@ -10,7 +10,7 @@ import type {
   ShareClient,
   ShareDirectoryClient,
   ShareServiceClient,
-} from "../src/index.js";
+} from "@azure/storage-file-share";
 import { ShareFileClient } from "@azure/storage-file-share";
 import { FileSystemAttributes } from "@azure/storage-file-share";
 import type { DirectoryCreateResponse } from "$internal/generatedModels.js";
@@ -20,7 +20,7 @@ import {
   parseSymbolicFileMode,
   toOctalFileMode,
   toSymbolicFileMode,
-} from "../src/index.js";
+} from "@azure/storage-file-share";
 import { truncatedISO8061Date } from "$internal/utils/utils.common.js";
 import {
   bodyToString,

@@ -21,7 +21,7 @@ import type {
   RemoveParticipantsOption,
   CancelAddParticipantOperationOptions,
   TransferCallToParticipantOptions,
-} from "../../src/index.js";
+} from "@azure/communication-call-automation";
 import {
   CALL_TARGET_ID,
   CALL_TARGET_ID_2,

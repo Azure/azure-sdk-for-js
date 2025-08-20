@@ -5,7 +5,7 @@ import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
-} from "../src/utils/utils.common.js";
+} from "$internal/utils/utils.common.js";
 import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", () => {

@@ -8,7 +8,7 @@ import {
   type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src/index.js";
+} from "@typespec/ts-http-runtime";
 import { agentPolicy } from "$internal/policies/agentPolicy.js";
 
 describe("agentPolicy", function () {

@@ -7,7 +7,7 @@ import {
   QueryPreparationTimes,
   RuntimeExecutionTimes,
   TimeSpan,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import { describe, it, assert } from "vitest";
 
 describe("QueryMetrics", () => {

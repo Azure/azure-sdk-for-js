@@ -4,14 +4,14 @@
 import {
   checkAndRegisterWithAbortSignal,
   waitForTimeoutOrAbortOrResolve,
-} from "../../../src/util/utils.js";
+} from "$internal/util/utils.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import type { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
 import {
   extractSpanContextFromServiceBusMessage,
   TRACEPARENT_PROPERTY,
-} from "../../../src/diagnostics/instrumentServiceBusMessage.js";
+} from "$internal/diagnostics/instrumentServiceBusMessage.js";
 import type { ServiceBusReceivedMessage } from "@azure/service-bus";
 import { tracingClient } from "$internal/diagnostics/tracing.js";
 import { describe, it, vi, beforeEach } from "vitest";

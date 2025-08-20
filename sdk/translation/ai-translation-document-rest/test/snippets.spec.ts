@@ -5,7 +5,7 @@ import DocumentTranslationClient, {
   DocumentTranslateParameters,
   isUnexpected,
   paginate,
-} from "../src/index.js";
+} from "@azure-rest/ai-translation-document";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import { writeFile } from "node:fs/promises";

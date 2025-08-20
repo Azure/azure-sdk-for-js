@@ -5,7 +5,7 @@ import type {
   JsonWebKey,
   KeyClient,
   KeyVaultKey,
-} from "../../src/index.js";
+} from "@azure/keyvault-keys";
 import { CryptographyClient } from "@azure/keyvault-keys";
 import { getKey, stringToUint8Array, uint8ArrayToString } from "../public/utils/crypto.js";
 import TestClient from "../public/utils/testClient.js";

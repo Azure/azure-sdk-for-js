@@ -13,7 +13,7 @@ import type {
   BlockBlobClient,
   ContainerClient,
   BlobBeginCopyFromURLResponse,
-} from "../src/index.js";
+} from "@azure/storage-blob";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

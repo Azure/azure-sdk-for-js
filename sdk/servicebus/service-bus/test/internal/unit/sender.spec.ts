@@ -9,7 +9,7 @@ import {
   errorInvalidMessageTypeSingleOrArray,
   errorInvalidMessageTypeSingle,
   PartitionKeySessionIdMismatchError,
-} from "../../../src/util/errors.js";
+} from "$internal/util/errors.js";
 import { describe, it } from "vitest";
 import { assert } from "../../public/utils/chai.js";
 

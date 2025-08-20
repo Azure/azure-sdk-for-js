@@ -5,7 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   AzureCommunicationRoutingServiceClient,
   ExceptionPolicyOutput,
-} from "../../../src/index.js";
+} from "@azure-rest/communication-job-router";
 import { paginate } from "@azure-rest/communication-job-router";
 import { getExceptionPolicyRequest } from "../utils/testData.js";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";

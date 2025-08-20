@@ -9,7 +9,7 @@ import {
   createPipelineRequest,
   createPipelineFromOptions,
   createHttpHeaders,
-} from "../src/index.js";
+} from "@azure/core-rest-pipeline";
 
 describe("HttpsPipeline", function () {
   it("assert pipeline response shape", async function () {

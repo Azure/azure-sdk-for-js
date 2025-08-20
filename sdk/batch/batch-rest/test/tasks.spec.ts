@@ -10,7 +10,7 @@ import type {
   CreateJobParameters,
   CreatePoolParameters,
   CreateTaskParameters,
-} from "../src/index.js";
+} from "@azure-rest/batch";
 import { isUnexpected, paginate, type GetTask200Response } from "@azure-rest/batch";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";

@@ -17,7 +17,7 @@ import type {
   ShareServiceClient,
   SignedIdentifier,
   StorageSharedKeyCredential,
-} from "../../src/index.js";
+} from "@azure/storage-file-share";
 import { getFileServiceAccountAudience, newPipeline, ShareClient } from "@azure/storage-file-share";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

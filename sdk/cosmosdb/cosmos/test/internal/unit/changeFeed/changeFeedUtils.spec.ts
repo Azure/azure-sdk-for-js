@@ -5,7 +5,7 @@ import {
   extractOverlappingRanges,
   isNullOrEmpty,
   fetchStartTime,
-} from "../../../../src/client/ChangeFeed/changeFeedUtils.js";
+} from "$internal/client/ChangeFeed/changeFeedUtils.js";
 import type { PartitionKeyRange } from "@azure/cosmos";
 import { ChangeFeedStartFrom } from "@azure/cosmos";
 import { FeedRangeInternal } from "$internal/client/ChangeFeed/FeedRange.js";

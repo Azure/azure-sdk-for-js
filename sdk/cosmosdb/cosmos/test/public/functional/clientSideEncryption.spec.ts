@@ -12,7 +12,7 @@ import type {
   EncryptionKeyWrapMetadata,
   ClientEncryptionPolicy,
   ClientEncryptionIncludedPath,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import {
   CosmosClient,
   KeyEncryptionAlgorithm,
@@ -29,7 +29,7 @@ import {
   ChangeFeedRetentionTimeSpan,
   PartitionKeyKind,
   PermissionMode,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { endpoint, skipTestForSignOff } from "../common/_testConfig.js";
 import {

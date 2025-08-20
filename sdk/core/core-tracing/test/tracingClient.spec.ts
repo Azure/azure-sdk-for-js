@@ -6,12 +6,12 @@ import type {
   TracingClient,
   TracingContext,
   TracingSpan,
-} from "../src/interfaces.js";
+} from "@azure/core-tracing";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   useInstrumenter,
-} from "../src/instrumenter.js";
+} from "$internal/instrumenter.js";
 import { createTracingContext, knownContextKeys } from "$internal/tracingContext.js";
 import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
 import { createTracingClient } from "@azure/core-tracing";

@@ -10,7 +10,7 @@ import DocumentIntelligence, {
   paginate,
   parseResultIdFromResponse,
   streamToUint8Array,
-} from "../src/index.js";
+} from "@azure-rest/ai-document-intelligence";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

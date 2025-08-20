@@ -18,7 +18,7 @@ import {
   SASProtocol,
   AccountSASResourceTypes,
   AccountSASServices,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";

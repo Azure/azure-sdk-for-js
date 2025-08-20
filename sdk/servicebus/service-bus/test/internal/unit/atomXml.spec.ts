@@ -6,22 +6,22 @@ import {
   deserializeAtomXmlResponse,
   executeAtomXmlOperation,
   sanitizeSerializableObject,
-} from "../../../src/util/atomXmlHelper.js";
+} from "$internal/util/atomXmlHelper.js";
 import * as Constants from "$internal/util/constants.js";
 import { ServiceBusAdministrationClient } from "@azure/service-bus";
 import {
   buildQueueOptions,
   QueueResourceSerializer,
-} from "../../../src/serializers/queueResourceSerializer.js";
+} from "$internal/serializers/queueResourceSerializer.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
   buildTopicOptions,
   TopicResourceSerializer,
-} from "../../../src/serializers/topicResourceSerializer.js";
+} from "$internal/serializers/topicResourceSerializer.js";
 import {
   buildSubscriptionOptions,
   SubscriptionResourceSerializer,
-} from "../../../src/serializers/subscriptionResourceSerializer.js";
+} from "$internal/serializers/subscriptionResourceSerializer.js";
 import { RuleResourceSerializer } from "$internal/serializers/ruleResourceSerializer.js";
 import { getXMLNSPrefix, isJSONLikeObject } from "$internal/util/utils.js";
 import { TestConstants } from "../../public/fakeTestSecrets.js";

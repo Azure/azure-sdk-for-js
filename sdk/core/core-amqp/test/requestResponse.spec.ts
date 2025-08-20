@@ -13,7 +13,7 @@ import {
   RetryOperationType,
   StandardAbortMessage,
   retry,
-} from "../src/index.js";
+} from "@azure/core-amqp";
 import type { DeferredPromiseWithCallback } from "$internal/requestResponseLink.js";
 import { getCodeDescriptionAndError, onMessageReceived } from "$internal/requestResponseLink.js";
 import EventEmitter from "events";

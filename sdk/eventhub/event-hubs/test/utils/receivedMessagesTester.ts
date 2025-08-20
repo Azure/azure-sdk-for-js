@@ -7,7 +7,7 @@ import type {
   ReceivedEventData,
   SubscriptionEventHandlers,
   PartitionContext,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import { delay } from "@azure/core-amqp";
 import { should } from "./chai.js";
 

@@ -21,7 +21,7 @@ import type {
   BlobClient,
   ContainerClient,
   BlobServiceClient,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   BlockBlobClient,
   newPipeline,
@@ -30,7 +30,7 @@ import {
   getBlobServiceAccountAudience,
   SASProtocol,
   AnonymousCredential,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";

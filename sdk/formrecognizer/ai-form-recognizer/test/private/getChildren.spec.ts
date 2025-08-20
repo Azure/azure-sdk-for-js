@@ -6,7 +6,7 @@ import {
   contains,
   fastGetChildren,
   iteratorFromFirstMatchBinarySearch,
-} from "../../src/lro/analysis.js";
+} from "$internal/lro/analysis.js";
 import { describe, it, assert } from "vitest";
 
 interface TestData {

@@ -7,7 +7,7 @@ import type { WebPubSubClient } from "$internal/webPubSubClient.js";
 import type {
   WebSocketClientFactoryLike,
   WebSocketClientLike,
-} from "../src/websocket/websocketClientLike.js";
+} from "$internal/websocket/websocketClientLike.js";
 
 export class TestWebSocketClient implements WebSocketClientLike {
   private readonly _emitter: EventEmitter = new EventEmitter();

@@ -8,7 +8,7 @@ import type {
   EventPosition,
   ReceivedEventData,
   SendBatchOptions,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import type { EventDataBatchImpl } from "$internal/eventDataBatch.js";
 import { expect, should } from "../utils/chai.js";
 import { SubscriptionHandlerForTests } from "../utils/subscriptionHandlerForTests.js";

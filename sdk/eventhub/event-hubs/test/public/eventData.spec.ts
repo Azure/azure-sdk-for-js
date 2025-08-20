@@ -9,7 +9,7 @@ import type {
   EventPosition,
   ReceivedEventData,
   Subscription,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import { randomUUID } from "@azure/core-util";
 import { should } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";

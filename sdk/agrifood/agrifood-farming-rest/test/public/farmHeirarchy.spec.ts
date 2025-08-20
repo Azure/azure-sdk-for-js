@@ -4,7 +4,7 @@ import type {
   FarmBeatsClient,
   SatelliteDataIngestionJobOutput,
   SceneListResponseOutput,
-} from "../../src/index.js";
+} from "@azure-rest/agrifood-farming";
 import { getLongRunningPoller, isUnexpected } from "@azure-rest/agrifood-farming";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";

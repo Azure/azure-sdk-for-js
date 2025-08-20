@@ -25,7 +25,7 @@ import {
   DataLakeFileSystemClient,
   generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters,
-} from "../../src/index.js";
+} from "@azure/storage-file-datalake";
 import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 
 export * from "./testutils.common.js";

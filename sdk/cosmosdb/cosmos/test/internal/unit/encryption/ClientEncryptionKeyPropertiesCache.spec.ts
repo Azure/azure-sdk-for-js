@@ -5,7 +5,7 @@ import { ClientEncryptionKeyPropertiesCache } from "$internal/encryption/Cache/C
 import type {
   ClientEncryptionKeyProperties,
   EncryptionKeyWrapMetadata,
-} from "../../../../src/index.js";
+} from "@azure/cosmos";
 import { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "@azure/cosmos";
 import { describe, it, assert } from "vitest";
 

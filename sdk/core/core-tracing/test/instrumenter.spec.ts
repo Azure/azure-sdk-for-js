@@ -7,7 +7,7 @@ import {
   createDefaultTracingSpan,
   getInstrumenter,
   useInstrumenter,
-} from "../src/instrumenter.js";
+} from "$internal/instrumenter.js";
 import { createTracingContext, knownContextKeys } from "$internal/tracingContext.js";
 import { describe, it, assert, beforeEach } from "vitest";
 

@@ -18,7 +18,7 @@ import {
   AccountSASServices,
   generateAccountSASQueryParameters,
   SASProtocol,
-} from "../../src/index.js";
+} from "@azure/storage-file-share";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
 import { newPipeline } from "@azure/storage-file-share";
 import { ShareServiceClient } from "@azure/storage-file-share";

@@ -6,7 +6,7 @@ import {
   hexStringToUint8Array,
   uint8ArrayToHex,
   concatUint8Arrays,
-} from "../../../../src/utils/uint8.js";
+} from "$internal/utils/uint8.js";
 import { Buffer } from "buffer";
 
 describe("Uint8 utils", () => {

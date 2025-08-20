@@ -12,7 +12,7 @@ import type {
   EnvironmentTypeOutput,
   CreateOrReplaceEnvironmentParameters,
   EnvironmentOutput,
-} from "../../src/index.js";
+} from "@azure-rest/developer-devcenter";
 import { isUnexpected, paginate, getLongRunningPoller } from "@azure-rest/developer-devcenter";
 
 const testPollingOptions = {

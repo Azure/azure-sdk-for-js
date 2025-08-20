@@ -9,18 +9,18 @@ import type {
   Granularity as ServiceGranularity,
   PeriodFeedback as ServicePeriodFeedback,
   WholeMetricConfiguration as ServiceWholeMetricConfiguration,
-} from "../../src/generated/models/index.js";
+} from "$internal/generated/models/index.js";
 import type {
   AzureBlobDataFeedSource,
   DataFeedGranularity,
   MetricDetectionCondition,
-} from "../../src/models.js";
+} from "@azure/ai-metrics-advisor";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
   fromServiceMetricFeedbackUnion,
   toServiceGranularity,
-} from "../../src/transforms.js";
+} from "$internal/transforms.js";
 import { describe, it, assert } from "vitest";
 
 describe("Transforms", () => {

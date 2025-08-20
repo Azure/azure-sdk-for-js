@@ -16,7 +16,7 @@ import {
   ErrorResponse,
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
-} from "../../../../src/index.js";
+} from "@azure/cosmos";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { endpoint } from "../../common/_testConfig.js";
 import type { CosmosDiagnosticsTestSpec } from "../../common/TestHelpers.js";

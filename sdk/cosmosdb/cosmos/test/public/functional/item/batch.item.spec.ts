@@ -7,7 +7,7 @@ import {
   OperationType,
   PatchOperationType,
   ResourceType,
-} from "../../../../src/index.js";
+} from "@azure/cosmos";
 import { addEntropy, testForDiagnostics } from "../../common/TestHelpers.js";
 import type { OperationInput } from "@azure/cosmos";
 import { BulkOperationType } from "@azure/cosmos";

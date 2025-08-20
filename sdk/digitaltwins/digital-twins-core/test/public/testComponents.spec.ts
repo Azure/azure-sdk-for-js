@@ -4,7 +4,7 @@
 import type {
   DigitalTwinsClient,
   DigitalTwinsUpdateComponentOptionalParams,
-} from "../../src/index.js";
+} from "@azure/digital-twins-core";
 import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";

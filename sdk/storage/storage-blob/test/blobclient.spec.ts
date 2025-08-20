@@ -22,7 +22,7 @@ import type {
   RehydratePriority,
   ObjectReplicationPolicy,
   BlobImmutabilityPolicyMode,
-} from "../src/index.js";
+} from "@azure/storage-blob";
 import { BlobClient, BlockBlobTier, BlobServiceClient } from "@azure/storage-blob";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { base64encode } from "$internal/utils/utils.common.js";

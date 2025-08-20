@@ -7,7 +7,7 @@ import type {
   DtmfData,
   TranscriptionData,
   TranscriptionMetadata,
-} from "../src/models/streaming.js";
+} from "@azure/communication-call-automation";
 import { StreamingData } from "@azure/communication-call-automation";
 import { describe, it, assert } from "vitest";
 

@@ -7,7 +7,7 @@ import {
   BulkOperationType,
   calculateObjectSizeInBytes,
   splitBatchBasedOnBodySize,
-} from "../../../../src/utils/batch.js";
+} from "$internal/utils/batch.js";
 import { describe, it, assert } from "vitest";
 
 const operationSkeleton: Operation = {

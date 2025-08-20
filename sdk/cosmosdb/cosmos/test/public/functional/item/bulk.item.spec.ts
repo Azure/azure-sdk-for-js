@@ -7,7 +7,7 @@ import type {
   ContainerRequest,
   OperationResponse,
   PluginConfig,
-} from "../../../../src/index.js";
+} from "@azure/cosmos";
 import {
   Constants,
   CosmosClient,
@@ -16,7 +16,7 @@ import {
   PluginOn,
   StatusCodes,
   ErrorResponse,
-} from "../../../../src/index.js";
+} from "@azure/cosmos";
 import { addEntropy, getTestContainer, testForDiagnostics } from "../../common/TestHelpers.js";
 import type { OperationInput } from "@azure/cosmos";
 import { BulkOperationType } from "@azure/cosmos";
@@ -25,7 +25,7 @@ import type { PartitionKey } from "$internal/documents/index.js";
 import {
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
-} from "../../../../src/documents/index.js";
+} from "@azure/cosmos";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { getCurrentTimestampInMs } from "$internal/utils/time.js";

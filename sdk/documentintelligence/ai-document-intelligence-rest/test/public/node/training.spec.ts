@@ -13,7 +13,7 @@ import type {
   DocumentTypeDetails,
   DocumentIntelligenceClient,
   DocumentTypeDetailsOutput,
-} from "../../../src/index.js";
+} from "@azure-rest/ai-document-intelligence";
 import { getLongRunningPoller, isUnexpected, paginate } from "@azure-rest/ai-document-intelligence";
 import { getEndpoint } from "../../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";

@@ -17,7 +17,7 @@ import type {
   BlockBlobClient,
   BlobBatchClient,
   StorageSharedKeyCredential,
-} from "../src/index.js";
+} from "@azure/storage-blob";
 import { BlobServiceClient, newPipeline } from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

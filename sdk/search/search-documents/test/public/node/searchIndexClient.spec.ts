@@ -9,7 +9,7 @@ import type {
   SynonymMap,
   VectorSearchAlgorithmConfiguration,
   VectorSearchProfile,
-} from "../../../src/index.js";
+} from "@azure/search-documents";
 import { AzureKeyCredential, SearchIndexClient } from "@azure/search-documents";
 import { defaultServiceVersion } from "$internal/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";

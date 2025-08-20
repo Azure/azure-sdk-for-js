@@ -22,13 +22,13 @@ import type {
   DocumentModelDetailsOutput,
   DocumentTableOutput,
   DocumentIntelligenceClient,
-} from "../../../src/index.js";
+} from "@azure-rest/ai-document-intelligence";
 import {
   getLongRunningPoller,
   isUnexpected,
   parseResultIdFromResponse,
   streamToUint8Array,
-} from "../../../src/index.js";
+} from "@azure-rest/ai-document-intelligence";
 import { getEndpoint, getSelectionMarkStorageContainerSasUrl } from "../../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 

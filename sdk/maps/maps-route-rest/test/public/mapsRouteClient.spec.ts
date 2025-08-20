@@ -5,7 +5,7 @@ import type { RouteDirectionParameters, RouteMatrixQuery } from "@azure-rest/map
 import {
   createRouteDirectionsBatchRequest,
   toColonDelimitedLatLonString,
-} from "../../src/index.js";
+} from "@azure-rest/maps-route";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createClient, createRecorder, testLogger } from "./utils/recordedClient.js";
@@ -14,7 +14,7 @@ import type {
   RouteGetRouteDirectionsBatch200Response,
   RouteGetRouteDirectionsQueryParamProperties,
   RouteGetRouteMatrix200Response,
-} from "../../src/generated/index.js";
+} from "@azure-rest/maps-route";
 import { getLongRunningPoller, isUnexpected } from "@azure-rest/maps-route";
 import type { LatLon } from "@azure/maps-common";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

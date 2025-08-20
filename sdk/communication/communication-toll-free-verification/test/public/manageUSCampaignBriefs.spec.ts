@@ -4,7 +4,7 @@
 import type {
   TollFreeVerificationClient,
   TollFreeVerificationUpsertCampaignBriefOptionalParams,
-} from "../../src/index.js";
+} from "@azure-tools/communication-toll-free-verification";
 import {
   assertEditableFieldsAreEqual,
   assertCampaignBriefSummaryEditableFieldsAreEqual,

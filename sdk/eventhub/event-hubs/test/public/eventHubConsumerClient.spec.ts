@@ -9,13 +9,13 @@ import type {
   ReceivedEventData,
   Subscription,
   SubscriptionEventHandlers,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import {
   CloseReason,
   earliestEventPosition,
   latestEventPosition,
   logger,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import { getStartingPositionsForTests, loopUntil } from "../utils/testUtils.js";
 import { LogTester } from "../utils/logHelpers.js";
 import { ReceivedMessagesTester } from "../utils/receivedMessagesTester.js";

@@ -5,20 +5,20 @@ import type {
   DeletedKeyItem,
   KeyRotationPolicy as GeneratedKeyRotationPolicy,
   KeyBundle,
-} from "../../src/generated/src/index.js";
+} from "$internal/generated/src/index.js";
 import type {
   DeletedKey,
   KeyProperties,
   KeyRotationPolicy,
   KeyRotationPolicyProperties,
   KeyVaultKey,
-} from "../../src/keysModels.js";
+} from "$internal/keysModels.js";
 import {
   getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
   getKeyPropertiesFromKeyItem,
   keyRotationTransformations,
-} from "../../src/transformations.js";
+} from "$internal/transformations.js";
 import { stringToUint8Array } from "../public/utils/crypto.js";
 import { describe, it, assert, expect } from "vitest";
 

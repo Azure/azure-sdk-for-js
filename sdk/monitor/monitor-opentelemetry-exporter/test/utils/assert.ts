@@ -9,7 +9,7 @@ import type {
   RequestData,
   TelemetryItem as Envelope,
   MonitorDomain,
-} from "../../src/generated/index.js";
+} from "$internal/generated/index.js";
 import { KnownContextTagKeys } from "$internal/generated/index.js";
 import { TelemetryItem as EnvelopeMapper } from "$internal/generated/models/mappers.js";
 

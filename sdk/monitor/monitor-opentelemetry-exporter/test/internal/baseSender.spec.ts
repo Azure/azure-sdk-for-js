@@ -8,7 +8,7 @@ import {
   RetriableRestErrorTypes,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
-} from "../../src/Declarations/Constants.js";
+} from "$internal/Declarations/Constants.js";
 import type { SenderResult } from "$internal/types.js";
 import { CustomerSDKStatsMetrics } from "$internal/export/statsbeat/customerSDKStats.js";
 

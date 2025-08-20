@@ -14,7 +14,7 @@ import type {
   VectorSearchCompression,
   VectorSearchProfile,
   VectorSearchVectorizer,
-} from "../../../src/index.js";
+} from "@azure/search-documents";
 import { GeographyPoint, KnownAnalyzerNames } from "@azure/search-documents";
 import type { Hotel } from "./interfaces.js";
 import { assert } from "vitest";

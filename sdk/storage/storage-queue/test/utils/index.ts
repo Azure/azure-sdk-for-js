@@ -10,7 +10,7 @@ import {
   SASProtocol,
   AccountSASResourceTypes,
   AccountSASServices,
-} from "../../src/index.js";
+} from "@azure/storage-queue";
 import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";

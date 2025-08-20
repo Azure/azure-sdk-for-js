@@ -7,7 +7,7 @@ import type {
   EventHubProducerClient,
   ReceivedEventData,
   Subscription,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import { earliestEventPosition, latestEventPosition } from "@azure/event-hubs";
 import debugModule from "debug";
 import { should } from "../utils/chai.js";

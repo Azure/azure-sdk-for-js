@@ -13,7 +13,7 @@ import type {
   ClustersCreateOrUpdateParameters,
   ClustersUpdateParameters,
   ServiceFabricClient,
-} from "../../src/index.js";
+} from "@azure-rest/arm-servicefabric";
 import { getLongRunningPoller } from "@azure-rest/arm-servicefabric";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

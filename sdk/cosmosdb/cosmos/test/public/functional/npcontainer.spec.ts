@@ -6,7 +6,7 @@ import type {
   PluginConfig,
   CosmosClientOptions,
   OperationInput,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
 import { CosmosClient, Constants, PatchOperationType } from "@azure/cosmos";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { endpoint } from "../common/_testConfig.js";

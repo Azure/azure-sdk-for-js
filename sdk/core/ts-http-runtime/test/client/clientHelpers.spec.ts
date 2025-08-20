@@ -7,7 +7,7 @@ import type {
   BearerTokenCredential,
   OAuth2TokenCredential,
   BasicCredential,
-} from "../../src/auth/credentials.js";
+} from "@typespec/ts-http-runtime";
 import { createDefaultPipeline } from "$internal/client/clientHelpers.js";
 import { bearerAuthenticationPolicyName } from "$internal/policies/auth/bearerAuthenticationPolicy.js";
 import { basicAuthenticationPolicyName } from "$internal/policies/auth/basicAuthenticationPolicy.js";

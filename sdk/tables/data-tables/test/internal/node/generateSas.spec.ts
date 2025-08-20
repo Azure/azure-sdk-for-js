@@ -5,7 +5,7 @@ import {
   AzureNamedKeyCredential,
   generateAccountSas,
   generateTableSas,
-} from "../../../src/index.js";
+} from "@azure/data-tables";
 import {
   expectedSas1,
   expectedSas2,
