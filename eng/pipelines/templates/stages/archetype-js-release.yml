@@ -149,7 +149,7 @@ stages:
                       - template: /eng/common/pipelines/templates/steps/mark-release-completion.yml
                         parameters:
                           ConfigFileDir: $(Pipeline.Workspace)/packages/PackageInfo
-                          PackageArtifactName: ${{artifact.name}}
+                          PackageArtifactName: ${{ artifact.name }}
 
                       - bash: |
                           npm ci
