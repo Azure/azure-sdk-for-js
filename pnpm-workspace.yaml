@@ -22,3 +22,5 @@ packages:
 catalogs:
   arm:
     '@azure/arm-cognitiveservices': ^7.6.0
+  internal:
+    '@azure/identity': ^4.11.1
