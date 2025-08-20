@@ -276,7 +276,6 @@ describe("getServiceConfig", () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
     vi.stubEnv(InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG, "true");
     const warnIfAccessTokenCloseToExpiryStub = vi.spyOn(utils, "warnIfAccessTokenCloseToExpiry");
-    const performOneTimeOperationSpy = vi.spyOn(utils, "performOneTimeOperation");
     vi.spyOn(utils, "validateMptPAT").mockReturnValue();
     const { getServiceConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
@@ -286,8 +285,28 @@ describe("getServiceConfig", () => {
       serviceAuthType: ServiceAuth.ACCESS_TOKEN,
     });
 
-    expect(performOneTimeOperationSpy).toHaveBeenCalled();
     expect(warnIfAccessTokenCloseToExpiryStub).not.toHaveBeenCalled();
+
+    delete process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG];
+  });
+
+  it("should call warnIfAccessTokenCloseToExpiry if ONE_TIME_OPERATION_FLAG is not set", async () => {
+    vi.stubEnv(InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG, "false");
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
+    const warnIfAccessTokenCloseToExpiryStub = vi.spyOn(utils, "warnIfAccessTokenCloseToExpiry");
+    vi.spyOn(utils, "validateMptPAT").mockReturnValue();
+    vi.mocked(parseJwt).mockReturnValue({ exp: Date.now() / 1000 + 10000 });
+
+    const { getServiceConfig: localGetServiceConfig } = await import(
+      "../../src/core/playwrightService.js"
+    );
+
+    localGetServiceConfig(samplePlaywrightConfigInput, {
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+    });
+
+    expect(warnIfAccessTokenCloseToExpiryStub).toHaveBeenCalled();
+    expect(process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG]).to.equal("true");
 
     delete process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG];
   });

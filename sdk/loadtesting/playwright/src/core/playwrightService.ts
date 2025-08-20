@@ -22,10 +22,23 @@ import {
   getVersionInfo,
   throwErrorWithFailureMessage,
   getPackageVersion,
+  warnIfAccessTokenCloseToExpiry,
 } from "../utils/utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { globalPaths } from "./playwrightServiceUtils.js";
+
+export const performOneTimeOperation = (options?: { serviceAuthType?: string }): void => {
+  const oneTimeOperationFlag =
+    process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] === "true";
+  if (oneTimeOperationFlag) return;
+
+  process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
+
+  if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
+    warnIfAccessTokenCloseToExpiry();
+  }
+};
 
 /**
  * @public
@@ -147,6 +160,9 @@ const getServiceConfig = (
       ...globalFunctions,
     };
   }
+
+  performOneTimeOperation(options);
+
   if (!process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED]) {
     process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] = "true";
     console.log("\nRunning tests using Azure Playwright service.");
@@ -207,6 +223,7 @@ const getConnectOptions = async (
   const playwrightServiceConfig = PlaywrightServiceConfig.instance;
 
   playwrightServiceConfig.setOptions(options, true);
+  performOneTimeOperation(options);
   playwrightServiceConfig.serviceAuthType =
     options?.serviceAuthType || DefaultConnectOptionsConstants.DEFAULT_SERVICE_AUTH_TYPE;
 

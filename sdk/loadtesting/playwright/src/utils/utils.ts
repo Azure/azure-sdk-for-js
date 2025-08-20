@@ -8,7 +8,6 @@ import {
   ServiceEnvironmentVariable,
   RunConfigConstants,
   GitHubActionsConstants,
-  ServiceAuth,
 } from "../common/constants.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
@@ -193,7 +192,7 @@ export const warnIfAccessTokenCloseToExpiry = (): void => {
 export const fetchOrValidateAccessToken = async (credential?: TokenCredential): Promise<string> => {
   const entraIdAccessToken = createEntraIdAccessToken(credential);
   // Fetch a token or refresh if needed in a single call
-  if (!entraIdAccessToken.token || entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
+  if (entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
     await entraIdAccessToken.fetchEntraIdAccessToken();
   }
   const token = getAccessToken();
@@ -324,15 +323,3 @@ export function extractErrorMessage(responseBody: string): string {
     return responseBody;
   }
 }
-
-export const performOneTimeOperation = (options?: { serviceAuthType?: string }): void => {
-  const oneTimeOperationFlag =
-    process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] === "true";
-  if (oneTimeOperationFlag) return;
-
-  process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
-
-  if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
-    warnIfAccessTokenCloseToExpiry();
-  }
-};
