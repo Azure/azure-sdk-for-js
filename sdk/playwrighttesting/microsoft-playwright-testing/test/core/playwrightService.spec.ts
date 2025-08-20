@@ -17,7 +17,7 @@ import { fileURLToPath } from "node:url";
 import process from "node:process";
 import { parseJwt } from "$internal/utils/parseJwt.js";
 
-vi.mock("../../src/utils/parseJwt.js", async (importActual) => {
+vi.mock("$internal/utils/parseJwt.js", async (importActual) => {
   const actual = await importActual<typeof import("$internal/utils/parseJwt.js")>();
   return {
     ...actual,
@@ -42,11 +42,11 @@ const __dirname = path.dirname(__filename);
 // Construct the path
 const globalSetupPath = path.join(
   __dirname,
-  "../../src/core/global/playwright-service-global-setup.js",
+  "$internal/core/global/playwright-service-global-setup.js",
 );
 const globalTeardownPath = path.join(
   __dirname,
-  "../../src/core/global/playwright-service-global-teardown.js",
+  "$internal/core/global/playwright-service-global-teardown.js",
 );
 
 const samplePlaywrightConfigInput = {

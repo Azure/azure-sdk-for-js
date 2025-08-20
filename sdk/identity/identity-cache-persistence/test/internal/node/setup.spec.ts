@@ -31,5 +31,5 @@ export const createPersistence: typeof import("$internal/provider.js").createPer
   };
 
 beforeAll(function () {
-  useIdentityPlugin(require("../../../src").cachePersistencePlugin);
+  useIdentityPlugin(require("@azure/identity-cache-persistence").cachePersistencePlugin);
 });

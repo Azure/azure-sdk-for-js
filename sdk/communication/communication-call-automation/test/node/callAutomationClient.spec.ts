@@ -15,7 +15,7 @@ import { randomUUID } from "@azure/core-util";
 import type { MockedObject } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach } from "vitest";
 
-vi.mock("../src/index.js", async (importActual) => {
+vi.mock("@azure/communication-call-automation", async (importActual) => {
   const CallAutomationClient = vi.fn();
   CallAutomationClient.prototype.createCall = vi.fn();
   CallAutomationClient.prototype.createGroupCall = vi.fn();
