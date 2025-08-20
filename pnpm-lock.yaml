@@ -5,6 +5,10 @@ settings:
   excludeLinksFromLockfile: false
 
 catalogs:
+  arm:
+    '@azure/arm-webpubsub':
+      specifier: 1.2.0
+      version: 1.2.0
   default:
     '@types/node':
       specifier: ^20.19.0
@@ -23,8 +27,8 @@ catalogs:
       version: 4.20.4
   internal:
     '@azure/identity':
-      specifier: ^4.10.0
-      version: 4.11.2
+      specifier: 4.11.1
+      version: 4.11.1
   testing:
     '@rollup/plugin-inject':
       specifier: ^5.0.5
@@ -385,7 +389,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -452,7 +456,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -522,7 +526,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -586,7 +590,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -653,7 +657,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/monitor-opentelemetry':
         specifier: ^1.11.1
         version: link:../../monitor/monitor-opentelemetry
@@ -750,7 +754,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.33
         version: link:../../monitor/monitor-opentelemetry-exporter
@@ -859,7 +863,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/monitor-opentelemetry':
         specifier: ^1.12.0
         version: link:../../monitor/monitor-opentelemetry
@@ -938,7 +942,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -993,7 +997,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -1063,7 +1067,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -1234,7 +1238,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -1298,7 +1302,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -1374,7 +1378,7 @@ importers:
         version: link:../../eventgrid/eventgrid
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/keyvault-secrets':
         specifier: ^4.2.0
         version: link:../../keyvault/keyvault-secrets
@@ -1478,7 +1482,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -1542,7 +1546,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -1600,7 +1604,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -1661,7 +1665,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -1725,7 +1729,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -1789,7 +1793,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -1856,7 +1860,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -1914,7 +1918,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -1978,7 +1982,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -2048,7 +2052,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2106,7 +2110,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2164,7 +2168,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2228,7 +2232,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2298,7 +2302,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -2362,7 +2366,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2417,7 +2421,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2478,7 +2482,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2548,7 +2552,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -2612,7 +2616,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2679,7 +2683,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2743,7 +2747,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -2807,7 +2811,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2871,7 +2875,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2932,7 +2936,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -2996,7 +3000,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -3060,7 +3064,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -3118,7 +3122,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -3173,7 +3177,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -3240,7 +3244,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -3310,7 +3314,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -3383,7 +3387,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -3462,7 +3466,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/storage-blob':
         specifier: ^12.26.0
         version: link:../../storage/storage-blob
@@ -3572,7 +3576,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -3630,7 +3634,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -3685,7 +3689,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -3749,7 +3753,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -3825,7 +3829,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -3913,7 +3917,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/service-bus':
         specifier: ^7.9.5
         version: 7.9.5
@@ -4068,7 +4072,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -4144,7 +4148,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -4226,7 +4230,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/msal-node':
         specifier: ^2.16.1
         version: 2.16.3
@@ -4296,7 +4300,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -4378,7 +4382,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -4463,7 +4467,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -4542,7 +4546,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -4618,7 +4622,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -4697,7 +4701,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -4773,7 +4777,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -4852,7 +4856,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -4928,7 +4932,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -4995,7 +4999,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -5059,7 +5063,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -5129,7 +5133,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -5202,7 +5206,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -5266,7 +5270,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -5330,7 +5334,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -5391,7 +5395,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -5449,7 +5453,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -5519,7 +5523,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -5583,7 +5587,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -5641,7 +5645,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -5705,7 +5709,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -5769,7 +5773,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -5842,7 +5846,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -5937,7 +5941,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -6004,7 +6008,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -6077,7 +6081,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -6144,7 +6148,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -6968,7 +6972,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7041,7 +7045,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/debug':
         specifier: ^4.1.4
         version: 4.1.12
@@ -7120,7 +7124,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7184,7 +7188,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7248,7 +7252,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7315,7 +7319,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -7385,7 +7389,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -7440,7 +7444,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7504,7 +7508,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7568,7 +7572,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7629,7 +7633,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7693,7 +7697,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7754,7 +7758,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7815,7 +7819,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7879,7 +7883,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -7943,7 +7947,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8004,7 +8008,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8068,7 +8072,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8132,7 +8136,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8202,7 +8206,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -8272,7 +8276,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -8333,7 +8337,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8388,7 +8392,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8452,7 +8456,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8519,7 +8523,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -8577,7 +8581,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8641,7 +8645,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8711,7 +8715,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -8775,7 +8779,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -8848,7 +8852,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -8918,7 +8922,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -8982,7 +8986,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9043,7 +9047,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9104,7 +9108,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9180,7 +9184,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -9244,7 +9248,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9308,7 +9312,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9372,7 +9376,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9442,7 +9446,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -9509,7 +9513,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -9573,7 +9577,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9640,7 +9644,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -9704,7 +9708,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9765,7 +9769,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -9829,7 +9833,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -9887,7 +9891,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -9951,7 +9955,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -10015,7 +10019,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -10076,7 +10080,7 @@ importers:
         version: 3.5.1
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -10140,7 +10144,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -10207,7 +10211,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/service-bus':
         specifier: ^7.9.5
         version: 7.9.5
@@ -10283,7 +10287,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -10436,7 +10440,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -10497,7 +10501,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -10582,7 +10586,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/keyvault-secrets':
         specifier: ^4.9.0
         version: link:../../keyvault/keyvault-secrets
@@ -10731,7 +10735,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@rollup/plugin-inject':
         specifier: catalog:testing
         version: 5.0.5(rollup@4.46.2)
@@ -10819,7 +10823,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@rollup/plugin-inject':
         specifier: catalog:testing
         version: 5.0.5(rollup@4.46.2)
@@ -10950,7 +10954,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11020,7 +11024,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -11090,7 +11094,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -11151,7 +11155,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11206,7 +11210,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11285,7 +11289,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@rollup/plugin-node-resolve':
         specifier: ^15.0.0
         version: 15.3.1(rollup@4.46.2)
@@ -11395,7 +11399,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11459,7 +11463,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11517,7 +11521,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11581,7 +11585,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11648,7 +11652,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -11712,7 +11716,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11776,7 +11780,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11840,7 +11844,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11901,7 +11905,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -11971,7 +11975,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -12114,7 +12118,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -12184,7 +12188,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -12254,7 +12258,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -12321,7 +12325,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -12391,7 +12395,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -12455,7 +12459,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -12519,7 +12523,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -12583,7 +12587,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -12955,7 +12959,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -13025,7 +13029,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -13089,7 +13093,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -13275,7 +13279,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -13336,7 +13340,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -13400,7 +13404,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -13464,7 +13468,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -13534,7 +13538,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -13598,7 +13602,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -13662,7 +13666,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -13741,7 +13745,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/keyvault-keys':
         specifier: ^4.9.0
         version: link:../keyvault-keys
@@ -13826,7 +13830,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/keyvault-secrets':
         specifier: ^4.9.0
         version: link:../keyvault-secrets
@@ -14003,7 +14007,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -14119,7 +14123,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -14214,7 +14218,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -14278,7 +14282,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.2.0
         version: link:../../core/logger
@@ -14336,7 +14340,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.2.0
         version: link:../../core/logger
@@ -14400,7 +14404,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.2.0
         version: link:../../core/logger
@@ -14464,7 +14468,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -14534,7 +14538,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -14598,7 +14602,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -14662,7 +14666,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -14732,7 +14736,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -14796,7 +14800,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -14866,7 +14870,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -14930,7 +14934,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15000,7 +15004,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -15061,7 +15065,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15122,7 +15126,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15235,7 +15239,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -15290,7 +15294,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@playwright/test':
         specifier: ^1.51.1
         version: 1.54.2
@@ -15351,7 +15355,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15406,7 +15410,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15470,7 +15474,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15528,7 +15532,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15589,7 +15593,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15653,7 +15657,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15708,7 +15712,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15769,7 +15773,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15824,7 +15828,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15882,7 +15886,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -15946,7 +15950,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16010,7 +16014,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16074,7 +16078,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16129,7 +16133,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16187,7 +16191,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16309,7 +16313,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -16379,7 +16383,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -16452,7 +16456,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -16525,7 +16529,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -16598,7 +16602,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -16665,7 +16669,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16720,7 +16724,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16793,7 +16797,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -16882,7 +16886,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -16946,7 +16950,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -17010,7 +17014,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -17074,7 +17078,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -17144,7 +17148,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -17214,7 +17218,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -17290,7 +17294,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -17348,7 +17352,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -17424,7 +17428,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/monitor-query-logs':
         specifier: ^1.0.0
         version: link:../monitor-query-logs
@@ -17795,7 +17799,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.32
         version: 1.0.0-beta.32
@@ -17874,7 +17878,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/monitor-opentelemetry-exporter':
         specifier: 1.0.0-beta.32
         version: 1.0.0-beta.32
@@ -17944,7 +17948,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18008,7 +18012,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18069,7 +18073,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18139,7 +18143,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -18203,7 +18207,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18267,7 +18271,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18331,7 +18335,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18398,7 +18402,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -18465,7 +18469,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18529,7 +18533,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18590,7 +18594,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18654,7 +18658,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18721,7 +18725,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18855,7 +18859,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -18922,7 +18926,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -18980,7 +18984,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -19041,7 +19045,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -19117,7 +19121,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -19181,7 +19185,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -19248,7 +19252,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -19312,7 +19316,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -19376,7 +19380,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -19434,7 +19438,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -19501,7 +19505,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -19571,7 +19575,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -19641,7 +19645,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -19711,7 +19715,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -19867,7 +19871,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -19925,7 +19929,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -19989,7 +19993,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20047,7 +20051,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20111,7 +20115,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -20175,7 +20179,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20236,7 +20240,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20300,7 +20304,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20364,7 +20368,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20425,7 +20429,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20495,7 +20499,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -20565,7 +20569,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -20629,7 +20633,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20687,7 +20691,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -20748,7 +20752,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -20818,7 +20822,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -20885,7 +20889,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -20949,7 +20953,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -21016,7 +21020,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21083,7 +21087,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21156,7 +21160,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21220,7 +21224,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21287,7 +21291,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21357,7 +21361,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -21421,7 +21425,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21485,7 +21489,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21552,7 +21556,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21616,7 +21620,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21680,7 +21684,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21744,7 +21748,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21808,7 +21812,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21866,7 +21870,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21921,7 +21925,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -21985,7 +21989,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -22043,7 +22047,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -22107,7 +22111,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -22171,7 +22175,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -22235,7 +22239,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -22299,7 +22303,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -22363,7 +22367,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -22430,7 +22434,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -22503,7 +22507,7 @@ importers:
         version: link:../../eventhub/event-hubs
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@rollup/plugin-inject':
         specifier: catalog:testing
         version: 5.0.5(rollup@4.46.2)
@@ -22619,7 +22623,7 @@ importers:
         version: link:../../eventhub/event-hubs
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@rollup/plugin-inject':
         specifier: catalog:testing
         version: 5.0.5(rollup@4.46.2)
@@ -22692,7 +22696,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -22756,7 +22760,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -22832,7 +22836,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/openai':
         specifier: 1.0.0-beta.12
         version: 1.0.0-beta.12
@@ -22936,7 +22940,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23000,7 +23004,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23064,7 +23068,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23128,7 +23132,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23183,7 +23187,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23238,7 +23242,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23302,7 +23306,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23408,7 +23412,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@rollup/plugin-inject':
         specifier: catalog:testing
         version: 5.0.5(rollup@4.46.2)
@@ -23542,7 +23546,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23612,7 +23616,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -23685,7 +23689,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -23743,7 +23747,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23807,7 +23811,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -23877,7 +23881,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -23941,7 +23945,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -24011,7 +24015,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -24075,7 +24079,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -24139,7 +24143,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -24203,7 +24207,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -24267,7 +24271,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -24337,7 +24341,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -24401,7 +24405,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -24465,7 +24469,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -24556,7 +24560,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/storage-file-share':
         specifier: ^12.27.0
         version: link:../storage-file-share
@@ -24638,7 +24642,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -24824,7 +24828,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -24943,7 +24947,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/storage-blob':
         specifier: 12.27.0
         version: 12.27.0
@@ -25108,7 +25112,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -25181,7 +25185,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -25245,7 +25249,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -25315,7 +25319,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -25373,7 +25377,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -25437,7 +25441,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -25501,7 +25505,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -25562,7 +25566,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -25623,7 +25627,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -25684,7 +25688,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -25748,7 +25752,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -25803,7 +25807,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -25867,7 +25871,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -25931,7 +25935,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -26056,7 +26060,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -26388,7 +26392,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -26489,7 +26493,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -26645,7 +26649,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -26712,7 +26716,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -26990,7 +26994,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -27088,7 +27092,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27146,7 +27150,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27216,7 +27220,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/storage-blob':
         specifier: ^12.26.0
         version: link:../../storage/storage-blob
@@ -27283,7 +27287,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -27356,7 +27360,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -27417,7 +27421,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -27481,7 +27485,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27542,7 +27546,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27606,7 +27610,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27670,7 +27674,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27733,8 +27737,8 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
       '@azure/arm-webpubsub':
-        specifier: ^1.2.0
-        version: link:../arm-webpubsub
+        specifier: catalog:arm
+        version: 1.2.0
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -27743,7 +27747,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/jsonwebtoken':
         specifier: ^9.0.7
         version: 9.0.10
@@ -27813,7 +27817,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/web-pubsub':
         specifier: ^1.1.3
         version: link:../web-pubsub
@@ -27874,7 +27878,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/web-pubsub':
         specifier: ^1.1.0
         version: link:../web-pubsub
@@ -28005,7 +28009,7 @@ importers:
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -28075,7 +28079,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
-        version: link:../../identity/identity
+        version: 4.11.1
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.9
@@ -28167,6 +28171,10 @@ packages:
     resolution: {integrity: sha512-KxZFSseqIwXlQkQ3jSV9d0O1ccF/VcpVQwCBZsGaSiTBgKjht1c4279543ZdmvXOZyxn5e7ckEwJ8KIFlJ4OZA==}
     engines: {node: '>=14.0.0'}
 
+  '@azure/arm-webpubsub@1.2.0':
+    resolution: {integrity: sha512-FZMMUv6EFy5GTURJShQxMyZ/oH6qoD8uclv280qrR1d/NSXsgfOs6mnQ4pbG2iZJaG1hzM5dwwl/QTVEphpwvA==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/communication-common@2.4.0':
     resolution: {integrity: sha512-wwn4AoOgTgoA9OZkO34SKBpQg7/kfcABnzbaYEbc+9bCkBtwwjgMEk6xM+XLEE/uuODZ8q8jidUoNcZHQyP5AQ==}
     engines: {node: '>=18.0.0'}
@@ -28237,6 +28245,10 @@ packages:
   '@azure/identity@4.10.1':
     resolution: {integrity: sha512-YM/z6RxRtFlXUH2egAYF/FDPes+MUE6ZoknjEdaq7ebJMMNUzn9zCJ3bd2ZZZlkP0r1xKa88kolhFH/FGV7JnA==}
     engines: {node: '>=18.0.0'}
+
+  '@azure/identity@4.11.1':
+    resolution: {integrity: sha512-0ZdsLRaOyLxtCYgyuqyWqGU5XQ9gGnjxgfoNTt1pvELGkkUFrMATABZFIq8gusM7N1qbqpVtwLOhk0d/3kacLg==}
+    engines: {node: '>=20.0.0'}
 
   '@azure/keyvault-common@2.0.0':
     resolution: {integrity: sha512-wRLVaroQtOqfg60cxkzUkGKrKMsCP6uYXAOomOIysSMyt1/YM0eUn9LqieAWM8DLcU4+07Fio2YGpPeqUbpP9w==}
@@ -33223,6 +33235,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/arm-webpubsub@1.2.0':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.10.0
+      '@azure/core-client': 1.10.0
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/communication-common@2.4.0':
     dependencies:
       '@azure-rest/core-client': 2.5.0
@@ -33386,6 +33410,22 @@ snapshots:
       undici: 5.29.0
 
   '@azure/identity@4.10.1':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.0
+      '@azure/core-client': 1.10.0
+      '@azure/core-rest-pipeline': 1.22.0
+      '@azure/core-tracing': 1.3.0
+      '@azure/core-util': 1.13.0
+      '@azure/logger': 1.3.0
+      '@azure/msal-browser': 4.19.0
+      '@azure/msal-node': 3.7.0
+      open: 10.2.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/identity@4.11.1':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.0

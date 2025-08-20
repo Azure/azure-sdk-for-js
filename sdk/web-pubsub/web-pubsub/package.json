@@ -70,7 +70,7 @@
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/arm-webpubsub": "^1.2.0",
+    "@azure/arm-webpubsub": "catalog:arm",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
