@@ -4,6 +4,12 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  arm:
+    '@azure/arm-cognitiveservices':
+      specifier: ^7.6.0
+      version: 7.7.0
+
 overrides:
   typescript: ~5.8.2
 
@@ -26921,8 +26927,8 @@ importers:
         specifier: ^4.1.0
         version: link:../../test-utils/recorder
       '@azure/arm-cognitiveservices':
-        specifier: 7.6.0
-        version: 7.6.0
+        specifier: catalog:arm
+        version: link:../../cognitiveservices/arm-cognitiveservices
       '@azure/dev-tool':
         specifier: ^1.0.0
         version: link:../../../common/tools/dev-tool
