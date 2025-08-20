@@ -9,11 +9,11 @@ import {
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
+  configureStorageClient,
 } from "./utils/index.js";
 import type { ShareItem, ShareServiceClient, SignedIdentifier } from "@azure/storage-file-share";
 import { ShareClient } from "@azure/storage-file-share";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { configureStorageClient } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   Pipeline,

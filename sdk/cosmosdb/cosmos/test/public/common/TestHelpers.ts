@@ -19,6 +19,14 @@ import type {
   RequestOptions,
   Response,
   UserDefinition,
+  ItemDefinition,
+  ItemResponse,
+  PermissionResponse,
+  Resource,
+  User,
+  UserResponse,
+  DatabaseRequest,
+  ContainerRequest,
 } from "@azure/cosmos";
 import {
   ClientContext,
@@ -29,23 +37,11 @@ import {
   CosmosDbDiagnosticLevel,
   GlobalEndpointManager,
   MetadataLookUpType,
-} from "@azure/cosmos";
-import type {
-  ItemDefinition,
-  ItemResponse,
-  PermissionResponse,
-  Resource,
-  User,
-} from "@azure/cosmos";
-import type { UserResponse } from "@azure/cosmos";
-import { endpoint } from "../common/_testConfig.js";
-import { masterKey } from "../common/_fakeTestSecrets.js";
-import type { DatabaseRequest } from "@azure/cosmos";
-import type { ContainerRequest } from "@azure/cosmos";
-import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "@azure/cosmos";
+import { endpoint } from "../common/_testConfig.js";
+import { masterKey } from "../common/_fakeTestSecrets.js";
 import type { ExtractPromise } from "$internal/utils/diagnostics.js";
 import { getCurrentTimestampInMs } from "$internal/utils/time.js";
 import { extractPartitionKeys } from "$internal/extractPartitionKey.js";
@@ -306,9 +302,8 @@ function verifyForOverlappingRanges(
     expect(
       ranges[i].startTimeUTCInMs,
       msg +
-        `. Overlapping Ranges: [${ranges[i - 1].startTimeUTCInMs}, ${
-          ranges[i - 1].durationInMs
-        }] & [${ranges[i].startTimeUTCInMs}, ${ranges[i].durationInMs}]`,
+      `. Overlapping Ranges: [${ranges[i - 1].startTimeUTCInMs}, ${ranges[i - 1].durationInMs
+      }] & [${ranges[i].startTimeUTCInMs}, ${ranges[i].durationInMs}]`,
     ).to.be.gte(ranges[i - 1].startTimeUTCInMs + ranges[i - 1].durationInMs);
   }
 }

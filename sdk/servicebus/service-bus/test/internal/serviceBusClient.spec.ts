@@ -3,7 +3,7 @@
 
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Constants as CoreAmqpConstants } from "@azure/core-amqp";
-import { isObjectWithProperties } from "@azure/core-util";
+import { isObjectWithProperties, isNode } from "@azure/core-util";
 import Long from "long";
 import type {
   ProcessErrorArgs,
@@ -11,12 +11,11 @@ import type {
   ServiceBusSessionReceiver,
   ServiceBusSender,
   ServiceBusReceiverOptions,
+  ServiceBusReceivedMessage,
 } from "@azure/service-bus";
 import { isServiceBusError, ServiceBusClient } from "@azure/service-bus";
-import type { ServiceBusReceivedMessage } from "$internal/serviceBusMessage.js";
 import { DispositionType } from "$internal/serviceBusMessage.js";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "$internal/util/errors.js";
-import { isNode } from "@azure/core-util";
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils.js";
 import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {

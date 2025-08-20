@@ -3,13 +3,15 @@
 
 import { CosmosDbDiagnosticLevel } from "@azure/cosmos";
 import type { QueryInfo } from "$internal/request/ErrorResponse.js";
-import { createTestClientContext } from "../../../public/common/TestHelpers.js";
-import type { QueryIterator } from "$internal/queryIterator.js";
+import {
+  createTestClientContext,
+  createDummyDiagnosticNode,
+} from "../../../public/common/TestHelpers.js";
+import type { QueryIterator } from "@azure/cosmos";
 import type { PartitionKeyRange } from "$internal/client/Container/PartitionKeyRange.js";
 import type { Resource } from "$internal/client/Resource.js";
 import { OrderByQueryExecutionContext } from "$internal/queryExecutionContext/orderByQueryExecutionContext.js";
 import type { FeedOptions } from "$internal/request/FeedOptions.js";
-import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers.js";
 import { describe, it, assert, vi } from "vitest";
 
 describe("OrderByQueryExecutionContext", () => {

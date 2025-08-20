@@ -9,7 +9,6 @@ import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SecretClient } from "@azure/keyvault-secrets";
 import type { ClientSecretCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
-
 import type { CertificateClient } from "@azure/keyvault-certificates";
 import { assertThrowsAbortError } from "./utils/common.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";

@@ -4,7 +4,10 @@
 import { matrix } from "@azure-tools/test-utils-vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import type { PhoneNumberCapabilitiesRequest, PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import type {
+  PhoneNumberCapabilitiesRequest,
+  PhoneNumbersClient,
+} from "@azure/communication-phone-numbers";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { getPhoneNumber } from "./utils/testPhoneNumber.js";
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";

@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientContext, Container, PluginConfig } from "@azure/cosmos";
-import { PluginOn } from "@azure/cosmos";
-import { OperationType, ResourceType } from "@azure/cosmos";
-import { ConsistencyLevel } from "@azure/cosmos";
-import { CosmosClient } from "@azure/cosmos";
+import type { ClientContext, Container, PluginConfig, RequestContext } from "@azure/cosmos";
+import {
+  PluginOn,
+  OperationType,
+  ResourceType,
+  ConsistencyLevel,
+  CosmosClient,
+} from "@azure/cosmos";
 import type { SessionContainer } from "$internal/session/sessionContainer.js";
 import { endpoint } from "../../public/common/_testConfig.js";
 import { masterKey } from "../../public/common/_fakeTestSecrets.js";
@@ -14,7 +17,6 @@ import {
   getTestDatabase,
   removeAllDatabases,
 } from "../../public/common/TestHelpers.js";
-import type { RequestContext } from "@azure/cosmos";
 import type { Response } from "$internal/request/Response.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
@@ -100,7 +102,7 @@ describe.skip("Integrated Cache Staleness", async () => {
             assert.ok(typeof context.headers["x-ms-consistency-level"] === "string");
             assert.ok(
               context.headers["x-ms-consistency-level"] === "Eventual" ||
-                context.headers["x-ms-consistency-level"] === "Session",
+              context.headers["x-ms-consistency-level"] === "Session",
               `${context.headers["x-ms-consistency-level"]} = EVENTUAL or SESSION`,
             );
             if (context.headers["x-ms-dedicatedgateway-bypass-cache"] !== undefined) {

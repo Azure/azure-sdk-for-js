@@ -22,10 +22,10 @@ import {
   generateDataLakeSASQueryParameters,
   newPipeline,
   SASQueryParameters,
+  DataLakeFileClient,
+  DirectorySASPermissions,
+  SASProtocol,
 } from "@azure/storage-file-datalake";
-import { DataLakeFileClient } from "@azure/storage-file-datalake";
-import { DirectorySASPermissions } from "@azure/storage-file-datalake";
-import { SASProtocol } from "@azure/storage-file-datalake";
 import {
   getDataLakeServiceClient,
   getDataLakeServiceClientWithDefaultCredential,

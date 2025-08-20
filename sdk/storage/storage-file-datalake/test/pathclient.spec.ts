@@ -3,8 +3,10 @@
 
 import { isNodeLike } from "@azure/core-util";
 import { isPlaybackMode, Recorder, delay } from "@azure-tools/test-recorder";
-
-import type { DataLakeDirectoryClient, DataLakeFileSystemClient } from "@azure/storage-file-datalake";
+import type {
+  DataLakeDirectoryClient,
+  DataLakeFileSystemClient,
+} from "@azure/storage-file-datalake";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
 import { toPermissionsString } from "$internal/transforms.js";
 import {

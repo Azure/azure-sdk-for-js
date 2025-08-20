@@ -4,7 +4,7 @@
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { proxyPolicy, proxyPolicyName } from "$internal/policies/proxyPolicy.js";
 import { tlsPolicy, tlsPolicyName } from "$internal/policies/tlsPolicy.js";
-import type { HttpClient } from "$internal/interfaces.js";
+import type { HttpClient } from "@typespec/ts-http-runtime";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { createEmptyPipeline } from "@typespec/ts-http-runtime";
 import { createHttpHeaders } from "@typespec/ts-http-runtime";

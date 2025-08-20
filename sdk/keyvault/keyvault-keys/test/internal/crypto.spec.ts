@@ -2,10 +2,14 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import type { DecryptParameters, EncryptParameters, KeyVaultKey } from "@azure/keyvault-keys";
+import type {
+  DecryptParameters,
+  EncryptParameters,
+  KeyVaultKey,
+  JsonWebKey,
+} from "@azure/keyvault-keys";
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { RsaCryptographyProvider } from "$internal/cryptography/rsaCryptographyProvider.js";
-import type { JsonWebKey } from "@azure/keyvault-keys";
 import { stringToUint8Array } from "../public/utils/crypto.js";
 import type { CryptographyProvider } from "$internal/cryptography/models.js";
 import { RemoteCryptographyProvider } from "$internal/cryptography/remoteCryptographyProvider.js";

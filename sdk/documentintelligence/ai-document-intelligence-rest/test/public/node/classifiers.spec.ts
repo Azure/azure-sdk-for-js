@@ -3,11 +3,16 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
-import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { ASSET_PATH, makeTestUrl } from "../utils/utils.js";
-import type { AnalyzeOperationOutput, DocumentIntelligenceClient } from "@azure-rest/ai-document-intelligence";
-import { getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import type {
+  AnalyzeOperationOutput,
+  DocumentIntelligenceClient,
+} from "@azure-rest/ai-document-intelligence";
 import path from "node:path";
 import fs from "node:fs";
 import { getEndpoint } from "../../utils/injectables.js";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MonitoringClient } from "$internal/monitoringClient.js";
+import type { MonitoringClient } from "@azure/synapse-monitoring";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

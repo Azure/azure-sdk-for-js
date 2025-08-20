@@ -11,14 +11,13 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
-import type { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import type { DataLakeServiceClient, PublicAccessType } from "@azure/storage-file-datalake";
 import {
   DataLakeFileSystemClient,
   FileSystemSASPermissions,
   newPipeline,
+  getDataLakeServiceAccountAudience,
 } from "@azure/storage-file-datalake";
-import type { PublicAccessType } from "$internal/models.js";
-import { getDataLakeServiceAccountAudience } from "@azure/storage-file-datalake";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

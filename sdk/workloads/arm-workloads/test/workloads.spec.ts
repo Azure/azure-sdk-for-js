@@ -10,7 +10,7 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { WorkloadsClient } from "@azure/arm-workloads";
-import type { Monitor } from "$internal/models/index.js";
+import type { Monitor } from "@azure/arm-workloads";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

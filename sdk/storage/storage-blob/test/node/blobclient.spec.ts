@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { readFileSync, unlinkSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-
 import type { TokenCredential } from "@azure/core-auth";
 import { isNodeLike } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-
 import type {
   BlobImmutabilityPolicyMode,
   BlobServiceClient,

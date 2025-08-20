@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { delay } from "@azure/service-bus";
-import type { CreateTopicOptions } from "@azure/service-bus";
-import type { CreateSubscriptionOptions } from "@azure/service-bus";
-import { ServiceBusAdministrationClient } from "@azure/service-bus";
-import type { CreateQueueOptions } from "@azure/service-bus";
+import { delay, ServiceBusAdministrationClient } from "@azure/service-bus";
+import type {
+  CreateTopicOptions,
+  CreateSubscriptionOptions,
+  CreateQueueOptions,
+} from "@azure/service-bus";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { should } from "./chai.js";
 import { getFullyQualifiedNamespace } from "../../utils/injectables.js";
@@ -205,7 +206,7 @@ export async function verifyMessageCount(
     queueName
       ? (await client.getQueueRuntimeProperties(queueName)).totalMessageCount
       : (await client.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
-          .totalMessageCount,
+        .totalMessageCount,
     expectedMessageCount,
     `Unexpected number of messages are present in the entity.`,
   );

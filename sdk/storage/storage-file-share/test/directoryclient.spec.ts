@@ -9,15 +9,18 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
-import type { FilePosixProperties, ShareClient, ShareServiceClient } from "@azure/storage-file-share";
+import type {
+  FilePosixProperties,
+  ShareClient,
+  ShareServiceClient,
+  DirectoryCreateResponse,
+} from "@azure/storage-file-share";
 import { ShareDirectoryClient, FileSystemAttributes } from "@azure/storage-file-share";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import type { DirectoryCreateResponse } from "$internal/generatedModels.js";
 import { truncatedISO8061Date } from "$internal/utils/utils.common.js";
-import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { isBrowser } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
-import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
 
 expect.extend({ toSupportTracing });

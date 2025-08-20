@@ -9,6 +9,8 @@ import type {
   PartitionOwnership,
   ReceivedEventData,
   SubscriptionEventHandlers,
+  Checkpoint,
+  PartitionContext,
 } from "@azure/event-hubs";
 import { CloseReason, earliestEventPosition, latestEventPosition } from "@azure/event-hubs";
 import type { Dictionary } from "rhea-promise";
@@ -19,11 +21,9 @@ import {
   sendOneMessagePerPartition,
 } from "../utils/subscriptionHandlerForTests.js";
 import { BalancedLoadBalancingStrategy } from "$internal/loadBalancerStrategies/balancedStrategy.js";
-import type { Checkpoint } from "$internal/partitionProcessor.js";
 import { FakeSubscriptionEventHandlers } from "../utils/fakeSubscriptionEventHandlers.js";
 import { GreedyLoadBalancingStrategy } from "$internal/loadBalancerStrategies/greedyStrategy.js";
 import { InMemoryCheckpointStore } from "$internal/inMemoryCheckpointStore.js";
-import type { PartitionContext } from "$internal/eventHubConsumerClientModels.js";
 import debugModule from "debug";
 import type { MessagingError } from "@azure/core-amqp";
 import { delay } from "@azure/core-amqp";

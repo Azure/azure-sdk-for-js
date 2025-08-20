@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  CosmosDbDiagnosticLevel,
-  DiagnosticNodeInternal,
-  DiagnosticNodeType,
-} from "@azure/cosmos";
+import { CosmosDbDiagnosticLevel, DiagnosticNodeInternal, DiagnosticNodeType } from "@azure/cosmos";
 import type { ClientContext, FeedOptions, QueryInfo } from "@azure/cosmos";
 import type { ComponentWeight } from "$internal/queryExecutionContext/hybridQueryExecutionContext.js";
 import {

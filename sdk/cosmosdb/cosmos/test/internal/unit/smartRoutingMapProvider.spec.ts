@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientContext } from "$internal/ClientContext.js";
+import type { ClientContext } from "@azure/cosmos";
 import {
   PartitionKeyRangeCache,
   QueryRange,

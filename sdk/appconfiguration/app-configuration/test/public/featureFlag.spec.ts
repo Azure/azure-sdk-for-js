@@ -5,10 +5,15 @@ import type {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
   ConfigurationSetting,
+  FeatureFlagValue,
 } from "@azure/app-configuration";
-import { featureFlagContentType, featureFlagPrefix } from "@azure/app-configuration";
-import type { FeatureFlagValue } from "$internal/featureFlag.js";
-import { isFeatureFlag, parseFeatureFlag } from "@azure/app-configuration";
+import {
+  featureFlagContentType,
+  featureFlagPrefix,
+  isFeatureFlag,
+  parseFeatureFlag,
+} from "@azure/app-configuration";
+
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert, describe, it } from "vitest";
-import type { ClientCredential } from "$internal/auth/credentials.js";
+import type { ClientCredential } from "@typespec/ts-http-runtime";
 import {
   isApiKeyCredential,
   isBasicCredential,

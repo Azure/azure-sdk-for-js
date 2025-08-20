@@ -8,8 +8,7 @@ import {
   configureStorageClient,
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { QueueServiceClient } from "@azure/storage-queue";
-import { newPipeline } from "@azure/storage-queue";
+import { QueueServiceClient, newPipeline } from "@azure/storage-queue";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

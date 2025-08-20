@@ -2,17 +2,21 @@
 // Licensed under the MIT License.
 
 import util from "node:util";
-import type { Container, ContainerDefinition } from "@azure/cosmos";
+import type {
+  Container,
+  ContainerDefinition,
+  SqlQuerySpec,
+  QueryIterator,
+  FeedResponse,
+  FeedOptions,
+} from "@azure/cosmos";
 import { DataType, IndexKind } from "@azure/cosmos";
-import type { SqlQuerySpec } from "@azure/cosmos";
-import type { QueryIterator } from "@azure/cosmos";
 import {
   bulkInsertItems,
   getTestContainer,
   removeAllDatabases,
   generateDocuments,
 } from "../common/TestHelpers.js";
-import type { FeedResponse, FeedOptions } from "@azure/cosmos";
 import { describe, it, assert, beforeAll } from "vitest";
 
 function compare(key: string) {
@@ -81,8 +85,8 @@ describe("Cross-Partition", { timeout: 30000 }, () => {
       assert.equal(
         actualResults.length,
         expectedCount ||
-          (expectedOrderIds && expectedOrderIds.length) ||
-          documentDefinitions.length,
+        (expectedOrderIds && expectedOrderIds.length) ||
+        documentDefinitions.length,
         "actual results length doesn't match with expected results length.",
       );
       if (expectedOrderIds) {
@@ -105,8 +109,8 @@ describe("Cross-Partition", { timeout: 30000 }, () => {
       assert.equal(
         results.length,
         expectedCount ||
-          (expectedOrderIds && expectedOrderIds.length) ||
-          documentDefinitions.length,
+        (expectedOrderIds && expectedOrderIds.length) ||
+        documentDefinitions.length,
         "invalid number of results",
       );
       assert.equal(
@@ -180,10 +184,8 @@ describe("Cross-Partition", { timeout: 30000 }, () => {
         totalExecuteNextRequestCharge;
       assert(
         percentDifference <= 0.1,
-        `difference between fetchAll request charge and executeNext request charge should be less than 10%, found :${
-          percentDifference * 100
-        }. \n fetchAllResponse.requestCharge: ${
-          fetchAllResponse.requestCharge
+        `difference between fetchAll request charge and executeNext request charge should be less than 10%, found :${percentDifference * 100
+        }. \n fetchAllResponse.requestCharge: ${fetchAllResponse.requestCharge
         }, totalExecuteNextRequestCharge: ${totalExecuteNextRequestCharge}`,
       );
     };
@@ -284,8 +286,7 @@ describe("Cross-Partition", { timeout: 30000 }, () => {
           Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
         assert(
           percentDifference <= 0.05,
-          `difference between fetchAll request charge and expected request charge should be less than 5%. Got ${
-            percentDifference * 100
+          `difference between fetchAll request charge and expected request charge should be less than 5%. Got ${percentDifference * 100
           }`,
         );
       }

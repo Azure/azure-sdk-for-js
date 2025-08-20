@@ -10,7 +10,7 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
-import type { NotificationHubResource } from "$internal/models/index.js";
+import type { NotificationHubResource } from "@azure/arm-notificationhubs";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

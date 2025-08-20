@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EncryptionKeyResolver } from "$internal/encryption/index.js";
+import type { EncryptionKeyResolver } from "@azure/cosmos";
 import {
   EncryptionKeyResolverName,
   EncryptionKeyStoreProvider,

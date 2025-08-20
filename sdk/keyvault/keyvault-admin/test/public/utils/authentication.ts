@@ -14,7 +14,6 @@ import {
   KeyVaultBackupClient,
   KeyVaultSettingsClient,
 } from "@azure/keyvault-admin";
-
 import { getEnvironmentVariable } from "./common.js";
 import { randomUUID } from "@azure/core-util";
 

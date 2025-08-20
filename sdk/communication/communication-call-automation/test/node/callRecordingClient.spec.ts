@@ -19,14 +19,17 @@ import type {
   CreateCallOptions,
   PlayOptions,
   StartRecordingOptions,
+  ChannelAffinity,
+  CallAutomationClient,
+  CallInvite,
+  CallConnection,
+  FileSource,
 } from "@azure/communication-call-automation";
 import { apiVersion } from "$internal/generated/src/models/parameters.js";
-import type { ChannelAffinity } from "@azure/communication-call-automation";
 import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
-import type { CallAutomationClient, CallInvite, CallConnection } from "@azure/communication-call-automation";
 import type { Recorder } from "@azure-tools/test-recorder";
 import {
   createRecorder,
@@ -43,7 +46,6 @@ import {
   persistEvents,
   fileSourceUrl,
 } from "../utils/recordedClient.js";
-import type { FileSource } from "$internal/models/models.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("CallRecording Unit Tests", () => {

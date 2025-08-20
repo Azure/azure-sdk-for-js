@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-
 import type { KeyVaultBackupClient } from "@azure/keyvault-admin";
 import { authenticate } from "./utils/authentication.js";
 import { testPollerProperties } from "./utils/recorder.js";

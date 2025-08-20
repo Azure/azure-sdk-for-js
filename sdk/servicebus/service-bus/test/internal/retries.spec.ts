@@ -8,7 +8,7 @@ import type { ServiceBusSender, ServiceBusSenderImpl } from "$internal/sender.js
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { BatchingReceiver } from "$internal/core/batchingReceiver.js";
-import type { ServiceBusSessionReceiver } from "$internal/receivers/sessionReceiver.js";
+import type { ServiceBusSessionReceiver } from "@azure/service-bus";
 import { ServiceBusSessionReceiverImpl } from "$internal/receivers/sessionReceiver.js";
 import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";

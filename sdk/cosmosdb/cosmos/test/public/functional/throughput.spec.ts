@@ -2,12 +2,16 @@
 // Licensed under the MIT License.
 
 import type { Container } from "@azure/cosmos";
-import { OperationType, ResourceType, Constants } from "@azure/cosmos";
-import { CosmosClient } from "@azure/cosmos";
+import {
+  OperationType,
+  ResourceType,
+  Constants,
+  CosmosClient,
+  BulkOperationType,
+} from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { PriorityLevel } from "$internal/documents/PriorityLevel.js";
-import { BulkOperationType } from "@azure/cosmos";
 import { addEntropy, removeAllDatabases, createOrUpsertItem } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 

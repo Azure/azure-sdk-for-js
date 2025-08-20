@@ -3,8 +3,8 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";
-import type { PurviewWorkflowClient } from "$internal/clientDefinitions.js";
 import type {
+  PurviewWorkflowClient,
   ApproveApprovalTaskParameters,
   RejectApprovalTaskParameters,
 } from "@azure-rest/purview-workflow";

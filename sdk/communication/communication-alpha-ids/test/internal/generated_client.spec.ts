@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelinePolicy } from "@azure/core-rest-pipeline";
+import type {
+  PipelinePolicy,
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
 import {
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
@@ -12,7 +17,6 @@ import type { TokenCredential } from "@azure/identity";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseClientArguments } from "@azure/communication-common";
-import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, vi } from "vitest";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(

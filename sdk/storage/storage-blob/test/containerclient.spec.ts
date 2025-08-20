@@ -14,18 +14,17 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type {
   ContainerListBlobHierarchySegmentResponse,
   BlobServiceClient,
   BlockBlobClient,
   BlobHTTPHeaders,
+  Tags,
 } from "@azure/storage-blob";
 import { ContainerClient, BlockBlobTier } from "@azure/storage-blob";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
-import type { Tags } from "$internal/models.js";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
-import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
 import {
   Pipeline,

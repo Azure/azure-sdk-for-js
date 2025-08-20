@@ -7,12 +7,12 @@ import {
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { createRecordingRequest } from "$internal/utils/createRecordingRequest.js";
 import { paths } from "$internal/utils/paths.js";
 import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "$internal/utils/utils.js";
 import { describe, it, beforeEach, afterEach, expect, type TaskContext } from "vitest";
-import { env } from "@azure-tools/test-recorder";
+
 
 const testRedirectedRequest = (
   client: Recorder,

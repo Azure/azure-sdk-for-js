@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, OperationResponse } from "@azure/cosmos";
+import type { Container, OperationResponse, OperationInput } from "@azure/cosmos";
 import {
   CosmosClient,
   OperationType,
   PatchOperationType,
   ResourceType,
+  BulkOperationType,
+  PartitionKeyKind,
 } from "@azure/cosmos";
 import { addEntropy, testForDiagnostics } from "../../common/TestHelpers.js";
-import type { OperationInput } from "@azure/cosmos";
-import { BulkOperationType } from "@azure/cosmos";
-import { PartitionKeyKind } from "@azure/cosmos";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { getCurrentTimestampInMs } from "$internal/utils/time.js";

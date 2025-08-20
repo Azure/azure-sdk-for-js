@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as zlib from "zlib";
 
+import * as zlib from "zlib";
 import {
   SimpleTokenCredential,
   base64encode,

@@ -8,17 +8,10 @@ import { env } from "@azure-tools/test-recorder";
 import { randomBytes } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-
-import { DataLakeServiceClient } from "@azure/storage-file-datalake";
-import type { StoragePipelineOptions } from "@azure/storage-file-datalake";
-import { newPipeline, StorageSharedKeyCredential } from "@azure/storage-file-datalake";
 import {
-  getUniqueName,
-  SimpleTokenCredential,
-  configureStorageClient,
-} from "./testutils.common.js";
-import type { DataLakeSASSignatureValues } from "@azure/storage-file-datalake";
-import {
+  DataLakeServiceClient,
+  newPipeline,
+  StorageSharedKeyCredential,
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
@@ -26,6 +19,15 @@ import {
   generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters,
 } from "@azure/storage-file-datalake";
+import type {
+  StoragePipelineOptions,
+  DataLakeSASSignatureValues,
+} from "@azure/storage-file-datalake";
+import {
+  getUniqueName,
+  SimpleTokenCredential,
+  configureStorageClient,
+} from "./testutils.common.js";
 import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 
 export * from "./testutils.common.js";

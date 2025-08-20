@@ -8,7 +8,6 @@ import {
   msalNodeFlowNativeBrokerControl,
   msalPlugins,
 } from "$internal/msal/nodeFlows/msalPlugins.js";
-
 import type { MsalClientOptions } from "$internal/msal/nodeFlows/msalClient.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 

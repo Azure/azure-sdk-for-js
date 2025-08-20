@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import type { RequestContext } from "@azure/cosmos";
-import { CosmosClient } from "@azure/cosmos";
+import { CosmosClient, PluginOn } from "@azure/cosmos";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { PluginOn } from "@azure/cosmos";
 import { TimeoutErrorCode } from "$internal/request/TimeoutError.js";
 import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";

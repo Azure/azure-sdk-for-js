@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { ClientEncryptionKeyPropertiesCache } from "$internal/encryption/Cache/ClientEncryptionKeyPropertiesCache.js";
-import type {
-  ClientEncryptionKeyProperties,
-  EncryptionKeyWrapMetadata,
-} from "@azure/cosmos";
+import type { ClientEncryptionKeyProperties, EncryptionKeyWrapMetadata } from "@azure/cosmos";
 import { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "@azure/cosmos";
 import { describe, it, assert } from "vitest";
 

@@ -11,7 +11,6 @@ import {
   fakeAzureBatchAccount,
   fakeAzureBatchEndpoint,
 } from "./fakeTestSecrets.js";
-
 import { isNodeLike } from "@azure/core-util";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { AzureNamedKeyCredential } from "@azure/core-auth";

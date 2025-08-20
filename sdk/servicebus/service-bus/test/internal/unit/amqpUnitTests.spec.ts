@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ServiceBusMessage,
-  ServiceBusReceivedMessage,
-} from "@azure/service-bus";
+import type { ServiceBusMessage, ServiceBusReceivedMessage } from "@azure/service-bus";
 import {
   isAmqpAnnotatedMessage,
   isServiceBusMessage,

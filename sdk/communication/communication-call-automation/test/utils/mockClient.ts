@@ -4,8 +4,7 @@
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { baseUri, CALL_CONNECTION_ID, generateToken } from "../utils/connectionUtils.js";
-import { CallMedia } from "@azure/communication-call-automation";
-import { CallRecording } from "@azure/communication-call-automation";
+import { CallMedia, CallRecording } from "@azure/communication-call-automation";
 
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
   const mockHttpClient: HttpClient = {

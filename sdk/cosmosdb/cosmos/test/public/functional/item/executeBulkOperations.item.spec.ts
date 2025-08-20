@@ -2,9 +2,15 @@
 // Licensed under the MIT License.
 
 import { beforeAll, describe, afterAll, assert, it } from "vitest";
-import type { CreateOperationInput, OperationInput } from "$internal/utils/batch.js";
+import type {
+  CreateOperationInput,
+  OperationInput,
+  PartitionKey,
+  Container,
+  PluginConfig,
+  Response,
+} from "@azure/cosmos";
 import { BulkOperationType, calculateObjectSizeInBytes } from "$internal/utils/batch.js";
-import type { PartitionKey, Container, PluginConfig } from "@azure/cosmos";
 import {
   PluginOn,
   ResourceType,
@@ -26,7 +32,6 @@ import {
   removeAllDatabases,
   validateDiagnostics,
 } from "../../common/TestHelpers.js";
-import type { Response } from "@azure/cosmos";
 import { getCurrentTimestampInMs } from "$internal/utils/time.js";
 import { randomUUID } from "@azure/core-util";
 

@@ -6,12 +6,11 @@ import type {
   ServiceBusReceivedMessage,
   ProcessErrorArgs,
   ServiceBusError,
+  ServiceBusSender,
+  ServiceBusSessionReceiver,
 } from "@azure/service-bus";
 import { delay, isServiceBusError } from "@azure/service-bus";
-
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils.js";
-import type { ServiceBusSender } from "@azure/service-bus";
-import type { ServiceBusSessionReceiver } from "@azure/service-bus";
 import type { EntityName, ServiceBusClientForTests } from "./utils/testutils2.js";
 import {
   createServiceBusClientForTests,

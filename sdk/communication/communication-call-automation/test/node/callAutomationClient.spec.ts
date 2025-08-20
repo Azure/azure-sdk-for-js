@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CallConnectionProperties } from "$internal/models/models.js";
-import type { AnswerCallResult, CreateCallResult } from "$internal/models/responses.js";
+import type {
+  CallConnectionProperties,
+  AnswerCallResult,
+  CreateCallResult,
+  CallInvite,
+  CallConnection,
+} from "@azure/communication-call-automation";
 import {
   CALL_CALLBACK_URL,
   CALL_INCOMING_CALL_CONTEXT,
@@ -10,7 +15,6 @@ import {
   CALL_TARGET_ID_2,
 } from "../utils/connectionUtils.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
-import type { CallInvite, CallConnection } from "@azure/communication-call-automation";
 import { randomUUID } from "@azure/core-util";
 import type { MockedObject } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach } from "vitest";

@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import EventEmitter from "events";
-import type { WebPubSubClient } from "$internal/webPubSubClient.js";
+import type { WebPubSubClient } from "@azure/web-pubsub-client";
 import type {
   WebSocketClientFactoryLike,
   WebSocketClientLike,

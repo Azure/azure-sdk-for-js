@@ -6,7 +6,6 @@ import {
   AzureCommunicationTokenCredential,
   type EntraCommunicationTokenCredentialOptions,
 } from "@azure/communication-common";
-
 import { vi, describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { type GetTokenOptions, type TokenCredential } from "@azure/core-auth";
 import { EntraTokenCredential } from "$internal/entraTokenCredential.js";

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MetricsClient } from "@azure/monitor-query-metrics";
+import { MetricsClient, Durations } from "@azure/monitor-query-metrics";
 import type { MetricsQueryResult } from "@azure/monitor-query-metrics";
 import type { RecorderAndMetricsClient } from "./shared/testShared.js";
 import {
@@ -10,7 +10,6 @@ import {
   getMetricsBatchNames,
 } from "./shared/testShared.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { Durations } from "@azure/monitor-query-metrics";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { Recorder } from "@azure-tools/test-recorder";
 

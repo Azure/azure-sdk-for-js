@@ -11,14 +11,13 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { BlobBatch } from "@azure/storage-blob";
+import { BlobBatch, BlobServiceClient, newPipeline } from "@azure/storage-blob";
 import type {
   ContainerClient,
   BlockBlobClient,
   BlobBatchClient,
   StorageSharedKeyCredential,
 } from "@azure/storage-blob";
-import { BlobServiceClient, newPipeline } from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("BlobBatch", () => {

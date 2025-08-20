@@ -15,7 +15,6 @@ vi.mock("node:https", async () => {
     },
   };
 });
-
 import https from "https";
 
 const mockBaseUrl = "https://example.org";
@@ -33,7 +32,7 @@ describe("[Node] Streams", () => {
       return createRequest();
     });
 
-    const { getClient } = await import("$internal/getClient.js");
+    const { getClient } = await import("@azure-rest/core-client");
 
     const client = getClient(mockBaseUrl);
     const expectedBody = { foo: "foo" };
@@ -54,7 +53,7 @@ describe("[Node] Streams", () => {
       return createRequest();
     });
 
-    const { getClient } = await import("$internal/getClient.js");
+    const { getClient } = await import("@azure-rest/core-client");
 
     const client = getClient(mockBaseUrl);
     const expectedBody = { foo: "foo" };
@@ -70,7 +69,7 @@ describe("[Node] Streams", () => {
       throw new Error("ExpectedException");
     });
 
-    const { getClient } = await import("$internal/getClient.js");
+    const { getClient } = await import("@azure-rest/core-client");
     const client = getClient(mockBaseUrl);
 
     try {
@@ -85,7 +84,7 @@ describe("[Node] Streams", () => {
       throw new Error("ExpectedException");
     });
 
-    const { getClient } = await import("$internal/getClient.js");
+    const { getClient } = await import("@azure-rest/core-client");
     const client = getClient(mockBaseUrl);
 
     try {
@@ -103,7 +102,7 @@ describe("[Node] Streams", () => {
       return createRequest();
     });
 
-    const { getClient } = await import("$internal/getClient.js");
+    const { getClient } = await import("@azure-rest/core-client");
     const client = getClient(mockBaseUrl);
 
     try {

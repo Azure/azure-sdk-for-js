@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { extractReceiverArguments, ServiceBusClient } from "$internal/serviceBusClient.js";
-import type { ServiceBusSessionReceiverOptions } from "$internal/models.js";
+import type { ServiceBusSessionReceiverOptions } from "@azure/service-bus";
 import { entityPathMisMatchError } from "$internal/util/errors.js";
 import {
   createConnectionContextForConnectionString,

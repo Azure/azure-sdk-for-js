@@ -3,12 +3,10 @@
 
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
-
 import { createRecorder, createClient } from "../utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-
 import type { FaceClient } from "@azure-rest/ai-vision-face";
 import { isUnexpected } from "@azure-rest/ai-vision-face";
 

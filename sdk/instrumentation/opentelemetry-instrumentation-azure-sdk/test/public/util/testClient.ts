@@ -9,7 +9,6 @@ import {
   createHttpHeaders,
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
-
 import { SDK_VERSION } from "$internal/configuration.js";
 
 /**

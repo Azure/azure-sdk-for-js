@@ -4,8 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { AnonymousCredential } from "@azure/storage-common";
-import { newPipeline } from "@azure/storage-queue";
-import { QueueServiceClient } from "@azure/storage-queue";
+import { newPipeline, QueueServiceClient } from "@azure/storage-queue";
 import { configureStorageClient } from "./testutils.common.js";
 export * from "./testutils.common.js";
 

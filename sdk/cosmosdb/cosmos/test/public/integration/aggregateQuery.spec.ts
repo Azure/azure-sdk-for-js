@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, ContainerDefinition } from "@azure/cosmos";
-import { IndexingMode } from "@azure/cosmos";
-import { DataType, IndexKind } from "@azure/cosmos";
-import type { QueryIterator } from "@azure/cosmos";
-import type { SqlQuerySpec } from "@azure/cosmos";
-import type { FeedOptions } from "@azure/cosmos";
+import type {
+  Container,
+  ContainerDefinition,
+  QueryIterator,
+  SqlQuerySpec,
+  FeedOptions,
+} from "@azure/cosmos";
+import { IndexingMode, DataType, IndexKind } from "@azure/cosmos";
 import { TestData } from "../common/TestData.js";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll } from "vitest";

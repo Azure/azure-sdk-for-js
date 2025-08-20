@@ -3,10 +3,8 @@
 
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { createFetchHttpClient } from "$internal/fetchHttpClient.js";
-import { createPipelineRequest } from "@typespec/ts-http-runtime";
+import { createPipelineRequest, createHttpHeaders, AbortError } from "@typespec/ts-http-runtime";
 import { png } from "./mocks/encodedPng.js";
-import { createHttpHeaders } from "@typespec/ts-http-runtime";
-import { AbortError } from "@typespec/ts-http-runtime";
 import { delay } from "$internal/util/helpers.js";
 
 const streamBody = new ReadableStream({
@@ -388,8 +386,8 @@ describe("FetchHttpClient", function () {
         const body = options?.body;
         assert.isTrue(
           body &&
-            typeof (body as ReadableStream).getReader === "function" &&
-            typeof (body as ReadableStream).tee === "function",
+          typeof (body as ReadableStream).getReader === "function" &&
+          typeof (body as ReadableStream).tee === "function",
           "expecting ReadableStream request body",
         );
         assert.strictEqual(options?.duplex, "half");
@@ -430,8 +428,8 @@ describe("FetchHttpClient", function () {
       const body = options?.body;
       assert.isTrue(
         body &&
-          typeof (body as ReadableStream).getReader === "function" &&
-          typeof (body as ReadableStream).tee === "function",
+        typeof (body as ReadableStream).getReader === "function" &&
+        typeof (body as ReadableStream).tee === "function",
         "expecting ReadableStream request body",
       );
       const reader = (body as ReadableStream).getReader();

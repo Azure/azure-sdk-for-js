@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import type { WebPubSubGroup } from "@azure/web-pubsub";
+import type { WebPubSubGroup, GroupListConnectionsOptions } from "@azure/web-pubsub";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import recorderOptions from "../testEnv.js";
 import type { FullOperationResponse } from "@azure/core-client";
@@ -11,7 +11,6 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getEndpoint } from "../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import WebSocket from "ws";
-import type { GroupListConnectionsOptions } from "@azure/web-pubsub";
 
 describe("Group client working with a group", () => {
   let recorder: Recorder;

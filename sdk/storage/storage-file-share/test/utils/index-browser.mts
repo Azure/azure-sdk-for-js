@@ -3,9 +3,8 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import { AnonymousCredential } from "@azure/storage-common";
-import { newPipeline } from "@azure/storage-file-share";
+import { newPipeline, ShareServiceClient } from "@azure/storage-file-share";
 import type { ShareClientConfig, ShareClientOptions } from "$internal/models.js";
-import { ShareServiceClient } from "@azure/storage-file-share";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";

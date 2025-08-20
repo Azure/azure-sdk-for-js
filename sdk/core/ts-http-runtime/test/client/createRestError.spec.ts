@@ -3,7 +3,7 @@
 
 import { describe, it, assert } from "vitest";
 import { createRestError } from "@typespec/ts-http-runtime";
-import type { PipelineRequest } from "$internal/interfaces.js";
+import type { PipelineRequest } from "@typespec/ts-http-runtime";
 
 describe("createRestError", () => {
   it("should create a rest error from a PathUnchecked response with standard error", () => {

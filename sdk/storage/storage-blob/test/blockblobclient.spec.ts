@@ -12,9 +12,8 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import type { ContainerClient, BlobClient } from "@azure/storage-blob";
-import { BlockBlobClient } from "@azure/storage-blob";
+import { BlockBlobClient, BlockBlobTier } from "@azure/storage-blob";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
-import { BlockBlobTier } from "@azure/storage-blob";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

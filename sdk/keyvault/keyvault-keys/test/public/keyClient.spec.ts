@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
-
 import type {
   CreateEcKeyOptions,
   GetKeyOptions,
@@ -14,7 +14,6 @@ import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js
 import type TestClient from "./utils/testClient.js";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
-
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({

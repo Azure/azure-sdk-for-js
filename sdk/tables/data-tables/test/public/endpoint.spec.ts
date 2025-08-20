@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TableClient } from "@azure/data-tables";
-import { TableServiceClient } from "@azure/data-tables";
+import { TableClient, TableServiceClient } from "@azure/data-tables";
 import type { TokenCredential } from "@azure/core-auth";
 import { COSMOS_SCOPE } from "$internal/utils/constants.js";
 import { describe, it, assert } from "vitest";

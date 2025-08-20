@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { RestError, TableClient, TableServiceClient } from "@azure/data-tables";
-
 import type { TableServiceErrorResponse } from "$internal/utils/errorHelpers.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach } from "vitest";

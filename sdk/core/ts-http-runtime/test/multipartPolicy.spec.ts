@@ -2,12 +2,18 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, expect } from "vitest";
-import { createHttpHeaders } from "@typespec/ts-http-runtime";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "$internal/interfaces.js";
-import { createPipelineRequest } from "@typespec/ts-http-runtime";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  stringToUint8Array,
+} from "@typespec/ts-http-runtime";
+import type {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+  PipelineRequestOptions,
+} from "@typespec/ts-http-runtime";
 import { multipartPolicy } from "$internal/policies/multipartPolicy.js";
-import type { PipelineRequestOptions } from "$internal/pipelineRequest.js";
-import { stringToUint8Array } from "@typespec/ts-http-runtime";
 import { assertBodyMatches } from "./util.js";
 
 export async function performRequest(

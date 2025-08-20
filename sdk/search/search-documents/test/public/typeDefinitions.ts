@@ -33,7 +33,6 @@ import type {
   KnownVectorSearchAlgorithmMetric,
   KnownVisualFeature,
 } from "$internal/generated/service/index.js";
-
 import type { IsEqual } from "type-plus";
 
 type ExpectBlobIndexerDataToExtract = `${KnownBlobIndexerDataToExtract}`;

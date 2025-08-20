@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Recorder, env } from "@azure-tools/test-recorder";
 
+import { Recorder, env } from "@azure-tools/test-recorder";
 import type { DeletedKey, KeyClient } from "@azure/keyvault-keys";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";

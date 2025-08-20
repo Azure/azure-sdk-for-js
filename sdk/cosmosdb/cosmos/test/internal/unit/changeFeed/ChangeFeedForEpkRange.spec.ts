@@ -7,13 +7,7 @@ import {
   ChangeFeedMode,
 } from "$internal/client/ChangeFeed/index.js";
 import type { ClientContext } from "@azure/cosmos";
-import {
-  Constants,
-  Container,
-  ErrorResponse,
-  StatusCodes,
-  TimeoutError,
-} from "@azure/cosmos";
+import { Constants, Container, ErrorResponse, StatusCodes, TimeoutError } from "@azure/cosmos";
 import { PartitionKeyRangeCache, QueryRange } from "$internal/routing/index.js";
 import { ChangeFeedRange } from "$internal/client/ChangeFeed/ChangeFeedRange.js";
 import { MockedClientContext } from "../../../public/common/MockClientContext.js";

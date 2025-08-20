@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "@azure-tools/communication-short-codes";
+import {
+  ShortCodesClient,
+  ShortCodesUpsertUSProgramBriefOptionalParams,
+} from "@azure-tools/communication-short-codes";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

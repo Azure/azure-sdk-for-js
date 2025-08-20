@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { KeyVaultSettingsClient } from "$internal/settingsClient.js";
+import type { KeyVaultSettingsClient } from "@azure/keyvault-admin";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 

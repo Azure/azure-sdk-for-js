@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { afterEach, assert, beforeEach, describe, expect, it } from "vitest";
 import type { SecretClient } from "@azure/keyvault-secrets";

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
-
 import { EventGridSenderClient, EventGridReceiverClient } from "@azure/eventgrid-namespaces";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { AdditionalPolicyConfig } from "@azure/core-client";

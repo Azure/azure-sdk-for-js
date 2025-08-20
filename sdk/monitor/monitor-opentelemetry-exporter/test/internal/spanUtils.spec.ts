@@ -47,7 +47,6 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
   SEMATTRS_ENDUSER_ID,
 } from "@opentelemetry/semantic-conventions";
-
 import type { Tags, Properties, Measurements } from "$internal/types.js";
 import { experimentalOpenTelemetryValues, MaxPropertyLengths } from "$internal/types.js";
 import { Context, getInstance } from "$internal/platform/index.js";
@@ -58,9 +57,9 @@ import type {
   TelemetryExceptionData,
   MessageData,
   MonitorDomain,
+  TelemetryItem as Envelope,
 } from "$internal/generated/index.js";
 import { KnownContextTagKeys } from "$internal/generated/index.js";
-import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
 import { DependencyTypes } from "$internal/utils/constants/applicationinsights.js";
 import { hrTimeToDate } from "$internal/utils/common.js";
 import { describe, it, assert } from "vitest";

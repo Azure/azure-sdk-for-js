@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { ExperimentMetric, ExperimentMetricOutput } from "@azure-rest/onlineexperimentation";
-import type { OnlineExperimentationClient } from "@azure-rest/onlineexperimentation";
+import type {
+  ExperimentMetric,
+  ExperimentMetricOutput,
+  OnlineExperimentationClient,
+} from "@azure-rest/onlineexperimentation";
 import {
   KnownDesiredDirection,
   isUnexpected,

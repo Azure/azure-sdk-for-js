@@ -3,9 +3,8 @@
 
 import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
 import { GlobalPartitionEndpointManager } from "$internal/globalPartitionEndpointManager.js";
-import type { GlobalEndpointManager } from "$internal/globalEndpointManager.js";
-import { OperationType, ResourceType } from "@azure/cosmos";
-import { Constants, HTTPMethod, RequestContext } from "@azure/cosmos";
+import type { GlobalEndpointManager } from "@azure/cosmos";
+import { OperationType, ResourceType, Constants, HTTPMethod, RequestContext } from "@azure/cosmos";
 
 const mockReadEndpoints = [
   "https://region1.documents.azure.com:443/",

@@ -7,13 +7,11 @@ import type {
   ConfigurationSnapshot,
   SettingLabel,
   ListLabelsPage,
-} from "@azure/app-configuration";
-import { AppConfigurationClient } from "@azure/app-configuration";
-import type {
   ConfigurationSetting,
   ListConfigurationSettingPage,
   ListRevisionsPage,
 } from "@azure/app-configuration";
+import { AppConfigurationClient } from "@azure/app-configuration";
 import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
 import { Recorder, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";

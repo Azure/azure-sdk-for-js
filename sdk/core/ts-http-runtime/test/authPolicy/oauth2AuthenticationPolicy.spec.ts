@@ -8,10 +8,10 @@ import type {
   OAuth2TokenCredential,
   PipelineResponse,
   SendRequest,
+  OAuth2Flow,
 } from "@typespec/ts-http-runtime";
 import { createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
 import { oauth2AuthenticationPolicy } from "$internal/policies/auth/oauth2AuthenticationPolicy.js";
-import type { OAuth2Flow } from "$internal/auth/oauth2Flows.js";
 import { createDefaultPipeline } from "$internal/client/clientHelpers.js";
 import { logger } from "$internal/log.js";
 

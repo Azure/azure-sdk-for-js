@@ -18,7 +18,7 @@ import type {
 import { ReceiverEvents, SessionEvents } from "rhea-promise";
 import type { ConnectionContext } from "$internal/connectionContext.js";
 import { ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
-import type { OperationOptionsBase } from "$internal/modelsToBeSharedWithEventHubs.js";
+import type { OperationOptionsBase } from "@azure/service-bus";
 import type { ReceiveMode } from "$internal/models.js";
 import { Constants, StandardAbortMessage } from "@azure/core-amqp";
 import { describe, it, vi, beforeEach, afterEach, afterAll, beforeAll } from "vitest";

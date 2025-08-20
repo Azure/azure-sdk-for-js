@@ -3,7 +3,6 @@
 
 import { assertEnvironmentVariable, env, type Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";
-
 import {
   type KeyVaultAccessControlClient,
   type KeyVaultPermission,

@@ -1,15 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChangeFeedIteratorOptions, RequestOptions } from "@azure/cosmos";
+import type {
+  ChangeFeedIteratorOptions,
+  RequestOptions,
+  Container,
+  ContainerDefinition,
+} from "@azure/cosmos";
 import {
   ChangeFeedStartFrom,
   ChangeFeedRetentionTimeSpan,
   ChangeFeedPolicy,
   ChangeFeedMode,
+  PartitionKeyDefinitionVersion,
+  PartitionKeyKind,
 } from "@azure/cosmos";
-import type { Container, ContainerDefinition } from "@azure/cosmos";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
 import {
   getTestContainer,
   removeAllDatabases,

@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CheckpointStore, SubscriptionEventHandlers } from "@azure/event-hubs";
-import type { EventHubConsumerClient } from "$internal/eventHubConsumerClient.js";
+import type {
+  CheckpointStore,
+  SubscriptionEventHandlers,
+  EventHubConsumerClient,
+} from "@azure/event-hubs";
 import { isCheckpointStore } from "$internal/eventHubConsumerClient.js";
 import type { EventProcessor, FullEventProcessorOptions } from "$internal/eventProcessor.js";
 import type { BalancedLoadBalancingStrategy } from "$internal/loadBalancerStrategies/balancedStrategy.js";

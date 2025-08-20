@@ -19,6 +19,7 @@ import {
   ServiceClient,
   createSerializer,
   serializationPolicy,
+  deserializationPolicy,
 } from "@azure/core-client";
 import type {
   HttpClient,
@@ -39,7 +40,6 @@ import {
 } from "$internal/operationHelpers.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertServiceClientResponse } from "./utils/serviceClient.js";
-import { deserializationPolicy } from "@azure/core-client";
 import { getCachedDefaultHttpClient } from "$internal/httpClientCache.js";
 
 describe("ServiceClient", function () {

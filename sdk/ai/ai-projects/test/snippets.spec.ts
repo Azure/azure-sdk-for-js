@@ -9,11 +9,10 @@ import type {
   DatasetVersionUnion,
   ModelDeployment,
 } from "@azure/ai-projects";
-import { isRestError } from "@azure/core-rest-pipeline";
+import { isRestError, RestError } from "@azure/core-rest-pipeline";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
-import { RestError } from "@azure/core-rest-pipeline";
 import * as path from "path";
 
 describe("snippets", function () {

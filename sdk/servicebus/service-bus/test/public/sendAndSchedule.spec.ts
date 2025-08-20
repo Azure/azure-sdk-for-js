@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import Long from "long";
-import type { ServiceBusMessage } from "@azure/service-bus";
+import type { ServiceBusMessage, ServiceBusReceiver, ServiceBusSender } from "@azure/service-bus";
 import { delay } from "@azure/service-bus";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
-import type { ServiceBusReceiver } from "@azure/service-bus";
 import type { ServiceBusClientForTests, EntityName } from "./utils/testutils2.js";
 import {
   createServiceBusClientForTests,
@@ -14,7 +13,6 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientType,
 } from "./utils/testutils2.js";
-import type { ServiceBusSender } from "@azure/service-bus";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { should } from "./utils/chai.js";

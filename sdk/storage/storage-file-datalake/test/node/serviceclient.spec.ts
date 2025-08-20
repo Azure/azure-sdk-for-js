@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { DataLakeServiceClient, getDataLakeServiceAccountAudience } from "@azure/storage-file-datalake";
+import {
+  DataLakeServiceClient,
+  getDataLakeServiceAccountAudience,
+} from "@azure/storage-file-datalake";
 import {
   recorderEnvSetup,
   getConnectionStringFromEnvironment,

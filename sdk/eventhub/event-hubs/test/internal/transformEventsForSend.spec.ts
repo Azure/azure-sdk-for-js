@@ -4,7 +4,6 @@
 import { Buffer } from "buffer";
 import type { EventData, EventDataBatch } from "@azure/event-hubs";
 import type { PartitionPublishingProperties } from "$internal/models/private.js";
-
 import { transformEventsForSend } from "$internal/eventHubSender.js";
 import type { EventDataInternal } from "$internal/eventData.js";
 import {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { SearchField as GeneratedSearchField } from "$internal/generated/service/models/index.js";
 import { KnownAnalyzerNames } from "@azure/search-documents";
-import type { ComplexField, SearchField } from "$internal/serviceModels.js";
+import type { ComplexField, SearchField } from "@azure/search-documents";
 import { convertFieldsToGenerated, convertFieldsToPublic } from "$internal/serviceUtils.js";
 import { describe, it, assert } from "vitest";
 

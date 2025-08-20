@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusMessage, ProcessErrorArgs } from "@azure/service-bus";
+import type {
+  ServiceBusMessage,
+  ProcessErrorArgs,
+  ServiceBusSender,
+  ServiceBusSessionReceiver,
+  ServiceBusReceivedMessage,
+} from "@azure/service-bus";
 import { delay, isServiceBusError } from "@azure/service-bus";
 import type { TestClientType } from "./utils/testUtils.js";
 import { TestMessage } from "./utils/testUtils.js";
@@ -10,9 +16,6 @@ import {
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2.js";
-import type { ServiceBusSender } from "@azure/service-bus";
-import type { ServiceBusSessionReceiver } from "@azure/service-bus";
-import type { ServiceBusReceivedMessage } from "@azure/service-bus";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { assert, should } from "./utils/chai.js";
 
@@ -93,7 +96,7 @@ describe("Session Lock Renewal", () => {
 
   it(
     testClientType +
-      ": Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error",
+    ": Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error",
     async function (): Promise<void> {
       const options: AutoLockRenewalTestOptions = {
         maxAutoRenewLockDurationInMs: 0,

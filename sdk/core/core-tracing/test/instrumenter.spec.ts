@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Instrumenter, TracingSpan } from "$internal/interfaces.js";
+import type { Instrumenter, TracingSpan } from "@azure/core-tracing";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,

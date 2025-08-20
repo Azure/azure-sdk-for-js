@@ -4,8 +4,7 @@
 import type { HttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { KnownErrorCode } from "$internal/generated/index.js";
-import { AnalyzeBatchActionNames } from "@azure/ai-language-text";
-import { TextAnalysisClient } from "@azure/ai-language-text";
+import { AnalyzeBatchActionNames, TextAnalysisClient } from "@azure/ai-language-text";
 import { extractErrorPointerIndex } from "$internal/util.js";
 import { expectation73 } from "../public/expectations.js";
 import { assertActionsResults } from "../public/utils/resultHelper.js";

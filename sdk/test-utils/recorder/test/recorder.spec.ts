@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { describe, it, expect } from "vitest";
-
 import { calculatePaths } from "$internal/recorder.js";
 
 describe("Recorder file paths", () => {

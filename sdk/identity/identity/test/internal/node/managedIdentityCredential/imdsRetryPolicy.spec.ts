@@ -3,7 +3,6 @@
 
 import type { PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
 import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
-
 import type { MSIConfiguration } from "$internal/credentials/managedIdentityCredential/models.js";
 import { imdsRetryPolicy } from "$internal/credentials/managedIdentityCredential/imdsRetryPolicy.js";
 import { describe, it, assert, expect } from "vitest";

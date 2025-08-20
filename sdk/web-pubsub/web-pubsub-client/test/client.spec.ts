@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebPubSubClientOptions } from "$internal/models/index.js";
-import { WebPubSubJsonProtocol } from "@azure/web-pubsub-client";
-import { WebPubSubClient } from "@azure/web-pubsub-client";
-import type { WebPubSubClientCredential } from "$internal/webPubSubClientCredential.js";
+import type { WebPubSubClientOptions, WebPubSubClientCredential } from "@azure/web-pubsub-client";
+import { WebPubSubJsonProtocol, WebPubSubClient } from "@azure/web-pubsub-client";
 import { describe, it, assert, expect } from "vitest";
 
 describe("WebPubSubClient", function () {
