@@ -114,7 +114,7 @@
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/arm-cognitiveservices": "^7.5.0",
+    "@azure/arm-cognitiveservices": "catalog:arm",
     "@azure/arm-search": "^3.2.0",
     "@azure/core-rest-pipeline": "workspace:^",
     "@azure/core-util": "workspace:^",

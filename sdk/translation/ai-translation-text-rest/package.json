@@ -77,7 +77,7 @@
   "devDependencies": {
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-recorder": "workspace:^",
-    "@azure/arm-cognitiveservices": "^7.6.0",
+    "@azure/arm-cognitiveservices": "catalog:arm",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
