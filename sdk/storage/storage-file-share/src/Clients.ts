@@ -5794,7 +5794,7 @@ export class ShareFileClient extends StorageClient {
 
     const sas = generateFileSASQueryParameters(
       {
-        shareName: this.name,
+        shareName: this.shareName,
         filePath: this.path,
         ...options,
       },
@@ -5823,7 +5823,7 @@ export class ShareFileClient extends StorageClient {
 
     return generateFileSASQueryParametersInternal(
       {
-        shareName: this.name,
+        shareName: this.shareName,
         filePath: this.path,
         ...options,
       },

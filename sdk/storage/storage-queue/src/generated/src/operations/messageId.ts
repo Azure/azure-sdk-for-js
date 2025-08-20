@@ -15,7 +15,7 @@ import {
   MessageIdUpdateOptionalParams,
   MessageIdUpdateResponse,
   MessageIdDeleteOptionalParams,
-  MessageIdDeleteResponse
+  MessageIdDeleteResponse,
 } from "../models/index.js";
 
 /** Class containing MessageId operations. */
@@ -47,11 +47,11 @@ export class MessageIdImpl implements MessageId {
   update(
     popReceipt: string,
     visibilityTimeout: number,
-    options?: MessageIdUpdateOptionalParams
+    options?: MessageIdUpdateOptionalParams,
   ): Promise<MessageIdUpdateResponse> {
     return this.client.sendOperationRequest(
       { popReceipt, visibilityTimeout, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -63,11 +63,11 @@ export class MessageIdImpl implements MessageId {
    */
   delete(
     popReceipt: string,
-    options?: MessageIdDeleteOptionalParams
+    options?: MessageIdDeleteOptionalParams,
   ): Promise<MessageIdDeleteResponse> {
     return this.client.sendOperationRequest(
       { popReceipt, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -79,50 +79,50 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     204: {
-      headersMapper: Mappers.MessageIdUpdateHeaders
+      headersMapper: Mappers.MessageIdUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.MessageIdUpdateExceptionHeaders
-    }
+      headersMapper: Mappers.MessageIdUpdateExceptionHeaders,
+    },
   },
   requestBody: Parameters.queueMessage1,
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.popReceipt,
-    Parameters.visibilityTimeout1
+    Parameters.visibilityTimeout1,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.version,
-    Parameters.requestId
+    Parameters.requestId,
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{queueName}/messages/{messageid}",
   httpMethod: "DELETE",
   responses: {
     204: {
-      headersMapper: Mappers.MessageIdDeleteHeaders
+      headersMapper: Mappers.MessageIdDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.MessageIdDeleteExceptionHeaders
-    }
+      headersMapper: Mappers.MessageIdDeleteExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeoutInSeconds, Parameters.popReceipt],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept1
+    Parameters.accept1,
   ],
   isXML: true,
-  serializer: xmlSerializer
+  serializer: xmlSerializer,
 };

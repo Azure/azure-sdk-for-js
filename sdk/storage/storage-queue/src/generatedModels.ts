@@ -16,8 +16,10 @@ import type {
   QueueSetMetadataHeaders,
   ServiceGetPropertiesHeaders,
   ServiceGetStatisticsHeaders,
+  ServiceGetUserDelegationKeyHeaders,
   ServiceListQueuesSegmentHeaders,
   ServiceSetPropertiesHeaders,
+  UserDelegationKey as UserDelegationKeyModel,
 } from "./generated/src/index.js";
 
 export {
@@ -49,9 +51,12 @@ export {
   RetentionPolicy,
   ServiceGetPropertiesHeaders,
   ServiceGetStatisticsHeaders,
+  ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
+  ServiceGetUserDelegationKeyHeaders,
   ServiceListQueuesSegmentHeaders,
   ServiceSetPropertiesHeaders,
   SignedIdentifier as SignedIdentifierModel,
+  UserDelegationKey as UserDelegationKeyModel,
 } from "./generated/src/models/index.js";
 
 /** Contains response data for the getProperties operation. */
@@ -115,3 +120,46 @@ export type MessageIdUpdateResponse = WithResponse<MessageIdUpdateHeaders, Messa
 
 /** Contains response data for the delete operation. */
 export type MessageIdDeleteResponse = WithResponse<MessageIdDeleteHeaders, MessageIdDeleteHeaders>;
+
+/**
+ * A user delegation key.
+ */
+export interface UserDelegationKey {
+  /**
+   * The Azure Active Directory object ID in GUID format.
+   */
+  signedObjectId: string;
+  /**
+   * The Azure Active Directory tenant ID in GUID format.
+   */
+  signedTenantId: string;
+  /**
+   * The date-time the key is active.
+   */
+  signedStartsOn: Date;
+  /**
+   * The date-time the key expires.
+   */
+  signedExpiresOn: Date;
+  /**
+   * Abbreviation of the Azure Storage service that accepts the key.
+   */
+  signedService: string;
+  /**
+   * The service version that created the key.
+   */
+  signedVersion: string;
+  /**
+   * The key as a base64 string.
+   */
+  value: string;
+}
+
+/**
+ * Contains response data for the {@link getUserDelegationKey} operation.
+ */
+export declare type ServiceGetUserDelegationKeyResponse = WithResponse<
+  UserDelegationKey & ServiceGetUserDelegationKeyHeaders,
+  ServiceGetUserDelegationKeyHeaders,
+  UserDelegationKeyModel
+>;

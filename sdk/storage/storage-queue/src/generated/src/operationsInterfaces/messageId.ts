@@ -10,7 +10,7 @@ import {
   MessageIdUpdateOptionalParams,
   MessageIdUpdateResponse,
   MessageIdDeleteOptionalParams,
-  MessageIdDeleteResponse
+  MessageIdDeleteResponse,
 } from "../models/index.js";
 
 /** Interface representing a MessageId. */
@@ -32,7 +32,7 @@ export interface MessageId {
   update(
     popReceipt: string,
     visibilityTimeout: number,
-    options?: MessageIdUpdateOptionalParams
+    options?: MessageIdUpdateOptionalParams,
   ): Promise<MessageIdUpdateResponse>;
   /**
    * The Delete operation deletes the specified message.
@@ -42,6 +42,6 @@ export interface MessageId {
    */
   delete(
     popReceipt: string,
-    options?: MessageIdDeleteOptionalParams
+    options?: MessageIdDeleteOptionalParams,
   ): Promise<MessageIdDeleteResponse>;
 }

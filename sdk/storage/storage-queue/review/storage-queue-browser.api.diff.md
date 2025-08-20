@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -12,82 +12,31 @@
+@@ -12,83 +12,31 @@
  import * as coreClient from '@azure/core-client';
  import * as coreHttpCompat from '@azure/core-http-compat';
  import { Credential as Credential_2 } from '@azure/storage-common';
@@ -34,6 +34,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
  import type { TokenCredential } from '@azure/core-auth';
  import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+-import { UserDelegationKey as UserDelegationKey_2 } from '@azure/storage-common';
 -import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 +import type { WebResourceLike } from '@azure/core-http-compat';
  
@@ -93,7 +94,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -131,14 +80,8 @@
+@@ -132,17 +80,8 @@
      popReceipt: string;
  }
  
@@ -101,6 +102,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 -export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 -
 -// @public
+-export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
+-
+-// @public (undocumented)
 -export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 -
 -// @public
@@ -108,7 +112,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -146,30 +89,18 @@
+@@ -150,30 +89,18 @@
  // @public
  export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
  
@@ -141,7 +145,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // (undocumented)
      continuationToken: string;
      // (undocumented)
-@@ -427,8 +358,9 @@
+@@ -433,8 +360,9 @@
      expiresOn?: Date;
      identifier?: string;
      ipRange?: SasIPRange;
@@ -151,12 +155,13 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -512,20 +444,8 @@
+@@ -518,21 +446,8 @@
      update: boolean;
  }
  
  // @public
 -export interface QueueSASSignatureValues {
+-    delegatedUserObjectId?: string;
 -    expiresOn?: Date;
 -    identifier?: string;
 -    ipRange?: SasIPRange;
@@ -172,7 +177,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      abortSignal?: AbortSignalLike;
  }
  
-@@ -544,8 +464,9 @@
+@@ -551,8 +466,9 @@
      constructor(url: string, pipeline: Pipeline);
      createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
      deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
@@ -182,7 +187,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getQueueClient(queueName: string): QueueClient;
-@@ -611,15 +532,8 @@
+@@ -619,15 +535,8 @@
  
  // @public
  export type ReceivedMessageItem = DequeuedMessageItem;
@@ -198,7 +203,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface ResponseLike {
      _response: HttpResponse;
  }
-@@ -654,31 +568,8 @@
+@@ -662,32 +571,8 @@
      start: string;
  }
  
@@ -210,7 +215,8 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -// @public
 -export class SASQueryParameters {
--    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string);
+-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, userDelegationKey?: UserDelegationKey_2, delegatedUserObjectId?: string);
+-    readonly delegatedUserObjectId?: string;
 -    readonly expiresOn?: Date;
 -    readonly identifier?: string;
 -    get ipRange(): SasIPRange | undefined;
@@ -230,7 +236,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
-@@ -777,11 +668,8 @@
+@@ -805,11 +690,8 @@
  
  export { StorageBrowserPolicyFactory }
  
@@ -242,7 +248,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
-@@ -789,27 +677,10 @@
+@@ -817,25 +699,10 @@
      retryOptions?: StorageRetryOptions;
      userAgentOptions?: UserAgentPolicyOptions;
  }
@@ -264,6 +270,15 @@ For the complete API surface, see the corresponding -node.api.md file.
 -
 -export { StorageSharedKeyCredentialPolicy }
 -
+ // @public
+ export interface UserDelegationKey {
+     signedExpiresOn: Date;
+     signedObjectId: string;
+@@ -856,10 +723,8 @@
+     signedVersion: string;
+     value: string;
+ }
+ 
 -export { WebResource }
 -
  // @public

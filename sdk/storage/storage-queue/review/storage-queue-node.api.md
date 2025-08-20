@@ -33,6 +33,7 @@ import { StorageSharedKeyCredential } from '@azure/storage-common';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
 import type { TokenCredential } from '@azure/core-auth';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import { UserDelegationKey as UserDelegationKey_2 } from '@azure/storage-common';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
 
 // @public
@@ -135,6 +136,9 @@ export interface EnqueuedMessage {
 export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 // @public
+export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, userDelegationKey: UserDelegationKey, accountName: string): SASQueryParameters;
+
+// @public (undocumented)
 export function generateQueueSASQueryParameters(queueSASSignatureValues: QueueSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
 
 // @public
@@ -353,6 +357,8 @@ export class QueueClient extends StorageClient {
     exists(options?: QueueExistsOptions): Promise<boolean>;
     generateSasStringToSign(options: QueueGenerateSasUrlOptions): string;
     generateSasUrl(options: QueueGenerateSasUrlOptions): string;
+    generateUserDelegationSasUrl(options: QueueGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    generateUserDelegationStringToSign(options: QueueGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
     get name(): string;
@@ -514,6 +520,7 @@ export class QueueSASPermissions {
 
 // @public
 export interface QueueSASSignatureValues {
+    delegatedUserObjectId?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -550,6 +557,7 @@ export class QueueServiceClient extends StorageClient {
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
+    getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listQueues(options?: ServiceListQueuesOptions): PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse>;
     setProperties(properties: QueueServiceProperties, options?: ServiceGetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
 }
@@ -662,7 +670,8 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, userDelegationKey?: UserDelegationKey_2, delegatedUserObjectId?: string);
+    readonly delegatedUserObjectId?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
@@ -723,6 +732,25 @@ export interface ServiceGetStatisticsOptions extends CommonOptions {
 
 // @public
 export type ServiceGetStatisticsResponse = WithResponse<ServiceGetStatisticsHeaders & QueueServiceStatistics, ServiceGetStatisticsHeaders, QueueServiceStatistics>;
+
+// @public
+export interface ServiceGetUserDelegationKeyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type ServiceGetUserDelegationKeyResponse = WithResponse<UserDelegationKey & ServiceGetUserDelegationKeyHeaders, ServiceGetUserDelegationKeyHeaders, UserDelegationKeyModel>;
+
+// @public
+export type ServiceGetUserDelegationKeyResponseModel = ServiceGetUserDelegationKeyHeaders & UserDelegationKeyModel;
 
 // @public
 export interface ServiceListQueuesOptions extends CommonOptions {
@@ -806,6 +834,28 @@ export { StorageRetryPolicyType }
 export { StorageSharedKeyCredential }
 
 export { StorageSharedKeyCredentialPolicy }
+
+// @public
+export interface UserDelegationKey {
+    signedExpiresOn: Date;
+    signedObjectId: string;
+    signedService: string;
+    signedStartsOn: Date;
+    signedTenantId: string;
+    signedVersion: string;
+    value: string;
+}
+
+// @public
+export interface UserDelegationKeyModel {
+    signedExpiry: Date;
+    signedOid: string;
+    signedService: string;
+    signedStart: Date;
+    signedTid: string;
+    signedVersion: string;
+    value: string;
+}
 
 export { WebResource }
 
