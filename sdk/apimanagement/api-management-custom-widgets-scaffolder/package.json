@@ -39,7 +39,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint package.json src test --ignore-pattern templates",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion] --ignore-pattern templates",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest --no-test-proxy",
@@ -47,21 +47,21 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/inquirer": "^9.0.7",
     "@types/mustache": "^4.2.1",
-    "@types/node": "^20.0.0",
+    "@types/node": "catalog:",
     "@types/yargs": "^17.0.32",
     "@types/yargs-parser": "^21.0.3",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "eslint": "^9.9.0",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "eslint": "catalog:",
     "magic-string": "^0.30.8",
     "prettier": "^3.3.3",
     "rollup": "^4.14.0",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "dependencies": {
     "chalk": "^4.1.2",

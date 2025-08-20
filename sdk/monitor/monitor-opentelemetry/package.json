@@ -18,7 +18,7 @@
     "generate:client": "autorest --typescript ./swagger/README.md",
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
     "test:browser": "echo skipped",
@@ -52,17 +52,17 @@
     }
   },
   "devDependencies": {
-    "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/functions": "^4.5.0",
     "@azure/functions-old": "npm:@azure/functions@3.5.1",
-    "@types/node": "^20.0.0",
-    "@vitest/coverage-istanbul": "^3.0.3",
-    "dotenv": "^16.0.0",
-    "eslint": "^9.9.0",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.3"
+    "@types/node": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
