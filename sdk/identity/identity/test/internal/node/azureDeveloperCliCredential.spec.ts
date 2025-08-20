@@ -147,7 +147,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     stderr = "";
     const credential = new AzureDeveloperCliCredential();
     await credential.getToken("https://service/.default");
-    
+
     // Verify the command includes --no-prompt to prevent hanging on debug prompts
     const command = azdCommands[0];
     assert.ok(command.includes("--no-prompt"), "Command should include --no-prompt flag");
