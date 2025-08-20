@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import FarmBeats, { isUnexpected, paginate } from "../src/index.js";
+import FarmBeats, { isUnexpected, paginate } from "@azure-rest/agrifood-farming";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 

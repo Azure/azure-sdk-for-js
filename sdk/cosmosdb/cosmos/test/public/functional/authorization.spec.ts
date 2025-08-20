@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosClient, PermissionMode } from "../../../src/index.js";
-import type { PermissionDefinition } from "../../../src/index.js";
+import { CosmosClient, PermissionMode } from "@azure/cosmos";
+import type { PermissionDefinition } from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import {

@@ -11,7 +11,7 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { RecipientVerificationClient } from "../../../src/index.js";
+import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 

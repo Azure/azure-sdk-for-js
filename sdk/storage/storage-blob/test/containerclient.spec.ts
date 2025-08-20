@@ -21,9 +21,9 @@ import type {
   BlockBlobClient,
   BlobHTTPHeaders,
 } from "../src/index.js";
-import { ContainerClient, BlockBlobTier } from "../src/index.js";
+import { ContainerClient, BlockBlobTier } from "@azure/storage-blob";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
-import type { Tags } from "../src/models.js";
+import type { Tags } from "$internal/models.js";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Database } from "../../../src/index.js";
-import { DataType, IndexKind } from "../../../src/index.js";
+import type { Database } from "@azure/cosmos";
+import { DataType, IndexKind } from "@azure/cosmos";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
 

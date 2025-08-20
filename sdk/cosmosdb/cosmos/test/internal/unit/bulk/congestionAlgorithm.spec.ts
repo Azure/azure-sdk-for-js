@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { assert, beforeEach, describe, it } from "vitest";
-import { CongestionAlgorithm } from "../../../../src/bulk/CongestionAlgorithm.js";
-import { PartitionMetric } from "../../../../src/bulk/PartitionMetric.js";
-import { LimiterQueue } from "../../../../src/bulk/Limiter.js";
-import type { RetryCallback } from "../../../../src/utils/batch.js";
-import { Constants } from "../../../../src/index.js";
+import { CongestionAlgorithm } from "$internal/bulk/CongestionAlgorithm.js";
+import { PartitionMetric } from "$internal/bulk/PartitionMetric.js";
+import { LimiterQueue } from "$internal/bulk/Limiter.js";
+import type { RetryCallback } from "$internal/utils/batch.js";
+import { Constants } from "@azure/cosmos";
 
 describe("CongestionAlgorithm", () => {
   let limiter: LimiterQueue;

@@ -3,7 +3,7 @@
 
 import { describe, it, assert, beforeEach } from "vitest";
 import { SpanStatusCode, trace } from "@opentelemetry/api";
-import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
+import { OpenTelemetrySpanWrapper } from "$internal/spanWrapper.js";
 import { getExportedSpan } from "./util/testHelpers.js";
 import { inMemoryExporter } from "./util/setup.js";
 import { RestError } from "@azure/core-rest-pipeline";

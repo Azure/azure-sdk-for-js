@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { lro } from "../../src/lro/util/poller.js";
+import { lro } from "$internal/lro/util/poller.js";
 import type { PollerLike, PollOperationState } from "@azure/core-lro";
 import { AbortError } from "@azure/abort-controller";
 import { describe, it, expect } from "vitest";

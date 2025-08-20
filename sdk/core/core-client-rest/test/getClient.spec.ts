@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { getClient } from "../src/getClient.js";
+import { getClient } from "@azure-rest/core-client";
 import { isNodeLike } from "@typespec/ts-http-runtime/internal/util";
 import type {
   HttpClient,

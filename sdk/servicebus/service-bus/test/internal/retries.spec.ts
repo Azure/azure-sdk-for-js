@@ -4,13 +4,13 @@
 import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
 import type { ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import { createServiceBusClientForTests } from "../public/utils/testutils2.js";
-import type { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender.js";
+import type { ServiceBusSender, ServiceBusSenderImpl } from "$internal/sender.js";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
-import { BatchingReceiver } from "../../src/core/batchingReceiver.js";
-import type { ServiceBusSessionReceiver } from "../../src/receivers/sessionReceiver.js";
-import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver.js";
-import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import { BatchingReceiver } from "$internal/core/batchingReceiver.js";
+import type { ServiceBusSessionReceiver } from "$internal/receivers/sessionReceiver.js";
+import { ServiceBusSessionReceiverImpl } from "$internal/receivers/sessionReceiver.js";
+import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
 import { should } from "../public/utils/chai.js";
 

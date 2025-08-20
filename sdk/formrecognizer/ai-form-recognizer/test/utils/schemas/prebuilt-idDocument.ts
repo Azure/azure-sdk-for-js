@@ -6,7 +6,7 @@
 // API Version: 2023-07-31
 // Created:     Tue Aug 01 2023
 
-import * as fr from "../../../src/index.js";
+import * as fr from "@azure/ai-form-recognizer";
 
 /**
  * Extract key information from passports and ID cards.

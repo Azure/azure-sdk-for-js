@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { HttpClient, PipelinePolicy } from "../src/index.js";
-import { createHttpHeaders, createPipelineRequest } from "../src/index.js";
-import { createEmptyPipeline } from "../src/pipeline.js";
-import { createPipelineFromOptions } from "../src/createPipelineFromOptions.js";
+import type { HttpClient, PipelinePolicy } from "@typespec/ts-http-runtime";
+import { createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
+import { createEmptyPipeline } from "@typespec/ts-http-runtime";
+import { createPipelineFromOptions } from "$internal/createPipelineFromOptions.js";
 
 describe("HttpsPipeline", function () {
   it("Newly created pipeline has no policies", function () {

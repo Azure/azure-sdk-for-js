@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConversationAnalysisClient } from "../src/index.js";
+import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { setLogLevel } from "@azure/logger";

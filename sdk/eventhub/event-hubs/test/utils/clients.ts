@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CheckpointStore, SubscriptionEventHandlers, EventPosition } from "../../src/index.js";
+import type { CheckpointStore, SubscriptionEventHandlers, EventPosition } from "@azure/event-hubs";
 import {
   EventHubConsumerClient,
   type EventHubConsumerClientOptions,
@@ -15,16 +15,16 @@ import {
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { assert } from "./chai.js";
-import type { ConnectionContext } from "../../src/connectionContext.js";
-import { createConnectionContext } from "../../src/connectionContext.js";
-import type { FullEventProcessorOptions } from "../../src/eventProcessor.js";
-import { EventProcessor } from "../../src/eventProcessor.js";
-import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore.js";
-import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy.js";
-import type { PartitionReceiver } from "../../src/partitionReceiver.js";
-import { createReceiver as _createReceiver } from "../../src/partitionReceiver.js";
+import type { ConnectionContext } from "$internal/connectionContext.js";
+import { createConnectionContext } from "$internal/connectionContext.js";
+import type { FullEventProcessorOptions } from "$internal/eventProcessor.js";
+import { EventProcessor } from "$internal/eventProcessor.js";
+import { InMemoryCheckpointStore } from "$internal/inMemoryCheckpointStore.js";
+import { UnbalancedLoadBalancingStrategy } from "$internal/loadBalancerStrategies/unbalancedStrategy.js";
+import type { PartitionReceiver } from "$internal/partitionReceiver.js";
+import { createReceiver as _createReceiver } from "$internal/partitionReceiver.js";
 import { randomUUID } from "@azure/core-util";
-import type { PartitionReceiverOptions } from "../../src/models/private.js";
+import type { PartitionReceiverOptions } from "$internal/models/private.js";
 import { getConsumerGroupName, getEventhubName, getFullyQualifiedNamespace } from "./vars.js";
 
 let clientId = 0;

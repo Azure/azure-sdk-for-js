@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusSender, ServiceBusMessage } from "../../src/index.js";
+import type { ServiceBusSender, ServiceBusMessage } from "@azure/service-bus";
 import { TestClientType } from "../public/utils/testUtils.js";
 import type { ServiceBusClientForTests, EntityName } from "../public/utils/testutils2.js";
 import { createServiceBusClientForTests } from "../public/utils/testutils2.js";

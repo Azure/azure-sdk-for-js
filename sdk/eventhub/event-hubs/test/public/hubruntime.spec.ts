@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubProducerClient, MessagingError } from "../../src/index.js";
+import type { EventHubProducerClient, MessagingError } from "@azure/event-hubs";
 import { should } from "../utils/chai.js";
 import debugModule from "debug";
 import { describe, it, beforeEach, afterEach } from "vitest";

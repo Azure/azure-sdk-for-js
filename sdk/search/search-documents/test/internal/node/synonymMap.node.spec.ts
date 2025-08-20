@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { createSynonymMapFromFile } from "../../../src/index.js";
-import type { SynonymMap } from "../../../src/serviceModels.js";
+import { createSynonymMapFromFile } from "@azure/search-documents";
+import type { SynonymMap } from "$internal/serviceModels.js";
 import { describe, it, assert } from "vitest";
 
 describe("synonymmap", function () {

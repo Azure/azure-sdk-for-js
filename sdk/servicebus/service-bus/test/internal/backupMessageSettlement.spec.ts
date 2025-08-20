@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ServiceBusMessage, ServiceBusSender } from "../../src/index.js";
-import { delay } from "../../src/index.js";
+import type { ServiceBusMessage, ServiceBusSender } from "@azure/service-bus";
+import { delay } from "@azure/service-bus";
 import type { TestClientType } from "../public/utils/testUtils.js";
 import { TestMessage } from "../public/utils/testUtils.js";
-import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
 import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
   createServiceBusClientForTests,
@@ -16,7 +16,7 @@ import type {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
 } from "../../src/serviceBusMessage.js";
-import { DispositionType } from "../../src/serviceBusMessage.js";
+import { DispositionType } from "$internal/serviceBusMessage.js";
 import { testLogger } from "./utils/misc.js";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { should } from "../public/utils/chai.js";

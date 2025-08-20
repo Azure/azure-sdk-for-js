@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultAccessControlClient, SDK_VERSION } from "../../src/index.js";
+import { KeyVaultAccessControlClient, SDK_VERSION } from "@azure/keyvault-admin";
 import { describe, it, expect } from "vitest";
 
 describe("Key Vault Admin's user agent", function () {

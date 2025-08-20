@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PrivateLinkScopesClient } from "../src/index.js";
+import { PrivateLinkScopesClient } from "@azure/arm-kubernetesconfiguration-privatelinkscopes";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

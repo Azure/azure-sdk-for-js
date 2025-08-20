@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FixedSizePriorityQueue } from "../../../../src/utils/fixedSizePriorityQueue.js";
+import { FixedSizePriorityQueue } from "$internal/utils/fixedSizePriorityQueue.js";
 import { describe, it, assert } from "vitest";
 
 describe("FixedSizePriorityQueue", () => {

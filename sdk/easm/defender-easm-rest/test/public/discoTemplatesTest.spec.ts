@@ -4,8 +4,8 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient.js";
-import type { EasmClient } from "../../src/index.js";
-import EasmDefender, { isUnexpected } from "../../src/index.js";
+import type { EasmClient } from "@azure-rest/defender-easm";
+import EasmDefender, { isUnexpected } from "@azure-rest/defender-easm";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

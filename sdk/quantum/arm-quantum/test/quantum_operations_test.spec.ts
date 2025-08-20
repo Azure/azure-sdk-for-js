@@ -14,7 +14,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AzureQuantumManagementClient } from "../src/azureQuantumManagementClient.js";
+import { AzureQuantumManagementClient } from "@azure/arm-quantum";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

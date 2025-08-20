@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { QueueServiceClient } from "../src/QueueServiceClient.js";
+import { QueueServiceClient } from "@azure/storage-queue";
 import {
   getAlternateQSU,
   getQSU,

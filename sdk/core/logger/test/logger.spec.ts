@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as Logger from "../src/index.js";
+import * as Logger from "@azure/logger";
 import { describe, it, assert } from "vitest";
 
 const testLogger = Logger.createClientLogger("test");

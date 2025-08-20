@@ -11,7 +11,7 @@ import {
   createPipelineRequest,
 } from "../src/index.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
+import { DEFAULT_CYCLER_OPTIONS } from "$internal/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 

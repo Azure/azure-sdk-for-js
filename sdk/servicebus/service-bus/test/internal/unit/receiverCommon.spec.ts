@@ -8,21 +8,21 @@ import {
   settleMessageOperation,
   wrapProcessErrorHandler,
 } from "../../../src/receivers/receiverCommon.js";
-import type { ServiceBusReceiver } from "../../../src/receivers/receiver.js";
-import type { ServiceBusLogger } from "../../../src/log.js";
-import { createServiceBusLogger } from "../../../src/log.js";
-import type { ProcessErrorArgs } from "../../../src/models.js";
-import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError.js";
+import type { ServiceBusReceiver } from "$internal/receivers/receiver.js";
+import type { ServiceBusLogger } from "$internal/log.js";
+import { createServiceBusLogger } from "$internal/log.js";
+import type { ProcessErrorArgs } from "$internal/models.js";
+import { ServiceBusError, translateServiceBusError } from "$internal/serviceBusError.js";
 import { MessagingError, RetryOperationType } from "@azure/core-amqp";
 import type {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
 } from "../../../src/serviceBusMessage.js";
-import { DispositionType } from "../../../src/serviceBusMessage.js";
-import type { ConnectionContext } from "../../../src/connectionContext.js";
-import type { DispositionStatusOptions } from "../../../src/core/managementClient.js";
+import { DispositionType } from "$internal/serviceBusMessage.js";
+import type { ConnectionContext } from "$internal/connectionContext.js";
+import type { DispositionStatusOptions } from "$internal/core/managementClient.js";
 import type { Delivery } from "rhea-promise";
-import { MessageAlreadySettled } from "../../../src/util/errors.js";
+import { MessageAlreadySettled } from "$internal/util/errors.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { AbortError } from "@azure/abort-controller";
 import { describe, it } from "vitest";

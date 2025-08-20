@@ -5,8 +5,8 @@ import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder"
 import { env, Recorder } from "@azure-tools/test-recorder";
 import "./env.js";
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { MapsSearchClient } from "../../../src/index.js";
-import MapsSearch from "../../../src/index.js";
+import type { MapsSearchClient } from "@azure-rest/maps-search";
+import MapsSearch from "@azure-rest/maps-search";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: Record<string, string> = {

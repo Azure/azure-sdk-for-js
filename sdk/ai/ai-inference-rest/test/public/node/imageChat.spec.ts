@@ -4,8 +4,8 @@
 import { createRecorder, createModelClient } from "../utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type { ModelClient, ChatCompletionsOutput } from "../../../src/index.js";
-import { isUnexpected } from "../../../src/index.js";
+import type { ModelClient, ChatCompletionsOutput } from "@azure-rest/ai-inference";
+import { isUnexpected } from "@azure-rest/ai-inference";
 import fs from "node:fs";
 import path from "node:path";
 

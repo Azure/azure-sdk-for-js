@@ -9,7 +9,7 @@ import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient.js";
-import type { CommunicationIdentityClient, TokenScope } from "../../src/index.js";
+import type { CommunicationIdentityClient, TokenScope } from "@azure/communication-identity";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

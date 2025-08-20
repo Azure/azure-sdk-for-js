@@ -3,8 +3,8 @@
 
 import { describe, it } from "vitest";
 import type { AmqpError } from "rhea-promise";
-import type { MessagingError } from "../../src/index.js";
-import { translateError } from "../../src/util/error.js";
+import type { MessagingError } from "@azure/event-hubs";
+import { translateError } from "$internal/util/error.js";
 import { should } from "../utils/chai.js";
 
 describe("translateError", () => {

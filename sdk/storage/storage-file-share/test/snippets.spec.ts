@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { setLogLevel } from "@azure/logger";
-import { ShareServiceClient, StorageSharedKeyCredential } from "../src/index.js";
+import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {

@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import type { DecryptParameters, EncryptParameters, KeyVaultKey } from "../../src/index.js";
-import { CryptographyClient, KeyClient } from "../../src/index.js";
-import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider.js";
-import type { JsonWebKey } from "../../src/index.js";
+import type { DecryptParameters, EncryptParameters, KeyVaultKey } from "@azure/keyvault-keys";
+import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
+import { RsaCryptographyProvider } from "$internal/cryptography/rsaCryptographyProvider.js";
+import type { JsonWebKey } from "@azure/keyvault-keys";
 import { stringToUint8Array } from "../public/utils/crypto.js";
-import type { CryptographyProvider } from "../../src/cryptography/models.js";
-import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider.js";
+import type { CryptographyProvider } from "$internal/cryptography/models.js";
+import { RemoteCryptographyProvider } from "$internal/cryptography/remoteCryptographyProvider.js";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import type { SendRequest } from "@azure/core-rest-pipeline";
 import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventGridDeserializer } from "../../src/index.js";
+import { EventGridDeserializer } from "@azure/eventgrid";
 import * as testData from "./utils/testData.js";
 import { describe, it, assert, expect } from "vitest";
 

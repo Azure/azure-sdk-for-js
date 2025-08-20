@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseConnectionString } from "../../src/parseConnectionString.js";
+import { parseConnectionString } from "$internal/parseConnectionString.js";
 import { describe, it, assert } from "vitest";
 
 describe("Can parse connection string", () => {

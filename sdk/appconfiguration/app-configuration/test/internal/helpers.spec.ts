@@ -27,9 +27,9 @@ import {
   transformKeyValueResponseWithStatusCode,
   getScope,
 } from "../../src/internal/helpers.js";
-import type { FeatureFlagValue } from "../../src/featureFlag.js";
+import type { FeatureFlagValue } from "$internal/featureFlag.js";
 import type { WebResourceLike } from "@azure/core-http-compat";
-import type { SecretReferenceValue } from "../../src/secretReference.js";
+import type { SecretReferenceValue } from "$internal/secretReference.js";
 import { describe, it, assert } from "vitest";
 
 describe("helper methods", () => {

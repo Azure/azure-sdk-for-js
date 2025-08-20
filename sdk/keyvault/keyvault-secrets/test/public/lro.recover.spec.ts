@@ -5,7 +5,7 @@ import { env } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
-import type { SecretClient, SecretProperties } from "../../src/index.js";
+import type { SecretClient, SecretProperties } from "@azure/keyvault-secrets";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";

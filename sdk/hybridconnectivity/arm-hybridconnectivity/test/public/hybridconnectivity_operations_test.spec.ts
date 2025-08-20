@@ -10,7 +10,7 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { HybridConnectivityManagementAPI } from "../../src/hybridConnectivityManagementAPI.js";
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",

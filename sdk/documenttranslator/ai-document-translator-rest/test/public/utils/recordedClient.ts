@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DocumentTranslatorClient } from "../../../src/index.js";
-import DocumentTranslator from "../../../src/index.js";
+import type { DocumentTranslatorClient } from "@azure-rest/ai-document-translator";
+import DocumentTranslator from "@azure-rest/ai-document-translator";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 

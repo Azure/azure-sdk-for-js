@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, beforeEach, assert } from "vitest";
-import { PartitionKeyRangeFailoverInfo } from "../../../src/PartitionKeyRangeFailoverInfo.js";
+import { PartitionKeyRangeFailoverInfo } from "$internal/PartitionKeyRangeFailoverInfo.js";
 import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
 
 describe("PartitionKeyRangeFailoverInfo", () => {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert, describe, it } from "vitest";
-import { DefaultRetryPolicy } from "../../../../src/retry/defaultRetryPolicy.js";
+import { DefaultRetryPolicy } from "$internal/retry/defaultRetryPolicy.js";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,

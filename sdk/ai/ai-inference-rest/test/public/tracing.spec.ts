@@ -14,7 +14,7 @@ import type {
   GetChatCompletionsDefaultResponse,
   ModelClient,
 } from "../../src/index.js";
-import { isUnexpected } from "../../src/index.js";
+import { isUnexpected } from "@azure-rest/ai-inference";
 import type {
   AddEventOptions,
   Instrumenter,

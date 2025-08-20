@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QuantumJobClient } from "../src/index.js";
+import { QuantumJobClient } from "@azure/quantum-jobs";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { BlockBlobClient, ContainerClient } from "@azure/storage-blob";

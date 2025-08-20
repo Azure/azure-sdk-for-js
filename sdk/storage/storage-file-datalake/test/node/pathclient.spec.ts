@@ -18,7 +18,7 @@ import {
   DataLakeSASPermissions,
   getDataLakeServiceAccountAudience,
 } from "../../src/index.js";
-import { toAcl, toRemoveAcl } from "../../src/transforms.js";
+import { toAcl, toRemoveAcl } from "$internal/transforms.js";
 import {
   bodyToString,
   getDataLakeServiceClient,

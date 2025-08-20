@@ -12,10 +12,10 @@ import type {
   ServiceBusSender,
   ServiceBusReceiverOptions,
 } from "../../src/index.js";
-import { isServiceBusError, ServiceBusClient } from "../../src/index.js";
-import type { ServiceBusReceivedMessage } from "../../src/serviceBusMessage.js";
-import { DispositionType } from "../../src/serviceBusMessage.js";
-import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors.js";
+import { isServiceBusError, ServiceBusClient } from "@azure/service-bus";
+import type { ServiceBusReceivedMessage } from "$internal/serviceBusMessage.js";
+import { DispositionType } from "$internal/serviceBusMessage.js";
+import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "$internal/util/errors.js";
 import { isNode } from "@azure/core-util";
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils.js";
 import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
@@ -25,7 +25,7 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2.js";
-import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
 import { should } from "../public/utils/chai.js";
 import { getConnectionString, getFullyQualifiedNamespace } from "../utils/injectables.js";

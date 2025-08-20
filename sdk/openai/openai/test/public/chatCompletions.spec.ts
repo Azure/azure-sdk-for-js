@@ -28,7 +28,7 @@ import {
   toolsModelsToSkip,
   modelsNotSupportedInGA,
 } from "../utils/models.js";
-import "../../src/types/index.js";
+import "$internal/types/index.js";
 import { assertMathResponseOutput, type MathResponse } from "../utils/structuredOutputUtils.js";
 
 describe.concurrent.each(APIMatrix)("Chat Completions [%s]", (apiVersion: APIVersion) => {

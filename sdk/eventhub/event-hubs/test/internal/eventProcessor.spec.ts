@@ -10,26 +10,26 @@ import type {
   ReceivedEventData,
   SubscriptionEventHandlers,
 } from "../../src/index.js";
-import { CloseReason, earliestEventPosition, latestEventPosition } from "../../src/index.js";
+import { CloseReason, earliestEventPosition, latestEventPosition } from "@azure/event-hubs";
 import type { Dictionary } from "rhea-promise";
 import { loopUntil } from "../utils/testUtils.js";
-import type { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor.js";
+import type { EventProcessor, FullEventProcessorOptions } from "$internal/eventProcessor.js";
 import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition,
 } from "../utils/subscriptionHandlerForTests.js";
-import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy.js";
-import type { Checkpoint } from "../../src/partitionProcessor.js";
+import { BalancedLoadBalancingStrategy } from "$internal/loadBalancerStrategies/balancedStrategy.js";
+import type { Checkpoint } from "$internal/partitionProcessor.js";
 import { FakeSubscriptionEventHandlers } from "../utils/fakeSubscriptionEventHandlers.js";
-import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy.js";
-import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore.js";
-import type { PartitionContext } from "../../src/eventHubConsumerClientModels.js";
+import { GreedyLoadBalancingStrategy } from "$internal/loadBalancerStrategies/greedyStrategy.js";
+import { InMemoryCheckpointStore } from "$internal/inMemoryCheckpointStore.js";
+import type { PartitionContext } from "$internal/eventHubConsumerClientModels.js";
 import debugModule from "debug";
 import type { MessagingError } from "@azure/core-amqp";
 import { delay } from "@azure/core-amqp";
-import { isLatestPosition } from "../../src/eventPosition.js";
+import { isLatestPosition } from "$internal/eventPosition.js";
 import { loggerForTest } from "../utils/logHelpers.js";
-import { getRandomName } from "../../src/util/utils.js";
+import { getRandomName } from "$internal/util/utils.js";
 import { randomUUID } from "@azure/core-util";
 import { should, assert } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";

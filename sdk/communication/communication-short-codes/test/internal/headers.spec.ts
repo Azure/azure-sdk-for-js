@@ -3,8 +3,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "../../src/utils/constants.js";
-import { ShortCodesClient } from "../../src/shortCodesClient.js";
+import { SDK_VERSION } from "$internal/utils/constants.js";
+import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 import type { TokenCredential } from "@azure/identity";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import { getUSProgramBriefHttpClient } from "../public/utils/mockHttpClients.js";

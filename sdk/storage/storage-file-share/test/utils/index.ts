@@ -11,7 +11,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { TokenCredential } from "@azure/core-auth";
 import { BlobServiceClient } from "@azure/storage-blob";
 
-import type { ShareClientConfig, ShareClientOptions } from "../../src/index.js";
+import type { ShareClientConfig, ShareClientOptions } from "@azure/storage-file-share";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -20,11 +20,11 @@ import {
   SASProtocol,
 } from "../../src/index.js";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
-import { newPipeline } from "../../src/Pipeline.js";
-import { ShareServiceClient } from "../../src/ShareServiceClient.js";
-import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import { newPipeline } from "@azure/storage-file-share";
+import { ShareServiceClient } from "@azure/storage-file-share";
+import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 import { getUniqueName, configureStorageClient } from "./testutils.common.js";
-import type { StorageClient } from "../../src/StorageClient.js";
+import type { StorageClient } from "$internal/StorageClient.js";
 
 export * from "./testutils.common.js";
 

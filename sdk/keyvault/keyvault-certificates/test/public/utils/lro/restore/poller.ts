@@ -9,7 +9,7 @@ import type {
   TestCertificateClientInterface,
 } from "./operation.js";
 import { makeRestoreCertificateBackupPollOperation } from "./operation.js";
-import type { KeyVaultCertificate } from "../../../../../src/index.js";
+import type { KeyVaultCertificate } from "@azure/keyvault-certificates";
 
 export interface RestoreCertificateBackupPollerOptions {
   client: TestCertificateClientInterface;

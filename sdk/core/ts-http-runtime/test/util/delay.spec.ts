@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { calculateRetryDelay } from "../../src/util/delay.js";
+import { calculateRetryDelay } from "$internal/util/delay.js";
 
 describe("calculateRetryDelay", function () {
   it("should calculate the correct delay for the first retry attempt", function () {

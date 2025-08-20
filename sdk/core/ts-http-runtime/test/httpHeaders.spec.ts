@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createHttpHeaders } from "../src/httpHeaders.js";
+import { createHttpHeaders } from "@typespec/ts-http-runtime";
 
 describe("HttpHeaders", () => {
   it("toJSON() should use normalized header names", () => {

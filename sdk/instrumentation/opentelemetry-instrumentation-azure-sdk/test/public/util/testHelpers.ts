@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "vitest";
-import type { OpenTelemetrySpanWrapper } from "../../../src/spanWrapper.js";
+import type { OpenTelemetrySpanWrapper } from "$internal/spanWrapper.js";
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { inMemoryExporter } from "./setup.js";
 

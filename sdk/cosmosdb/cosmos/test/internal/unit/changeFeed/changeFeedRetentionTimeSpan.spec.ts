@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChangeFeedRetentionTimeSpan } from "../../../../src/client/ChangeFeed/ChangeFeedRetentionTimeSpan.js";
+import { ChangeFeedRetentionTimeSpan } from "$internal/client/ChangeFeed/ChangeFeedRetentionTimeSpan.js";
 import { describe, it, assert } from "vitest";
 
 describe("test ChangeFeedRetentionTimeSpan", () => {

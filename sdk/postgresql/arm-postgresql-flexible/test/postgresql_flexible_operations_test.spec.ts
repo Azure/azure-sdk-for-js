@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { PostgreSQLManagementFlexibleServerClient } from "../src/postgreSQLManagementFlexibleServerClient.js";
+import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { describe, it, beforeEach, afterEach, assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

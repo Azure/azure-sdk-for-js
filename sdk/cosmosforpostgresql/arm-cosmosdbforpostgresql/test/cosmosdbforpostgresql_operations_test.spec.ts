@@ -14,7 +14,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { CosmosDBForPostgreSQL } from "../src/cosmosDBForPostgreSQL.js";
+import { CosmosDBForPostgreSQL } from "@azure/arm-cosmosdbforpostgresql";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

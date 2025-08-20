@@ -23,9 +23,9 @@ import {
   newPipeline,
   SASQueryParameters,
 } from "../../src/index.js";
-import { DataLakeFileClient } from "../../src/index.js";
-import { DirectorySASPermissions } from "../../src/sas/DirectorySASPermissions.js";
-import { SASProtocol } from "../../src/sas/SASQueryParameters.js";
+import { DataLakeFileClient } from "@azure/storage-file-datalake";
+import { DirectorySASPermissions } from "@azure/storage-file-datalake";
+import { SASProtocol } from "@azure/storage-file-datalake";
 import {
   getDataLakeServiceClient,
   getDataLakeServiceClientWithDefaultCredential,
@@ -36,7 +36,7 @@ import {
   uriSanitizers,
   getSignatureFromSasUrl,
 } from "../utils/index.js";
-import { UserDelegationKeyCredential } from "../../src/credentials/UserDelegationKeyCredential.js";
+import { UserDelegationKeyCredential } from "$internal/credentials/UserDelegationKeyCredential.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
+import type { DataLakeFileClient, DataLakeFileSystemClient } from "@azure/storage-file-datalake";
 import {
   getDataLakeServiceClient,
   getUniqueName,
@@ -10,7 +10,7 @@ import {
   uriSanitizers,
 } from "../utils/index.js";
 import { getBrowserFile, arrayBufferEqual } from "../utils/index-browser.mjs";
-import { MB } from "../../src/utils/constants.js";
+import { MB } from "$internal/utils/constants.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("Highlevel browser only", () => {

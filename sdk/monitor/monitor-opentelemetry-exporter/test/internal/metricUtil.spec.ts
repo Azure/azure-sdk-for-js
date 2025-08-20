@@ -9,25 +9,25 @@ import type {
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
-import { resourceMetricsToEnvelope } from "../../src/utils/metricUtils.js";
+import { resourceMetricsToEnvelope } from "$internal/utils/metricUtils.js";
 import {
   SemanticResourceAttributes,
   SEMRESATTRS_SERVICE_INSTANCE_ID,
 } from "@opentelemetry/semantic-conventions";
-import { AzureMonitorMetricExporter } from "../../src/export/metric.js";
-import type { AzureMonitorExporterOptions } from "../../src/config.js";
+import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
+import type { AzureMonitorExporterOptions } from "$internal/config.js";
 import type {
   TelemetryItem as Envelope,
   RemoteDependencyData,
   RequestData,
 } from "../../src/generated/index.js";
-import { KnownContextTagKeys } from "../../src/generated/index.js";
-import type { Tags } from "../../src/types.js";
-import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../../src/types.js";
-import { Context, getInstance } from "../../src/platform/index.js";
+import { KnownContextTagKeys } from "$internal/generated/index.js";
+import type { Tags } from "$internal/types.js";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "$internal/types.js";
+import { Context, getInstance } from "$internal/platform/index.js";
 import { describe, it, assert } from "vitest";
-import { ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED } from "../../src/Declarations/Constants.js";
-import { StatsbeatCounter } from "../../src/export/statsbeat/types.js";
+import { ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED } from "$internal/Declarations/Constants.js";
+import { StatsbeatCounter } from "$internal/export/statsbeat/types.js";
 
 const context = getInstance();
 const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DatabaseDefinition, Database } from "../../../src/index.js";
-import { CosmosClient } from "../../../src/index.js";
+import type { DatabaseDefinition, Database } from "@azure/cosmos";
+import { CosmosClient } from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
@@ -12,7 +12,7 @@ import {
   assertThrowsAsync,
   testForDiagnostics,
 } from "../common/TestHelpers.js";
-import type { DatabaseRequest } from "../../../src/index.js";
+import type { DatabaseRequest } from "@azure/cosmos";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 
 const client = new CosmosClient({

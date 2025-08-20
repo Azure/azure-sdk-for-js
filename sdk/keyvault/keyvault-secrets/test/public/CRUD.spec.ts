@@ -5,7 +5,7 @@ import { env } from "@azure-tools/test-recorder";
 
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { afterEach, assert, beforeEach, describe, expect, it } from "vitest";
-import type { SecretClient } from "../../src/index.js";
+import type { SecretClient } from "@azure/keyvault-secrets";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";

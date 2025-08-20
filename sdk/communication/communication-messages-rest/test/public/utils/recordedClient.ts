@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import type { MessagesServiceClient } from "../../../src/index.js";
-import MessageClient from "../../../src/index.js";
+import type { MessagesServiceClient } from "@azure-rest/communication-messages";
+import MessageClient from "@azure-rest/communication-messages";
 import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";

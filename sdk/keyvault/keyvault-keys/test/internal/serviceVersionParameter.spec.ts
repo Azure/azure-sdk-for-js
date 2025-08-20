@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { KeyClient } from "../../src/index.js";
-import { LATEST_API_VERSION } from "../../src/keysModels.js";
+import { KeyClient } from "@azure/keyvault-keys";
+import { LATEST_API_VERSION } from "$internal/keysModels.js";
 import type {
   HttpClient,
   PipelineRequest,

@@ -11,8 +11,8 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
-import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
-import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
+import type { RetriableReadableStreamOptions } from "$internal/utils/RetriableReadableStream.js";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "@azure/storage-file-share";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";

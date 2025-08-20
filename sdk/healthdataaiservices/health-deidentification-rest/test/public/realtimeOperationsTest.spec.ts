@@ -3,11 +3,11 @@
 
 import { createRecordedDeidentificationClient, createRecorder } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type { DeidentificationClient } from "../../src/clientDefinitions.js";
+import type { DeidentificationClient } from "$internal/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-import type { DeidentificationContent } from "../../src/models.js";
-import type { DeidentificationResultOutput } from "../../src/outputModels.js";
+import type { DeidentificationContent } from "$internal/models.js";
+import type { DeidentificationResultOutput } from "$internal/outputModels.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 
 const inputText = "Hello, my name is John Smith.";

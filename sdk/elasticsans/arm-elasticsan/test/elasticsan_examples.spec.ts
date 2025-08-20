@@ -9,8 +9,8 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ElasticSanManagement } from "../src/elasticSanManagement.js";
-import type { ElasticSan } from "../src/models/index.js";
+import { ElasticSanManagement } from "@azure/arm-elasticsan";
+import type { ElasticSan } from "$internal/models/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

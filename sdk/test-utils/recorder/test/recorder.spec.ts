@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { describe, it, expect } from "vitest";
 
-import { calculatePaths } from "../src/recorder.js";
+import { calculatePaths } from "$internal/recorder.js";
 
 describe("Recorder file paths", () => {
   it("calculates paths for a vitest test", () => {

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectionContext } from "../../src/connectionContext.js";
-import { openCbsSession } from "../../src/withAuth.js";
+import type { ConnectionContext } from "$internal/connectionContext.js";
+import { openCbsSession } from "$internal/withAuth.js";
 import type { CbsClient } from "@azure/core-amqp";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import { describe, it, beforeEach, afterEach } from "vitest";

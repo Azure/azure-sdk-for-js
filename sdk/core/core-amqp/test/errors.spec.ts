@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import * as Errors from "../src/errors.js";
+import * as Errors from "$internal/errors.js";
 import { AbortError } from "@azure/abort-controller";
 
 class AMQPError {

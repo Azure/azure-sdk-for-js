@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AvroSerializerOptions } from "../../../src/index.js";
-import { AvroSerializer } from "../../../src/index.js";
+import type { AvroSerializerOptions } from "@azure/schema-registry-avro";
+import { AvroSerializer } from "@azure/schema-registry-avro";
 import { testGroup, testSchemaName, testSchema } from "./dummies.js";
 import type { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./mockedRegistryClient.js";

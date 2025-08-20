@@ -9,7 +9,7 @@
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { delay, env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { ApiManagementClient } from "../src/apiManagementClient.js";
+import { ApiManagementClient } from "@azure/arm-apimanagement";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

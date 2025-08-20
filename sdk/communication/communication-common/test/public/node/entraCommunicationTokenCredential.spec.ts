@@ -9,7 +9,7 @@ import {
 
 import { vi, describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { type GetTokenOptions, type TokenCredential } from "@azure/core-auth";
-import { EntraTokenCredential } from "../../../src/entraTokenCredential.js";
+import { EntraTokenCredential } from "$internal/entraTokenCredential.js";
 
 const resourceEndpoint = "https://contoso.communication.azure.com";
 const entraToken = "entraToken";

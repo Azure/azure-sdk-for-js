@@ -13,7 +13,7 @@ import type {
   ServerDataMessage,
   WebPubSubMessage,
 } from "../src/models/index.js";
-import { WebPubSubJsonReliableProtocol } from "../src/protocols/index.js";
+import { WebPubSubJsonReliableProtocol } from "@azure/web-pubsub-client";
 import { describe, it, assert } from "vitest";
 
 describe("JsonProtocol", function () {

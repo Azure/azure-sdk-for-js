@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosClientOptions, DatabaseDefinition, Resource } from "../../../src/index.js";
-import { CosmosClient } from "../../../src/index.js";
-import type { RequestContext } from "../../../src/index.js";
-import type { Plugin, Next, PluginConfig } from "../../../src/index.js";
-import type { DiagnosticNodeInternal } from "../../../src/diagnostics/DiagnosticNodeInternal.js";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import type { CosmosClientOptions, DatabaseDefinition, Resource } from "@azure/cosmos";
+import { CosmosClient } from "@azure/cosmos";
+import type { RequestContext } from "@azure/cosmos";
+import type { Plugin, Next, PluginConfig } from "@azure/cosmos";
+import type { DiagnosticNodeInternal } from "$internal/diagnostics/DiagnosticNodeInternal.js";
+import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 
 describe("Plugin", () => {

@@ -8,7 +8,7 @@ import type {
   CertificateOperation,
   KeyVaultCertificateWithPolicy,
 } from "../../src/index.js";
-import { DefaultCertificatePolicy } from "../../src/index.js";
+import { DefaultCertificatePolicy } from "@azure/keyvault-certificates";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";

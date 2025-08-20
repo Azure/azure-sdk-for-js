@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { createPipelineRequest } from "../../src/index.js";
-import { ensureSecureConnection } from "../../src/policies/auth/checkInsecureConnection.js";
-import { logger } from "../../src/log.js";
+import { createPipelineRequest } from "@typespec/ts-http-runtime";
+import { ensureSecureConnection } from "$internal/policies/auth/checkInsecureConnection.js";
+import { logger } from "$internal/log.js";
 
 describe("checkInsecureConnection", () => {
   beforeEach(() => {

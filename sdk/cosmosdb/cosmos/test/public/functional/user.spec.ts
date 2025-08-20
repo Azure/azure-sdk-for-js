@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UserDefinition } from "../../../src/index.js";
+import type { UserDefinition } from "@azure/cosmos";
 import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
 

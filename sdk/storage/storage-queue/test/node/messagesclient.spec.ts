@@ -9,10 +9,10 @@ import {
   configureStorageClient,
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { QueueClient } from "../../src/QueueClient.js";
+import { QueueClient } from "@azure/storage-queue";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
-import { newPipeline } from "../../src/index.js";
+import { newPipeline } from "@azure/storage-queue";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueClient message methods, Node.js only", () => {

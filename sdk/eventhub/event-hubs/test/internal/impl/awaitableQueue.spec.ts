@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AwaitableQueue } from "../../../src/impl/awaitableQueue.js";
+import { AwaitableQueue } from "$internal/impl/awaitableQueue.js";
 import { should } from "../../utils/chai.js";
 import { describe, it } from "vitest";
 

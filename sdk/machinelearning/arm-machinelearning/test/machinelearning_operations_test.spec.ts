@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AzureMachineLearningServicesManagementClient } from "../src/azureMachineLearningServicesManagementClient.js";
+import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

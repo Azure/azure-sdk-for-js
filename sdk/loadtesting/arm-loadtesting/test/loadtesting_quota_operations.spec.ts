@@ -8,7 +8,7 @@
 
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder } from "@azure-tools/test-recorder";
-import { LoadTestClient } from "../src/loadTestClient.js";
+import { LoadTestClient } from "@azure/arm-loadtesting";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type {
   QuotaBucketRequest,

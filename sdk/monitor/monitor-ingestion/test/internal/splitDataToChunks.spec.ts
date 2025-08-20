@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { splitDataToChunks } from "../../src/utils/splitDataToChunksHelper.js";
+import { splitDataToChunks } from "$internal/utils/splitDataToChunksHelper.js";
 import { describe, it, assert } from "vitest";
 
 describe("LogsIngestionClient unit tests", function () {

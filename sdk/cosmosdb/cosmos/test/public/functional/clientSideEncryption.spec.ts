@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import { Constants, EncryptionAlgorithm } from "../../../src/index.js";
+import { Constants, EncryptionAlgorithm } from "@azure/cosmos";
 import type {
   Database,
   Container,
@@ -49,8 +49,8 @@ import {
   verifyDiagnostics,
 } from "../common/encryptionTestHelpers.js";
 import { removeAllDatabases } from "../common/TestHelpers.js";
-import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber.js";
-import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
+import type { CosmosEncryptedNumber } from "$internal/encryption/CosmosEncryptedNumber.js";
+import { CosmosEncryptedNumberType } from "$internal/encryption/CosmosEncryptedNumber.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 let encryptionClient: CosmosClient;

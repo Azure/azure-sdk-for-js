@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ServiceFabricManagementClient, { isUnexpected, paginate } from "../src/index.js";
+import ServiceFabricManagementClient, { isUnexpected, paginate } from "@azure-rest/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

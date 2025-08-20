@@ -10,8 +10,8 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
-import type { StorageSharedKeyCredential, ShareItem } from "../../src/index.js";
-import { ShareServiceClient, newPipeline } from "../../src/index.js";
+import type { StorageSharedKeyCredential, ShareItem } from "@azure/storage-file-share";
+import { ShareServiceClient, newPipeline } from "@azure/storage-file-share";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

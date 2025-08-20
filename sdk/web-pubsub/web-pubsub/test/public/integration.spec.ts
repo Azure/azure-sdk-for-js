@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubServiceClient, odata } from "../../src/index.js";
+import { WebPubSubServiceClient, odata } from "@azure/web-pubsub";
 import { WebSocket } from "ws";
 import { describe, it, assert } from "vitest";
 import { getEndpoint, isLiveMode } from "../utils/injectables.js";

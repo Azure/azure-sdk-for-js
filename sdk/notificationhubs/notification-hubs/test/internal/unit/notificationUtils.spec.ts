@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createAppleNotification } from "../../../src/models/notification.js";
-import { createMultipartDirectNotification } from "../../../src/utils/notificationUtils.js";
+import { createAppleNotification } from "$internal/models/notification.js";
+import { createMultipartDirectNotification } from "$internal/utils/notificationUtils.js";
 
 describe("notificationUtils", () => {
   describe("createMultipartDirectNotification", () => {

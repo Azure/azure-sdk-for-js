@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { computeSha256Hash, computeSha256Hmac } from "../../src/index.js";
+import { computeSha256Hash, computeSha256Hmac } from "@azure/core-util";
 import { describe, it, assert } from "vitest";
 
 describe("SHA-256", function () {

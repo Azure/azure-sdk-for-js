@@ -11,7 +11,7 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { ShortCodesClient } from "../../../src/index.js";
+import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";

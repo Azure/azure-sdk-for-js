@@ -7,7 +7,7 @@ import {
   createEmptyPipeline,
   bearerTokenAuthenticationPolicyName,
 } from "@azure/core-rest-pipeline";
-import { ShortCodesClient as ShortCodesGeneratedClient } from "../../src/generated/src/index.js";
+import { ShortCodesClient as ShortCodesGeneratedClient } from "$internal/generated/src/index.js";
 import type { TokenCredential } from "@azure/identity";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { MapperTypeNames, createSerializer } from "../../src/index.js";
-import { serializeRequestBody } from "../../src/serializationPolicy.js";
+import { MapperTypeNames, createSerializer } from "@azure/core-client";
+import { serializeRequestBody } from "$internal/serializationPolicy.js";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
 

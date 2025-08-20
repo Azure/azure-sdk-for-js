@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Instrumenter, TracingSpan } from "../src/interfaces.js";
+import type { Instrumenter, TracingSpan } from "$internal/interfaces.js";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   getInstrumenter,
   useInstrumenter,
 } from "../src/instrumenter.js";
-import { createTracingContext, knownContextKeys } from "../src/tracingContext.js";
+import { createTracingContext, knownContextKeys } from "$internal/tracingContext.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
 describe("Instrumenter", () => {

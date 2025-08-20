@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import type { AgentsClient, ThreadRun } from "../../../src/index.js";
-import { MessageStreamEvent, RunStreamEvent } from "../../../src/index.js";
+import type { AgentsClient, ThreadRun } from "@azure/ai-agents";
+import { MessageStreamEvent, RunStreamEvent } from "@azure/ai-agents";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 

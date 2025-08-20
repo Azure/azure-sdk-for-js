@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createTagExpression } from "../../../src/models/tagExpressionBuilder.js";
+import { createTagExpression } from "$internal/models/tagExpressionBuilder.js";
 
 describe("tagExpressionBuilder", () => {
   describe("createTagExpression", () => {

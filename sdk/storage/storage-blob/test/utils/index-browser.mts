@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StoragePipelineOptions } from "../../src/index.js";
-import { AnonymousCredential } from "../../src/index.js";
-import { BlobServiceClient } from "../../src/index.js";
-import { newPipeline } from "../../src/index.js";
+import type { StoragePipelineOptions } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
+import { newPipeline } from "@azure/storage-blob";
 import { SimpleTokenCredential, configureBlobStorageClient } from "./testutils.common.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";

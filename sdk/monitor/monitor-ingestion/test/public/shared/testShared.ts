@@ -5,7 +5,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { createClientLogger } from "@azure/logger";
-import { LogsIngestionClient } from "../../../src/index.js";
+import { LogsIngestionClient } from "@azure/monitor-ingestion";
 import type { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 import type { AdditionalPolicyConfig } from "@azure/core-client";
 export const loggerForTest = createClientLogger("test");

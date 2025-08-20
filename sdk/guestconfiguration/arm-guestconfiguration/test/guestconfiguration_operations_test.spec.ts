@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import { GuestConfigurationClient } from "../src/guestConfigurationClient.js";
+import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
 import type { TokenCredential } from "@azure/core-auth";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

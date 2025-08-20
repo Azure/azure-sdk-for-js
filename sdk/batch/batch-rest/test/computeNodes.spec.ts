@@ -12,7 +12,7 @@ import type {
   UploadBatchServiceLogsOptions,
   UploadNodeLogsParameters,
 } from "../src/index.js";
-import { isUnexpected, type ListNodes200Response, type BatchNodeOutput } from "../src/index.js";
+import { isUnexpected, type ListNodes200Response, type BatchNodeOutput } from "@azure-rest/batch";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";

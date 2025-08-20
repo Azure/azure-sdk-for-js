@@ -4,8 +4,8 @@
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { PurviewSharingClient } from "../../../src/index.js";
-import PurviewSharing from "../../../src/index.js";
+import type { PurviewSharingClient } from "@azure-rest/purview-sharing";
+import PurviewSharing from "@azure-rest/purview-sharing";
 import type { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {

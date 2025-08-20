@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientContext, Container, PluginConfig } from "../../../src/index.js";
-import { PluginOn } from "../../../src/index.js";
-import { OperationType, ResourceType } from "../../../src/common/index.js";
-import { ConsistencyLevel } from "../../../src/index.js";
-import { CosmosClient } from "../../../src/index.js";
-import type { SessionContainer } from "../../../src/session/sessionContainer.js";
+import type { ClientContext, Container, PluginConfig } from "@azure/cosmos";
+import { PluginOn } from "@azure/cosmos";
+import { OperationType, ResourceType } from "@azure/cosmos";
+import { ConsistencyLevel } from "@azure/cosmos";
+import { CosmosClient } from "@azure/cosmos";
+import type { SessionContainer } from "$internal/session/sessionContainer.js";
 import { endpoint } from "../../public/common/_testConfig.js";
 import { masterKey } from "../../public/common/_fakeTestSecrets.js";
 import {
@@ -14,8 +14,8 @@ import {
   getTestDatabase,
   removeAllDatabases,
 } from "../../public/common/TestHelpers.js";
-import type { RequestContext } from "../../../src/index.js";
-import type { Response } from "../../../src/request/Response.js";
+import type { RequestContext } from "@azure/cosmos";
+import type { Response } from "$internal/request/Response.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
 describe("New session token", () => {

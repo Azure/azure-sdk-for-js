@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ExecutionContext } from "../../../../src/queryExecutionContext/index.js";
-import { NonStreamingOrderByEndpointComponent } from "../../../../src/queryExecutionContext/EndpointComponent/NonStreamingOrderByEndpointComponent.js";
+import type { ExecutionContext } from "$internal/queryExecutionContext/index.js";
+import { NonStreamingOrderByEndpointComponent } from "$internal/queryExecutionContext/EndpointComponent/NonStreamingOrderByEndpointComponent.js";
 import { describe, it, assert } from "vitest";
 
 describe("NonStreamingOrderByEndpointComponent", () => {

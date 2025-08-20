@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PurviewDataMapClient } from "../../../src/index.js";
-import PurviewDataMap from "../../../src/index.js";
+import type { PurviewDataMapClient } from "@azure-rest/purview-datamap";
+import PurviewDataMap from "@azure-rest/purview-datamap";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";

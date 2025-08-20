@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { createClientLogger } from "@azure/logger";
-import type { Delivery, ServiceBusReceivedMessage } from "../../../src/index.js";
-import type { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
+import type { Delivery, ServiceBusReceivedMessage } from "@azure/service-bus";
+import type { ServiceBusMessageImpl } from "$internal/serviceBusMessage.js";
 
 export function getDeliveryProperty(message: ServiceBusReceivedMessage): Delivery {
   if (

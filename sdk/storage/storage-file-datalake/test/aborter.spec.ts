@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DataLakeFileSystemClient } from "../src/index.js";
+import type { DataLakeFileSystemClient } from "@azure/storage-file-datalake";
 import {
   getDataLakeServiceClient,
   getUniqueName,

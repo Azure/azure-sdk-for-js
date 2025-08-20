@@ -10,7 +10,7 @@ import { SecretClient } from "@azure/keyvault-secrets";
 import type { ClientSecretCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
 
-import type { CertificateClient } from "../../src/index.js";
+import type { CertificateClient } from "@azure/keyvault-certificates";
 import { assertThrowsAbortError } from "./utils/common.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";

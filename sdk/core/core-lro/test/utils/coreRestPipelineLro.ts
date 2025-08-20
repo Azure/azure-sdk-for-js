@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RunningOperation, OperationResponse } from "../../src/index.js";
+import type { RunningOperation, OperationResponse } from "@azure/core-lro";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 

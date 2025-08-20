@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosClient } from "../../../src/index.js";
+import { CosmosClient } from "@azure/cosmos";
 import { skipTestForSignOff } from "../common/_testConfig.js";
 import { getTestDatabase } from "../common/TestHelpers.js";
 import https from "node:https";

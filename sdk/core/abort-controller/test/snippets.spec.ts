@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortError } from "../src/index.js";
+import { AbortError } from "@azure/abort-controller";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {

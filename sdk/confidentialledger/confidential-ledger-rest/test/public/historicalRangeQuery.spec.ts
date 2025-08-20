@@ -7,7 +7,7 @@ import type {
   LedgerEntry,
   TransactionStatusOutput,
 } from "../../src/index.js";
-import { isUnexpected, paginate } from "../../src/index.js";
+import { isUnexpected, paginate } from "@azure-rest/confidential-ledger";
 import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

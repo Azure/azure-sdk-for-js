@@ -5,8 +5,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-import type { SelectFields } from "../src/index.js";
-import { SearchClient } from "../src/index.js";
+import type { SelectFields } from "@azure/search-documents";
+import { SearchClient } from "@azure/search-documents";
 import type {
   NarrowedModel as GenericNarrowedModel,
   SearchFieldArray,

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventData, EventHubProducerClient } from "../../src/index.js";
-import type { EventDataInternal } from "../../src/eventData.js";
-import type { EventDataBatchImpl } from "../../src/eventDataBatch.js";
+import type { EventData, EventHubProducerClient } from "@azure/event-hubs";
+import type { EventDataInternal } from "$internal/eventData.js";
+import type { EventDataBatchImpl } from "$internal/eventDataBatch.js";
 import { should, expect } from "../utils/chai.js";
 import { describe, it, afterEach, beforeEach } from "vitest";
 import { createProducer } from "../utils/clients.js";

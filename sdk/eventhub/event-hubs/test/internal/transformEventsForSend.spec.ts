@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import { Buffer } from "buffer";
-import type { EventData, EventDataBatch } from "../../src/index.js";
-import type { PartitionPublishingProperties } from "../../src/models/private.js";
+import type { EventData, EventDataBatch } from "@azure/event-hubs";
+import type { PartitionPublishingProperties } from "$internal/models/private.js";
 
-import { transformEventsForSend } from "../../src/eventHubSender.js";
-import type { EventDataInternal } from "../../src/eventData.js";
+import { transformEventsForSend } from "$internal/eventHubSender.js";
+import type { EventDataInternal } from "$internal/eventData.js";
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
 } from "../../src/util/constants.js";
 import type { Message } from "rhea-promise";
 import { message } from "rhea-promise";
-import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData.js";
+import { TRACEPARENT_PROPERTY } from "$internal/diagnostics/instrumentEventData.js";
 import { describe, it, beforeEach } from "vitest";
 import { should } from "../utils/chai.js";
 import { createProducer } from "../utils/clients.js";

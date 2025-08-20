@@ -6,11 +6,11 @@ import {
   isNullOrEmpty,
   fetchStartTime,
 } from "../../../../src/client/ChangeFeed/changeFeedUtils.js";
-import type { PartitionKeyRange } from "../../../../src/index.js";
-import { ChangeFeedStartFrom } from "../../../../src/index.js";
-import { FeedRangeInternal } from "../../../../src/client/ChangeFeed/FeedRange.js";
-import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils.js";
-import { QueryRange } from "../../../../src/routing/index.js";
+import type { PartitionKeyRange } from "@azure/cosmos";
+import { ChangeFeedStartFrom } from "@azure/cosmos";
+import { FeedRangeInternal } from "$internal/client/ChangeFeed/FeedRange.js";
+import { isEpkRange } from "$internal/client/ChangeFeed/changeFeedUtils.js";
+import { QueryRange } from "$internal/routing/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("test extractOverlappingRanges", () => {

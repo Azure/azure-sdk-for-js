@@ -6,11 +6,11 @@ import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest"
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist.js";
-import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
+import { FileSystemPersist } from "$internal/platform/nodejs/persist/fileSystemPersist.js";
+import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
 import { promisify } from "node:util";
-import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
-import { DropCode } from "../../src/export/statsbeat/types.js";
+import { FileAccessControl } from "$internal/platform/nodejs/persist/fileAccessControl.js";
+import { DropCode } from "$internal/export/statsbeat/types.js";
 
 const statAsync = promisify(fs.stat);
 const readdirAsync = promisify(fs.readdir);
@@ -238,7 +238,7 @@ describe("FileSystemPersist", () => {
       };
 
       // Import the module dynamically to mock before usage
-      const helpersMod = await import("../../src/platform/nodejs/persist/fileSystemHelpers.js");
+      const helpersMod = await import("$internal/platform/nodejs/persist/fileSystemHelpers.js");
 
       // Mock confirmDirExists to throw EACCES permission error
       const error = new Error("EACCES: permission denied, mkdir") as NodeJS.ErrnoException;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureChangeAnalysisManagementClient } from "../src/index.js";
+import { AzureChangeAnalysisManagementClient } from "@azure/arm-changeanalysis";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

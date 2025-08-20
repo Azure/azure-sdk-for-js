@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
-import { EmailClient } from "../../../src/index.js";
+import { EmailClient } from "@azure/communication-email";
 import {
   getConnectionString,
   getEndpoint,

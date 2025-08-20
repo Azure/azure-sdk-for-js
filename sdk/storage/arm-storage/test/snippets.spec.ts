@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { StorageManagementClient } from "../src/index.js";
+import { StorageManagementClient } from "@azure/arm-storage";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

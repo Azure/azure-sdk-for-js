@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ACEProvisioningManagementPartnerAPI } from "../src/index.js";
+import { ACEProvisioningManagementPartnerAPI } from "@azure/arm-managementpartner";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

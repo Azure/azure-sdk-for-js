@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
-import DocumentIntelligence, { KnownDocumentIntelligenceAudience } from "../../../src/index.js";
+import DocumentIntelligence, { KnownDocumentIntelligenceAudience } from "@azure-rest/ai-document-intelligence";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   ASSET_PATH,

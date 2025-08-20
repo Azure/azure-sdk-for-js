@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expectTypeOf } from "vitest";
-import type { HttpClient, HttpHeaders, PipelineResponse } from "../src/index.js";
+import type { HttpClient, HttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
   createDefaultHttpClient,
   createEmptyPipeline,

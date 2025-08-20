@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SmsSendResult } from "../../../src/index.js";
+import type { SmsSendResult } from "@azure/communication-sms";
 import { assert } from "vitest";
 
 export const assertIsSuccessResult = (

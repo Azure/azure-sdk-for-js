@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container } from "../../../src/index.js";
-import { CosmosClient } from "../../../src/index.js";
+import type { Container } from "@azure/cosmos";
+import { CosmosClient } from "@azure/cosmos";
 import { addEntropy, removeAllDatabases } from "../common/TestHelpers.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, CosmosClient } from "../../../../src/index.js";
+import type { Container, CosmosClient } from "@azure/cosmos";
 import { skipTestForSignOff } from "../../common/_testConfig.js";
 import {
   getTestContainer,

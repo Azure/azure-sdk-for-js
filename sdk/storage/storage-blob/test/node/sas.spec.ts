@@ -35,8 +35,8 @@ import {
   uriSanitizers,
 } from "../utils/index.js";
 import { delay, isLiveMode, Recorder, env } from "@azure-tools/test-recorder";
-import { SERVICE_VERSION } from "../../src/utils/constants.js";
-import { UserDelegationKeyCredential } from "../../src/credentials/UserDelegationKeyCredential.js";
+import { SERVICE_VERSION } from "$internal/utils/constants.js";
+import { UserDelegationKeyCredential } from "$internal/credentials/UserDelegationKeyCredential.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {

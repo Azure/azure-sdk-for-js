@@ -10,7 +10,7 @@ import type {
 import { serializeCommunicationIdentifier } from "@azure/communication-common";
 
 // Parent directory imports
-import { CallMedia } from "../../src/callMedia.js";
+import { CallMedia } from "@azure/communication-call-automation";
 
 import type {
   FileSource,
@@ -21,7 +21,7 @@ import type {
   MediaStreamingOptions,
   TranscriptionOptions,
 } from "../../src/models/models.js";
-import { DtmfTone } from "../../src/models/models.js";
+import { DtmfTone } from "@azure/communication-call-automation";
 import type {
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,

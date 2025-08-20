@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { createTracingClient, TracingClient, useInstrumenter } from "@azure/core-tracing";
-import { MockTracingSpan, MockInstrumenter } from "../../src/index.js";
-import { chaiAzure } from "../../src/azureAssert.js";
-import { MockContext } from "../../src/tracing/mockContext.js";
+import { MockTracingSpan, MockInstrumenter } from "@azure-tools/test-utils-vitest";
+import { chaiAzure } from "@azure-tools/test-utils-vitest";
+import { MockContext } from "$internal/tracing/mockContext.js";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { describe, it, beforeEach, chai } from "vitest";
 chai.use(chaiAzure);

@@ -10,7 +10,7 @@ import {
 } from "../public/utils/testutils2.js";
 import { defaultCancellableLock } from "@azure/core-amqp";
 import { TestClientType } from "../public//utils/testUtils.js";
-import { ServiceBusSenderImpl } from "../../src/sender.js";
+import { ServiceBusSenderImpl } from "$internal/sender.js";
 import { assert } from "../public/utils/chai.js";
 
 describe("controlled connection initialization", () => {

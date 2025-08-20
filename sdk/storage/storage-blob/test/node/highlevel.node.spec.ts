@@ -12,7 +12,7 @@ import {
   createRandomLocalFileWithTotalSize,
   getUniqueName,
 } from "../utils/index.js";
-import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
+import type { RetriableReadableStreamOptions } from "$internal/utils/RetriableReadableStream.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
   ContainerClient,
@@ -21,9 +21,9 @@ import type {
   BlobServiceClient,
 } from "../../src/index.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
-import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants.js";
+import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "$internal/utils/constants.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
-import { streamToBuffer2 } from "../../src/utils/utils.js";
+import { streamToBuffer2 } from "$internal/utils/utils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TextAnalysisClientOptions } from "../../../src/index.js";
-import { AzureKeyCredential, TextAnalysisClient } from "../../../src/index.js";
+import type { TextAnalysisClientOptions } from "@azure/ai-language-text";
+import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";

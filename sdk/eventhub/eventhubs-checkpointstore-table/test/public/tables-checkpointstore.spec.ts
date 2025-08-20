@@ -3,8 +3,8 @@
 
 import type { TableClient, TableServiceClient } from "@azure/data-tables";
 import type { Checkpoint, PartitionOwnership } from "@azure/event-hubs";
-import type { CheckpointEntity, PartitionOwnershipEntity } from "../../src/tableCheckpointStore.js";
-import { TableCheckpointStore } from "../../src/index.js";
+import type { CheckpointEntity, PartitionOwnershipEntity } from "$internal/tableCheckpointStore.js";
+import { TableCheckpointStore } from "@azure/eventhubs-checkpointstore-table";
 import debugModule from "debug";
 import { afterEach, beforeEach, describe, it } from "vitest";
 import { should } from "../util/chai.js";

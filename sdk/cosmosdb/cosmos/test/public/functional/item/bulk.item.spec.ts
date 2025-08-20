@@ -18,18 +18,18 @@ import {
   ErrorResponse,
 } from "../../../../src/index.js";
 import { addEntropy, getTestContainer, testForDiagnostics } from "../../common/TestHelpers.js";
-import type { OperationInput } from "../../../../src/index.js";
-import { BulkOperationType } from "../../../../src/index.js";
+import type { OperationInput } from "@azure/cosmos";
+import { BulkOperationType } from "@azure/cosmos";
 import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec.js";
-import type { PartitionKey } from "../../../../src/documents/index.js";
+import type { PartitionKey } from "$internal/documents/index.js";
 import {
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
 } from "../../../../src/documents/index.js";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
-import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
-import { SubStatusCodes } from "../../../../src/common/index.js";
+import { getCurrentTimestampInMs } from "$internal/utils/time.js";
+import { SubStatusCodes } from "$internal/common/index.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 describe("test bulk operations", async () => {

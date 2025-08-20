@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LogsUploadFailure } from "../../src/index.js";
-import { isAggregateLogsUploadError, LogsIngestionClient } from "../../src/index.js";
+import type { LogsUploadFailure } from "@azure/monitor-ingestion";
+import { isAggregateLogsUploadError, LogsIngestionClient } from "@azure/monitor-ingestion";
 import type { AdditionalPolicyConfig } from "@azure/core-client";
 import type { RecorderAndLogsClient } from "./shared/testShared.js";
 import {

@@ -14,7 +14,7 @@ import type {
   ClustersUpdateParameters,
   ServiceFabricClient,
 } from "../../src/index.js";
-import { getLongRunningPoller } from "../../src/index.js";
+import { getLongRunningPoller } from "@azure-rest/arm-servicefabric";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {

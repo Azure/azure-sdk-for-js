@@ -8,7 +8,7 @@ import {
   serializeSignedIdentifiers,
 } from "../../src/serialization.js";
 
-import type { Edm } from "../../src/index.js";
+import type { Edm } from "@azure/data-tables";
 import { describe, it, assert } from "vitest";
 
 interface Entity {

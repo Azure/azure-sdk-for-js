@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNode } from "../../../src/index.js";
+import { isNode } from "@azure/core-util";
 import { describe, it, assert } from "vitest";
 
 describe("checkEnvironment (node)", function () {

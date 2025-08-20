@@ -5,7 +5,7 @@ import type { AgentsClient } from "@azure/ai-agents";
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type { AIProjectClient } from "../../../src/index.js";
+import type { AIProjectClient } from "@azure/ai-projects";
 
 describe("agents - basic", () => {
   let recorder: Recorder;

@@ -9,7 +9,7 @@ import {
   deleteKeyCompletely,
   startRecorder,
 } from "./utils/testHelpers.js";
-import type { AppConfigurationClient } from "../../src/index.js";
+import type { AppConfigurationClient } from "@azure/app-configuration";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("etags", () => {

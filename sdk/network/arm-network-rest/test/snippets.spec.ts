@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import NetworkManagementClient, { paginate, VirtualNetworksListParameters } from "../src/index.js";
+import NetworkManagementClient, { paginate, VirtualNetworksListParameters } from "@azure-rest/arm-network";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

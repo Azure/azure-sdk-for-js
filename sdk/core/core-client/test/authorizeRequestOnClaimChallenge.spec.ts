@@ -14,7 +14,7 @@ import {
   authorizeRequestOnClaimChallenge,
   parseCAEChallenge,
 } from "../src/authorizeRequestOnClaimChallenge.js";
-import { encodeString } from "../src/base64.js";
+import { encodeString } from "$internal/base64.js";
 
 describe("authorizeRequestOnClaimChallenge", function () {
   it(`should try to get the access token if the response has a valid claims parameter on the WWW-Authenticate header`, async function () {

@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import { EventGridManagementClient } from "../src/eventGridManagementClient.js";
+import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import type { TokenCredential } from "@azure/identity";
 import { DefaultAzureCredential } from "@azure/identity";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

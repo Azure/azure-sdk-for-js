@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ShareClient } from "../src/index.js";
-import { ShareDirectoryClient, ShareFileClient } from "../src/index.js";
+import type { ShareClient } from "@azure/storage-file-share";
+import { ShareDirectoryClient, ShareFileClient } from "@azure/storage-file-share";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
-import { appendToURLPath } from "../src/utils/utils.common.js";
+import { appendToURLPath } from "$internal/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

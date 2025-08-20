@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AppConfigurationClient } from "../../../src/index.js";
+import { AppConfigurationClient } from "@azure/app-configuration";
 import type {
   HttpClient,
   PipelineRequest,

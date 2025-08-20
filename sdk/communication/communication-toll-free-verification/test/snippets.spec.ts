@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { TollFreeVerificationClient } from "../src/index.js";
+import { TollFreeVerificationClient } from "@azure-tools/communication-toll-free-verification";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

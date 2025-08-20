@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DocumentAnalysisClient } from "../../../src/index.js";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient, testPollingOptions } from "../../utils/recordedClients.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

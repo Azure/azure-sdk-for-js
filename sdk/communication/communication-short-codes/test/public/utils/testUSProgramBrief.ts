@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RestError } from "@azure/core-rest-pipeline";
-import type { ShortCodesClient, USProgramBrief } from "../../../src/index.js";
+import type { ShortCodesClient, USProgramBrief } from "@azure-tools/communication-short-codes";
 import {
   CompanyInformationMapper,
   MessageDetailsMapper,

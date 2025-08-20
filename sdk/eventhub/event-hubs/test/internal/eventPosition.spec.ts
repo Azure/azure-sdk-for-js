@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { earliestEventPosition, latestEventPosition } from "../../src/index.js";
-import { getEventPositionFilter, validateEventPositions } from "../../src/eventPosition.js";
+import { earliestEventPosition, latestEventPosition } from "@azure/event-hubs";
+import { getEventPositionFilter, validateEventPositions } from "$internal/eventPosition.js";
 import { describe, it } from "vitest";
 import "../utils/chai.js";
 

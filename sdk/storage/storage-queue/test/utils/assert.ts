@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { StorageClient } from "../../src/StorageClient.js";
+import type { StorageClient } from "$internal/StorageClient.js";
 import { isTokenCredential } from "@azure/core-auth";
 import { assert } from "vitest";
 

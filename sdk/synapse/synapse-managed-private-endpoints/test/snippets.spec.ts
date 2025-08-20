@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagedPrivateEndpointsClient } from "../src/index.js";
+import { ManagedPrivateEndpointsClient } from "@azure/synapse-managed-private-endpoints";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

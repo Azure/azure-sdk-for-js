@@ -11,7 +11,7 @@ import type {
   OperationSpec,
 } from "@azure/core-client";
 import { createSerializer, serializationPolicy } from "@azure/core-client";
-import { ExtendedServiceClient, disableKeepAlivePolicyName } from "../src/index.js";
+import { ExtendedServiceClient, disableKeepAlivePolicyName } from "@azure/core-http-compat";
 import {
   pipelineContainsDisableKeepAlivePolicy,
   createDisableKeepAlivePolicy,

@@ -10,8 +10,8 @@ import {
   SimpleTokenCredential,
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { QueueServiceClient } from "../../src/index.js";
-import { getQueueServiceAccountAudience, newPipeline, QueueClient } from "../../src/index.js";
+import type { QueueServiceClient } from "@azure/storage-queue";
+import { getQueueServiceAccountAudience, newPipeline, QueueClient } from "@azure/storage-queue";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { createTestCredential } from "@azure-tools/test-credential";

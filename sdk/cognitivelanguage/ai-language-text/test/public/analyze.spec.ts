@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TextAnalysisClient } from "../../src/index.js";
+import type { TextAnalysisClient } from "@azure/ai-language-text";
 import {
   AnalyzeActionNames,
   KnownPiiEntityCategory,

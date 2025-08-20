@@ -6,7 +6,7 @@
 // API Version: 2023-07-31
 // Created:     Thu Apr 06 2023
 
-import * as fr from "../../../src/index.js";
+import * as fr from "@azure/ai-form-recognizer";
 
 /**
  * Extract text, layout, entities, and general key-value pairs from documents.

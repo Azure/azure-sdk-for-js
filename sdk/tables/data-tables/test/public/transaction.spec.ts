@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { Recorder } from "@azure-tools/test-recorder";
-import type { TableClient, TransactionAction } from "../../src/index.js";
-import { TableTransaction, odata } from "../../src/index.js";
-import { Uuid } from "../../src/utils/uuid.js";
+import type { TableClient, TransactionAction } from "@azure/data-tables";
+import { TableTransaction, odata } from "@azure/data-tables";
+import { Uuid } from "$internal/utils/uuid.js";
 import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";

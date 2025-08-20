@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { MessagingError } from "@azure/core-amqp";
-import { LockRenewer } from "../../../src/core/autoLockRenewer.js";
+import { LockRenewer } from "$internal/core/autoLockRenewer.js";
 import type {
   ManagementClient,
   SendManagementRequestOptions,

@@ -14,7 +14,7 @@ import type {
   AddPolicyOptions,
   Client,
 } from "../src/index.js";
-import { AbortError } from "../src/index.js";
+import { AbortError } from "@typespec/ts-http-runtime";
 
 interface GetOperationResult {}
 interface DetectFromUrl {}

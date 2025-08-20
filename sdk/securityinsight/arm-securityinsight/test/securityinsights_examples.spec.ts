@@ -8,7 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SecurityInsights } from "../src/securityInsights.js";
+import { SecurityInsights } from "@azure/arm-securityinsight";
 import {
   SentinelOnboardingState,
   SentinelOnboardingStatesCreateOptionalParams,

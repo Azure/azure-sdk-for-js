@@ -6,8 +6,8 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2.js";
-import type { ServiceBusSender } from "../../src/index.js";
-import type { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src/index.js";
+import type { ServiceBusSender } from "@azure/service-bus";
+import type { ServiceBusMessage, ServiceBusSessionReceiver } from "@azure/service-bus";
 import type { TestClientType } from "./utils/testUtils.js";
 import { TestMessage } from "./utils/testUtils.js";
 import { afterEach, describe, it } from "vitest";

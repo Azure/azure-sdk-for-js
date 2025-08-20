@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import { PagedAsyncIterableIterator, PageSettings } from "../src/index.js";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 interface ListSecretsOptions {}
 interface SecretAttributes {}

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { TableClient } from "@azure/data-tables";
-import { TableCheckpointStore } from "../src/index.js";
+import { TableCheckpointStore } from "@azure/eventhubs-checkpointstore-table";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import { EventHubConsumerClient } from "@azure/event-hubs";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CIInfoProvider, CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
+import { CIInfoProvider, CI_PROVIDERS } from "$internal/utils/cIInfoProvider.js";
 import { describe, it, expect, afterEach, beforeEach } from "vitest";
 
 describe("CIInfoProvider", () => {

@@ -15,8 +15,8 @@ import {
 } from "../../src/diagnostics/instrumentEventData.js";
 import { SubscriptionHandlerForTests } from "../utils/subscriptionHandlerForTests.js";
 import debugModule from "debug";
-import { tracingClient } from "../../src/diagnostics/tracing.js";
-import { getRandomName } from "../../src/util/utils.js";
+import { tracingClient } from "$internal/diagnostics/tracing.js";
+import { getRandomName } from "$internal/util/utils.js";
 import { describe, it, beforeEach, afterEach, vi } from "vitest";
 import { assert, should, expect } from "../utils/chai.js";
 import { createConsumer, createProducer } from "../utils/clients.js";

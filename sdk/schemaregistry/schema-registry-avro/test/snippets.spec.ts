@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AvroSerializer } from "../src/index.js";
+import { AvroSerializer } from "@azure/schema-registry-avro";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { SchemaRegistryClient } from "@azure/schema-registry";

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { CancerProfilingRestClient } from "../../src/index.js";
-import { getLongRunningPoller } from "../../src/index.js";
+import type { CancerProfilingRestClient } from "@azure-rest/health-insights-cancerprofiling";
+import { getLongRunningPoller } from "@azure-rest/health-insights-cancerprofiling";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

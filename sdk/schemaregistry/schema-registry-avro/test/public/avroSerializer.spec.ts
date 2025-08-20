@@ -4,8 +4,8 @@
 import type { CreateTestSerializerOptions } from "./utils/mockedSerializer.js";
 import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer.js";
 import { testAvroType, testGroup, testSchema, testValue, testSchemaName } from "./utils/dummies.js";
-import type { MessageContent } from "../../src/index.js";
-import { AvroSerializer } from "../../src/index.js";
+import type { MessageContent } from "@azure/schema-registry-avro";
+import { AvroSerializer } from "@azure/schema-registry-avro";
 import {
   createPipelineWithCredential,
   createTestRegistry,

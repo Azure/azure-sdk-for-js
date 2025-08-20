@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TimeoutFailoverRetryPolicy } from "../../../src/retry/timeoutFailoverRetryPolicy.js";
-import { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
-import { HTTPMethod, OperationType, ResourceType } from "../../../src/common/constants.js";
-import { DatabaseAccount } from "../../../src/documents/DatabaseAccount.js";
-import { ResourceResponse } from "../../../src/request/ResourceResponse.js";
-import type { ErrorResponse } from "../../../src/request/ErrorResponse.js";
-import type { RetryContext } from "../../../src/retry/RetryContext.js";
-import { StatusCodes } from "../../../src/common/statusCodes.js";
-import { TimeoutError } from "../../../src/request/TimeoutError.js";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { TimeoutFailoverRetryPolicy } from "$internal/retry/timeoutFailoverRetryPolicy.js";
+import { GlobalEndpointManager } from "@azure/cosmos";
+import { HTTPMethod, OperationType, ResourceType } from "$internal/common/constants.js";
+import { DatabaseAccount } from "$internal/documents/DatabaseAccount.js";
+import { ResourceResponse } from "$internal/request/ResourceResponse.js";
+import type { ErrorResponse } from "$internal/request/ErrorResponse.js";
+import type { RetryContext } from "$internal/retry/RetryContext.js";
+import { StatusCodes } from "$internal/common/statusCodes.js";
+import { TimeoutError } from "$internal/request/TimeoutError.js";
+import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
 import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
-import { GlobalPartitionEndpointManager } from "../../../src/globalPartitionEndpointManager.js";
+import { GlobalPartitionEndpointManager } from "$internal/globalPartitionEndpointManager.js";
 
 describe("TimeoutFailoverRetryPolicy", () => {
   const databaseAccountBody: any = {

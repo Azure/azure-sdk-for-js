@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { initializePlaywrightServiceTestRun } from "../../src/core/initializePlaywrightServiceTestRun.js";
-import { TestRunCreatePayload } from "../../src/common/types.js";
+import { initializePlaywrightServiceTestRun } from "$internal/core/initializePlaywrightServiceTestRun.js";
+import { TestRunCreatePayload } from "$internal/common/types.js";
 
 // Create a mock state object that will be accessible from both tests and mocks
 const mockState = {

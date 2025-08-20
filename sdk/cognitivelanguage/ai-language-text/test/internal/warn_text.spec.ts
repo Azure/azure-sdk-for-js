@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, TextAnalysisClient } from "../../src/index.js";
+import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { setLogLevel } from "@azure/logger";
 import { isNodeLike } from "@azure/core-util";

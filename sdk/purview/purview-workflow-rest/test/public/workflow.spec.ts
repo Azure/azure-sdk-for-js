@@ -3,9 +3,9 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";
-import type { PurviewWorkflowClient } from "../../src/clientDefinitions.js";
-import type { CreateOrReplaceWorkflowParameters } from "../../src/parameters.js";
-import { isUnexpected } from "../../src/isUnexpected.js";
+import type { PurviewWorkflowClient } from "$internal/clientDefinitions.js";
+import type { CreateOrReplaceWorkflowParameters } from "$internal/parameters.js";
+import { isUnexpected } from "@azure-rest/purview-workflow";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Get a workflow", () => {

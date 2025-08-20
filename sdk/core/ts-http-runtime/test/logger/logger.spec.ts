@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import * as Logger from "../../src/logger/logger.js";
+import * as Logger from "$internal/logger/logger.js";
 
 const testLogger = Logger.createClientLogger("test");
 

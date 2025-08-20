@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { convertQueryBatch } from "../../../src/models/models.js";
-import { Durations } from "../../../src/index.js";
+import { convertQueryBatch } from "$internal/models/models.js";
+import { Durations } from "@azure/monitor-query-logs";
 import { describe, it, assert } from "vitest";
 
 describe("Model unit tests", () => {

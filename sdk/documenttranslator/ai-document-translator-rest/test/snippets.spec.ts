@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import DocumentTranslator, { StartTranslationDetails } from "../src/index.js";
+import DocumentTranslator, { StartTranslationDetails } from "@azure-rest/ai-document-translator";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

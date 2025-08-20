@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient.js";
 import { createClient } from "./utils/recordedClient.js";
-import { isUnexpected } from "../../src/isUnexpected.js";
+import { isUnexpected } from "@azure-rest/purview-datamap";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("purview datamap entity test", () => {

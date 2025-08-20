@@ -6,7 +6,7 @@ import { delay } from "@azure/core-util";
 import { Poller } from "@azure/core-lro";
 import type { RestoreKeyBackupPollOperationState, TestKeyClientInterface } from "./operation.js";
 import { makeRestoreKeyBackupPollOperation } from "./operation.js";
-import type { KeyVaultKey } from "../../../../../src/index.js";
+import type { KeyVaultKey } from "@azure/keyvault-keys";
 
 export interface RestoreKeyBackupPollerOptions {
   client: TestKeyClientInterface;

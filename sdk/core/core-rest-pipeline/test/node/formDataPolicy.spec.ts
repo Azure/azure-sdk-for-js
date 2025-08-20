@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
-import type { MultipartRequestBody } from "../../src/interfaces.js";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { MultipartRequestBody } from "$internal/interfaces.js";
 import { Readable } from "node:stream";
 import { performRequest } from "../formDataPolicy.spec.js";
-import { createFileFromStream, getRawContent } from "../../src/util/file.js";
+import { createFileFromStream, getRawContent } from "$internal/util/file.js";
 
 describe("formDataPolicy (node-only)", function () {
   it("can upload a Node ReadableStream", async function () {

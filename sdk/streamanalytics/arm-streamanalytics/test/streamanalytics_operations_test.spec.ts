@@ -13,7 +13,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { StreamAnalyticsManagementClient } from "../src/streamAnalyticsManagementClient.js";
+import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

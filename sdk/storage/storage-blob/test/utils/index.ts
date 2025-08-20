@@ -7,11 +7,11 @@ import path from "node:path";
 import { config } from "dotenv";
 import { configureFileStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { StoragePipelineOptions } from "../../src/index.js";
-import { StorageSharedKeyCredential } from "../../src/index.js";
-import { BlobServiceClient } from "../../src/index.js";
+import type { StoragePipelineOptions } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
 import { getUniqueName, configureBlobStorageClient } from "./testutils.common.js";
-import { newPipeline } from "../../src/index.js";
+import { newPipeline } from "@azure/storage-blob";
 import {
   generateAccountSASQueryParameters,
   AccountSASPermissions,
@@ -19,7 +19,7 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
 } from "../../src/index.js";
-import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";

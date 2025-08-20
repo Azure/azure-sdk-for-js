@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import MapsTimeZone, { isUnexpected } from "../src/index.js";
+import MapsTimeZone, { isUnexpected } from "@azure-rest/maps-timezone";
 import { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 // @ts-ignore

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../src/documents/index.js";
+import type { IndexingPolicy, VectorEmbeddingPolicy } from "$internal/documents/index.js";
 import {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
 } from "../../../src/documents/index.js";
 import { getTestDatabase } from "../common/TestHelpers.js";
-import type { Database } from "../../../src/client/Database/Database.js";
-import type { Container } from "../../../src/client/index.js";
+import type { Database } from "$internal/client/Database/Database.js";
+import type { Container } from "$internal/client/index.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 // Skipping these tests as they are not supported by public emulator

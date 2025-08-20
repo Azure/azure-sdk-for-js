@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { supportedQueryFeaturesBuilder } from "../../../../src/utils/supportedQueryFeaturesBuilder.js";
-import type { FeedOptions } from "../../../../src/request/FeedOptions.js";
+import { supportedQueryFeaturesBuilder } from "$internal/utils/supportedQueryFeaturesBuilder.js";
+import type { FeedOptions } from "$internal/request/FeedOptions.js";
 import { describe, it, assert } from "vitest";
 
 describe("validate supportedQueryFeaturesBuilder", () => {

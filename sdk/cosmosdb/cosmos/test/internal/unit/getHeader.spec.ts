@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "../../../src/common/constants.js";
-import { getHeaders } from "../../../src/request/request.js";
-import type { CosmosHeaders, FeedOptions } from "../../../src/index.js";
+import { Constants } from "$internal/common/constants.js";
+import { getHeaders } from "$internal/request/request.js";
+import type { CosmosHeaders, FeedOptions } from "@azure/cosmos";
 import { describe, it, assert } from "vitest";
 
 describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value", () => {

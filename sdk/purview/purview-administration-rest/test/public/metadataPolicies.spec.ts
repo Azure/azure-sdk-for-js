@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PurviewMetadataPolicies } from "../../src/index.js";
+import type { PurviewMetadataPolicies } from "@azure-rest/purview-administration";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createMetadataClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import type { MetadataPolicyListOutput } from "../../src/metadataPolicies/outputModels.js";
+import type { MetadataPolicyListOutput } from "$internal/metadataPolicies/outputModels.js";
 
 describe("List Metadata", () => {
   let recorder: Recorder;

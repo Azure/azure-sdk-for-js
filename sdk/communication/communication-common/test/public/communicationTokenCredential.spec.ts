@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureCommunicationTokenCredential } from "../../src/index.js";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 

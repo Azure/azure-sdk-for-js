@@ -3,8 +3,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "../../src/utils/constants.js";
-import { AlphaIdsClient } from "../../src/index.js";
+import { SDK_VERSION } from "$internal/utils/constants.js";
+import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 import type { TokenCredential } from "@azure/identity";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import { configurationHttpClient } from "../public/utils/mockHttpClients.js";

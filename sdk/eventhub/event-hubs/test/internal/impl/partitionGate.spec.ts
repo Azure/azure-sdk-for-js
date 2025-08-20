@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PartitionGate } from "../../../src/impl/partitionGate.js";
+import { PartitionGate } from "$internal/impl/partitionGate.js";
 import { should } from "../../utils/chai.js";
 import { describe, it } from "vitest";
 

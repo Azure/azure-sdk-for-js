@@ -6,8 +6,8 @@ import { env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import type { MapsGeolocationClient } from "../../src/index.js";
-import MapsGeolocation, { isUnexpected } from "../../src/index.js";
+import type { MapsGeolocationClient } from "@azure-rest/maps-geolocation";
+import MapsGeolocation, { isUnexpected } from "@azure-rest/maps-geolocation";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Authentication", () => {

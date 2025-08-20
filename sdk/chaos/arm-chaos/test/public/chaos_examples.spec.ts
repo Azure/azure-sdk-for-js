@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ChaosManagementClient } from "../../src/chaosManagementClient.js";
+import { ChaosManagementClient } from "@azure/arm-chaos";
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

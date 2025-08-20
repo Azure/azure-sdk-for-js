@@ -12,7 +12,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { parseConnectionString } from "@azure/communication-common";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { RoomsClient } from "../../../src/index.js";
+import { RoomsClient } from "@azure/communication-rooms";
 import type { CommunicationUserToken } from "@azure/communication-identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils.js";

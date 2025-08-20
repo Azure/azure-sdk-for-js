@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ManagementLinkClient } from "../src/managementLinkClient.js";
+import { ManagementLinkClient } from "@azure/arm-links";
 import { ResourceManagementClient } from "@azure/arm-resources";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LogsQueryOptions } from "../../../src/index.js";
-import { Durations, LogsQueryClient } from "../../../src/index.js";
+import type { LogsQueryOptions } from "@azure/monitor-query-logs";
+import { Durations, LogsQueryClient } from "@azure/monitor-query-logs";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect } from "vitest";

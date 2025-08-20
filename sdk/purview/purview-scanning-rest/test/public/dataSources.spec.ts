@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PurviewScanningRestClient, DataSource } from "../../src/index.js";
-import { isUnexpected, paginate } from "../../src/index.js";
+import type { PurviewScanningRestClient, DataSource } from "@azure-rest/purview-scanning";
+import { isUnexpected, paginate } from "@azure-rest/purview-scanning";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";
-import type { PagedAsyncIterableIterator, PageSettings } from "../../src/paginateHelper.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "$internal/paginateHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("List data sources", () => {

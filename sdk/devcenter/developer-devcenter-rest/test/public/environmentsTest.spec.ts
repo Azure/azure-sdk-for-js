@@ -13,7 +13,7 @@ import type {
   CreateOrReplaceEnvironmentParameters,
   EnvironmentOutput,
 } from "../../src/index.js";
-import { isUnexpected, paginate, getLongRunningPoller } from "../../src/index.js";
+import { isUnexpected, paginate, getLongRunningPoller } from "@azure-rest/developer-devcenter";
 
 const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,

@@ -4,7 +4,7 @@
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { PollOperationState, PollOperation } from "@azure/core-lro";
 import type { OperationOptions } from "@azure-rest/core-client";
-import type { KeyVaultCertificate, CertificatePollerOptions } from "../../../../../src/index.js";
+import type { KeyVaultCertificate, CertificatePollerOptions } from "@azure/keyvault-certificates";
 
 /**
  * Options sent to the beginRestoreCertificateBackup method.

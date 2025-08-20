@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container } from "../../../src/index.js";
+import type { Container } from "@azure/cosmos";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
-import type { CosmosClientOptions, PluginConfig } from "../../../src/index.js";
-import { Constants, CosmosClient, PluginOn } from "../../../src/index.js";
+import type { CosmosClientOptions, PluginConfig } from "@azure/cosmos";
+import { Constants, CosmosClient, PluginOn } from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { SubStatusCodes } from "../../../src/common/index.js";
+import { SubStatusCodes } from "$internal/common/index.js";
 import { describe, it, assert, beforeAll } from "vitest";
 
 const splitError = new Error("Fake Partition Split") as any;

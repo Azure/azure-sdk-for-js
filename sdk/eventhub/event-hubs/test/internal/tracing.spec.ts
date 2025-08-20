@@ -4,9 +4,9 @@
 import type { MockTracingSpan } from "@azure-tools/test-utils-vitest";
 import { createMockTracingContext, MockInstrumenter } from "@azure-tools/test-utils-vitest";
 import { afterEach, beforeEach, describe, it, vi } from "vitest";
-import type { EventData, EventHubConsumerClient, EventHubProducerClient } from "../../src/index.js";
+import type { EventData, EventHubConsumerClient, EventHubProducerClient } from "@azure/event-hubs";
 import { createBufferedProducer, createConsumer, createProducer } from "../utils/clients.js";
-import { toSpanOptions, tracingClient } from "../../src/diagnostics/tracing.js";
+import { toSpanOptions, tracingClient } from "$internal/diagnostics/tracing.js";
 import {
   instrumentEventData,
   TRACEPARENT_PROPERTY,

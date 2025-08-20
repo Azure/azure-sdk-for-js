@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { validateOffer } from "../../../../src/utils/offers.js";
-import type { ContainerRequest } from "../../../../src/index.js";
+import { validateOffer } from "$internal/utils/offers.js";
+import type { ContainerRequest } from "@azure/cosmos";
 import { describe, it, assert } from "vitest";
 
 describe("Offer utils", () => {

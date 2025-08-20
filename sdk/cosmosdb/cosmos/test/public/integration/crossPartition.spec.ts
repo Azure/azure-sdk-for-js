@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import util from "node:util";
-import type { Container, ContainerDefinition } from "../../../src/index.js";
-import { DataType, IndexKind } from "../../../src/index.js";
-import type { SqlQuerySpec } from "../../../src/index.js";
-import type { QueryIterator } from "../../../src/index.js";
+import type { Container, ContainerDefinition } from "@azure/cosmos";
+import { DataType, IndexKind } from "@azure/cosmos";
+import type { SqlQuerySpec } from "@azure/cosmos";
+import type { QueryIterator } from "@azure/cosmos";
 import {
   bulkInsertItems,
   getTestContainer,
   removeAllDatabases,
   generateDocuments,
 } from "../common/TestHelpers.js";
-import type { FeedResponse, FeedOptions } from "../../../src/index.js";
+import type { FeedResponse, FeedOptions } from "@azure/cosmos";
 import { describe, it, assert, beforeAll } from "vitest";
 
 function compare(key: string) {

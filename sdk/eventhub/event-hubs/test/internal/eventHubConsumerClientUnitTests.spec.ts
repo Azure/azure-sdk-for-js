@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CheckpointStore, SubscriptionEventHandlers } from "../../src/index.js";
-import type { EventHubConsumerClient } from "../../src/eventHubConsumerClient.js";
-import { isCheckpointStore } from "../../src/eventHubConsumerClient.js";
-import type { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor.js";
-import type { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy.js";
-import type { ConnectionContext } from "../../src/connectionContext.js";
-import type { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy.js";
-import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore.js";
+import type { CheckpointStore, SubscriptionEventHandlers } from "@azure/event-hubs";
+import type { EventHubConsumerClient } from "$internal/eventHubConsumerClient.js";
+import { isCheckpointStore } from "$internal/eventHubConsumerClient.js";
+import type { EventProcessor, FullEventProcessorOptions } from "$internal/eventProcessor.js";
+import type { BalancedLoadBalancingStrategy } from "$internal/loadBalancerStrategies/balancedStrategy.js";
+import type { ConnectionContext } from "$internal/connectionContext.js";
+import type { GreedyLoadBalancingStrategy } from "$internal/loadBalancerStrategies/greedyStrategy.js";
+import { InMemoryCheckpointStore } from "$internal/inMemoryCheckpointStore.js";
 import { should, expect } from "../utils/chai.js";
 import type { MockInstance } from "vitest";
 import { describe, it, beforeEach, vi, afterEach } from "vitest";
 import { createConsumer } from "../utils/clients.js";
-import { PartitionGate } from "../../src/impl/partitionGate.js";
+import { PartitionGate } from "$internal/impl/partitionGate.js";
 
 function mockCreateEventProcessor(
   client: EventHubConsumerClient,

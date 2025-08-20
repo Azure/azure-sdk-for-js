@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { parseEventHubConnectionString } from "../../src/index.js";
+import { parseEventHubConnectionString } from "@azure/event-hubs";
 import { should, assert } from "../utils/chai.js";
 import { afterAll, beforeAll, beforeEach, describe, it, vi } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";

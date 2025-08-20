@@ -48,10 +48,10 @@ import {
   SEMATTRS_ENDUSER_ID,
 } from "@opentelemetry/semantic-conventions";
 
-import type { Tags, Properties, Measurements } from "../../src/types.js";
-import { experimentalOpenTelemetryValues, MaxPropertyLengths } from "../../src/types.js";
-import { Context, getInstance } from "../../src/platform/index.js";
-import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils.js";
+import type { Tags, Properties, Measurements } from "$internal/types.js";
+import { experimentalOpenTelemetryValues, MaxPropertyLengths } from "$internal/types.js";
+import { Context, getInstance } from "$internal/platform/index.js";
+import { readableSpanToEnvelope, spanEventsToEnvelopes } from "$internal/utils/spanUtils.js";
 import type {
   RemoteDependencyData,
   RequestData,
@@ -59,10 +59,10 @@ import type {
   MessageData,
   MonitorDomain,
 } from "../../src/generated/index.js";
-import { KnownContextTagKeys } from "../../src/generated/index.js";
-import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
-import { DependencyTypes } from "../../src/utils/constants/applicationinsights.js";
-import { hrTimeToDate } from "../../src/utils/common.js";
+import { KnownContextTagKeys } from "$internal/generated/index.js";
+import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
+import { DependencyTypes } from "$internal/utils/constants/applicationinsights.js";
+import { hrTimeToDate } from "$internal/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { spanToReadableSpan } from "../utils/spanToReadableSpan.js";
 

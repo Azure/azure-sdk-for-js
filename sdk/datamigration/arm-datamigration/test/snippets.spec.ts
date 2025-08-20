@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataMigrationManagementClient } from "../src/index.js";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

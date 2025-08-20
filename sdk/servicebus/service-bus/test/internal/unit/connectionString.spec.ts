@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseServiceBusConnectionString } from "../../../src/util/connectionStringUtils.js";
+import { parseServiceBusConnectionString } from "@azure/service-bus";
 import { describe, it } from "vitest";
 import { assert } from "../../public/utils/chai.js";
 

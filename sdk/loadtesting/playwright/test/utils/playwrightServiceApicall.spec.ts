@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { PlaywrightServiceApiCall } from "../../src/utils/playwrightServiceApicall.js";
-import { Constants } from "../../src/common/constants.js";
-import { ServiceErrorMessageConstants } from "../../src/common/messages.js";
-import { TestRunCreatePayload } from "../../src/common/types.js";
+import { PlaywrightServiceApiCall } from "$internal/utils/playwrightServiceApicall.js";
+import { Constants } from "$internal/common/constants.js";
+import { ServiceErrorMessageConstants } from "$internal/common/messages.js";
+import { TestRunCreatePayload } from "$internal/common/types.js";
 
 // Create a mock state object that will be accessible from both tests and mocks
 const mockState = {

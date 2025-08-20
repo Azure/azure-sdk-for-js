@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectClient, DatasetVersion } from "../src/index.js";
+import { AIProjectClient, DatasetVersion } from "@azure/ai-projects";
 import type {
   AzureAISearchIndex,
   Connection,
