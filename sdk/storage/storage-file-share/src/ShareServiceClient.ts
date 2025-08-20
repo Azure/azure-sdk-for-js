@@ -895,7 +895,7 @@ export class ShareServiceClient extends StorageClient {
 
         const userDelegationKey = {
           signedObjectId: response.signedOid,
-          signedTenantId: response.signedOid,
+          signedTenantId: response.signedTid,
           signedStartsOn: new Date(response.signedStart),
           signedExpiresOn: new Date(response.signedExpiry),
           signedService: response.signedService,
