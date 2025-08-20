@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
+import { extractPartitionKeys } from "$internal/extractPartitionKey.js";
 import { describe, it, assert } from "vitest";
 
 describe("extractPartitionKey", () => {

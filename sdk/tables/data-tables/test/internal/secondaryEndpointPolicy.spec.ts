@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { tablesSecondaryEndpointPolicy } from "../../src/secondaryEndpointPolicy.js";
+import { tablesSecondaryEndpointPolicy } from "$internal/secondaryEndpointPolicy.js";
 import { describe, it, assert } from "vitest";
 
 describe("tablesSecondaryEndpointPolicy", () => {

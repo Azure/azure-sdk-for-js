@@ -5,9 +5,9 @@ import Long from "long";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
 import type { ServiceBusClientForTests } from "./utils/testutils2.js";
 import { createServiceBusClientForTests } from "./utils/testutils2.js";
-import type { ServiceBusSender } from "../../src/index.js";
-import type { ServiceBusSessionReceiver } from "../../src/index.js";
-import { ServiceBusClient } from "../../src/index.js";
+import type { ServiceBusSender } from "@azure/service-bus";
+import type { ServiceBusSessionReceiver } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { assert, should } from "./utils/chai.js";
 

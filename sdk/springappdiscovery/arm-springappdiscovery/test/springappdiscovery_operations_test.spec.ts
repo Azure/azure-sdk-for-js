@@ -13,7 +13,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SpringAppDiscoveryManagementClient } from "../src/springAppDiscoveryManagementClient.js";
+import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

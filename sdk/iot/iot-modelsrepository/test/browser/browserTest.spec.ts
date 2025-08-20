@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ModelsRepositoryClient } from "../../src/index.js";
+import { ModelsRepositoryClient } from "@azure/iot-modelsrepository";
 import { describe, it, expect } from "vitest";
 
 describe("resolver -  browser", () => {

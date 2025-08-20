@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, FeedOptions } from "../../../src/index.js";
-import { CosmosClient, OperationType, ResourceType } from "../../../src/index.js";
+import type { Container, FeedOptions } from "@azure/cosmos";
+import { CosmosClient, OperationType, ResourceType } from "@azure/cosmos";
 import { endpoint } from "../../public/common/_testConfig.js";
 import { masterKey } from "../../public/common/_fakeTestSecrets.js";
 import {

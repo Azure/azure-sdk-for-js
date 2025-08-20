@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AppConfigurationClient } from "../../src/index.js";
+import { AppConfigurationClient } from "@azure/app-configuration";
 import { describe, it, assert } from "vitest";
 
 describe("AppConfigurationClient constructor error cases", () => {

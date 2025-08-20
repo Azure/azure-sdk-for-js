@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { TieringClient } from "../src/index.js";
+import { TieringClient } from "@azure-tools/communication-tiering";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { parseNotificationHubsConnectionString } from "../../../src/auth/connectionStringUtils.js";
+import { parseNotificationHubsConnectionString } from "$internal/auth/connectionStringUtils.js";
 
 describe("parseNotificationHubsConnectionString", () => {
   it("should parse a well formed connection string", () => {

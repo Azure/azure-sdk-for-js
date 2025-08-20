@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SecretClient } from "../../../src/index.js";
+import { SecretClient } from "@azure/keyvault-secrets";
 import type {
   FindReplaceSanitizer,
   RecorderStartOptions,

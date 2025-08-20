@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { PassThrough } from "stream";
-import { type EventMessage, createSseStream } from "../../../src/index.js";
+import { type EventMessage, createSseStream } from "@azure/core-sse";
 
 export function createStream(
   cb: (write: (chunk: Uint8Array) => void) => void,

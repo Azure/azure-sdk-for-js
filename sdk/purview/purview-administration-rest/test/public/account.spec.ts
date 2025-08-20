@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PurviewAccount } from "../../src/index.js";
+import type { PurviewAccount } from "@azure-rest/purview-administration";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createAccountClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

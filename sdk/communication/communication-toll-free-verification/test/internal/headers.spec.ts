@@ -3,9 +3,9 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "../../src/utils/constants.js";
+import { SDK_VERSION } from "$internal/utils/constants.js";
 import type { TokenCredential } from "@azure/identity";
-import { TollFreeVerificationClient } from "../../src/index.js";
+import { TollFreeVerificationClient } from "@azure-tools/communication-toll-free-verification";
 import { configurationHttpClient } from "../public/utils/mockHttpClients.js";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";

@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { DocumentAnalysisClient } from "../../src/documentAnalysisClient.js";
-import { DocumentModelAdministrationClient } from "../../src/documentModelAdministrationClient.js";
+import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import type { OperationTracingOptions } from "@azure/core-tracing";
-import type { CopyAuthorization } from "../../src/generated/index.js";
-import type { FormRecognizerRequestBody } from "../../src/lro/analysis.js";
+import type { CopyAuthorization } from "$internal/generated/index.js";
+import type { FormRecognizerRequestBody } from "$internal/lro/analysis.js";
 import { describe, it, expect, beforeEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 

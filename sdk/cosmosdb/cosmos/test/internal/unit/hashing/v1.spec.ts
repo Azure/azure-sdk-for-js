@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { hashV1PartitionKey } from "../../../../src/utils/hashing/v1.js";
+import { hashV1PartitionKey } from "$internal/utils/hashing/v1.js";
 import { describe, it, assert } from "vitest";
 
 describe("effectivePartitionKey", () => {

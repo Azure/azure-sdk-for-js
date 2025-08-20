@@ -9,7 +9,7 @@ import type {
   FileSystemItem,
   ServiceListFileSystemsSegmentResponse,
 } from "../src/index.js";
-import { DataLakeServiceClient } from "../src/index.js";
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
 import {
   getDataLakeServiceClient,
   getSASConnectionStringFromEnvironment,

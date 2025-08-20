@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import fs from "node:fs";
-import { AvroReadableFromStream } from "../../src/index.js";
+import { AvroReadableFromStream } from "@azure/storage-internal-avro";
 import { Readable } from "node:stream";
 import { describe, it, assert } from "vitest";
 

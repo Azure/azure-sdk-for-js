@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusMessage, ProcessErrorArgs } from "../../src/index.js";
-import { delay, isServiceBusError } from "../../src/index.js";
+import type { ServiceBusMessage, ProcessErrorArgs } from "@azure/service-bus";
+import { delay, isServiceBusError } from "@azure/service-bus";
 import type { TestClientType } from "./utils/testUtils.js";
 import { TestMessage } from "./utils/testUtils.js";
 import type { ServiceBusClientForTests } from "./utils/testutils2.js";
@@ -10,9 +10,9 @@ import {
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2.js";
-import type { ServiceBusSender } from "../../src/index.js";
-import type { ServiceBusSessionReceiver } from "../../src/index.js";
-import type { ServiceBusReceivedMessage } from "../../src/index.js";
+import type { ServiceBusSender } from "@azure/service-bus";
+import type { ServiceBusSessionReceiver } from "@azure/service-bus";
+import type { ServiceBusReceivedMessage } from "@azure/service-bus";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { assert, should } from "./utils/chai.js";
 

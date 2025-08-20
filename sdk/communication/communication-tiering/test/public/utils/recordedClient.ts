@@ -11,7 +11,7 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { TieringClient } from "../../../src/index.js";
+import { TieringClient } from "@azure-tools/communication-tiering";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 

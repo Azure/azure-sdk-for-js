@@ -13,7 +13,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ComputeManagementClient } from "../src/computeManagementClient.js";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { NetworkManagementClient, VirtualNetwork, NetworkInterface, Subnet } from "@azure/arm-network";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

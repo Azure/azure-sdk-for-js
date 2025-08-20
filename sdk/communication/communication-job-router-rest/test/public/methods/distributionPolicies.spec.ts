@@ -6,7 +6,7 @@ import type {
   AzureCommunicationRoutingServiceClient,
   DistributionPolicyOutput,
 } from "../../../src/index.js";
-import { paginate } from "../../../src/index.js";
+import { paginate } from "@azure-rest/communication-job-router";
 import { getDistributionPolicyRequest } from "../utils/testData.js";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
 import { timeoutMs } from "../utils/constants.js";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { PhoneNumbersClient } from "../../src/index.js";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 import { createMockToken } from "./utils/recordedClient.js";
 import { describe, it, assert } from "vitest";
 

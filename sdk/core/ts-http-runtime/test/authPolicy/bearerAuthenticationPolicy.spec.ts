@@ -9,10 +9,10 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "../../src/index.js";
-import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
-import { bearerAuthenticationPolicy } from "../../src/policies/auth/bearerAuthenticationPolicy.js";
-import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
-import { logger } from "../../src/log.js";
+import { createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
+import { bearerAuthenticationPolicy } from "$internal/policies/auth/bearerAuthenticationPolicy.js";
+import { createDefaultPipeline } from "$internal/client/clientHelpers.js";
+import { logger } from "$internal/log.js";
 
 describe("bearerAuthenticationPolicy", function () {
   beforeEach(() => {

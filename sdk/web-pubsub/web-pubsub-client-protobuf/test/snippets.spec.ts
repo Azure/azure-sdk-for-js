@@ -4,7 +4,7 @@
 import { setLogLevel } from "@azure/logger";
 import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { describe, it } from "vitest";
-import { WebPubSubProtobufReliableProtocol } from "../src/index.js";
+import { WebPubSubProtobufReliableProtocol } from "@azure/web-pubsub-client-protobuf";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient", async () => {

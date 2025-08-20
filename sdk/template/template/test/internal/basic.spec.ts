@@ -8,7 +8,7 @@ import { describe, it, assert } from "vitest";
 
 // Import the internal function to be tested using the normal relative import
 // syntax.
-import { quoteETag } from "../../src/util.js";
+import { quoteETag } from "$internal/util.js";
 
 // Unit tests SHOULD appear inside of a `describe` block.  The hierarchical
 // organization of tests within `describe` blocks will be reflected in our

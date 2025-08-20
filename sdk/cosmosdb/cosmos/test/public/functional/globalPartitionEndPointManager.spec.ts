@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
-import { GlobalPartitionEndpointManager } from "../../../src/globalPartitionEndpointManager.js";
-import type { GlobalEndpointManager } from "../../../src/globalEndpointManager.js";
-import { OperationType, ResourceType } from "../../../src/common/index.js";
-import { Constants, HTTPMethod, RequestContext } from "../../../src/index.js";
+import { GlobalPartitionEndpointManager } from "$internal/globalPartitionEndpointManager.js";
+import type { GlobalEndpointManager } from "$internal/globalEndpointManager.js";
+import { OperationType, ResourceType } from "@azure/cosmos";
+import { Constants, HTTPMethod, RequestContext } from "@azure/cosmos";
 
 const mockReadEndpoints = [
   "https://region1.documents.azure.com:443/",
   "https://region2.documents.azure.com:443/",
   "https://region3.documents.azure.com:443/",
 ];
-import { PartitionKeyRangeFailoverInfo } from "../../../src/PartitionKeyRangeFailoverInfo.js";
+import { PartitionKeyRangeFailoverInfo } from "$internal/PartitionKeyRangeFailoverInfo.js";
 import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
 
 function createMockGlobalEndpointManager(): GlobalEndpointManager {

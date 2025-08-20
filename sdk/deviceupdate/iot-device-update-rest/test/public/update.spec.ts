@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DeviceUpdateClient } from "../../src/index.js";
-import { isUnexpected } from "../../src/index.js";
+import type { DeviceUpdateClient } from "@azure-rest/iot-device-update";
+import { isUnexpected } from "@azure-rest/iot-device-update";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient, startRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

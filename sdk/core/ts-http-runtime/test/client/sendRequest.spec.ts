@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { sendRequest } from "../../src/client/sendRequest.js";
-import { RestError } from "../../src/restError.js";
-import type { MultipartRequestBody, PipelineResponse } from "../../src/interfaces.js";
-import type { Pipeline } from "../../src/pipeline.js";
-import { createEmptyPipeline } from "../../src/pipeline.js";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
-import { stringToUint8Array } from "../../src/util/bytesEncoding.js";
-import type { PartDescriptor } from "../../src/client/multipart.js";
+import { sendRequest } from "$internal/client/sendRequest.js";
+import { RestError } from "@typespec/ts-http-runtime";
+import type { MultipartRequestBody, PipelineResponse } from "$internal/interfaces.js";
+import type { Pipeline } from "$internal/pipeline.js";
+import { createEmptyPipeline } from "@typespec/ts-http-runtime";
+import { createHttpHeaders } from "@typespec/ts-http-runtime";
+import { stringToUint8Array } from "@typespec/ts-http-runtime";
+import type { PartDescriptor } from "$internal/client/multipart.js";
 
 describe("sendRequest", () => {
   const foo = new Uint8Array([0x66, 0x6f, 0x6f]);

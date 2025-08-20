@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container } from "../../../src/index.js";
-import { CosmosClient, PermissionMode } from "../../../src/index.js";
-import type { Database } from "../../../src/index.js";
+import type { Container } from "@azure/cosmos";
+import { CosmosClient, PermissionMode } from "@azure/cosmos";
+import type { Database } from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

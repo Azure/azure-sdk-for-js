@@ -7,11 +7,11 @@ import type {
   CosmosClientOptions,
   OperationInput,
 } from "../../../src/index.js";
-import { CosmosClient, Constants, PatchOperationType } from "../../../src/index.js";
+import { CosmosClient, Constants, PatchOperationType } from "@azure/cosmos";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { ResourceType, HTTPMethod, StatusCodes } from "../../../src/index.js";
+import { ResourceType, HTTPMethod, StatusCodes } from "@azure/cosmos";
 import { describe, it, assert, beforeEach, afterAll } from "vitest";
 
 const plugins: PluginConfig[] = [

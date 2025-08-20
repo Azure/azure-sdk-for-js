@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectionContext } from "../../../src/connectionContext.js";
+import type { ConnectionContext } from "$internal/connectionContext.js";
 import type {
   AwaitableSender,
   Receiver as RheaPromiseReceiver,
@@ -11,10 +11,10 @@ import { ReceiverEvents } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import type { AccessToken } from "@azure/core-auth";
 import { EventEmitter } from "events";
-import { getUniqueName } from "../../../src/util/utils.js";
-import type { ReceiveOptions } from "../../../src/core/messageReceiver.js";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
-import type { ReceiveMode } from "../../../src/models.js";
+import { getUniqueName } from "$internal/util/utils.js";
+import type { ReceiveOptions } from "$internal/core/messageReceiver.js";
+import { StreamingReceiver } from "$internal/core/streamingReceiver.js";
+import type { ReceiveMode } from "$internal/models.js";
 import { afterEach } from "vitest";
 
 export interface CreateConnectionContextForTestsOptions {

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FeedRangeQueue } from "../../../../src/client/ChangeFeed/FeedRangeQueue.js";
-import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange.js";
+import { FeedRangeQueue } from "$internal/client/ChangeFeed/FeedRangeQueue.js";
+import { ChangeFeedRange } from "$internal/client/ChangeFeed/ChangeFeedRange.js";
 import { describe, it, assert } from "vitest";
 
 const feedRanges = [

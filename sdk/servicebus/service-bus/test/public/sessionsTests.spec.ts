@@ -7,18 +7,18 @@ import type {
   ProcessErrorArgs,
   ServiceBusError,
 } from "../../src/index.js";
-import { delay, isServiceBusError } from "../../src/index.js";
+import { delay, isServiceBusError } from "@azure/service-bus";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils.js";
-import type { ServiceBusSender } from "../../src/index.js";
-import type { ServiceBusSessionReceiver } from "../../src/index.js";
+import type { ServiceBusSender } from "@azure/service-bus";
+import type { ServiceBusSessionReceiver } from "@azure/service-bus";
 import type { EntityName, ServiceBusClientForTests } from "./utils/testutils2.js";
 import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2.js";
-import type { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver.js";
+import type { ServiceBusSessionReceiverImpl } from "$internal/receivers/sessionReceiver.js";
 import { describe, it, afterEach, afterAll, vi } from "vitest";
 import { expect, should } from "./utils/chai.js";
 

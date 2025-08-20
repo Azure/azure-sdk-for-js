@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppConfigurationClient, ConfigurationSetting } from "../../src/index.js";
+import type { AppConfigurationClient, ConfigurationSetting } from "@azure/app-configuration";
 import type { Recorder } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,

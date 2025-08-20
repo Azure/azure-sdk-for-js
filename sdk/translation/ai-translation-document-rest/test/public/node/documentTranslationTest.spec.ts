@@ -10,7 +10,7 @@ import type {
   StartTranslationDefaultResponse,
   TranslationStatusOutput,
 } from "../../../src/index.js";
-import { getLongRunningPoller, isUnexpected } from "../../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "@azure-rest/ai-translation-document";
 import {
   createDocumentTranslationClient,
   createDocumentTranslationClientWithEndpointAndCredentials,
@@ -25,7 +25,7 @@ import {
   getTranslationOperationID,
   sleep,
 } from "../utils/testHelper.js";
-import type { BatchRequest } from "../../../src/models.js";
+import type { BatchRequest } from "$internal/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getBlobEndpoint, getContainers, isLiveMode } from "../../utils/injectables.js";
 import { documents3 } from "../../utils/documents.js";

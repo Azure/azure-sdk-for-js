@@ -9,8 +9,8 @@ import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 
-import type { FaceClient } from "../../../src/index.js";
-import { isUnexpected } from "../../../src/index.js";
+import type { FaceClient } from "@azure-rest/ai-vision-face";
+import { isUnexpected } from "@azure-rest/ai-vision-face";
 
 describe("LivenessWithVerifySession", () => {
   let recorder: Recorder;

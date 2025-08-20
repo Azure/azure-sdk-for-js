@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerDefinition, Container, SqlQuerySpec } from "../../../src/index.js";
+import type { ContainerDefinition, Container, SqlQuerySpec } from "@azure/cosmos";
 import {
   getTestContainer,
   removeAllDatabases,

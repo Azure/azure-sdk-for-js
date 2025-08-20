@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DataFactoryManagementClient } from "../src/index.js";
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

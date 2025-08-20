@@ -6,7 +6,7 @@ import {
   APIM_ON_CHANGE_MESSAGE_KEY,
   onChangeWithOrigin,
 } from "../../src/index.js";
-import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "../../src/utils.js";
+import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "$internal/utils.js";
 import { describe, it, assert, vi } from "vitest";
 
 const valuesUrl = {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import PurviewSharingClient, { isUnexpected, paginate } from "../src/index.js";
+import PurviewSharingClient, { isUnexpected, paginate } from "@azure-rest/purview-sharing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

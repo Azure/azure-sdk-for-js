@@ -3,8 +3,8 @@
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import type { SparkClientOptionalParams } from "../../../src/index.js";
-import { SparkClient } from "../../../src/index.js";
+import type { SparkClientOptionalParams } from "@azure/synapse-spark";
+import { SparkClient } from "@azure/synapse-spark";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export function createClient(pool: string, options?: SparkClientOptionalParams): SparkClient {

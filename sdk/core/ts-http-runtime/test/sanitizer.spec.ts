@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { Sanitizer } from "../src/util/sanitizer.js";
+import { Sanitizer } from "$internal/util/sanitizer.js";
 
 describe("Sanitizer", function () {
   it("Redacts query parameters in url properties", function () {

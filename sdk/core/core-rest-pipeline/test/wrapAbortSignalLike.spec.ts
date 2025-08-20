@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, afterEach, vi } from "vitest";
-import { wrapAbortSignalLike } from "../src/util/wrapAbortSignal.js";
+import { wrapAbortSignalLike } from "$internal/util/wrapAbortSignal.js";
 
 describe("wrapAbortSignalLike", () => {
   afterEach(() => {

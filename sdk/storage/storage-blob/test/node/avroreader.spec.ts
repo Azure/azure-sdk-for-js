@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import fs from "node:fs";
-import { AvroReadableFromStream, AvroReader } from "../../src/internal-avro/index.js";
+import { AvroReadableFromStream, AvroReader } from "$internal/internal-avro/index.js";
 import { Readable } from "node:stream";
-import { arraysEqual } from "../../src/internal-avro/utils/utils.common.js";
+import { arraysEqual } from "$internal/internal-avro/utils/utils.common.js";
 import { describe, it, assert } from "vitest";
 
 type Action = (o: Record<string, any> | null) => void;

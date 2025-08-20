@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { HybridContainerServiceClient } from "../src/hybridContainerServiceClient.js";
+import { HybridContainerServiceClient } from "@azure/arm-hybridcontainerservice";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

@@ -12,8 +12,8 @@ import {
   extractSpanContextFromServiceBusMessage,
   TRACEPARENT_PROPERTY,
 } from "../../../src/diagnostics/instrumentServiceBusMessage.js";
-import type { ServiceBusReceivedMessage } from "../../../src/index.js";
-import { tracingClient } from "../../../src/diagnostics/tracing.js";
+import type { ServiceBusReceivedMessage } from "@azure/service-bus";
+import { tracingClient } from "$internal/diagnostics/tracing.js";
 import { describe, it, vi, beforeEach } from "vitest";
 import { assert, expect } from "../../public/utils/chai.js";
 

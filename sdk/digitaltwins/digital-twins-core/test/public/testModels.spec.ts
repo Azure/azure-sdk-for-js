@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DigitalTwinsClient } from "../../src/index.js";
+import type { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";

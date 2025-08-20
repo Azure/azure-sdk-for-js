@@ -4,8 +4,8 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
-import type { CertificateClient, DeletedCertificate } from "../../src/index.js";
-import { DefaultCertificatePolicy } from "../../src/index.js";
+import type { CertificateClient, DeletedCertificate } from "@azure/keyvault-certificates";
+import { DefaultCertificatePolicy } from "@azure/keyvault-certificates";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";

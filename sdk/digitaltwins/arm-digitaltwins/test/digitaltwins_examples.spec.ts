@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AzureDigitalTwinsManagementClient } from "../src/azureDigitalTwinsManagementClient.js";
+import { AzureDigitalTwinsManagementClient } from "@azure/arm-digitaltwins";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

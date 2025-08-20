@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JsonWebKey } from "../../../src/index.js";
+import type { JsonWebKey } from "@azure/keyvault-keys";
 
 export function stringToUint8Array(str: string): Uint8Array {
   return new Uint8Array(Buffer.from(str));

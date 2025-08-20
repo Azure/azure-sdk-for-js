@@ -5,7 +5,7 @@ import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest"
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { EventContext, Message as RheaMessage } from "rhea-promise";
 import { generate_uuid } from "rhea-promise";
-import type { RetryConfig } from "../src/index.js";
+import type { RetryConfig } from "@azure/core-amqp";
 import {
   Constants,
   ErrorNameConditionMapper,
@@ -14,8 +14,8 @@ import {
   StandardAbortMessage,
   retry,
 } from "../src/index.js";
-import type { DeferredPromiseWithCallback } from "../src/requestResponseLink.js";
-import { getCodeDescriptionAndError, onMessageReceived } from "../src/requestResponseLink.js";
+import type { DeferredPromiseWithCallback } from "$internal/requestResponseLink.js";
+import { getCodeDescriptionAndError, onMessageReceived } from "$internal/requestResponseLink.js";
 import EventEmitter from "events";
 import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isBrowser, isError } from "@azure/core-util";

@@ -12,9 +12,9 @@ import {
   createDefaultTracingSpan,
   useInstrumenter,
 } from "../src/instrumenter.js";
-import { createTracingContext, knownContextKeys } from "../src/tracingContext.js";
+import { createTracingContext, knownContextKeys } from "$internal/tracingContext.js";
 import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
-import { createTracingClient } from "../src/tracingClient.js";
+import { createTracingClient } from "@azure/core-tracing";
 
 describe("TracingClient", () => {
   let instrumenter: Instrumenter;

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { isCosmosEndpoint } from "../../src/utils/isCosmosEndpoint.js";
+import { isCosmosEndpoint } from "$internal/utils/isCosmosEndpoint.js";
 
 describe("isCosmosEndpoint", () => {
   it("returns true for cosmosdb.* host", () => {

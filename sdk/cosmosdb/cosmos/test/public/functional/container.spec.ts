@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerResponse, PartitionKeyDefinition } from "../../../src/index.js";
+import type { ContainerResponse, PartitionKeyDefinition } from "@azure/cosmos";
 import {
   Constants,
   OperationType,
@@ -9,10 +9,10 @@ import {
   ResourceType,
   StatusCodes,
 } from "../../../src/index.js";
-import type { ContainerDefinition, Database, Container } from "../../../src/index.js";
-import type { ContainerRequest } from "../../../src/index.js";
-import type { IndexedPath, IndexingPolicy } from "../../../src/index.js";
-import { DataType, IndexingMode, IndexKind } from "../../../src/index.js";
+import type { ContainerDefinition, Database, Container } from "@azure/cosmos";
+import type { ContainerRequest } from "@azure/cosmos";
+import type { IndexedPath, IndexingPolicy } from "@azure/cosmos";
+import { DataType, IndexingMode, IndexKind } from "@azure/cosmos";
 import {
   getTestDatabase,
   removeAllDatabases,
@@ -21,8 +21,8 @@ import {
   addEntropy,
   testForDiagnostics,
 } from "../common/TestHelpers.js";
-import { SpatialType } from "../../../src/index.js";
-import { GeospatialType } from "../../../src/index.js";
+import { SpatialType } from "@azure/cosmos";
+import { GeospatialType } from "@azure/cosmos";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 import { skipTestForSignOff } from "../common/_testConfig.js";
 

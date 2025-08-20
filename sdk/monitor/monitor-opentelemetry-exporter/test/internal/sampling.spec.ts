@@ -4,9 +4,9 @@
 import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-base";
 import { context, trace, TraceFlags, SpanKind } from "@opentelemetry/api";
 import { describe, it, assert } from "vitest";
-import { AzureMonitorSampleRate } from "../../src/utils/constants/applicationinsights.js";
-import { ApplicationInsightsSampler } from "../../src/index.js";
-import { getSamplingHashCode } from "../../src/sampling/samplingUtils.js";
+import { AzureMonitorSampleRate } from "$internal/utils/constants/applicationinsights.js";
+import { ApplicationInsightsSampler } from "@azure/monitor-opentelemetry-exporter";
+import { getSamplingHashCode } from "$internal/sampling/samplingUtils.js";
 
 // Helper to create a fake parent span with attributes and context
 function createParentSpan({

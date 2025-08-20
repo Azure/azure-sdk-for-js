@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ArtifactsClientOptionalParams } from "../../../src/index.js";
-import { ArtifactsClient } from "../../../src/index.js";
+import type { ArtifactsClientOptionalParams } from "@azure/synapse-artifacts";
+import { ArtifactsClient } from "@azure/synapse-artifacts";
 import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { Recorder } from "@azure-tools/test-recorder";

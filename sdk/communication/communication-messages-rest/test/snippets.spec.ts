@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import MessageClient, { InteractiveMessage, isUnexpected } from "../src/index.js";
+import MessageClient, { InteractiveMessage, isUnexpected } from "@azure-rest/communication-messages";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import { DefaultAzureCredential } from "@azure/identity";

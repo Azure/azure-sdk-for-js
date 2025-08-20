@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { NoOpCredential } from "../src/noOpCredential.js";
+import { NoOpCredential } from "$internal/noOpCredential.js";
 
 describe("NoOpCredential", () => {
   it("getToken", async () => {

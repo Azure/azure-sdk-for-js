@@ -7,7 +7,7 @@ import type {
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import type { SipTrunk } from "../../../../src/index.js";
+import type { SipTrunk } from "@azure/communication-phone-numbers";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,

@@ -8,7 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { WorkloadsClient } from "../../src/workloadsClient.js";
+import { WorkloadsClient } from "@azure/arm-workloadssapvirtualinstance";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

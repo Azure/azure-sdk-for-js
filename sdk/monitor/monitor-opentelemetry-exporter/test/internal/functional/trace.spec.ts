@@ -9,7 +9,7 @@ import {
 } from "../../../src/Declarations/Constants.js";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
-import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
+import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
 import { describe, it, beforeAll, afterAll } from "vitest";
 import { delay } from "@azure/core-util";
 

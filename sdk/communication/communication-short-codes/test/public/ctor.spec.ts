@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { ShortCodesClient } from "../../src/index.js";
+import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 import { createMockToken } from "./utils/recordedClient.js";
 import { describe, it, assert } from "vitest";
 

@@ -4,10 +4,10 @@
 import type { RecorderAndLogsClient } from "./shared/testShared.js";
 import { createRecorderAndLogsClient, getLogsResourceId } from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { LogsQueryClient, QueryBatch } from "../../src/index.js";
-import { Durations, LogsQueryResultStatus } from "../../src/index.js";
+import type { LogsQueryClient, QueryBatch } from "@azure/monitor-query-logs";
+import { Durations, LogsQueryResultStatus } from "@azure/monitor-query-logs";
 import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared.js";
-import type { ErrorInfo } from "../../src/index.js";
+import type { ErrorInfo } from "@azure/monitor-query-logs";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { setLogLevel } from "@azure/logger";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";

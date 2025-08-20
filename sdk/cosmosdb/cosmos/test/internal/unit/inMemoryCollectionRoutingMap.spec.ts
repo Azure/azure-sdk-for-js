@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QueryRange } from "../../../src/routing/index.js";
-import { createCompleteRoutingMap } from "../../../src/routing/CollectionRoutingMapFactory.js";
+import { QueryRange } from "$internal/routing/index.js";
+import { createCompleteRoutingMap } from "$internal/routing/CollectionRoutingMapFactory.js";
 import { describe, it, assert } from "vitest";
 
 describe("InMemoryCollectionRoutingMap Tests", () => {

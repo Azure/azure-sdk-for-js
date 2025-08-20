@@ -5,8 +5,8 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { DefaultAzureCredential, logger } from "@azure/identity";
-import type { AzureHealthInsightsClient } from "../../../src/index.js";
-import AHIClient from "../../../src/index.js";
+import type { AzureHealthInsightsClient } from "@azure-rest/health-insights-radiologyinsights";
+import AHIClient from "@azure-rest/health-insights-radiologyinsights";
 import "./env.js";
 
 const envSetupForPlayback: Record<string, string> = {

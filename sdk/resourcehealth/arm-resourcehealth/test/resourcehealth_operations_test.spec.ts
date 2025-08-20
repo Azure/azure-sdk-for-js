@@ -8,7 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { MicrosoftResourceHealth } from "../src/microsoftResourceHealth.js";
+import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { describe, it, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

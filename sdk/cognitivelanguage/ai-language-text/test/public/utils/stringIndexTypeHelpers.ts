@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Entity, StringIndexType, TextAnalysisClient } from "../../../src/index.js";
+import type { Entity, StringIndexType, TextAnalysisClient } from "@azure/ai-language-text";
 import { assert } from "vitest";
 
 /**

@@ -7,8 +7,8 @@ import type {
   FeedOptions,
   PluginConfig,
 } from "../../../src/index.js";
-import { CosmosClient } from "../../../src/index.js";
-import type { Container } from "../../../src/index.js";
+import { CosmosClient } from "@azure/cosmos";
+import type { Container } from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
@@ -17,11 +17,11 @@ import {
   removeAllDatabases,
   testForDiagnostics,
 } from "../common/TestHelpers.js";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
-import type { Database } from "../../../src/client/Database/Database.js";
-import { PluginOn, ResourceType } from "../../../src/index.js";
-import type { Response } from "../../../src/index.js";
+import type { Database } from "$internal/client/Database/Database.js";
+import { PluginOn, ResourceType } from "@azure/cosmos";
+import type { Response } from "@azure/cosmos";
 
 const client = new CosmosClient({
   endpoint,

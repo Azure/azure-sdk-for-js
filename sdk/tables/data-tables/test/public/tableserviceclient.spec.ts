@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import type { TableItem, TableItemResultPage, TableServiceClient } from "../../src/index.js";
-import { odata } from "../../src/index.js";
+import type { TableItem, TableItemResultPage, TableServiceClient } from "@azure/data-tables";
+import { odata } from "@azure/data-tables";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTableServiceClient } from "./utils/recordedClient.js";
 import { delay, isNodeLike } from "@azure/core-util";

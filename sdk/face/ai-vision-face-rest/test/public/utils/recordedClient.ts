@@ -5,8 +5,8 @@ import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-import type { FaceClient, FaceClientOptions } from "../../../src/index.js";
-import createFaceClient from "../../../src/index.js";
+import type { FaceClient, FaceClientOptions } from "@azure-rest/ai-vision-face";
+import createFaceClient from "@azure-rest/ai-vision-face";
 
 const envSetupForPlayback: Record<string, string> = {
   FACE_ENDPOINT: "https://faceendpoint.cognitiveservices.azure.com/",

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { delay } from "../../../src/index.js";
-import type { CreateTopicOptions } from "../../../src/index.js";
-import type { CreateSubscriptionOptions } from "../../../src/index.js";
-import { ServiceBusAdministrationClient } from "../../../src/index.js";
-import type { CreateQueueOptions } from "../../../src/index.js";
+import { delay } from "@azure/service-bus";
+import type { CreateTopicOptions } from "@azure/service-bus";
+import type { CreateSubscriptionOptions } from "@azure/service-bus";
+import { ServiceBusAdministrationClient } from "@azure/service-bus";
+import type { CreateQueueOptions } from "@azure/service-bus";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { should } from "./chai.js";
 import { getFullyQualifiedNamespace } from "../../utils/injectables.js";

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import type { FarmBeatsClient } from "../../../src/index.js";
-import FarmBeats from "../../../src/index.js";
+import type { FarmBeatsClient } from "@azure-rest/agrifood-farming";
+import FarmBeats from "@azure-rest/agrifood-farming";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { ClientOptions } from "@azure-rest/core-client";
 

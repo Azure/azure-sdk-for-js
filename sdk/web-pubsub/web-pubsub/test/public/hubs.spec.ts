@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { WebPubSubServiceClient, AzureKeyCredential } from "../../src/index.js";
+import { WebPubSubServiceClient, AzureKeyCredential } from "@azure/web-pubsub";
 import recorderOptions from "../testEnv.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";

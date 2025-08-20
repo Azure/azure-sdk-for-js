@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, FeedOptions } from "../../../src/index.js";
+import type { Container, FeedOptions } from "@azure/cosmos";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
 

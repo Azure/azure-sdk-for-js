@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DatabaseAccount, ResourceResponse } from "../../../src/index.js";
+import { DatabaseAccount, ResourceResponse } from "@azure/cosmos";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { GlobalEndpointManager } from "../../../src/index.js";
-import { OperationType, ResourceType } from "../../../src/index.js";
+import { GlobalEndpointManager } from "@azure/cosmos";
+import { OperationType, ResourceType } from "@azure/cosmos";
 import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 const locationUnavailabilityExpiratationTime = 6 * 60 * 1000;

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TriggerOperation, TriggerType } from "../../../src/index.js";
-import type { TriggerDefinition, Container } from "../../../src/index.js";
+import { TriggerOperation, TriggerType } from "@azure/cosmos";
+import type { TriggerDefinition, Container } from "@azure/cosmos";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
 

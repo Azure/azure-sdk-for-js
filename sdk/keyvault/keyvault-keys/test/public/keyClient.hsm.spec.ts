@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import type { KeyClient } from "../../src/index.js";
+import type { KeyClient } from "@azure/keyvault-keys";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
-import type { CreateOctKeyOptions } from "../../src/keysModels.js";
-import { KnownKeyExportEncryptionAlgorithm } from "../../src/index.js";
+import type { CreateOctKeyOptions } from "$internal/keysModels.js";
+import { KnownKeyExportEncryptionAlgorithm } from "@azure/keyvault-keys";
 import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import { createPipelineRequest, createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";

@@ -3,8 +3,8 @@
 
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { TextAnalyticsClientOptions } from "../../../src/index.js";
-import { AzureKeyCredential, TextAnalyticsClient } from "../../../src/index.js";
+import type { TextAnalyticsClientOptions } from "@azure/ai-text-analytics";
+import { AzureKeyCredential, TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { getEndpoint, getKey, isLiveMode, isLocalAuthDisabled } from "../../utils/injectables.js";
 

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {

@@ -3,7 +3,7 @@
 
 import { InMemorySpanExporter, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
 
-import { OpenTelemetryInstrumenter } from "../../../src/instrumenter.js";
+import { OpenTelemetryInstrumenter } from "$internal/instrumenter.js";
 import { useInstrumenter } from "@azure/core-tracing";
 import { createTracerProvider } from "./tracerProvider.js";
 

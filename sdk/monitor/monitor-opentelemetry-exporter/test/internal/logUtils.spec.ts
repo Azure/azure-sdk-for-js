@@ -14,9 +14,9 @@ import {
   SEMATTRS_NET_PEER_IP,
   SEMATTRS_HTTP_CLIENT_IP,
 } from "@opentelemetry/semantic-conventions";
-import type { Tags, Properties, Measurements } from "../../src/types.js";
-import { experimentalOpenTelemetryValues, MaxPropertyLengths } from "../../src/types.js";
-import { getInstance } from "../../src/platform/index.js";
+import type { Tags, Properties, Measurements } from "$internal/types.js";
+import { experimentalOpenTelemetryValues, MaxPropertyLengths } from "$internal/types.js";
+import { getInstance } from "$internal/platform/index.js";
 import type {
   AvailabilityData,
   MessageData,
@@ -26,14 +26,14 @@ import type {
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../../src/generated/index.js";
-import { KnownContextTagKeys } from "../../src/generated/index.js";
-import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
+import { KnownContextTagKeys } from "$internal/generated/index.js";
+import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
-import { logToEnvelope } from "../../src/utils/logUtils.js";
+import { logToEnvelope } from "$internal/utils/logUtils.js";
 import { SeverityNumber } from "@opentelemetry/api-logs";
 import type { HrTime } from "@opentelemetry/api";
 import { TraceFlags } from "@opentelemetry/api";
-import { hrTimeToDate } from "../../src/utils/common.js";
+import { hrTimeToDate } from "$internal/utils/common.js";
 import { describe, it, assert } from "vitest";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import MapsSearch, { isUnexpected } from "../src/index.js";
+import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 // @ts-ignore

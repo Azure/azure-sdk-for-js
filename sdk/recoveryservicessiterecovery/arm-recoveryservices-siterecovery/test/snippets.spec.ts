@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SiteRecoveryManagementClient } from "../src/index.js";
+import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

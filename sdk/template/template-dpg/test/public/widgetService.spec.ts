@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WidgetServiceClient } from "../../src/index.js";
+import { WidgetServiceClient } from "@azure/template-dpg";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 

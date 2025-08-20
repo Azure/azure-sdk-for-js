@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi } from "vitest";
-import { matrix } from "../src/index.js";
+import { matrix } from "@azure-tools/test-utils-vitest";
 
 describe("matrix test support", () => {
   it("should call handler with correct argument", () => {

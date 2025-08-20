@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { RecipientVerificationClient } from "../src/index.js";
+import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

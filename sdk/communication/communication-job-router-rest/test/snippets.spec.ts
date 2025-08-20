@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import JobRouterClient from "../src/index.js";
+import JobRouterClient from "@azure-rest/communication-job-router";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import { isUnexpected } from "../generated/isUnexpected.js";

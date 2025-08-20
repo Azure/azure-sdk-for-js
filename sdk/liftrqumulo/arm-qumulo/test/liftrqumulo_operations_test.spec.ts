@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { QumuloStorage } from "../src/qumuloStorage.js";
+import { QumuloStorage } from "@azure/arm-qumulo";
 import { describe, it, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

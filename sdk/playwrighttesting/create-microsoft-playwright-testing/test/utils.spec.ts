@@ -10,7 +10,7 @@ import {
   executeCommand,
   getFileReferenceForImport,
 } from "../src/utils.js";
-import { Languages } from "../src/constants.js";
+import { Languages } from "$internal/constants.js";
 
 describe("Utility functions", () => {
   beforeEach(() => {

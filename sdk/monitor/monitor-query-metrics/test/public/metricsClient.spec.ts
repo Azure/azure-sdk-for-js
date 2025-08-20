@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MetricsClient } from "../../src/index.js";
-import type { MetricsQueryResult } from "../../src/index.js";
+import { MetricsClient } from "@azure/monitor-query-metrics";
+import type { MetricsQueryResult } from "@azure/monitor-query-metrics";
 import type { RecorderAndMetricsClient } from "./shared/testShared.js";
 import {
   createRecorderAndMetricsClient,
@@ -10,7 +10,7 @@ import {
   getMetricsBatchNames,
 } from "./shared/testShared.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { Durations } from "../../src/index.js";
+import { Durations } from "@azure/monitor-query-metrics";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { Recorder } from "@azure-tools/test-recorder";
 

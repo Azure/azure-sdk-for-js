@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as utils from "../../src/utils/utils.js";
+import * as utils from "$internal/utils/utils.js";
 import {
   EntraIdAccessTokenConstants,
   ServiceEnvironmentVariable,
@@ -23,7 +23,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should fetch entra id access token and setup rotation handler", async () => {
-    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntraModule = await import("$internal/core/playwrightServiceEntra.js");
     const playwrightServiceEntra = playwrightServiceEntraModule.default;
     (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
 
@@ -44,7 +44,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should throw error if entra id access token fetch fails", async () => {
-    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntraModule = await import("$internal/core/playwrightServiceEntra.js");
     const playwrightServiceEntra = playwrightServiceEntraModule.default;
     (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
@@ -69,7 +69,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should be no-op if entra id access token rotation interval doesn't exist", async () => {
-    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntraModule = await import("$internal/core/playwrightServiceEntra.js");
     const playwrightServiceEntra = playwrightServiceEntraModule.default;
     (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
 
@@ -81,7 +81,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should clear entra id access token rotation interval", async () => {
-    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntraModule = await import("$internal/core/playwrightServiceEntra.js");
     const playwrightServiceEntra = playwrightServiceEntraModule.default;
     (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
 
@@ -95,7 +95,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should setup entra id access token rotation handler", async () => {
-    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntraModule = await import("$internal/core/playwrightServiceEntra.js");
     const playwrightServiceEntra = playwrightServiceEntraModule.default;
     (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
 
@@ -116,7 +116,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should rotate entra id access token if needed", async () => {
-    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntraModule = await import("$internal/core/playwrightServiceEntra.js");
     const playwrightServiceEntra = playwrightServiceEntraModule.default;
     (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
 
@@ -141,7 +141,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should not throw error during entra id access token rotation if fetch fails", async () => {
-    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntraModule = await import("$internal/core/playwrightServiceEntra.js");
     const playwrightServiceEntra = playwrightServiceEntraModule.default;
     (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
 
@@ -167,7 +167,7 @@ describe("playwrightServiceEntra", () => {
   });
 
   it("should not rotate entra id access token if not needed", async () => {
-    const playwrightServiceEntraModule = await import("../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntraModule = await import("$internal/core/playwrightServiceEntra.js");
     const playwrightServiceEntra = playwrightServiceEntraModule.default;
     (playwrightServiceEntra as any)._entraIdAccessTokenRotationInterval = undefined;
 

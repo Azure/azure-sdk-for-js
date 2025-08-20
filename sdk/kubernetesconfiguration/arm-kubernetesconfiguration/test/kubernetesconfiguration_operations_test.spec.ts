@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SourceControlConfigurationClient } from "../src/sourceControlConfigurationClient.js";
+import { SourceControlConfigurationClient } from "@azure/arm-kubernetesconfiguration";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

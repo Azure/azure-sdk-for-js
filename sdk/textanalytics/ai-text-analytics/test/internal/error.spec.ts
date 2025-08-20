@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { makeTextAnalyticsErrorResult } from "../../src/textAnalyticsResult.js";
+import { makeTextAnalyticsErrorResult } from "$internal/textAnalyticsResult.js";
 import { describe, it, assert } from "vitest";
 
 describe("makeTextAnalyticsErrorResult", function () {

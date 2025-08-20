@@ -6,7 +6,7 @@ import type {
   AzureCommunicationRoutingServiceClient,
   RouterWorkerOutput,
 } from "../../../src/index.js";
-import { paginate } from "../../../src/index.js";
+import { paginate } from "@azure-rest/communication-job-router";
 import {
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { APIM_EDITOR_DATA_KEY } from "../../src/index.js";
-import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "../../src/utils.js";
+import { APIM_EDITOR_DATA_KEY } from "@azure/api-management-custom-widgets-tools";
+import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "$internal/utils.js";
 import { describe, it, assert } from "vitest";
 
 const valuesUrl = {

@@ -4,10 +4,10 @@
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import type * as RestModel from "../../../src/generated/src/models/index.js";
-import type { ChatParticipant } from "../../../src/index.js";
-import { ChatClient, ChatThreadClient } from "../../../src/index.js";
-import type { CommunicationIdentifierModel } from "../../../src/generated/src/index.js";
+import type * as RestModel from "$internal/generated/src/models/index.js";
+import type { ChatParticipant } from "@azure/communication-chat";
+import { ChatClient, ChatThreadClient } from "@azure/communication-chat";
+import type { CommunicationIdentifierModel } from "$internal/generated/src/index.js";
 import { baseUri, generateToken } from "../../public/utils/connectionUtils.js";
 
 export const mockCommunicationIdentifier: CommunicationIdentifierModel = {

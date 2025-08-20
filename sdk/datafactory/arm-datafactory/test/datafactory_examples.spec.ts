@@ -9,8 +9,8 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { DataFactoryManagementClient } from "../src/dataFactoryManagementClient.js";
-import type { Factory, PipelineResource } from "../src/models/index.js";
+import { DataFactoryManagementClient } from "@azure/arm-datafactory";
+import type { Factory, PipelineResource } from "$internal/models/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 
-import type { KeyVaultBackupClient } from "../../src/index.js";
+import type { KeyVaultBackupClient } from "@azure/keyvault-admin";
 import { authenticate } from "./utils/authentication.js";
 import { testPollerProperties } from "./utils/recorder.js";
 import { delay } from "@azure/core-util";

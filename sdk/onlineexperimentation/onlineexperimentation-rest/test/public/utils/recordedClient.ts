@@ -6,7 +6,7 @@ import type { VitestTestContext } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { ClientOptions } from "@azure-rest/core-client";
-import { OnlineExperimentationClient } from "../../../src/index.js";
+import { OnlineExperimentationClient } from "@azure-rest/onlineexperimentation";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_ONLINEEXPERIMENTATION_ENDPOINT: "https://workspaceId.eastus2.exp.azure.net",

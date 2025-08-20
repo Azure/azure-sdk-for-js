@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SyncTokens, parseSyncToken } from "../../../src/internal/synctokenpolicy.js";
+import { SyncTokens, parseSyncToken } from "$internal/internal/synctokenpolicy.js";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
   startRecorder,
 } from "../../public/utils/testHelpers.js";
-import { AppConfigurationClient } from "../../../src/index.js";
-import type { InternalAppConfigurationClientOptions } from "../../../src/appConfigurationClient.js";
+import { AppConfigurationClient } from "@azure/app-configuration";
+import type { InternalAppConfigurationClientOptions } from "$internal/appConfigurationClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

@@ -4,10 +4,10 @@
 import { type TestContext } from "vitest";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import type { AzureDeveloperDevCenterClient } from "../../../src/clientDefinitions.js";
+import type { AzureDeveloperDevCenterClient } from "$internal/clientDefinitions.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { AzurePowerShellCredential } from "@azure/identity";
-import createClient from "../../../src/index.js";
+import createClient from "@azure-rest/developer-devcenter";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: Record<string, string> = {

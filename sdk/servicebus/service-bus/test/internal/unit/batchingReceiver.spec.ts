@@ -9,17 +9,17 @@ import {
 } from "../../../src/core/batchingReceiver.js";
 import { defer, createConnectionContextForTests } from "./unittestUtils.js";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils.js";
-import type { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
+import type { ServiceBusMessageImpl } from "$internal/serviceBusMessage.js";
 import type {
   Receiver as RheaPromiseReceiver,
   EventContext,
   Message as RheaMessage,
 } from "rhea-promise";
 import { ReceiverEvents, SessionEvents } from "rhea-promise";
-import type { ConnectionContext } from "../../../src/connectionContext.js";
-import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
-import type { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs.js";
-import type { ReceiveMode } from "../../../src/models.js";
+import type { ConnectionContext } from "$internal/connectionContext.js";
+import { ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
+import type { OperationOptionsBase } from "$internal/modelsToBeSharedWithEventHubs.js";
+import type { ReceiveMode } from "$internal/models.js";
 import { Constants, StandardAbortMessage } from "@azure/core-amqp";
 import { describe, it, vi, beforeEach, afterEach, afterAll, beforeAll } from "vitest";
 import { assert, expect } from "../../public/utils/chai.js";

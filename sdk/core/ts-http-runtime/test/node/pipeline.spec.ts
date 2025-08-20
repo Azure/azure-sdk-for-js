@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, afterEach } from "vitest";
-import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy.js";
-import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy.js";
-import type { HttpClient } from "../../src/interfaces.js";
+import { proxyPolicy, proxyPolicyName } from "$internal/policies/proxyPolicy.js";
+import { tlsPolicy, tlsPolicyName } from "$internal/policies/tlsPolicy.js";
+import type { HttpClient } from "$internal/interfaces.js";
 import { HttpsProxyAgent } from "https-proxy-agent";
-import { createEmptyPipeline } from "../../src/pipeline.js";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
-import { createNodeHttpClient } from "../../src/nodeHttpClient.js";
-import { createPipelineFromOptions } from "../../src/createPipelineFromOptions.js";
+import { createEmptyPipeline } from "@typespec/ts-http-runtime";
+import { createHttpHeaders } from "@typespec/ts-http-runtime";
+import { createNodeHttpClient } from "$internal/nodeHttpClient.js";
+import { createPipelineFromOptions } from "$internal/createPipelineFromOptions.js";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");

@@ -15,7 +15,7 @@ import type {
   TextAnalyticsClient,
   TextDocumentInput,
 } from "../../src/index.js";
-import { PiiEntityDomain } from "../../src/index.js";
+import { PiiEntityDomain } from "@azure/ai-text-analytics";
 import { assertAllSuccess, assertRestError, isSuccess } from "./utils/resultHelper.js";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";

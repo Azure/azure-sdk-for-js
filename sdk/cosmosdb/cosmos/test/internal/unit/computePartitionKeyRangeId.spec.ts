@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { computePartitionKeyRangeId } from "../../../src/client/ClientUtils.js";
-import { PartitionKeyInternal } from "../../../src/documents/PartitionKeyInternal.js";
-import { PartitionKeyRangeCache } from "../../../src/routing/partitionKeyRangeCache.js";
+import { computePartitionKeyRangeId } from "$internal/client/ClientUtils.js";
+import { PartitionKeyInternal } from "$internal/documents/PartitionKeyInternal.js";
+import { PartitionKeyRangeCache } from "$internal/routing/partitionKeyRangeCache.js";
 import {
   Container,
   DiagnosticNodeInternal,

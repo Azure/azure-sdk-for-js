@@ -9,15 +9,15 @@ import { randomBytes } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
-import { DataLakeServiceClient } from "../../src/DataLakeServiceClient.js";
-import type { StoragePipelineOptions } from "../../src/index.js";
-import { newPipeline, StorageSharedKeyCredential } from "../../src/index.js";
+import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+import type { StoragePipelineOptions } from "@azure/storage-file-datalake";
+import { newPipeline, StorageSharedKeyCredential } from "@azure/storage-file-datalake";
 import {
   getUniqueName,
   SimpleTokenCredential,
   configureStorageClient,
 } from "./testutils.common.js";
-import type { DataLakeSASSignatureValues } from "../../src/index.js";
+import type { DataLakeSASSignatureValues } from "@azure/storage-file-datalake";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -26,7 +26,7 @@ import {
   generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters,
 } from "../../src/index.js";
-import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 
 export * from "./testutils.common.js";
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createEventDataAdapter } from "@azure/event-hubs";
-import { JsonSchemaSerializer } from "../src/index.js";
+import { JsonSchemaSerializer } from "@azure/schema-registry-json";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { SchemaRegistryClient } from "@azure/schema-registry";

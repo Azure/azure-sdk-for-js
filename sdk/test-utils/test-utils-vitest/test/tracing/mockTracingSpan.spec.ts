@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach } from "vitest";
-import { MockTracingSpan } from "../../src/index.js";
+import { MockTracingSpan } from "@azure-tools/test-utils-vitest";
 
 describe("TestTracingSpan", function () {
   let subject: MockTracingSpan;

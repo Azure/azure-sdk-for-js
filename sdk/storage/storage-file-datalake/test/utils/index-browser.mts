@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import { DataLakeServiceClient, newPipeline } from "../../src/index.js";
+import { DataLakeServiceClient, newPipeline } from "@azure/storage-file-datalake";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";

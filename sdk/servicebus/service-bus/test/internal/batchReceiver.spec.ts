@@ -6,10 +6,10 @@ import type {
   ServiceBusSender,
   ServiceBusReceivedMessage,
 } from "../../src/index.js";
-import { delay } from "../../src/index.js";
-import { InvalidOperationForPeekedMessage } from "../../src/util/errors.js";
+import { delay } from "@azure/service-bus";
+import { InvalidOperationForPeekedMessage } from "$internal/util/errors.js";
 import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
-import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
 import type { ServiceBusClientForTests, EntityName } from "../public/utils/testutils2.js";
 import {
   createServiceBusClientForTests,
@@ -24,9 +24,9 @@ import type {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
 } from "../../src/receivers/sessionReceiver.js";
-import type { LinkEntity } from "../../src/core/linkEntity.js";
+import type { LinkEntity } from "$internal/core/linkEntity.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
-import type { BatchingReceiver } from "../../src/core/batchingReceiver.js";
+import type { BatchingReceiver } from "$internal/core/batchingReceiver.js";
 import { testLogger } from "./utils/misc.js";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { assert, expect, should } from "../public/utils/chai.js";

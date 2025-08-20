@@ -11,7 +11,7 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { AlphaIdsClient } from "../../../src/index.js";
+import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";

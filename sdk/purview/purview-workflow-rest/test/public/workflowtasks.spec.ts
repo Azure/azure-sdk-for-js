@@ -3,12 +3,12 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";
-import type { PurviewWorkflowClient } from "../../src/clientDefinitions.js";
+import type { PurviewWorkflowClient } from "$internal/clientDefinitions.js";
 import type {
   ApproveApprovalTaskParameters,
   RejectApprovalTaskParameters,
 } from "../../src/parameters.js";
-import { isUnexpected } from "../../src/isUnexpected.js";
+import { isUnexpected } from "@azure-rest/purview-workflow";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Operate the workflow task.", () => {

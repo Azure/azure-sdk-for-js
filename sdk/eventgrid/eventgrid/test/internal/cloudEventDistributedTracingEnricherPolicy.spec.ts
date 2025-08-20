@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { cloudEventDistributedTracingEnricherPolicy } from "../../src/cloudEventDistrubtedTracingEnricherPolicy.js";
+import { cloudEventDistributedTracingEnricherPolicy } from "$internal/cloudEventDistrubtedTracingEnricherPolicy.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { describe, it, assert } from "vitest";

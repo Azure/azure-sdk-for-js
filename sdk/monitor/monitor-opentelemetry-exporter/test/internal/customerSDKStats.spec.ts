@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
-import { DropCode, RetryCode, TelemetryType } from "../../src/export/statsbeat/types.js";
-import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
+import { CustomerSDKStatsMetrics } from "$internal/export/statsbeat/customerSDKStats.js";
+import { DropCode, RetryCode, TelemetryType } from "$internal/export/statsbeat/types.js";
+import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
 
 // Helper function to create mock envelopes for testing
 function createMockEnvelopes(

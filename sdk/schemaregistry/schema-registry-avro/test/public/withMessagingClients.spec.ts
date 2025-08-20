@@ -14,7 +14,7 @@
  *    to read from corresponding event hubs
  */
 
-import type { AvroSerializer, MessageAdapter } from "../../src/index.js";
+import type { AvroSerializer, MessageAdapter } from "@azure/schema-registry-avro";
 import type { EventData } from "@azure/event-hubs";
 import { createEventDataAdapter } from "@azure/event-hubs";
 import type { MessagingTestClient } from "./clients/models.js";

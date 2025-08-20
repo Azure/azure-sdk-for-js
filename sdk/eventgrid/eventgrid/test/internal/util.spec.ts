@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { dateToServiceTimeString } from "../../src/util.js";
+import { dateToServiceTimeString } from "$internal/util.js";
 import { describe, it, assert } from "vitest";
 
 describe("util", () => {

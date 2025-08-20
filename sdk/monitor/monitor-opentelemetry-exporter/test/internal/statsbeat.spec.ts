@@ -9,11 +9,11 @@ import {
   LEGACY_ENV_DISABLE_STATSBEAT,
 } from "../../src/Declarations/Constants.js";
 import nock from "nock";
-import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
-import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
-import { LongIntervalStatsbeatMetrics } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
-import { getInstance as getContext } from "../../src/platform/nodejs/context/context.js";
-import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
+import { NetworkStatsbeatMetrics } from "$internal/export/statsbeat/networkStatsbeatMetrics.js";
+import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "$internal/export/statsbeat/types.js";
+import { LongIntervalStatsbeatMetrics } from "$internal/export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { getInstance as getContext } from "$internal/platform/nodejs/context/context.js";
+import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { diag } from "@opentelemetry/api";
 import {
   describe,

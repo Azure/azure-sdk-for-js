@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceBusClient } from "../../../src/index.js";
+import { ServiceBusClient } from "@azure/service-bus";
 import { TestClientType, TestMessage } from "./testUtils.js";
 import {
   recreateQueue,

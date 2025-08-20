@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { testPollingOptions } from "@azure-tools/test-recorder";
 import { createRecorder } from "../utils/recorderUtils.js";
-import DocumentIntelligence from "../../../src/index.js";
+import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { getRandomNumber, containerSasUrl } from "../utils/utils.js";
 import type {
@@ -14,7 +14,7 @@ import type {
   DocumentIntelligenceClient,
   DocumentTypeDetailsOutput,
 } from "../../../src/index.js";
-import { getLongRunningPoller, isUnexpected, paginate } from "../../../src/index.js";
+import { getLongRunningPoller, isUnexpected, paginate } from "@azure-rest/ai-document-intelligence";
 import { getEndpoint } from "../../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { buildClassifier } from "../utils/buildClassifier.js";

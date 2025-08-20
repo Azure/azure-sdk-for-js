@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChangeFeedIteratorOptions, RequestOptions } from "../../../src/index.js";
+import type { ChangeFeedIteratorOptions, RequestOptions } from "@azure/cosmos";
 import {
   ChangeFeedStartFrom,
   ChangeFeedRetentionTimeSpan,
   ChangeFeedPolicy,
   ChangeFeedMode,
 } from "../../../src/index.js";
-import type { Container, ContainerDefinition } from "../../../src/index.js";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
+import type { Container, ContainerDefinition } from "@azure/cosmos";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
 import {
   getTestContainer,
   removeAllDatabases,
@@ -18,9 +18,9 @@ import {
   changeFeedAllVersionsUpsertItems,
   changeFeedAllVersionsDeleteItems,
 } from "../common/TestHelpers.js";
-import { FeedRangeInternal } from "../../../src/client/ChangeFeed/FeedRange.js";
-import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
-import { StatusCodes } from "../../../src/common/statusCodes.js";
+import { FeedRangeInternal } from "$internal/client/ChangeFeed/FeedRange.js";
+import { getCurrentTimestampInMs } from "$internal/utils/time.js";
+import { StatusCodes } from "$internal/common/statusCodes.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 import { skipTestForSignOff } from "../common/_testConfig.js";
 

@@ -6,8 +6,8 @@ import type {
   ServiceBusMessage,
   SqlRuleFilter,
 } from "../../src/index.js";
-import { ServiceBusClient, ServiceBusAdministrationClient } from "../../src/index.js";
-import { DEFAULT_RULE_NAME } from "../../src/util/constants.js";
+import { ServiceBusClient, ServiceBusAdministrationClient } from "@azure/service-bus";
+import { DEFAULT_RULE_NAME } from "$internal/util/constants.js";
 import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils.js";
 import { getFullyQualifiedNamespace } from "../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";

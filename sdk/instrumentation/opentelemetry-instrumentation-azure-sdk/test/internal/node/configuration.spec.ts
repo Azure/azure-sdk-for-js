@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { KnownEnvironmentKey } from "../../../src/configuration.js";
-import { envVarToBoolean, environmentCache } from "../../../src/configuration.js";
+import type { KnownEnvironmentKey } from "$internal/configuration.js";
+import { envVarToBoolean, environmentCache } from "$internal/configuration.js";
 
 describe("#envVarToBoolean", () => {
   const key = "FOO" as KnownEnvironmentKey;

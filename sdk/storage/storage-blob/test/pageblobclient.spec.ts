@@ -10,8 +10,8 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
-import type { ContainerClient, BlobClient, BlobServiceClient } from "../src/index.js";
-import { PageBlobClient, PremiumPageBlobTier } from "../src/index.js";
+import type { ContainerClient, BlobClient, BlobServiceClient } from "@azure/storage-blob";
+import { PageBlobClient, PremiumPageBlobTier } from "@azure/storage-blob";
 import { Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

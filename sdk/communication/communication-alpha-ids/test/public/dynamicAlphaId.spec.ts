@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AlphaIdsClient } from "../../src/index.js";
+import type { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import type { DynamicAlphaIdConfiguration } from "../../src/index.js";
+import type { DynamicAlphaIdConfiguration } from "@azure-tools/communication-alpha-ids";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe(`AlphaIdsClient - manage configuration`, () => {

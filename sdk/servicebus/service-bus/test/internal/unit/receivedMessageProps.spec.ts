@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ServiceBusMessage } from "../../../src/index.js";
+import type { ServiceBusMessage } from "@azure/service-bus";
 import { TestMessage } from "../../public/utils/testUtils.js";
-import { fromRheaMessage, toRheaMessage } from "../../../src/serviceBusMessage.js";
+import { fromRheaMessage, toRheaMessage } from "$internal/serviceBusMessage.js";
 import type { Message as RheaMessage } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { describe, it } from "vitest";

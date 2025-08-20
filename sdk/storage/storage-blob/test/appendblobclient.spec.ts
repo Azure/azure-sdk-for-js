@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient } from "../src/index.js";
-import { AppendBlobClient } from "../src/index.js";
+import type { ContainerClient } from "@azure/storage-blob";
+import { AppendBlobClient } from "@azure/storage-blob";
 import {
   bodyToString,
   configureBlobStorageClient,

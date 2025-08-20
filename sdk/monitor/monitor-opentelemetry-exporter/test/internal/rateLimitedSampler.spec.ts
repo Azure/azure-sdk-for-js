@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach } from "vitest";
-import { RateLimitedSampler } from "../../src/sampling/rateLimitedSampler.js";
+import { RateLimitedSampler } from "@azure/monitor-opentelemetry-exporter";
 import { SamplingDecision } from "@opentelemetry/sdk-trace-base";
 import { context, SpanKind } from "@opentelemetry/api";
 

@@ -5,7 +5,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
 import { createClientLogger } from "@azure/logger";
-import { MetricsClient } from "../../../src/index.js";
+import { MetricsClient } from "@azure/monitor-query-metrics";
 import type { TestContext } from "vitest";
 export const loggerForTest = createClientLogger("test");
 

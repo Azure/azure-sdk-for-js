@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkCloud } from "../src/index.js";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

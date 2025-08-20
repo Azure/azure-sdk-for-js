@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { UsageManagementClient } from "../src/usageManagementClient.js";
+import { UsageManagementClient } from "@azure/arm-commerce";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

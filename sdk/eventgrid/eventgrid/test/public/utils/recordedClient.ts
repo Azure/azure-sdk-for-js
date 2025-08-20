@@ -7,8 +7,8 @@ import type {
   TestInfo,
 } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
-import type { InputSchema } from "../../../src/index.js";
-import { EventGridPublisherClient } from "../../../src/index.js";
+import type { InputSchema } from "@azure/eventgrid";
+import { EventGridPublisherClient } from "@azure/eventgrid";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { AdditionalPolicyConfig } from "@azure/core-client";
 

@@ -9,10 +9,10 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "../../src/index.js";
-import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
-import { apiKeyAuthenticationPolicy } from "../../src/policies/auth/apiKeyAuthenticationPolicy.js";
-import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
-import { logger } from "../../src/log.js";
+import { createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
+import { apiKeyAuthenticationPolicy } from "$internal/policies/auth/apiKeyAuthenticationPolicy.js";
+import { createDefaultPipeline } from "$internal/client/clientHelpers.js";
+import { logger } from "$internal/log.js";
 
 describe("apiKeyAuthenticationPolicy", () => {
   it("should add api key to the request header", async () => {

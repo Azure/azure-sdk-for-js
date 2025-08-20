@@ -16,8 +16,8 @@ import type {
   State,
 } from "./utils.js";
 import { createProcessor, generate } from "./utils.js";
-import type { PollerLike } from "../../src/index.js";
-import { createHttpPoller } from "../../src/index.js";
+import type { PollerLike } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import type {
   CreateHttpPollerOptions,
   OperationResponse,

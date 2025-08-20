@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { createTracingClient, TracingClient, useInstrumenter } from "@azure/core-tracing";
-import { MockTracingSpan, MockInstrumenter } from "../../src/index.js";
+import { MockTracingSpan, MockInstrumenter } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, expect, beforeEach } from "vitest";
-import { MockContext } from "../../src/tracing/mockContext.js";
+import { MockContext } from "$internal/tracing/mockContext.js";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import { toSupportTracing } from "../../src/azureMatchers.js";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 // Add support for tracing to the assertion library
 expect.extend({ toSupportTracing });

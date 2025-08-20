@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NonStreamingOrderByMap } from "../../../../src/utils/nonStreamingOrderByMap.js";
+import { NonStreamingOrderByMap } from "$internal/utils/nonStreamingOrderByMap.js";
 import { describe, it, assert } from "vitest";
 
 describe("NonStreamingOrderByMap", () => {

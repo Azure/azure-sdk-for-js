@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "../utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

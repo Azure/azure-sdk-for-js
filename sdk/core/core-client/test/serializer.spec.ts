@@ -10,7 +10,7 @@ import type {
   Mapper,
   SequenceMapper,
 } from "../src/index.js";
-import { createSerializer } from "../src/index.js";
+import { createSerializer } from "@azure/core-client";
 import { Mappers } from "./testMappers1.js";
 
 const Serializer = createSerializer(Mappers);

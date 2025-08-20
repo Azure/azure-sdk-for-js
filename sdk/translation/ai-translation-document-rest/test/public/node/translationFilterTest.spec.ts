@@ -7,7 +7,7 @@ import type {
   GetTranslationStatus200Response,
   TranslationStatusOutput,
 } from "../../../src/index.js";
-import { isUnexpected, getLongRunningPoller } from "../../../src/index.js";
+import { isUnexpected, getLongRunningPoller } from "@azure-rest/ai-translation-document";
 import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
 import {
   createBatchRequest,

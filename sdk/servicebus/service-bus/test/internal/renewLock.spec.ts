@@ -14,7 +14,7 @@ import type {
   ServiceBusReceivedMessage,
   ProcessErrorArgs,
 } from "../../src/index.js";
-import { InvalidOperationForPeekedMessage } from "../../src/util/errors.js";
+import { InvalidOperationForPeekedMessage } from "$internal/util/errors.js";
 import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
 import { assert, should } from "../public/utils/chai.js";
 

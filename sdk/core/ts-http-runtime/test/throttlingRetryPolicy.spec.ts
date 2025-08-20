@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
-import type { PipelineResponse, SendRequest } from "../src/index.js";
-import { createHttpHeaders, createPipelineRequest } from "../src/index.js";
-import { throttlingRetryPolicy } from "../src/policies/throttlingRetryPolicy.js";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
+import type { PipelineResponse, SendRequest } from "@typespec/ts-http-runtime";
+import { createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
+import { throttlingRetryPolicy } from "$internal/policies/throttlingRetryPolicy.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "$internal/constants.js";
 
 describe("throttlingRetryPolicy", function () {
   afterEach(function () {

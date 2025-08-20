@@ -9,8 +9,8 @@ import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
 } from "../../src/Declarations/Constants.js";
-import type { SenderResult } from "../../src/types.js";
-import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
+import type { SenderResult } from "$internal/types.js";
+import { CustomerSDKStatsMetrics } from "$internal/export/statsbeat/customerSDKStats.js";
 
 // Mock dependencies
 vi.mock("@opentelemetry/api", () => {
@@ -132,8 +132,8 @@ vi.mock("../../src/utils/breezeUtils.js", () => {
 });
 
 // Now import the BaseSender which will use our mocked dependencies
-import "../../src/platform/nodejs/index.js"; // Import this first to avoid circular dependencies
-import { BaseSender } from "../../src/platform/nodejs/baseSender.js";
+import "$internal/platform/nodejs/index.js"; // Import this first to avoid circular dependencies
+import { BaseSender } from "$internal/platform/nodejs/baseSender.js";
 
 // Test implementation of BaseSender
 class TestBaseSender extends BaseSender {

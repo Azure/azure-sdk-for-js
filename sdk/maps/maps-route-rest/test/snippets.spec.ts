@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import MapsRoute, { isUnexpected, toColonDelimitedLatLonString } from "../src/index.js";
+import MapsRoute, { isUnexpected, toColonDelimitedLatLonString } from "@azure-rest/maps-route";
 import { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 // @ts-ignore

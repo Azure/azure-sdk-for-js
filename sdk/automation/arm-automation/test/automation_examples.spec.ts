@@ -9,8 +9,8 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AutomationClient } from "../src/automationClient.js";
-import type { RunbookCreateOrUpdateParameters } from "../src/index.js";
+import { AutomationClient } from "@azure/arm-automation";
+import type { RunbookCreateOrUpdateParameters } from "@azure/arm-automation";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

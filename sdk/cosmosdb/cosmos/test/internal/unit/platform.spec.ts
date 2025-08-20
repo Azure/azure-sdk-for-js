@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "../../../src/common/constants.js";
-import { getUserAgent } from "../../../src/common/platform.js";
+import { Constants } from "$internal/common/constants.js";
+import { getUserAgent } from "$internal/common/platform.js";
 import { describe, it, assert } from "vitest";
 import packageJson from "../../../package.json" with { type: "json" };
-import { CosmosClientOptions } from "../../../src/index.js";
+import { CosmosClientOptions } from "@azure/cosmos";
 
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;

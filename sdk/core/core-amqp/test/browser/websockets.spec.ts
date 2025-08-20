@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { ConnectionConfig, ConnectionContextBase } from "../../src/index.js";
+import { ConnectionConfig, ConnectionContextBase } from "@azure/core-amqp";
 
 describe("ConnectionContextBase (browser)", function () {
   it("should default to using a websocket", async () => {

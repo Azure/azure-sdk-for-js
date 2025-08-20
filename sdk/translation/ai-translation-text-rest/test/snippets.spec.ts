@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import TextTranslationClient, { isUnexpected, TranslatorCredential } from "../src/index.js";
+import TextTranslationClient, { isUnexpected, TranslatorCredential } from "@azure-rest/ai-translation-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

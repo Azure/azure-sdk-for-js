@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ExtensionTypesClient } from "../src/index.js";
+import { ExtensionTypesClient } from "@azure/arm-kubernetesconfiguration-extensiontypes";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

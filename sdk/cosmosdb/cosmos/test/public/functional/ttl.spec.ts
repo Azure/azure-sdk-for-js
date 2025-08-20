@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, ContainerDefinition, Database } from "../../../src/index.js";
+import type { Container, ContainerDefinition, Database } from "@azure/cosmos";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
-import { StatusCodes } from "../../../src/index.js";
+import { StatusCodes } from "@azure/cosmos";
 import { describe, it, assert, beforeEach } from "vitest";
 
 async function sleep(time: number): Promise<unknown> {

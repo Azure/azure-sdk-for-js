@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { PipelineResponse, Agent } from "../../src/index.js";
-import { RestError, createHttpHeaders, createPipelineRequest } from "../../src/index.js";
+import type { PipelineResponse, Agent } from "@typespec/ts-http-runtime";
+import { RestError, createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
 import { inspect } from "node:util";
 
 describe("RestError", function () {

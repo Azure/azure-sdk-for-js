@@ -8,7 +8,7 @@ import type {
   SettingLabel,
   ListLabelsPage,
 } from "../../../src/index.js";
-import { AppConfigurationClient } from "../../../src/index.js";
+import { AppConfigurationClient } from "@azure/app-configuration";
 import type {
   ConfigurationSetting,
   ListConfigurationSettingPage,

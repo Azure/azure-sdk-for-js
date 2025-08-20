@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import MapsGeolocation, { isUnexpected } from "../src/index.js";
+import MapsGeolocation, { isUnexpected } from "@azure-rest/maps-geolocation";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 // @ts-ignore

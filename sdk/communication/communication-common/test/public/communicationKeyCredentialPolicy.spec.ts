@@ -8,7 +8,7 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import type { KeyCredential } from "@azure/core-auth";
-import { createCommunicationAccessKeyCredentialPolicy } from "../../src/index.js";
+import { createCommunicationAccessKeyCredentialPolicy } from "@azure/communication-common";
 import { isNodeLike } from "@azure/core-util";
 import { set } from "mockdate";
 import { describe, it, assert } from "vitest";

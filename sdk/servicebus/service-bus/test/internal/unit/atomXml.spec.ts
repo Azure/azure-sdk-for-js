@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AtomXmlSerializer } from "../../../src/util/atomXmlHelper.js";
+import type { AtomXmlSerializer } from "$internal/util/atomXmlHelper.js";
 import {
   deserializeAtomXmlResponse,
   executeAtomXmlOperation,
   sanitizeSerializableObject,
 } from "../../../src/util/atomXmlHelper.js";
-import * as Constants from "../../../src/util/constants.js";
-import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient.js";
+import * as Constants from "$internal/util/constants.js";
+import { ServiceBusAdministrationClient } from "@azure/service-bus";
 import {
   buildQueueOptions,
   QueueResourceSerializer,
@@ -22,8 +22,8 @@ import {
   buildSubscriptionOptions,
   SubscriptionResourceSerializer,
 } from "../../../src/serializers/subscriptionResourceSerializer.js";
-import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer.js";
-import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils.js";
+import { RuleResourceSerializer } from "$internal/serializers/ruleResourceSerializer.js";
+import { getXMLNSPrefix, isJSONLikeObject } from "$internal/util/utils.js";
 import { TestConstants } from "../../public/fakeTestSecrets.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import { beforeEach, describe, it } from "vitest";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { isRestError } from "@azure/core-rest-pipeline";
-import type { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "../../../src/index.js";
+import type { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "@azure/ai-text-analytics";
 import { assert } from "vitest";
 
 export function assertAllSuccess<TSuccess extends TextAnalyticsSuccessResult>(

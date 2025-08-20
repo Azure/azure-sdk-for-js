@@ -11,7 +11,7 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { TollFreeVerificationClient } from "../../../src/index.js";
+import { TollFreeVerificationClient } from "@azure-tools/communication-toll-free-verification";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 

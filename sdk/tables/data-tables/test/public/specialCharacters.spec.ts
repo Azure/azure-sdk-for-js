@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TableClient, TableEntityResult, TransactionAction } from "../../src/index.js";
-import { odata } from "../../src/index.js";
+import type { TableClient, TableEntityResult, TransactionAction } from "@azure/data-tables";
+import { odata } from "@azure/data-tables";
 import { isLiveMode } from "../utils/injectables.js";
 import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";

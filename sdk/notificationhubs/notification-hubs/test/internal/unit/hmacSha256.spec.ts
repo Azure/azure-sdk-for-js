@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { signString } from "../../../src/auth/hmacSha256.js";
+import { signString } from "$internal/auth/hmacSha256.js";
 
 describe("signString", () => {
   it("should calculate correct HMAC SHA256 signature", async () => {

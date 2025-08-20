@@ -11,8 +11,8 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import type { ShareItem, ShareRootSquash } from "../src/index.js";
-import { ShareServiceClient } from "../src/index.js";
+import type { ShareItem, ShareRootSquash } from "@azure/storage-file-share";
+import { ShareServiceClient } from "@azure/storage-file-share";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

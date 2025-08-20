@@ -5,7 +5,7 @@ import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-util";
 
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
-import type { SecretClient } from "../../src/index.js";
+import type { SecretClient } from "@azure/keyvault-secrets";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";

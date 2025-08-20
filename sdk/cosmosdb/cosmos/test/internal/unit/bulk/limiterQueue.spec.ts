@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { assert, beforeEach, describe, it } from "vitest";
-import type { Batcher } from "../../../../src/bulk/Batcher.js";
-import { LimiterQueue } from "../../../../src/bulk/Limiter.js";
-import { StatusCodes } from "../../../../src/index.js";
+import type { Batcher } from "$internal/bulk/Batcher.js";
+import { LimiterQueue } from "$internal/bulk/Limiter.js";
+import { StatusCodes } from "@azure/cosmos";
 
 function createFakeBatcher(result: any, delay = 0): Batcher {
   return {

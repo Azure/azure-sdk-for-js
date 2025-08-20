@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MessageSender } from "../../../src/core/messageSender.js";
-import type { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs.js";
+import { MessageSender } from "$internal/core/messageSender.js";
+import type { OperationOptionsBase } from "$internal/modelsToBeSharedWithEventHubs.js";
 import type { AwaitableSender, ReceiverOptions } from "rhea-promise";
 import { delay } from "rhea-promise";
-import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
+import { ServiceBusMessageBatchImpl } from "$internal/serviceBusMessageBatch.js";
+import { StreamingReceiver } from "$internal/core/streamingReceiver.js";
 import {
   createAbortSignalForTest,
   createCountdownAbortSignal,
@@ -16,11 +16,11 @@ import {
   createConnectionContextForTestsWithSessionId,
 } from "./unittestUtils.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
-import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver.js";
-import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
-import { MessageSession } from "../../../src/session/messageSession.js";
-import type { ProcessErrorArgs } from "../../../src/index.js";
-import type { ReceiveMode } from "../../../src/models.js";
+import { ServiceBusSessionReceiverImpl } from "$internal/receivers/sessionReceiver.js";
+import { ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
+import { MessageSession } from "$internal/session/messageSession.js";
+import type { ProcessErrorArgs } from "@azure/service-bus";
+import type { ReceiveMode } from "$internal/models.js";
 import { afterEach, beforeEach, describe, it } from "vitest";
 import { assert, assertAggregateError } from "../../public/utils/chai.js";
 

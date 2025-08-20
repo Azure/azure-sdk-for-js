@@ -33,7 +33,7 @@ describe("[Node] Streams", () => {
       return createRequest();
     });
 
-    const { getClient } = await import("../../src/client/getClient.js");
+    const { getClient } = await import("$internal/client/getClient.js");
 
     const client = getClient(mockBaseUrl);
     const expectedBody = { foo: "foo" };
@@ -54,7 +54,7 @@ describe("[Node] Streams", () => {
       return createRequest();
     });
 
-    const { getClient } = await import("../../src/client/getClient.js");
+    const { getClient } = await import("$internal/client/getClient.js");
 
     const client = getClient(mockBaseUrl);
     const expectedBody = { foo: "foo" };
@@ -70,7 +70,7 @@ describe("[Node] Streams", () => {
       throw new Error("ExpectedException");
     });
 
-    const { getClient } = await import("../../src/client/getClient.js");
+    const { getClient } = await import("$internal/client/getClient.js");
     const client = getClient(mockBaseUrl);
 
     try {
@@ -85,7 +85,7 @@ describe("[Node] Streams", () => {
       throw new Error("ExpectedException");
     });
 
-    const { getClient } = await import("../../src/client/getClient.js");
+    const { getClient } = await import("$internal/client/getClient.js");
     const client = getClient(mockBaseUrl);
 
     try {
@@ -103,7 +103,7 @@ describe("[Node] Streams", () => {
       return createRequest();
     });
 
-    const { getClient } = await import("../../src/client/getClient.js");
+    const { getClient } = await import("$internal/client/getClient.js");
     const client = getClient(mockBaseUrl);
 
     try {

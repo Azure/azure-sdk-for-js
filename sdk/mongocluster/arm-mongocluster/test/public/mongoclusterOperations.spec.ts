@@ -7,7 +7,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { MongoClusterManagementClient } from "../../src/mongoClusterManagementClient.js";
+import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { createRecorder } from "./utils/recordedClient.js";
 
 export const testPollingOptions = {

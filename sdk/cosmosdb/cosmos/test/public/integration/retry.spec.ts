@@ -5,7 +5,7 @@ import { describe, it } from "vitest";
 
 // import assert from "assert";
 // import { ConnectionPolicy, Constants, CosmosClient, RetryOptions } from "../../src";
-// import * as request from "../../src/request";
+// import * as request from "$internal/request";
 
 describe("retry policy tests", () => {
   // this.timeout(300000);

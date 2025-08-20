@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusMessage } from "../../src/index.js";
-import { delay } from "../../src/index.js";
+import type { ServiceBusMessage } from "@azure/service-bus";
+import { delay } from "@azure/service-bus";
 import type { TestClientType } from "./utils/testUtils.js";
 import { TestMessage } from "./utils/testUtils.js";
 import type { EntityName } from "./utils/testutils2.js";
@@ -12,9 +12,9 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
 } from "./utils/testutils2.js";
-import type { ServiceBusReceiver } from "../../src/index.js";
-import type { ServiceBusSender } from "../../src/index.js";
-import type { ServiceBusReceivedMessage } from "../../src/index.js";
+import type { ServiceBusReceiver } from "@azure/service-bus";
+import type { ServiceBusSender } from "@azure/service-bus";
+import type { ServiceBusReceivedMessage } from "@azure/service-bus";
 import type Long from "long";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { should } from "./utils/chai.js";

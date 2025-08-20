@@ -6,9 +6,9 @@ import {
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants.js";
-import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
+import { EntraIdAccessToken } from "$internal/common/entraIdAccessToken.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { parseJwt } from "../../src/utils/parseJwt.js";
+import { parseJwt } from "$internal/utils/parseJwt.js";
 
 vi.mock("../../src/utils/parseJwt.js", () => ({
   parseJwt: vi.fn(),

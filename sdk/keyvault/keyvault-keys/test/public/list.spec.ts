@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { Recorder, env, isRecordMode } from "@azure-tools/test-recorder";
 
-import type { KeyClient } from "../../src/index.js";
+import type { KeyClient } from "@azure/keyvault-keys";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";

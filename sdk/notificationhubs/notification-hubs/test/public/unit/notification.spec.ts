@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import * as Constants from "../../../src/utils/constants.js";
+import * as Constants from "$internal/utils/constants.js";
 import {
   createAdmNotification,
   createAppleNotification,

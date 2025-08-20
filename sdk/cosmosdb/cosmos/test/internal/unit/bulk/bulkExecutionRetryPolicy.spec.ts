@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { assert, beforeEach, describe, it } from "vitest";
-import { SubStatusCodes } from "../../../../src/common/statusCodes.js";
-import type { RetryOptions } from "../../../../src/index.js";
-import { ErrorResponse, StatusCodes } from "../../../../src/index.js";
-import { BulkExecutionRetryPolicy } from "../../../../src/retry/bulkExecutionRetryPolicy.js";
-import { ResourceThrottleRetryPolicy } from "../../../../src/retry/resourceThrottleRetryPolicy.js";
+import { SubStatusCodes } from "$internal/common/statusCodes.js";
+import type { RetryOptions } from "@azure/cosmos";
+import { ErrorResponse, StatusCodes } from "@azure/cosmos";
+import { BulkExecutionRetryPolicy } from "$internal/retry/bulkExecutionRetryPolicy.js";
+import { ResourceThrottleRetryPolicy } from "$internal/retry/resourceThrottleRetryPolicy.js";
 
 describe("BulkExecutionRetryPolicy", () => {
   let retryPolicy: BulkExecutionRetryPolicy;

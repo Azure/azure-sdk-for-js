@@ -5,9 +5,9 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import "./env.js";
 import { createClientLogger } from "@azure/logger";
 import { createTestCredential } from "@azure-tools/test-credential";
-import MapsRoute from "../../../src/mapsRoute.js";
+import MapsRoute from "$internal/mapsRoute.js";
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { MapsRouteClient } from "../../../src/generated/index.js";
+import type { MapsRouteClient } from "$internal/generated/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   MAPS_RESOURCE_CLIENT_ID: "azure_maps_client_id",

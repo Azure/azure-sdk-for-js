@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RequestContext } from "../../../src/index.js";
-import { CosmosClient } from "../../../src/index.js";
+import type { RequestContext } from "@azure/cosmos";
+import { CosmosClient } from "@azure/cosmos";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { PluginOn } from "../../../src/index.js";
-import { TimeoutErrorCode } from "../../../src/request/TimeoutError.js";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import { PluginOn } from "@azure/cosmos";
+import { TimeoutErrorCode } from "$internal/request/TimeoutError.js";
+import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 
 const endpoint = "https://failovertest.documents.azure.com/";

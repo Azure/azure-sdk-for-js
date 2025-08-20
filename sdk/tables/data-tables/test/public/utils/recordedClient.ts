@@ -3,8 +3,8 @@
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import type { TableServiceClientOptions } from "../../../src/index.js";
-import { TableClient, TableServiceClient } from "../../../src/index.js";
+import type { TableServiceClientOptions } from "@azure/data-tables";
+import { TableClient, TableServiceClient } from "@azure/data-tables";
 import { createTestCredential } from "@azure-tools/test-credential";
 import {
   getAccountConnectionString,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { sanitizeEndpoint } from "../../../../src/utils/checkURL.js";
+import { sanitizeEndpoint } from "$internal/utils/checkURL.js";
 import { describe, it, assert } from "vitest";
 
 describe("URL utils", () => {

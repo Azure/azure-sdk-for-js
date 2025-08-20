@@ -11,7 +11,7 @@ import {
 } from "../utils/recordedClient.js";
 import * as base64url from "../utils/base64url.js";
 
-import { KnownAttestationType } from "../../src/index.js";
+import { KnownAttestationType } from "@azure/attestation";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("AttestationClient in Browser", () => {

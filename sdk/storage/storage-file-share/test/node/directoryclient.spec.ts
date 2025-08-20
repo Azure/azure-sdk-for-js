@@ -9,7 +9,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
-import type { StorageSharedKeyCredential, ShareClient } from "../../src/index.js";
+import type { StorageSharedKeyCredential, ShareClient } from "@azure/storage-file-share";
 import {
   newPipeline,
   ShareDirectoryClient,

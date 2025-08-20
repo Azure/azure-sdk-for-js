@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RouteDirectionParameters, RouteMatrixQuery } from "../../src/index.js";
+import type { RouteDirectionParameters, RouteMatrixQuery } from "@azure-rest/maps-route";
 import {
   createRouteDirectionsBatchRequest,
   toColonDelimitedLatLonString,
@@ -15,7 +15,7 @@ import type {
   RouteGetRouteDirectionsQueryParamProperties,
   RouteGetRouteMatrix200Response,
 } from "../../src/generated/index.js";
-import { getLongRunningPoller, isUnexpected } from "../../src/generated/index.js";
+import { getLongRunningPoller, isUnexpected } from "@azure-rest/maps-route";
 import type { LatLon } from "@azure/maps-common";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

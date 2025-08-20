@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { base64Decode, base64Encode } from "../../src/utils/bufferSerializer.js";
+import { base64Decode, base64Encode } from "$internal/utils/bufferSerializer.js";
 
-import type { ConnectionString } from "../../src/utils/internalModels.js";
-import { extractConnectionStringParts } from "../../src/utils/connectionString.js";
+import type { ConnectionString } from "$internal/utils/internalModels.js";
+import { extractConnectionStringParts } from "$internal/utils/connectionString.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert } from "vitest";
 

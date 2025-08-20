@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth.js";
+import { getAuthorizationTokenUsingResourceTokens } from "$internal/auth.js";
 import { describe, it, assert } from "vitest";
 
 describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {

@@ -4,9 +4,9 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient.js";
-import type { RoomsClient } from "../../src/roomsClient.js";
+import type { RoomsClient } from "$internal/roomsClient.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
-import type { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options.js";
+import type { CreateRoomOptions, UpdateRoomOptions } from "$internal/models/options.js";
 import type {
   CommunicationRoom,
   RoomParticipantPatch,

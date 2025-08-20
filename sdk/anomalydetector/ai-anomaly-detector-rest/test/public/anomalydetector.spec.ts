@@ -8,7 +8,7 @@ import type {
   TrainMultivariateModelParameters,
   DetectMultivariateBatchAnomalyParameters,
 } from "../../src/index.js";
-import { isUnexpected } from "../../src/index.js";
+import { isUnexpected } from "@azure-rest/ai-anomaly-detector";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

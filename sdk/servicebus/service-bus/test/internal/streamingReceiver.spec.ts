@@ -7,11 +7,11 @@ import type {
   ServiceBusReceiver,
   ServiceBusSender,
 } from "../../src/index.js";
-import { delay } from "../../src/index.js";
-import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../../src/util/errors.js";
+import { delay } from "@azure/service-bus";
+import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "$internal/util/errors.js";
 import { TestMessage, checkWithTimeout, TestClientType } from "../public/utils/testUtils.js";
-import type { ServiceBusMessageImpl } from "../../src/serviceBusMessage.js";
-import { DispositionType } from "../../src/serviceBusMessage.js";
+import type { ServiceBusMessageImpl } from "$internal/serviceBusMessage.js";
+import { DispositionType } from "$internal/serviceBusMessage.js";
 import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
   createServiceBusClientForTests,

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { makeAnalyzeSentimentResultArray } from "../../src/analyzeSentimentResultArray.js";
-import { makeDetectLanguageResultArray } from "../../src/detectLanguageResultArray.js";
-import { makeExtractKeyPhrasesResultArray } from "../../src/extractKeyPhrasesResultArray.js";
-import { makeRecognizeLinkedEntitiesResultArray } from "../../src/recognizeLinkedEntitiesResultArray.js";
-import { makeRecognizeCategorizedEntitiesResultArray } from "../../src/recognizeCategorizedEntitiesResultArray.js";
-import type { DetectLanguageInput, TextDocumentInput } from "../../src/index.js";
-import { makeRecognizePiiEntitiesResultArray } from "../../src/recognizePiiEntitiesResultArray.js";
+import { makeAnalyzeSentimentResultArray } from "$internal/analyzeSentimentResultArray.js";
+import { makeDetectLanguageResultArray } from "$internal/detectLanguageResultArray.js";
+import { makeExtractKeyPhrasesResultArray } from "$internal/extractKeyPhrasesResultArray.js";
+import { makeRecognizeLinkedEntitiesResultArray } from "$internal/recognizeLinkedEntitiesResultArray.js";
+import { makeRecognizeCategorizedEntitiesResultArray } from "$internal/recognizeCategorizedEntitiesResultArray.js";
+import type { DetectLanguageInput, TextDocumentInput } from "@azure/ai-text-analytics";
+import { makeRecognizePiiEntitiesResultArray } from "$internal/recognizePiiEntitiesResultArray.js";
 import { describe, it, assert } from "vitest";
 
 describe("SentimentResultArray", () => {

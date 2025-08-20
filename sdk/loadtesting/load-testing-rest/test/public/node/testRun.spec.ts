@@ -10,9 +10,9 @@ import type {
   TestProfileRunOutput,
   TestRunAppComponentsOutput,
 } from "../../../src/index.js";
-import { isUnexpected } from "../../../src/index.js";
+import { isUnexpected } from "@azure-rest/load-testing";
 import fs from "node:fs";
-import { getLongRunningPoller } from "../../../src/pollingHelper.js";
+import { getLongRunningPoller } from "@azure-rest/load-testing";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Test Run Operations", () => {

@@ -15,7 +15,7 @@ import type {
   DevBoxActionDelayResultOutput,
   CreateDevBoxParameters,
 } from "../../src/index.js";
-import { getLongRunningPoller, isUnexpected, paginate } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected, paginate } from "@azure-rest/developer-devcenter";
 
 const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,

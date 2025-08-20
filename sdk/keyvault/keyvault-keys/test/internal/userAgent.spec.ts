@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyClient } from "../../src/index.js";
-import { SDK_VERSION } from "../../src/constants.js";
+import { KeyClient } from "@azure/keyvault-keys";
+import { SDK_VERSION } from "$internal/constants.js";
 import { describe, it, assert } from "vitest";
 
 describe("Keys client's user agent", () => {

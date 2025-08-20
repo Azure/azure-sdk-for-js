@@ -34,9 +34,9 @@ import {
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { streamToBuffer3 } from "../../src/utils/utils.js";
+import { streamToBuffer3 } from "$internal/utils/utils.js";
 import crypto from "node:crypto";
-import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants.js";
+import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "$internal/utils/constants.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 

@@ -15,7 +15,7 @@ import type {
   VectorSearchProfile,
   VectorSearchVectorizer,
 } from "../../../src/index.js";
-import { GeographyPoint, KnownAnalyzerNames } from "../../../src/index.js";
+import { GeographyPoint, KnownAnalyzerNames } from "@azure/search-documents";
 import type { Hotel } from "./interfaces.js";
 import { assert } from "vitest";
 

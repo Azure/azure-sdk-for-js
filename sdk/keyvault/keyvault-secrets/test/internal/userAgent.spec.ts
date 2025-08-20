@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SDK_VERSION } from "../../src/constants.js";
-import { SecretClient } from "../../src/index.js";
+import { SDK_VERSION } from "$internal/constants.js";
+import { SecretClient } from "@azure/keyvault-secrets";
 import { describe, it, assert } from "vitest";
 
 describe("Secrets client's user agent (only in Node, because of fs)", () => {

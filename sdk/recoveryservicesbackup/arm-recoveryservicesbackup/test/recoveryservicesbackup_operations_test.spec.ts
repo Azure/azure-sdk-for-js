@@ -8,7 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { RecoveryServicesBackupClient } from "../src/recoveryServicesBackupClient.js";
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

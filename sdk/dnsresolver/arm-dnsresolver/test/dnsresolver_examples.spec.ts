@@ -9,8 +9,8 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { DnsResolverManagementClient } from "../src/dnsResolverManagementClient.js";
-import type { DnsResolver } from "../src/models/index.js";
+import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
+import type { DnsResolver } from "$internal/models/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

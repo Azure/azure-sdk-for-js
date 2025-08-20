@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, expect } from "vitest";
-import { createHttpHeaders } from "../src/httpHeaders.js";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
-import { createPipelineRequest } from "../src/pipelineRequest.js";
-import { multipartPolicy } from "../src/policies/multipartPolicy.js";
-import type { PipelineRequestOptions } from "../src/pipelineRequest.js";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "$internal/interfaces.js";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import { multipartPolicy } from "@azure/core-rest-pipeline";
+import type { PipelineRequestOptions } from "$internal/pipelineRequest.js";
 import { stringToUint8Array } from "@azure/core-util";
 import { assertBodyMatches } from "./util.js";
-import { createFile, createFileFromStream } from "../src/util/file.js";
+import { createFile, createFileFromStream } from "@azure/core-rest-pipeline";
 
 export async function performRequest(
   requestOptions: Omit<PipelineRequestOptions, "url" | "method">,

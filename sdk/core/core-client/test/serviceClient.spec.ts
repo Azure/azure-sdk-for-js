@@ -39,8 +39,8 @@ import {
 } from "../src/operationHelpers.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertServiceClientResponse } from "./utils/serviceClient.js";
-import { deserializationPolicy } from "../src/deserializationPolicy.js";
-import { getCachedDefaultHttpClient } from "../src/httpClientCache.js";
+import { deserializationPolicy } from "@azure/core-client";
+import { getCachedDefaultHttpClient } from "$internal/httpClientCache.js";
 
 describe("ServiceClient", function () {
   describe("Auth scopes", () => {

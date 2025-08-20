@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context, getInstance } from "../../src/platform/index.js";
+import { Context, getInstance } from "$internal/platform/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("context.ts", () => {

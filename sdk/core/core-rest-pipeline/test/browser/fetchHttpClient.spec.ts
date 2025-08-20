@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
-import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { png } from "./mocks/encodedPng.js";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
-import { createDefaultHttpClient } from "../../src/defaultHttpClient.js";
+import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
 
 const streamBody = new ReadableStream({
   async start(controller) {

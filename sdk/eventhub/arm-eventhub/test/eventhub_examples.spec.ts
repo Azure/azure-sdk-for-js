@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { EventHubManagementClient } from "../src/eventHubManagementClient.js";
+import { EventHubManagementClient } from "@azure/arm-eventhub";
 import type { StorageAccountCreateParameters } from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";
 import type { VirtualNetwork } from "@azure/arm-network";

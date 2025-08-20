@@ -13,7 +13,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SqlVirtualMachineManagementClient } from "../src/sqlVirtualMachineManagementClient.js";
+import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

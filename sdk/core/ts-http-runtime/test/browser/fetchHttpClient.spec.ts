@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
-import { createFetchHttpClient } from "../../src/fetchHttpClient.js";
-import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { createFetchHttpClient } from "$internal/fetchHttpClient.js";
+import { createPipelineRequest } from "@typespec/ts-http-runtime";
 import { png } from "./mocks/encodedPng.js";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
-import { AbortError } from "../../src/abort-controller/AbortError.js";
-import { delay } from "../../src/util/helpers.js";
+import { createHttpHeaders } from "@typespec/ts-http-runtime";
+import { AbortError } from "@typespec/ts-http-runtime";
+import { delay } from "$internal/util/helpers.js";
 
 const streamBody = new ReadableStream({
   async start(controller) {

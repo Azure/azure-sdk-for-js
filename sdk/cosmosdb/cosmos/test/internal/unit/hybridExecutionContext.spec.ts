@@ -6,15 +6,15 @@ import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../../../src/index.js";
-import type { ClientContext, FeedOptions, QueryInfo } from "../../../src/index.js";
-import type { ComponentWeight } from "../../../src/queryExecutionContext/hybridQueryExecutionContext.js";
+import type { ClientContext, FeedOptions, QueryInfo } from "@azure/cosmos";
+import type { ComponentWeight } from "$internal/queryExecutionContext/hybridQueryExecutionContext.js";
 import {
   HybridQueryExecutionContext,
   HybridQueryExecutionContextBaseStates,
 } from "../../../src/queryExecutionContext/hybridQueryExecutionContext.js";
-import type { HybridSearchQueryInfo } from "../../../src/request/ErrorResponse.js";
-import type { GlobalStatistics } from "../../../src/request/globalStatistics.js";
-import type { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult.js";
+import type { HybridSearchQueryInfo } from "$internal/request/ErrorResponse.js";
+import type { GlobalStatistics } from "$internal/request/globalStatistics.js";
+import type { HybridSearchQueryResult } from "$internal/request/hybridSearchQueryResult.js";
 import { MockedClientContext } from "../../public/common/MockClientContext.js";
 import { describe, it, assert, expect, vi } from "vitest";
 

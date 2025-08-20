@@ -6,9 +6,9 @@ import type {
   AppConfigurationClient,
   ConfigurationSetting,
 } from "../../src/index.js";
-import { featureFlagContentType, featureFlagPrefix } from "../../src/index.js";
-import type { FeatureFlagValue } from "../../src/featureFlag.js";
-import { isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag.js";
+import { featureFlagContentType, featureFlagPrefix } from "@azure/app-configuration";
+import type { FeatureFlagValue } from "$internal/featureFlag.js";
+import { isFeatureFlag, parseFeatureFlag } from "@azure/app-configuration";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

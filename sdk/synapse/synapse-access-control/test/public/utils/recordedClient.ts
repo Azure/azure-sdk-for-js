@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { AccessControlClientOptionalParams } from "../../../src/index.js";
-import { AccessControlClient } from "../../../src/index.js";
+import type { AccessControlClientOptionalParams } from "@azure/synapse-access-control";
+import { AccessControlClient } from "@azure/synapse-access-control";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 

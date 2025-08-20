@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ServiceBusAdministrationClient } from "../../src/index.js";
+import { ServiceBusAdministrationClient } from "@azure/service-bus";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
-import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper.js";
-import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer.js";
+import { executeAtomXmlOperation } from "$internal/util/atomXmlHelper.js";
+import { NamespaceResourceSerializer } from "$internal/serializers/namespaceResourceSerializer.js";
 import { getFullyQualifiedNamespace } from "../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it } from "vitest";

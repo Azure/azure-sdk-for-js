@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Durations, LogsQueryClient, LogsQueryResultStatus, LogsTable } from "../src/index.js";
+import { Durations, LogsQueryClient, LogsQueryResultStatus, LogsTable } from "@azure/monitor-query-logs";
 import { DefaultAzureCredential } from "@azure/identity";
 import { describe, it } from "vitest";
 import { config } from "dotenv";

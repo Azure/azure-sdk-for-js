@@ -13,7 +13,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SynapseManagementClient } from "../src/synapseManagementClient.js";
+import { SynapseManagementClient } from "@azure/arm-synapse";
 import { describe, it, beforeEach, afterEach, assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

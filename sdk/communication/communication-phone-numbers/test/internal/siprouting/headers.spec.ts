@@ -4,9 +4,9 @@
 import { AzureKeyCredential } from "@azure/core-auth";
 import { isNodeLike } from "@azure/core-util";
 import type { TokenCredential } from "@azure/identity";
-import { SipRoutingClient } from "../../../src/sipRoutingClient.js";
+import { SipRoutingClient } from "@azure/communication-phone-numbers";
 import { getTrunksHttpClient } from "../../public/siprouting/utils/mockHttpClients.js";
-import { SDK_VERSION } from "../../../src/utils/constants.js";
+import { SDK_VERSION } from "$internal/utils/constants.js";
 import { createMockToken } from "../../public/utils/recordedClient.js";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";

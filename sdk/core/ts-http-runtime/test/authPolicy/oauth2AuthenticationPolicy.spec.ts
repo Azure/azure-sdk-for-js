@@ -9,11 +9,11 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "../../src/index.js";
-import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
-import { oauth2AuthenticationPolicy } from "../../src/policies/auth/oauth2AuthenticationPolicy.js";
-import type { OAuth2Flow } from "../../src/auth/oauth2Flows.js";
-import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
-import { logger } from "../../src/log.js";
+import { createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
+import { oauth2AuthenticationPolicy } from "$internal/policies/auth/oauth2AuthenticationPolicy.js";
+import type { OAuth2Flow } from "$internal/auth/oauth2Flows.js";
+import { createDefaultPipeline } from "$internal/client/clientHelpers.js";
+import { logger } from "$internal/log.js";
 
 const exampleScheme: AuthScheme = {
   kind: "oauth2",

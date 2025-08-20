@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { ServiceAuth } from "../../../src/common/constants.js";
+import { ServiceAuth } from "$internal/common/constants.js";
 
 // Mock the modules needed
 vi.mock("../../../src/common/customerConfig.js", () => ({
@@ -22,12 +22,12 @@ describe("playwrightServiceGlobalSetup", () => {
 
   it("should only call playwrightServiceEntra.globalSetup when serviceAuthType is ENTRA_ID", async () => {
     // Import the modules after mocking
-    const playwrightServiceEntra = await import("../../../src/core/playwrightServiceEntra.js");
+    const playwrightServiceEntra = await import("$internal/core/playwrightServiceEntra.js");
     const { PlaywrightServiceConfig } = await import(
-      "../../../src/common/playwrightServiceConfig.js"
+      "$internal/common/playwrightServiceConfig.js"
     );
     const initializeModule = await import(
-      "../../../src/core/initializePlaywrightServiceTestRun.js"
+      "$internal/core/initializePlaywrightServiceTestRun.js"
     );
 
     // Create spies
@@ -44,7 +44,7 @@ describe("playwrightServiceGlobalSetup", () => {
 
     // Import the module under test last, after all mocks are set up
     const globalSetupModule = await import(
-      "../../../src/core/global/playwright-service-global-setup.js"
+      "$internal/core/global/playwright-service-global-setup.js"
     );
 
     // Act - with ENTRA_ID auth type

@@ -37,18 +37,18 @@ import type {
   Resource,
   User,
 } from "../../../src/index.js";
-import type { UserResponse } from "../../../src/index.js";
+import type { UserResponse } from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import type { DatabaseRequest } from "../../../src/index.js";
-import type { ContainerRequest } from "../../../src/index.js";
+import type { DatabaseRequest } from "@azure/cosmos";
+import type { ContainerRequest } from "@azure/cosmos";
 import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "../../../src/diagnostics/DiagnosticNodeInternal.js";
-import type { ExtractPromise } from "../../../src/utils/diagnostics.js";
-import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
-import { extractPartitionKeys } from "../../../src/extractPartitionKey.js";
+import type { ExtractPromise } from "$internal/utils/diagnostics.js";
+import { getCurrentTimestampInMs } from "$internal/utils/time.js";
+import { extractPartitionKeys } from "$internal/extractPartitionKey.js";
 import fs from "node:fs";
 import path from "node:path";
 import { assert, expect, vi } from "vitest";

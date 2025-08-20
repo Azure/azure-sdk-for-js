@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { TollFreeVerificationClient } from "../../src/index.js";
+import { TollFreeVerificationClient } from "@azure-tools/communication-toll-free-verification";
 import { createMockToken } from "./utils/recordedClient.js";
 import { describe, it, assert } from "vitest";
 

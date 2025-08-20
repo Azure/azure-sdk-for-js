@@ -8,10 +8,10 @@ import {
   recorderOptions,
 } from "../utils/recordedClient.js";
 import { createRSAKey, createX509Certificate, generateSha1Hash } from "../utils/cryptoUtils.js";
-import { KnownCertificateModification } from "../../src/generated/index.js";
+import { KnownCertificateModification } from "$internal/generated/index.js";
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-import { byteArrayToHex } from "../../src/utils/base64.js";
+import { byteArrayToHex } from "$internal/utils/base64.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("PolicyManagementTests ", () => {

@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient } from "./utils/recordedClient.js";
-import type { EventGridPublisherClient } from "../../src/index.js";
+import type { EventGridPublisherClient } from "@azure/eventgrid";
 import type { RestError } from "@azure/core-rest-pipeline";
 import type { AdditionalPolicyConfig, OperationOptions } from "@azure/core-client";
 import { getRandomNumber } from "./utils/testUtils.js";

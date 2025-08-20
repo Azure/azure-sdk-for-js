@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QuantumJobClient } from "../../src/index.js";
+import { QuantumJobClient } from "@azure/quantum-jobs";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { TestInfo } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";

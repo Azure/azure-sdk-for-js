@@ -10,7 +10,7 @@ import type {
   RejectResult,
   RenewLocksResult,
 } from "../../src/index.js";
-import { EventGridDeserializer } from "../../src/index.js";
+import { EventGridDeserializer } from "@azure/eventgrid-namespaces";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import { Buffer } from "buffer";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

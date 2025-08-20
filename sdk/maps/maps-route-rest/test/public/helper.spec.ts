@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchRequest, RouteGetRouteDirectionsQueryParamProperties } from "../../src/index.js";
+import type { BatchRequest, RouteGetRouteDirectionsQueryParamProperties } from "@azure-rest/maps-route";
 import {
   createRouteDirectionsBatchRequest,
   toColonDelimitedLatLonString,

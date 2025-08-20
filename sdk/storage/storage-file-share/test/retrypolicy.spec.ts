@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import type { ShareClient, ShareServiceClient } from "../src/index.js";
-import { RestError } from "../src/index.js";
+import type { ShareClient, ShareServiceClient } from "@azure/storage-file-share";
+import { RestError } from "@azure/storage-file-share";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy.js";
 import { Recorder } from "@azure-tools/test-recorder";

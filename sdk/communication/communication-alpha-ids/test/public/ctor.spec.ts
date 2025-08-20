@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { AlphaIdsClient } from "../../src/index.js";
+import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 import { createMockToken } from "./utils/recordedClient.js";
 import { describe, it, assert } from "vitest";
 

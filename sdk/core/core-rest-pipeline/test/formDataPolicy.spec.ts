@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
-import type { PipelineResponse, SendRequest } from "../src/index.js";
+import type { PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { stringToUint8Array } from "@azure/core-util";
-import type { FormDataMap, MultipartRequestBody } from "../src/interfaces.js";
-import { createPipelineRequest } from "../src/pipelineRequest.js";
-import { createHttpHeaders } from "../src/httpHeaders.js";
-import { formDataPolicy } from "../src/policies/formDataPolicy.js";
-import { createFile, createFileFromStream } from "../src/util/file.js";
+import type { FormDataMap, MultipartRequestBody } from "$internal/interfaces.js";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { formDataPolicy } from "@azure/core-rest-pipeline";
+import { createFile, createFileFromStream } from "@azure/core-rest-pipeline";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {
   const request = createPipelineRequest({

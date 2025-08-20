@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { ConnectionConfig } from "../src/index.js";
-import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig.js";
+import { ConnectionConfig } from "@azure/core-amqp";
+import { isSharedAccessSignature } from "$internal/connectionConfig/connectionConfig.js";
 
 describe("ConnectionConfig", function () {
   describe("Base", function () {

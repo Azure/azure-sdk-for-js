@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CognitiveServicesManagementClient } from "../src/index.js";
+import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

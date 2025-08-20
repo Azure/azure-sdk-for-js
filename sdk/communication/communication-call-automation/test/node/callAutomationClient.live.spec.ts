@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { CallAutomationClient } from "../../src/index.js";
+import type { CallAutomationClient } from "@azure/communication-call-automation";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   createRecorder,

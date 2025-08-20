@@ -4,8 +4,8 @@
 import type { VitestTestContext } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import type { TokenCredential } from "@azure/core-auth";
-import type { DeidentificationClient } from "../../../src/clientDefinitions.js";
-import createClient from "../../../src/deidentificationClient.js";
+import type { DeidentificationClient } from "$internal/clientDefinitions.js";
+import createClient from "$internal/deidentificationClient.js";
 
 const envSetupForPlayback: Record<string, string> = {
   HEALTHDATAAISERVICES_DEID_SERVICE_ENDPOINT: "https://example.api.deid.azure.com",

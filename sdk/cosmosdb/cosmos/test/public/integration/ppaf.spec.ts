@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosClient } from "../../../src/index.js";
+import { CosmosClient } from "@azure/cosmos";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
-import { PluginOn } from "../../../src/index.js";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import type { PluginConfig, CosmosClientOptions } from "@azure/cosmos";
+import { PluginOn } from "@azure/cosmos";
+import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
-import { StatusCodes, SubStatusCodes } from "../../../src/common/statusCodes.js";
+import { StatusCodes, SubStatusCodes } from "$internal/common/statusCodes.js";
 
 const endpoint = "https://ppaf.documents.azure.com/";
 

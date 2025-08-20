@@ -8,7 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ResourceConnectorManagementClient } from "../src/resourceConnectorManagementClient.js";
+import { ResourceConnectorManagementClient } from "@azure/arm-resourceconnector";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

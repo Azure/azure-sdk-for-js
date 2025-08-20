@@ -10,7 +10,7 @@ import type {
   PatchOperation,
   RequestOptions,
 } from "../../../../src/index.js";
-import { CosmosClient } from "../../../../src/index.js";
+import { CosmosClient } from "@azure/cosmos";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -26,13 +26,13 @@ import {
 } from "../../common/TestHelpers.js";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
-import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents/index.js";
+import type { PartitionKey, PartitionKeyDefinition } from "$internal/documents/index.js";
 import {
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
 } from "../../../../src/documents/index.js";
-import { PriorityLevel } from "../../../../src/documents/PriorityLevel.js";
-import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
+import { PriorityLevel } from "$internal/documents/PriorityLevel.js";
+import { getCurrentTimestampInMs } from "$internal/utils/time.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 /**

@@ -3,7 +3,7 @@
 
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import type { StorageClient } from "../../src/StorageClient.js";
+import type { StorageClient } from "$internal/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { isNodeLike } from "@azure/core-util";
 

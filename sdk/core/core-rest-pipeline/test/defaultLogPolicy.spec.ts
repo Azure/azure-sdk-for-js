@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
-import type { PipelinePolicy } from "../src/pipeline.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "$internal/constants.js";
+import type { PipelinePolicy } from "$internal/pipeline.js";
 import { assert, describe, it, vi } from "vitest";
-import { createHttpHeaders } from "../src/httpHeaders.js";
-import { createPipelineFromOptions } from "../src/createPipelineFromOptions.js";
-import { createPipelineRequest } from "../src/pipelineRequest.js";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { createPipelineFromOptions } from "@azure/core-rest-pipeline";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 
 describe("defaultLogPolicy", function () {

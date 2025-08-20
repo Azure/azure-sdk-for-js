@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { apiVersionPolicyName } from "../../src/client/apiVersionPolicy.js";
+import { apiVersionPolicyName } from "$internal/client/apiVersionPolicy.js";
 import type {
   BearerTokenCredential,
   OAuth2TokenCredential,
   BasicCredential,
 } from "../../src/auth/credentials.js";
-import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
-import { bearerAuthenticationPolicyName } from "../../src/policies/auth/bearerAuthenticationPolicy.js";
-import { basicAuthenticationPolicyName } from "../../src/policies/auth/basicAuthenticationPolicy.js";
-import { apiKeyAuthenticationPolicyName } from "../../src/policies/auth/apiKeyAuthenticationPolicy.js";
-import { oauth2AuthenticationPolicyName } from "../../src/policies/auth/oauth2AuthenticationPolicy.js";
-import type { OAuth2Flow } from "../../src/index.js";
+import { createDefaultPipeline } from "$internal/client/clientHelpers.js";
+import { bearerAuthenticationPolicyName } from "$internal/policies/auth/bearerAuthenticationPolicy.js";
+import { basicAuthenticationPolicyName } from "$internal/policies/auth/basicAuthenticationPolicy.js";
+import { apiKeyAuthenticationPolicyName } from "$internal/policies/auth/apiKeyAuthenticationPolicy.js";
+import { oauth2AuthenticationPolicyName } from "$internal/policies/auth/oauth2AuthenticationPolicy.js";
+import type { OAuth2Flow } from "@typespec/ts-http-runtime";
 
 describe("clientHelpers", () => {
   it("should create a default pipeline with no credentials", () => {

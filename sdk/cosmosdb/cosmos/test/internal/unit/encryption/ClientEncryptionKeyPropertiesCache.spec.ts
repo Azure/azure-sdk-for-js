@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ClientEncryptionKeyPropertiesCache } from "../../../../src/encryption/Cache/ClientEncryptionKeyPropertiesCache.js";
+import { ClientEncryptionKeyPropertiesCache } from "$internal/encryption/Cache/ClientEncryptionKeyPropertiesCache.js";
 import type {
   ClientEncryptionKeyProperties,
   EncryptionKeyWrapMetadata,
 } from "../../../../src/index.js";
-import { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "../../../../src/index.js";
+import { EncryptionKeyResolverName, KeyEncryptionAlgorithm } from "@azure/cosmos";
 import { describe, it, assert } from "vitest";
 
 describe("ClientEncryptionKeyPropertiesCache", () => {

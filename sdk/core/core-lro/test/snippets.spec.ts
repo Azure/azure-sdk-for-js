@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PollerLike } from "../src/index.js";
+import { PollerLike } from "@azure/core-lro";
 import { describe, it } from "vitest";
 
 const poller = {} as unknown as PollerLike<any, any>;

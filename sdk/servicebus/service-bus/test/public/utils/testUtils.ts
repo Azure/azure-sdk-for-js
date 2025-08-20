@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src/index.js";
-import { delay } from "../../../src/index.js";
+import type { ServiceBusReceivedMessage, ServiceBusMessage } from "@azure/service-bus";
+import { delay } from "@azure/service-bus";
 import { assert, assertAggregateError } from "./chai.js";
 
 export class TestMessage {

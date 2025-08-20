@@ -8,8 +8,8 @@ import type {
   QueryIterator,
   Resource,
 } from "../../../../src/index.js";
-import { CosmosDbDiagnosticLevel } from "../../../../src/index.js";
-import type { ClientContext } from "../../../../src/index.js";
+import { CosmosDbDiagnosticLevel } from "@azure/cosmos";
+import type { ClientContext } from "@azure/cosmos";
 import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext.js";
 import {
   createDummyDiagnosticNode,

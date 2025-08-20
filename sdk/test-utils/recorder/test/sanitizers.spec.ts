@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { ServiceClient } from "@azure/core-client";
-import { isPlaybackMode, Recorder } from "../src/index.js";
-import { TestMode } from "../src/utils/utils.js";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { TestMode } from "$internal/utils/utils.js";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
 import { randomUUID } from "@azure/core-util";
 import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
-import { env } from "../src/index.js";
+import { env } from "@azure-tools/test-recorder";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)

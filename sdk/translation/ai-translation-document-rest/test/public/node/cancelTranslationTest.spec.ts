@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { DocumentTranslationClient } from "../../../src/index.js";
-import { isUnexpected } from "../../../src/index.js";
+import type { DocumentTranslationClient } from "@azure-rest/ai-translation-document";
+import { isUnexpected } from "@azure-rest/ai-translation-document";
 import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
 import {
   createBatchRequest,
