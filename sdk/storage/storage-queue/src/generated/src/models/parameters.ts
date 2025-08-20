@@ -9,11 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   QueueServiceProperties as QueueServicePropertiesMapper,
-  QueueMessage as QueueMessageMapper
+  KeyInfo as KeyInfoMapper,
+  QueueMessage as QueueMessageMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -23,14 +24,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const properties: OperationParameter = {
   parameterPath: "properties",
-  mapper: QueueServicePropertiesMapper
+  mapper: QueueServicePropertiesMapper,
 };
 
 export const accept: OperationParameter = {
@@ -40,9 +41,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const url: OperationURLParameter = {
@@ -52,10 +53,10 @@ export const url: OperationURLParameter = {
     required: true,
     xmlName: "url",
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const restype: OperationQueryParameter = {
@@ -65,9 +66,9 @@ export const restype: OperationQueryParameter = {
     isConstant: true,
     serializedName: "restype",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const comp: OperationQueryParameter = {
@@ -77,23 +78,23 @@ export const comp: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const timeoutInSeconds: OperationQueryParameter = {
   parameterPath: ["options", "timeoutInSeconds"],
   mapper: {
     constraints: {
-      InclusiveMinimum: 0
+      InclusiveMinimum: 0,
     },
     serializedName: "timeout",
     xmlName: "timeout",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const version: OperationParameter = {
@@ -103,9 +104,9 @@ export const version: OperationParameter = {
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const requestId: OperationParameter = {
@@ -114,9 +115,9 @@ export const requestId: OperationParameter = {
     serializedName: "x-ms-client-request-id",
     xmlName: "x-ms-client-request-id",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept1: OperationParameter = {
@@ -126,9 +127,9 @@ export const accept1: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const comp1: OperationQueryParameter = {
@@ -138,21 +139,38 @@ export const comp1: OperationQueryParameter = {
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const keyInfo: OperationParameter = {
+  parameterPath: "keyInfo",
+  mapper: KeyInfoMapper,
 };
 
 export const comp2: OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    defaultValue: "userdelegationkey",
+    isConstant: true,
+    serializedName: "comp",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const comp3: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "list",
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const prefix: OperationQueryParameter = {
@@ -161,9 +179,9 @@ export const prefix: OperationQueryParameter = {
     serializedName: "prefix",
     xmlName: "prefix",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const marker: OperationQueryParameter = {
@@ -172,23 +190,23 @@ export const marker: OperationQueryParameter = {
     serializedName: "marker",
     xmlName: "marker",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const maxPageSize: OperationQueryParameter = {
   parameterPath: ["options", "maxPageSize"],
   mapper: {
     constraints: {
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "maxresults",
     xmlName: "maxresults",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const include: OperationQueryParameter = {
@@ -203,12 +221,12 @@ export const include: OperationQueryParameter = {
         defaultValue: "metadata",
         isConstant: true,
         type: {
-          name: "String"
-        }
-      }
-    }
+          name: "String",
+        },
+      },
+    },
   },
-  collectionFormat: "CSV"
+  collectionFormat: "CSV",
 };
 
 export const metadata: OperationParameter = {
@@ -219,33 +237,33 @@ export const metadata: OperationParameter = {
     headerCollectionPrefix: "x-ms-meta-",
     type: {
       name: "Dictionary",
-      value: { type: { name: "String" } }
-    }
-  }
+      value: { type: { name: "String" } },
+    },
+  },
 };
 
-export const comp3: OperationQueryParameter = {
+export const comp4: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "metadata",
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const comp4: OperationQueryParameter = {
+export const comp5: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "acl",
     isConstant: true,
     serializedName: "comp",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const queueAcl: OperationParameter = {
@@ -260,25 +278,25 @@ export const queueAcl: OperationParameter = {
       element: {
         type: {
           name: "Composite",
-          className: "SignedIdentifier"
-        }
-      }
-    }
-  }
+          className: "SignedIdentifier",
+        },
+      },
+    },
+  },
 };
 
 export const numberOfMessages: OperationQueryParameter = {
   parameterPath: ["options", "numberOfMessages"],
   mapper: {
     constraints: {
-      InclusiveMinimum: 1
+      InclusiveMinimum: 1,
     },
     serializedName: "numofmessages",
     xmlName: "numofmessages",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const visibilityTimeout: OperationQueryParameter = {
@@ -286,33 +304,33 @@ export const visibilityTimeout: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 604800,
-      InclusiveMinimum: 0
+      InclusiveMinimum: 0,
     },
     serializedName: "visibilitytimeout",
     xmlName: "visibilitytimeout",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const queueMessage: OperationParameter = {
   parameterPath: "queueMessage",
-  mapper: QueueMessageMapper
+  mapper: QueueMessageMapper,
 };
 
 export const messageTimeToLive: OperationQueryParameter = {
   parameterPath: ["options", "messageTimeToLive"],
   mapper: {
     constraints: {
-      InclusiveMinimum: -1
+      InclusiveMinimum: -1,
     },
     serializedName: "messagettl",
     xmlName: "messagettl",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const peekonly: OperationQueryParameter = {
@@ -322,14 +340,14 @@ export const peekonly: OperationQueryParameter = {
     isConstant: true,
     serializedName: "peekonly",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const queueMessage1: OperationParameter = {
   parameterPath: ["options", "queueMessage"],
-  mapper: QueueMessageMapper
+  mapper: QueueMessageMapper,
 };
 
 export const popReceipt: OperationQueryParameter = {
@@ -339,9 +357,9 @@ export const popReceipt: OperationQueryParameter = {
     required: true,
     xmlName: "popreceipt",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const visibilityTimeout1: OperationQueryParameter = {
@@ -349,13 +367,13 @@ export const visibilityTimeout1: OperationQueryParameter = {
   mapper: {
     constraints: {
       InclusiveMaximum: 604800,
-      InclusiveMinimum: 0
+      InclusiveMinimum: 0,
     },
     serializedName: "visibilitytimeout",
     required: true,
     xmlName: "visibilitytimeout",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };

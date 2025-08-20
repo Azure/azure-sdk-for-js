@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { UserDelegationKey } from "@azure/storage-common";
 import type { SasIPRange } from "./SasIPRange.js";
 import { ipRangeToString } from "./SasIPRange.js";
 import { truncatedISO8061Date } from "./utils/utils.common.js";
@@ -91,6 +92,49 @@ export class SASQueryParameters {
   private readonly ipRangeInner?: SasIPRange;
 
   /**
+   * The Azure Active Directory object ID in GUID format.
+   * Property of user delegation key.
+   */
+  private readonly signedOid?: string;
+
+  /**
+   * The Azure Active Directory tenant ID in GUID format.
+   * Property of user delegation key.
+   */
+  private readonly signedTenantId?: string;
+
+  /**
+   * The date-time the key is active.
+   * Property of user delegation key.
+   */
+  private readonly signedStartsOn?: Date;
+
+  /**
+   * The date-time the key expires.
+   * Property of user delegation key.
+   */
+  private readonly signedExpiresOn?: Date;
+
+  /**
+   * Abbreviation of the Azure Storage service that accepts the user delegation key.
+   * Property of user delegation key.
+   */
+  private readonly signedService?: string;
+
+  /**
+   * The service version that created the user delegation key.
+   * Property of user delegation key.
+   */
+  private readonly signedVersion?: string;
+  
+  /**
+   * Optional. Beginning in version 2025-07-05, this value specifies the Entra ID of the user would is authorized to
+   * use the resulting SAS URL.  The resulting SAS URL must be used in conjunction with an Entra ID token that has been
+   * issued to the user specified in this value.
+   */
+  public readonly delegatedUserObjectId?: string;
+
+  /**
    * Optional. IP range allowed for this SAS.
    *
    * @readonly
@@ -132,6 +176,8 @@ export class SASQueryParameters {
     ipRange?: SasIPRange,
     identifier?: string,
     resource?: string,
+    userDelegationKey?: UserDelegationKey,
+    delegatedUserObjectId?: string
   ) {
     this.version = version;
     this.services = services;
@@ -144,6 +190,15 @@ export class SASQueryParameters {
     this.identifier = identifier;
     this.resource = resource;
     this.signature = signature;
+    if (userDelegationKey) {      
+        this.signedOid = userDelegationKey.signedObjectId;
+        this.signedTenantId = userDelegationKey.signedTenantId;
+        this.signedStartsOn = userDelegationKey.signedStartsOn;
+        this.signedExpiresOn = userDelegationKey.signedExpiresOn;
+        this.signedService = userDelegationKey.signedService;
+        this.signedVersion = userDelegationKey.signedVersion;
+        this.delegatedUserObjectId = delegatedUserObjectId;
+    }
   }
 
   /**
@@ -200,6 +255,35 @@ export class SASQueryParameters {
           break;
         case "sig":
           this.tryAppendQueryParameter(queries, param, this.signature);
+          break;
+        case "skoid":
+          this.tryAppendQueryParameter(queries, param, this.signedOid);
+          break;
+        case "sktid": // Signed tenant ID
+          this.tryAppendQueryParameter(queries, param, this.signedTenantId);
+          break;
+        case "skt": // Signed key start time
+          this.tryAppendQueryParameter(
+            queries,
+            param,
+            this.signedStartsOn ? truncatedISO8061Date(this.signedStartsOn, false) : undefined,
+          );
+          break;
+        case "ske": // Signed key expiry time
+          this.tryAppendQueryParameter(
+            queries,
+            param,
+            this.signedExpiresOn ? truncatedISO8061Date(this.signedExpiresOn, false) : undefined,
+          );
+          break;
+        case "sks": // Signed key service
+          this.tryAppendQueryParameter(queries, param, this.signedService);
+          break;
+        case "skv": // Signed key version
+          this.tryAppendQueryParameter(queries, param, this.signedVersion);
+          break;
+        case "sduoid": // Signed key user delegation object ID
+          this.tryAppendQueryParameter(queries, param, this.delegatedUserObjectId);
           break;
       }
     }

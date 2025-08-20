@@ -319,6 +319,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.paidBurstingMaxIops,
     Parameters.shareProvisionedIops,
     Parameters.shareProvisionedBandwidthMibps,
+    Parameters.enableSmbDirectoryLease,
   ],
   isXML: true,
   serializer: xmlSerializer,
@@ -394,17 +395,17 @@ const acquireLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.shareSnapshot,
-    Parameters.comp2,
+    Parameters.comp3,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.fileRequestIntent,
     Parameters.accept1,
+    Parameters.requestId,
     Parameters.action,
     Parameters.duration,
     Parameters.proposedLeaseId,
-    Parameters.requestId,
   ],
   isXML: true,
   serializer: xmlSerializer,
@@ -425,7 +426,7 @@ const releaseLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.shareSnapshot,
-    Parameters.comp2,
+    Parameters.comp3,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -455,15 +456,15 @@ const changeLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.shareSnapshot,
-    Parameters.comp2,
+    Parameters.comp3,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.fileRequestIntent,
     Parameters.accept1,
-    Parameters.proposedLeaseId,
     Parameters.requestId,
+    Parameters.proposedLeaseId,
     Parameters.leaseId1,
     Parameters.action2,
   ],
@@ -486,7 +487,7 @@ const renewLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.shareSnapshot,
-    Parameters.comp2,
+    Parameters.comp3,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -516,15 +517,15 @@ const breakLeaseOperationSpec: coreClient.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.restype1,
     Parameters.shareSnapshot,
-    Parameters.comp2,
+    Parameters.comp3,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
     Parameters.fileRequestIntent,
     Parameters.accept1,
-    Parameters.leaseId,
     Parameters.requestId,
+    Parameters.leaseId,
     Parameters.action4,
     Parameters.breakPeriod,
   ],
@@ -546,7 +547,7 @@ const createSnapshotOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp3,
+    Parameters.comp4,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -574,7 +575,7 @@ const createPermissionOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp4,
+    Parameters.comp5,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -602,7 +603,7 @@ const getPermissionOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp4,
+    Parameters.comp5,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -645,6 +646,7 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
     Parameters.paidBurstingMaxIops,
     Parameters.shareProvisionedIops,
     Parameters.shareProvisionedBandwidthMibps,
+    Parameters.enableSmbDirectoryLease,
     Parameters.leaseId,
   ],
   isXML: true,
@@ -665,7 +667,7 @@ const setMetadataOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp5,
+    Parameters.comp6,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -705,7 +707,7 @@ const getAccessPolicyOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp6,
+    Parameters.comp7,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -733,7 +735,7 @@ const setAccessPolicyOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp6,
+    Parameters.comp7,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -764,7 +766,7 @@ const getStatisticsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp7,
+    Parameters.comp8,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -791,7 +793,7 @@ const restoreOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.restype1,
-    Parameters.comp8,
+    Parameters.comp9,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
