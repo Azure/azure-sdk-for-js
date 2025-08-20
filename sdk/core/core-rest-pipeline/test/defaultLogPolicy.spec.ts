@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 
 import { DEFAULT_RETRY_POLICY_COUNT } from "$internal/constants.js";
-import type { PipelinePolicy } from "$internal/pipeline.js";
+import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { assert, describe, it, vi } from "vitest";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { createPipelineFromOptions } from "@azure/core-rest-pipeline";
-import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  createPipelineFromOptions,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
 
 describe("defaultLogPolicy", function () {

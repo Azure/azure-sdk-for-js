@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  DocumentProducer,
-  ExecutionContext,
-} from "$internal/queryExecutionContext/index.js";
+import type { DocumentProducer, ExecutionContext } from "$internal/queryExecutionContext/index.js";
 import { ParallelQueryExecutionContextBase } from "$internal/queryExecutionContext/index.js";
-import type { Response } from "$internal/request/index.js";
-import type { DiagnosticNodeInternal } from "$internal/diagnostics/DiagnosticNodeInternal.js";
+import type { Response, DiagnosticNodeInternal } from "@azure/cosmos";
 
 export class TestParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase

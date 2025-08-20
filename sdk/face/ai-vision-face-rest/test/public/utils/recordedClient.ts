@@ -4,7 +4,6 @@
 import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
-
 import type { FaceClient, FaceClientOptions } from "@azure-rest/ai-vision-face";
 import createFaceClient from "@azure-rest/ai-vision-face";
 

@@ -4,7 +4,7 @@
 import type { VitestTestContext } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import type { TokenCredential } from "@azure/core-auth";
-import type { DeidentificationClient } from "$internal/clientDefinitions.js";
+import type { DeidentificationClient } from "@azure-rest/health-deidentification";
 import createClient from "$internal/deidentificationClient.js";
 
 const envSetupForPlayback: Record<string, string> = {

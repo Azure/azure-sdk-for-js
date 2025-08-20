@@ -3,8 +3,7 @@
 
 import { createTableClient, createTableServiceClient } from "./utils/recordedClient.js";
 import type { CreateClientMode } from "./utils/recordedClient.js";
-import type { TableClient } from "$internal/TableClient.js";
-import type { TableServiceClient } from "$internal/TableServiceClient.js";
+import type { TableClient, TableServiceClient } from "@azure/data-tables";
 import { isNodeLike } from "@azure/core-util";
 import { odata } from "@azure/data-tables";
 import { describe, it, assert, beforeEach, afterAll } from "vitest";

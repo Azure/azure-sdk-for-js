@@ -4,14 +4,16 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient.js";
-import type { RoomsClient } from "$internal/roomsClient.js";
-import type { CommunicationUserIdentifier } from "@azure/communication-common";
-import type { CreateRoomOptions, UpdateRoomOptions } from "$internal/models/options.js";
 import type {
+  RoomsClient,
+  CreateRoomOptions,
+  UpdateRoomOptions,
   CommunicationRoom,
   RoomParticipantPatch,
   RoomParticipant,
 } from "@azure/communication-rooms";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
+
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("RoomsClient", () => {

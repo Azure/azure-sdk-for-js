@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { base64Decode, base64Encode } from "$internal/utils/bufferSerializer.js";
-
 import type { ConnectionString } from "$internal/utils/internalModels.js";
 import { extractConnectionStringParts } from "$internal/utils/connectionString.js";
 import { isNodeLike } from "@azure/core-util";

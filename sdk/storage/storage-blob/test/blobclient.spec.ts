@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import fs from "node:fs";
-import { randomUUID } from "@azure/core-util";
-import { isNodeLike } from "@azure/core-util";
+import { randomUUID, isNodeLike } from "@azure/core-util";
 import {
   bodyToString,
   getBSU,

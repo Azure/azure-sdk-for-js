@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosClient } from "@azure/cosmos";
+import { CosmosClient, createAuthorizationSasToken } from "@azure/cosmos";
 import { endpoint } from "../../public/common/_testConfig.js";
 import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets.js";
 import { SasTokenPermissionKind } from "$internal/common/index.js";
-import { createAuthorizationSasToken } from "@azure/cosmos";
 import type { SasTokenProperties } from "$internal/client/SasToken/SasTokenProperties.js";
 import { describe, it, assert } from "vitest";
 

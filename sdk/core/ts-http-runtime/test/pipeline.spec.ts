@@ -3,8 +3,11 @@
 
 import { describe, it, assert } from "vitest";
 import type { HttpClient, PipelinePolicy } from "@typespec/ts-http-runtime";
-import { createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
-import { createEmptyPipeline } from "@typespec/ts-http-runtime";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  createEmptyPipeline,
+} from "@typespec/ts-http-runtime";
 import { createPipelineFromOptions } from "$internal/createPipelineFromOptions.js";
 
 describe("HttpsPipeline", function () {

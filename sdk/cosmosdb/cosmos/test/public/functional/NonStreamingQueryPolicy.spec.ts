@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IndexingPolicy, VectorEmbeddingPolicy } from "$internal/documents/index.js";
+import type { IndexingPolicy, VectorEmbeddingPolicy, Container } from "@azure/cosmos";
 import {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
@@ -9,7 +9,6 @@ import {
 } from "@azure/cosmos";
 import { getTestDatabase } from "../common/TestHelpers.js";
 import type { Database } from "$internal/client/Database/Database.js";
-import type { Container } from "$internal/client/index.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 // Skipping these tests as they are not supported by public emulator

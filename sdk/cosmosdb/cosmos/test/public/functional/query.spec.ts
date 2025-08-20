@@ -6,9 +6,16 @@ import type {
   CreateOperationInput,
   FeedOptions,
   PluginConfig,
+  Container,
+  Response,
 } from "@azure/cosmos";
-import { CosmosClient } from "@azure/cosmos";
-import type { Container } from "@azure/cosmos";
+import {
+  CosmosClient,
+  PartitionKeyDefinitionVersion,
+  PartitionKeyKind,
+  PluginOn,
+  ResourceType,
+} from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import {
@@ -17,11 +24,8 @@ import {
   removeAllDatabases,
   testForDiagnostics,
 } from "../common/TestHelpers.js";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 import type { Database } from "$internal/client/Database/Database.js";
-import { PluginOn, ResourceType } from "@azure/cosmos";
-import type { Response } from "@azure/cosmos";
 
 const client = new CosmosClient({
   endpoint,

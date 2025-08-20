@@ -2,18 +2,9 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import { Constants, EncryptionAlgorithm } from "@azure/cosmos";
-import type {
-  Database,
-  Container,
-  ContainerDefinition,
-  OperationInput,
-  PatchOperation,
-  EncryptionKeyWrapMetadata,
-  ClientEncryptionPolicy,
-  ClientEncryptionIncludedPath,
-} from "@azure/cosmos";
 import {
+  Constants,
+  EncryptionAlgorithm,
   CosmosClient,
   KeyEncryptionAlgorithm,
   EncryptionType,
@@ -29,6 +20,16 @@ import {
   ChangeFeedRetentionTimeSpan,
   PartitionKeyKind,
   PermissionMode,
+} from "@azure/cosmos";
+import type {
+  Database,
+  Container,
+  ContainerDefinition,
+  OperationInput,
+  PatchOperation,
+  EncryptionKeyWrapMetadata,
+  ClientEncryptionPolicy,
+  ClientEncryptionIncludedPath,
 } from "@azure/cosmos";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { endpoint, skipTestForSignOff } from "../common/_testConfig.js";

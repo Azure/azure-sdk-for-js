@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BlobServiceClient } from "@azure/storage-blob";
+import type { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { BlockBlobClient } from "@azure/storage-blob";
 import {
   getBSU,
@@ -12,7 +12,6 @@ import {
 } from "./utils/index.js";
 import { appendToURLPath, EscapePath } from "$internal/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient } from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Special Naming Tests", () => {

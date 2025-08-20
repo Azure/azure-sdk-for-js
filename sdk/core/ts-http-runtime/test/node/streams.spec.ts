@@ -15,7 +15,6 @@ vi.mock("node:https", async () => {
     },
   };
 });
-
 import https from "https";
 
 const mockBaseUrl = "https://example.org";

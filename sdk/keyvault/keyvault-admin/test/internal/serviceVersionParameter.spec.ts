@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "@azure/keyvault-admin";
-import { LATEST_API_VERSION } from "@azure/keyvault-admin";
+import {
+  KeyVaultAccessControlClient,
+  KeyVaultBackupClient,
+  LATEST_API_VERSION,
+} from "@azure/keyvault-admin";
 import {
   type PipelineRequest,
   type PipelineResponse,

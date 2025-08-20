@@ -2,12 +2,16 @@
 // Licensed under the MIT License.
 
 import type { RecorderAndLogsClient } from "./shared/testShared.js";
-import { createRecorderAndLogsClient, getLogsResourceId } from "./shared/testShared.js";
+import {
+  createRecorderAndLogsClient,
+  getLogsResourceId,
+  assertQueryTable,
+  getMonitorWorkspaceId,
+  loggerForTest,
+} from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { LogsQueryClient, QueryBatch } from "@azure/monitor-query-logs";
+import type { LogsQueryClient, QueryBatch, ErrorInfo } from "@azure/monitor-query-logs";
 import { Durations, LogsQueryResultStatus } from "@azure/monitor-query-logs";
-import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared.js";
-import type { ErrorInfo } from "@azure/monitor-query-logs";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { setLogLevel } from "@azure/logger";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
@@ -490,8 +494,7 @@ describe("LogsQueryClient live tests", function () {
         }
 
         loggerForTest.verbose(
-          `[Attempt: ${i}/${args.maxTries}, elapsed: ${
-            Date.now() - startTime
+          `[Attempt: ${i}/${args.maxTries}, elapsed: ${Date.now() - startTime
           } ms] No rows, will poll again.`,
         );
 

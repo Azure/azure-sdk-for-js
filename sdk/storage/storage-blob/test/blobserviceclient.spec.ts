@@ -14,7 +14,7 @@ import {
 } from "./utils/index.js";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
-import type { Tags } from "$internal/models.js";
+import type { Tags } from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("BlobServiceClient", () => {

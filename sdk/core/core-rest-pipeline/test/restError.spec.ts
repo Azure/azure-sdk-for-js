@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-
 import { isRestError, RestError } from "@azure/core-rest-pipeline";
 import { RestError as TspRestError } from "@typespec/ts-http-runtime";
 

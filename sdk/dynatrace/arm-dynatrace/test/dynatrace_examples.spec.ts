@@ -10,7 +10,7 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { DynatraceObservability } from "@azure/arm-dynatrace";
-import type { MonitorResource } from "$internal/models/index.js";
+import type { MonitorResource } from "@azure/arm-dynatrace";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

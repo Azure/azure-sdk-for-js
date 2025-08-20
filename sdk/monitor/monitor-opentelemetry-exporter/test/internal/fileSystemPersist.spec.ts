@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest";
-
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";

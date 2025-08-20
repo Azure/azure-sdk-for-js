@@ -12,8 +12,8 @@ import {
   generateQueueSASQueryParameters,
   QueueServiceClient,
   newPipeline,
+  SASProtocol,
 } from "@azure/storage-queue";
-import { SASProtocol } from "@azure/storage-queue";
 import {
   configureStorageClient,
   getQSU,

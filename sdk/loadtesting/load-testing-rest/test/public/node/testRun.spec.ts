@@ -10,9 +10,8 @@ import type {
   TestProfileRunOutput,
   TestRunAppComponentsOutput,
 } from "@azure-rest/load-testing";
-import { isUnexpected } from "@azure-rest/load-testing";
+import { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
 import fs from "node:fs";
-import { getLongRunningPoller } from "@azure-rest/load-testing";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Test Run Operations", () => {

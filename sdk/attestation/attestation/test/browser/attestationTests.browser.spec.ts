@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-
 import type { EndpointType } from "../utils/recordedClient.js";
 import {
   createRecordedAdminClient,
@@ -10,7 +9,6 @@ import {
   recorderOptions,
 } from "../utils/recordedClient.js";
 import * as base64url from "../utils/base64url.js";
-
 import { KnownAttestationType } from "@azure/attestation";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 

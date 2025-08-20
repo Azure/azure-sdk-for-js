@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { isRecordMode } from "@azure-tools/test-recorder";
+import { Recorder, isRecordMode } from "@azure-tools/test-recorder";
 import { VisualStudioCodeCredential } from "@azure/identity";
 import { describe, it, assert, vi, beforeEach } from "vitest";
 

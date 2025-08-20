@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { assertEnvironmentVariable, type Recorder } from "@azure-tools/test-recorder";
-
 import type { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";

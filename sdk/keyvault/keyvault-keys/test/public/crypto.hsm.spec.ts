@@ -3,7 +3,6 @@
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type { ClientSecretCredential } from "@azure/identity";
 import type { NoOpCredential } from "@azure-tools/test-credential";
-
 import type { KeyClient, KeyVaultKey } from "@azure/keyvault-keys";
 import { CryptographyClient } from "@azure/keyvault-keys";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";

@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- */
-
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";

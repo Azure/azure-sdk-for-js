@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ServiceBusSender } from "@azure/service-bus";
+import type { ServiceBusSender, ServiceBusReceiver } from "@azure/service-bus";
 import { delay } from "@azure/service-bus";
 import { TestClientType } from "../public/utils/testUtils.js";
-import type { ServiceBusReceiver } from "$internal/receivers/receiver.js";
 import type { ServiceBusClientForTests, EntityName } from "../public/utils/testutils2.js";
 import { createServiceBusClientForTests, testPeekMsgsLength } from "../public/utils/testutils2.js";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";

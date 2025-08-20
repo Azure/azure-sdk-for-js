@@ -7,6 +7,8 @@ import type {
   HttpResponseField,
   HttpResponseFields,
   ConfigurationSettingId,
+  FeatureFlagValue,
+  SecretReferenceValue,
 } from "@azure/app-configuration";
 import {
   featureFlagContentType,
@@ -27,9 +29,7 @@ import {
   transformKeyValueResponseWithStatusCode,
   getScope,
 } from "$internal/internal/helpers.js";
-import type { FeatureFlagValue } from "$internal/featureFlag.js";
 import type { WebResourceLike } from "@azure/core-http-compat";
-import type { SecretReferenceValue } from "$internal/secretReference.js";
 import { describe, it, assert } from "vitest";
 
 describe("helper methods", () => {

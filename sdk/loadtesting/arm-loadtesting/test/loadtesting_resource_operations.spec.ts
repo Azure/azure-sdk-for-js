@@ -10,7 +10,7 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { LoadTestClient } from "@azure/arm-loadtesting";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { LoadTestResource, LoadTestResourcePatchRequestBody } from "$internal/models/index.js";
+import type { LoadTestResource, LoadTestResourcePatchRequestBody } from "@azure/arm-loadtesting";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

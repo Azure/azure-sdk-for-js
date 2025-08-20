@@ -8,7 +8,6 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SecretClient } from "@azure/keyvault-secrets";
 import type { ClientSecretCredential } from "@azure/identity";
-
 import type { CertificateClient } from "@azure/keyvault-certificates";
 import { base64ToUint8Array, stringToUint8Array } from "$internal/utils.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";

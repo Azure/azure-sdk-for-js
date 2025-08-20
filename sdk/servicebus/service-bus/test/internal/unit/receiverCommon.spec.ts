@@ -8,10 +8,9 @@ import {
   settleMessageOperation,
   wrapProcessErrorHandler,
 } from "$internal/receivers/receiverCommon.js";
-import type { ServiceBusReceiver } from "$internal/receivers/receiver.js";
+import type { ServiceBusReceiver, ProcessErrorArgs } from "@azure/service-bus";
 import type { ServiceBusLogger } from "$internal/log.js";
 import { createServiceBusLogger } from "$internal/log.js";
-import type { ProcessErrorArgs } from "$internal/models.js";
 import { ServiceBusError, translateServiceBusError } from "$internal/serviceBusError.js";
 import { MessagingError, RetryOperationType } from "@azure/core-amqp";
 import type {

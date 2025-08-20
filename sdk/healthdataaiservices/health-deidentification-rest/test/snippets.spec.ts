@@ -6,7 +6,10 @@ import type {
   DeidentificationJob,
   DeidentifyDocumentsDefaultResponse,
 } from "@azure-rest/health-deidentification";
-import DeidentificationClient, { getLongRunningPoller, isUnexpected } from "@azure-rest/health-deidentification";
+import DeidentificationClient, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusMessage } from "$internal/serviceBusMessage.js";
+import type { ServiceBusMessage } from "@azure/service-bus";
 import { ServiceBusMessageImpl, toRheaMessage } from "$internal/serviceBusMessage.js";
 import type {
   Delivery,

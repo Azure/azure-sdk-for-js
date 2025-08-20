@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { createHash } from "node:crypto";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import type { ClientSecretCredential } from "@azure/identity";
-
 import type { KeyClient, KeyVaultKey } from "@azure/keyvault-keys";
 import { CryptographyClient } from "@azure/keyvault-keys";
 import { authenticate, envSetupForPlayback } from "../utils/testAuthentication.js";
@@ -11,7 +11,6 @@ import type TestClient from "../utils/testClient.js";
 import { stringToUint8Array, uint8ArrayToString } from "./../utils/crypto.js";
 import { RsaCryptographyProvider } from "$internal/cryptography/rsaCryptographyProvider.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
-
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({

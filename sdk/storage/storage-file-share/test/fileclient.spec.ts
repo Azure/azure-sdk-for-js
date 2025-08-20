@@ -10,17 +10,17 @@ import type {
   ShareClient,
   ShareDirectoryClient,
   ShareServiceClient,
+  DirectoryCreateResponse,
 } from "@azure/storage-file-share";
-import { ShareFileClient } from "@azure/storage-file-share";
-import { FileSystemAttributes } from "@azure/storage-file-share";
-import type { DirectoryCreateResponse } from "$internal/generatedModels.js";
-import { FILE_MAX_SIZE_BYTES } from "$internal/utils/constants.js";
 import {
+  ShareFileClient,
+  FileSystemAttributes,
   parseOctalFileMode,
   parseSymbolicFileMode,
   toOctalFileMode,
   toSymbolicFileMode,
 } from "@azure/storage-file-share";
+import { FILE_MAX_SIZE_BYTES } from "$internal/utils/constants.js";
 import { truncatedISO8061Date } from "$internal/utils/utils.common.js";
 import {
   bodyToString,

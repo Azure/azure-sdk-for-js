@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DatabaseAccount, ResourceResponse } from "@azure/cosmos";
+import {
+  DatabaseAccount,
+  ResourceResponse,
+  GlobalEndpointManager,
+  OperationType,
+  ResourceType,
+} from "@azure/cosmos";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { GlobalEndpointManager } from "@azure/cosmos";
-import { OperationType, ResourceType } from "@azure/cosmos";
 import { createDummyDiagnosticNode } from "../common/TestHelpers.js";
 import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
@@ -216,8 +220,8 @@ describe("GlobalEndpointManager", () => {
         "https://test-eastus2.documents.azure.com:443/",
       );
       /* As we have marked current location unavailable for read,
-        next read should go to the next location or default endpoint
-      */
+              next read should go to the next location or default endpoint
+            */
       assert.equal(
         await gem.getReadEndpoint(createDummyDiagnosticNode()),
         "https://test-westus2.documents.azure.com:443/",
@@ -231,8 +235,8 @@ describe("GlobalEndpointManager", () => {
       );
 
       /* As we have marked current location unavailable for write,
-        next write should go to the next location or default endpoint
-      */
+              next write should go to the next location or default endpoint
+            */
       assert.equal(
         await gem.getWriteEndpoint(createDummyDiagnosticNode()),
         "https://test.documents.azure.com:443/",

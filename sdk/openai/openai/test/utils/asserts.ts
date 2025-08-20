@@ -36,8 +36,6 @@ import type {
 import type {
   ChatCompletion,
   ChatCompletionMessageToolCall,
-} from "openai/resources/chat/completions.mjs";
-import type {
   ParsedChatCompletion,
   ParsedChatCompletionMessage,
   ParsedChoice,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { MessageSender } from "$internal/core/messageSender.js";
-import type { OperationOptionsBase } from "$internal/modelsToBeSharedWithEventHubs.js";
+import type { OperationOptionsBase, ProcessErrorArgs } from "@azure/service-bus";
 import type { AwaitableSender, ReceiverOptions } from "rhea-promise";
 import { delay } from "rhea-promise";
 import { ServiceBusMessageBatchImpl } from "$internal/serviceBusMessageBatch.js";
@@ -19,7 +19,6 @@ import { StandardAbortMessage } from "@azure/core-amqp";
 import { ServiceBusSessionReceiverImpl } from "$internal/receivers/sessionReceiver.js";
 import { ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
 import { MessageSession } from "$internal/session/messageSession.js";
-import type { ProcessErrorArgs } from "@azure/service-bus";
 import type { ReceiveMode } from "$internal/models.js";
 import { afterEach, beforeEach, describe, it } from "vitest";
 import { assert, assertAggregateError } from "../../public/utils/chai.js";

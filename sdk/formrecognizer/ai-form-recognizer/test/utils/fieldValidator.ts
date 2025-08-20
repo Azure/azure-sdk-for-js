@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { AnalyzedDocument } from "$internal/lro/analysis.js";
 import type {
+  AnalyzedDocument,
   DocumentArrayField,
   DocumentDateField,
   DocumentField,

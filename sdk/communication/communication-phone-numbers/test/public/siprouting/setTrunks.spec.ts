@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { SipRoutingClient } from "@azure/communication-phone-numbers";
 
+import type { SipRoutingClient, SipTrunk, SipTrunkRoute } from "@azure/communication-phone-numbers";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import type { SipTrunk, SipTrunkRoute } from "$internal/models.js";
 import {
   clearSipConfiguration,
   createRecordedClient,

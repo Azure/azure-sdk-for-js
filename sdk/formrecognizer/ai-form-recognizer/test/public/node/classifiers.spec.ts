@@ -9,9 +9,11 @@ import {
   makeCredential,
   testPollingOptions,
 } from "../../utils/recordedClients.js";
-import type { DocumentClassifierDetails } from "$internal/generated/index.js";
-import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
-import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+import type { DocumentClassifierDetails } from "@azure/ai-form-recognizer";
+import {
+  DocumentModelAdministrationClient,
+  DocumentAnalysisClient,
+} from "@azure/ai-form-recognizer";
 import path from "node:path";
 import fs from "node:fs";
 import { ASSET_PATH, makeTestUrl } from "../../utils/etc.js";

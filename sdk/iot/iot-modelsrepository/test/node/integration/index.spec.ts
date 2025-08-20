@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ModelsRepositoryClientOptions } from "@azure/iot-modelsrepository";
+import type {
+  ModelsRepositoryClientOptions,
+  dependencyResolutionType,
+} from "@azure/iot-modelsrepository";
 import { ModelsRepositoryClient } from "@azure/iot-modelsrepository";
-import type { dependencyResolutionType } from "$internal/dependencyResolutionType.js";
 import { ServiceClient } from "@azure/core-client";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, vi } from "vitest";

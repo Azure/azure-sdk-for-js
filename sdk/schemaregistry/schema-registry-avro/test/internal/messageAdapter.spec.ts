@@ -8,7 +8,7 @@ import type {
 } from "@azure/event-hubs";
 import { createEventDataAdapter } from "@azure/event-hubs";
 import type { AssertEqualKeys } from "../utils/utils.js";
-import type { MessageAdapter } from "$internal/models.js";
+import type { MessageAdapter } from "@azure/schema-registry-avro";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert } from "vitest";
 

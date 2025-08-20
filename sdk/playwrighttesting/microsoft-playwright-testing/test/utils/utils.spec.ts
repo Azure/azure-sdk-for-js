@@ -27,8 +27,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import process from "node:process";
 import { getPlaywrightVersion } from "$internal/utils/getPlaywrightVersion.js";
 import { parseJwt } from "$internal/utils/parseJwt.js";
-import { EntraIdAccessToken } from "$internal/common/entraIdAccessToken.js";
-import { createEntraIdAccessToken } from "$internal/common/entraIdAccessToken.js";
+import {
+  EntraIdAccessToken,
+  createEntraIdAccessToken,
+} from "$internal/common/entraIdAccessToken.js";
 
 vi.mock("$internal/common/entraIdAccessToken.js", async (importActual) => {
   const actual = await importActual<typeof import("$internal/common/entraIdAccessToken.js")>();

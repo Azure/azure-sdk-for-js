@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "@azure/cosmos";
+import { Constants, PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
 import type { Container, StoredProcedureDefinition } from "@azure/cosmos";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
 import {
   bulkInsertItems,
   getTestContainer,
@@ -80,7 +79,7 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
 
       // replace sproc
       // prettier-ignore
-      sproc.body = function () { const x = 20; console.log(x); };
+      sproc.body = function() { const x = 20; console.log(x); };
       const { resource: replacedSproc } = await container.scripts
         .storedProcedure(sproc.id)
         .replace(sproc);

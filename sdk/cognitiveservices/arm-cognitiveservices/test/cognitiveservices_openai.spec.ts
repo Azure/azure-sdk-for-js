@@ -7,7 +7,7 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
-import type { Deployment } from "$internal/models/index.js";
+import type { Deployment } from "@azure/arm-cognitiveservices";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

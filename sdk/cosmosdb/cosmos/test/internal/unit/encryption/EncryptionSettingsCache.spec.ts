@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientEncryptionPolicy } from "@azure/cosmos";
+import type { ClientEncryptionPolicy, ClientEncryptionIncludedPath } from "@azure/cosmos";
 import { EncryptionAlgorithm, EncryptionType } from "@azure/cosmos";
-import type { ClientEncryptionIncludedPath } from "$internal/encryption/index.js";
 import { EncryptionSettings } from "$internal/encryption/index.js";
 import { EncryptionSettingsCache } from "$internal/encryption/Cache/EncryptionSettingsCache.js";
 import { describe, it, assert } from "vitest";

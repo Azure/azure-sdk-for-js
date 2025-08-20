@@ -5,14 +5,18 @@ import { randomBytes } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { config } from "dotenv";
-import { configureFileStorageClient, SimpleTokenCredential } from "./testutils.common.js";
+import {
+  configureFileStorageClient,
+  SimpleTokenCredential,
+  getUniqueName,
+  configureBlobStorageClient,
+} from "./testutils.common.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { StoragePipelineOptions } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "@azure/storage-blob";
-import { BlobServiceClient } from "@azure/storage-blob";
-import { getUniqueName, configureBlobStorageClient } from "./testutils.common.js";
-import { newPipeline } from "@azure/storage-blob";
 import {
+  StorageSharedKeyCredential,
+  BlobServiceClient,
+  newPipeline,
   generateAccountSASQueryParameters,
   AccountSASPermissions,
   SASProtocol,

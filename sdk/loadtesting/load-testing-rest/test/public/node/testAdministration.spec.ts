@@ -7,11 +7,10 @@ import type {
   AzureLoadTestingClient,
   TestAppComponentsOutput,
 } from "@azure-rest/load-testing";
-import { isUnexpected } from "@azure-rest/load-testing";
+import { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import fs from "node:fs";
-import { getLongRunningPoller } from "@azure-rest/load-testing";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Test Administration Operations", () => {

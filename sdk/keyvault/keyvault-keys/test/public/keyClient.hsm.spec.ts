@@ -10,7 +10,6 @@ import { KnownKeyExportEncryptionAlgorithm } from "@azure/keyvault-keys";
 import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import { createPipelineRequest, createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
-
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({

@@ -25,9 +25,9 @@ import type {
   TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
+  TelemetryItem as Envelope,
 } from "$internal/generated/index.js";
 import { KnownContextTagKeys } from "$internal/generated/index.js";
-import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
 import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import { logToEnvelope } from "$internal/utils/logUtils.js";
 import { SeverityNumber } from "@opentelemetry/api-logs";

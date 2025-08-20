@@ -15,7 +15,7 @@ import {
   SEMRESATTRS_SERVICE_INSTANCE_ID,
 } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import type { AzureMonitorExporterOptions } from "$internal/config.js";
+import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import type {
   TelemetryItem as Envelope,
   RemoteDependencyData,

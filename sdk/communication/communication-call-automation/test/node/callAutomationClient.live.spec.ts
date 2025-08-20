@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { CallAutomationClient } from "@azure/communication-call-automation";
+import type {
+  CallAutomationClient,
+  CallInvite,
+  CallConnection,
+  CreateCallOptions,
+  AnswerCallOptions,
+} from "@azure/communication-call-automation";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   createRecorder,
@@ -19,12 +25,6 @@ import {
   persistEvents,
 } from "../utils/recordedClient.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
-import type {
-  CallInvite,
-  CallConnection,
-  CreateCallOptions,
-  AnswerCallOptions,
-} from "@azure/communication-call-automation";
 import { isNodeLike } from "@azure/core-util";
 
 describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => {

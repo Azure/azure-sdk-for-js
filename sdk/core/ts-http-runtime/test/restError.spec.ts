@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { PipelineRequest, PipelineResponse } from "$internal/interfaces.js";
-import { createHttpHeaders } from "@typespec/ts-http-runtime";
-import { RestError } from "@typespec/ts-http-runtime";
+import type { PipelineRequest, PipelineResponse } from "@typespec/ts-http-runtime";
+import { createHttpHeaders, RestError } from "@typespec/ts-http-runtime";
 
 describe("RestError", function () {
   const request: PipelineRequest = {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
   FileSystemListPathsResponse,
@@ -22,7 +22,6 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
 import {
   Pipeline,

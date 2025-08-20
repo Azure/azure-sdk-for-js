@@ -5,13 +5,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-import type { SelectFields } from "@azure/search-documents";
 import { SearchClient } from "@azure/search-documents";
 import type {
   NarrowedModel as GenericNarrowedModel,
   SearchFieldArray,
   SearchPick,
   SelectArray,
+  SelectFields,
   SuggestNarrowedModel,
 } from "@azure/search-documents";
 

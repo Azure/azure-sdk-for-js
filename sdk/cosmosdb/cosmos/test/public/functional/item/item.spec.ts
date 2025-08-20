@@ -9,8 +9,10 @@ import type {
   ItemDefinition,
   PatchOperation,
   RequestOptions,
+  PartitionKey,
+  PartitionKeyDefinition,
 } from "@azure/cosmos";
-import { CosmosClient } from "@azure/cosmos";
+import { CosmosClient, PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -26,11 +28,6 @@ import {
 } from "../../common/TestHelpers.js";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
-import type { PartitionKey, PartitionKeyDefinition } from "$internal/documents/index.js";
-import {
-  PartitionKeyDefinitionVersion,
-  PartitionKeyKind,
-} from "@azure/cosmos";
 import { PriorityLevel } from "$internal/documents/PriorityLevel.js";
 import { getCurrentTimestampInMs } from "$internal/utils/time.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";

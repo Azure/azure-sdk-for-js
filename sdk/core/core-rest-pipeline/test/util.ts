@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AzureLogger } from "@azure/logger";
-import type { RequestBodyType } from "$internal/interfaces.js";
+import type { RequestBodyType } from "@azure/core-rest-pipeline";
 import { assert } from "vitest";
 
 function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {

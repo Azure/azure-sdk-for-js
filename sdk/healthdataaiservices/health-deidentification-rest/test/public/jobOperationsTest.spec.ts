@@ -7,19 +7,17 @@ import {
   getTestEnvironment,
 } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type { DeidentificationClient } from "$internal/clientDefinitions.js";
-import { createTestCredential } from "@azure-tools/test-credential";
-import type { DeidentificationJob } from "$internal/models.js";
 import type {
+  DeidentificationClient,
+  DeidentificationJob,
   DeidentificationJobOutput,
   DeidentificationDocumentDetailsOutput,
 } from "@azure-rest/health-deidentification";
+import { createTestCredential } from "@azure-tools/test-credential";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import type { ErrorResponse } from "@azure-rest/core-client";
-import { getLongRunningPoller } from "@azure-rest/health-deidentification";
-import { paginate } from "@azure-rest/health-deidentification";
-import { isUnexpected } from "@azure-rest/health-deidentification";
+import { getLongRunningPoller, paginate, isUnexpected } from "@azure-rest/health-deidentification";
 
 const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,

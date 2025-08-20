@@ -6,14 +6,8 @@ import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
 } from "$internal/utils/diagnostics.js";
-import { CosmosDbDiagnosticLevel } from "@azure/cosmos";
-import type {
-  ClientConfigDiagnostic,
-  CosmosClientOptions,
-  RequestOptions,
-  Resource,
-} from "@azure/cosmos";
 import {
+  CosmosDbDiagnosticLevel,
   ClientContext,
   ConsistencyLevel,
   Constants,
@@ -21,12 +15,16 @@ import {
   ErrorResponse,
   GlobalEndpointManager,
   ItemResponse,
-} from "@azure/cosmos";
-import { getCurrentTimestampInMs } from "$internal/utils/time.js";
-import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
 } from "@azure/cosmos";
+import type {
+  ClientConfigDiagnostic,
+  CosmosClientOptions,
+  RequestOptions,
+  Resource,
+} from "@azure/cosmos";
+import { getCurrentTimestampInMs } from "$internal/utils/time.js";
 import { allowTracing } from "$internal/diagnostics/diagnosticLevelComparator.js";
 import {
   determineDiagnosticLevel,

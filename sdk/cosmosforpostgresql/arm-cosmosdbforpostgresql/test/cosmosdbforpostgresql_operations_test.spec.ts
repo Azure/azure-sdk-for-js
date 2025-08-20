@@ -7,7 +7,8 @@
  */
 
 import type {
-  RecorderStartOptions} from "@azure-tools/test-recorder";
+  RecorderStartOptions
+} from "@azure-tools/test-recorder";
 import {
   env,
   Recorder,
@@ -45,21 +46,21 @@ describe("CosmosDBForPostgreSQL test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new CosmosDBForPostgreSQL(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest";
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new CosmosDBForPostgreSQL(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest";
 
-    });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("clusters create test", async function () {
     const res = await client.clusters.beginCreateAndWait(

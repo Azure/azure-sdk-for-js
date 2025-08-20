@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CompositeMapper } from "$internal/interfaces.js";
+import type { CompositeMapper } from "@azure/core-client";
 
 const QueueDescription: CompositeMapper = {
   serializedName: "QueueDescription",

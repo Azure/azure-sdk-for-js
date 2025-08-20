@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
-import type { AppConfigurationClient } from "$internal/appConfigurationClient.js";
+import type { AppConfigurationClient } from "@azure/app-configuration";
 import { describe, it, beforeEach, afterEach } from "vitest";
 
 describe("supports tracing", () => {

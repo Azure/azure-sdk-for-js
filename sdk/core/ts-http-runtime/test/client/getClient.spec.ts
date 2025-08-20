@@ -3,7 +3,7 @@
 
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { getCachedDefaultHttpsClient } from "$internal/client/clientHelpers.js";
-import { getClient } from "@typespec/ts-http-runtime";
+import { getClient, createHttpHeaders } from "@typespec/ts-http-runtime";
 import type {
   HttpClient,
   PipelineRequest,
@@ -11,7 +11,6 @@ import type {
   SendRequest,
 } from "@typespec/ts-http-runtime";
 import { createEmptyPipeline, type PipelinePolicy } from "$internal/pipeline.js";
-import { createHttpHeaders } from "@typespec/ts-http-runtime";
 import { isNodeLike } from "$internal/util/checkEnvironment.js";
 
 describe("getClient", () => {

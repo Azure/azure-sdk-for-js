@@ -23,12 +23,8 @@ describe("playwrightServiceGlobalSetup", () => {
   it("should only call playwrightServiceEntra.globalSetup when serviceAuthType is ENTRA_ID", async () => {
     // Import the modules after mocking
     const playwrightServiceEntra = await import("$internal/core/playwrightServiceEntra.js");
-    const { PlaywrightServiceConfig } = await import(
-      "$internal/common/playwrightServiceConfig.js"
-    );
-    const initializeModule = await import(
-      "$internal/core/initializePlaywrightServiceTestRun.js"
-    );
+    const { PlaywrightServiceConfig } = await import("$internal/common/playwrightServiceConfig.js");
+    const initializeModule = await import("$internal/core/initializePlaywrightServiceTestRun.js");
 
     // Create spies
     vi.spyOn(playwrightServiceEntra.default, "globalSetup").mockResolvedValue(undefined);

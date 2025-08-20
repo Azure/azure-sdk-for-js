@@ -25,8 +25,14 @@ import {
   isPhoneNumberIdentifier,
   createIdentifierFromRawId,
 } from "@azure/communication-common";
-import type { CallAutomationClientOptions, CallAutomationEvent } from "@azure/communication-call-automation";
-import { CallAutomationClient, parseCallAutomationEvent } from "@azure/communication-call-automation";
+import type {
+  CallAutomationClientOptions,
+  CallAutomationEvent,
+} from "@azure/communication-call-automation";
+import {
+  CallAutomationClient,
+  parseCallAutomationEvent,
+} from "@azure/communication-call-automation";
 import type { CommunicationIdentifierModel } from "$internal/generated/src/index.js";
 import {
   createDefaultHttpClient,

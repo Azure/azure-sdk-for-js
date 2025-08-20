@@ -8,11 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SecurityInsights } from "@azure/arm-securityinsight";
-import {
-  SentinelOnboardingState,
-  SentinelOnboardingStatesCreateOptionalParams,
-} from "@azure/arm-securityinsight";
+import { SecurityInsights, SentinelOnboardingState, SentinelOnboardingStatesCreateOptionalParams } from "@azure/arm-securityinsight";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

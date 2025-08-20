@@ -3,12 +3,13 @@
 
 import { describe, it, assert } from "vitest";
 import { sendRequest } from "$internal/client/sendRequest.js";
-import { RestError } from "@typespec/ts-http-runtime";
-import type { MultipartRequestBody, PipelineResponse } from "$internal/interfaces.js";
-import type { Pipeline } from "$internal/pipeline.js";
-import { createEmptyPipeline } from "@typespec/ts-http-runtime";
-import { createHttpHeaders } from "@typespec/ts-http-runtime";
-import { stringToUint8Array } from "@typespec/ts-http-runtime";
+import {
+  RestError,
+  createEmptyPipeline,
+  createHttpHeaders,
+  stringToUint8Array,
+} from "@typespec/ts-http-runtime";
+import type { MultipartRequestBody, PipelineResponse, Pipeline } from "@typespec/ts-http-runtime";
 import type { PartDescriptor } from "$internal/client/multipart.js";
 
 describe("sendRequest", () => {

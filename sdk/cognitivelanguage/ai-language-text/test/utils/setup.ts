@@ -7,7 +7,6 @@ import type { TestProject } from "vitest/node";
 import { EnvVarKeys } from "./constants.js";
 import { deployProjects } from "./deployProjects.js";
 import * as MOCKS from "./constants.js";
-
 import "dotenv/config";
 
 declare module "vitest" {

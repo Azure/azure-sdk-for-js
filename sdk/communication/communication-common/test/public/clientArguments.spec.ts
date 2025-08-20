@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { parseClientArguments } from "@azure/communication-common";
-import { parseConnectionString } from "@azure/communication-common";
+import { parseClientArguments, parseConnectionString } from "@azure/communication-common";
 import { assertPropertyNames } from "./utils/credentialUtils.js";
 import { describe, it, assert } from "vitest";
 

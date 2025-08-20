@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlQuerySpec } from "$internal/queryExecutionContext/index.js";
+import type { SqlQuerySpec, ClientContext, PartitionKeyRange } from "@azure/cosmos";
 import { DocumentProducer, FetchResult } from "$internal/queryExecutionContext/index.js";
 import { MockedClientContext } from "../../public/common/MockClientContext.js";
-import type { ClientContext, PartitionKeyRange } from "@azure/cosmos";
 import { describe, it, assert } from "vitest";
 
 describe("Test DocumentProducer", () => {

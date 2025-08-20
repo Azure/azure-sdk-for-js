@@ -3,7 +3,7 @@
 
 import { describe, it, assert } from "vitest";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import type { MultipartRequestBody } from "$internal/interfaces.js";
+import type { MultipartRequestBody } from "@azure/core-rest-pipeline";
 import { Readable } from "node:stream";
 import { performRequest } from "../formDataPolicy.spec.js";
 import { createFileFromStream, getRawContent } from "$internal/util/file.js";

@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import type { HttpClient, SendRequest } from "@azure/core-rest-pipeline";
-
 import { generateSendMessageRequest } from "$internal/utils/smsUtils.js";
 import { Uuid } from "$internal/utils/uuid.js";
 import { apiVersion } from "$internal/generated/src/models/parameters.js";
-import type { SmsSendRequest } from "$internal/smsClient.js";
+import type { SmsSendRequest } from "@azure/communication-sms";
 import { SmsClient } from "@azure/communication-sms";
 import { MockHttpClient } from "../public/utils/mockHttpClient.js";
 import type { MockInstance } from "vitest";

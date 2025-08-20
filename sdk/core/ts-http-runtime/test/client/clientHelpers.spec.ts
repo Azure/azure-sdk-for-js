@@ -7,13 +7,13 @@ import type {
   BearerTokenCredential,
   OAuth2TokenCredential,
   BasicCredential,
+  OAuth2Flow,
 } from "@typespec/ts-http-runtime";
 import { createDefaultPipeline } from "$internal/client/clientHelpers.js";
 import { bearerAuthenticationPolicyName } from "$internal/policies/auth/bearerAuthenticationPolicy.js";
 import { basicAuthenticationPolicyName } from "$internal/policies/auth/basicAuthenticationPolicy.js";
 import { apiKeyAuthenticationPolicyName } from "$internal/policies/auth/apiKeyAuthenticationPolicy.js";
 import { oauth2AuthenticationPolicyName } from "$internal/policies/auth/oauth2AuthenticationPolicy.js";
-import type { OAuth2Flow } from "@typespec/ts-http-runtime";
 
 describe("clientHelpers", () => {
   it("should create a default pipeline with no credentials", () => {

@@ -11,7 +11,10 @@ import {
   testPollingOptions,
 } from "../utils/recordedClients.js";
 import type { DocumentModelDetails } from "@azure/ai-form-recognizer";
-import { DocumentAnalysisClient, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+import {
+  DocumentAnalysisClient,
+  DocumentModelAdministrationClient,
+} from "@azure/ai-form-recognizer";
 import { DocumentModelBuildMode } from "$internal/options/BuildModelOptions.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {

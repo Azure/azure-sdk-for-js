@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Container,
-  PluginConfig,
-  CosmosClientOptions,
-  OperationInput,
+import type { Container, PluginConfig, CosmosClientOptions, OperationInput } from "@azure/cosmos";
+import {
+  CosmosClient,
+  Constants,
+  PatchOperationType,
+  ResourceType,
+  HTTPMethod,
+  StatusCodes,
 } from "@azure/cosmos";
-import { CosmosClient, Constants, PatchOperationType } from "@azure/cosmos";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import { ResourceType, HTTPMethod, StatusCodes } from "@azure/cosmos";
 import { describe, it, assert, beforeEach, afterAll } from "vitest";
 
 const plugins: PluginConfig[] = [

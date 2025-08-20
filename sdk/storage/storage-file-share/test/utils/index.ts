@@ -7,10 +7,8 @@ import path from "node:path";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-
 import type { TokenCredential } from "@azure/core-auth";
 import { BlobServiceClient } from "@azure/storage-blob";
-
 import type { ShareClientConfig, ShareClientOptions } from "@azure/storage-file-share";
 import {
   AccountSASPermissions,
@@ -18,10 +16,10 @@ import {
   AccountSASServices,
   generateAccountSASQueryParameters,
   SASProtocol,
+  newPipeline,
+  ShareServiceClient,
 } from "@azure/storage-file-share";
 import { StorageSharedKeyCredential } from "@azure/storage-common";
-import { newPipeline } from "@azure/storage-file-share";
-import { ShareServiceClient } from "@azure/storage-file-share";
 import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 import { getUniqueName, configureStorageClient } from "./testutils.common.js";
 import type { StorageClient } from "$internal/StorageClient.js";

@@ -1,9 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container } from "@azure/cosmos";
+import type { Container, CosmosClientOptions, PluginConfig } from "@azure/cosmos";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
-import type { CosmosClientOptions, PluginConfig } from "@azure/cosmos";
 import { Constants, CosmosClient, PluginOn } from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";

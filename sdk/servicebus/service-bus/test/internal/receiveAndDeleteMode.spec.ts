@@ -8,9 +8,7 @@ import type {
   ProcessErrorArgs,
   ServiceBusSender,
 } from "@azure/service-bus";
-
 import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils.js";
-
 import { InvalidOperationInReceiveAndDeleteMode } from "$internal/util/errors.js";
 import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {

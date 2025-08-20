@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 import type { Recorder } from "@azure-tools/test-recorder";
 import { testPollingOptions } from "@azure-tools/test-recorder";
-import type { AppConfigurationClient } from "$internal/appConfigurationClient.js";
 import type {
+  AppConfigurationClient,
   ConfigurationSnapshot,
   ConfigurationSettingsFilter,
   CreateSnapshotResponse,

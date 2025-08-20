@@ -3,7 +3,7 @@
 
 import { describe, it, assert, beforeEach } from "vitest";
 import { AbortError } from "@azure/abort-controller";
-import type { CancellableAsyncLock } from "$internal/util/lock.js";
+import type { CancellableAsyncLock } from "@azure/core-amqp";
 import { CancellableAsyncLockImpl } from "$internal/util/lock.js";
 import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "@azure/core-amqp";
