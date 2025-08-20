@@ -73,7 +73,7 @@ If a change requires updates to the core packages, you will remind the user to r
 
 ### Pre-requisites
 
-- To use MCP tool calls, user must have Powershell installed. Provide [Powershell installation instructions](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7.5) if not installed, and recommend restarting VSCode to start the MCP server.
+- To use MCP tool calls, user must have PowerShell installed. Provide [PowerShell installation instructions](https://learn.microsoft.com/powershell/scripting/install/installing-powershell?view=powershell-7.5) if not installed, and recommend restarting VSCode to start the MCP server.
 
 ## Azure SDK Guidelines
 
@@ -108,8 +108,6 @@ There are two tools to help with SDK releases:
 
 - Check SDK release readiness
 - Release SDK
-
-User needs Powershell installed in order to use the tools.
 
 ### Check SDK Release Readiness
 
