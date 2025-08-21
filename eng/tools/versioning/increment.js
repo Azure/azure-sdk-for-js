@@ -71,11 +71,6 @@ async function main(argv) {
     return;
   }
 
-  const updatedPackageJson = {
-    ...packageJsonContents,
-    version: newVersion,
-  };
-  await writePackageJson(packageJsonLocation, updatedPackageJson);
   await updatePackageConstants(
     path.join(repoRoot, targetPackagePath),
     packageJsonContents,
