@@ -367,7 +367,8 @@ export class Stream {
           ? this._resendInterval * Math.pow(2, this._resendAttempts - 1)
           : this._resendInterval;
         
-        logger.info(`Waiting ${delay}ms before resend attempt ${this._resendAttempts + 1} for stream ${this._streamId}`);
+        this._resendAttempts++;
+        logger.info(`Waiting ${delay}ms before resend attempt ${this._resendAttempts} for stream ${this._streamId}`);
         await new Promise(resolve => setTimeout(resolve, delay));
       }
 
@@ -375,11 +376,7 @@ export class Stream {
         logger.warning(`Stream ${this._streamId} is disposed or completed. Abort resend.`);
         return;
       }
-
-      // Increment the resend attempt counter
-      this._resendAttempts++;
       logger.info(`Resending buffered messages for stream ${this._streamId} (attempt ${this._resendAttempts}/${this._maxResendAttempts})`);
-
       // Resend all messages in buffer
       for (const message of this._buffer) {
         try {
