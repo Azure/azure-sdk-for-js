@@ -87,7 +87,6 @@
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "eslint": "catalog:",
-    "loupe": "~3.1.1",
     "playwright": "catalog:testing",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

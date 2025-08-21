@@ -26,7 +26,7 @@ async function deleteProjectConnection(): Promise<void> {
     credential,
     subscriptionId,
   );
-  const result = await client.projectConnection.delete(
+  const result = await client.projectConnections.delete(
     resourceGroupName,
     accountName,
     projectName,

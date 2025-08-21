@@ -9,7 +9,7 @@
  */
 
 import {
-  AuthorizationProviderContract,
+  type AuthorizationProviderContract,
   ApiManagementClient,
 } from "@azure/arm-apimanagement";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -113,7 +113,6 @@ async function apiManagementCreateAuthorizationProviderGenericOAuth2(): Promise<
           clientId: "clientid",
           clientSecret: "clientsecretvalue",
           refreshUrl: "https://www.eventbrite.com/oauth/token",
-          scopes: undefined,
           tokenUrl: "https://www.eventbrite.com/oauth/token",
         },
       },

@@ -12070,9 +12070,6 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.33.0
-      loupe:
-        specifier: ~3.1.1
-        version: 3.1.4
       playwright:
         specifier: catalog:testing
         version: 1.54.2
@@ -31485,9 +31482,6 @@ packages:
   long@5.3.2:
     resolution: {integrity: sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==}
 
-  loupe@3.1.4:
-    resolution: {integrity: sha512-wJzkKwJrheKtknCOKNEtDK4iqg/MxmZheEMtSTYvnzRdEYaZzmgH976nenp8WdJRdx5Vc1X/9MO0Oszl6ezeXg==}
-
   loupe@3.2.0:
     resolution: {integrity: sha512-2NCfZcT5VGVNX9mSZIxLRkEAegDGBpuQZBy13desuHeVORmBDyAET4TkJr4SjqQy3A8JDofMN6LpkK8Xcm/dlw==}
 
@@ -35736,7 +35730,7 @@ snapshots:
       assertion-error: 2.0.1
       check-error: 2.1.1
       deep-eql: 5.0.2
-      loupe: 3.1.4
+      loupe: 3.2.0
       pathval: 2.0.1
 
   chalk-template@1.1.0:
@@ -37173,8 +37167,6 @@ snapshots:
   long@4.0.0: {}
 
   long@5.3.2: {}
-
-  loupe@3.1.4: {}
 
   loupe@3.2.0: {}
 

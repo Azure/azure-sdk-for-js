@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
   console.log(`Token expires on: ${communicationUserToken.expiresOn}`);
 
   // Get user
-  const userResult = await client.getUser(communicationUserToken.user);
+  const userResult = await client.getUserDetail(communicationUserToken.user);
   console.log(
     `Got user with id: ${userResult.user.communicationUserId} customId: ${userResult.customId} lastTokenIssuedAt: ${userResult.lastTokenIssuedAt}`,
   );

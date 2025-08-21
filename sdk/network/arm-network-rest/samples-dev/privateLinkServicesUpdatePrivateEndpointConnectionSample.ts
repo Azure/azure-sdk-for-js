@@ -24,9 +24,6 @@ async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService():
     body: {
       name: "testPlePeConnection",
       properties: {
-        privateEndpoint: {
-          id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
-        },
         privateLinkServiceConnectionState: {
           description: "approved it for some reason.",
           status: "Approved",

@@ -8,7 +8,7 @@
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/expressRouteProviderPort.json
  */
 
-import type { ExpressRouteProviderPortsGetParameters } from "@azure-rest/arm-network";
+import type { ExpressRouteProviderPortParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -18,7 +18,7 @@ async function expressRouteProviderPort(): Promise<void> {
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
   const providerport = "abc";
-  const options: ExpressRouteProviderPortsGetParameters = {
+  const options: ExpressRouteProviderPortParameters = {
     queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client

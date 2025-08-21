@@ -37,7 +37,7 @@ async function createVirtualNetwork(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -74,7 +74,7 @@ async function createVirtualNetworkWithBgpCommunities(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -123,7 +123,7 @@ async function createVirtualNetworkWithDelegatedSubnets(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -160,7 +160,7 @@ async function createVirtualNetworkWithEncryption(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -204,7 +204,7 @@ async function createVirtualNetworkWithServiceEndpoints(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -253,7 +253,7 @@ async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -289,7 +289,7 @@ async function createVirtualNetworkWithSubnet(): Promise<void> {
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -330,7 +330,7 @@ async function createVirtualNetworkWithSubnetContainingAddressPrefixes(): Promis
       virtualNetworkName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
