@@ -232,12 +232,12 @@ export class Stream {
     // @internal
     _handleStreamAck(sequenceId: number, success: boolean, autoResendStreamMessages: boolean, error?: StreamAckMessageError): void;
     // @internal
-    _hasUnackedMessages(): boolean;
+    _hasUnackedMessages(): boolean; // cspell:disable-line
     onError(callback: (error: StreamAckMessageError) => void): void;
     publish(content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, abortSignal?: AbortSignalLike): Promise<void>;
     publishWithSequenceId(sequenceId: number, content: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, abortSignal?: AbortSignalLike): Promise<void>;
     // @internal
-    _resendUnackedMessages(abortSignal?: AbortSignalLike): Promise<void>;
+    _resendUnackedMessages(abortSignal?: AbortSignalLike): Promise<void>; // cspell:disable-line
     get streamId(): string;
 }
 
