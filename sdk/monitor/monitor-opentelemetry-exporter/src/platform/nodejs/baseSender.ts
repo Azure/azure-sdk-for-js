@@ -298,6 +298,11 @@ export abstract class BaseSender {
       // For non-retriable REST errors or client exceptions
       if (!this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countException(restError);
+        this.customerSDKStatsMetrics?.countDroppedItems(
+          envelopes,
+          DropCode.CLIENT_EXCEPTION,
+          restError.message,
+        );
         diag.error(
           "Envelopes could not be exported and are not retriable. Error message:",
           restError.message,
