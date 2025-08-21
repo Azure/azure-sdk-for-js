@@ -195,7 +195,11 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
             }
 
             // Include telemetry_success only for request/dependency telemetry when success is not null
-            if ((telemetryType === TelemetryType.REQUEST || telemetryType === TelemetryType.DEPENDENCY) && success !== null) {
+            if (
+              (telemetryType === TelemetryType.REQUEST ||
+                telemetryType === TelemetryType.DEPENDENCY) &&
+              success !== null
+            ) {
               (attributes as any)["telemetry_success"] = success;
             }
 
@@ -280,7 +284,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
     for (const envelope of envelopes) {
       telemetry_type = this.getTelemetryTypeFromEnvelope(envelope);
-      
+
       // Always use the unified structure with success tracking
       let dropCodeMap = counter.totalItemDropCount.get(telemetry_type);
       if (!dropCodeMap) {
@@ -307,9 +311,11 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
       // For non-request/dependency telemetry or when success is not provided, use null as the success key
       const individualTelemetrySuccess = this.getTelemetrySuccessFromEnvelope(envelope);
-      const successKey = (telemetry_type === TelemetryType.REQUEST || telemetry_type === TelemetryType.DEPENDENCY) && individualTelemetrySuccess !== undefined
-        ? individualTelemetrySuccess
-        : null;
+      const successKey =
+        (telemetry_type === TelemetryType.REQUEST || telemetry_type === TelemetryType.DEPENDENCY) &&
+        individualTelemetrySuccess !== undefined
+          ? individualTelemetrySuccess
+          : null;
 
       // Update the count for this reason and success combination
       const currentCount = successMap.get(successKey) || 0;
