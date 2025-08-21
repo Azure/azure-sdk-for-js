@@ -13,11 +13,7 @@ The cache is implemented using Azure Blob Storage, and it uses the `@azure/stora
 
 ### Running the Cache Locally
 
-You will need to log into Azure and create a storage account. You can do this using the Azure CLI:
-
-```bash
-az login
-```
+You will need an Azure Storage Blob resource for running the cache server.. See below on how to create a Azure Storage Account.
 
 To build the package, run the following command under the project directory:
 
