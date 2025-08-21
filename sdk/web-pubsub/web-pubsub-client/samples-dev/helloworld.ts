@@ -70,17 +70,17 @@ async function main(): Promise<void> {
     streamHandler.onMessage((message: JSONTypes) => {
       data.push(message);
     });
-    
+
     streamHandler.onComplete(() => {
       console.log(`Stream ${streamId} completed with data: ${data.join(" ")}`);
     });
-    
+
     streamHandler.onError((error: any) => {
       console.error(`Stream error: ${error.message}`);
     });
 
     return streamHandler;
-  })
+  });
 
   await client.start();
 
@@ -96,7 +96,7 @@ async function main(): Promise<void> {
     buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
     "binary",
   );
-  
+
   const stream = client.stream(groupName);
   stream.onError((error) => {
     console.error(`Stream publish error: ${error.message}`);
@@ -105,7 +105,7 @@ async function main(): Promise<void> {
   await stream.publish("Hello", "text");
   await stream.publish("World", "text");
   await stream.complete("!", "text");
-  
+
   await delay(1000);
   client.stop();
 }
