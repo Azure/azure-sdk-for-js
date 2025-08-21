@@ -62,7 +62,7 @@
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
-    "build:samples": "echo Obsolete",
+    "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-esm test-dist types *.tgz *.log ",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
