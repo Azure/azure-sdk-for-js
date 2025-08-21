@@ -1,11 +1,8 @@
 # Use an official node 22 image
-FROM node:22-alpine AS base
+FROM mcr.microsoft.com/azurelinux/base/nodejs:20.14 AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-
-# Install to /bin/bash
-RUN apk add --no-cache bash
+RUN npm install -g pnpm
 
 # Conditionally install Azure CLI if NODE_ENV is development
 ARG NODE_ENV=production
