@@ -64,7 +64,7 @@ export class NetworkStatsbeat {
 export class CustomerSDKStats {
   public totalItemSuccessCount: Map<TelemetryType, number>;
 
-  // Unified structure: telemetry_type -> drop.code -> drop.reason -> success -> count
+  // telemetry_type -> drop.code -> drop.reason -> success -> count
   // success can be true/false for request/dependency telemetry, or null for other types
   public totalItemDropCount: Map<
     TelemetryType,

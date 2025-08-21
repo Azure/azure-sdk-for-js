@@ -892,59 +892,6 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(mockObservableResult.observe).not.toHaveBeenCalled();
     });
 
-    it("should verify telemetry_success field in drop callback for REQUEST telemetry", () => {
-      const requestEnvelopes = createMockEnvelopes(2, TelemetryType.REQUEST);
-      customerSDKStatsMetrics.countDroppedItems(requestEnvelopes, DropCode.CLIENT_EXCEPTION);
-
-      const mockObservableResult = {
-        observe: vi.fn(),
-      };
-
-      const dropCallback = (customerSDKStatsMetrics as any).itemDropCallback.bind(
-        customerSDKStatsMetrics,
-      );
-      dropCallback(mockObservableResult);
-
-      // For drop callback, telemetry_success should be included for REQUEST/DEPENDENCY
-      expect(mockObservableResult.observe).toHaveBeenCalledWith(
-        expect.any(Object),
-        2,
-        expect.objectContaining({
-          telemetry_type: TelemetryType.REQUEST,
-          "drop.code": DropCode.CLIENT_EXCEPTION,
-          // Note: telemetry_success is included in drop callback for REQUEST/DEPENDENCY
-        }),
-      );
-    });
-
-    it("should verify telemetry_success field in drop callback for DEPENDENCY telemetry", () => {
-      const dependencyEnvelopes = createMockEnvelopes(3, TelemetryType.DEPENDENCY);
-      customerSDKStatsMetrics.countDroppedItems(
-        dependencyEnvelopes,
-        DropCode.NON_RETRYABLE_STATUS_CODE,
-      );
-
-      const mockObservableResult = {
-        observe: vi.fn(),
-      };
-
-      const dropCallback = (customerSDKStatsMetrics as any).itemDropCallback.bind(
-        customerSDKStatsMetrics,
-      );
-      dropCallback(mockObservableResult);
-
-      // For drop callback, telemetry_success should be included for REQUEST/DEPENDENCY
-      expect(mockObservableResult.observe).toHaveBeenCalledWith(
-        expect.any(Object),
-        3,
-        expect.objectContaining({
-          telemetry_type: TelemetryType.DEPENDENCY,
-          "drop.code": DropCode.NON_RETRYABLE_STATUS_CODE,
-          // Note: telemetry_success is included in drop callback for REQUEST/DEPENDENCY
-        }),
-      );
-    });
-
     describe("dropped telemetry telemetry_success field marking", () => {
       // Helper function to create mock envelopes with specific success values
       function createMockEnvelopesWithSuccess(

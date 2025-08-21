@@ -294,7 +294,6 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     for (const envelope of envelopes) {
       telemetry_type = this.getTelemetryTypeFromEnvelope(envelope);
 
-      // Always use the unified structure with success tracking
       let dropCodeMap = counter.totalItemDropCount.get(telemetry_type);
       if (!dropCodeMap) {
         dropCodeMap = new Map<DropCode | number, Map<string, Map<boolean | null, number>>>();

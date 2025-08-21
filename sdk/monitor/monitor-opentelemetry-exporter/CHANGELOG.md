@@ -6,6 +6,8 @@
 
 - Added support for configuring customer SDK Stats export interval using the `APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL` environment variable (specified in seconds).
 
+- Added support for the `telemetry_success_ field on customer SDK Stats to track if dropped request and dependency telemetry succeeded or failed.
+
 ### Other Changes
 
 - Renamed Customer Statsbeat feature to customer SDK Stats.
