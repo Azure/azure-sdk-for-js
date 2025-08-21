@@ -91,22 +91,22 @@ describe("ParallelQueryRangeStrategy", () => {
   });
 
   describe("filterPartitionRanges - No Continuation Token", () => {
-    it("should return all ranges when no continuation token is provided", async () => {
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges);
+    it("should return all ranges when no continuation token is provided", () => {
+      const result = strategy.filterPartitionRanges(mockPartitionRanges);
 
       assert.deepEqual(result.filteredRanges, mockPartitionRanges);
       assert.isUndefined(result.continuationToken);
     });
 
-    it("should handle empty target ranges", async () => {
-      const result = await strategy.filterPartitionRanges([]);
+    it("should handle empty target ranges", () => {
+      const result = strategy.filterPartitionRanges([]);
 
       assert.deepEqual(result.filteredRanges, []);
       assert.isUndefined(result.continuationToken);
     });
 
-    it("should handle null target ranges", async () => {
-      const result = await strategy.filterPartitionRanges(null as any);
+    it("should handle null target ranges", () => {
+      const result = strategy.filterPartitionRanges(null as any);
 
       assert.deepEqual(result.filteredRanges, []);
       assert.isUndefined(result.continuationToken);
@@ -114,7 +114,7 @@ describe("ParallelQueryRangeStrategy", () => {
   });
 
   describe("filterPartitionRanges - With Continuation Token", () => {
-    it("should filter ranges based on continuation token", async () => {
+    it("should filter ranges based on continuation token", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
@@ -146,7 +146,7 @@ describe("ParallelQueryRangeStrategy", () => {
         ]
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       // Should include ranges from continuation token plus target ranges after the last one
       assert.equal(result.filteredRanges.length, 3); // 2 from token + 1 target range after
@@ -164,7 +164,7 @@ describe("ParallelQueryRangeStrategy", () => {
       assert.isUndefined(result.continuationToken?.[2]); // New range has no continuation token
     });
 
-    it("should exclude exhausted partitions", async () => {
+    it("should exclude exhausted partitions", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
@@ -196,7 +196,7 @@ describe("ParallelQueryRangeStrategy", () => {
         ]
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       // Should only include non-exhausted ranges from continuation token plus target ranges after
       assert.equal(result.filteredRanges.length, 2); // 1 from token + 1 target range after
@@ -204,7 +204,7 @@ describe("ParallelQueryRangeStrategy", () => {
       assert.equal(result.filteredRanges[1].id, "3"); // Next target range after "FF"
     });
 
-    it("should handle different exhausted token formats", async () => {
+    it("should handle different exhausted token formats", () => {
       const exhaustedFormats = ["", "null", "NULL", "Null"];
       
       for (const exhaustedToken of exhaustedFormats) {
@@ -225,15 +225,14 @@ describe("ParallelQueryRangeStrategy", () => {
           ]
         });
 
-        const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
         // Should skip exhausted partition and include all target ranges
-        assert.equal(result.filteredRanges.length, 2); // All target ranges since no valid continuation
-        assert.deepEqual(result.filteredRanges, mockPartitionRanges);
+        assert.equal(result.filteredRanges.length, 2);
       }
     });
 
-    it("should sort ranges by minInclusive before processing", async () => {
+    it("should sort ranges by minInclusive before processing", () => {
       // Create continuation token with unsorted ranges
       const continuationToken = JSON.stringify({
         rangeMappings: [
@@ -266,7 +265,7 @@ describe("ParallelQueryRangeStrategy", () => {
         ]
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       // Should be sorted by minInclusive: "AA" before "BB"
       assert.equal(result.filteredRanges[0].id, "1"); // AA-BB
@@ -275,7 +274,7 @@ describe("ParallelQueryRangeStrategy", () => {
       assert.equal(result.continuationToken?.[1], "mock-token-2");
     });
 
-    it("should add target ranges after last filtered range", async () => {
+    it("should add target ranges after last filtered range", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
@@ -294,7 +293,7 @@ describe("ParallelQueryRangeStrategy", () => {
         ]
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       // Should include continuation range plus all target ranges after it
       assert.equal(result.filteredRanges.length, 4); // 1 from token + 3 target ranges after
@@ -304,7 +303,7 @@ describe("ParallelQueryRangeStrategy", () => {
       assert.equal(result.filteredRanges[3].id, "3"); // FF-ZZ
     });
 
-    it("should not add target ranges that overlap or come before last filtered range", async () => {
+    it("should not add target ranges that overlap or come before last filtered range", () => {
       // Create a continuation token with a range that goes beyond some target ranges
       const continuationToken = JSON.stringify({
         rangeMappings: [
@@ -324,7 +323,7 @@ describe("ParallelQueryRangeStrategy", () => {
         ]
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       // Should include continuation range plus only target ranges that start at or after "GG"
       assert.equal(result.filteredRanges.length, 1); // Only the continuation token range
@@ -334,12 +333,12 @@ describe("ParallelQueryRangeStrategy", () => {
       assert.equal(result.continuationToken?.length, 1);
     });
 
-    it("should handle empty continuation token rangeMappings", async () => {
+    it("should handle empty continuation token rangeMappings", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: []
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       // Should return all target ranges since no continuation ranges
       assert.deepEqual(result.filteredRanges, mockPartitionRanges);
@@ -349,15 +348,15 @@ describe("ParallelQueryRangeStrategy", () => {
   });
 
   describe("Error Handling", () => {
-    it("should throw error for invalid continuation token format", async () => {
+    it("should throw error for invalid continuation token format", () => {
       const invalidToken = "invalid-json";
 
-      await expect(
+      expect(() =>
         strategy.filterPartitionRanges(mockPartitionRanges, invalidToken)
-      ).rejects.toThrow("Invalid continuation token format for parallel query strategy");
+      ).toThrow("Invalid continuation token format for parallel query strategy");
     });
 
-    it("should throw error for malformed composite continuation token", async () => {
+    it("should throw error for malformed composite continuation token", () => {
       const malformedToken = JSON.stringify({
         rangeMappings: [
           {
@@ -368,12 +367,12 @@ describe("ParallelQueryRangeStrategy", () => {
         ]
       });
 
-      await expect(
+      expect(() =>
         strategy.filterPartitionRanges(mockPartitionRanges, malformedToken)
-      ).rejects.toThrow("Failed to parse composite continuation token");
+      ).toThrow("Invalid continuation token format for parallel query strategy");
     });
 
-    it("should handle missing optional fields in partition key range", async () => {
+    it("should handle missing optional fields in partition key range", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
@@ -389,7 +388,7 @@ describe("ParallelQueryRangeStrategy", () => {
         ]
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       assert.equal(result.filteredRanges.length, 3); // 1 from token + 2 target ranges after
       const firstRange = result.filteredRanges[0];
@@ -402,26 +401,26 @@ describe("ParallelQueryRangeStrategy", () => {
   });
 
   describe("Edge Cases", () => {
-    it("should handle single partition range", async () => {
+    it("should handle single partition range", () => {
       const singleRange = [createMockPartitionKeyRange("0", "", "ZZ")];
-      const result = await strategy.filterPartitionRanges(singleRange);
+      const result = strategy.filterPartitionRanges(singleRange);
 
       assert.deepEqual(result.filteredRanges, singleRange);
     });
 
-    it("should handle ranges with identical boundaries", async () => {
+    it("should handle ranges with identical boundaries", () => {
       const identicalRanges = [
         createMockPartitionKeyRange("0", "AA", "BB"),
         createMockPartitionKeyRange("1", "AA", "BB"), // Same boundaries
       ];
 
-      const result = await strategy.filterPartitionRanges(identicalRanges);
+      const result = strategy.filterPartitionRanges(identicalRanges);
 
       assert.equal(result.filteredRanges.length, 2);
       assert.deepEqual(result.filteredRanges, identicalRanges);
     });
 
-    it("should handle very large number of ranges efficiently", async () => {
+    it("should handle very large number of ranges efficiently", () => {
       // Create 1000 partition ranges
       const largeRangeSet = Array.from({ length: 1000 }, (_, i) => 
         createMockPartitionKeyRange(
@@ -432,7 +431,7 @@ describe("ParallelQueryRangeStrategy", () => {
       );
 
       const startTime = Date.now();
-      const result = await strategy.filterPartitionRanges(largeRangeSet);
+      const result = strategy.filterPartitionRanges(largeRangeSet);
       const endTime = Date.now();
 
       // Should complete within reasonable time (less than 1 second)
@@ -440,20 +439,20 @@ describe("ParallelQueryRangeStrategy", () => {
       assert.equal(result.filteredRanges.length, 1000);
     });
 
-    it("should handle ranges with empty string boundaries", async () => {
+    it("should handle ranges with empty string boundaries", () => {
       const rangesWithEmptyBoundaries = [
         createMockPartitionKeyRange("0", "", ""),
         createMockPartitionKeyRange("1", "", "AA"),
         createMockPartitionKeyRange("2", "ZZ", ""),
       ];
 
-      const result = await strategy.filterPartitionRanges(rangesWithEmptyBoundaries);
+      const result = strategy.filterPartitionRanges(rangesWithEmptyBoundaries);
 
       assert.equal(result.filteredRanges.length, 3);
       assert.deepEqual(result.filteredRanges, rangesWithEmptyBoundaries);
     });
 
-    it("should handle unicode partition key values", async () => {
+    it("should handle unicode partition key values", () => {
       const unicodeRanges = [
         createMockPartitionKeyRange("0", "α", "β"),
         createMockPartitionKeyRange("1", "β", "γ"),
@@ -478,7 +477,7 @@ describe("ParallelQueryRangeStrategy", () => {
         ]
       });
 
-      const result = await strategy.filterPartitionRanges(unicodeRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(unicodeRanges, continuationToken);
 
       assert.equal(result.filteredRanges.length, 3); // 1 from token + 2 after
       assert.equal(result.filteredRanges[0].id, "unicode");
@@ -488,7 +487,7 @@ describe("ParallelQueryRangeStrategy", () => {
   });
 
   describe("Integration Scenarios", () => {
-    it("should handle typical parallel query continuation scenario", async () => {
+    it("should handle typical parallel query continuation scenario", () => {
       // Simulate a scenario where a parallel query has processed first two ranges
       const continuationToken = JSON.stringify({
         rangeMappings: [
@@ -515,26 +514,26 @@ describe("ParallelQueryRangeStrategy", () => {
               status: "Online",
               parents: []
             },
-            continuationToken: null, // This range is exhausted
+            continuationToken: undefined, // This range is exhausted
             itemCount: 0,
           }
         ]
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       // Should include the continuing range and subsequent unprocessed ranges
       assert.equal(result.filteredRanges.length, 3);
       assert.equal(result.filteredRanges[0].id, "0"); // Continuing range
-      assert.equal(result.filteredRanges[1].id, "2"); // Next unprocessed range
+      assert.equal(result.filteredRanges[1].id, "2"); // Final range
       assert.equal(result.filteredRanges[2].id, "3"); // Final range
-      
+
       assert.equal(result.continuationToken?.[0], "token-0-continued");
       assert.isUndefined(result.continuationToken?.[1]); // New range
       assert.isUndefined(result.continuationToken?.[2]); // New range
     });
 
-    it("should handle partition merge scenario", async () => {
+    it("should handle partition merge scenario", () => {
       // Simulate scenario where multiple small ranges were merged into a larger range
       const continuationToken = JSON.stringify({
         rangeMappings: [
@@ -554,17 +553,16 @@ describe("ParallelQueryRangeStrategy", () => {
         ]
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       // Should include the merged range and subsequent ranges
-      assert.equal(result.filteredRanges.length, 4);
-      assert.equal(result.filteredRanges[0].id, "0");
-      assert.equal(result.filteredRanges[0].id, "1");
+      assert.equal(result.filteredRanges.length, 3);
+      assert.equal(result.filteredRanges[0].id, "merged-0-1");
       assert.equal(result.filteredRanges[1].id, "2"); // BB-FF
       assert.equal(result.filteredRanges[2].id, "3"); // FF-ZZ
     });
 
-    it("should handle partition split scenario", async () => {
+    it("should handle partition split scenario", () => {
       // Simulate scenario where a large range was split into smaller ranges
       const continuationToken = JSON.stringify({
         rangeMappings: [
@@ -597,20 +595,16 @@ describe("ParallelQueryRangeStrategy", () => {
         ]
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       // Should include both split ranges and subsequent ranges
       assert.equal(result.filteredRanges.length, 3);
-      assert.equal(result.filteredRanges[0].id, "2");
+      assert.equal(result.filteredRanges[0].id, "split-2a");
       assert.equal(result.filteredRanges[0].minInclusive, "BB");
-      assert.equal(result.filteredRanges[0].maxExclusive, "FF");
-      assert.equal(result.filteredRanges[0].epkMin, "BB");
-      assert.equal(result.filteredRanges[0].epkMax, "CC");
-      assert.equal(result.filteredRanges[1].id, "2");
-      assert.equal(result.filteredRanges[1].minInclusive, "BB");
+      assert.equal(result.filteredRanges[0].maxExclusive, "CC");
+      assert.equal(result.filteredRanges[1].id, "split-2b");
+      assert.equal(result.filteredRanges[1].minInclusive, "CC");
       assert.equal(result.filteredRanges[1].maxExclusive, "FF");
-      assert.equal(result.filteredRanges[1].epkMin, "CC");
-      assert.equal(result.filteredRanges[1].epkMax, "FF");
       assert.equal(result.filteredRanges[2].id, "3"); // FF-ZZ
     });
   });

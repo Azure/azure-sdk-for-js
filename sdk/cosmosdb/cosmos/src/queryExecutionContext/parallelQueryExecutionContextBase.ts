@@ -424,12 +424,16 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
         console.log(`Set EPK boundaries for range ${existingRange.id}: epkMin=${existingRange.epkMin}, epkMax=${existingRange.epkMax}`);
 
-        // Step 2: Update logical boundaries to match the new merged range
+        // Step 2: Update all fields from the new merged range except epkMin and epkMax
         existingRange.minInclusive = newMergedRange.minInclusive;
         existingRange.maxExclusive = newMergedRange.maxExclusive;
-        
-        // Also update the range ID to reflect the merge
         existingRange.id = newMergedRange.id;
+        // Copy all other fields that might be present in the new merged range
+        existingRange.ridPrefix = newMergedRange.ridPrefix;
+        existingRange.throughputFraction = newMergedRange.throughputFraction;
+        existingRange.status = newMergedRange.status;
+        existingRange.parents = newMergedRange.parents;
+        
         
         console.log(
           `Updated range ${newMergedRange.id} logical boundaries to [${newMergedRange.minInclusive}, ${newMergedRange.maxExclusive}) ` +
