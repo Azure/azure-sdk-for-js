@@ -139,10 +139,7 @@ describe("AzureCliCredential (internal)", function () {
       try {
         await credential.getToken("https://service/.default");
       } catch (error: any) {
-        assert.equal(
-          error.message,
-          azureCliPublicErrorMessages.notInstalled,
-        );
+        assert.equal(error.message, azureCliPublicErrorMessages.notInstalled);
       }
     } else {
       stdout = "";
@@ -152,26 +149,19 @@ describe("AzureCliCredential (internal)", function () {
       try {
         await credential.getToken("https://service/.default");
       } catch (error: any) {
-        assert.equal(
-          error.message,
-          azureCliPublicErrorMessages.notInstalled,
-        );
+        assert.equal(error.message, azureCliPublicErrorMessages.notInstalled);
       }
     }
   });
 
   it("get access token when azure cli not login in", async () => {
     stdout = "";
-    stderr =
-      azureCliPublicErrorMessages.login;
+    stderr = azureCliPublicErrorMessages.login;
     const credential = new AzureCliCredential();
     try {
       await credential.getToken("https://service/.default");
     } catch (error: any) {
-      assert.equal(
-        error.message,
-        azureCliPublicErrorMessages.login,
-      );
+      assert.equal(error.message, azureCliPublicErrorMessages.login);
     }
   });
 
@@ -205,7 +195,7 @@ describe("AzureCliCredential (internal)", function () {
     try {
       await credential.getToken(scope, {
         claims: claimsChallenge,
-        tenantId: tenantId
+        tenantId: tenantId,
       });
     } catch (e: any) {
       error = e;

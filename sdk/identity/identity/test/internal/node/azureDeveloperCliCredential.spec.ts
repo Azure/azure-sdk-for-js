@@ -99,10 +99,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       try {
         await credential.getToken("https://service/.default");
       } catch (error: any) {
-        assert.equal(
-          error.message,
-          azureDeveloperCliPublicErrorMessages.notInstalled,
-        );
+        assert.equal(error.message, azureDeveloperCliPublicErrorMessages.notInstalled);
       }
     } else {
       stdout = "";
@@ -112,10 +109,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       try {
         await credential.getToken("https://service/.default");
       } catch (error: any) {
-        assert.equal(
-          error.message,
-          azureDeveloperCliPublicErrorMessages.notInstalled,
-        );
+        assert.equal(error.message, azureDeveloperCliPublicErrorMessages.notInstalled);
       }
     }
   });
@@ -167,7 +161,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     const credential = new AzureDeveloperCliCredential();
     const actualToken = await credential.getToken(scope, {
       claims: claimsChallenge,
-      tenantId: tenantId
+      tenantId: tenantId,
     });
 
     assert.equal(actualToken!.token, "token");
@@ -185,9 +179,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     const actualToken = await credential.getToken(scope, { claims: "" });
 
     assert.equal(actualToken!.token, "token");
-    assert.deepEqual(azdCommands, [
-      `azd auth token --output json --scope ${scope}`,
-    ]);
+    assert.deepEqual(azdCommands, [`azd auth token --output json --scope ${scope}`]);
   });
 
   it("does not include claims when undefined", async function () {
@@ -199,9 +191,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     const actualToken = await credential.getToken(scope, { claims: undefined });
 
     assert.equal(actualToken!.token, "token");
-    assert.deepEqual(azdCommands, [
-      `azd auth token --output json --scope ${scope}`,
-    ]);
+    assert.deepEqual(azdCommands, [`azd auth token --output json --scope ${scope}`]);
   });
 
   for (const tenantId of [

@@ -98,7 +98,7 @@ describe("AzurePowerShellCredential", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `${powerShellPublicErrorMessages.claim} ${claimsChallenge}`,
+      `${powerShellPublicErrorMessages.claim} Connect-AzAccount -ClaimsChallenge  ${claimsChallenge}`,
     );
   });
 
@@ -109,9 +109,9 @@ describe("AzurePowerShellCredential", function () {
 
     let error: Error | null = null;
     try {
-      await credential.getToken(scope, { 
+      await credential.getToken(scope, {
         claims: claimsChallenge,
-        tenantId: tenantId 
+        tenantId: tenantId,
       });
     } catch (e: any) {
       error = e;
@@ -121,7 +121,7 @@ describe("AzurePowerShellCredential", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `${powerShellPublicErrorMessages.claim} ${claimsChallenge}`,
+      `${powerShellPublicErrorMessages.claim} Connect-AzAccount -ClaimsChallenge ${claimsChallenge} -TenantId ${tenantId}`,
     );
   });
 
@@ -139,7 +139,6 @@ describe("AzurePowerShellCredential", function () {
 
     const credential = new AzurePowerShellCredential();
 
-    // Should not throw an error for empty claims
     const token = await credential.getToken(scope, { claims: "" });
     assert.equal(token?.token, tokenResponse.Token);
     assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());
@@ -159,7 +158,6 @@ describe("AzurePowerShellCredential", function () {
 
     const credential = new AzurePowerShellCredential();
 
-    // Should not throw an error for whitespace-only claims
     const token = await credential.getToken(scope, { claims: "   " });
     assert.equal(token?.token, tokenResponse.Token);
     assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());
@@ -179,7 +177,6 @@ describe("AzurePowerShellCredential", function () {
 
     const credential = new AzurePowerShellCredential();
 
-    // Should not throw an error for undefined claims
     const token = await credential.getToken(scope, { claims: undefined });
     assert.equal(token?.token, tokenResponse.Token);
     assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());

@@ -71,7 +71,8 @@ export const powerShellPublicErrorMessages = {
   login:
     "Please run 'Connect-AzAccount' from PowerShell to authenticate before using this credential.",
   installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force".`,
-  claim: "This credential doesn't support claims challenges. To authenticate with the required claims, please run the following command:",
+  claim:
+    "This credential doesn't support claims challenges. To authenticate with the required claims, please run the following command:",
   troubleshoot: `To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`,
 };
 
@@ -224,12 +225,14 @@ export class AzurePowerShellCredential implements TokenCredential {
         if (tenantIdFromOptions) {
           loginCmd += ` -Tenant ${tenantIdFromOptions}`;
         }
-        const error = new CredentialUnavailableError(`${powerShellPublicErrorMessages.claim} ${claimsValue}`);
-        
+        const error = new CredentialUnavailableError(
+          `${powerShellPublicErrorMessages.claim} ${loginCmd}`,
+        );
+
         logger.getToken.info(formatError(scope, error));
         throw error;
       }
-      
+
       const tenantId = processMultiTenantRequest(
         this.tenantId,
         options,

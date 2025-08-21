@@ -4,11 +4,15 @@
 
 ### Features Added
 
+- `AzureDeveloperCliCredential` now supports `claims` in `getToken`. [#35493](https://github.com/Azure/azure-sdk-for-js/pull/35493)
+
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- `AzureCliCredential` and `AzurePowerShellCredential` now raise `ClientAuthenticationError` when `claims` are provided to `getToken`, as these credentials do not support claims challenges. The error message includes instructions for handling claims authentication scenarios. [#35493](https://github.com/Azure/azure-sdk-for-js/pull/35493)
 
 ## 4.11.1 (2025-08-05)
 

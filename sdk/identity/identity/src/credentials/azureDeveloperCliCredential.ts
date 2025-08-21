@@ -62,7 +62,7 @@ export const developerCliCredentialInternals = {
     scopes: string[],
     tenantId?: string,
     timeout?: number,
-    claims?: string
+    claims?: string,
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     let tenantSection: string[] = [];
     if (tenantId) {
@@ -71,7 +71,7 @@ export const developerCliCredentialInternals = {
 
     let claimsSections: string[] = [];
     if (claims) {
-      claimsSections = ["--claims", claims]
+      claimsSections = ["--claims", claims];
     }
     return new Promise((resolve, reject) => {
       try {
@@ -191,7 +191,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           scopeList,
           tenantId,
           this.timeout,
-          options.claims
+          options.claims,
         );
         const isNotLoggedInError =
           obj.stderr?.match("not logged in, run `azd login` to login") ||
@@ -209,9 +209,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
         }
 
         if (isNotLoggedInError) {
-          const error = new CredentialUnavailableError(
-            azureDeveloperCliPublicErrorMessages.login,
-          );
+          const error = new CredentialUnavailableError(azureDeveloperCliPublicErrorMessages.login);
           logger.getToken.info(formatError(scopes, error));
           throw error;
         }
@@ -235,8 +233,8 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-              (err as Error).message || azureDeveloperCliPublicErrorMessages.unknown,
-            );
+                (err as Error).message || azureDeveloperCliPublicErrorMessages.unknown,
+              );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }

@@ -23,13 +23,15 @@ const logger = credentialLogger("AzureCliCredential");
  * @internal
  */
 export const azureCliPublicErrorMessages = {
-  claim: "This credential doesn't support claims challenges. To authenticate with the required claims, please run the following command:",
+  claim:
+    "This credential doesn't support claims challenges. To authenticate with the required claims, please run the following command:",
   notInstalled:
     "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
   login:
     "Please run 'az login' from a command prompt to authenticate before using this credential.",
   unknown: "Unknown error while trying to retrieve the access token",
-  unexpectedResponse: "Unexpected response from Azure CLI when getting token. Expected \"expiresOn\" to be a RFC3339 date string. Got:",
+  unexpectedResponse:
+    'Unexpected response from Azure CLI when getting token. Expected "expiresOn" to be a RFC3339 date string. Got:',
 };
 
 /**
@@ -160,7 +162,9 @@ export class AzureCliCredential implements TokenCredential {
         loginCmd += ` --tenant ${tenantIdFromOptions}`;
       }
 
-      const error = new CredentialUnavailableError(`${azureCliPublicErrorMessages.claim} ${loginCmd}`);
+      const error = new CredentialUnavailableError(
+        `${azureCliPublicErrorMessages.claim} ${loginCmd}`,
+      );
       logger.getToken.info(formatError(scope, error));
       throw error;
     }
@@ -219,8 +223,8 @@ export class AzureCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-              (err as Error).message || azureCliPublicErrorMessages.unknown,
-            );
+                (err as Error).message || azureCliPublicErrorMessages.unknown,
+              );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
