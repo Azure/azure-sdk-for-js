@@ -3,9 +3,9 @@
 
 import type { WebPubSubClientOptions } from "../src/models/index.js";
 import { WebPubSubJsonProtocol } from "../src/protocols/index.js";
+import { StreamHandler } from "../src/streaming.js";
 import { WebPubSubClient } from "../src/webPubSubClient.js";
 import type { WebPubSubClientCredential } from "../src/webPubSubClientCredential.js";
-import { StreamHandler } from "../src/streaming.js";
 import { describe, it, assert, beforeEach, vi } from "vitest";
 
 describe("WebPubSubClient Streaming Integration", function () {
@@ -165,7 +165,7 @@ describe("WebPubSubClient Streaming Integration", function () {
       assert.equal((stream as any)._resendAttempts, 1);
 
       // Simulate successful acknowledgment (this should reset the counter)
-      stream._handleStreamAck(1, true);
+      stream._handleStreamAck(1, true, true);
       
       // Verify resend attempts counter was reset
       assert.equal((stream as any)._resendAttempts, 0);

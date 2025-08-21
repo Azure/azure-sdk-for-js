@@ -230,7 +230,7 @@ export class Stream {
     complete(content?: JSONTypes | ArrayBuffer, dataType?: WebPubSubDataType, abortSignal?: AbortSignalLike): Promise<void>;
     get groupName(): string;
     // @internal
-    _handleStreamAck(sequenceId: number, success: boolean, error?: StreamAckMessageError): void;
+    _handleStreamAck(sequenceId: number, success: boolean, autoResendStreamMessages: boolean, error?: StreamAckMessageError): void;
     // @internal
     _hasUnackedMessages(): boolean;
     onError(callback: (error: StreamAckMessageError) => void): void;
