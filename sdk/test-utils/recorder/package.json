@@ -15,7 +15,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "dev-tool run build-package && dev-tool run build-test && concurrently \"npm run tests:server\" \"npm run test:browser:proxy\" --kill-others --success first",
     "test:browser:proxy": "dev-tool run test:vitest --browser",
@@ -56,18 +56,18 @@
   },
   "devDependencies": {
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/node": "^20.0.0",
-    "@vitest/browser": "^3.0.9",
-    "@vitest/coverage-istanbul": "^3.0.9",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
     "concurrently": "^8.2.0",
-    "eslint": "^9.9.0",
+    "eslint": "catalog:",
     "express": "^4.19.2",
-    "playwright": "^1.41.2",
-    "tslib": "^2.6.2",
-    "typescript": "~5.8.2",
-    "vitest": "^3.0.9"
+    "playwright": "catalog:testing",
+    "tslib": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
   },
   "tshy": {
     "exports": {
