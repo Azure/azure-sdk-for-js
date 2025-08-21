@@ -51,7 +51,7 @@ export type DownstreamMessageType =
    * Type for ServerDataMessage
    */
   | "serverData"
-  | "streamAck"
+  | "streamAck";
 
 /**
  * Types for upstream messages

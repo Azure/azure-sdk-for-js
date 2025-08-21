@@ -79,7 +79,7 @@ export interface StreamOptions {
    * Default: 1000
    */
   maxBufferSize?: number;
-  
+
   /**
    * Time-to-live for the stream in milliseconds
    * Default: 300000 (5 minutes)
@@ -176,7 +176,7 @@ export class Stream {
       if (!this._isCompleted && !this._isDisposed) {
         this._handleError({
           name: "StreamTimeout",
-          message: "Stream has reached its time-to-live limit"
+          message: "Stream has reached its time-to-live limit",
         });
         this._destroy();
       }
@@ -246,7 +246,7 @@ export class Stream {
     await this._sendMessage(message, abortSignal);
   }
 
-    /**
+  /**
    * Publish a message to the stream
    */
   public async publishWithSequenceId(
@@ -315,10 +315,15 @@ export class Stream {
    * @internal
    * Handle stream ack from service
    */
-  public _handleStreamAck(sequenceId: number, success: boolean, autoResendStreamMessages: boolean, error?: StreamAckMessageError): void {
+  public _handleStreamAck(
+    sequenceId: number,
+    success: boolean,
+    autoResendStreamMessages: boolean,
+    error?: StreamAckMessageError,
+  ): void {
     if (success) {
       const beforeSize = this._buffer.length;
-      this._buffer = this._buffer.filter(msg => msg.sequenceId > sequenceId);
+      this._buffer = this._buffer.filter((msg) => msg.sequenceId > sequenceId);
       const afterSize = this._buffer.length;
 
       // If buffer size decreased, notify waiting publishers and reset resend attempts
@@ -331,10 +336,12 @@ export class Stream {
       if (autoResendStreamMessages && error && error.name === "InvalidSequenceId") {
         this._resendUnackedMessages();
       }
-      this._handleError(error || {
-        name: "StreamError",
-        message: "Stream message failed"
-      });
+      this._handleError(
+        error || {
+          name: "StreamError",
+          message: "Stream message failed",
+        },
+      );
     }
   }
 
@@ -350,34 +357,40 @@ export class Stream {
     }
     this._isResending = true;
 
+    if (this._isDisposed) {
+      logger.warning(`Stream ${this._streamId} is disposed or completed. Abort resend.`);
+      return;
+    }
+
     try {
       // Check if we've exceeded the maximum resend attempts
       if (this._resendAttempts >= this._maxResendAttempts) {
-        logger.warning(`Stream ${this._streamId} has exceeded maximum resend attempts (${this._maxResendAttempts}). Stopping resend.`);
+        logger.warning(
+          `Stream ${this._streamId} has exceeded maximum resend attempts (${this._maxResendAttempts}). Stopping resend.`,
+        );
         this._handleError({
           name: "StreamMaxResendAttemptsExceeded",
-          message: `Maximum resend attempts (${this._maxResendAttempts}) exceeded for stream ${this._streamId}`
+          message: `Maximum resend attempts (${this._maxResendAttempts}) exceeded for stream ${this._streamId}`,
         });
         return;
       }
 
       // Add delay before resending (except for first attempt)
       if (this._resendAttempts > 0) {
-      const delay = this._useExponentialBackoff 
-        ? this._resendInterval * Math.pow(2, this._resendAttempts - 1)
-        : this._resendInterval;
-      
-        logger.info(`Waiting ${delay}ms before resend attempt ${this._resendAttempts} for stream ${this._streamId}`);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
-      
-      if (this._isDisposed) {
-        logger.warning(`Stream ${this._streamId} is disposed or completed. Abort resend.`);
-        return;
+        const delay = this._useExponentialBackoff
+          ? this._resendInterval * Math.pow(2, this._resendAttempts - 1)
+          : this._resendInterval;
+
+        logger.info(
+          `Waiting ${delay}ms before resend attempt ${this._resendAttempts + 1} for stream ${this._streamId}`,
+        );
+        await new Promise((resolve) => setTimeout(resolve, delay));
       }
 
       this._resendAttempts++;
-      logger.info(`Resending buffered messages for stream ${this._streamId} (attempt ${this._resendAttempts}/${this._maxResendAttempts})`);
+      logger.info(
+        `Resending buffered messages for stream ${this._streamId} (attempt ${this._resendAttempts}/${this._maxResendAttempts})`,
+      );
       // Resend all messages in buffer
       for (const message of this._buffer) {
         try {
@@ -393,7 +406,7 @@ export class Stream {
         } catch (error) {
           this._handleError({
             name: "StreamResendError",
-            message: `Failed to resend message with sequence ID ${message.sequenceId}: ${error}`
+            message: `Failed to resend message with sequence ID ${message.sequenceId}: ${error}`,
           });
           break;
         }
@@ -430,7 +443,7 @@ export class Stream {
       // Set up timeout
       const timeoutId = setTimeout(() => {
         // Remove from waiting queue if timeout occurs
-        const index = this._waitingQueue.findIndex(w => w.resolve === resolve);
+        const index = this._waitingQueue.findIndex((w) => w.resolve === resolve);
         if (index >= 0) {
           this._waitingQueue.splice(index, 1);
         }
@@ -438,15 +451,15 @@ export class Stream {
       }, this._bufferWaitTimeout);
 
       // Add to waiting queue with cleanup on resolve
-      this._waitingQueue.push({ 
+      this._waitingQueue.push({
         resolve: () => {
           clearTimeout(timeoutId);
           resolve();
-        }, 
+        },
         reject: (error: Error) => {
           clearTimeout(timeoutId);
           reject(error);
-        }
+        },
       });
     });
   }
@@ -492,7 +505,7 @@ export class Stream {
     } catch (error) {
       this._handleError({
         name: "StreamSendError",
-        message: `Failed to send message: ${error}`
+        message: `Failed to send message: ${error}`,
       });
     }
   }
@@ -504,7 +517,7 @@ export class Stream {
   private _destroy(): void {
     this._isDisposed = true;
     this._buffer = [];
-    
+
     // Reject all waiting publishers
     while (this._waitingQueue.length > 0) {
       const waiter = this._waitingQueue.shift();

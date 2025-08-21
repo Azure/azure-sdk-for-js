@@ -14,12 +14,12 @@ describe("WebPubSubClient Streaming Integration", function () {
 
   beforeEach(() => {
     mockCredential = {
-      getClientAccessUrl: vi.fn().mockResolvedValue("wss://test.service.com")
+      getClientAccessUrl: vi.fn().mockResolvedValue("wss://test.service.com"),
     };
-    
+
     client = new WebPubSubClient(mockCredential, {
       protocol: WebPubSubJsonProtocol(),
-      autoReconnect: false
+      autoReconnect: false,
     } as WebPubSubClientOptions);
   });
 
@@ -48,7 +48,7 @@ describe("WebPubSubClient Streaming Integration", function () {
 
       // Access internal streams map
       const internalStreams = (client as any)._streams;
-      
+
       assert.isTrue(internalStreams.has(stream1.streamId));
       assert.isTrue(internalStreams.has(stream2.streamId));
       assert.equal(internalStreams.get(stream1.streamId), stream1);
@@ -81,7 +81,7 @@ describe("WebPubSubClient Streaming Integration", function () {
       // Test that both registrations work by checking event listeners
       const emitter = (client as any)._emitter;
       assert.isTrue(emitter.eventNames().includes("group-stream-message"));
-      
+
       // Event listeners are added, but they'll be filtered by group name at runtime
       assert.isAtLeast(emitter.listenerCount("group-stream-message"), 1);
     });
@@ -106,7 +106,7 @@ describe("WebPubSubClient Streaming Integration", function () {
   describe("Stream message handling", () => {
     it("should create streams that can be used for publishing", async () => {
       const stream = client.stream("testGroup");
-      
+
       // Test that the stream has the expected interface
       assert.isFunction(stream.publish);
       assert.isFunction(stream.publishWithSequenceId);
@@ -119,7 +119,7 @@ describe("WebPubSubClient Streaming Integration", function () {
     it("should limit the number of resend attempts", async () => {
       const stream = client.stream("testGroup", { maxResendAttempts: 2 });
       let errorReceived: any = null;
-      
+
       // Set up error handler
       stream.onError((error: any) => {
         errorReceived = error;
@@ -135,7 +135,7 @@ describe("WebPubSubClient Streaming Integration", function () {
 
       // Reset error handler
       errorReceived = null;
-      
+
       // Try to resend multiple times - should stop after maxResendAttempts
       await stream._resendUnackedMessages(); // 1st attempt
       await stream._resendUnackedMessages(); // 2nd attempt
@@ -149,7 +149,7 @@ describe("WebPubSubClient Streaming Integration", function () {
 
     it("should reset resend attempts counter on successful acknowledgment", async () => {
       const stream = client.stream("testGroup", { maxResendAttempts: 2 });
-      
+
       // Mock send callback that works
       (stream as any)._sendCallback = vi.fn(async () => {
         // Simulate successful send
@@ -160,13 +160,13 @@ describe("WebPubSubClient Streaming Integration", function () {
 
       // Simulate one resend attempt
       await stream._resendUnackedMessages(); // 1st attempt
-      
+
       // Verify resend attempts counter was incremented
       assert.equal((stream as any)._resendAttempts, 1);
 
       // Simulate successful acknowledgment (this should reset the counter)
       stream._handleStreamAck(1, true, true);
-      
+
       // Verify resend attempts counter was reset
       assert.equal((stream as any)._resendAttempts, 0);
 
@@ -177,14 +177,14 @@ describe("WebPubSubClient Streaming Integration", function () {
 
     it("should use default maxResendAttempts when not specified", async () => {
       const stream = client.stream("testGroup"); // No options specified
-      
+
       // Check that default value (3) is used
       assert.equal((stream as any)._maxResendAttempts, 3);
     });
 
     it("should track resend attempts correctly across multiple calls", async () => {
       const stream = client.stream("testGroup", { maxResendAttempts: 5 });
-      
+
       // Mock send callback that works
       (stream as any)._sendCallback = vi.fn(async () => {
         // Simulate successful send
@@ -211,7 +211,7 @@ describe("WebPubSubClient Streaming Integration", function () {
     it("should not resend when limit is reached", async () => {
       const stream = client.stream("testGroup", { maxResendAttempts: 1 });
       let sendCallCount = 0;
-      
+
       // Mock send callback to count calls
       (stream as any)._sendCallback = vi.fn(async () => {
         sendCallCount++;

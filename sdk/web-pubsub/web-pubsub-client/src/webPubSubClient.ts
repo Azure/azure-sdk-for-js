@@ -43,8 +43,8 @@ import type {
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
-import type { StreamHandler, StreamOptions} from "./streaming.js";
-import { Stream} from "./streaming.js";
+import type { StreamHandler, StreamOptions } from "./streaming.js";
+import { Stream } from "./streaming.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
 import { WebSocketClientFactory } from "./websocket/websocketClient.js";
 import type {
@@ -523,7 +523,15 @@ export class WebPubSubClient {
       groupName,
       streamId,
       (group, content, dataType, sId, sequenceId, endOfStream, abortSignal) =>
-        this._sendStreamMessage(group, content, dataType, sId, sequenceId, endOfStream, abortSignal),
+        this._sendStreamMessage(
+          group,
+          content,
+          dataType,
+          sId,
+          sequenceId,
+          endOfStream,
+          abortSignal,
+        ),
       options,
     );
 
@@ -535,7 +543,7 @@ export class WebPubSubClient {
    * Register a callback handler for stream messages in a group
    * @param groupName - The group name
    * @param allowOngoingStreams - Whether to allow receiving ongoing streams
-   * @param callback - Callback handler to 
+   * @param callback - Callback handler to
    */
   public onStream(
     groupName: string,
@@ -543,7 +551,12 @@ export class WebPubSubClient {
     callback: (streamId: string) => StreamHandler,
   ): void {
     this._emitter.on("group-stream-message", (args: OnStreamArgs) => {
-      const { streamId, group: sourceGroup, data: message, endOfStream: isCompleted } = args.message;
+      const {
+        streamId,
+        group: sourceGroup,
+        data: message,
+        endOfStream: isCompleted,
+      } = args.message;
       if (groupName === sourceGroup) {
         let handler = this._streamHandlers.get(streamId!);
         if (!handler) {
@@ -735,7 +748,12 @@ export class WebPubSubClient {
           const stream = this._streams.get(message.streamId);
           if (stream) {
             const autoResendStreamMessages = this._options.autoResendStreamMessages || true;
-            stream._handleStreamAck(message.lastProcessedSequenceId, message.success, autoResendStreamMessages, message.error);
+            stream._handleStreamAck(
+              message.lastProcessedSequenceId,
+              message.success,
+              autoResendStreamMessages,
+              message.error,
+            );
           }
         };
 
