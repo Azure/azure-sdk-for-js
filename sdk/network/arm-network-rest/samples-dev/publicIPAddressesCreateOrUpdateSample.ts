@@ -34,7 +34,7 @@ async function createPublicIPAddressDns(): Promise<void> {
       publicIpAddressName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -72,7 +72,7 @@ async function createPublicIPAddressAllocationMethod(): Promise<void> {
       publicIpAddressName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -102,7 +102,7 @@ async function createPublicIPAddressDefaults(): Promise<void> {
       publicIpAddressName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

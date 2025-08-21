@@ -31,7 +31,7 @@ async function createProtectionContainerMapping(): Promise<void> {
       policyId:
         "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationPolicies/protectionprofile1",
       providerSpecificInput: {
-        instanceType: "ReplicationProviderSpecificContainerMappingInput",
+        instanceType: "A2A",
       },
       targetProtectionContainerId: "Microsoft Azure",
     },

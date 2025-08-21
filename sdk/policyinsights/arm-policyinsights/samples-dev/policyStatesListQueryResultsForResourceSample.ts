@@ -62,7 +62,7 @@ async function queryAllPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetai
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const expand = "PolicyEvaluationDetails";
   const options: PolicyStatesListQueryResultsForResourceOptionalParams = {
-    expand,
+    queryOptions: { expand },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -89,7 +89,9 @@ async function queryAllPolicyStatesAtResourceScopeWithNextLink(): Promise<void> 
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForResourceOptionalParams = {
-    skipToken,
+    queryOptions: {
+      skipToken,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -163,8 +165,10 @@ async function queryComponentPolicyComplianceStateAtResourceScopeFilteredByGiven
   const expand =
     "components($filter=ComplianceState eq 'NonCompliant' or ComplianceState eq 'Compliant')";
   const options: PolicyStatesListQueryResultsForResourceOptionalParams = {
-    filter,
-    expand,
+    queryOptions: {
+      filter,
+      expand,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -194,8 +198,10 @@ async function queryComponentPolicyComplianceStateCountGroupedByStateTypeAtResou
   const expand =
     "components($filter=ComplianceState eq 'NonCompliant' or ComplianceState eq 'Compliant';$apply=groupby((complianceState),aggregate($count as count)))";
   const options: PolicyStatesListQueryResultsForResourceOptionalParams = {
-    filter,
-    expand,
+    queryOptions: {
+      filter,
+      expand,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);

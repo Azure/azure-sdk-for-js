@@ -26,7 +26,7 @@ async function createsAnAzureSiteRecoveryFabric(): Promise<void> {
   const fabricName = "cloud1";
   const input: FabricCreationInput = {
     properties: {
-      customDetails: { instanceType: "FabricSpecificCreationInput" },
+      customDetails: { instanceType: "Azure" },
     },
   };
   const credential = new DefaultAzureCredential();

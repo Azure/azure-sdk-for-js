@@ -41,7 +41,7 @@ async function queryLatestAtResourceGroupScopeWithNextLink(): Promise<void> {
   const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyStatesListQueryResultsForResourceGroupOptionalParams = {
-    skipToken,
+    queryOptions: { skipToken },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);

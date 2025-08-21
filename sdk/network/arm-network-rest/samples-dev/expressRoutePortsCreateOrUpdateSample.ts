@@ -39,7 +39,7 @@ async function expressRoutePortCreate(): Promise<void> {
       expressRoutePortName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -78,7 +78,7 @@ async function expressRoutePortUpdateLink(): Promise<void> {
       expressRoutePortName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
