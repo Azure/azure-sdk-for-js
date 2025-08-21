@@ -1,6 +1,6 @@
 # Release History
 
-## 12.2.0-beta.3 (2025-05-27)
+## 12.2.0-beta.3 (2025-10-07)
 
 ### Features Added
 
@@ -11,6 +11,7 @@
 - Added document-level access control [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
 - Added support for vector fields in top-level complex fields [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
 - Added `ChatCompletionSkill` as a variant of `WebAPISkill` [#34408](https://github.com/Azure/azure-sdk-for-js/pull/34408)
+- Added `strictPostFilter` option for filtering on global top results [#35924](https://github.com/Azure/azure-sdk-for-js/pull/35924)
 
 ## 12.2.0-beta.2 (2024-11-25)
 

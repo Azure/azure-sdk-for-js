@@ -15,7 +15,7 @@ import {
 import { KnowledgeRetrievalImpl } from "./operations/index.js";
 import { KnowledgeRetrieval } from "./operationsInterfaces/index.js";
 import {
-  ApiVersion20250501Preview,
+  ApiVersion20250801Preview,
   SearchClientOptionalParams,
 } from "./models/index.js";
 
@@ -23,7 +23,7 @@ import {
 export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   agentName: string;
-  apiVersion: ApiVersion20250501Preview;
+  apiVersion: ApiVersion20250801Preview;
 
   /**
    * Initializes a new instance of the SearchClient class.
@@ -35,7 +35,7 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
   constructor(
     endpoint: string,
     agentName: string,
-    apiVersion: ApiVersion20250501Preview,
+    apiVersion: ApiVersion20250801Preview,
     options?: SearchClientOptionalParams,
   ) {
     if (endpoint === undefined) {

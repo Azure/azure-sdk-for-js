@@ -9,13 +9,15 @@
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
 
-export type KnowledgeAgentModelUnion =
-  | KnowledgeAgentModel
-  | KnowledgeAgentAzureOpenAIModel;
+export type KnowledgeAgentModelUnion = KnowledgeAgentModel | KnowledgeAgentAzureOpenAIModel;
 export type SearchIndexerDataIdentityUnion =
   | SearchIndexerDataIdentity
   | SearchIndexerDataNoneIdentity
   | SearchIndexerDataUserAssignedIdentity;
+export type KnowledgeSourceUnion =
+  | KnowledgeSource
+  | SearchIndexKnowledgeSource
+  | AzureBlobKnowledgeSource;
 export type DataChangeDetectionPolicyUnion =
   | DataChangeDetectionPolicy
   | HighWaterMarkChangeDetectionPolicy
@@ -107,10 +109,7 @@ export type TokenFilterUnion =
   | TruncateTokenFilter
   | UniqueTokenFilter
   | WordDelimiterTokenFilter;
-export type CharFilterUnion =
-  | CharFilter
-  | MappingCharFilter
-  | PatternReplaceCharFilter;
+export type CharFilterUnion = CharFilter | MappingCharFilter | PatternReplaceCharFilter;
 export type LexicalNormalizerUnion = LexicalNormalizer | CustomNormalizer;
 export type SimilarityUnion = Similarity | ClassicSimilarity | BM25Similarity;
 export type VectorSearchAlgorithmConfigurationUnion =
@@ -134,9 +133,12 @@ export interface KnowledgeAgent {
   name: string;
   /** Contains configuration options on how to connect to AI models. */
   models: KnowledgeAgentModelUnion[];
-  targetIndexes: KnowledgeAgentTargetIndex[];
+  knowledgeSources: KnowledgeSourceReference[];
+  outputConfiguration?: KnowledgeAgentOutputConfiguration;
   /** Guardrails to limit how much resources are utilized for a single agent retrieval request. */
   requestLimits?: KnowledgeAgentRequestLimits;
+  /** Instructions considered by the knowledge agent when developing query plan. */
+  retrievalInstructions?: string;
   /** The ETag of the agent. */
   etag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your agent definition when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your agent definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your agent definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
@@ -151,15 +153,30 @@ export interface KnowledgeAgentModel {
   kind: "azureOpenAI";
 }
 
-export interface KnowledgeAgentTargetIndex {
-  /** The name of the target index. */
-  indexName: string;
-  /** A threshold for reranking results (range: 0-4). */
-  defaultRerankerThreshold?: number;
-  /** Indicates whether reference source data should be included. */
-  defaultIncludeReferenceSourceData?: boolean;
-  /** Limits the number of documents considered for ranking. */
-  defaultMaxDocsForReranker?: number;
+export interface KnowledgeSourceReference {
+  /** The name of the knowledge source. */
+  name: string;
+  /** Indicates whether references should be included for data retrieved from this source. */
+  includeReferences?: boolean;
+  /** Indicates whether references should include the structured data obtained during retrieval in their payload. */
+  includeReferenceSourceData?: boolean;
+  /** Indicates that this knowledge source should bypass source selection and always be queried at retrieval time. */
+  alwaysQuerySource?: boolean;
+  /** The maximum number of queries that can be issued at a time when retrieving data from this source. */
+  maxSubQueries?: number;
+  /** The reranker threshold all retrieved documents must meet to be included in the response. */
+  rerankerThreshold?: number;
+}
+
+export interface KnowledgeAgentOutputConfiguration {
+  /** The output configuration for the agent */
+  modality?: KnowledgeAgentOutputConfigurationModality;
+  /** Instructions considered by the knowledge agent when generating answers */
+  answerInstructions?: string;
+  /** Indicates whether the agent should attempt to issue the most recent chat message as a direct query to the knowledge sources, bypassing the model calls. */
+  attemptFastPath?: boolean;
+  /** Indicates retrieval results should include activity information. */
+  includeActivity?: boolean;
 }
 
 /** Guardrails to limit how much resources are utilized for a single agent retrieval request. */
@@ -253,6 +270,24 @@ export interface ListKnowledgeAgentsResult {
   knowledgeAgents: KnowledgeAgent[];
 }
 
+/** Represents a knowledge source definition. */
+export interface KnowledgeSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "searchIndex" | "azureBlob";
+  /** The name of the knowledge source. */
+  name: string;
+  /** Optional user-defined description. */
+  description?: string;
+  /** The ETag of the agent. */
+  etag?: string;
+  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your agent definition when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your agent definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your agent definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
+  encryptionKey?: SearchResourceEncryptionKey;
+}
+
+export interface ListKnowledgeSourcesResult {
+  knowledgeSources: KnowledgeSourceUnion[];
+}
+
 /** Represents a datasource definition, which can be used to configure an indexer. */
 export interface SearchIndexerDataSource {
   /** The name of the datasource. */
@@ -261,6 +296,11 @@ export interface SearchIndexerDataSource {
   description?: string;
   /** The type of the datasource. */
   type: SearchIndexerDataSourceType;
+  /**
+   * A specific type of the data source, in case the resource is capable of different modalities. For example, 'MongoDb' for certain 'cosmosDb' accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subType?: string;
   /** Credentials for the datasource. */
   credentials: DataSourceCredentials;
   /** The data container for the datasource. */
@@ -462,6 +502,11 @@ export interface ListIndexersResult {
 
 /** Represents the current status and execution history of an indexer. */
 export interface SearchIndexerStatus {
+  /**
+   * The name of the indexer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name: string;
   /**
    * Overall indexer status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1099,9 +1144,7 @@ export interface LexicalNormalizer {
 /** Base type for similarity algorithms. Similarity algorithms are used to calculate scores that tie queries to documents. The higher the score, the more relevant the document is to that specific query. Those scores are used to rank the search results. */
 export interface Similarity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  odatatype:
-    | "#Microsoft.Azure.Search.ClassicSimilarity"
-    | "#Microsoft.Azure.Search.BM25Similarity";
+  odatatype: "#Microsoft.Azure.Search.ClassicSimilarity" | "#Microsoft.Azure.Search.BM25Similarity";
 }
 
 /** Defines parameters for a search index that influence semantic capabilities. */
@@ -1394,6 +1437,39 @@ export interface AzureOpenAIParameters {
   modelName?: AzureOpenAIModelName;
 }
 
+/** Parameters for search index knowledge source. */
+export interface SearchIndexKnowledgeSourceParameters {
+  /** The name of the Search index. */
+  searchIndexName: string;
+  /** Used to request additional fields for referenced source data. */
+  sourceDataSelect?: string;
+}
+
+/** Parameters for Azure Blob Storage knowledge source. */
+export interface AzureBlobKnowledgeSourceParameters {
+  /** An explicit identity to use for this knowledge source. */
+  identity?: SearchIndexerDataIdentityUnion;
+  /** Key-based connection string or the ResourceId format if using a managed identity. */
+  connectionString: string;
+  /** The name of the blob storage container. */
+  containerName: string;
+  /** Optional folder path within the container. */
+  folderPath?: string;
+  /** Optional vectorizer configuration for vectorizing content. */
+  embeddingModel?: VectorSearchVectorizerUnion;
+  /** Optional chat completion model for image verbalization or context extraction. */
+  chatCompletionModel?: KnowledgeAgentModelUnion;
+  /** Optional schedule for data ingestion. */
+  ingestionSchedule?: IndexingSchedule;
+  /**
+   * Resources created by the knowledge source.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdResources?: { [propertyName: string]: string };
+  /** Indicates whether image verbalization should be disabled. */
+  disableImageVerbalization?: boolean;
+}
+
 /** Contains the parameters specific to the HNSW algorithm. */
 export interface HnswParameters {
   /** The number of bi-directional links created for every new element during construction. Increasing this parameter value may improve recall and reduce retrieval times for datasets with high intrinsic dimensionality at the expense of increased memory consumption and longer indexing time. */
@@ -1459,7 +1535,7 @@ export interface AMLParameters {
   /** (Optional for token authentication). The region the AML service is deployed in. */
   region?: string;
   /** The name of the embedding model from the Azure AI Foundry Catalog that is deployed at the provided endpoint. */
-  modelName?: AIStudioModelCatalogName;
+  modelName?: AIFoundryModelCatalogName;
 }
 
 /** Provides parameter values to a distance scoring function. */
@@ -1608,24 +1684,37 @@ export interface KnowledgeAgentAzureOpenAIModel extends KnowledgeAgentModel {
 }
 
 /** Clears the identity property of a datasource. */
-export interface SearchIndexerDataNoneIdentity
-  extends SearchIndexerDataIdentity {
+export interface SearchIndexerDataNoneIdentity extends SearchIndexerDataIdentity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.DataNoneIdentity";
 }
 
 /** Specifies the identity for a datasource to use. */
-export interface SearchIndexerDataUserAssignedIdentity
-  extends SearchIndexerDataIdentity {
+export interface SearchIndexerDataUserAssignedIdentity extends SearchIndexerDataIdentity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
   /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
   resourceId: string;
 }
 
+/** Knowledge Source targeting a search index. */
+export interface SearchIndexKnowledgeSource extends KnowledgeSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "searchIndex";
+  /** The parameters for the knowledge source. */
+  searchIndexParameters: SearchIndexKnowledgeSourceParameters;
+}
+
+/** Configuration for Azure Blob Storage knowledge source. */
+export interface AzureBlobKnowledgeSource extends KnowledgeSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "azureBlob";
+  /** The type of the knowledge source. */
+  azureBlobParameters: AzureBlobKnowledgeSourceParameters;
+}
+
 /** Defines a data change detection policy that captures changes based on the value of a high water mark column. */
-export interface HighWaterMarkChangeDetectionPolicy
-  extends DataChangeDetectionPolicy {
+export interface HighWaterMarkChangeDetectionPolicy extends DataChangeDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy";
   /** The name of the high water mark column. */
@@ -1633,15 +1722,13 @@ export interface HighWaterMarkChangeDetectionPolicy
 }
 
 /** Defines a data change detection policy that captures changes using the Integrated Change Tracking feature of Azure SQL Database. */
-export interface SqlIntegratedChangeTrackingPolicy
-  extends DataChangeDetectionPolicy {
+export interface SqlIntegratedChangeTrackingPolicy extends DataChangeDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
 }
 
 /** Defines a data deletion detection policy that implements a soft-deletion strategy. It determines whether an item should be deleted based on the value of a designated 'soft delete' column. */
-export interface SoftDeleteColumnDeletionDetectionPolicy
-  extends DataDeletionDetectionPolicy {
+export interface SoftDeleteColumnDeletionDetectionPolicy extends DataDeletionDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy";
   /** The name of the column to use for soft-deletion detection. */
@@ -1651,8 +1738,7 @@ export interface SoftDeleteColumnDeletionDetectionPolicy
 }
 
 /** Defines a data deletion detection policy utilizing Azure Blob Storage's native soft delete feature for deletion detection. */
-export interface NativeBlobSoftDeleteDeletionDetectionPolicy
-  extends DataDeletionDetectionPolicy {
+export interface NativeBlobSoftDeleteDeletionDetectionPolicy extends DataDeletionDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.NativeBlobSoftDeleteDeletionDetectionPolicy";
 }
@@ -1934,9 +2020,7 @@ export interface AzureMachineLearningSkill extends SearchIndexerSkill {
 }
 
 /** Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource. */
-export interface AzureOpenAIEmbeddingSkill
-  extends SearchIndexerSkill,
-    AzureOpenAIParameters {
+export interface AzureOpenAIEmbeddingSkill extends SearchIndexerSkill, AzureOpenAIParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
   /** The number of dimensions the resulting output embeddings should have. Only supported in text-embedding-3 and later models. */
@@ -1952,8 +2036,7 @@ export interface VisionVectorizeSkill extends SearchIndexerSkill {
 }
 
 /** An empty object that represents the default Azure AI service resource for a skillset. */
-export interface DefaultCognitiveServicesAccount
-  extends CognitiveServicesAccount {
+export interface DefaultCognitiveServicesAccount extends CognitiveServicesAccount {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
 }
@@ -2523,8 +2606,7 @@ export interface BM25Similarity extends Similarity {
 }
 
 /** Contains configuration options specific to the HNSW approximate nearest neighbors algorithm used during indexing and querying. The HNSW algorithm offers a tunable trade-off between search speed and accuracy. */
-export interface HnswAlgorithmConfiguration
-  extends VectorSearchAlgorithmConfiguration {
+export interface HnswAlgorithmConfiguration extends VectorSearchAlgorithmConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "hnsw";
   /** Contains the parameters specific to HNSW algorithm. */
@@ -2532,8 +2614,7 @@ export interface HnswAlgorithmConfiguration
 }
 
 /** Contains configuration options specific to the exhaustive KNN algorithm used during querying, which will perform brute-force search across the entire vector index. */
-export interface ExhaustiveKnnAlgorithmConfiguration
-  extends VectorSearchAlgorithmConfiguration {
+export interface ExhaustiveKnnAlgorithmConfiguration extends VectorSearchAlgorithmConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "exhaustiveKnn";
   /** Contains the parameters specific to exhaustive KNN algorithm. */
@@ -2610,20 +2691,20 @@ export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
 export interface SearchIndexerKnowledgeStoreFileProjectionSelector
   extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
-/** Known values of {@link ApiVersion20250501Preview} that the service accepts. */
-export enum KnownApiVersion20250501Preview {
-  /** Api Version '2025-05-01-preview' */
-  TwoThousandTwentyFive0501Preview = "2025-05-01-preview",
+/** Known values of {@link ApiVersion20250801Preview} that the service accepts. */
+export enum KnownApiVersion20250801Preview {
+  /** Api Version '2025-08-01-preview' */
+  TwoThousandTwentyFive0801Preview = "2025-08-01-preview",
 }
 
 /**
- * Defines values for ApiVersion20250501Preview. \
- * {@link KnownApiVersion20250501Preview} can be used interchangeably with ApiVersion20250501Preview,
+ * Defines values for ApiVersion20250801Preview. \
+ * {@link KnownApiVersion20250801Preview} can be used interchangeably with ApiVersion20250801Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2025-05-01-preview**: Api Version '2025-05-01-preview'
+ * **2025-08-01-preview**: Api Version '2025-08-01-preview'
  */
-export type ApiVersion20250501Preview = string;
+export type ApiVersion20250801Preview = string;
 
 /** Known values of {@link KnowledgeAgentModelKind} that the service accepts. */
 export enum KnownKnowledgeAgentModelKind {
@@ -2639,6 +2720,42 @@ export enum KnownKnowledgeAgentModelKind {
  * **azureOpenAI**: Use Azure Open AI models for query planning.
  */
 export type KnowledgeAgentModelKind = string;
+
+/** Known values of {@link KnowledgeAgentOutputConfigurationModality} that the service accepts. */
+export enum KnownKnowledgeAgentOutputConfigurationModality {
+  /** Synthesize an answer for the response payload. */
+  AnswerSynthesis = "answerSynthesis",
+  /** Return data from the knowledge sources directly without generative alteration. */
+  ExtractiveData = "extractiveData",
+}
+
+/**
+ * Defines values for KnowledgeAgentOutputConfigurationModality. \
+ * {@link KnownKnowledgeAgentOutputConfigurationModality} can be used interchangeably with KnowledgeAgentOutputConfigurationModality,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **answerSynthesis**: Synthesize an answer for the response payload. \
+ * **extractiveData**: Return data from the knowledge sources directly without generative alteration.
+ */
+export type KnowledgeAgentOutputConfigurationModality = string;
+
+/** Known values of {@link KnowledgeSourceKind} that the service accepts. */
+export enum KnownKnowledgeSourceKind {
+  /** A knowledge source that reads data from a Search Index. */
+  SearchIndex = "searchIndex",
+  /** A knowledge source that read and ingest data from Azure Blob Storage to a Search Index. */
+  AzureBlob = "azureBlob",
+}
+
+/**
+ * Defines values for KnowledgeSourceKind. \
+ * {@link KnownKnowledgeSourceKind} can be used interchangeably with KnowledgeSourceKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **searchIndex**: A knowledge source that reads data from a Search Index. \
+ * **azureBlob**: A knowledge source that read and ingest data from Azure Blob Storage to a Search Index.
+ */
+export type KnowledgeSourceKind = string;
 
 /** Known values of {@link SearchIndexerDataSourceType} that the service accepts. */
 export enum KnownSearchIndexerDataSourceType {
@@ -3648,8 +3765,8 @@ export enum KnownVectorSearchCompressionTarget {
  */
 export type VectorSearchCompressionTarget = string;
 
-/** Known values of {@link AIStudioModelCatalogName} that the service accepts. */
-export enum KnownAIStudioModelCatalogName {
+/** Known values of {@link AIFoundryModelCatalogName} that the service accepts. */
+export enum KnownAIFoundryModelCatalogName {
   /** OpenAIClipImageTextEmbeddingsVitBasePatch32 */
   OpenAIClipImageTextEmbeddingsVitBasePatch32 = "OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32",
   /** OpenAIClipImageTextEmbeddingsViTLargePatch14336 */
@@ -3667,8 +3784,8 @@ export enum KnownAIStudioModelCatalogName {
 }
 
 /**
- * Defines values for AIStudioModelCatalogName. \
- * {@link KnownAIStudioModelCatalogName} can be used interchangeably with AIStudioModelCatalogName,
+ * Defines values for AIFoundryModelCatalogName. \
+ * {@link KnownAIFoundryModelCatalogName} can be used interchangeably with AIFoundryModelCatalogName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **OpenAI-CLIP-Image-Text-Embeddings-vit-base-patch32** \
@@ -3679,7 +3796,7 @@ export enum KnownAIStudioModelCatalogName {
  * **Cohere-embed-v3-multilingual** \
  * **Cohere-embed-v4**: Cohere embed v4 model for generating embeddings from both text and images.
  */
-export type AIStudioModelCatalogName = string;
+export type AIFoundryModelCatalogName = string;
 
 /** Known values of {@link KeyPhraseExtractionSkillLanguage} that the service accepts. */
 export enum KnownKeyPhraseExtractionSkillLanguage {
@@ -5360,17 +5477,9 @@ export type RegexFlags = string;
 /** Defines values for IndexerStatus. */
 export type IndexerStatus = "unknown" | "error" | "running";
 /** Defines values for IndexerExecutionStatus. */
-export type IndexerExecutionStatus =
-  | "transientFailure"
-  | "success"
-  | "inProgress"
-  | "reset";
+export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgress" | "reset";
 /** Defines values for ScoringFunctionInterpolation. */
-export type ScoringFunctionInterpolation =
-  | "linear"
-  | "constant"
-  | "quadratic"
-  | "logarithmic";
+export type ScoringFunctionInterpolation = "linear" | "constant" | "quadratic" | "logarithmic";
 /** Defines values for ScoringFunctionAggregation. */
 export type ScoringFunctionAggregation =
   | "sum"
@@ -5379,12 +5488,7 @@ export type ScoringFunctionAggregation =
   | "maximum"
   | "firstMatching";
 /** Defines values for TokenCharacterKind. */
-export type TokenCharacterKind =
-  | "letter"
-  | "digit"
-  | "whitespace"
-  | "punctuation"
-  | "symbol";
+export type TokenCharacterKind = "letter" | "digit" | "whitespace" | "punctuation" | "symbol";
 /** Defines values for MicrosoftTokenizerLanguage. */
 export type MicrosoftTokenizerLanguage =
   | "bangla"
@@ -5477,11 +5581,7 @@ export type MicrosoftStemmingTokenizerLanguage =
   | "ukrainian"
   | "urdu";
 /** Defines values for CjkBigramTokenFilterScripts. */
-export type CjkBigramTokenFilterScripts =
-  | "han"
-  | "hiragana"
-  | "katakana"
-  | "hangul";
+export type CjkBigramTokenFilterScripts = "han" | "hiragana" | "katakana" | "hangul";
 /** Defines values for EdgeNGramTokenFilterSide. */
 export type EdgeNGramTokenFilterSide = "front" | "back";
 /** Defines values for PhoneticEncoder. */
@@ -5612,8 +5712,7 @@ export type StopwordsList =
   | "turkish";
 
 /** Optional parameters. */
-export interface KnowledgeAgentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface KnowledgeAgentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5624,8 +5723,7 @@ export interface KnowledgeAgentsCreateOrUpdateOptionalParams
 export type KnowledgeAgentsCreateOrUpdateResponse = KnowledgeAgent;
 
 /** Optional parameters. */
-export interface KnowledgeAgentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface KnowledgeAgentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5633,29 +5731,62 @@ export interface KnowledgeAgentsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface KnowledgeAgentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KnowledgeAgentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type KnowledgeAgentsGetResponse = KnowledgeAgent;
 
 /** Optional parameters. */
-export interface KnowledgeAgentsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KnowledgeAgentsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type KnowledgeAgentsListResponse = ListKnowledgeAgentsResult;
 
 /** Optional parameters. */
-export interface KnowledgeAgentsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KnowledgeAgentsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type KnowledgeAgentsCreateResponse = KnowledgeAgent;
 
 /** Optional parameters. */
-export interface DataSourcesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface KnowledgeSourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
+  ifMatch?: string;
+  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type KnowledgeSourcesCreateOrUpdateResponse = KnowledgeSourceUnion;
+
+/** Optional parameters. */
+export interface KnowledgeSourcesDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
+  ifMatch?: string;
+  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
+  ifNoneMatch?: string;
+}
+
+/** Optional parameters. */
+export interface KnowledgeSourcesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type KnowledgeSourcesGetResponse = KnowledgeSourceUnion;
+
+/** Optional parameters. */
+export interface KnowledgeSourcesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type KnowledgeSourcesListResponse = ListKnowledgeSourcesResult;
+
+/** Optional parameters. */
+export interface KnowledgeSourcesCreateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type KnowledgeSourcesCreateResponse = KnowledgeSourceUnion;
+
+/** Optional parameters. */
+export interface DataSourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5668,8 +5799,7 @@ export interface DataSourcesCreateOrUpdateOptionalParams
 export type DataSourcesCreateOrUpdateResponse = SearchIndexerDataSource;
 
 /** Optional parameters. */
-export interface DataSourcesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataSourcesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5677,15 +5807,13 @@ export interface DataSourcesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DataSourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DataSourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DataSourcesGetResponse = SearchIndexerDataSource;
 
 /** Optional parameters. */
-export interface DataSourcesListOptionalParams
-  extends coreClient.OperationOptions {
+export interface DataSourcesListOptionalParams extends coreClient.OperationOptions {
   /** Selects which top-level properties of the data sources to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
 }
@@ -5694,35 +5822,29 @@ export interface DataSourcesListOptionalParams
 export type DataSourcesListResponse = ListDataSourcesResult;
 
 /** Optional parameters. */
-export interface DataSourcesCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DataSourcesCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type DataSourcesCreateResponse = SearchIndexerDataSource;
 
 /** Optional parameters. */
-export interface IndexersResetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IndexersResetOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IndexersResetDocsOptionalParams
-  extends coreClient.OperationOptions {
+export interface IndexersResetDocsOptionalParams extends coreClient.OperationOptions {
   keysOrIds?: DocumentKeysOrIds;
   /** If false, keys or ids will be appended to existing ones. If true, only the keys or ids in this payload will be queued to be re-ingested. */
   overwrite?: boolean;
 }
 
 /** Optional parameters. */
-export interface IndexersResyncOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IndexersResyncOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IndexersRunOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IndexersRunOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IndexersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface IndexersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5737,8 +5859,7 @@ export interface IndexersCreateOrUpdateOptionalParams
 export type IndexersCreateOrUpdateResponse = SearchIndexer;
 
 /** Optional parameters. */
-export interface IndexersDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface IndexersDeleteOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5746,15 +5867,13 @@ export interface IndexersDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface IndexersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IndexersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type IndexersGetResponse = SearchIndexer;
 
 /** Optional parameters. */
-export interface IndexersListOptionalParams
-  extends coreClient.OperationOptions {
+export interface IndexersListOptionalParams extends coreClient.OperationOptions {
   /** Selects which top-level properties of the indexers to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
 }
@@ -5763,22 +5882,19 @@ export interface IndexersListOptionalParams
 export type IndexersListResponse = ListIndexersResult;
 
 /** Optional parameters. */
-export interface IndexersCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IndexersCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type IndexersCreateResponse = SearchIndexer;
 
 /** Optional parameters. */
-export interface IndexersGetStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IndexersGetStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatus operation. */
 export type IndexersGetStatusResponse = SearchIndexerStatus;
 
 /** Optional parameters. */
-export interface SkillsetsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SkillsetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5793,8 +5909,7 @@ export interface SkillsetsCreateOrUpdateOptionalParams
 export type SkillsetsCreateOrUpdateResponse = SearchIndexerSkillset;
 
 /** Optional parameters. */
-export interface SkillsetsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface SkillsetsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5802,15 +5917,13 @@ export interface SkillsetsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SkillsetsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SkillsetsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SkillsetsGetResponse = SearchIndexerSkillset;
 
 /** Optional parameters. */
-export interface SkillsetsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface SkillsetsListOptionalParams extends coreClient.OperationOptions {
   /** Selects which top-level properties of the skillsets to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
 }
@@ -5819,19 +5932,16 @@ export interface SkillsetsListOptionalParams
 export type SkillsetsListResponse = ListSkillsetsResult;
 
 /** Optional parameters. */
-export interface SkillsetsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SkillsetsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type SkillsetsCreateResponse = SearchIndexerSkillset;
 
 /** Optional parameters. */
-export interface SkillsetsResetSkillsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SkillsetsResetSkillsOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SynonymMapsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SynonymMapsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5842,8 +5952,7 @@ export interface SynonymMapsCreateOrUpdateOptionalParams
 export type SynonymMapsCreateOrUpdateResponse = SynonymMap;
 
 /** Optional parameters. */
-export interface SynonymMapsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface SynonymMapsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5851,15 +5960,13 @@ export interface SynonymMapsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface SynonymMapsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SynonymMapsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SynonymMapsGetResponse = SynonymMap;
 
 /** Optional parameters. */
-export interface SynonymMapsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface SynonymMapsListOptionalParams extends coreClient.OperationOptions {
   /** Selects which top-level properties of the synonym maps to retrieve. Specified as a comma-separated list of JSON property names, or '*' for all properties. The default is all properties. */
   select?: string;
 }
@@ -5868,15 +5975,13 @@ export interface SynonymMapsListOptionalParams
 export type SynonymMapsListResponse = ListSynonymMapsResult;
 
 /** Optional parameters. */
-export interface SynonymMapsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SynonymMapsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type SynonymMapsCreateResponse = SynonymMap;
 
 /** Optional parameters. */
-export interface IndexesCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IndexesCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type IndexesCreateResponse = SearchIndex;
@@ -5891,8 +5996,7 @@ export interface IndexesListOptionalParams extends coreClient.OperationOptions {
 export type IndexesListResponse = ListIndexesResult;
 
 /** Optional parameters. */
-export interface IndexesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface IndexesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5905,8 +6009,7 @@ export interface IndexesCreateOrUpdateOptionalParams
 export type IndexesCreateOrUpdateResponse = SearchIndex;
 
 /** Optional parameters. */
-export interface IndexesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface IndexesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5920,36 +6023,31 @@ export interface IndexesGetOptionalParams extends coreClient.OperationOptions {}
 export type IndexesGetResponse = SearchIndex;
 
 /** Optional parameters. */
-export interface IndexesGetStatisticsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IndexesGetStatisticsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStatistics operation. */
 export type IndexesGetStatisticsResponse = GetIndexStatisticsResult;
 
 /** Optional parameters. */
-export interface IndexesAnalyzeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IndexesAnalyzeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the analyze operation. */
 export type IndexesAnalyzeResponse = AnalyzeResult;
 
 /** Optional parameters. */
-export interface AliasesCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AliasesCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type AliasesCreateResponse = SearchAlias;
 
 /** Optional parameters. */
-export interface AliasesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AliasesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AliasesListResponse = ListAliasesResult;
 
 /** Optional parameters. */
-export interface AliasesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AliasesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5960,8 +6058,7 @@ export interface AliasesCreateOrUpdateOptionalParams
 export type AliasesCreateOrUpdateResponse = SearchAlias;
 
 /** Optional parameters. */
-export interface AliasesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AliasesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
   ifMatch?: string;
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -5975,15 +6072,13 @@ export interface AliasesGetOptionalParams extends coreClient.OperationOptions {}
 export type AliasesGetResponse = SearchAlias;
 
 /** Optional parameters. */
-export interface GetServiceStatisticsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetServiceStatisticsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getServiceStatistics operation. */
 export type GetServiceStatisticsResponse = ServiceStatistics;
 
 /** Optional parameters. */
-export interface GetIndexStatsSummaryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetIndexStatsSummaryOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getIndexStatsSummary operation. */
 export type GetIndexStatsSummaryResponse = ListIndexStatsSummary;

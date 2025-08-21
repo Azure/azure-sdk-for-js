@@ -26,29 +26,36 @@ import type {
   CreateAliasOptions,
   CreateIndexOptions,
   CreateKnowledgeAgentOptions,
+  CreateKnowledgeSourceOptions,
   CreateOrUpdateAliasOptions,
   CreateOrUpdateIndexOptions,
   CreateOrUpdateKnowledgeAgentOptions,
+  CreateOrUpdateKnowledgeSourceOptions,
   CreateOrUpdateSynonymMapOptions,
   CreateSynonymMapOptions,
   DeleteAliasOptions,
   DeleteIndexOptions,
   DeleteKnowledgeAgentOptions,
+  DeleteKnowledgeSourceOptions,
   DeleteSynonymMapOptions,
   GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
   GetIndexStatsSummaryOptions,
   GetKnowledgeAgentOptions,
+  GetKnowledgeSourceOptions,
   GetServiceStatisticsOptions,
   GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
   IndexStatisticsSummaryIterator,
   KnowledgeAgentIterator,
+  KnowledgeSource,
+  KnowledgeSourceIterator,
   ListAliasesOptions,
   ListIndexesOptions,
   ListKnowledgeAgentsOptions,
+  ListKnowledgeSourcesOptions,
   ListSynonymMapsOptions,
   SearchIndex,
   SearchIndexAlias,
@@ -1048,6 +1055,185 @@ export class SearchIndexClient {
         ifMatch: etag,
       });
       return result;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async createOrUpdateKnowledgeSource(
+    sourceName: string,
+    knowledgeSource: KnowledgeSource,
+    options?: CreateOrUpdateKnowledgeSourceOptions,
+  ): Promise<KnowledgeSource> {
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexClient-createOrUpdateKnowledgeSource",
+      options,
+    );
+    try {
+      const etag = updatedOptions.onlyIfUnchanged ? knowledgeSource.etag : undefined;
+
+      const result = await this.client.knowledgeSources.createOrUpdate(
+        sourceName,
+        utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
+        {
+          ...updatedOptions,
+          ifMatch: etag,
+        },
+      );
+      return utils.convertKnowledgeSourceToPublic(result)!;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes an existing source.
+   * @param sourceName - name of the knowledge source to delete.
+   * @param options - options parameters.
+   */
+  public async deleteKnowledgeSource(
+    sourceName: string,
+    options?: DeleteKnowledgeSourceOptions,
+  ): Promise<void>;
+  /**
+   * Deletes an existing source.
+   * @param source - the knowledge source to delete.
+   * @param options - options parameters.
+   */
+  public async deleteKnowledgeSource(
+    source: KnowledgeSource,
+    options?: DeleteKnowledgeSourceOptions,
+  ): Promise<void>;
+  public async deleteKnowledgeSource(
+    source: string | KnowledgeSource,
+    options?: DeleteKnowledgeSourceOptions,
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-deleteKnowledgeSource", options);
+    try {
+      const sourceName = typeof source === "string" ? source : source.name;
+      const etag =
+        typeof source !== "string" && updatedOptions.onlyIfUnchanged ? source.etag : undefined;
+
+      const result = await this.client.knowledgeSources.delete(sourceName, {
+        ...updatedOptions,
+        ifMatch: etag,
+      });
+      return result;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves a knowledge source definition.
+   * @param sourceName - The name of the knowledge source to retrieve.
+   * @param options - The options parameters.
+   */
+  public async getKnowledgeSource(
+    sourceName: string,
+    options?: GetKnowledgeSourceOptions,
+  ): Promise<KnowledgeSource> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-getKnowledgeSource", options);
+    try {
+      const result = await this.client.knowledgeSources.get(sourceName, updatedOptions);
+      return utils.convertKnowledgeSourceToPublic(result)!;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listKnowledgeSourcesPage(
+    options: ListKnowledgeSourcesOptions = {},
+  ): AsyncIterableIterator<KnowledgeSource[]> {
+    const { span, updatedOptions } = createSpan(
+      "SearchIndexClient-listKnowledgeSourcesPage",
+      options,
+    );
+    try {
+      const { knowledgeSources } = await this.client.knowledgeSources.list(updatedOptions);
+      const mapped = knowledgeSources.map(
+        (source) => utils.convertKnowledgeSourceToPublic(source)!,
+      );
+      yield mapped;
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  private async *listKnowledgeSourcesAll(
+    options: ListKnowledgeSourcesOptions = {},
+  ): AsyncIterableIterator<KnowledgeSource> {
+    for await (const page of this.listKnowledgeSourcesPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Retrieves a list of existing KnowledgeSources in the service.
+   * @param options - Options to the list knowledge sources operation.
+   */
+  public listKnowledgeSources(options: ListKnowledgeSourcesOptions = {}): KnowledgeSourceIterator {
+    const iter = this.listKnowledgeSourcesAll(options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listKnowledgeSourcesPage(options);
+      },
+    };
+  }
+
+  /**
+   * Creates a new knowledge source.
+   * @param knowledgeSource - The definition of the knowledge source to create.
+   * @param options - The options parameters.
+   */
+  public async createKnowledgeSource(
+    knowledgeSource: KnowledgeSource,
+    options?: CreateKnowledgeSourceOptions,
+  ): Promise<KnowledgeSource> {
+    const { span, updatedOptions } = createSpan("SearchIndexClient-createKnowledgeSource", options);
+    try {
+      const result = await this.client.knowledgeSources.create(
+        utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
+        updatedOptions,
+      );
+      return utils.convertKnowledgeSourceToPublic(result)!;
     } catch (e: any) {
       span.setStatus({
         status: "error",

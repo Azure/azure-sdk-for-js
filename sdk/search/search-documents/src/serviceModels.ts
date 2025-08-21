@@ -4,8 +4,8 @@
 import type { OperationOptions } from "@azure/core-client";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type {
+  AIFoundryModelCatalogName,
   AIServicesAccountKey,
-  AIStudioModelCatalogName,
   AsciiFoldingTokenFilter,
   AzureMachineLearningSkill,
   AzureOpenAIModelName,
@@ -49,6 +49,7 @@ import type {
   IndexStatisticsSummary,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
+  KnowledgeAgentModel as BaseKnowledgeAgentModel,
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
   KnownBlobIndexerParsingMode,
@@ -108,6 +109,7 @@ import type {
   SearchIndexerIndexProjectionSelector,
   SearchIndexerKnowledgeStoreProjection,
   SearchIndexerSkill as BaseSearchIndexerSkill,
+  SearchIndexKnowledgeSourceParameters,
   SearchIndexPermissionFilterOption,
   SemanticSearch,
   SentimentSkillV3,
@@ -1246,6 +1248,16 @@ export type KnowledgeAgentIterator = PagedAsyncIterableIterator<
 >;
 
 /**
+ * An iterator for listing the knowledge dSources that exist in the Search service. Will make requests
+ * as needed during iteration. Use .byPage() to make one request to the server per iteration.
+ */
+export type KnowledgeSourceIterator = PagedAsyncIterableIterator<
+  KnowledgeSource,
+  KnowledgeSource[],
+  {}
+>;
+
+/**
  * An iterator for listing the aliases that exist in the Search service. This will make requests
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
@@ -2235,6 +2247,11 @@ export interface SearchIndexerDataSourceConnection {
    */
   type: SearchIndexerDataSourceType;
   /**
+   * A specific type of the data source, in case the resource is capable of different modalities. For example, 'MongoDb' for certain 'cosmosDb' accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subType?: string;
+  /**
    * The connection string for the datasource.
    */
   connectionString?: string;
@@ -2589,7 +2606,7 @@ export interface BaseAzureMachineLearningVectorizerParameters {
    * The name of the embedding model from the Azure AI Foundry Catalog that is deployed at the
    * provided endpoint.
    */
-  modelName?: AIStudioModelCatalogName;
+  modelName?: AIFoundryModelCatalogName;
 }
 
 /**
@@ -3133,6 +3150,115 @@ export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
   details?: ImageDetail[];
 }
 
+export type KnowledgeSource =
+  | BaseKnowledgeSource
+  | SearchIndexKnowledgeSource
+  | AzureBlobKnowledgeSource;
+
+/**
+ * Represents a knowledge source definition.
+ */
+export interface BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "searchIndex" | "azureBlob";
+  /**
+   * The name of the knowledge source.
+   */
+  name: string;
+  /**
+   * Optional user-defined description.
+   */
+  description?: string;
+  /**
+   * The ETag of the agent.
+   */
+  etag?: string;
+  /**
+   * A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your agent definition when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your agent definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your agent definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019.
+   */
+  encryptionKey?: SearchResourceEncryptionKey;
+}
+
+/**
+ * Knowledge Source targeting a search index.
+ */
+export interface SearchIndexKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "searchIndex";
+  /**
+   * The parameters for the knowledge source.
+   */
+  searchIndexParameters: SearchIndexKnowledgeSourceParameters;
+}
+
+/**
+ * Configuration for Azure Blob Storage knowledge source.
+ */
+export interface AzureBlobKnowledgeSource extends BaseKnowledgeSource {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  kind: "azureBlob";
+  /**
+   * The type of the knowledge source.
+   */
+  azureBlobParameters: AzureBlobKnowledgeSourceParameters;
+}
+
+/**
+ * Parameters for Azure Blob Storage knowledge source.
+ */
+export interface AzureBlobKnowledgeSourceParameters {
+  /**
+   * An explicit identity to use for this knowledge source.
+   */
+  identity?: SearchIndexerDataIdentity;
+  /**
+   * Key-based connection string or the ResourceId format if using a managed identity.
+   */
+  connectionString: string;
+  /**
+   * The name of the blob storage container.
+   */
+  containerName: string;
+  /**
+   * Optional folder path within the container.
+   */
+  folderPath?: string;
+  /**
+   * Optional vectorizer configuration for vectorizing content.
+   */
+  embeddingModel?: VectorSearchVectorizer;
+  /**
+   * Optional chat completion model for image verbalization or context extraction.
+   */
+  chatCompletionModel?: KnowledgeAgentModel;
+  /**
+   * Optional schedule for data ingestion.
+   */
+  ingestionSchedule?: IndexingSchedule;
+  /**
+   * Resources created by the knowledge source.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdResources?: { [propertyName: string]: string };
+  /**
+   * Indicates whether image verbalization should be disabled.
+   */
+  disableImageVerbalization?: boolean;
+}
+
+export type KnowledgeAgentModel = KnowledgeAgentAzureOpenAIModel;
+
+export interface KnowledgeAgentAzureOpenAIModel extends BaseKnowledgeAgentModel {
+  azureOpenAIParameters: AzureOpenAIParameters;
+  kind: "azureOpenAI";
+}
+
 /**
  * Contains configuration options specific to the compression method used during indexing or querying.
  */
@@ -3155,6 +3281,22 @@ export interface DeleteKnowledgeAgentOptions extends OperationOptions {
 export interface GetKnowledgeAgentOptions extends OperationOptions {}
 export interface ListKnowledgeAgentsOptions extends OperationOptions {}
 export interface CreateKnowledgeAgentOptions extends OperationOptions {}
+
+export interface CreateOrUpdateKnowledgeSourceOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
+export interface DeleteKnowledgeSourceOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
+export interface GetKnowledgeSourceOptions extends OperationOptions {}
+export interface ListKnowledgeSourcesOptions extends OperationOptions {}
+export interface CreateKnowledgeSourceOptions extends OperationOptions {}
 
 /**
  * Defines values for LexicalAnalyzerName.

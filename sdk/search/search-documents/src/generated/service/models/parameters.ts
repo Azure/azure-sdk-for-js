@@ -13,6 +13,7 @@ import {
 } from "@azure/core-client";
 import {
   KnowledgeAgent as KnowledgeAgentMapper,
+  KnowledgeSource as KnowledgeSourceMapper,
   SearchIndexerDataSource as SearchIndexerDataSourceMapper,
   DocumentKeysOrIds as DocumentKeysOrIdsMapper,
   IndexerResyncBody as IndexerResyncBodyMapper,
@@ -113,6 +114,22 @@ export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     serializedName: "api-version",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const knowledgeSource: OperationParameter = {
+  parameterPath: "knowledgeSource",
+  mapper: KnowledgeSourceMapper,
+};
+
+export const sourceName: OperationURLParameter = {
+  parameterPath: "sourceName",
+  mapper: {
+    serializedName: "sourceName",
     required: true,
     type: {
       name: "String",

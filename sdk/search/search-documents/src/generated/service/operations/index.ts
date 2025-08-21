@@ -7,6 +7,7 @@
  */
 
 export * from "./knowledgeAgents.js";
+export * from "./knowledgeSources.js";
 export * from "./dataSources.js";
 export * from "./indexers.js";
 export * from "./skillsets.js";

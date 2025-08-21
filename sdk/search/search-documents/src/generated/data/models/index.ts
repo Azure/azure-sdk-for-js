@@ -309,7 +309,7 @@ export interface SearchResult {
    * Contains debugging information that can be used to further explore your search results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly _documentDebugInfo?: _documentDebugInfo;
+  readonly _documentDebugInfo?: DocumentDebugInfo;
 }
 
 /** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type `semantic`. */
@@ -329,7 +329,7 @@ export interface QueryCaptionResult {
 }
 
 /** Contains debugging information that can be used to further explore your search results. */
-export interface _documentDebugInfo {
+export interface DocumentDebugInfo {
   /**
    * Contains debugging information specific to semantic ranking requests.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -810,20 +810,20 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20250501Preview} that the service accepts. */
-export enum KnownApiVersion20250501Preview {
-  /** Api Version '2025-05-01-preview' */
-  TwoThousandTwentyFive0501Preview = "2025-05-01-preview",
+/** Known values of {@link ApiVersion20250801Preview} that the service accepts. */
+export enum KnownApiVersion20250801Preview {
+  /** Api Version '2025-08-01-preview' */
+  TwoThousandTwentyFive0801Preview = "2025-08-01-preview",
 }
 
 /**
- * Defines values for ApiVersion20250501Preview. \
- * {@link KnownApiVersion20250501Preview} can be used interchangeably with ApiVersion20250501Preview,
+ * Defines values for ApiVersion20250801Preview. \
+ * {@link KnownApiVersion20250801Preview} can be used interchangeably with ApiVersion20250801Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2025-05-01-preview**: Api Version '2025-05-01-preview'
+ * **2025-08-01-preview**: Api Version '2025-08-01-preview'
  */
-export type ApiVersion20250501Preview = string;
+export type ApiVersion20250801Preview = string;
 
 /** Known values of {@link SemanticErrorMode} that the service accepts. */
 export enum KnownSemanticErrorMode {
@@ -1221,6 +1221,8 @@ export enum KnownVectorFilterMode {
   PostFilter = "postFilter",
   /** The filter will be applied before the search query. */
   PreFilter = "preFilter",
+  /** The filter will be applied after the global top-k candidate set of vector results is returned. This will result in fewer results than requested by the parameter 'k'. */
+  StrictPostFilter = "strictPostFilter",
 }
 
 /**
@@ -1229,7 +1231,8 @@ export enum KnownVectorFilterMode {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **postFilter**: The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'. \
- * **preFilter**: The filter will be applied before the search query.
+ * **preFilter**: The filter will be applied before the search query. \
+ * **strictPostFilter**: The filter will be applied after the global top-k candidate set of vector results is returned. This will result in fewer results than requested by the parameter 'k'.
  */
 export type VectorFilterMode = string;
 
