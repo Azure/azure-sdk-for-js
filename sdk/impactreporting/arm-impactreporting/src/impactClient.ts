@@ -1,20 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { _getConnectorsOperations, ConnectorsOperations } from "./classic/connectors/index.js";
-import { _getInsightsOperations, InsightsOperations } from "./classic/insights/index.js";
 import {
-  _getImpactCategoriesOperations,
+  createImpact,
+  ImpactContext,
+  ImpactClientOptionalParams,
+} from "./api/index.js";
+import {
+  ConnectorsOperations,
+  _getConnectorsOperations,
+} from "./classic/connectors/index.js";
+import {
   ImpactCategoriesOperations,
+  _getImpactCategoriesOperations,
 } from "./classic/impactCategories/index.js";
 import {
-  _getWorkloadImpactsOperations,
+  InsightsOperations,
+  _getInsightsOperations,
+} from "./classic/insights/index.js";
+import {
+  OperationsOperations,
+  _getOperationsOperations,
+} from "./classic/operations/index.js";
+import {
   WorkloadImpactsOperations,
+  _getWorkloadImpactsOperations,
 } from "./classic/workloadImpacts/index.js";
-import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { createImpact, ImpactContext, ImpactClientOptionalParams } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ImpactClientOptionalParams } from "./api/impactContext.js";
 
