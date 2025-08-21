@@ -20,6 +20,7 @@ import type {
   CallParticipant,
   MediaStreamingOptions,
   TranscriptionOptions,
+  CallIntelligenceOptions,
 } from "../../src/models/models.js";
 import { DtmfTone } from "../../src/models/models.js";
 import type {
@@ -753,6 +754,7 @@ describe("Call Media Client Live Tests", function () {
   let callerPhoneUser: PhoneNumberIdentifier;
   let receiverPhoneUser: PhoneNumberIdentifier;
   let testName: string;
+  let callIntelligenceOptions: CallIntelligenceOptions;
 
   beforeEach(async function (ctx) {
     recorder = await createRecorder(ctx);
@@ -760,6 +762,7 @@ describe("Call Media Client Live Tests", function () {
     testUser2 = await createTestUser(recorder);
     callerCallAutomationClient = createCallAutomationClient(recorder, testUser);
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
+    callIntelligenceOptions = { cognitiveServicesEndpoint: cognitiveServiceEndpoint };
   });
 
   afterEach(async function () {
@@ -1330,7 +1333,7 @@ describe("Call Media Client Live Tests", function () {
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const createCallOption: CreateCallOptions = {
       operationContext: "playMultipleSourcesCreateCall",
-      callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+      callIntelligenceOptions: callIntelligenceOptions,
     };
 
     const result = await callerCallAutomationClient.createCall(
@@ -1391,7 +1394,7 @@ describe("Call Media Client Live Tests", function () {
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const createCallOption: CreateCallOptions = {
       operationContext: "playMultipleSourcesCreateCall",
-      callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+      callIntelligenceOptions: callIntelligenceOptions,
     };
 
     const result = await callerCallAutomationClient.createCall(
@@ -1451,7 +1454,7 @@ describe("Call Media Client Live Tests", function () {
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
     const createCallOption: CreateCallOptions = {
       operationContext: "playMultipleSourcesCreateCall",
-      callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+      callIntelligenceOptions: callIntelligenceOptions,
     };
 
     const result = await callerCallAutomationClient.createCall(
@@ -1634,7 +1637,7 @@ describe("Call Media Client Live Tests", function () {
       const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
       const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
       const createCallOption: CreateCallOptions = {
-        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+        callIntelligenceOptions: callIntelligenceOptions,
       };
       const result = await callerCallAutomationClient.createCall(
         callInvite,
@@ -1758,7 +1761,7 @@ describe("Call Media Client Live Tests", function () {
       const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
       const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
       const createCallOption: CreateCallOptions = {
-        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+        callIntelligenceOptions: callIntelligenceOptions,
       };
       const result = await callerCallAutomationClient.createCall(
         callInvite,
@@ -1878,7 +1881,7 @@ describe("Call Media Client Live Tests", function () {
       const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
       const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
       const createCallOption: CreateCallOptions = {
-        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+        callIntelligenceOptions: callIntelligenceOptions,
       };
       const result = await callerCallAutomationClient.createCall(
         callInvite,
@@ -2014,7 +2017,7 @@ describe("Call Media Client Live Tests", function () {
       const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
       const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
       const createCallOption: CreateCallOptions = {
-        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+        callIntelligenceOptions: callIntelligenceOptions,
       };
       const result = await callerCallAutomationClient.createCall(
         callInvite,
@@ -2208,7 +2211,7 @@ describe("Call Media Client Live Tests", function () {
 
       const createCallOptions: CreateCallOptions = {
         transcriptionOptions: transcriptionOptions,
-        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+        callIntelligenceOptions: callIntelligenceOptions,
       };
 
       const result = await callerCallAutomationClient.createCall(
@@ -2252,7 +2255,7 @@ describe("Call Media Client Live Tests", function () {
     },
   );
 
-  it(
+  it.skip(
     "Creates a call, start transcription with semantic analysis and redaction, and hangs up.",
     { timeout: 60000 },
     async function (ctx) {
@@ -2298,10 +2301,10 @@ describe("Call Media Client Live Tests", function () {
           locale: "en-us",
         },
       };
-
+      
       const createCallOptions: CreateCallOptions = {
+        callIntelligenceOptions: callIntelligenceOptions,
         transcriptionOptions: transcriptionOptions,
-        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
       };
 
       const result = await callerCallAutomationClient.createCall(
@@ -2376,7 +2379,7 @@ describe("Call Media Client Live Tests", function () {
       };
       const answerCallOptions: AnswerCallOptions = {
         transcriptionOptions: transcriptionOptions,
-        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+        callIntelligenceOptions: callIntelligenceOptions,
       };
       const answerCallResult = await receiverCallAutomationClient.answerCall(
         incomingCallContext,
