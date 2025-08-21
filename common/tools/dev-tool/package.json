@@ -84,7 +84,7 @@
     "eslint": "^9.9.0",
     "mkdirp": "^3.0.1",
     "rimraf": "^5.0.5",
-    "typescript-eslint": "~8.34.0",
+    "typescript-eslint": "~8.39.1",
     "vitest": "^3.0.9"
   }
 }

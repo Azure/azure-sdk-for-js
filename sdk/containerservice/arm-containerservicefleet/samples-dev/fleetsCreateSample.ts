@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to creates or updates a Fleet.
  *
  * @summary creates or updates a Fleet.
  * x-ms-original-file: 2025-03-01/Fleets_CreateOrUpdate.json
  */
+
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createsAFleetResourceWithALongRunningOperation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StandbyPoolManagementClient } from "@azure/arm-standbypool";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to update a StandbyVirtualMachinePoolResource
  *
  * @summary update a StandbyVirtualMachinePoolResource
  * x-ms-original-file: 2025-03-01/StandbyVirtualMachinePools_Update.json
  */
+
+import { StandbyPoolManagementClient } from "@azure/arm-standbypool";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function standbyVirtualMachinePoolsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";

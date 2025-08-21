@@ -11,10 +11,13 @@ export default defineConfig({
 });
 
 function generateSrcAliases(maxDepth: number, targetPath: string) {
-  const aliases = {};
+  const aliases = [];
   for (let depth = 1; depth <= maxDepth; depth++) {
     const relativePath = "../".repeat(depth) + "src";
-    aliases[relativePath] = targetPath;
+    aliases.push({
+      find: relativePath,
+      replacement: targetPath,
+    });
   }
   return aliases;
 }

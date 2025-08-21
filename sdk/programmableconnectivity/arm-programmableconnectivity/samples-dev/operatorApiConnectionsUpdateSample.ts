@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ProgrammableConnectivityClient } from "@azure/arm-programmableconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to update an Operator API Connection.
  *
  * @summary update an Operator API Connection.
  * x-ms-original-file: 2024-01-15-preview/OperatorApiConnections_Update_MaximumSet_Gen.json
  */
+
+import { ProgrammableConnectivityClient } from "@azure/arm-programmableconnectivity";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function operatorApiConnectionsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "B976474B-99FA-4C25-A3BD-8B05C3C3D07A";

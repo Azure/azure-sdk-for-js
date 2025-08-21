@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to returns remote private endpoint connection information after validation.
  *
  * @summary returns remote private endpoint connection information after validation.
  * x-ms-original-file: 2024-09-01/PrivateEndpointConnectionProxy_Validate.json
  */
+
+import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function validatesThePrivateEndpointConnectionProxy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";
