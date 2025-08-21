@@ -9,7 +9,7 @@
  */
 
 import {
-  AccountConnectionListOptionalParams,
+  AccountConnectionsListOptionalParams,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -24,14 +24,14 @@ async function listAccountConnections(): Promise<void> {
   const accountName = "account-1";
   const target = "[tartget url]";
   const category = "ContainerRegistry";
-  const options: AccountConnectionListOptionalParams = { target, category };
+  const options: AccountConnectionsListOptionalParams = { target, category };
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
     subscriptionId,
   );
   const resArray = new Array();
-  for await (const item of client.accountConnection.list(
+  for await (const item of client.accountConnections.list(
     resourceGroupName,
     accountName,
     options,

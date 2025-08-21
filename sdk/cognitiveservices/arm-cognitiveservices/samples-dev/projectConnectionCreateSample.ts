@@ -10,7 +10,7 @@
 
 import {
   ConnectionPropertiesV2BasicResource,
-  ProjectConnectionCreateOptionalParams,
+  ProjectConnectionsCreateOptionalParams,
   CognitiveServicesManagementClient,
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -25,7 +25,7 @@ async function createProjectConnection(): Promise<void> {
   const accountName = "account-1";
   const projectName = "project-1";
   const connectionName = "connection-1";
-  const body: ConnectionPropertiesV2BasicResource = {
+  const connection: ConnectionPropertiesV2BasicResource = {
     properties: {
       authType: "None",
       category: "ContainerRegistry",
@@ -33,13 +33,13 @@ async function createProjectConnection(): Promise<void> {
       target: "[tartget url]",
     },
   };
-  const options: ProjectConnectionCreateOptionalParams = { body };
+  const options: ProjectConnectionsCreateOptionalParams = { connection };
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
     subscriptionId,
   );
-  const result = await client.projectConnection.create(
+  const result = await client.projectConnections.create(
     resourceGroupName,
     accountName,
     projectName,

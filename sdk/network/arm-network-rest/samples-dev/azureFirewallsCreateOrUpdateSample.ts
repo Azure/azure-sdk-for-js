@@ -182,7 +182,6 @@ async function createAzureFirewallWithAdditionalProperties(): Promise<void> {
             },
           },
         ],
-        ipGroups: [],
         natRuleCollections: [
           {
             name: "natrulecoll",

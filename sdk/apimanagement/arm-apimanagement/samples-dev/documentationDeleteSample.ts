@@ -26,6 +26,7 @@ async function apiManagementDeleteDocumentation(): Promise<void> {
     resourceGroupName,
     serviceName,
     documentationId,
+    "*"
   );
   console.log(result);
 }

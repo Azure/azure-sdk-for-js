@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Get all private workbooks defined within a specified subscription and category.
  *
@@ -16,7 +17,7 @@ async function workbooksList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.myWorkbooks.listBySubscription(category)) {
+  for await (const item of client.workbooks.listBySubscription(category)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -36,7 +37,7 @@ async function workbooksList2(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.myWorkbooks.listBySubscription(category)) {
+  for await (const item of client.workbooks.listBySubscription(category)) {
     resArray.push(item);
   }
   console.log(resArray);

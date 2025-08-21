@@ -33,6 +33,7 @@ async function apiManagementUpdateDocumentation(): Promise<void> {
     resourceGroupName,
     serviceName,
     documentationId,
+    "*",
     parameters,
   );
   console.log(result);
