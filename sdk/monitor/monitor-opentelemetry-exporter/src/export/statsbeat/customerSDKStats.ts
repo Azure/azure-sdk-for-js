@@ -161,11 +161,14 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
     // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
     for (const [telemetry_type, count] of counter.totalItemSuccessCount.entries()) {
-      attributes.telemetry_type = telemetry_type;
-      observableResult.observe(this.itemSuccessCountGauge, count, {
-        ...attributes,
-      });
-      counter.totalItemSuccessCount.set(telemetry_type, 0);
+      // Only send metrics if count is greater than zero
+      if (count > 0) {
+        attributes.telemetry_type = telemetry_type;
+        observableResult.observe(this.itemSuccessCountGauge, count, {
+          ...attributes,
+        });
+        counter.totalItemSuccessCount.set(telemetry_type, 0);
+      }
     }
   }
 
@@ -203,9 +206,12 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
               (attributes as any)["telemetry_success"] = success;
             }
 
-            observableResult.observe(this.itemDropCountGauge, count, {
-              ...attributes,
-            });
+            // Only send metrics if count is greater than zero
+            if (count > 0) {
+              observableResult.observe(this.itemDropCountGauge, count, {
+                ...attributes,
+              });
+            }
 
             // Reset the count to 0
             successMap.set(success, 0);
@@ -239,9 +245,12 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
             (attributes as any)["retry.reason"] = reason;
           }
 
-          observableResult.observe(this.itemRetryCountGauge, count, {
-            ...attributes,
-          });
+          // Only send metrics if count is greater than zero
+          if (count > 0) {
+            observableResult.observe(this.itemRetryCountGauge, count, {
+              ...attributes,
+            });
+          }
 
           // Reset the count to 0
           reasonMap.set(reason, 0);
