@@ -62,7 +62,7 @@ async function queryAtResourceScopeWithNextLink(): Promise<void> {
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options: PolicyEventsListQueryResultsForResourceOptionalParams = {
-    skipToken,
+    queryOptions: { skipToken },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -136,8 +136,7 @@ async function queryComponentsPolicyEventsCountGroupedByUserAndActionTypeForReso
   const expand =
     "components($apply=groupby((tenantId, principalOid, policyDefinitionAction), aggregate($count as totalActions)))";
   const options: PolicyEventsListQueryResultsForResourceOptionalParams = {
-    filter,
-    expand,
+    queryOptions: { filter, expand },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
@@ -166,8 +165,10 @@ async function queryComponentsPolicyEventsForResourceScopeFilteredByGivenAssignm
     "policyAssignmentId eq '/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/providers/microsoft.authorization/policyassignments/560050f83dbb4a24974323f8'";
   const expand = "components";
   const options: PolicyEventsListQueryResultsForResourceOptionalParams = {
-    filter,
-    expand,
+    queryOptions: {
+      filter,
+      expand,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);

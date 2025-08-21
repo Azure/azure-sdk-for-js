@@ -16,7 +16,11 @@ async function summarizeAtSubscriptionScope(): Promise<void> {
   const policyStatesSummaryResource = "latest";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 5;
-  const options: PolicyStatesSummarizeForSubscriptionOptionalParams = { top };
+  const options: PolicyStatesSummarizeForSubscriptionOptionalParams = {
+    queryOptions: {
+      top,
+    },
+  };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
   const result = await client.policyStates.summarizeForSubscription(
@@ -39,8 +43,10 @@ async function summarizeAtSubscriptionScopeForAPolicyDefinitionGroup(): Promise<
   const top = 1;
   const filter = "'group1' IN PolicyDefinitionGroupNames";
   const options: PolicyStatesSummarizeForSubscriptionOptionalParams = {
-    top,
-    filter,
+    queryOptions: {
+      top,
+      filter,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);
