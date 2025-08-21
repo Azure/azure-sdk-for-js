@@ -7,44 +7,6 @@ import {
   ServiceFabricManagedClustersManagementClientOptionalParams,
 } from "./api/index.js";
 import {
-  OperationStatusOperations,
-  _getOperationStatusOperations,
-} from "./classic/operationStatus/index.js";
-import {
-  OperationResultsOperations,
-  _getOperationResultsOperations,
-} from "./classic/operationResults/index.js";
-import {
-  NodeTypeSkusOperations,
-  _getNodeTypeSkusOperations,
-} from "./classic/nodeTypeSkus/index.js";
-import { NodeTypesOperations, _getNodeTypesOperations } from "./classic/nodeTypes/index.js";
-import {
-  ManagedMaintenanceWindowStatusOperations,
-  _getManagedMaintenanceWindowStatusOperations,
-} from "./classic/managedMaintenanceWindowStatus/index.js";
-import {
-  ManagedApplyMaintenanceWindowOperations,
-  _getManagedApplyMaintenanceWindowOperations,
-} from "./classic/managedApplyMaintenanceWindow/index.js";
-import {
-  ManagedAzResiliencyStatusOperations,
-  _getManagedAzResiliencyStatusOperations,
-} from "./classic/managedAzResiliencyStatus/index.js";
-import {
-  ManagedClustersOperations,
-  _getManagedClustersOperations,
-} from "./classic/managedClusters/index.js";
-import {
-  ManagedUnsupportedVMSizesOperations,
-  _getManagedUnsupportedVMSizesOperations,
-} from "./classic/managedUnsupportedVMSizes/index.js";
-import {
-  ManagedClusterVersionOperations,
-  _getManagedClusterVersionOperations,
-} from "./classic/managedClusterVersion/index.js";
-import { ServicesOperations, _getServicesOperations } from "./classic/services/index.js";
-import {
   ApplicationTypeVersionsOperations,
   _getApplicationTypeVersionsOperations,
 } from "./classic/applicationTypeVersions/index.js";
@@ -56,9 +18,47 @@ import {
   ApplicationsOperations,
   _getApplicationsOperations,
 } from "./classic/applications/index.js";
+import {
+  ManagedApplyMaintenanceWindowOperations,
+  _getManagedApplyMaintenanceWindowOperations,
+} from "./classic/managedApplyMaintenanceWindow/index.js";
+import {
+  ManagedAzResiliencyStatusOperations,
+  _getManagedAzResiliencyStatusOperations,
+} from "./classic/managedAzResiliencyStatus/index.js";
+import {
+  ManagedClusterVersionOperations,
+  _getManagedClusterVersionOperations,
+} from "./classic/managedClusterVersion/index.js";
+import {
+  ManagedClustersOperations,
+  _getManagedClustersOperations,
+} from "./classic/managedClusters/index.js";
+import {
+  ManagedMaintenanceWindowStatusOperations,
+  _getManagedMaintenanceWindowStatusOperations,
+} from "./classic/managedMaintenanceWindowStatus/index.js";
+import {
+  ManagedUnsupportedVMSizesOperations,
+  _getManagedUnsupportedVMSizesOperations,
+} from "./classic/managedUnsupportedVMSizes/index.js";
+import {
+  NodeTypeSkusOperations,
+  _getNodeTypeSkusOperations,
+} from "./classic/nodeTypeSkus/index.js";
+import { NodeTypesOperations, _getNodeTypesOperations } from "./classic/nodeTypes/index.js";
+import {
+  OperationResultsOperations,
+  _getOperationResultsOperations,
+} from "./classic/operationResults/index.js";
+import {
+  OperationStatusOperations,
+  _getOperationStatusOperations,
+} from "./classic/operationStatus/index.js";
 import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { ServicesOperations, _getServicesOperations } from "./classic/services/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { ServiceFabricManagedClustersManagementClientOptionalParams } from "./api/serviceFabricManagedClustersManagementContext.js";
 

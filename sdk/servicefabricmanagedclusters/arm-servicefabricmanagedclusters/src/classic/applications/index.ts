@@ -3,10 +3,15 @@
 
 import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
-  ApplicationResource,
-  ApplicationUpdateParameters,
-  RuntimeResumeApplicationUpgradeParameters,
-} from "../../models/models.js";
+  startRollback,
+  resumeUpgrade,
+  readUpgrade,
+  list,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/applications/operations.js";
 import {
   ApplicationsStartRollbackOptionalParams,
   ApplicationsResumeUpgradeOptionalParams,
@@ -18,15 +23,10 @@ import {
   ApplicationsGetOptionalParams,
 } from "../../api/applications/options.js";
 import {
-  startRollback,
-  resumeUpgrade,
-  readUpgrade,
-  list,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/applications/operations.js";
+  ApplicationResource,
+  ApplicationUpdateParameters,
+  RuntimeResumeApplicationUpgradeParameters,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

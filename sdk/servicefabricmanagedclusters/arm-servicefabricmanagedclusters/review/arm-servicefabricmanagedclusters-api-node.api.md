@@ -14,6 +14,7 @@ export function createServiceFabricManagedClustersManagement(credential: TokenCr
 // @public
 export interface ServiceFabricManagedClustersManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public

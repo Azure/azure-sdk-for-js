@@ -5,7 +5,7 @@
  * This sample demonstrates how to get the list of available Service Fabric resource provider API operations.
  *
  * @summary get the list of available Service Fabric resource provider API operations.
- * x-ms-original-file: 2025-03-01-preview/OperationsList_example.json
+ * x-ms-original-file: 2025-06-01-preview/OperationsList_example.json
  */
 
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";

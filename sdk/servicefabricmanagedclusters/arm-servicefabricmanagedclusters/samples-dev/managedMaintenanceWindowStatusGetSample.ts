@@ -5,7 +5,7 @@
  * This sample demonstrates how to action to get Maintenance Window Status of the Service Fabric Managed Clusters.
  *
  * @summary action to get Maintenance Window Status of the Service Fabric Managed Clusters.
- * x-ms-original-file: 2025-03-01-preview/ManagedMaintenanceWindowStatusGet_example.json
+ * x-ms-original-file: 2025-06-01-preview/ManagedMaintenanceWindowStatusGet_example.json
  */
 
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";

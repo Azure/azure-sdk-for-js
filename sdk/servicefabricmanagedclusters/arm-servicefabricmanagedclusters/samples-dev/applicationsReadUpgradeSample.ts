@@ -5,7 +5,7 @@
  * This sample demonstrates how to get the status of the latest application upgrade. It will query the cluster to find the status of the latest application upgrade.
  *
  * @summary get the status of the latest application upgrade. It will query the cluster to find the status of the latest application upgrade.
- * x-ms-original-file: 2025-03-01-preview/ApplicationActionGetUpgrade_example.json
+ * x-ms-original-file: 2025-06-01-preview/ApplicationActionGetUpgrade_example.json
  */
 
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";

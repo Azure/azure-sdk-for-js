@@ -5,7 +5,7 @@
  * This sample demonstrates how to gets all Service Fabric cluster resources created or in the process of being created in the resource group.
  *
  * @summary gets all Service Fabric cluster resources created or in the process of being created in the resource group.
- * x-ms-original-file: 2025-03-01-preview/ManagedClusterListByResourceGroupOperation_example.json
+ * x-ms-original-file: 2025-06-01-preview/ManagedClusterListByResourceGroupOperation_example.json
  */
 
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";

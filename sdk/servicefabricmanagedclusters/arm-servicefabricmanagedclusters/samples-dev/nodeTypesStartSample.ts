@@ -5,7 +5,7 @@
  * This sample demonstrates how to starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and activate them.
  *
  * @summary starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and activate them.
- * x-ms-original-file: 2025-03-01-preview/StartNodes_example.json
+ * x-ms-original-file: 2025-06-01-preview/StartNodes_example.json
  */
 
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";

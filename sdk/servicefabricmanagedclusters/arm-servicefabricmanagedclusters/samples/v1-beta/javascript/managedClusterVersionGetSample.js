@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about an available Service Fabric managed cluster code version.
  *
  * @summary gets information about an available Service Fabric managed cluster code version.
- * x-ms-original-file: 2025-03-01-preview/ManagedClusterVersionGet_example.json
+ * x-ms-original-file: 2025-06-01-preview/ManagedClusterVersionGet_example.json
  */
 async function getClusterVersion() {
   const credential = new DefaultAzureCredential();

@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Service Fabric managed application resource with the specified name.
  *
  * @summary delete a Service Fabric managed application resource with the specified name.
- * x-ms-original-file: 2025-03-01-preview/ApplicationDeleteOperation_example.json
+ * x-ms-original-file: 2025-06-01-preview/ApplicationDeleteOperation_example.json
  */
 async function deleteAnApplication() {
   const credential = new DefaultAzureCredential();

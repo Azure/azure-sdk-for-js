@@ -5,7 +5,7 @@
  * This sample demonstrates how to delete a Service Fabric managed application type version resource with the specified name.
  *
  * @summary delete a Service Fabric managed application type version resource with the specified name.
- * x-ms-original-file: 2025-03-01-preview/ApplicationTypeVersionDeleteOperation_example.json
+ * x-ms-original-file: 2025-06-01-preview/ApplicationTypeVersionDeleteOperation_example.json
  */
 
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";

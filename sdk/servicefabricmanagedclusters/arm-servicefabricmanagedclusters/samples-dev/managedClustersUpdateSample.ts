@@ -5,7 +5,7 @@
  * This sample demonstrates how to update the tags of of a Service Fabric managed cluster resource with the specified name.
  *
  * @summary update the tags of of a Service Fabric managed cluster resource with the specified name.
- * x-ms-original-file: 2025-03-01-preview/ManagedClusterPatchOperation_example.json
+ * x-ms-original-file: 2025-06-01-preview/ManagedClusterPatchOperation_example.json
  */
 
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
