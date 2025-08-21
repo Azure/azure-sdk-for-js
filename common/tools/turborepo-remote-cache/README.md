@@ -55,36 +55,11 @@ To run the cache in Docker, you can use the following command in the `common/too
 docker build -t azure-turborepo-remote-cache .
 ```
 
-For development, you can use the following command:
-
-```bash
-docker build -t azure-turborepo-remote-cache --build-arg NODE_ENV=development .
-```
-
-In order to run the cache in Docker, you will need to log into Azure to create the token on your local system. You can do this using the Azure CLI:
-
-```bash
-az login
-```
-
-Using an `.env` file is supported so you can run the container with the following command where you mount the local `.azure` directory to the container's `/root/.azure` directory for local development:
-
-```bash
-docker run -p 3000:3000 -it -v ~/.azure:/root/.azure azure-turborepo-remote-cache
-```
-
-When running in production, you can use the following command leaving out the `-v` flag and set the `NODE_ENV` variable to `production`:
-
-```bash
-docker run -p 3000:3000 -it azure-turborepo-remote-cache -e NODE_ENV=production
-```
-
-Running in production mode is recommended for production use. You can do this by setting the `NODE_ENV` environment variable to `production`:
+Here's an example of running the cache with all supported envirnonment variables passed:
 
 ```bash
 docker run -p 3000:3000 \
   -it \
-  -e NODE_ENV=production \
   -e AZURE_CACHE_PORT=3000 \
   -e PACKAGE_VERSION=1.0.0 \
   -e CACHE_LOG_LEVEL=info \
@@ -93,6 +68,14 @@ docker run -p 3000:3000 \
   -e AZURE_STORAGE_CONTAINER_NAME=your_container_name \
   azure-turborepo-remote-cache
 ```
+
+Using an `.env` file is supported so you can run the container with the following command where you mount the local `.env` file to the container's `/app/.env`:
+
+```bash
+docker run -p 3000:3000 -it -v ./.env:/app/.env azure-turborepo-remote-cache
+```
+
+Pass a Azure Blob container SAS url via the `AZURE_CONTAINER_SAS_URL` envirnonment variable for local testing.
 
 ### Configuring TurboRepo
 

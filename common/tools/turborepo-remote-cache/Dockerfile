@@ -1,14 +1,7 @@
-# Use an official node 22 image
 FROM mcr.microsoft.com/azurelinux/base/nodejs:20.14 AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm install -g pnpm
-
-# Conditionally install Azure CLI if NODE_ENV is development
-ARG NODE_ENV=production
-RUN if [ "$NODE_ENV" = "development" ]; then \
-  curl -sL https://aka.ms/InstallAzureCLIDeb | bash; \
-  fi
 
 # Set the working directory in the container
 WORKDIR /app
