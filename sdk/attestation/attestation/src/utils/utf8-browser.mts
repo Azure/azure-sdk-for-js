@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+const decoder = new TextDecoder("ascii");
+const encoder = new TextEncoder();
+
 /**
  * Converts a string into a utf8 encoded byte array.
  * @param content - The utf8 string to convert.
  * @internal
  */
 export function stringToBytes(content: string): Uint8Array {
-  return Buffer.from(content, "utf8");
+  return encoder.encode(content);
 }
 
 /**
@@ -16,5 +19,5 @@ export function stringToBytes(content: string): Uint8Array {
  * @internal
  */
 export function bytesToString(content: Uint8Array): string {
-  return Buffer.from(content.buffer, content.byteOffset, content.byteLength).toString("ascii");
+  return decoder.decode(content);
 }
