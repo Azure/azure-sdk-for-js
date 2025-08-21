@@ -24,6 +24,8 @@ import type {
   HighWaterMarkChangeDetectionPolicy,
   HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
   KnowledgeAgent as GeneratedKnowledgeAgent,
+  KnowledgeAgentModel as GeneratedKnowledgeAgentModel,
+  KnowledgeSourceUnion as GeneratedKnowledgeSource,
   LexicalAnalyzerUnion,
   LexicalTokenizerUnion,
   LuceneStandardAnalyzer,
@@ -58,7 +60,7 @@ import type {
   SuggestDocumentsResult,
   SuggestResult,
 } from "./indexModels.js";
-import type { KnowledgeAgent } from "./knowledgeAgentModels.js";
+import type { KnowledgeAgent, KnowledgeAgentModel } from "./knowledgeAgentModels.js";
 import { logger } from "./logger.js";
 import type {
   AIServicesVisionVectorizer,
@@ -107,6 +109,7 @@ import type {
   VectorSearchAlgorithmMetric,
   VectorSearchVectorizer,
   WebApiVectorizer,
+  KnowledgeSource,
 } from "./serviceModels.js";
 import { isComplexField } from "./serviceModels.js";
 
@@ -945,6 +948,7 @@ export function convertKnowledgeAgentToPublic(
 
   return {
     ...knowledgeAgent,
+    models: knowledgeAgent.models.map((model) => convertKnowledgeAgentModelToPublic(model)),
     encryptionKey: convertEncryptionKeyToPublic(knowledgeAgent.encryptionKey),
   };
 }
@@ -958,6 +962,103 @@ export function convertKnowledgeAgentToGenerated(
 
   return {
     ...knowledgeAgent,
+    models: knowledgeAgent.models.map((model) => convertKnowledgeAgentModelToGenerated(model)),
     encryptionKey: convertEncryptionKeyToGenerated(knowledgeAgent.encryptionKey),
+  };
+}
+
+export function convertKnowledgeAgentModelToPublic(
+  knowledgeAgentModel: GeneratedKnowledgeAgentModel | undefined,
+): KnowledgeAgentModel | undefined {
+  if (!knowledgeAgentModel) {
+    return knowledgeAgentModel;
+  }
+
+  switch (knowledgeAgentModel.kind) {
+    case "azureOpenAI": {
+      return {
+        ...knowledgeAgentModel,
+        azureOpenAIParameters: convertAzureOpenAIParametersToPublic(
+          knowledgeAgentModel.azureOpenAIParameters,
+        ),
+      };
+    }
+  }
+}
+
+export function convertKnowledgeAgentModelToGenerated(
+  knowledgeAgentModel: KnowledgeAgentModel | undefined,
+): GeneratedKnowledgeAgentModel | undefined {
+  if (!knowledgeAgentModel) {
+    return knowledgeAgentModel;
+  }
+  switch (knowledgeAgentModel.kind) {
+    case "azureOpenAI": {
+      return {
+        ...knowledgeAgentModel,
+        azureOpenAIParameters: convertAzureOpenAIParametersToGenerated(
+          knowledgeAgentModel.azureOpenAIParameters,
+        ),
+      };
+    }
+  }
+}
+
+export function convertKnowledgeSourceToPublic(
+  knowledgeSource: GeneratedKnowledgeSource | undefined,
+): KnowledgeSource | undefined {
+  if (!knowledgeSource) {
+    return knowledgeSource;
+  }
+
+  const encryptionKey = convertEncryptionKeyToPublic(knowledgeSource.encryptionKey);
+
+  switch (knowledgeSource.kind) {
+    case "searchIndex": {
+      return { ...knowledgeSource, encryptionKey };
+    }
+    case "azureBlob": {
+      const azureBlobParameters = convertAzureBlobKnowledgeSourceParametersToPublic(
+        knowledgeSource.azureBlobParameters,
+      );
+      return { ...knowledgeSource, encryptionKey, azureBlobParameters };
+    }
+  }
+}
+
+export function convertKnowledgeSourceToGenerated(
+  knowledgeSource: KnowledgeSource | undefined,
+): GeneratedKnowledgeSource | undefined {
+  if (!knowledgeSource) {
+    return knowledgeSource;
+  }
+
+  const encryptionKey = convertEncryptionKeyToGenerated(knowledgeSource.encryptionKey);
+
+  switch (knowledgeSource.kind) {
+    case "searchIndex": {
+      return { ...knowledgeSource, encryptionKey };
+    }
+    case "azureBlob": {
+      const azureBlobParameters = convertAzureBlobKnowledgeSourceParametersToGenerated(
+        knowledgeSource.azureBlobParameters,
+      );
+      return { ...knowledgeSource, encryptionKey, azureBlobParameters };
+    }
+  }
+}
+
+function convertAzureBlobKnowledgeSourceParametersToPublic(
+  params: GeneratedAzureBlobKnowledgeSourceParameters | undefined,
+): AzureBlobKnowledgeSourceParameters {
+  if (!params) {
+    return params;
+  }
+  const { embeddingModel, identity, chatCompletionModel } = params;
+  return {
+    ...params,
+    embeddingModel: generatedVectorSearchVectorizerToPublicVectorizer(embeddingModel),
+    identity: convertSearchIndexerDataIdentityToPublic(identity),
+    chatCompetionModel: convertKnowledgeAgentModelToPublic(chatCompletionModel),
   };
 }

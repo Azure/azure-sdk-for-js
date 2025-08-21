@@ -5,7 +5,8 @@ import type { OperationOptions } from "@azure/core-client";
 import type {
   KnowledgeAgentModel as BaseKnowledgeAgentModel,
   KnowledgeAgentRequestLimits,
-  KnowledgeAgentTargetIndex,
+  KnowledgeSourceReference,
+  KnowledgeAgentOutputConfiguration,
 } from "./generated/service/index.js";
 import type { AzureOpenAIParameters, SearchResourceEncryptionKey } from "./serviceModels.js";
 
@@ -26,11 +27,14 @@ export interface KnowledgeAgent {
    * Contains configuration options on how to connect to AI models.
    */
   models: KnowledgeAgentModel[];
-  targetIndexes: KnowledgeAgentTargetIndex[];
+  knowledgeSources: KnowledgeSourceReference[];
+  outputConfiguration?: KnowledgeAgentOutputConfiguration;
   /**
    * Guardrails to limit how much resources are utilized for a single agent retrieval request.
    */
   requestLimits?: KnowledgeAgentRequestLimits;
+  /** Instructions considered by the knowledge agent when developing query plan. */
+  retrievalInstructions?: string;
   /**
    * The ETag of the agent.
    */

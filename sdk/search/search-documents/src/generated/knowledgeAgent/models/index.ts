@@ -13,25 +13,34 @@ export type KnowledgeAgentMessageContentUnion =
   | KnowledgeAgentMessageContent
   | KnowledgeAgentMessageTextContent
   | KnowledgeAgentMessageImageContent;
+export type KnowledgeSourceParamsUnion =
+  | KnowledgeSourceParams
+  | SearchIndexKnowledgeSourceParams;
 export type KnowledgeAgentActivityRecordUnion =
   | KnowledgeAgentActivityRecord
-  | KnowledgeAgentSearchActivityRecord
+  | KnowledgeAgentRetrievalActivityRecordUnion
   | KnowledgeAgentModelQueryPlanningActivityRecord
-  | KnowledgeAgentSemanticRankerActivityRecord;
+  | KnowledgeAgentModelAnswerSynthesisActivityRecord
+  | KnowledgeAgentSemanticRerankerActivityRecord;
 export type KnowledgeAgentReferenceUnion =
   | KnowledgeAgentReference
-  | KnowledgeAgentAzureSearchDocReference;
+  | KnowledgeAgentSearchIndexReference
+  | KnowledgeAgentAzureBlobReference;
+export type KnowledgeAgentRetrievalActivityRecordUnion =
+  | KnowledgeAgentRetrievalActivityRecord
+  | KnowledgeAgentSearchIndexActivityRecord
+  | KnowledgeAgentAzureBlobActivityRecord;
 
 /** The input contract for the retrieval request. */
 export interface KnowledgeAgentRetrievalRequest {
   messages: KnowledgeAgentMessage[];
-  targetIndexParams?: KnowledgeAgentIndexParams[];
+  knowledgeSourceParams?: KnowledgeSourceParamsUnion[];
 }
 
 /** The natural language message style object. */
 export interface KnowledgeAgentMessage {
   /** The role of the tool response. */
-  role: string;
+  role?: string;
   content: KnowledgeAgentMessageContentUnion[];
 }
 
@@ -41,17 +50,11 @@ export interface KnowledgeAgentMessageContent {
   type: "text" | "image";
 }
 
-export interface KnowledgeAgentIndexParams {
+export interface KnowledgeSourceParams {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "searchIndex";
   /** The name of the index the params apply to. */
-  indexName?: string;
-  /** A filter condition applied to the index (e.g., 'State eq VA'). */
-  filterAddOn?: string;
-  /** Limits the number of documents considered for ranking. */
-  maxDocsForReranker?: number;
-  /** A threshold for reranking results (range: 0-4). */
-  rerankerThreshold?: number;
-  /** Indicates whether reference source data should be included. */
-  includeReferenceSourceData?: boolean;
+  knowledgeSourceName: string;
 }
 
 /** The output contract for the retrieval response. */
@@ -66,19 +69,31 @@ export interface KnowledgeAgentRetrievalResponse {
 /** Base type for activity records. */
 export interface KnowledgeAgentActivityRecord {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureSearchQuery" | "ModelQueryPlanning" | "AzureSearchSemanticRanker";
+  type:
+    | "KnowledgeAgentRetrievalActivityRecord"
+    | "searchIndex"
+    | "azureBlob"
+    | "modelQueryPlanning"
+    | "modelAnswerSynthesis"
+    | "semanticReranker";
   /** The ID of the activity record. */
   id: number;
+  /** The elapsed time in milliseconds for the retrieval activity. */
+  elapsedMs?: number;
 }
 
 /** Base type for references. */
 export interface KnowledgeAgentReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureSearchDoc";
+  type: "searchIndex" | "azureBlob";
   /** The ID of the reference. */
   id: string;
   /** The source activity ID for the reference. */
   activitySource: number;
+  /** Dictionary of <any> */
+  sourceData?: { [propertyName: string]: any };
+  /** The reranker score for the document reference. */
+  rerankerScore?: number;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -135,12 +150,18 @@ export interface KnowledgeAgentMessageImageContentImage {
   url: string;
 }
 
-/** The query details for the retrieval activity. */
-export interface KnowledgeAgentSearchActivityRecordQuery {
-  /** The search string. */
+/** Represents the arguments the search index retrieval activity was run with. */
+export interface KnowledgeAgentSearchIndexActivityArguments {
+  /** The search string used to query the search index. */
   search?: string;
   /** The filter string. */
   filter?: string;
+}
+
+/** Represents the arguments the azure blob retrieval activity was run with. */
+export interface KnowledgeAgentAzureBlobActivityArguments {
+  /** The search string used to query blob contents. */
+  search?: string;
 }
 
 /** Text message type. */
@@ -159,72 +180,109 @@ export interface KnowledgeAgentMessageImageContent
   image: KnowledgeAgentMessageImageContentImage;
 }
 
+/** Specifies runtime parameters for a search index knowledge source */
+export interface SearchIndexKnowledgeSourceParams
+  extends KnowledgeSourceParams {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "searchIndex";
+  /** A filter condition applied to the index (e.g., 'State eq VA'). */
+  filterAddOn?: string;
+}
+
 /** Represents a retrieval activity record. */
-export interface KnowledgeAgentSearchActivityRecord
+export interface KnowledgeAgentRetrievalActivityRecord
   extends KnowledgeAgentActivityRecord {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureSearchQuery";
-  /** The target index for the retrieval activity. */
-  targetIndex?: string;
-  /** The query details for the retrieval activity. */
-  query?: KnowledgeAgentSearchActivityRecordQuery;
+  type: "KnowledgeAgentRetrievalActivityRecord" | "searchIndex" | "azureBlob";
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
   /** The query time for this retrieval activity. */
   queryTime?: Date;
-  /** The count of documents retrieved. */
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
   count?: number;
-  /** The elapsed time in milliseconds for the retrieval activity. */
-  elapsedMs?: number;
 }
 
 /** Represents an LLM query planning activity record. */
 export interface KnowledgeAgentModelQueryPlanningActivityRecord
   extends KnowledgeAgentActivityRecord {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ModelQueryPlanning";
+  type: "modelQueryPlanning";
   /** The number of input tokens for the LLM query planning activity. */
   inputTokens?: number;
   /** The number of output tokens for the LLM query planning activity. */
   outputTokens?: number;
-  /** The elapsed time in milliseconds for the model activity. */
-  elapsedMs?: number;
+}
+
+/** Represents an LLM answer synthesis activity record. */
+export interface KnowledgeAgentModelAnswerSynthesisActivityRecord
+  extends KnowledgeAgentActivityRecord {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "modelAnswerSynthesis";
+  /** The number of input tokens for the LLM answer synthesis activity. */
+  inputTokens?: number;
+  /** The number of output tokens for the LLM answer synthesis activity. */
+  outputTokens?: number;
 }
 
 /** Represents a semantic ranker activity record. */
-export interface KnowledgeAgentSemanticRankerActivityRecord
+export interface KnowledgeAgentSemanticRerankerActivityRecord
   extends KnowledgeAgentActivityRecord {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureSearchSemanticRanker";
+  type: "semanticReranker";
   /** The number of input tokens for the semantic ranker activity. */
   inputTokens?: number;
-  /** The elapsed time in milliseconds for the model activity. */
-  elapsedMs?: number;
 }
 
 /** Represents an Azure Search document reference. */
-export interface KnowledgeAgentAzureSearchDocReference
+export interface KnowledgeAgentSearchIndexReference
   extends KnowledgeAgentReference {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureSearchDoc";
+  type: "searchIndex";
   /** The document key for the reference. */
   docKey?: string;
-  /** Dictionary of <any> */
-  sourceData?: { [propertyName: string]: any };
 }
 
-/** Known values of {@link ApiVersion20250501Preview} that the service accepts. */
-export enum KnownApiVersion20250501Preview {
-  /** Api Version '2025-05-01-preview' */
-  TwoThousandTwentyFive0501Preview = "2025-05-01-preview",
+/** Represents an Azure Blob Storage document reference. */
+export interface KnowledgeAgentAzureBlobReference
+  extends KnowledgeAgentReference {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "azureBlob";
+  /** The blob URL for the reference. */
+  blobUrl?: string;
+}
+
+/** Represents a search index retrieval activity record. */
+export interface KnowledgeAgentSearchIndexActivityRecord
+  extends KnowledgeAgentRetrievalActivityRecord {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "searchIndex";
+  /** The search index arguments for the retrieval activity. */
+  searchIndexArguments?: KnowledgeAgentSearchIndexActivityArguments;
+}
+
+/** Represents a azure blob retrieval activity record. */
+export interface KnowledgeAgentAzureBlobActivityRecord
+  extends KnowledgeAgentRetrievalActivityRecord {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "azureBlob";
+  /** The azure blob arguments for the retrieval activity. */
+  azureBlobArguments?: KnowledgeAgentAzureBlobActivityArguments;
+}
+
+/** Known values of {@link ApiVersion20250801Preview} that the service accepts. */
+export enum KnownApiVersion20250801Preview {
+  /** Api Version '2025-08-01-preview' */
+  TwoThousandTwentyFive0801Preview = "2025-08-01-preview",
 }
 
 /**
- * Defines values for ApiVersion20250501Preview. \
- * {@link KnownApiVersion20250501Preview} can be used interchangeably with ApiVersion20250501Preview,
+ * Defines values for ApiVersion20250801Preview. \
+ * {@link KnownApiVersion20250801Preview} can be used interchangeably with ApiVersion20250801Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2025-05-01-preview**: Api Version '2025-05-01-preview'
+ * **2025-08-01-preview**: Api Version '2025-08-01-preview'
  */
-export type ApiVersion20250501Preview = string;
+export type ApiVersion20250801Preview = string;
 
 /** Known values of {@link KnowledgeAgentMessageContentType} that the service accepts. */
 export enum KnownKnowledgeAgentMessageContentType {
@@ -243,6 +301,24 @@ export enum KnownKnowledgeAgentMessageContentType {
  * **image**: Image message content kind.
  */
 export type KnowledgeAgentMessageContentType = string;
+
+/** Known values of {@link KnowledgeSourceKind} that the service accepts. */
+export enum KnownKnowledgeSourceKind {
+  /** A knowledge source that reads data from a Search Index. */
+  SearchIndex = "searchIndex",
+  /** A knowledge source that read and ingest data from Azure Blob Storage to a Search Index. */
+  AzureBlob = "azureBlob",
+}
+
+/**
+ * Defines values for KnowledgeSourceKind. \
+ * {@link KnownKnowledgeSourceKind} can be used interchangeably with KnowledgeSourceKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **searchIndex**: A knowledge source that reads data from a Search Index. \
+ * **azureBlob**: A knowledge source that read and ingest data from Azure Blob Storage to a Search Index.
+ */
+export type KnowledgeSourceKind = string;
 
 /** Optional parameters. */
 export interface KnowledgeRetrievalRetrieveOptionalParams

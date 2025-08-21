@@ -10,11 +10,11 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1755004c92eefdc7a66b4cd90df27d0af4cb0456/specification/search/data-plane/Azure.Search/preview/2025-05-01-preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/429fd8c039c5b08541df2389f8c58d1090e01127/specification/search/data-plane/Azure.Search/preview/2025-08-01-preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@autorest/typescript": "6.0.39"
+  "@autorest/typescript": "6.0.46"
 core-http-compat-mode: true
 package-version: 12.2.0-beta.3
 disable-async-iterators: true

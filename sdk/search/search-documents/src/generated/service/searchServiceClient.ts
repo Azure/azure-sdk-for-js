@@ -15,6 +15,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import {
   KnowledgeAgentsImpl,
+  KnowledgeSourcesImpl,
   DataSourcesImpl,
   IndexersImpl,
   SkillsetsImpl,
@@ -24,6 +25,7 @@ import {
 } from "./operations/index.js";
 import {
   KnowledgeAgents,
+  KnowledgeSources,
   DataSources,
   Indexers,
   Skillsets,
@@ -34,7 +36,7 @@ import {
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
 import {
-  ApiVersion20250501Preview,
+  ApiVersion20250801Preview,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetServiceStatisticsResponse,
@@ -45,7 +47,7 @@ import {
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20250501Preview;
+  apiVersion: ApiVersion20250801Preview;
 
   /**
    * Initializes a new instance of the SearchServiceClient class.
@@ -55,7 +57,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20250501Preview,
+    apiVersion: ApiVersion20250801Preview,
     options?: SearchServiceClientOptionalParams,
   ) {
     if (endpoint === undefined) {
@@ -92,6 +94,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
     this.endpoint = endpoint;
     this.apiVersion = apiVersion;
     this.knowledgeAgents = new KnowledgeAgentsImpl(this);
+    this.knowledgeSources = new KnowledgeSourcesImpl(this);
     this.dataSources = new DataSourcesImpl(this);
     this.indexers = new IndexersImpl(this);
     this.skillsets = new SkillsetsImpl(this);
@@ -156,6 +159,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   }
 
   knowledgeAgents: KnowledgeAgents;
+  knowledgeSources: KnowledgeSources;
   dataSources: DataSources;
   indexers: Indexers;
   skillsets: Skillsets;
