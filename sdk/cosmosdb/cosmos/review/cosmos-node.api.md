@@ -477,7 +477,6 @@ export interface ConnectionPolicy {
     enablePartitionLevelCircuitBreaker?: boolean;
     enablePartitionLevelFailover?: boolean;
     endpointRefreshRateInMs?: number;
-    excludedLocations?: string[];
     preferredLocations?: string[];
     requestTimeout?: number;
     retryOptions?: RetryOptions;
@@ -1309,6 +1308,10 @@ export class GlobalEndpointManager {
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
     enableEndpointDiscovery: boolean;
+    // (undocumented)
+    filterExcludedLocations(preferredLocations: string[], excludedLocations?: Set<string>): string[];
+    // (undocumented)
+    getEffectiveExcludedLocations(options: RequestOptions | FeedOptions, resourceType: ResourceType): Set<string>;
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getReadEndpoints(): Promise<ReadonlyArray<string>>;
@@ -1325,7 +1328,7 @@ export class GlobalEndpointManager {
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
     resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number, // Represents the starting index for selecting servers.
-    requestOptions?: RequestOptions | FeedOptions | undefined): Promise<string>;
+    requestOptions?: RequestOptions | FeedOptions): Promise<string>;
 }
 
 // @public (undocumented)
