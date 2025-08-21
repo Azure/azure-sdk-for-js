@@ -151,23 +151,6 @@ stages:
                         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/eng-package-utils
                         displayName: Install eng-package-utils tool dependencies
 
-                      - bash: |
-                          npm ci
-                        workingDirectory: ./eng/tools/versioning
-                        displayName: Install versioning tool dependencies
-
-                      - bash: |
-                          node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
-                        displayName: Increment package version
-
-                      - bash: |
-                          npm install -g pnpm
-                        displayName: Install Pnpm
-
-                      - bash: |
-                          pnpm install --no-frozen-lockfile
-                        displayName: "Install dependencies"
-
                       # Disabled until packages can be updated to support ES2019 syntax.
                       # - bash: |
                       #     npm install -g ./common/tools/dev-tool
