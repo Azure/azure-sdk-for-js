@@ -78,8 +78,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       resHeaders = response.headers;
       if (
         response === undefined ||
-        response.result === undefined ||
-        response.result.buffer === undefined
+        response.result === undefined 
       ) {
         this.isCompleted = true;
         if (!this.nonStreamingOrderByPQ.isEmpty()) {

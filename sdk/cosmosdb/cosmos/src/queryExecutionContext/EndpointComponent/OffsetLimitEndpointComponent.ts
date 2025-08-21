@@ -69,11 +69,11 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     mergeHeaders(aggregateHeaders, response.headers);
     if (
       response === undefined ||
-      response.result === undefined ||
-      response.result.buffer === undefined
+      response.result === undefined
     ) {
       return { result: undefined, headers: response.headers };
     }
+    
     const initialOffset = this.offset;
     const initialLimit = this.limit;
 
@@ -86,110 +86,53 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       }
     }
 
-    // Update partition key range map based on offset/limit processing
-    const removedOffset = initialOffset - this.offset;
-    let updatedPartitionKeyRangeMap = this.updatePartitionKeyRangeMap(
-      response.result.partitionKeyRangeMap,
-      removedOffset, // items excluded
-      true // exclude flag
-    );
+    // let updatedPartitionKeyRangeMap = response.result.partitionKeyRangeMap;
+    // TODO: convert to void function
+    // Process offset/limit logic and update partition key range map
+    // updatedPartitionKeyRangeMap = this.processOffsetLimitWithContinuationToken(
+    //   response.result.partitionKeyRangeMap,
+    //   initialOffset,
+    //   initialLimit,
+    //   response.result.length,
+    // );
 
-    const removedLimit = initialLimit - this.limit;
-     updatedPartitionKeyRangeMap = this.updatePartitionKeyRangeMap(
-      updatedPartitionKeyRangeMap,
-      removedLimit,
-      false
-     )
-     // if something remains in buffer remove it
-     const remainingValue = response.result.buffer.length - (initialOffset + initialLimit);
-     if(this.limit <= 0){
-       updatedPartitionKeyRangeMap = this.updatePartitionKeyRangeMap(
-      updatedPartitionKeyRangeMap,
-      remainingValue,
-      true
-     )
-     }
-
-    // Update the continuation token manager with the new offset/limit values if available
-    if (this.continuationTokenManager) {
-      this.continuationTokenManager.updateOffsetLimit(this.offset, this.limit);
-    }
-
-    return { result: {buffer: buffer, partitionKeyRangeMap: updatedPartitionKeyRangeMap, offset: this.offset, limit: this.limit}, headers: aggregateHeaders };
+    return { 
+      result:  buffer,
+      headers: aggregateHeaders 
+    };
   }
 
   /**
-   * Helper method to update partitionKeyRangeMap based on excluded/included items
-   * @param partitionKeyRangeMap - Original partition key range map
-   * @param itemCount - Number of items to exclude/include
-   * @param exclude - true to exclude items from start, false to include items from start
+   * Processes offset/limit logic using the continuation token manager and updates partition key range map
+   * @param partitionKeyRangeMap - Original partition key range map from execution context
+   * @param initialOffset - Initial offset value before processing
+   * @param initialLimit - Initial limit value before processing
+   * @param bufferLength - Total length of the buffer that was processed
+   * @param headers - Response headers to update with continuation token
    * @returns Updated partition key range map
    */
-  private updatePartitionKeyRangeMap(
+  private processOffsetLimitWithContinuationToken(
     partitionKeyRangeMap: Map<string, any>,
-    itemCount: number,
-    exclude: boolean
+    initialOffset: number,
+    initialLimit: number,
+    bufferLength: number,
   ): Map<string, any> {
-    if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0 || itemCount <= 0) {
-      return partitionKeyRangeMap;
-    }
-
-    const updatedMap = new Map<string, any>();
-    let remainingItems = itemCount;
-
-    for (const [patchId, patch] of partitionKeyRangeMap) {
-      const rangeItemCount = patch.itemCount || 0;
+    // Use continuation token manager to process offset/limit logic and update partition key range map
+    if (this.continuationTokenManager) {      
+      // Delegate the complex partition key range map processing to the continuation token manager
+      const updatedPartitionKeyRangeMap = this.continuationTokenManager.processOffsetLimitAndUpdateRangeMap(
+        partitionKeyRangeMap,
+        initialOffset,
+        this.offset,
+        initialLimit,
+        this.limit,
+        bufferLength
+      );
       
-      // Handle special case for empty result sets
-      if (rangeItemCount === 0) {
-        updatedMap.set(patchId, { ...patch });
-        continue;
-      }
-
-      if (exclude) {
-        // Exclude items from the beginning
-        if (remainingItems <= 0) {
-          // No more items to exclude, keep this range with original item count
-          updatedMap.set(patchId, { ...patch });
-        } else if (remainingItems >= rangeItemCount) {
-          // Exclude entire range
-          remainingItems -= rangeItemCount;
-          updatedMap.set(patchId, {
-            ...patch,
-            itemCount: 0 // Mark as completely excluded
-          });
-        } else {
-          // Partially exclude this range
-          const includedItems = rangeItemCount - remainingItems;
-          updatedMap.set(patchId, {
-            ...patch,
-            itemCount: includedItems
-          });
-          remainingItems = 0;
-        }
-      } else {
-        // Include items from the beginning
-        if (remainingItems <= 0) {
-          // No more items to include, mark remaining as excluded
-          updatedMap.set(patchId, {
-            ...patch,
-            itemCount: 0
-          });
-        } else if (remainingItems >= rangeItemCount) {
-          // Include entire range
-          remainingItems -= rangeItemCount;
-          updatedMap.set(patchId, { ...patch });
-        } else {
-          // Partially include this range
-          updatedMap.set(patchId, {
-            ...patch,
-            itemCount: remainingItems
-          });
-          remainingItems = 0;
-        }
-      }
+      this.continuationTokenManager.updateOffsetLimit(this.offset, this.limit);
+      return updatedPartitionKeyRangeMap;
     }
-
-    return updatedMap;
+    // Return original map if no continuation token manager is available
+    return partitionKeyRangeMap;
   }
 }

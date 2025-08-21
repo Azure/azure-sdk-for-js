@@ -31,11 +31,11 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     }
   }
 
-  async filterPartitionRanges(
+  filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationToken?: string,
     queryInfo?: Record<string, unknown>,
-  ): Promise<PartitionRangeFilterResult> {
+  ): PartitionRangeFilterResult {
     console.log("=== OrderByQueryRangeStrategy.filterPartitionRanges START ===");
     console.log(
       `Input ranges: ${targetRanges.length}, Continuation token: ${continuationToken ? "Present" : "None"}`,

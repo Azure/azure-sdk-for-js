@@ -30,7 +30,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
   }
-  // TODO: don't return continuations in case of group by
+
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     if (this.completed) {
       return {
@@ -44,12 +44,11 @@ export class GroupByEndpointComponent implements ExecutionContext {
 
     if (
       response === undefined ||
-      response.result === undefined ||
-      response.result.buffer === undefined
+      response.result === undefined
     ) {
       // If there are any groupings, consolidate and return them
       if (this.groupings.size > 0) {
-        return this.consolidateGroupResults(aggregateHeaders, response?.result?.partitionKeyRangeMap);
+        return this.consolidateGroupResults(aggregateHeaders);
       }
       return { 
         result: undefined, 
@@ -57,7 +56,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
       };
     }
 
-    for (const item of response.result.buffer as GroupByResult[]) {
+    for (const item of response.result as GroupByResult[]) {
       // If it exists, process it via aggregators
       if (item) {
         const group = item.groupByItems ? await hashObject(item.groupByItems) : emptyGroup;
@@ -96,18 +95,15 @@ export class GroupByEndpointComponent implements ExecutionContext {
 
     if (this.executionContext.hasMoreResults()) {
       return {
-        result: {
-          buffer: [],
-          partitionKeyRangeMap: response.result.partitionKeyRangeMap || new Map()
-        },
+        result: [],
         headers: aggregateHeaders,
       };
     } else {
-      return this.consolidateGroupResults(aggregateHeaders, response.result.partitionKeyRangeMap);
+      return this.consolidateGroupResults(aggregateHeaders);
     }
   }
 
-  private consolidateGroupResults(aggregateHeaders: CosmosHeaders, partitionKeyRangeMap?: Map<string, any>): Response<any> {
+  private consolidateGroupResults(aggregateHeaders: CosmosHeaders): Response<any> {
     for (const grouping of this.groupings.values()) {
       const groupResult: any = {};
       for (const [aggregateKey, aggregator] of grouping.entries()) {
@@ -117,10 +113,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
     }
     this.completed = true;
     return { 
-      result: {
-        buffer: this.aggregateResultArray,
-        partitionKeyRangeMap: partitionKeyRangeMap || new Map()
-      }, 
+      result:  this.aggregateResultArray,
       headers: aggregateHeaders 
     };
   }

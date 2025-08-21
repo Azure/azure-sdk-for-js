@@ -49,14 +49,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   // TODO: update type of buffer from any --> generic can be used here
   private buffer: any[];
-  // a data structure  to hold indexes of buffer wrt to partition key ranges, like index 0-21 belong to partition key range 1, index 22-45 belong to partition key range 2, etc.
-  // along partition key range it will also hold continuation token for that partition key range
-  // patch id + doc range + continuation token
-  // e.g. { 0: { indexes: [0, 21], continuationToken: "token" } }
   private patchToRangeMapping: Map<string, QueryRangeMapping> = new Map();
   private patchCounter: number = 0;
   private sem: any;
-  protected continuationTokenManager: ContinuationTokenManager | undefined;
+  protected continuationTokenManager: ContinuationTokenManager;
   private diagnosticNodeWrapper: {
     consumed: boolean;
     diagnosticNode: DiagnosticNodeInternal;
@@ -113,7 +109,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         // Compare based on minInclusive values to ensure left-to-right range traversal
         const aMinInclusive = a.targetPartitionKeyRange.minInclusive;
         const bMinInclusive = b.targetPartitionKeyRange.minInclusive;
-        return aMinInclusive.localeCompare(bMinInclusive);
+        return bMinInclusive.localeCompare(aMinInclusive);
       },
     );
     // The comparator is supplied by the derived class
@@ -162,7 +158,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           }
 
           console.log("Filtering partition ranges using continuation token");
-          const filterResult = await rangeManager.filterPartitionRanges(
+          const filterResult = rangeManager.filterPartitionRanges(
             targetPartitionRanges,
             this.requestContinuation,
           );
@@ -586,11 +582,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         if (this.buffer.length === 0) {
           this.sem.leave();
           return resolve({
-            result: {
-              buffer:
-                this.state === ParallelQueryExecutionContextBase.STATES.ended ? undefined : [],
-              partitionKeyRangeMap: this.patchToRangeMapping,
-            },
+            result: this.state === ParallelQueryExecutionContextBase.STATES.ended ? undefined : [],
             headers: this._getAndResetActiveResponseHeaders(),
           });
         }
@@ -609,7 +601,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         this.sem.leave();
 
         return resolve({
-          result: { buffer: bufferedResults, partitionKeyRangeMap: patchToRangeMapping },
+          result: bufferedResults,
           headers: this._getAndResetActiveResponseHeaders(),
         });
       });

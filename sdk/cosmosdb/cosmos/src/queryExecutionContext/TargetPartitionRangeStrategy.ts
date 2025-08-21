@@ -40,13 +40,13 @@ export interface TargetPartitionRangeStrategy {
    * @param targetRanges - All available target partition ranges
    * @param continuationToken - The continuation token to resume from (if any)
    * @param queryInfo - Additional query information for filtering decisions
-   * @returns Promise resolving to filtered partition ranges and metadata
+   * @returns Filtered partition ranges and metadata
    */
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationToken?: string,
     queryInfo?: Record<string, unknown>,
-  ): Promise<PartitionRangeFilterResult>;
+  ): PartitionRangeFilterResult;
 
   /**
    * Validates if the continuation token is compatible with this strategy

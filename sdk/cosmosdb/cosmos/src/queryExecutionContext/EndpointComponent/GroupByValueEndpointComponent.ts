@@ -48,16 +48,15 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
 
     if (
       response === undefined ||
-      response.result === undefined ||
-      response.result.buffer === undefined
-    ) {
+      response.result === undefined
+      ) {
       if (this.aggregators.size > 0) {
         return this.generateAggregateResponse(aggregateHeaders);
       }
       return { result: undefined, headers: aggregateHeaders };
     }
 
-    for (const item of response.result.buffer as GroupByResult[]) {
+    for (const item of response.result as GroupByResult[]) {
       if (item) {
         let grouping: string = emptyGroup;
         let payload: any = item;

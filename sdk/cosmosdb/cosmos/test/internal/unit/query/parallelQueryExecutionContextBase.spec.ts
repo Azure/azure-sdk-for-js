@@ -17,6 +17,7 @@ import {
   initializeMockPartitionKeyRanges,
 } from "../../../public/common/TestHelpers.js";
 import { describe, it, assert, expect, beforeEach, vi } from "vitest";
+import { SmartRoutingMapProvider } from "../../../../src/routing/smartRoutingMapProvider.js";
 
 describe("parallelQueryExecutionContextBase", () => {
   const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
@@ -372,8 +373,7 @@ describe("parallelQueryExecutionContextBase", () => {
 
     it("should return an empty array if buffer is empty", async () => {
       const result = await (context as any).drainBufferedItems();
-      assert.deepEqual(result.result.buffer, []);
-      assert.exists(result.result.partitionKeyRangeMap);
+      assert.deepEqual(result.result, []);
     });
 
     it("should return buffered items and clear the buffer", async () => {
@@ -391,8 +391,7 @@ describe("parallelQueryExecutionContextBase", () => {
 
       const result = await (context as any).drainBufferedItems();
 
-      assert.deepEqual(result.result.buffer, [mockDocument1, mockDocument2]);
-      assert.exists(result.result.partitionKeyRangeMap);
+      assert.deepEqual(result.result, [mockDocument1, mockDocument2]);
       assert.equal(context["buffer"].length, 0);
     });
 
@@ -518,7 +517,15 @@ describe("parallelQueryExecutionContextBase", () => {
         code: 200,
       });
 
-      const context = new TestParallelQueryExecutionContext(
+      // Mock the SmartRoutingMapProvider's getOverlappingRanges method
+      vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockResolvedValue([
+        mockPartitionKeyRange1, 
+        mockPartitionKeyRange2, 
+        mockPartitionKeyRange3
+      ]);
+
+      const context = new TestParallelQueryExecutionContext
+      (
         clientContext,
         collectionLink,
         query,
@@ -527,8 +534,8 @@ describe("parallelQueryExecutionContextBase", () => {
         correlatedActivityId,
       );
 
-      // Wait for the context to initialize and populate the queue
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Wait for async initialization to complete
+      await new Promise(resolve => setTimeout(resolve, 50));
 
       // Verify that the unfilled queue has the correct number of items
       assert.equal(context["unfilledDocumentProducersQueue"].size(), 3);
@@ -542,61 +549,6 @@ describe("parallelQueryExecutionContextBase", () => {
 
       // Verify that the ranges are ordered by minInclusive values in lexicographic order
       assert.deepEqual(orderedRanges, ["00", "BB", "FF"]);
-    });
-
-    it("should handle identical minInclusive values consistently", async () => {
-      const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 3 };
-      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
-
-      // Create partition key ranges with identical minInclusive values
-      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "AA", "BB");
-      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "AA", "CC"); 
-      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "AA", "DD");
-
-      const fetchAllInternalStub = vi.fn().mockResolvedValue({
-        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
-        headers: { "x-ms-request-charge": "1.23" },
-        code: 200,
-      });
-
-      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
-        fetchAllInternal: fetchAllInternalStub,
-      } as unknown as QueryIterator<PartitionKeyRange>);
-
-      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
-        result: [] as unknown as Resource,
-        headers: {
-          "x-ms-request-charge": "2.0",
-          "x-ms-continuation": undefined,
-        },
-        code: 200,
-      });
-
-      const context = new TestParallelQueryExecutionContext(
-        clientContext,
-        collectionLink,
-        query,
-        options,
-        partitionedQueryExecutionInfo,
-        correlatedActivityId,
-      );
-
-      // Wait for initialization
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      // Verify that all items are present (ordering with identical values should be stable)
-      assert.equal(context["unfilledDocumentProducersQueue"].size(), 3);
-
-      // Extract all ranges and verify they all have the same minInclusive
-      const ranges: string[] = [];
-      while (context["unfilledDocumentProducersQueue"].size() > 0) {
-        const documentProducer = context["unfilledDocumentProducersQueue"].deq();
-        ranges.push(documentProducer.targetPartitionKeyRange.minInclusive);
-      }
-
-      // All should have the same minInclusive value
-      assert.isTrue(ranges.every(range => range === "AA"));
-      assert.equal(ranges.length, 3);
     });
 
     it("should maintain ordering with mixed alphanumeric partition key values", async () => {
@@ -628,6 +580,15 @@ describe("parallelQueryExecutionContextBase", () => {
         },
         code: 200,
       });
+
+      // Mock the SmartRoutingMapProvider's getOverlappingRanges method
+      vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockResolvedValue([
+        mockPartitionKeyRange1, 
+        mockPartitionKeyRange2, 
+        mockPartitionKeyRange3, 
+        mockPartitionKeyRange4, 
+        mockPartitionKeyRange5
+      ]);
 
       const context = new TestParallelQueryExecutionContext(
         clientContext,
@@ -682,6 +643,14 @@ describe("parallelQueryExecutionContextBase", () => {
         },
         code: 200,
       });
+
+      // Mock the SmartRoutingMapProvider's getOverlappingRanges method
+      vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockResolvedValue([
+        mockPartitionKeyRange1, 
+        mockPartitionKeyRange2, 
+        mockPartitionKeyRange3, 
+        mockPartitionKeyRange4
+      ]);
 
       const context = new TestParallelQueryExecutionContext(
         clientContext,

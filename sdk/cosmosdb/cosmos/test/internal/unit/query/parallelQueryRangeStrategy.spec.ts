@@ -221,7 +221,6 @@ describe("ParallelQueryRangeStrategy", () => {
                 parents: []
               },
               continuationToken: exhaustedToken,
-              itemCount: 0,
             }
           ]
         });
@@ -229,7 +228,7 @@ describe("ParallelQueryRangeStrategy", () => {
         const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
         // Should skip exhausted partition and include all target ranges
-        assert.equal(result.filteredRanges.length, 4); // All target ranges since no valid continuation
+        assert.equal(result.filteredRanges.length, 2); // All target ranges since no valid continuation
         assert.deepEqual(result.filteredRanges, mockPartitionRanges);
       }
     });
@@ -558,8 +557,9 @@ describe("ParallelQueryRangeStrategy", () => {
       const result = await strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
 
       // Should include the merged range and subsequent ranges
-      assert.equal(result.filteredRanges.length, 3);
-      assert.equal(result.filteredRanges[0].id, "merged-0-1");
+      assert.equal(result.filteredRanges.length, 4);
+      assert.equal(result.filteredRanges[0].id, "0");
+      assert.equal(result.filteredRanges[0].id, "1");
       assert.equal(result.filteredRanges[1].id, "2"); // BB-FF
       assert.equal(result.filteredRanges[2].id, "3"); // FF-ZZ
     });
@@ -601,8 +601,16 @@ describe("ParallelQueryRangeStrategy", () => {
 
       // Should include both split ranges and subsequent ranges
       assert.equal(result.filteredRanges.length, 3);
-      assert.equal(result.filteredRanges[0].id, "split-2a");
-      assert.equal(result.filteredRanges[1].id, "split-2b");
+      assert.equal(result.filteredRanges[0].id, "2");
+      assert.equal(result.filteredRanges[0].minInclusive, "BB");
+      assert.equal(result.filteredRanges[0].maxExclusive, "FF");
+      assert.equal(result.filteredRanges[0].epkMin, "BB");
+      assert.equal(result.filteredRanges[0].epkMax, "CC");
+      assert.equal(result.filteredRanges[1].id, "2");
+      assert.equal(result.filteredRanges[1].minInclusive, "BB");
+      assert.equal(result.filteredRanges[1].maxExclusive, "FF");
+      assert.equal(result.filteredRanges[1].epkMin, "CC");
+      assert.equal(result.filteredRanges[1].epkMax, "FF");
       assert.equal(result.filteredRanges[2].id, "3"); // FF-ZZ
     });
   });

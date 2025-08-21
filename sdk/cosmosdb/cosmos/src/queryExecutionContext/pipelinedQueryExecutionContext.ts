@@ -175,6 +175,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             correlatedActivityId,
           ),
           this.emitRawOrderByPayload,
+          optionsWithSharedManager,
         );
       } else {
         this.endpoint = new ParallelQueryExecutionContext(
@@ -204,7 +205,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       // If distinct then add that to the pipeline
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       if (distinctType === "Ordered") {
-        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
+        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint, optionsWithSharedManager);
       }
       if (distinctType === "Unordered") {
         this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
@@ -349,16 +350,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       console.log("Fetched more results from endpoint", JSON.stringify(response));
 
       // Handle case where there are no more results from endpoint
-      if (!response || !response.result) {
+      if (!response || !response.result || !response.result.buffer) {
         return this.createEmptyResultWithHeaders(response?.headers);
       }
 
       // Process response and update continuation token manager
-      if (!this.processEndpointResponse(response)) {
-        return this.createEmptyResultWithHeaders(response.headers);
-      }
-
-      // Return empty result if no items were buffered
+      this.fetchBuffer = response.result.buffer;
       if (this.fetchBuffer.length === 0) {
         return this.createEmptyResultWithHeaders(this.fetchMoreRespHeaders);
       }
@@ -399,32 +396,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const hdrs = headers || getInitialHeader();
     this.continuationTokenManager.setContinuationTokenInHeaders(hdrs);
     return { result: [], headers: hdrs };
-  }
-
-  private processEndpointResponse(response: Response<any>): boolean {
-    if (response.result.buffer) {
-      // Update the token manager with the new partition key range map
-      this.fetchBuffer = response.result.buffer;
-      if (response.result.partitionKeyRangeMap) {
-        this.continuationTokenManager.setPartitionKeyRangeMap(response.result.partitionKeyRangeMap);
-        
-        // Extract and update hashedLastResult values for distinct order queries
-        this.continuationTokenManager.updateHashedLastResultFromPartitionMap(response.result.partitionKeyRangeMap);
-      }
-      // Capture order by items array for ORDER BY queries if available
-      if (response.result.orderByItemsArray) {
-        this.continuationTokenManager.setOrderByItemsArray(response.result.orderByItemsArray);
-      }
-      // Capture offset and limit values from the response
-      if (response.result.offset !== undefined || response.result.limit !== undefined) {
-        this.continuationTokenManager.updateOffsetLimit(response.result.offset, response.result.limit);
-      }
-      return true;
-    } else {
-      // Unexpected format; still attempt to attach continuation header (likely none)
-      this.continuationTokenManager.setContinuationTokenInHeaders(response.headers);
-      return false;
-    }
   }
 
   private calculateVectorSearchBufferSize(queryInfo: QueryInfo, options: FeedOptions): number {

@@ -28,10 +28,10 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
     }
   }
 
-  async filterPartitionRanges(
+  filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationToken?: string
-  ): Promise<PartitionRangeFilterResult> {
+  ): PartitionRangeFilterResult {
     console.log("=== ParallelQueryRangeStrategy.filterPartitionRanges START ===");
     console.log(
       `Input ranges: ${targetRanges.length}, Continuation token: ${continuationToken ? "Present" : "None"}`,

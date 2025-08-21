@@ -164,13 +164,14 @@ describe("TargetPartitionRangeManager", () => {
       
       assert.exists(result);
       assert.isArray(result.filteredRanges);
+      assert.equal(result.filteredRanges.length, 2);
+      assert.equal(result.filteredRanges[0].minInclusive,"AA");
+      assert.equal(result.filteredRanges[1].minInclusive,"BB");
     });
 
     it("should handle empty partition ranges", async () => {
       const manager = TargetPartitionRangeManager.createForParallelQuery();
-      
       const result = await manager.filterPartitionRanges([]);
-      
       assert.deepEqual(result, { filteredRanges: [], continuationToken: null });
     });
 

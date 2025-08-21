@@ -82,24 +82,24 @@ export class TargetPartitionRangeManager {
    * Filters target partition ranges based on the continuation token and query-specific logic
    * @param targetRanges - All available target partition ranges
    * @param continuationToken - The continuation token to resume from (if any)
-   * @returns Promise resolving to filtered partition ranges and metadata
+   * @returns Filtered partition ranges and metadata
    */
-  public async filterPartitionRanges(
+  public filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationToken?: string,
-  ): Promise<PartitionRangeFilterResult> {
+  ): PartitionRangeFilterResult {
     console.log("=== TargetPartitionRangeManager.filterPartitionRanges START ===");
     console.log(
       `Query type: ${this.config.queryType}, Strategy: ${this.strategy.getStrategyType()}`,
-    );
-    console.log(
-      `Input ranges: ${targetRanges.length}, Continuation token: ${continuationToken ? "Present" : "None"}`,
     );
 
     // Validate inputs
     if (!targetRanges || targetRanges.length === 0) {
       return { filteredRanges: [], continuationToken: null };
     }
+    console.log(
+      `Input ranges: ${targetRanges.length}, Continuation token: ${continuationToken ? "Present" : "None"}`,
+    );
 
     // Validate continuation token if provided
     if (continuationToken && !this.strategy.validateContinuationToken(continuationToken)) {
@@ -107,7 +107,7 @@ export class TargetPartitionRangeManager {
     }
 
     try {
-      const result = await this.strategy.filterPartitionRanges(
+      const result = this.strategy.filterPartitionRanges(
         targetRanges,
         continuationToken,
         this.config.queryInfo,
@@ -134,9 +134,6 @@ export class TargetPartitionRangeManager {
    * Updates the strategy (useful for switching between query types)
    */
   public updateStrategy(newConfig: TargetPartitionRangeManagerConfig): void {
-    console.log(
-      `Updating strategy from ${this.strategy.getStrategyType()} to ${newConfig.queryType}`,
-    );
     this.config = newConfig;
     this.strategy = this.createStrategy(newConfig);
   }

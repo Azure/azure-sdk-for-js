@@ -4,11 +4,21 @@ import type { Response } from "../../request/index.js";
 import type { ExecutionContext } from "../ExecutionContext.js";
 import { hashObject } from "../../utils/hashObject.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { ContinuationTokenManager } from "../ContinuationTokenManager.js";
+import type { FeedOptions } from "../../request/index.js";
 
 /** @hidden */
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
   private hashedLastResult: string;
-  constructor(private executionContext: ExecutionContext) {}
+  private continuationTokenManager: ContinuationTokenManager | undefined;
+
+  constructor(
+    private executionContext: ExecutionContext,
+    options?: FeedOptions
+  ) {
+    // Get the continuation token manager from options if available
+    this.continuationTokenManager = (options as any)?.continuationTokenManager;
+  }
 
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
@@ -25,9 +35,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
       return { result: undefined, headers: response.headers };
     }
 
-    const updatedPartitionKeyRangeMap = new Map<string, any>();
-    
-    // Process each item and maintain hashedLastResult for each partition range
+    // Process each item and maintain hashedLastResult for distinct filtering
     for (const item of response.result.buffer) {
       if (item) {
         const hashedResult = await hashObject(item);
@@ -37,46 +45,20 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
         }
       }
     }
+    // TODO: convert this method to void 
+    // let updatedPartitionKeyRangeMap = response.result.partitionKeyRangeMap;
 
-    // Update partition key range map with hashedLastResult for each range
-    if (response.result.partitionKeyRangeMap) {
-      let startIndex = 0;
-      for (const [rangeId, rangeMapping] of response.result.partitionKeyRangeMap) {
-        const { indexes } = rangeMapping;
-        
-        // Find the last document in this partition range that made it to the final buffer
-        let lastHashForThisRange: string | undefined;
-        
-        if (indexes[0] !== -1 && indexes[1] !== -1) {
-          // Check if any items from this range are in the final buffer
-          const rangeStartInOriginal = indexes[0];
-          const rangeEndInOriginal = indexes[1];
-          const rangeSize = rangeEndInOriginal - rangeStartInOriginal + 1;
-
-          // Find the last item from this range in the original buffer
-          for (let i = startIndex; i < startIndex + rangeSize; i++, startIndex++) {
-            if (i < response.result.buffer.length) {
-              const item = response.result.buffer[i];
-              if (item) {
-                lastHashForThisRange = await hashObject(item);
-              }
-            }
-          }
-        }
-
-        // Update the range mapping with the hashed last result
-        updatedPartitionKeyRangeMap.set(rangeId, {
-          ...rangeMapping,
-          hashedLastResult: lastHashForThisRange || rangeMapping.hashedLastResult,
-        });
-      }
-    }
+    // // Use continuation token manager to process distinct query logic and update partition key range map
+    // if (this.continuationTokenManager && response.result.partitionKeyRangeMap) {
+    //   updatedPartitionKeyRangeMap = await this.continuationTokenManager.processDistinctQueryAndUpdateRangeMap(
+    //     response.result.partitionKeyRangeMap,
+    //     response.result.buffer,
+    //     hashObject
+    //   );
+    // }
 
     return { 
-      result: {
-        buffer: buffer, 
-        partitionKeyRangeMap: updatedPartitionKeyRangeMap
-      }, 
+      result:  buffer,
       headers: response.headers 
     };
   }

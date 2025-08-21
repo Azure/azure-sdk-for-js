@@ -44,6 +44,10 @@ export interface QueryRangeMapping {
    * Hash of the last document result for this partition key range (for distinct queries)
    */
   hashedLastResult?: string;
+
+  offset?: number;
+
+  limit?: number;
 }
 
 /**

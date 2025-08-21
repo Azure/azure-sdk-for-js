@@ -249,6 +249,10 @@ export class ContinuationTokenManager {
     }
   }
 
+  private resetInitializePartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
+    this.partitionKeyRangeMap = partitionKeyRangeMap;
+  }
+
   /**
    * Removes exhausted(fully drained) ranges from the composite continuation token range mappings
    */
@@ -291,7 +295,6 @@ export class ContinuationTokenManager {
     pageResults?: any[],
   ): { endIndex: number; processedRanges: string[] } {
     this.removeExhaustedRangesFromCompositeContinuationToken();
-
     if (this.isOrderByQuery) {
       return this.processOrderByRanges(pageSize, currentBufferLength, pageResults);
     } else {
@@ -409,7 +412,7 @@ export class ContinuationTokenManager {
       skipCount, // Number of documents with the same RID already processed
       this.getOffset(), // Current offset value
       this.getLimit(),  // Current limit value
-      undefined, // hashedLastResult - to be set separately for distinct queries
+      lastRangeBeforePageLimit.hashedLastResult, // hashedLastResult - to be set for distinct queries
     );
 
 
@@ -580,5 +583,295 @@ export class ContinuationTokenManager {
         this.updateHashedLastResult(rangeMapping.hashedLastResult);
       }
     }
+  }
+
+  /**
+   * Processes offset/limit logic and updates partition key range map accordingly.
+   * This method handles the logic of tracking which items from which partitions
+   * have been consumed by offset/limit operations, maintaining accurate continuation state.
+   * Also calculates what offset/limit would be after completely consuming each partition range.
+   * 
+   * @param partitionKeyRangeMap - Original partition key range map from execution context
+   * @param initialOffset - Initial offset value before processing
+   * @param finalOffset - Final offset value after processing
+   * @param initialLimit - Initial limit value before processing
+   * @param finalLimit - Final limit value after processing
+   * @param bufferLength - Total length of the buffer that was processed
+   * @returns Updated partition key range map reflecting the offset/limit processing
+   */
+  public processOffsetLimitAndUpdateRangeMap(
+    partitionKeyRangeMap: Map<string, any>,
+    initialOffset: number,
+    finalOffset: number,
+    initialLimit: number,
+    finalLimit: number,
+    bufferLength: number
+  ): Map<string, any> {
+    if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0) {
+      return partitionKeyRangeMap;
+    }
+
+    // Calculate and store offset/limit values for each partition range after complete consumption
+    let updatedPartitionKeyRangeMap = this.calculateOffsetLimitForEachPartitionRange(
+      partitionKeyRangeMap,
+      initialOffset,
+      initialLimit
+    );
+
+    // Calculate how many items were consumed by offset and limit operations
+    const removedOffset = initialOffset - finalOffset;
+    const removedLimit = initialLimit - finalLimit;
+    
+    // Start with excluding items consumed by offset
+    updatedPartitionKeyRangeMap = this.updatePartitionKeyRangeMapForOffsetLimit(
+      partitionKeyRangeMap,
+      removedOffset,
+      true // exclude flag
+    );
+
+    // Then include items that were consumed by limit
+    updatedPartitionKeyRangeMap = this.updatePartitionKeyRangeMapForOffsetLimit(
+      updatedPartitionKeyRangeMap,
+      removedLimit,
+      false // include flag
+    );
+
+    // If limit is exhausted, exclude any remaining items in the buffer
+    const remainingValue = bufferLength - (removedOffset + removedLimit);
+    if (finalLimit <= 0 && remainingValue > 0) {
+      updatedPartitionKeyRangeMap = this.updatePartitionKeyRangeMapForOffsetLimit(
+        updatedPartitionKeyRangeMap,
+        remainingValue,
+        true // exclude flag
+      );
+    }
+
+    // TODO: remove Update the internal partition key range map with the processed mappings
+    this.resetInitializePartitionKeyRangeMap(updatedPartitionKeyRangeMap);
+
+    return updatedPartitionKeyRangeMap;
+  }
+
+  /**
+   * Calculates what offset/limit values would be after completely consuming each partition range.
+   * This simulates processing each partition range sequentially and tracks the remaining offset/limit.
+   * 
+   * Example: 
+   * Initial state: offset=10, limit=10
+   * Range 1: itemCount=0 -\> offset=10, limit=10 (no consumption)
+   * Range 2: itemCount=5 -\> offset=5, limit=10 (5 items consumed by offset)
+   * Range 3: itemCount=80 -\> offset=0, limit=0 (remaining 5 offset + 10 limit consumed)
+   * Range 4: itemCount=5 -\> offset=0, limit=0 (no items left to consume)
+   * 
+   * @param partitionKeyRangeMap - The partition key range map to update
+   * @param initialOffset - Initial offset value
+   * @param initialLimit - Initial limit value  
+   * @returns Updated partition key range map with offset/limit values for each range
+   */
+  private calculateOffsetLimitForEachPartitionRange(
+    partitionKeyRangeMap: Map<string, any>,
+    initialOffset: number,
+    initialLimit: number
+  ): Map<string, any> {
+    if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0) {
+      return partitionKeyRangeMap;
+    }
+
+    const updatedMap = new Map<string, any>();
+    let currentOffset = initialOffset;
+    let currentLimit = initialLimit;
+
+    // Process each partition range in order to calculate cumulative offset/limit consumption
+    for (const [rangeId, rangeMapping] of partitionKeyRangeMap) {
+      const { itemCount } = rangeMapping;
+      
+      // Calculate what offset/limit would be after completely consuming this partition range
+      let offsetAfterThisRange = currentOffset;
+      let limitAfterThisRange = currentLimit;
+      
+      if (itemCount > 0) {
+        if (currentOffset > 0) {
+          // Items from this range will be consumed by offset first
+          const offsetConsumption = Math.min(currentOffset, itemCount);
+          offsetAfterThisRange = currentOffset - offsetConsumption;
+          
+          // Calculate remaining items in this range after offset consumption
+          const remainingItemsAfterOffset = itemCount - offsetConsumption;
+          
+          if (remainingItemsAfterOffset > 0 && currentLimit > 0) {
+            // Remaining items will be consumed by limit
+            const limitConsumption = Math.min(currentLimit, remainingItemsAfterOffset);
+            limitAfterThisRange = currentLimit - limitConsumption;
+          } else {
+            // No remaining items or no limit left
+            limitAfterThisRange = currentLimit;
+          }
+        } else if (currentLimit > 0) {
+          // Offset is already 0, all items from this range will be consumed by limit
+          const limitConsumption = Math.min(currentLimit, itemCount);
+          limitAfterThisRange = currentLimit - limitConsumption;
+          offsetAfterThisRange = 0; // Offset remains 0
+        }
+        
+        // Update current values for next iteration
+        currentOffset = offsetAfterThisRange;
+        currentLimit = limitAfterThisRange;
+      }
+
+      // Store the calculated offset/limit values in the range mapping
+      updatedMap.set(rangeId, {
+        ...rangeMapping,
+        offset: offsetAfterThisRange,
+        limit: limitAfterThisRange,
+      });
+    }
+
+    return updatedMap;
+  }
+
+  /**
+   * Helper method to update partitionKeyRangeMap based on excluded/included items.
+   * This maintains the precise tracking of which partition ranges have been consumed
+   * by offset/limit operations, essential for accurate continuation token generation.
+   * 
+   * @param partitionKeyRangeMap - Original partition key range map
+   * @param itemCount - Number of items to exclude/include
+   * @param exclude - true to exclude items from start, false to include items from start
+   * @returns Updated partition key range map
+   */
+  private updatePartitionKeyRangeMapForOffsetLimit(
+    partitionKeyRangeMap: Map<string, any>,
+    itemCount: number,
+    exclude: boolean
+  ): Map<string, any> {
+    if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0 || itemCount <= 0) {
+      return partitionKeyRangeMap;
+    }
+
+    const updatedMap = new Map<string, any>();
+    let remainingItems = itemCount;
+
+    for (const [patchId, patch] of partitionKeyRangeMap) {
+      const rangeItemCount = patch.itemCount || 0;
+      
+      // Handle special case for empty result sets
+      if (rangeItemCount === 0) {
+        updatedMap.set(patchId, { ...patch });
+        continue;
+      }
+
+      if (exclude) {
+        // Exclude items from the beginning
+        if (remainingItems <= 0) {
+          // No more items to exclude, keep this range with original item count
+          updatedMap.set(patchId, { ...patch });
+        } else if (remainingItems >= rangeItemCount) {
+          // Exclude entire range
+          remainingItems -= rangeItemCount;
+          updatedMap.set(patchId, {
+            ...patch,
+            itemCount: 0 // Mark as completely excluded
+          });
+        } else {
+          // Partially exclude this range
+          const includedItems = rangeItemCount - remainingItems;
+          updatedMap.set(patchId, {
+            ...patch,
+            itemCount: includedItems
+          });
+          remainingItems = 0;
+        }
+      } else {
+        // Include items from the beginning
+        if (remainingItems <= 0) {
+          // No more items to include, mark remaining as excluded
+          updatedMap.set(patchId, {
+            ...patch,
+            itemCount: 0
+          });
+        } else if (remainingItems >= rangeItemCount) {
+          // Include entire range
+          remainingItems -= rangeItemCount;
+          updatedMap.set(patchId, { ...patch });
+        } else {
+          // Partially include this range
+          updatedMap.set(patchId, {
+            ...patch,
+            itemCount: remainingItems
+          });
+          remainingItems = 0;
+        }
+      }
+    }
+
+    return updatedMap;
+  }
+
+  /**
+   * Processes distinct query logic and updates partition key range map with hashedLastResult.
+   * This method handles the complex logic of tracking the last hash value for each partition range
+   * in distinct queries, essential for proper continuation token generation.
+   * 
+   * @param partitionKeyRangeMap - Original partition key range map from execution context
+   * @param originalBuffer - Original buffer from execution context before distinct filtering
+   * @param hashObject - Hash function to compute hash of items
+   * @returns Updated partition key range map with hashedLastResult for each range
+   */
+  public async processDistinctQueryAndUpdateRangeMap(
+    partitionKeyRangeMap: Map<string, any>,
+    originalBuffer: any[],
+    hashObject: (item: any) => Promise<string>
+  ): Promise<Map<string, any>> {
+    if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0) {
+      return partitionKeyRangeMap;
+    }
+
+    const updatedPartitionKeyRangeMap = new Map<string, any>();
+    
+    // Update partition key range map with hashedLastResult for each range
+    let bufferIndex = 0;
+    for (const [rangeId, rangeMapping] of partitionKeyRangeMap) {
+      const { itemCount } = rangeMapping;
+      
+      // Find the last document in this partition range that made it to the final buffer
+      let lastHashForThisRange: string | undefined;
+      
+      if (itemCount > 0 && bufferIndex < originalBuffer.length) {
+        // Process items from this range in the original buffer
+        const rangeEndIndex = Math.min(bufferIndex + itemCount, originalBuffer.length);
+        
+        // Find the last item from this range in the original buffer
+        for (let i = bufferIndex; i < rangeEndIndex; i++) {
+          const item = originalBuffer[i];
+          if (item) {
+            lastHashForThisRange = await hashObject(item);
+          }
+        }
+        
+        // Move buffer index to start of next range
+        bufferIndex = rangeEndIndex;
+      }
+
+      // Update the range mapping with the hashed last result
+      updatedPartitionKeyRangeMap.set(rangeId, {
+        ...rangeMapping,
+        hashedLastResult: lastHashForThisRange || rangeMapping.hashedLastResult,
+      });
+    }
+
+    
+
+    // Also update the hashed last result in the continuation token for ORDER BY distinct queries
+    if (this.isOrderByQuery && updatedPartitionKeyRangeMap.size > 0) {
+      // For ORDER BY distinct queries, use the overall last hash value
+      const lastRangeMapping = Array.from(updatedPartitionKeyRangeMap.values()).pop();
+      if (lastRangeMapping?.hashedLastResult) {
+        this.updateHashedLastResult(lastRangeMapping.hashedLastResult);
+      }
+    }
+
+    // Update the internal partition key range map with the processed mappings
+    this.resetInitializePartitionKeyRangeMap(updatedPartitionKeyRangeMap);
+    return updatedPartitionKeyRangeMap;
   }
 }
