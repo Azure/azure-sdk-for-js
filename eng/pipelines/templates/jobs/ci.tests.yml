@@ -10,6 +10,9 @@ parameters:
     default: []
   - name: Matrix
     type: string
+  - name: MaxParallel
+    type: number
+    default: 10
   - name: DependsOn
     type: object
     default: []
@@ -39,6 +42,7 @@ jobs:
 
     strategy:
       matrix: $[ ${{ parameters.Matrix }} ]
+      maxParallel: ${{ parameters.MaxParallel }}
 
     pool:
       name: $(Pool)
