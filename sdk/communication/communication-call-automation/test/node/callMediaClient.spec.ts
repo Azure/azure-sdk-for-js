@@ -2301,7 +2301,7 @@ describe("Call Media Client Live Tests", function () {
           locale: "en-us",
         },
       };
-      
+
       const createCallOptions: CreateCallOptions = {
         callIntelligenceOptions: callIntelligenceOptions,
         transcriptionOptions: transcriptionOptions,
