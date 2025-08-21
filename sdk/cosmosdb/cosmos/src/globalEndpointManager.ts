@@ -36,7 +36,6 @@ export class GlobalEndpointManager {
   private unavailableReadableLocations: Location[] = [];
   private unavailableWriteableLocations: Location[] = [];
   private enableMultipleWriteLocations: boolean;
-  private clientLevelExcludedLocations: Set<string>;
 
   public preferredLocationsCount: number;
   /**
@@ -56,9 +55,6 @@ export class GlobalEndpointManager {
     this.isRefreshing = false;
     this.preferredLocations = this.options.connectionPolicy.preferredLocations;
     this.preferredLocationsCount = this.preferredLocations ? this.preferredLocations.length : 0;
-    this.clientLevelExcludedLocations = new Set(
-      (options.connectionPolicy?.excludedLocations || []).map((loc) => normalizeEndpoint(loc)),
-    );
   }
 
   /**
@@ -135,41 +131,31 @@ export class GlobalEndpointManager {
     return canUse;
   }
 
-  private getEffectiveExcludedLocations(
-    options: RequestOptions | FeedOptions | undefined,
+  public getEffectiveExcludedLocations(
+    options: RequestOptions | FeedOptions = {},
     resourceType: ResourceType,
   ): Set<string> {
     if (!canApplyExcludedLocations(resourceType)) {
-      return new Set<string>();
+      return new Set();
     }
+    const excludedLocations = options?.excludedLocations;
 
-    if (
-      !options ||
-      !Object.prototype.hasOwnProperty.call(options, "excludedLocations") ||
-      options.excludedLocations === undefined ||
-      options.excludedLocations === null
-    ) {
-      return this.clientLevelExcludedLocations;
-    }
-
-    if (options.excludedLocations.length === 0) {
-      return new Set<string>();
-    }
-
-    return new Set(options.excludedLocations.map((loc) => normalizeEndpoint(loc)));
+    return excludedLocations?.length
+      ? new Set(excludedLocations.map(normalizeEndpoint))
+      : new Set();
   }
 
-  private filterExcludedLocations(
+  public filterExcludedLocations(
     preferredLocations: string[],
     excludedLocations?: Set<string>,
   ): string[] {
     if (!excludedLocations || excludedLocations.size === 0) {
       return preferredLocations;
     }
-    const filteredLocations = preferredLocations.filter(
-      (location) => !excludedLocations?.has(normalizeEndpoint(location)),
-    );
-    return filteredLocations.length > 0 ? filteredLocations : preferredLocations;
+    const filteredLocations = preferredLocations.filter((location) => {
+      return !excludedLocations.has(normalizeEndpoint(location));
+    });
+    return filteredLocations;
   }
 
   public async resolveServiceEndpoint(
@@ -177,7 +163,7 @@ export class GlobalEndpointManager {
     resourceType: ResourceType,
     operationType: OperationType,
     startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
-    requestOptions?: RequestOptions | FeedOptions | undefined, // add to support request-level excluded region(location) overrides
+    requestOptions: RequestOptions | FeedOptions = {}, // add to support request-level excluded region(location) overrides
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
 
@@ -252,7 +238,7 @@ export class GlobalEndpointManager {
         ? locations.slice(startServiceEndpointIndex)
         : locations;
       location = locationsToSearch.find((loc) => {
-        return loc.unavailable !== true;
+        return loc.unavailable !== true && !excludedLocations.has(normalizeEndpoint(loc.name));
       });
     }
 
