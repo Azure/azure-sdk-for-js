@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import ClinicalMatchingRestClient, { getLongRunningPoller, isUnexpected } from "@azure-rest/health-insights-clinicalmatching";
+import ClinicalMatchingRestClient, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/health-insights-clinicalmatching";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import { readFileSync } from "node:fs";

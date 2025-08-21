@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import type { WidgetConfig } from "$internal/scaffolding.js";
-import { TECHNOLOGIES, displayNameToName, generateProject } from "@azure/api-management-custom-widgets-scaffolder";
+import {
+  TECHNOLOGIES,
+  displayNameToName,
+  generateProject,
+} from "@azure/api-management-custom-widgets-scaffolder";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 vi.mock("node:fs/promises", async () => {

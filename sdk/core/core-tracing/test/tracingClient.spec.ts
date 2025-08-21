@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Instrumenter,
-  TracingClient,
-  TracingContext,
-  TracingSpan,
-} from "@azure/core-tracing";
+import type { Instrumenter, TracingClient, TracingContext, TracingSpan } from "@azure/core-tracing";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,

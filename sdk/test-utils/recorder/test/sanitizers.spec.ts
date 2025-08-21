@@ -8,7 +8,6 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
 import { randomUUID } from "@azure/core-util";
 import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
 
-
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
 // - proxy-tool (to save/mock the responses)

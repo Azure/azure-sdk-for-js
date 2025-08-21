@@ -302,8 +302,9 @@ function verifyForOverlappingRanges(
     expect(
       ranges[i].startTimeUTCInMs,
       msg +
-      `. Overlapping Ranges: [${ranges[i - 1].startTimeUTCInMs}, ${ranges[i - 1].durationInMs
-      }] & [${ranges[i].startTimeUTCInMs}, ${ranges[i].durationInMs}]`,
+        `. Overlapping Ranges: [${ranges[i - 1].startTimeUTCInMs}, ${
+          ranges[i - 1].durationInMs
+        }] & [${ranges[i].startTimeUTCInMs}, ${ranges[i].durationInMs}]`,
     ).to.be.gte(ranges[i - 1].startTimeUTCInMs + ranges[i - 1].durationInMs);
   }
 }

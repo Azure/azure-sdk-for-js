@@ -206,7 +206,7 @@ export async function verifyMessageCount(
     queueName
       ? (await client.getQueueRuntimeProperties(queueName)).totalMessageCount
       : (await client.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
-        .totalMessageCount,
+          .totalMessageCount,
     expectedMessageCount,
     `Unexpected number of messages are present in the entity.`,
   );

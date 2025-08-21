@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessControlRestClient, RoleAssignmentDetailsOutput } from "@azure-rest/synapse-access-control";
+import type {
+  AccessControlRestClient,
+  RoleAssignmentDetailsOutput,
+} from "@azure-rest/synapse-access-control";
 import { isUnexpected, paginate } from "@azure-rest/synapse-access-control";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";

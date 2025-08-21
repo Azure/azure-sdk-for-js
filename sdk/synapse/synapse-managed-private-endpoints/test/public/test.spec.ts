@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { ManagedPrivateEndpoint, ManagedPrivateEndpointsClient } from "@azure/synapse-managed-private-endpoints";
+import type {
+  ManagedPrivateEndpoint,
+  ManagedPrivateEndpointsClient,
+} from "@azure/synapse-managed-private-endpoints";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

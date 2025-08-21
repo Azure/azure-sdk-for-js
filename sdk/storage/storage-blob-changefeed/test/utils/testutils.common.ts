@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import type { Recorder, RecorderStartOptions, FindReplaceSanitizer } from "@azure-tools/test-recorder";
+import type {
+  Recorder,
+  RecorderStartOptions,
+  FindReplaceSanitizer,
+} from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import type { Readable } from "node:stream";
 import type { Pipeline } from "@azure/core-rest-pipeline";
