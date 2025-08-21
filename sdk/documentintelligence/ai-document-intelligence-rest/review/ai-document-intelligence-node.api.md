@@ -4,13 +4,15 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { PollerLike } from '@azure/core-lro';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
@@ -1768,34 +1770,28 @@ export interface GetDocumentModelCopyToOperationHeaders {
 export type GetDocumentModelCopyToOperationParameters = GetDocumentModelCopyToOperationHeaderParam & RequestParameters;
 
 // @public
-export function getLongRunningPoller<TResult extends AnalyzeBatchDocumentsLogicalResponse | AnalyzeBatchDocumentsDefaultResponse>(client: Client, initialResponse: AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsDefaultResponse, options?: GetLongRunningPollerOptions): PollerLike<OperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends AnalyzeBatchDocumentsLogicalResponse | AnalyzeBatchDocumentsDefaultResponse>(client: Client, initialResponse: AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller<TResult extends BuildModelLogicalResponse | BuildModelDefaultResponse>(client: Client, initialResponse: BuildModel202Response | BuildModelDefaultResponse, options?: GetLongRunningPollerOptions): PollerLike<OperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends BuildModelLogicalResponse | BuildModelDefaultResponse>(client: Client, initialResponse: BuildModel202Response | BuildModelDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller<TResult extends ComposeModelLogicalResponse | ComposeModelDefaultResponse>(client: Client, initialResponse: ComposeModel202Response | ComposeModelDefaultResponse, options?: GetLongRunningPollerOptions): PollerLike<OperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends ComposeModelLogicalResponse | ComposeModelDefaultResponse>(client: Client, initialResponse: ComposeModel202Response | ComposeModelDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller<TResult extends CopyModelToLogicalResponse | CopyModelToDefaultResponse>(client: Client, initialResponse: CopyModelTo202Response | CopyModelToDefaultResponse, options?: GetLongRunningPollerOptions): PollerLike<OperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends CopyModelToLogicalResponse | CopyModelToDefaultResponse>(client: Client, initialResponse: CopyModelTo202Response | CopyModelToDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller<TResult extends BuildClassifierLogicalResponse | BuildClassifierDefaultResponse>(client: Client, initialResponse: BuildClassifier202Response | BuildClassifierDefaultResponse, options?: GetLongRunningPollerOptions): PollerLike<OperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends BuildClassifierLogicalResponse | BuildClassifierDefaultResponse>(client: Client, initialResponse: BuildClassifier202Response | BuildClassifierDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller<TResult extends CopyClassifierToLogicalResponse | CopyClassifierToDefaultResponse>(client: Client, initialResponse: CopyClassifierTo202Response | CopyClassifierToDefaultResponse, options?: GetLongRunningPollerOptions): PollerLike<OperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends CopyClassifierToLogicalResponse | CopyClassifierToDefaultResponse>(client: Client, initialResponse: CopyClassifierTo202Response | CopyClassifierToDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller<TResult extends AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse>(client: Client, initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse, options?: GetLongRunningPollerOptions): PollerLike<OperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse>(client: Client, initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
-export function getLongRunningPoller<TResult extends ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentFromStreamDefaultResponse>(client: Client, initialResponse: ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamDefaultResponse, options?: GetLongRunningPollerOptions): PollerLike<OperationState<TResult>, TResult>;
-
-// @public
-export interface GetLongRunningPollerOptions {
-    intervalInMs?: number;
-    restoreFrom?: string;
-}
+export function getLongRunningPoller<TResult extends ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentFromStreamDefaultResponse>(client: Client, initialResponse: ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
 export interface GetModel {
@@ -2008,13 +2004,6 @@ export function isUnexpected(response: AuthorizeClassifierCopy200Response | Auth
 
 // @public (undocumented)
 export function isUnexpected(response: CopyClassifierTo202Response | CopyClassifierToLogicalResponse | CopyClassifierToDefaultResponse): response is CopyClassifierToDefaultResponse;
-
-// @public
-export enum KnownDocumentIntelligenceAudience {
-    AzureChina = "https://cognitiveservices.azure.cn",
-    AzureGovernment = "https://cognitiveservices.azure.us",
-    AzurePublicCloud = "https://cognitiveservices.azure.com"
-}
 
 // @public
 export type LengthUnitOutput = string;
@@ -2246,13 +2235,6 @@ export interface PagingOptions<TResponse> {
 // @public
 export type ParagraphRoleOutput = string;
 
-// @public
-export function parseResultIdFromResponse(initialResponse: {
-    headers: {
-        "operation-location": string;
-    };
-}): string;
-
 // @public (undocumented)
 export interface Routes {
     (path: "/operations"): ListOperations;
@@ -2281,13 +2263,32 @@ export interface Routes {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export type SplitMode = string;
 
 // @public
 export type SplitModeOutput = string;
-
-// @public
-export function streamToUint8Array(stream: NodeJS.ReadableStream): Promise<Uint8Array>;
 
 // @public
 export type StringIndexType = string;
