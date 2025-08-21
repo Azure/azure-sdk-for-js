@@ -96,7 +96,7 @@ describe("Session Lock Renewal", () => {
 
   it(
     testClientType +
-    ": Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error",
+      ": Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error",
     async function (): Promise<void> {
       const options: AutoLockRenewalTestOptions = {
         maxAutoRenewLockDurationInMs: 0,

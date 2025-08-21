@@ -24,11 +24,12 @@ if (!process.versions.node.startsWith("16")) {
 // This shim is required to defer loading of @azure/msal-node-extensions in environments where
 // it will crash CI with an invalid Node API version.
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-export const createPersistence: typeof import("$internal/provider.js").createPersistence =
-  async (...args) => {
-    const { createPersistence: create } = await import("$internal/provider.js");
-    return create(...args);
-  };
+export const createPersistence: typeof import("$internal/provider.js").createPersistence = async (
+  ...args
+) => {
+  const { createPersistence: create } = await import("$internal/provider.js");
+  return create(...args);
+};
 
 beforeAll(function () {
   useIdentityPlugin(require("@azure/identity-cache-persistence").cachePersistencePlugin);

@@ -4,11 +4,7 @@
 import type { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import type {
-  AIProjectClient,
-  DeploymentsOperations,
-  ModelDeployment,
-} from "@azure/ai-projects";
+import type { AIProjectClient, DeploymentsOperations, ModelDeployment } from "@azure/ai-projects";
 
 describe("deployments - basic", () => {
   let recorder: Recorder;

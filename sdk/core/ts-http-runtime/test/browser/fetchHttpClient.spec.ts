@@ -386,8 +386,8 @@ describe("FetchHttpClient", function () {
         const body = options?.body;
         assert.isTrue(
           body &&
-          typeof (body as ReadableStream).getReader === "function" &&
-          typeof (body as ReadableStream).tee === "function",
+            typeof (body as ReadableStream).getReader === "function" &&
+            typeof (body as ReadableStream).tee === "function",
           "expecting ReadableStream request body",
         );
         assert.strictEqual(options?.duplex, "half");
@@ -428,8 +428,8 @@ describe("FetchHttpClient", function () {
       const body = options?.body;
       assert.isTrue(
         body &&
-        typeof (body as ReadableStream).getReader === "function" &&
-        typeof (body as ReadableStream).tee === "function",
+          typeof (body as ReadableStream).getReader === "function" &&
+          typeof (body as ReadableStream).tee === "function",
         "expecting ReadableStream request body",
       );
       const reader = (body as ReadableStream).getReader();

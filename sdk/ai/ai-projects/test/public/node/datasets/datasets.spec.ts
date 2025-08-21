@@ -8,11 +8,7 @@ import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import path from "node:path";
 import fs from "node:fs";
 import { fileURLToPath } from "url";
-import type {
-  AIProjectClient,
-  DatasetVersionUnion,
-  DatasetsOperations,
-} from "@azure/ai-projects";
+import type { AIProjectClient, DatasetVersionUnion, DatasetsOperations } from "@azure/ai-projects";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

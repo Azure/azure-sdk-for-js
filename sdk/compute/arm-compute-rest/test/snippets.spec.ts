@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ComputeManagementClient, { VirtualMachinesListParameters, paginate } from "@azure-rest/arm-compute";
+import ComputeManagementClient, {
+  VirtualMachinesListParameters,
+  paginate,
+} from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

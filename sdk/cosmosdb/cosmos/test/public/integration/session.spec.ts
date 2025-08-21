@@ -102,7 +102,7 @@ describe.skip("Integrated Cache Staleness", async () => {
             assert.ok(typeof context.headers["x-ms-consistency-level"] === "string");
             assert.ok(
               context.headers["x-ms-consistency-level"] === "Eventual" ||
-              context.headers["x-ms-consistency-level"] === "Session",
+                context.headers["x-ms-consistency-level"] === "Session",
               `${context.headers["x-ms-consistency-level"]} = EVENTUAL or SESSION`,
             );
             if (context.headers["x-ms-dedicatedgateway-bypass-cache"] !== undefined) {

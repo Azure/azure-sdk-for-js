@@ -13,7 +13,6 @@ import { paths } from "$internal/utils/paths.js";
 import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "$internal/utils/utils.js";
 import { describe, it, beforeEach, afterEach, expect, type TaskContext } from "vitest";
 
-
 const testRedirectedRequest = (
   client: Recorder,
   makeRequest: () => PipelineRequest,
