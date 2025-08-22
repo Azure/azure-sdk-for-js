@@ -121,7 +121,7 @@ describe("AzurePowerShellCredential", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `${powerShellPublicErrorMessages.claim} Connect-AzAccount -ClaimsChallenge ${claimsChallenge} -TenantId ${tenantId}`,
+      `${powerShellPublicErrorMessages.claim} Connect-AzAccount -ClaimsChallenge ${claimsChallenge} -Tenant ${tenantId}`,
     );
   });
 

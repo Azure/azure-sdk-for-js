@@ -26,6 +26,8 @@ export const azureDeveloperCliPublicErrorMessages = {
   login:
     "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
   unknown: "Unknown error while trying to retrieve the access token",
+  claim:
+    "This credential doesn't support claims challenges. To authenticate with the required claims, please run the following command:",
 };
 
 /**
@@ -193,13 +195,15 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           this.timeout,
           options.claims,
         );
+        const isMFARequiredError =
+          obj.stderr?.match("must use multi-factor authentication") ||
+          obj.stderr?.match("reauthentication required");
         const isNotLoggedInError =
           obj.stderr?.match("not logged in, run `azd login` to login") ||
           obj.stderr?.match("not logged in, run `azd auth login` to login");
         const isNotInstallError =
           obj.stderr?.match("azd:(.*)not found") ||
           obj.stderr?.startsWith("'azd' is not recognized");
-
         if (isNotInstallError || (obj.error && (obj.error as any).code === "ENOENT")) {
           const error = new CredentialUnavailableError(
             azureDeveloperCliPublicErrorMessages.notInstalled,
@@ -210,6 +214,17 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotLoggedInError) {
           const error = new CredentialUnavailableError(azureDeveloperCliPublicErrorMessages.login);
+          logger.getToken.info(formatError(scopes, error));
+          throw error;
+        }
+        if (isMFARequiredError) {
+          const scope = scopeList
+            .reduce<string[]>((previous, current) => previous.concat("--scope", current), [])
+            .join(" ");
+          const loginCmd = `azd auth login ${scope}`;
+          const error = new CredentialUnavailableError(
+            `${azureDeveloperCliPublicErrorMessages.claim} ${loginCmd}`,
+          );
           logger.getToken.info(formatError(scopes, error));
           throw error;
         }

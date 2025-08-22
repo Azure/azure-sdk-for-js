@@ -170,6 +170,21 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     ]);
   });
 
+  it("get access token with claims challenge and multiple scopes", async function () {
+    stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
+    stderr = "";
+    const claimsChallenge = "fakeClaimChallenge";
+    const scopes = ["https://service/.default", "https://management.azure.com/.default"];
+
+    const credential = new AzureDeveloperCliCredential();
+    const actualToken = await credential.getToken(scopes, { claims: claimsChallenge });
+
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azdCommands, [
+      `azd auth token --output json --scope ${scopes[0]} --scope ${scopes[1]} --claims ${claimsChallenge}`,
+    ]);
+  });
+
   it("does not include claims when empty string", async function () {
     stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
     stderr = "";
