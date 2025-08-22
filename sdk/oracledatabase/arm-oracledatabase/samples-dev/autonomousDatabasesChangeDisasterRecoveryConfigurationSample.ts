@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to perform ChangeDisasterRecoveryConfiguration action on Autonomous Database
  *
  * @summary perform ChangeDisasterRecoveryConfiguration action on Autonomous Database
  * x-ms-original-file: 2025-03-01/autonomousDatabase_changeDisasterRecoveryConfiguration.json
  */
+
+import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function autonomousDatabasesChangeDisasterRecoveryConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

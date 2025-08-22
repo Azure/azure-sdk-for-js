@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * @summary Quick start workflow for creating queue, job and worker, routing/matching job with worker
  */
@@ -132,10 +133,9 @@ async function quickStart(): Promise<void> {
   let updatedJob = updatedJobResponse.body as RouterJobOutput;
 
   console.log(`Job assignment has been successful: 
-  ${
-    updatedJob.status === "assigned" &&
+  ${updatedJob.status === "assigned" &&
     Object.prototype.hasOwnProperty.call(updatedJob.assignments!, acceptJobOfferResult.assignmentId)
-  }`);
+    }`);
 
   // Completing a job
   // Once the worker is done with the job, the worker has to mark the job as `completed`.

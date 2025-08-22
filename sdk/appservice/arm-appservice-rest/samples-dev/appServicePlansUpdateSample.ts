@@ -2,16 +2,17 @@
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  */
-import type { AppServicePlansUpdateParameters } from "@azure-rest/arm-appservice";
-import WebSiteManagementClient from "@azure-rest/arm-appservice";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to Description for Creates or updates an App Service Plan.
  *
  * @summary Description for Creates or updates an App Service Plan.
  * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-03-01/examples/PatchAppServicePlan.json
  */
+
+import type { AppServicePlansUpdateParameters } from "@azure-rest/arm-appservice";
+import WebSiteManagementClient from "@azure-rest/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function patchServicePlan() {
   const subscriptionId = process.env.SUBSCRIPTION_ID as string;
   const resourceGroupName = "testrg123";
