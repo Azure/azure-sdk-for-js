@@ -329,8 +329,6 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
     // Handle other enum drop codes
     switch (dropCode) {
-      case DropCode.CLIENT_EXPIRED_DATA:
-        return "Expired data";
       case DropCode.CLIENT_READONLY:
         return "Readonly mode";
       case DropCode.CLIENT_PERSISTENCE_CAPACITY:
