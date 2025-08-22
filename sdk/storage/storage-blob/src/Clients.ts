@@ -4252,7 +4252,7 @@ export class BlockBlobClient extends BlobClient {
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data]);
+        const browserBlob = new Blob([data as any]);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -4289,7 +4289,7 @@ export class BlockBlobClient extends BlobClient {
       "BlockBlobClient-uploadBrowserData",
       options,
       async (updatedOptions) => {
-        const browserBlob = new Blob([browserData]);
+        const browserBlob = new Blob([browserData as any]);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
