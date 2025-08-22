@@ -1,9 +1,0 @@
-{
-  "extends": "../../../tsconfig.samples.base.json",
-  "compilerOptions": {
-    "paths": {
-      "@azure/digital-twins-core": ["./dist/esm"]
-    },
-    "resolveJsonModule": true
-  }
-}
