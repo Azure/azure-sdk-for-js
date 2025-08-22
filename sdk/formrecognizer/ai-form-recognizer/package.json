@@ -47,7 +47,7 @@
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && npm run bundle:bin && dev-tool run extract-api",
-    "build:samples": "echo Obsolete.",
+    "build:samples": "tsc -p tsconfig.samples.json",
     "bundle:bin": "rollup -c rollup.config.bin.mjs 2>&1",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log test-results.*xml",
