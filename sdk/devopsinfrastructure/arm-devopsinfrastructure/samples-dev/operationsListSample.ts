@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DevOpsInfrastructureClient } from "@azure/arm-devopsinfrastructure";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to list the operations for the provider
  *
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-10-19/ListOperations.json
  */
+
+import { DevOpsInfrastructureClient } from "@azure/arm-devopsinfrastructure";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function operationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";

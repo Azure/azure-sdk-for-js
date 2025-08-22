@@ -33,7 +33,7 @@
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "prebuild": "npm run clean",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
@@ -49,11 +49,11 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
-    "@types/node": "^20.0.0",
-    "eslint": "^9.9.0",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.0",
-    "typescript": "~5.8.2",
+    "typescript": "catalog:",
     "typescript-eslint": "~8.39.1"
   }
 }

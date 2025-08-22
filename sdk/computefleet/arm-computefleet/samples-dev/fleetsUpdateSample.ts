@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureFleetClient } from "@azure/arm-computefleet";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
  * x-ms-original-file: 2024-11-01/Fleets_Update.json
  */
+
+import { AzureFleetClient } from "@azure/arm-computefleet";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function fleetsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";

@@ -116,6 +116,13 @@ export const ENV_APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW =
   "APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW";
 
 /**
+ * Sets the export interval for customer-facing SDK Stats in seconds.
+ * @internal
+ */
+export const ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL =
+  "APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL";
+
+/**
  * QuickPulse metric counter names.
  * @internal
  */

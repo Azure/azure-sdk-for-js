@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlaywrightManagementClient } from "@azure/arm-playwright";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get subscription-level location-based Playwright quota resource by name.
  *
  * @summary get subscription-level location-based Playwright quota resource by name.
  * x-ms-original-file: 2025-07-01-preview/PlaywrightQuotas_Get.json
  */
+
+import { PlaywrightManagementClient } from "@azure/arm-playwright";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function playwrightQuotasGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

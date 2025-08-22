@@ -1,3 +1,10 @@
 {
-  "extends": ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"]
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/arm-network": ["./dist/browser/index.d.ts"],
+      "@azure-rest/arm-network/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  }
 }

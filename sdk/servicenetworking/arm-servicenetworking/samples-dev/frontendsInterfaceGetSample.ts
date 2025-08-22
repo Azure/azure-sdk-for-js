@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get a Frontend
  *
  * @summary get a Frontend
  * x-ms-original-file: 2025-03-01-preview/FrontendGet.json
  */
+
+import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getFrontend(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";

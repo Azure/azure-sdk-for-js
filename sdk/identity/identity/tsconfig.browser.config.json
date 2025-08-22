@@ -1,17 +1,12 @@
 {
-  "extends": "../../../tsconfig.nonlib.json",
+  "extends": "../../../tsconfig.browser.base.json",
   "compilerOptions": {
-    "lib": ["DOM", "ESNext"],
-    "types": [],
     "paths": {
       "@azure/identity": ["./dist/browser/index.d.ts"],
       "@azure/identity/*": ["./dist/browser/*"],
       "$internal/*": ["./dist/browser/*"]
-    },
-    "outDir": "${configDir}/dist-test/browser",
-    "noEmit": false
+    }
   },
-  "include": ["${configDir}/test"],
   "exclude": [
     "${configDir}/test/stress",
     "${configDir}/test/integration*",

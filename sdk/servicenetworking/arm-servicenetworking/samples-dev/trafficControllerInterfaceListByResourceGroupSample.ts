@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to list TrafficController resources by resource group
  *
  * @summary list TrafficController resources by resource group
  * x-ms-original-file: 2025-03-01-preview/TrafficControllersGet.json
  */
+
+import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getTrafficControllers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
