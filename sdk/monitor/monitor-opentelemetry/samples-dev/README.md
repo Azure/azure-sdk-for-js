@@ -6,7 +6,7 @@ A comprehensive collection of Node.js/TypeScript samples demonstrating Azure Mon
 
 ### Prerequisites
 
-- Node.js 18+
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Azure Application Insights resource
 - Connection string from your Application Insights resource
 
