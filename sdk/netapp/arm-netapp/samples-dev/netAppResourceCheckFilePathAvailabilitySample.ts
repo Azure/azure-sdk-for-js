@@ -5,7 +5,7 @@
  * This sample demonstrates how to Check if a file path is available.
  *
  * @summary Check if a file path is available.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/CheckFilePathAvailability.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/CheckFilePathAvailability.json
  */
 
 import {

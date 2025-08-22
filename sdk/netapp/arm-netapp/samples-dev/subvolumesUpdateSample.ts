@@ -5,7 +5,7 @@
  * This sample demonstrates how to Patch a subvolume
  *
  * @summary Patch a subvolume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Subvolumes_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Subvolumes_Update.json
  */
 
 import {
