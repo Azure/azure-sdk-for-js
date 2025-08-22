@@ -48,7 +48,7 @@ describe("netapp test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     accountName = "accounttest";
   });
 

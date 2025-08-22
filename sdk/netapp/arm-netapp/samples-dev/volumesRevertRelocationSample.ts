@@ -5,7 +5,7 @@
  * This sample demonstrates how to Reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume.
  *
  * @summary Reverts the volume relocation process, cleans up the new volume and starts using the former-existing volume.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_RevertRelocation.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_RevertRelocation.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

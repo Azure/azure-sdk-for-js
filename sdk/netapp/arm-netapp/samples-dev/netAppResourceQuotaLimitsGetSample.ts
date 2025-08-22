@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get the default and current subscription quota limit
  *
  * @summary Get the default and current subscription quota limit
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/QuotaLimits_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/QuotaLimits_Get.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

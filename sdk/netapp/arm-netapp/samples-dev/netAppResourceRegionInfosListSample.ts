@@ -5,7 +5,7 @@
  * This sample demonstrates how to Provides region specific information.
  *
  * @summary Provides region specific information.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/RegionInfos_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/RegionInfos_List.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";
