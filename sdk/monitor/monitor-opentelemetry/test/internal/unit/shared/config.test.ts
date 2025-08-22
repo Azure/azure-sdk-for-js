@@ -171,22 +171,22 @@ describe("Library/Config", () => {
       assert.deepStrictEqual(config.tracesPerSecond, undefined, "Wrong tracesPerSecond");
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
-        false,
+        true,
         "Wrong azureSdk",
       );
       assert.deepStrictEqual(
         config.instrumentationOptions.mongoDb?.enabled,
-        false,
+        true,
         "Wrong mongoDb",
       );
-      assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, false, "Wrong mySql");
+      assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, true, "Wrong mySql");
       assert.deepStrictEqual(
         config.instrumentationOptions.postgreSql?.enabled,
-        false,
+        true,
         "Wrong postgreSql",
       );
-      assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
-      assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, false, "Wrong redis4");
+      assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, true, "Wrong redis");
+      assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.disableOfflineStorage,
         undefined,
@@ -241,21 +241,21 @@ describe("Library/Config", () => {
       // Default values
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
-        false,
+        true,
         "Wrong azureSdk",
       );
       assert.deepStrictEqual(
         config.instrumentationOptions.mongoDb?.enabled,
-        false,
+        true,
         "Wrong mongoDb",
       );
-      assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, false, "Wrong mySql");
+      assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, true, "Wrong mySql");
       assert.deepStrictEqual(
         config.instrumentationOptions.postgreSql?.enabled,
-        false,
+        true,
         "Wrong postgreSql",
       );
-      assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
+      assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, true, "Wrong redis");
     });
   });
 
