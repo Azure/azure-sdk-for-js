@@ -59,4 +59,8 @@ export const ServiceErrorMessageConstants = {
     key: "InvalidRunIdFormat",
     message: "The Run ID must be a valid GUID format. Please provide a valid GUID for the Run ID.",
   },
+  INVALID_AUTH_TYPE_ERROR: {
+    key: "InvalidAuthTypeError",
+    message: "Invalid authentication type specified. Please use either ENTRA_ID or ACCESS_TOKEN.",
+  },
 };
