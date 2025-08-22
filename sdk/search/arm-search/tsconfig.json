@@ -13,5 +13,5 @@
       "path": "./tsconfig.snippets.json"
     }
   ],
-  "include": ["./src/**/*.ts"]
+  "files": []
 }

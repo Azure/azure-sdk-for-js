@@ -40,7 +40,6 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "test:node": "dev-tool run test:vitest -- --test-timeout 180000",
-    "test:node:esm": "dev-tool run test:vitest --esm -- --test-timeout 180000",
     "update-snippets": "dev-tool run update-snippets"
   },
   "engines": {

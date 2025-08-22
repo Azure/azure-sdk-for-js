@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/confidential-ledger": ["./src/index.ts"],
+      "@azure-rest/confidential-ledger/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

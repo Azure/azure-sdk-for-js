@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-costmanagement": ["./src/index.ts"],
+      "@azure/arm-costmanagement/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
