@@ -2,6 +2,10 @@
 
 ### 1.12.1 ()
 
+### Features Added
+
+- All instrumentations apart from bunyan and winston are now enabled by default.
+
 ### Bugs Fixed
 
 - Fix declaration of the preview customer statsbeat enablement environment variable.

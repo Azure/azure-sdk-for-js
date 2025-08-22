@@ -174,11 +174,7 @@ describe("Library/Config", () => {
         true,
         "Wrong azureSdk",
       );
-      assert.deepStrictEqual(
-        config.instrumentationOptions.mongoDb?.enabled,
-        true,
-        "Wrong mongoDb",
-      );
+      assert.deepStrictEqual(config.instrumentationOptions.mongoDb?.enabled, true, "Wrong mongoDb");
       assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, true, "Wrong mySql");
       assert.deepStrictEqual(
         config.instrumentationOptions.postgreSql?.enabled,
@@ -244,11 +240,7 @@ describe("Library/Config", () => {
         true,
         "Wrong azureSdk",
       );
-      assert.deepStrictEqual(
-        config.instrumentationOptions.mongoDb?.enabled,
-        true,
-        "Wrong mongoDb",
-      );
+      assert.deepStrictEqual(config.instrumentationOptions.mongoDb?.enabled, true, "Wrong mongoDb");
       assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, true, "Wrong mySql");
       assert.deepStrictEqual(
         config.instrumentationOptions.postgreSql?.enabled,
