@@ -5,7 +5,7 @@
  * This sample demonstrates how to
  *
  * @summary
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/GetOperationResultPatch.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/VaultCRUD/GetOperationResultPatch.json
  */
 
 import { DataProtectionClient } from "@azure/arm-dataprotection";
@@ -14,8 +14,10 @@ import "dotenv/config";
 
 async function getOperationResultPatch(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
   const vaultName = "swaggerExample";
   const operationId =
     "YWUzNDFkMzQtZmM5OS00MmUyLWEzNDMtZGJkMDIxZjlmZjgzOzdmYzBiMzhmLTc2NmItNDM5NS05OWQ1LTVmOGEzNzg4MWQzNA==";

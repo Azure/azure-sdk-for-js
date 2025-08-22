@@ -5,18 +5,20 @@
  * This sample demonstrates how to Create or update a backup instance in a backup vault
  *
  * @summary Create or update a backup instance in a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/PutBackupInstance.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/PutBackupInstance.json
  */
 
-import type { BackupInstanceResource } from "@azure/arm-dataprotection";
-import { DataProtectionClient } from "@azure/arm-dataprotection";
+import type { BackupInstanceResource, } from "@azure/arm-dataprotection";
+import { DataProtectionClient, } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 async function createBackupInstance(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
   const vaultName = "PratikPrivatePreviewVault1";
   const backupInstanceName = "testInstance1";
   const parameters: BackupInstanceResource = {
@@ -49,6 +51,11 @@ async function createBackupInstance(): Promise<void> {
         },
       },
       friendlyName: "harshitbi2",
+      identityDetails: {
+        useSystemAssignedIdentity: false,
+        userAssignedIdentityArmUrl:
+          "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourcegroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testUami",
+      },
       objectType: "BackupInstance",
       policyInfo: {
         policyId:
@@ -83,12 +90,162 @@ async function createBackupInstance(): Promise<void> {
  * This sample demonstrates how to Create or update a backup instance in a backup vault
  *
  * @summary Create or update a backup instance in a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/PutBackupInstance_ResourceGuardEnabled.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/PutBackupInstance_ADLSBlobBackupDatasourceParameters.json
+ */
+async function createBackupInstanceWithAdlsBlobBackupDatasourceParameters(): Promise<void> {
+  const subscriptionId =
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "54707983-993e-43de-8d94-074451394eda";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "adlsrg";
+  const vaultName = "adlsvault";
+  const backupInstanceName =
+    "adlsstorageaccount-adlsstorageaccount-19a76f8a-c176-4f7d-819e-95157e2b0071";
+  const parameters: BackupInstanceResource = {
+    properties: {
+      dataSourceInfo: {
+        datasourceType: "Microsoft.Storage/storageAccounts/adlsBlobServices",
+        objectType: "Datasource",
+        resourceID:
+          "/subscriptions/54707983-993e-43de-8d94-074451394eda/resourceGroups/adlsrg/providers/Microsoft.Storage/storageAccounts/adlsstorageaccount",
+        resourceLocation: "centraluseuap",
+        resourceName: "adlsstorageaccount",
+        resourceType: "microsoft.storage/storageAccounts",
+        resourceUri:
+          "/subscriptions/54707983-993e-43de-8d94-074451394eda/resourceGroups/adlsrg/providers/Microsoft.Storage/storageAccounts/adlsstorageaccount",
+      },
+      dataSourceSetInfo: {
+        datasourceType: "Microsoft.Storage/storageAccounts/adlsBlobServices",
+        objectType: "DatasourceSet",
+        resourceID:
+          "/subscriptions/54707983-993e-43de-8d94-074451394eda/resourceGroups/adlsrg/providers/Microsoft.Storage/storageAccounts/adlsstorageaccount",
+        resourceLocation: "centraluseuap",
+        resourceName: "adlsstorageaccount",
+        resourceType: "microsoft.storage/storageAccounts",
+        resourceUri:
+          "/subscriptions/54707983-993e-43de-8d94-074451394eda/resourceGroups/adlsrg/providers/Microsoft.Storage/storageAccounts/adlsstorageaccount",
+      },
+      friendlyName: "adlsstorageaccount\\adlsbackupinstance",
+      objectType: "BackupInstance",
+      policyInfo: {
+        policyId:
+          "/subscriptions/54707983-993e-43de-8d94-074451394eda/resourceGroups/adlsrg/providers/Microsoft.DataProtection/backupVaults/adlsvault/backupPolicies/adlspolicy",
+        policyParameters: {
+          backupDatasourceParametersList: [
+            {
+              containersList: ["container1"],
+              objectType: "AdlsBlobBackupDatasourceParameters",
+            },
+          ],
+        },
+      },
+    },
+    tags: { key1: "val1" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new DataProtectionClient(credential, subscriptionId);
+  const result = await client.backupInstances.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vaultName,
+    backupInstanceName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update a backup instance in a backup vault
+ *
+ * @summary Create or update a backup instance in a backup vault
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/PutBackupInstance_KubernetesClusterBackupDatasourceParameters.json
+ */
+async function createBackupInstanceWithKubernetesClusterBackupDatasourceParameters(): Promise<void> {
+  const subscriptionId =
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "62b829ee-7936-40c9-a1c9-47a93f9f3965";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "aksrg";
+  const vaultName = "aksvault";
+  const backupInstanceName = "aksbi";
+  const parameters: BackupInstanceResource = {
+    properties: {
+      dataSourceInfo: {
+        datasourceType: "Microsoft.ContainerService/managedclusters",
+        objectType: "Datasource",
+        resourceID:
+          "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/aksrg/providers/Microsoft.ContainerService/managedClusters/akscluster",
+        resourceLocation: "eastus2euap",
+        resourceName: "akscluster",
+        resourceType: "Microsoft.ContainerService/managedclusters",
+        resourceUri:
+          "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/aksrg/providers/Microsoft.ContainerService/managedClusters/akscluster",
+      },
+      dataSourceSetInfo: {
+        datasourceType: "Microsoft.ContainerService/managedclusters",
+        objectType: "DatasourceSet",
+        resourceID:
+          "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/aksrg/providers/Microsoft.ContainerService/managedClusters/akscluster",
+        resourceLocation: "eastus2euap",
+        resourceName: "akscluster",
+        resourceType: "Microsoft.ContainerService/managedclusters",
+        resourceUri:
+          "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/aksrg/providers/Microsoft.ContainerService/managedClusters/akscluster",
+      },
+      friendlyName: "aksbi",
+      objectType: "BackupInstance",
+      policyInfo: {
+        policyId:
+          "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourcegroups/aksrg/providers/Microsoft.DataProtection/BackupVaults/aksvault/backupPolicies/akspolicy",
+        policyParameters: {
+          backupDatasourceParametersList: [
+            {
+              excludedNamespaces: ["kube-system"],
+              excludedResourceTypes: ["v1/Secret"],
+              includeClusterScopeResources: true,
+              includedNamespaces: ["test"],
+              includedResourceTypes: [],
+              includedVolumeTypes: ["AzureDisk", "AzureFileShareSMB"],
+              labelSelectors: [],
+              objectType: "KubernetesClusterBackupDatasourceParameters",
+              snapshotVolumes: true,
+            },
+          ],
+          dataStoreParametersList: [
+            {
+              dataStoreType: "OperationalStore",
+              objectType: "AzureOperationalStoreParameters",
+              resourceGroupId:
+                "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/aksrg",
+            },
+          ],
+        },
+      },
+    },
+    tags: { key1: "val1" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new DataProtectionClient(credential, subscriptionId);
+  const result = await client.backupInstances.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vaultName,
+    backupInstanceName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update a backup instance in a backup vault
+ *
+ * @summary Create or update a backup instance in a backup vault
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/PutBackupInstance_ResourceGuardEnabled.json
  */
 async function createBackupInstanceToPerformCriticalOperationWithMua(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
   const vaultName = "PratikPrivatePreviewVault1";
   const backupInstanceName = "testInstance1";
   const parameters: BackupInstanceResource = {
@@ -156,6 +313,8 @@ async function createBackupInstanceToPerformCriticalOperationWithMua(): Promise<
 
 async function main(): Promise<void> {
   await createBackupInstance();
+  await createBackupInstanceWithAdlsBlobBackupDatasourceParameters();
+  await createBackupInstanceWithKubernetesClusterBackupDatasourceParameters();
   await createBackupInstanceToPerformCriticalOperationWithMua();
 }
 
