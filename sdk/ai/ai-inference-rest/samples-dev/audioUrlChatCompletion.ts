@@ -10,6 +10,7 @@
  */
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
+import { type ModelClient as ModelClientType } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createRestError } from "@azure-rest/core-client";
@@ -61,7 +62,7 @@ export async function main(): Promise<void> {
 /*
  * This function creates a model client.
  */
-function createModelClient(): ModelClient {
+function createModelClient(): ModelClientType {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)

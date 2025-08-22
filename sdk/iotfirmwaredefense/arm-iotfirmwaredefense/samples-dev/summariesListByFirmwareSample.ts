@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to lists analysis result summary names of a firmware. To fetch the full summary data, get that summary by name.
  *
  * @summary lists analysis result summary names of a firmware. To fetch the full summary data, get that summary by name.
  * x-ms-original-file: 2025-04-01-preview/Summaries_ListByFirmware_MaximumSet_Gen.json
  */
+
+import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function summariesListByFirmwareMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5C707B5F-6130-4F71-819E-953A28942E88";

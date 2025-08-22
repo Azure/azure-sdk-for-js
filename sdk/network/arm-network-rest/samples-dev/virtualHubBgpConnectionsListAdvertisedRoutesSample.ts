@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { VirtualHubBgpConnectionsListAdvertisedRoutesParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
@@ -11,6 +7,12 @@ import "dotenv/config";
  * @summary Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterPeerListAdvertisedRoute.json
  */
+
+import type { VirtualHubBgpConnectionsListAdvertisedRoutesParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualRouterPeerListAdvertisedRoutes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
@@ -30,7 +32,7 @@ async function virtualRouterPeerListAdvertisedRoutes(): Promise<void> {
       connectionName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

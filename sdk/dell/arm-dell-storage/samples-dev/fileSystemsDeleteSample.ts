@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageClient } from "@azure/arm-dell-storage";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to delete a FileSystemResource
  *
  * @summary delete a FileSystemResource
  * x-ms-original-file: 2025-03-21-preview/FileSystems_Delete_MaximumSet_Gen.json
  */
+
+import { StorageClient } from "@azure/arm-dell-storage";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function fileSystemsDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4B6E265D-57CF-4A9D-8B35-3CC68ED9D208";

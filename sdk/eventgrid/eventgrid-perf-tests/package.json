@@ -57,11 +57,11 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/node": "^20.0.0",
-    "eslint": "^9.9.0",
-    "typescript": "~5.8.2"
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package",
@@ -71,7 +71,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "lint": "dev-tool run vendored eslint -c ../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src",
     "lint:fix": "dev-tool run vendored eslint -c ../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs src --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "perf-test:node": "npm run build && node dist/esm/index.js",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",

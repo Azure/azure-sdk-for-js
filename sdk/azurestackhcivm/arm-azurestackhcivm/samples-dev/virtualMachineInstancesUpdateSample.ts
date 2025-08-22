@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to the operation to update a virtual machine instance.
  *
  * @summary the operation to update a virtual machine instance.
  * x-ms-original-file: 2025-06-01-preview/VirtualMachineInstances_Update.json
  */
+
+import { AzureStackHCIVMManagementClient } from "@azure/arm-azurestackhcivm";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function updateVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
