@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { StorageActionsManagementClient } from "@azure/arm-storageactions";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to delete the storage task resource.
  *
  * @summary delete the storage task resource.
  * x-ms-original-file: 2023-01-01/storageTasksCrud/DeleteStorageTask.json
  */
+
+import { StorageActionsManagementClient } from "@azure/arm-storageactions";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function deleteStorageTask(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1f31ba14-ce16-4281-b9b4-3e78da6e1616";

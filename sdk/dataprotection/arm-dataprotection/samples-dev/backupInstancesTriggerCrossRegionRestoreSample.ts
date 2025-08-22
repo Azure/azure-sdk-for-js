@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  CrossRegionRestoreRequestObject,
-  DataProtectionClient,
-} from "@azure/arm-dataprotection";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Triggers Cross Region Restore for BackupInstance.
  *
  * @summary Triggers Cross Region Restore for BackupInstance.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/CrossRegionRestore/TriggerCrossRegionRestore.json
  */
+
+import type { CrossRegionRestoreRequestObject } from "@azure/arm-dataprotection";
+import { DataProtectionClient } from "@azure/arm-dataprotection";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function triggerCrossRegionRestore(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||

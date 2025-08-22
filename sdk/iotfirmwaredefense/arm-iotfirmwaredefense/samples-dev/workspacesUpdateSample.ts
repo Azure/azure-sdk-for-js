@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to the operation to update a firmware analysis workspaces.
  *
  * @summary the operation to update a firmware analysis workspaces.
  * x-ms-original-file: 2025-04-01-preview/Workspaces_Update_MaximumSet_Gen.json
  */
+
+import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function workspacesUpdateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5C707B5F-6130-4F71-819E-953A28942E88";

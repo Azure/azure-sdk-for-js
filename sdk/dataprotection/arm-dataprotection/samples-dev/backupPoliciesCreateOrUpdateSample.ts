@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  BaseBackupPolicyResource,
-  DataProtectionClient,
-} from "@azure/arm-dataprotection";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Creates or Updates a backup policy belonging to a backup vault
  *
  * @summary Creates or Updates a backup policy belonging to a backup vault
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/PolicyCRUD/CreateOrUpdateBackupPolicy.json
  */
+
+import type { BaseBackupPolicyResource } from "@azure/arm-dataprotection";
+import { DataProtectionClient } from "@azure/arm-dataprotection";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createOrUpdateBackupPolicy(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||

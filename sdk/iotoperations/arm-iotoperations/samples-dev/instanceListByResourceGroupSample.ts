@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IoTOperationsClient } from "@azure/arm-iotoperations";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to list InstanceResource resources by resource group
  *
  * @summary list InstanceResource resources by resource group
  * x-ms-original-file: 2024-11-01/Instance_ListByResourceGroup_MaximumSet_Gen.json
  */
+
+import { IoTOperationsClient } from "@azure/arm-iotoperations";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function instanceListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";

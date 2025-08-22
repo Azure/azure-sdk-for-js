@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  SuspendBackupRequest,
-  BackupInstancesSuspendBackupsOptionalParams,
-  DataProtectionClient,
-} from "@azure/arm-dataprotection";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to This operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
  *
  * @summary This operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/SuspendBackups.json
  */
+
+import type {
+  SuspendBackupRequest,
+  BackupInstancesSuspendBackupsOptionalParams,
+} from "@azure/arm-dataprotection";
+import { DataProtectionClient } from "@azure/arm-dataprotection";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function suspendBackups(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||

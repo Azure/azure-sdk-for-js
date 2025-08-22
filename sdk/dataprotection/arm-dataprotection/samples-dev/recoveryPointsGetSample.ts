@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataProtectionClient } from "@azure/arm-dataprotection";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets a Recovery Point using recoveryPointId for a Datasource.
  *
  * @summary Gets a Recovery Point using recoveryPointId for a Datasource.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/GetRecoveryPoint.json
  */
+
+import { DataProtectionClient } from "@azure/arm-dataprotection";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getRecoveryPoint(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||

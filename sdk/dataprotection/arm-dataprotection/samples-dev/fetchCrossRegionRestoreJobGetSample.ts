@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  CrossRegionRestoreJobRequest,
-  DataProtectionClient,
-} from "@azure/arm-dataprotection";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Fetches the Cross Region Restore Job
  *
  * @summary Fetches the Cross Region Restore Job
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/CrossRegionRestore/FetchCrossRegionRestoreJob.json
  */
+
+import type { CrossRegionRestoreJobRequest } from "@azure/arm-dataprotection";
+import { DataProtectionClient } from "@azure/arm-dataprotection";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function getCrossRegionRestoreJob(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||

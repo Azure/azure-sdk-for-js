@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ImpactClient } from "@azure/arm-impactreporting";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get Insight resources by workloadImpactName and insightName
  *
  * @summary get Insight resources by workloadImpactName and insightName
  * x-ms-original-file: 2024-05-01-preview/Insights_Get_diagnostics.json
  */
+
+import { ImpactClient } from "@azure/arm-impactreporting";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function getInsightSampleForDiagnosticsCategory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

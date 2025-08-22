@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  FetchSecondaryRPsRequestParameters,
-  DataProtectionClient,
-} from "@azure/arm-dataprotection";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross Region Restore.
  *
  * @summary Returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross Region Restore.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/CrossRegionRestore/FetchSecondaryRPs.json
  */
+
+import type { FetchSecondaryRPsRequestParameters } from "@azure/arm-dataprotection";
+import { DataProtectionClient } from "@azure/arm-dataprotection";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function fetchSecondaryRPs(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
