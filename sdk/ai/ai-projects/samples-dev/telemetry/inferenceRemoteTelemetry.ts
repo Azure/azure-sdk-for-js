@@ -5,8 +5,11 @@
  * @summary This sample demonstrates how to enable remote telemetry for inference operations using AIProjectClient.
  */
 
-import { trace, context } from "@opentelemetry/api";
-import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
+import { trace } from "@opentelemetry/api";
+import {
+  type AzureMonitorOpenTelemetryOptions,
+  useAzureMonitor,
+} from "@azure/monitor-opentelemetry";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";

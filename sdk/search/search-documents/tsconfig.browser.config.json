@@ -1,8 +1,10 @@
 {
-  "extends": ["./tsconfig.test.json"],
-  "exclude": ["./test/**/node", "./test/stress", "./test/snippets.spec.ts"],
+  "extends": "../../../tsconfig.browser.base.json",
   "compilerOptions": {
-    "outDir": "./dist-test/browser",
-    "noEmit": false
+    "paths": {
+      "@azure/search-documents": ["./dist/browser/index.d.ts"],
+      "@azure/search-documents/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
   }
 }

@@ -5,7 +5,6 @@
  * @summary Send a text message
  */
 
-
 import NotificationClient, { isUnexpected } from "@azure-rest/communication-messages";
 
 // Load the .env file if it exists

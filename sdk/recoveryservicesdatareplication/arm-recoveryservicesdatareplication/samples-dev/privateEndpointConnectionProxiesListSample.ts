@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to gets the all private endpoint connections proxies.
  *
  * @summary gets the all private endpoint connections proxies.
  * x-ms-original-file: 2024-09-01/PrivateEndpointConnectionProxy_List.json
  */
+
+import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listsThePrivateEndpointConnectionProxy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "930CEC23-4430-4513-B855-DBA237E2F3BF";

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to stops an UpdateRun.
  *
  * @summary stops an UpdateRun.
  * x-ms-original-file: 2025-03-01/UpdateRuns_Stop.json
  */
+
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function stopsAnUpdateRun(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

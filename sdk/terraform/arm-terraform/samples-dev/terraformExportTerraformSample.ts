@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureTerraformClient } from "@azure/arm-terraform";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to exports the Terraform configuration of the specified resource(s).
  *
  * @summary exports the Terraform configuration of the specified resource(s).
  * x-ms-original-file: 2023-07-01-preview/ExportTerraform.json
  */
+
+import { AzureTerraformClient } from "@azure/arm-terraform";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function exportTerraform(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

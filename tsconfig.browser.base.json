@@ -1,7 +1,18 @@
 {
-  "exclude": ["${configDir}/test/**/node", "${configDir}/test/stress", "${configDir}/test/snippets.spec.ts"],
+  "extends": ["./tsconfig.json", "./tsconfig.nonlib.json"],
   "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": [],
     "outDir": "${configDir}/dist-test/browser",
-    "noEmit": false
-  }
+    "noEmit": false,
+    "paths": {
+      "$internal/*": ["./dist/browser/*"]
+    }
+  },
+  "include": ["${configDir}/src", "${configDir}/test"],
+  "exclude": [
+    "${configDir}/test/**/node",
+    "${configDir}/test/stress",
+    "${configDir}/test/snippets.spec.ts"
+  ]
 }
