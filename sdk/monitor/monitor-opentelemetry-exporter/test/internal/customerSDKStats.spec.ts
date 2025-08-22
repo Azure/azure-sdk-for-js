@@ -246,8 +246,8 @@ describe("CustomerSDKStatsMetrics", () => {
       const reasonMap = retryCodeMap.get(RetryCode.CLIENT_EXCEPTION);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      // Should default to "Unknown exception"
-      expect(reasonMap.get("Unknown exception")).toBe(2);
+      // Should default to "Client exception"
+      expect(reasonMap.get("Client exception")).toBe(2);
     });
 
     it("should not store retry.reason for non-CLIENT_EXCEPTION retry codes", () => {
@@ -304,15 +304,10 @@ describe("CustomerSDKStatsMetrics", () => {
 
   describe("Observable Callbacks", () => {
     it("should include drop.reason in drop count metrics when present", () => {
-      // Add entries with different scenarios
+      // Test that a 403 status code sets the drop code to the number 403
       customerSDKStatsMetrics.countDroppedItems(
-        createMockEnvelopes(3, TelemetryType.TRACE),
-        DropCode.CLIENT_EXCEPTION,
-        "Test error",
-      );
-      customerSDKStatsMetrics.countDroppedItems(
-        createMockEnvelopes(2, TelemetryType.TRACE),
-        DropCode.UNKNOWN,
+        createMockEnvelopes(5, TelemetryType.TRACE),
+        403, // Using numeric status code
       );
 
       const mockObservableResult = {
@@ -325,21 +320,16 @@ describe("CustomerSDKStatsMetrics", () => {
       );
       callback(mockObservableResult);
 
-      expect(mockObservableResult.observe).toHaveBeenCalledTimes(2);
+      expect(mockObservableResult.observe).toHaveBeenCalledTimes(1);
 
-      // Check that drop.reason is included for CLIENT_EXCEPTION (categorized)
-      const clientExceptionCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2]["drop.code"] === DropCode.CLIENT_EXCEPTION,
+      // Check that drop.code is set to 403 (numeric) and drop.reason is "Forbidden"
+      const statusCodeCall = mockObservableResult.observe.mock.calls.find(
+        (call: any) => call[2]["drop.code"] === 403,
       );
-      expect(clientExceptionCall).toBeDefined();
-      expect(clientExceptionCall![2]).toHaveProperty("drop.reason", "Client exception");
-
-      // Check that drop.reason is included for other codes too (now)
-      const unknownCall = mockObservableResult.observe.mock.calls.find(
-        (call: any) => call[2]["drop.code"] === DropCode.UNKNOWN,
-      );
-      expect(unknownCall).toBeDefined();
-      expect(unknownCall![2]).toHaveProperty("drop.reason", "Unknown reason");
+      expect(statusCodeCall).toBeDefined();
+      expect(statusCodeCall![2]).toHaveProperty("drop.code", 403);
+      expect(statusCodeCall![2]).toHaveProperty("drop.reason", "Forbidden");
+      expect(statusCodeCall![1]).toBe(5); // Count should be 5
     });
 
     it("should include retry.reason in retry count metrics when present", () => {

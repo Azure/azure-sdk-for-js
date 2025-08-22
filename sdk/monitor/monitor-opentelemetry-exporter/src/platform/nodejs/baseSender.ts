@@ -199,12 +199,7 @@ export abstract class BaseSender {
         } else {
           // Handles all other status codes or client exceptions for Statsbeat
           this.incrementStatsbeatFailure();
-          this.customerSDKStatsMetrics?.countDroppedItems(
-            envelopes,
-            DropCode.CLIENT_EXCEPTION,
-            undefined,
-            ExceptionType.NETWORK_EXCEPTION,
-          );
+          this.customerSDKStatsMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_EXCEPTION);
         }
         return {
           code: ExportResultCode.FAILED,

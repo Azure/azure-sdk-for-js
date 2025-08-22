@@ -772,8 +772,6 @@ describe("BaseSender", () => {
       expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
         envelopes,
         "CLIENT_EXCEPTION",
-        undefined,
-        "Network exception",
       );
     });
 

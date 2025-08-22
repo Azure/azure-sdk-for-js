@@ -319,7 +319,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       if (exceptionMessage) {
         return this.categorizeExceptionMessage(exceptionMessage);
       }
-      return "Client exception"; // Default to "Client exception" if no message provided
+      return ExceptionType.CLIENT_EXCEPTION; // Default to "Client exception" if no message provided
     }
 
     // Handle status code drop codes (numeric values)
@@ -477,7 +477,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       if (exceptionMessage) {
         return this.categorizeExceptionMessage(exceptionMessage);
       }
-      return "Unknown exception";
+      return ExceptionType.CLIENT_EXCEPTION;
     }
 
     // Handle status code retry codes (numeric values)
