@@ -264,4 +264,7 @@ async function main(argv) {
   }
 }
 
-main(argv);
+main(argv).catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
