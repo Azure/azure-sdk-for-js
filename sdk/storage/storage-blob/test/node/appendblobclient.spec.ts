@@ -446,7 +446,9 @@ describe("AppendBlobClient Node.js only", () => {
       await appendBlobClient.appendBlock(content, content.length);
 
       const downloadResponse = await appendBlobClient.downloadToBuffer(0);
-      assert.deepStrictEqual(downloadResponse, content);
+      const expected = Buffer.from(content.buffer, content.byteOffset, content.byteLength);
+
+      assert.deepStrictEqual(downloadResponse, expected);
       assert.equal(downloadResponse.length, content.length);
     },
   );
