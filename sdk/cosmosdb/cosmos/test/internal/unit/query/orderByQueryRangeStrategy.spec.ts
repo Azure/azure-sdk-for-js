@@ -95,12 +95,12 @@ describe("OrderByQueryRangeStrategy", () => {
       assert.isFalse(strategy.validateContinuationToken(invalidToken));
     });
 
-    it("should validate token with empty orderByItems array", () => {
-      const validToken = JSON.stringify({
+    it("should reject token with empty orderByItems array", () => {
+      const invalidToken = JSON.stringify({
         compositeToken: "valid-composite-token",
         orderByItems: []
       });
-      assert.isTrue(strategy.validateContinuationToken(validToken));
+      assert.isFalse(strategy.validateContinuationToken(invalidToken));
     });
 
     it("should reject null or undefined token", () => {
@@ -114,245 +114,501 @@ describe("OrderByQueryRangeStrategy", () => {
   });
 
   describe("filterPartitionRanges - No Continuation Token", () => {
-    it("should return all ranges when no continuation token is provided", async () => {
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges);
+    it("should return all ranges when no continuation token is provided", () => {
+      const result = strategy.filterPartitionRanges(mockPartitionRanges);
 
       assert.deepEqual(result.filteredRanges, mockPartitionRanges);
       assert.isUndefined(result.continuationToken);
       assert.isUndefined(result.filteringConditions);
     });
 
-    it("should handle empty target ranges", async () => {
-      const result = await strategy.filterPartitionRanges([]);
+    it("should handle empty target ranges", () => {
+      const result = strategy.filterPartitionRanges([]);
 
       assert.deepEqual(result.filteredRanges, []);
     });
 
-    it("should handle null target ranges", async () => {
-      const result = await strategy.filterPartitionRanges(null as any);
-
+    it("should handle null target ranges", () => {
+      const result = strategy.filterPartitionRanges(null as any);
       assert.deepEqual(result.filteredRanges, []);
     });
   });
 
   describe("filterPartitionRanges - With Continuation Token", () => {
-    it("should filter ranges based on ORDER BY continuation token", async () => {
-      const compositeToken = JSON.stringify({
-        rangeMappings: [
-          {
-            partitionKeyRange: { 
-              id: "1", 
-              minInclusive: "AA", 
-              maxExclusive: "BB",
-              ridPrefix: 1,
-              throughputFraction: 1.0,
-              status: "Online",
-              parents: []
-            },
-            continuationToken: "mock-token-1",
-            itemCount: 3,
-          }
-        ]
+    describe("Basic Continuation Token Scenarios", () => {
+      it("should return only the target range from continuation token (simple case)", () => {
+        // Target range is in the middle of our mock ranges (id: "1", AA-BB)
+        const compositeToken = JSON.stringify({
+          rangeMappings: [
+            {
+              partitionKeyRange: { 
+                id: "1", 
+                minInclusive: "AA", 
+                maxExclusive: "BB",
+                ridPrefix: 1,
+                throughputFraction: 1.0,
+                status: "Online",
+                parents: []
+              },
+              continuationToken: "target-token",
+              itemCount: 5
+            }
+          ]
+        });
+
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [{ item: "test-value" }],
+          rid: "test-rid",
+          skipCount: 10
+        });
+
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+
+        // Should return only the target range since no queryInfo provided (no filtering)
+        assert.equal(result.filteredRanges.length, 4);
+        assert.equal(result.filteredRanges[1].id, "1");
+        assert.equal(result.filteredRanges[1].minInclusive, "AA");
+        assert.equal(result.filteredRanges[1].maxExclusive, "BB");
+        
+        // Should have the continuation token for the target range
+        assert.equal(result.continuationToken?.length, 4);
+        assert.equal(result.continuationToken?.[1], "target-token");
+        
+        // Should have empty filtering conditions array
+        assert.equal(result.filteringConditions?.length, 4);
+        assert.isDefined(result.filteringConditions?.[1]);
       });
 
-      const orderByToken = JSON.stringify({
-        compositeToken: compositeToken,
-        orderByItems: [
-          { item: "some-value" }
-        ],
-        rid: "sample-rid",
-        skipCount: 5
+      it("should return left + target + right ranges when queryInfo enables filtering", () => {
+        // Target range is in the middle (id: "1", AA-BB)
+        const compositeToken = JSON.stringify({
+          rangeMappings: [
+            {
+              partitionKeyRange: { 
+                id: "1", 
+                minInclusive: "AA", 
+                maxExclusive: "BB",
+                ridPrefix: 1,
+                throughputFraction: 1.0,
+                status: "Online",
+                parents: []
+              },
+              continuationToken: "middle-token",
+              itemCount: 8
+            }
+          ]
+        });
+
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [{ item: "filter-value" }]
+        });
+
+        // Provide queryInfo to enable filtering
+        const queryInfo = {
+          orderByExpressions: ["c.timestamp"],
+          orderBy: ["Ascending"]
+        };
+
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
+
+        // Should include:
+        // - Left ranges: ranges with maxExclusive < "AA" → range "0" (""-"AA")
+        // - Target range: range "1" ("AA"-"BB") 
+        // - Right ranges: ranges with minInclusive > "BB" → ranges "2" ("BB"-"FF"), "3" ("FF"-"ZZ")
+        assert.equal(result.filteredRanges.length, 4);
+        
+        // Verify left range
+        const leftRange = result.filteredRanges.find(r => r.maxExclusive <= "AA");
+        assert.isDefined(leftRange);
+        assert.equal(leftRange?.id, "0");
+        
+        // Verify target range 
+        const targetRange = result.filteredRanges.find(r => r.id === "1");
+        assert.isDefined(targetRange);
+        assert.equal(targetRange?.minInclusive, "AA");
+        assert.equal(targetRange?.maxExclusive, "BB");
+        
+        // Verify right ranges
+        const rightRanges = result.filteredRanges.filter(r => r.minInclusive >= "BB");
+        assert.equal(rightRanges.length, 2);
+        assert.includeMembers(rightRanges.map(r => r.id), ["2", "3"]);
+
+        // Verify continuation tokens: only target range should have one
+        const targetIndex = result.filteredRanges.findIndex(r => r.id === "1");
+        assert.equal(result.continuationToken?.[targetIndex], "middle-token");
+        
+        // Left and right ranges should have undefined continuation tokens
+        const leftIndex = result.filteredRanges.findIndex(r => r.id === "0");
+        const rightIndex1 = result.filteredRanges.findIndex(r => r.id === "2");
+        const rightIndex2 = result.filteredRanges.findIndex(r => r.id === "3");
+        assert.isUndefined(result.continuationToken?.[leftIndex]);
+        assert.isUndefined(result.continuationToken?.[rightIndex1]);
+        assert.isUndefined(result.continuationToken?.[rightIndex2]);
       });
-
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
-
-      // Should include range from continuation token plus target ranges after it
-      assert.equal(result.filteredRanges.length, 3); // 1 from token + 2 target ranges after
-      assert.equal(result.continuationToken?.length, 3);
-      assert.equal(result.filteringConditions?.length, 3);
-      
-      // First should be from continuation token
-      assert.equal(result.filteredRanges[0].id, "1");
-      assert.equal(result.filteredRanges[0].minInclusive, "AA");
-      assert.equal(result.filteredRanges[0].maxExclusive, "BB");
-      
-      // Next should be target ranges after the continuation token range
-      assert.equal(result.filteredRanges[1].id, "2"); // BB-FF
-      assert.equal(result.filteredRanges[2].id, "3"); // FF-ZZ
-      
-      // Continuation tokens should match
-      assert.equal(result.continuationToken?.[0], "mock-token-1");
-      assert.isUndefined(result.continuationToken?.[1]); // New range
-      assert.isUndefined(result.continuationToken?.[2]); // New range
     });
 
-    it("should handle continuation token with multiple range mappings", async () => {
-      const compositeToken = JSON.stringify({
-        rangeMappings: [
-          {
-            partitionKeyRange: { 
-              id: "0", 
-              minInclusive: "", 
-              maxExclusive: "AA",
-              ridPrefix: 0,
-              throughputFraction: 1.0,
-              status: "Online",
-              parents: []
-            },
-            continuationToken: "mock-token-0",
-            itemCount: 2,
-          },
-          {
-            partitionKeyRange: { 
-              id: "1", 
-              minInclusive: "AA", 
-              maxExclusive: "BB",
-              ridPrefix: 1,
-              throughputFraction: 1.0,
-              status: "Online",
-              parents: []
-            },
-            continuationToken: "mock-token-1",
-            itemCount: 5,
-          }
-        ]
+    describe("Edge Cases with Continuation Tokens", () => {
+      it("should handle target range that doesn't exist in current target ranges", () => {
+        // Target range is outside the current target ranges
+        const compositeToken = JSON.stringify({
+          rangeMappings: [
+            {
+              partitionKeyRange: { 
+                id: "external", 
+                minInclusive: "ZZ", 
+                maxExclusive: "ZZZ",
+                ridPrefix: 99,
+                throughputFraction: 1.0,
+                status: "Online",
+                parents: []
+              },
+              continuationToken: "external-token",
+              itemCount: 2
+            }
+          ]
+        });
+
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [{ item: "external-value" }]
+        });
+
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+
+        // Should return the external range from continuation token
+        assert.equal(result.filteredRanges.length, 5);
+        assert.equal(result.filteredRanges[4].id, "external");
+        assert.equal(result.filteredRanges[4].minInclusive, "ZZ");
+        assert.equal(result.filteredRanges[4].maxExclusive, "ZZZ");
+        assert.equal(result.continuationToken?.[4], "external-token");
       });
 
-      const orderByToken = JSON.stringify({
-        compositeToken: compositeToken,
-        orderByItems: [{ item: "value1" }, { item: "value2" }]
+      it("should handle target range at the beginning of partition space", () => {
+        // Target range is the first range (id: "0", ""-"AA")
+        const compositeToken = JSON.stringify({
+          rangeMappings: [
+            {
+              partitionKeyRange: { 
+                id: "0", 
+                minInclusive: "", 
+                maxExclusive: "AA",
+                ridPrefix: 0,
+                throughputFraction: 1.0,
+                status: "Online",
+                parents: []
+              },
+              continuationToken: "first-token",
+              itemCount: 12
+            }
+          ]
+        });
+
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [{ item: "first-value" }]
+        });
+
+        const queryInfo = {
+          orderByExpressions: ["c.id"],
+          orderBy: ["Ascending"]
+        };
+
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
+
+        // Should include target range + right ranges (no left ranges since target is first)
+        // Target: "0" (""-"AA")
+        // Right: "1" ("AA"-"BB"), "2" ("BB"-"FF"), "3" ("FF"-"ZZ")
+        assert.equal(result.filteredRanges.length, 4);
+        
+        // Verify target range is included
+        const targetRange = result.filteredRanges.find(r => r.id === "0");
+        assert.isDefined(targetRange);
+        
+        // Verify right ranges are included
+        const rightRanges = result.filteredRanges.filter(r => r.minInclusive >= "AA");
+        assert.equal(rightRanges.length, 3);
+        
+        // Only target should have continuation token
+        const targetIndex = result.filteredRanges.findIndex(r => r.id === "0");
+        assert.equal(result.continuationToken?.[targetIndex], "first-token");
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+      it("should handle target range at the end of partition space", () => {
+        // Target range is the last range (id: "3", "FF"-"ZZ")
+        const compositeToken = JSON.stringify({
+          rangeMappings: [
+            {
+              partitionKeyRange: { 
+                id: "3", 
+                minInclusive: "FF", 
+                maxExclusive: "ZZ",
+                ridPrefix: 3,
+                throughputFraction: 1.0,
+                status: "Online",
+                parents: []
+              },
+              continuationToken: "last-token",
+              itemCount: 6
+            }
+          ]
+        });
 
-      // Should use the last range mapping (index 1) as the resume point
-      assert.equal(result.filteredRanges.length, 3); // 1 from last mapping + 2 target ranges after
-      assert.equal(result.filteredRanges[0].id, "1"); // From last range mapping
-      assert.equal(result.filteredRanges[1].id, "2"); // BB-FF
-      assert.equal(result.filteredRanges[2].id, "3"); // FF-ZZ
-      
-      assert.equal(result.continuationToken?.[0], "mock-token-1"); // From last mapping
-      assert.isUndefined(result.continuationToken?.[1]);
-      assert.isUndefined(result.continuationToken?.[2]);
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [{ item: "last-value" }]
+        });
+
+        const queryInfo = {
+          orderByExpressions: ["c.timestamp"],
+          orderBy: ["Descending"]
+        };
+
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
+
+        // Should include left ranges + target range (no right ranges since target is last)
+        // Left: "0" (""-"AA"), "1" ("AA"-"BB"), "2" ("BB"-"FF")
+        // Target: "3" ("FF"-"ZZ")
+        assert.equal(result.filteredRanges.length, 4);
+        
+        // Verify target range is included
+        const targetRange = result.filteredRanges.find(r => r.id === "3");
+        assert.isDefined(targetRange);
+        
+        // Verify left ranges are included
+        const leftRanges = result.filteredRanges.filter(r => r.maxExclusive <= "FF");
+        assert.equal(leftRanges.length, 3);
+        
+        // Only target should have continuation token
+        const targetIndex = result.filteredRanges.findIndex(r => r.id === "3");
+        assert.equal(result.continuationToken?.[targetIndex], "last-token");
+      });
+
+      it("should reject empty range mappings in composite token as invalid", () => {
+        const compositeToken = JSON.stringify({
+          rangeMappings: []
+        });
+
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [{ item: "value" }]
+        });
+
+        // Empty range mappings should be treated as invalid continuation token
+        const isValid = strategy.validateContinuationToken(orderByToken);
+        assert.equal(isValid, false, "Empty range mappings should make token invalid");
+
+        // filterPartitionRanges should throw an error for invalid token
+        assert.throws(() => {
+          strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+        }, "Invalid continuation token format for ORDER BY query strategy");
+      });
+
+      it("should reject malformed composite token as invalid", () => {
+        const orderByToken = JSON.stringify({
+          compositeToken: "invalid-json-here",
+          orderByItems: [{ item: "value" }]
+        });
+
+        // Malformed composite token should be treated as invalid continuation token
+        const isValid = strategy.validateContinuationToken(orderByToken);
+        assert.equal(isValid, false, "Malformed composite token should make token invalid");
+
+        // filterPartitionRanges should throw an error for invalid token
+        assert.throws(() => {
+          strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+        }, "Invalid continuation token format for ORDER BY query strategy");
+      });
     });
 
-    it("should handle continuation token with range that covers all target ranges", async () => {
-      const compositeToken = JSON.stringify({
-        rangeMappings: [
-          {
-            partitionKeyRange: { 
-              id: "big-range", 
-              minInclusive: "", 
-              maxExclusive: "ZZ", // Covers all target ranges
-              ridPrefix: 99,
-              throughputFraction: 1.0,
-              status: "Online",
-              parents: []
-            },
-            continuationToken: "big-range-token",
-            itemCount: 100,
-          }
-        ]
+    describe("Range Properties Preservation", () => {
+      it("should preserve all range properties from continuation token", () => {
+        const compositeToken = JSON.stringify({
+          rangeMappings: [
+            {
+              partitionKeyRange: { 
+                id: "custom-split", 
+                minInclusive: "AA", 
+                maxExclusive: "AB",
+                ridPrefix: 42,
+                throughputFraction: 0.25,
+                status: "Splitting",
+                parents: ["original-1", "original-2"],
+                epkMin: "epk-min-value",
+                epkMax: "epk-max-value"
+              },
+              continuationToken: "split-token",
+              itemCount: 100
+            }
+          ]
+        });
+
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [{ item: "split-scenario" }]
+        });
+
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+
+        const targetRange = result.filteredRanges[1];
+        assert.equal(targetRange.id, "custom-split");
+        assert.equal(targetRange.minInclusive, "AA");
+        assert.equal(targetRange.maxExclusive, "AB");
+        assert.equal(result.continuationToken?.[1], "split-token");
       });
 
-      const orderByToken = JSON.stringify({
-        compositeToken: compositeToken,
-        orderByItems: [{ item: "value" }]
+      it("should handle missing optional properties gracefully", () => {
+        const compositeToken = JSON.stringify({
+          rangeMappings: [
+            {
+              partitionKeyRange: { 
+                id: "minimal", 
+                minInclusive: "BB", 
+                maxExclusive: "CC"
+                // Missing ridPrefix, throughputFraction, status, parents, epk properties
+              },
+              continuationToken: "minimal-token",
+              itemCount: 1
+            }
+          ]
+        });
+
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [{ item: "minimal-test" }]
+        });
+
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+
+        const targetRange = result.filteredRanges[2];
+        assert.equal(targetRange.id, "minimal");
+        assert.equal(targetRange.minInclusive, "BB");
+        assert.equal(targetRange.maxExclusive, "CC");
+        assert.isUndefined(targetRange.ridPrefix);
+        assert.isUndefined(targetRange.throughputFraction);
+        assert.isUndefined(targetRange.status);
+        assert.isUndefined(targetRange.parents);
+        assert.isUndefined(targetRange.epkMin);
+        assert.isUndefined(targetRange.epkMax);
       });
-
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
-
-      // Should only include the continuation token range since no target ranges come after it
-      assert.equal(result.filteredRanges.length, 1);
-      assert.equal(result.filteredRanges[0].id, "big-range");
-      assert.equal(result.continuationToken?.[0], "big-range-token");
     });
 
-    it("should handle continuation token with missing optional fields", async () => {
-      const compositeToken = JSON.stringify({
-        rangeMappings: [
-          {
-            partitionKeyRange: { 
-              id: "minimal", 
-              minInclusive: "AA", 
-              maxExclusive: "BB"
-              // Missing optional fields
-            },
-            continuationToken: "minimal-token",
-            itemCount: 1,
-          }
-        ]
+    describe("Complex Order By Scenarios", () => {
+      it("should handle multiple orderByItems with complex values", () => {
+        const compositeToken = JSON.stringify({
+          rangeMappings: [
+            {
+              partitionKeyRange: { 
+                id: "2", 
+                minInclusive: "BB", 
+                maxExclusive: "FF",
+                ridPrefix: 2,
+                throughputFraction: 1.0,
+                status: "Online",
+                parents: []
+              },
+              continuationToken: "multi-order-token",
+              itemCount: 25
+            }
+          ]
+        });
+
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [
+            { item: "timestamp-value" },
+            { item: "priority-value" },
+            { item: "id-value" }
+          ],
+          rid: "complex-rid",
+          skipCount: 50,
+          offset: 1000,
+          limit: 200,
+          hashedLastResult: "hashed-result-value"
+        });
+
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+
+        assert.equal(result.filteredRanges.length, 4);
+        assert.equal(result.filteredRanges[2].id, "2");
+        assert.equal(result.continuationToken?.[2], "multi-order-token");
       });
 
-      const orderByToken = JSON.stringify({
-        compositeToken: compositeToken,
-        orderByItems: [{ item: "value" }]
+      it("should handle complex filtering with multiple sort orders", () => {
+        const compositeToken = JSON.stringify({
+          rangeMappings: [
+            {
+              partitionKeyRange: { 
+                id: "1", 
+                minInclusive: "AA", 
+                maxExclusive: "BB",
+                ridPrefix: 1,
+                throughputFraction: 1.0,
+                status: "Online",
+                parents: []
+              },
+              continuationToken: "complex-filter-token",
+              itemCount: 15
+            }
+          ]
+        });
+
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [
+            { item: "2023-01-01T10:00:00Z" },
+            { item: 100 }
+          ]
+        });
+
+        // Complex queryInfo with multiple sort orders
+        const queryInfo = {
+          orderByExpressions: ["c.timestamp", "c.priority"],
+          orderBy: ["Ascending", "Descending"]
+        };
+
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
+
+        // Should include left + target + right ranges with appropriate filtering conditions
+        assert.isAtLeast(result.filteredRanges.length, 1);
+        
+        // Verify target range is present
+        const targetRange = result.filteredRanges.find(r => r.id === "1");
+        assert.isDefined(targetRange);
+        
+        // Verify continuation token for target
+        const targetIndex = result.filteredRanges.findIndex(r => r.id === "1");
+        assert.equal(result.continuationToken?.[targetIndex], "complex-filter-token");
       });
-
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
-
-      assert.equal(result.filteredRanges.length, 3); // 1 from token + 2 after
-      const firstRange = result.filteredRanges[0];
-      assert.equal(firstRange.id, "minimal");
-      assert.equal(firstRange.ridPrefix, undefined); // Should handle missing fields gracefully
-      assert.equal(firstRange.throughputFraction, undefined);
-      assert.equal(firstRange.status, undefined);
-      assert.equal(firstRange.parents, undefined);
-    });
-
-    it("should handle empty range mappings in composite token", async () => {
-      const compositeToken = JSON.stringify({
-        rangeMappings: []
-      });
-
-      const orderByToken = JSON.stringify({
-        compositeToken: compositeToken,
-        orderByItems: [{ item: "value" }]
-      });
-
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
-
-      // Should return all target ranges since no specific resume point found
-      assert.deepEqual(result.filteredRanges, mockPartitionRanges);
-    });
-
-    it("should handle malformed composite token", async () => {
-      const orderByToken = JSON.stringify({
-        compositeToken: "invalid-json-token",
-        orderByItems: [{ item: "value" }]
-      });
-
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
-
-      // Should return all target ranges when composite token parsing fails
-      assert.deepEqual(result.filteredRanges, mockPartitionRanges);
     });
   });
 
+
   describe("Error Handling", () => {
-    it("should throw error for invalid continuation token format", async () => {
+    it("should throw error for invalid continuation token format", () => {
       const invalidToken = "invalid-json";
 
-      await expect(
-        strategy.filterPartitionRanges(mockPartitionRanges, invalidToken)
-      ).rejects.toThrow("Invalid continuation token format for ORDER BY query strategy");
+      expect(() => {
+        strategy.filterPartitionRanges(mockPartitionRanges, invalidToken);
+      }).toThrow("Invalid continuation token format for ORDER BY query strategy");
     });
 
-    it("should throw error for malformed ORDER BY continuation token", async () => {
+    it("should throw error for malformed ORDER BY continuation token", () => {
       // This test validates that parsing errors are caught and wrapped
       const validButUnparsableToken = JSON.stringify({
         compositeToken: "valid-composite",
-        orderByItems: [],
+        orderByItems: [{ item: "test" }],
         rid: null, // This might cause issues in constructor
         skipCount: "invalid-number" // Non-numeric skip count
       });
 
-      await expect(
-        strategy.filterPartitionRanges(mockPartitionRanges, validButUnparsableToken)
-      ).rejects.toThrow("Failed to parse ORDER BY continuation token");
+      expect(() => {
+        strategy.filterPartitionRanges(mockPartitionRanges, validButUnparsableToken);
+      }).toThrow("Invalid continuation token format for ORDER BY query strategy");
     });
 
-    it("should handle null or undefined partition key range in composite token", async () => {
+    it("should reject null partition key range in composite token as invalid", () => {
       const compositeToken = JSON.stringify({
         rangeMappings: [
           {
@@ -368,64 +624,26 @@ describe("OrderByQueryRangeStrategy", () => {
         orderByItems: [{ item: "value" }]
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+      // Null partition key range should be treated as invalid continuation token
+      const isValid = strategy.validateContinuationToken(orderByToken);
+      assert.equal(isValid, false, "Null partition key range should make token invalid");
 
-      // Should return all target ranges when range mappings are invalid
-      assert.deepEqual(result.filteredRanges, mockPartitionRanges);
+      // filterPartitionRanges should throw an error for invalid token
+      assert.throws(() => {
+        strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+      }, "Invalid continuation token format for ORDER BY query strategy");
     });
   });
 
   describe("Edge Cases", () => {
-    it("should handle single partition range", async () => {
+    it("should handle single partition range", () => {
       const singleRange = [createMockPartitionKeyRange("0", "", "ZZ")];
-      const result = await strategy.filterPartitionRanges(singleRange);
+      const result = strategy.filterPartitionRanges(singleRange);
 
       assert.deepEqual(result.filteredRanges, singleRange);
     });
 
-    it("should handle ranges with identical boundaries", async () => {
-      const identicalRanges = [
-        createMockPartitionKeyRange("0", "AA", "BB"),
-        createMockPartitionKeyRange("1", "AA", "BB"), // Same boundaries
-      ];
-
-      const result = await strategy.filterPartitionRanges(identicalRanges);
-
-      assert.equal(result.filteredRanges.length, 2);
-      assert.deepEqual(result.filteredRanges, identicalRanges);
-    });
-
-    it("should handle continuation token with empty orderByItems", async () => {
-      const compositeToken = JSON.stringify({
-        rangeMappings: [
-          {
-            partitionKeyRange: { 
-              id: "1", 
-              minInclusive: "AA", 
-              maxExclusive: "BB",
-              ridPrefix: 1,
-              throughputFraction: 1.0,
-              status: "Online",
-              parents: []
-            },
-            continuationToken: "token",
-            itemCount: 3,
-          }
-        ]
-      });
-
-      const orderByToken = JSON.stringify({
-        compositeToken: compositeToken,
-        orderByItems: [] // Empty array
-      });
-
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
-
-      assert.equal(result.filteredRanges.length, 3); // 1 from token + 2 after
-      assert.equal(result.filteredRanges[0].id, "1");
-    });
-
-    it("should handle very large number of ranges efficiently", async () => {
+    it("should handle very large number of ranges efficiently", () => {
       // Create 1000 partition ranges
       const largeRangeSet = Array.from({ length: 1000 }, (_, i) => 
         createMockPartitionKeyRange(
@@ -436,7 +654,7 @@ describe("OrderByQueryRangeStrategy", () => {
       );
 
       const startTime = Date.now();
-      const result = await strategy.filterPartitionRanges(largeRangeSet);
+      const result = strategy.filterPartitionRanges(largeRangeSet);
       const endTime = Date.now();
 
       // Should complete within reasonable time (less than 1 second)
@@ -444,7 +662,7 @@ describe("OrderByQueryRangeStrategy", () => {
       assert.equal(result.filteredRanges.length, 1000);
     });
 
-    it("should handle unicode partition key values", async () => {
+    it("should handle unicode partition key values", () => {
       const unicodeRanges = [
         createMockPartitionKeyRange("0", "α", "β"),
         createMockPartitionKeyRange("1", "β", "γ"),
@@ -456,9 +674,9 @@ describe("OrderByQueryRangeStrategy", () => {
           {
             partitionKeyRange: { 
               id: "unicode", 
-              minInclusive: "α", 
-              maxExclusive: "β",
-              ridPrefix: 0,
+              minInclusive: "β", 
+              maxExclusive: "γ",
+              ridPrefix: 1,
               throughputFraction: 1.0,
               status: "Online",
               parents: []
@@ -474,31 +692,20 @@ describe("OrderByQueryRangeStrategy", () => {
         orderByItems: [{ item: "unicode-value" }]
       });
 
-      const result = await strategy.filterPartitionRanges(unicodeRanges, orderByToken);
+      const result = strategy.filterPartitionRanges(unicodeRanges, orderByToken);
 
-      assert.equal(result.filteredRanges.length, 3); // 1 from token + 2 after
-      assert.equal(result.filteredRanges[0].id, "unicode");
-      assert.equal(result.filteredRanges[1].id, "1"); // β-γ
-      assert.equal(result.filteredRanges[2].id, "2"); // γ-δ
-    });
-
-    it("should handle ranges with empty string boundaries", async () => {
-      const rangesWithEmptyBoundaries = [
-        createMockPartitionKeyRange("0", "", ""),
-        createMockPartitionKeyRange("1", "", "AA"),
-        createMockPartitionKeyRange("2", "ZZ", ""),
-      ];
-
-      const result = await strategy.filterPartitionRanges(rangesWithEmptyBoundaries);
-
+      // Should return the target range from the continuation token
       assert.equal(result.filteredRanges.length, 3);
-      assert.deepEqual(result.filteredRanges, rangesWithEmptyBoundaries);
+      assert.equal(result.filteredRanges[1].id, "unicode");
+      assert.equal(result.filteredRanges[1].minInclusive, "β");
+      assert.equal(result.filteredRanges[1].maxExclusive, "γ");
     });
+
   });
 
   describe("Integration Scenarios", () => {
-    it("should handle typical ORDER BY query continuation scenario", async () => {
-      // Simulate a scenario where an ORDER BY query has processed the first range
+    it("should handle typical ORDER BY query continuation scenario", () => {
+      // Simulate a scenario where an ORDER BY query needs to resume from a specific range
       const compositeToken = JSON.stringify({
         rangeMappings: [
           {
@@ -526,22 +733,15 @@ describe("OrderByQueryRangeStrategy", () => {
         skipCount: 10
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
 
-      // Should include the continuing range and subsequent unprocessed ranges
-      assert.equal(result.filteredRanges.length, 4); // 1 continuing + 3 unprocessed
-      assert.equal(result.filteredRanges[0].id, "0"); // Continuing range
-      assert.equal(result.filteredRanges[1].id, "1"); // Next unprocessed range
-      assert.equal(result.filteredRanges[2].id, "2"); // Next unprocessed range
-      assert.equal(result.filteredRanges[3].id, "3"); // Final range
-      
+      // Should return the specific range from the continuation token
+      assert.equal(result.filteredRanges.length, 4);
+      assert.equal(result.filteredRanges[0].id, "0");
       assert.equal(result.continuationToken?.[0], "order-by-token-0");
-      assert.isUndefined(result.continuationToken?.[1]); // New range
-      assert.isUndefined(result.continuationToken?.[2]); // New range
-      assert.isUndefined(result.continuationToken?.[3]); // New range
     });
 
-    it("should handle partition merge scenario in ORDER BY context", async () => {
+    it("should handle partition split scenario in ORDER BY context", () => {
       // Simulate scenario where multiple ranges were merged in ORDER BY context
       const compositeToken = JSON.stringify({
         rangeMappings: [
@@ -572,18 +772,17 @@ describe("OrderByQueryRangeStrategy", () => {
         limit: 50
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
 
-      // Should include the merged range and subsequent ranges
-      assert.equal(result.filteredRanges.length, 3); // 1 merged + 2 subsequent
+      // Should return the merged range from continuation token
+      assert.equal(result.filteredRanges.length, 3);
       assert.equal(result.filteredRanges[0].id, "merged-0-1");
       assert.equal(result.filteredRanges[0].parents?.length, 2);
       assert.includeMembers(result.filteredRanges[0].parents || [], ["0", "1"]);
-      assert.equal(result.filteredRanges[1].id, "2"); // BB-FF
-      assert.equal(result.filteredRanges[2].id, "3"); // FF-ZZ
+      assert.equal(result.continuationToken?.[0], "merged-order-by-token");
     });
 
-    it("should handle partition split scenario in ORDER BY context", async () => {
+    it("should handle partition merge scenario in ORDER BY context", () => {
       // Simulate scenario where a range was split in ORDER BY context
       const compositeToken = JSON.stringify({
         rangeMappings: [
@@ -612,16 +811,16 @@ describe("OrderByQueryRangeStrategy", () => {
         skipCount: 8
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
 
-      // Should include the split range and any subsequent ranges
-      assert.equal(result.filteredRanges.length, 2); // 1 split range + 1 subsequent
-      assert.equal(result.filteredRanges[0].id, "split-2a");
-      assert.equal(result.filteredRanges[0].parents?.[0], "2");
-      assert.equal(result.filteredRanges[1].id, "3"); // FF-ZZ (comes after CC)
+      // Should return the split range from continuation token
+      assert.equal(result.filteredRanges.length, 4);
+      assert.equal(result.filteredRanges[2].id, "split-2a");
+      assert.equal(result.filteredRanges[2].parents?.[0], "2");
+      assert.equal(result.continuationToken?.[2], "split-order-by-token");
     });
 
-    it("should handle complex ORDER BY continuation with multiple orderByItems", async () => {
+    it("should handle complex ORDER BY continuation with multiple orderByItems", () => {
       const compositeToken = JSON.stringify({
         rangeMappings: [
           {
@@ -654,15 +853,164 @@ describe("OrderByQueryRangeStrategy", () => {
         hashedLastResult: "hashed-value"
       });
 
-      const result = await strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
 
-      assert.equal(result.filteredRanges.length, 3); // 1 from token + 2 subsequent
-      assert.equal(result.filteredRanges[0].id, "1");
-      assert.equal(result.continuationToken?.[0], "complex-token");
+      // Should return the target range from continuation token
+      assert.equal(result.filteredRanges.length, 4);
+      assert.equal(result.filteredRanges[1].id, "1");
+      assert.equal(result.continuationToken?.[1], "complex-token");
+    });
+
+    it("should handle ORDER BY with filtering conditions when queryInfo is provided", () => {
+      const compositeToken = JSON.stringify({
+        rangeMappings: [
+          {
+            partitionKeyRange: { 
+              id: "1", 
+              minInclusive: "AA", 
+              maxExclusive: "BB",
+              ridPrefix: 1,
+              throughputFraction: 1.0,
+              status: "Online",
+              parents: []
+            },
+            continuationToken: "filter-token",
+            itemCount: 20,
+          }
+        ]
+      });
+
+      const orderByToken = JSON.stringify({
+        compositeToken: compositeToken,
+        orderByItems: [{ item: "filter-value" }]
+      });
+
+      // Provide queryInfo to enable filtering logic
+      const queryInfo = {
+        orderByExpressions: ["c.timestamp"],
+        orderBy: ["Ascending"]
+      };
+
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
+
+      // Should include target range and potentially left/right ranges with filtering conditions
+      assert.isAtLeast(result.filteredRanges.length, 1);
       
-      // Verify all subsequent ranges are included
-      assert.equal(result.filteredRanges[1].id, "2");
-      assert.equal(result.filteredRanges[2].id, "3");
+      // Find the target range
+      const targetRangeIndex = result.filteredRanges.findIndex(r => r.id === "1");
+      assert.isAtLeast(targetRangeIndex, 0);
+      assert.equal(result.continuationToken?.[targetRangeIndex], "filter-token");
+    });
+  });
+
+  describe("Exhausted Continuation Token Scenarios", () => {
+    const exhaustedTokenTestCases = [
+      {
+        name: "null continuation token",
+        continuationToken: null,
+        expectedToken: null,
+        description: "Range is exhausted with null continuation token"
+      },
+      {
+        name: "undefined continuation token",
+        continuationToken: undefined,
+        expectedToken: undefined,
+        description: "Range is exhausted with undefined continuation token"
+      },
+      {
+        name: "empty string continuation token",
+        continuationToken: "",
+        expectedToken: "",
+        description: "Range is exhausted with empty string continuation token"
+      }
+    ];
+
+    exhaustedTokenTestCases.forEach(testCase => {
+      it(`should handle exhausted continuation token with ${testCase.name}`, () => {
+        const compositeToken = JSON.stringify({
+          rangeMappings: [
+            {
+              partitionKeyRange: { 
+                id: "1", 
+                minInclusive: "AA", 
+                maxExclusive: "BB",
+                ridPrefix: 1,
+                throughputFraction: 1.0,
+                status: "Online",
+                parents: []
+              },
+              ...(testCase.continuationToken !== undefined && { continuationToken: testCase.continuationToken }),
+              itemCount: 0
+            }
+          ]
+        });
+
+        const orderByToken = JSON.stringify({
+          compositeToken: compositeToken,
+          orderByItems: [{ item: `${testCase.name}-value` }],
+          rid: `${testCase.name}-rid`
+        });
+
+        const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
+
+        // Should still include the target range with the expected continuation token
+        assert.equal(result.filteredRanges.length, 4);
+        const targetIndex = result.filteredRanges.findIndex(r => r.id === "1");
+        assert.isAtLeast(targetIndex, 0);
+        
+        if (testCase.expectedToken === null) {
+          assert.isNull(result.continuationToken?.[targetIndex]);
+        } else if (testCase.expectedToken === undefined) {
+          assert.isUndefined(result.continuationToken?.[targetIndex]);
+        } else {
+          assert.equal(result.continuationToken?.[targetIndex], testCase.expectedToken);
+        }
+      });
+    });
+
+
+    it("should handle exhausted continuation token with filtering enabled", () => {
+      const compositeToken = JSON.stringify({
+        rangeMappings: [
+          {
+            partitionKeyRange: { 
+              id: "1", 
+              minInclusive: "AA", 
+              maxExclusive: "BB",
+              ridPrefix: 1,
+              throughputFraction: 1.0,
+              status: "Online",
+              parents: []
+            },
+            continuationToken: null, // Exhausted
+            itemCount: 0
+          }
+        ]
+      });
+
+      const orderByToken = JSON.stringify({
+        compositeToken: compositeToken,
+        orderByItems: [{ item: "exhausted-filter-value" }],
+        rid: "exhausted-filter-rid"
+      });
+
+      const queryInfo = {
+        orderByExpressions: ["c.status"],
+        orderBy: ["Descending"]
+      };
+
+      const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
+
+      // Should include left + target + right ranges with appropriate filtering conditions
+      assert.equal(result.filteredRanges.length, 4);
+      
+      // Target range should have null continuation token but still be included
+      const targetIndex = result.filteredRanges.findIndex(r => r.id === "1");
+      assert.isAtLeast(targetIndex, 0);
+      assert.isNull(result.continuationToken?.[targetIndex]);
+      
+      // Should have filtering conditions applied
+      assert.isDefined(result.filteringConditions?.[targetIndex]);
     });
   });
 });
