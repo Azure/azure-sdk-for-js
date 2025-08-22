@@ -5,7 +5,7 @@
  * This sample demonstrates how to Create or update storage for a managedEnvironment.
  *
  * @summary Create or update storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
  */
 
 import {
@@ -48,7 +48,7 @@ async function createOrUpdateEnvironmentsStorage(): Promise<void> {
  * This sample demonstrates how to Create or update storage for a managedEnvironment.
  *
  * @summary Create or update storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate_NfsAzureFile.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate_NfsAzureFile.json
  */
 async function createOrUpdateEnvironmentsStorageForNfsAzureFile(): Promise<void> {
   const subscriptionId =

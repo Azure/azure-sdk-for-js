@@ -1,4 +1,461 @@
 # Release History
+
+## 3.0.0-beta.1 (2025-08-18)
+Compared with version 2.2.0
+
+### Features Added
+  - Added operation group AppResiliencyOperations
+  - Added operation group BuildAuthToken
+  - Added operation group Builders
+  - Added operation group Builds
+  - Added operation group BuildsByBuilderResource
+  - Added operation group ContainerAppsBuilds
+  - Added operation group ContainerAppsBuildsByContainerApp
+  - Added operation group ContainerAppsLabelHistory
+  - Added operation group ContainerAppsPatches
+  - Added operation group DaprComponentResiliencyPolicies
+  - Added operation group DaprSubscriptions
+  - Added operation group DotNetComponents
+  - Added operation group FunctionsExtension
+  - Added operation group HttpRouteConfigOperations
+  - Added operation group LogicApps
+  - Added operation group MaintenanceConfigurations
+  - Added operation group ManagedEnvironmentPrivateEndpointConnections
+  - Added operation group ManagedEnvironmentPrivateLinkResources
+  - Added operation ConnectedEnvironmentsCertificates.beginCreateOrUpdate
+  - Added operation ConnectedEnvironmentsCertificates.beginCreateOrUpdateAndWait
+  - Added operation ConnectedEnvironmentsCertificates.beginDelete
+  - Added operation ConnectedEnvironmentsCertificates.beginDeleteAndWait
+  - Added operation ConnectedEnvironmentsCertificates.beginUpdate
+  - Added operation ConnectedEnvironmentsCertificates.beginUpdateAndWait
+  - Added operation ConnectedEnvironmentsDaprComponents.beginCreateOrUpdate
+  - Added operation ConnectedEnvironmentsDaprComponents.beginCreateOrUpdateAndWait
+  - Added operation ConnectedEnvironmentsDaprComponents.beginDelete
+  - Added operation ConnectedEnvironmentsDaprComponents.beginDeleteAndWait
+  - Added operation ConnectedEnvironmentsStorages.beginCreateOrUpdate
+  - Added operation ConnectedEnvironmentsStorages.beginCreateOrUpdateAndWait
+  - Added operation ConnectedEnvironmentsStorages.beginDelete
+  - Added operation ConnectedEnvironmentsStorages.beginDeleteAndWait
+  - Added operation Jobs.beginResume
+  - Added operation Jobs.beginResumeAndWait
+  - Added operation Jobs.beginSuspend
+  - Added operation Jobs.beginSuspendAndWait
+  - Added Interface AppInsightsConfiguration
+  - Added Interface AppResiliency
+  - Added Interface AppResiliencyCollection
+  - Added Interface AppResiliencyCreateOrUpdateOptionalParams
+  - Added Interface AppResiliencyDeleteOptionalParams
+  - Added Interface AppResiliencyGetOptionalParams
+  - Added Interface AppResiliencyListOptionalParams
+  - Added Interface AppResiliencyUpdateOptionalParams
+  - Added Interface BuildAuthTokenListOptionalParams
+  - Added Interface BuildCollection
+  - Added Interface BuildConfiguration
+  - Added Interface BuilderCollection
+  - Added Interface BuilderResource
+  - Added Interface BuilderResourceUpdate
+  - Added Interface BuildersCreateOrUpdateHeaders
+  - Added Interface BuildersCreateOrUpdateOptionalParams
+  - Added Interface BuildersDeleteHeaders
+  - Added Interface BuildersDeleteOptionalParams
+  - Added Interface BuildersGetOptionalParams
+  - Added Interface BuildersListByResourceGroupOptionalParams
+  - Added Interface BuildersListBySubscriptionOptionalParams
+  - Added Interface BuildersUpdateHeaders
+  - Added Interface BuildersUpdateOptionalParams
+  - Added Interface BuildResource
+  - Added Interface BuildsByBuilderResourceListOptionalParams
+  - Added Interface BuildsCreateOrUpdateHeaders
+  - Added Interface BuildsCreateOrUpdateOptionalParams
+  - Added Interface BuildsDeleteHeaders
+  - Added Interface BuildsDeleteOptionalParams
+  - Added Interface BuildsGetOptionalParams
+  - Added Interface BuildToken
+  - Added Interface CircuitBreakerPolicy
+  - Added Interface ConnectedEnvironmentDaprComponent
+  - Added Interface ConnectedEnvironmentDaprComponentProperties
+  - Added Interface ConnectedEnvironmentDaprComponentsCollection
+  - Added Interface ConnectedEnvironmentPatchResource
+  - Added Interface ConnectedEnvironmentsCertificatesDeleteHeaders
+  - Added Interface ConnectedEnvironmentsCertificatesUpdateHeaders
+  - Added Interface ConnectedEnvironmentsDaprComponentsDeleteHeaders
+  - Added Interface ConnectedEnvironmentsStoragesDeleteHeaders
+  - Added Interface ContainerAppPropertiesPatchingConfiguration
+  - Added Interface ContainerAppsBuildCollection
+  - Added Interface ContainerAppsBuildConfiguration
+  - Added Interface ContainerAppsBuildResource
+  - Added Interface ContainerAppsBuildsByContainerAppListOptionalParams
+  - Added Interface ContainerAppsBuildsDeleteHeaders
+  - Added Interface ContainerAppsBuildsDeleteOptionalParams
+  - Added Interface ContainerAppsBuildsGetOptionalParams
+  - Added Interface ContainerAppsLabelHistoryDeleteLabelHistoryOptionalParams
+  - Added Interface ContainerAppsLabelHistoryGetLabelHistoryOptionalParams
+  - Added Interface ContainerAppsLabelHistoryListLabelHistoryOptionalParams
+  - Added Interface ContainerAppsPatchesApplyHeaders
+  - Added Interface ContainerAppsPatchesApplyOptionalParams
+  - Added Interface ContainerAppsPatchesDeleteHeaders
+  - Added Interface ContainerAppsPatchesDeleteOptionalParams
+  - Added Interface ContainerAppsPatchesGetOptionalParams
+  - Added Interface ContainerAppsPatchesListByContainerAppOptionalParams
+  - Added Interface ContainerAppsPatchesSkipConfigureHeaders
+  - Added Interface ContainerAppsPatchesSkipConfigureOptionalParams
+  - Added Interface ContainerAppsPatchResource
+  - Added Interface ContainerExecutionStatus
+  - Added Interface ContainerRegistry
+  - Added Interface ContainerRegistryWithCustomImage
+  - Added Interface DaprAppHealth
+  - Added Interface DaprComponentProperties
+  - Added Interface DaprComponentResiliencyPoliciesCollection
+  - Added Interface DaprComponentResiliencyPoliciesCreateOrUpdateOptionalParams
+  - Added Interface DaprComponentResiliencyPoliciesDeleteOptionalParams
+  - Added Interface DaprComponentResiliencyPoliciesGetOptionalParams
+  - Added Interface DaprComponentResiliencyPoliciesListOptionalParams
+  - Added Interface DaprComponentResiliencyPolicy
+  - Added Interface DaprComponentResiliencyPolicyCircuitBreakerPolicyConfiguration
+  - Added Interface DaprComponentResiliencyPolicyConfiguration
+  - Added Interface DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration
+  - Added Interface DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration
+  - Added Interface DaprComponentResiliencyPolicyTimeoutPolicyConfiguration
+  - Added Interface DaprComponentServiceBinding
+  - Added Interface DaprServiceBindMetadata
+  - Added Interface DaprSubscription
+  - Added Interface DaprSubscriptionBulkSubscribeOptions
+  - Added Interface DaprSubscriptionRouteRule
+  - Added Interface DaprSubscriptionRoutes
+  - Added Interface DaprSubscriptionsCollection
+  - Added Interface DaprSubscriptionsCreateOrUpdateOptionalParams
+  - Added Interface DaprSubscriptionsDeleteOptionalParams
+  - Added Interface DaprSubscriptionsGetOptionalParams
+  - Added Interface DaprSubscriptionsListOptionalParams
+  - Added Interface DataDogConfiguration
+  - Added Interface DestinationsConfiguration
+  - Added Interface DiskEncryptionConfiguration
+  - Added Interface DiskEncryptionConfigurationKeyVaultConfiguration
+  - Added Interface DiskEncryptionConfigurationKeyVaultConfigurationAuth
+  - Added Interface DotNetComponent
+  - Added Interface DotNetComponentConfigurationProperty
+  - Added Interface DotNetComponentsCollection
+  - Added Interface DotNetComponentsCreateOrUpdateOptionalParams
+  - Added Interface DotNetComponentsDeleteHeaders
+  - Added Interface DotNetComponentsDeleteOptionalParams
+  - Added Interface DotNetComponentServiceBind
+  - Added Interface DotNetComponentsGetOptionalParams
+  - Added Interface DotNetComponentsListOptionalParams
+  - Added Interface DotNetComponentsUpdateHeaders
+  - Added Interface DotNetComponentsUpdateOptionalParams
+  - Added Interface EnvironmentVariable
+  - Added Interface ErrorEntity
+  - Added Interface ExecutionStatus
+  - Added Interface FunctionsExtensionInvokeFunctionsHostOptionalParams
+  - Added Interface Header
+  - Added Interface HeaderMatch
+  - Added Interface HttpConnectionPool
+  - Added Interface HttpGet
+  - Added Interface HttpRetryPolicy
+  - Added Interface HttpRoute
+  - Added Interface HttpRouteAction
+  - Added Interface HttpRouteConfig
+  - Added Interface HttpRouteConfigCollection
+  - Added Interface HttpRouteConfigCreateOrUpdateOptionalParams
+  - Added Interface HttpRouteConfigDeleteOptionalParams
+  - Added Interface HttpRouteConfigGetOptionalParams
+  - Added Interface HttpRouteConfigListOptionalParams
+  - Added Interface HttpRouteConfigProperties
+  - Added Interface HttpRouteConfigUpdateOptionalParams
+  - Added Interface HttpRouteMatch
+  - Added Interface HttpRouteProvisioningErrors
+  - Added Interface HttpRouteRule
+  - Added Interface HttpRouteTarget
+  - Added Interface IngressConfiguration
+  - Added Interface IngressConfigurationScale
+  - Added Interface JobsResumeHeaders
+  - Added Interface JobsResumeOptionalParams
+  - Added Interface JobsSuspendHeaders
+  - Added Interface JobsSuspendOptionalParams
+  - Added Interface LabelHistory
+  - Added Interface LabelHistoryCollection
+  - Added Interface LabelHistoryProperties
+  - Added Interface LabelHistoryRecordItem
+  - Added Interface LoggerSetting
+  - Added Interface LogicApp
+  - Added Interface LogicAppsCreateOrUpdateOptionalParams
+  - Added Interface LogicAppsDeleteOptionalParams
+  - Added Interface LogicAppsDeployWorkflowArtifactsOptionalParams
+  - Added Interface LogicAppsGetOptionalParams
+  - Added Interface LogicAppsGetWorkflowOptionalParams
+  - Added Interface LogicAppsInvokeOptionalParams
+  - Added Interface LogicAppsListWorkflowsConnectionsOptionalParams
+  - Added Interface LogicAppsListWorkflowsOptionalParams
+  - Added Interface LogsConfiguration
+  - Added Interface MaintenanceConfigurationCollection
+  - Added Interface MaintenanceConfigurationResource
+  - Added Interface MaintenanceConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface MaintenanceConfigurationsDeleteOptionalParams
+  - Added Interface MaintenanceConfigurationsGetOptionalParams
+  - Added Interface MaintenanceConfigurationsListOptionalParams
+  - Added Interface ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  - Added Interface ManagedEnvironmentPrivateEndpointConnectionsDeleteHeaders
+  - Added Interface ManagedEnvironmentPrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface ManagedEnvironmentPrivateEndpointConnectionsGetOptionalParams
+  - Added Interface ManagedEnvironmentPrivateEndpointConnectionsListOptionalParams
+  - Added Interface ManagedEnvironmentPrivateLinkResourcesListOptionalParams
+  - Added Interface MetricsConfiguration
+  - Added Interface NacosComponent
+  - Added Interface OpenTelemetryConfiguration
+  - Added Interface OtlpConfiguration
+  - Added Interface PatchCollection
+  - Added Interface PatchDetails
+  - Added Interface PatchDetailsNewLayer
+  - Added Interface PatchDetailsOldLayer
+  - Added Interface PatchProperties
+  - Added Interface PatchSkipConfig
+  - Added Interface PreBuildStep
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionListResult
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceListResult
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface ReplicaExecutionStatus
+  - Added Interface ResourceTags
+  - Added Interface RuntimeDotnet
+  - Added Interface RuntimeJavaAgent
+  - Added Interface RuntimeJavaAgentLogging
+  - Added Interface ScgRoute
+  - Added Interface ScheduledEntry
+  - Added Interface SecretKeyVaultProperties
+  - Added Interface SessionProbe
+  - Added Interface SessionProbeHttpGet
+  - Added Interface SessionProbeHttpGetHttpHeadersItem
+  - Added Interface SessionProbeTcpSocket
+  - Added Interface SmbStorage
+  - Added Interface SpringCloudGatewayComponent
+  - Added Interface TcpConnectionPool
+  - Added Interface TcpRetryPolicy
+  - Added Interface TimeoutPolicy
+  - Added Interface TracesConfiguration
+  - Added Interface WorkflowArtifacts
+  - Added Interface WorkflowEnvelope
+  - Added Interface WorkflowEnvelopeCollection
+  - Added Interface WorkflowEnvelopeProperties
+  - Added Interface WorkflowHealth
+  - Interface AzureFileProperties has a new optional parameter accountKeyVaultProperties
+  - Interface BaseContainer has a new optional parameter imageType
+  - Interface BlobStorageTokenStore has a new optional parameter blobContainerUri
+  - Interface BlobStorageTokenStore has a new optional parameter clientId
+  - Interface BlobStorageTokenStore has a new optional parameter managedIdentityResourceId
+  - Interface CertificateProperties has a new optional parameter certificateType
+  - Interface CertificateProperties has a new optional parameter deploymentErrors
+  - Interface Configuration has a new optional parameter revisionTransitionThreshold
+  - Interface Configuration has a new optional parameter targetLabel
+  - Interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsCertificatesDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsCertificatesDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsCertificatesUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsCertificatesUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsDaprComponentsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsDaprComponentsDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentsStoragesDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ConnectedEnvironmentsStoragesDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ConnectedEnvironmentStorageProperties has a new optional parameter deploymentErrors
+  - Interface ConnectedEnvironmentStorageProperties has a new optional parameter provisioningState
+  - Interface ConnectedEnvironmentStorageProperties has a new optional parameter smb
+  - Interface ConnectedEnvironmentsUpdateOptionalParams has a new optional parameter environmentEnvelope
+  - Interface Container has a new optional parameter imageType
+  - Interface ContainerApp has a new optional parameter deploymentErrors
+  - Interface ContainerApp has a new optional parameter kind
+  - Interface ContainerApp has a new optional parameter patchingConfiguration
+  - Interface ContainerAppsSourceControlsCreateOrUpdateOptionalParams has a new optional parameter xMsGithubAuxiliary
+  - Interface ContainerAppsSourceControlsDeleteOptionalParams has a new optional parameter deleteWorkflow
+  - Interface ContainerAppsSourceControlsDeleteOptionalParams has a new optional parameter ignoreWorkflowDeletionFailure
+  - Interface ContainerAppsSourceControlsDeleteOptionalParams has a new optional parameter xMsGithubAuxiliary
+  - Interface ContainerResources has a new optional parameter gpu
+  - Interface Dapr has a new optional parameter appHealth
+  - Interface Dapr has a new optional parameter maxConcurrency
+  - Interface DaprComponent has a new optional parameter serviceComponentBind
+  - Interface GithubActionConfiguration has a new optional parameter buildEnvironmentVariables
+  - Interface GithubActionConfiguration has a new optional parameter dockerfilePath
+  - Interface Ingress has a new optional parameter targetPortHttpScheme
+  - Interface InitContainer has a new optional parameter imageType
+  - Interface Job has a new optional parameter extendedLocation
+  - Interface Job has a new optional parameter runningState
+  - Interface JobExecution has a new optional parameter detailedStatus
+  - Interface JobPatchProperties has a new optional parameter extendedLocation
+  - Interface LogAnalyticsConfiguration has a new optional parameter dynamicJsonColumns
+  - Interface ManagedEnvironment has a new optional parameter appInsightsConfiguration
+  - Interface ManagedEnvironment has a new optional parameter availabilityZones
+  - Interface ManagedEnvironment has a new optional parameter diskEncryptionConfiguration
+  - Interface ManagedEnvironment has a new optional parameter ingressConfiguration
+  - Interface ManagedEnvironment has a new optional parameter openTelemetryConfiguration
+  - Interface ManagedEnvironment has a new optional parameter privateEndpointConnections
+  - Interface ManagedEnvironment has a new optional parameter privateLinkDefaultDomain
+  - Interface ManagedEnvironment has a new optional parameter publicNetworkAccess
+  - Interface ReplicaContainer has a new optional parameter debugEndpoint
+  - Interface Revision has a new optional parameter labels
+  - Interface Runtime has a new optional parameter dotnet
+  - Interface RuntimeJava has a new optional parameter javaAgent
+  - Interface ServiceBind has a new optional parameter clientType
+  - Interface ServiceBind has a new optional parameter customizedKeys
+  - Interface SessionContainer has a new optional parameter probes
+  - Interface WorkloadProfile has a new optional parameter enableFips
+  - Added Type Alias AppResiliencyCreateOrUpdateResponse
+  - Added Type Alias AppResiliencyGetResponse
+  - Added Type Alias AppResiliencyListNextResponse
+  - Added Type Alias AppResiliencyListResponse
+  - Added Type Alias AppResiliencyUpdateResponse
+  - Added Type Alias BuildAuthTokenListResponse
+  - Added Type Alias BuilderProvisioningState
+  - Added Type Alias BuildersCreateOrUpdateResponse
+  - Added Type Alias BuildersDeleteResponse
+  - Added Type Alias BuildersGetResponse
+  - Added Type Alias BuildersListByResourceGroupNextResponse
+  - Added Type Alias BuildersListByResourceGroupResponse
+  - Added Type Alias BuildersListBySubscriptionNextResponse
+  - Added Type Alias BuildersListBySubscriptionResponse
+  - Added Type Alias BuildersUpdateResponse
+  - Added Type Alias BuildProvisioningState
+  - Added Type Alias BuildsByBuilderResourceListNextResponse
+  - Added Type Alias BuildsByBuilderResourceListResponse
+  - Added Type Alias BuildsCreateOrUpdateResponse
+  - Added Type Alias BuildsDeleteResponse
+  - Added Type Alias BuildsGetResponse
+  - Added Type Alias BuildStatus
+  - Added Type Alias CertificateType
+  - Added Type Alias ConnectedEnvironmentDaprComponentProvisioningState
+  - Added Type Alias ConnectedEnvironmentsCertificatesDeleteResponse
+  - Added Type Alias ConnectedEnvironmentsDaprComponentsDeleteResponse
+  - Added Type Alias ConnectedEnvironmentsStoragesDeleteResponse
+  - Added Type Alias ConnectedEnvironmentStorageProvisioningState
+  - Added Type Alias ContainerAppsBuildsByContainerAppListNextResponse
+  - Added Type Alias ContainerAppsBuildsByContainerAppListResponse
+  - Added Type Alias ContainerAppsBuildsDeleteResponse
+  - Added Type Alias ContainerAppsBuildsGetResponse
+  - Added Type Alias ContainerAppsLabelHistoryGetLabelHistoryResponse
+  - Added Type Alias ContainerAppsLabelHistoryListLabelHistoryNextResponse
+  - Added Type Alias ContainerAppsLabelHistoryListLabelHistoryResponse
+  - Added Type Alias ContainerAppsPatchesApplyResponse
+  - Added Type Alias ContainerAppsPatchesDeleteResponse
+  - Added Type Alias ContainerAppsPatchesGetResponse
+  - Added Type Alias ContainerAppsPatchesListByContainerAppNextResponse
+  - Added Type Alias ContainerAppsPatchesListByContainerAppResponse
+  - Added Type Alias ContainerAppsPatchesSkipConfigureResponse
+  - Added Type Alias DaprComponentResiliencyPoliciesCreateOrUpdateResponse
+  - Added Type Alias DaprComponentResiliencyPoliciesGetResponse
+  - Added Type Alias DaprComponentResiliencyPoliciesListNextResponse
+  - Added Type Alias DaprComponentResiliencyPoliciesListResponse
+  - Added Type Alias DaprSubscriptionsCreateOrUpdateResponse
+  - Added Type Alias DaprSubscriptionsGetResponse
+  - Added Type Alias DaprSubscriptionsListNextResponse
+  - Added Type Alias DaprSubscriptionsListResponse
+  - Added Type Alias DetectionStatus
+  - Added Type Alias DotNetComponentProvisioningState
+  - Added Type Alias DotNetComponentsCreateOrUpdateResponse
+  - Added Type Alias DotNetComponentsDeleteResponse
+  - Added Type Alias DotNetComponentsGetResponse
+  - Added Type Alias DotNetComponentsListNextResponse
+  - Added Type Alias DotNetComponentsListResponse
+  - Added Type Alias DotNetComponentsUpdateResponse
+  - Added Type Alias DotNetComponentType
+  - Added Type Alias FunctionsExtensionInvokeFunctionsHostResponse
+  - Added Type Alias HttpRouteConfigCreateOrUpdateResponse
+  - Added Type Alias HttpRouteConfigGetResponse
+  - Added Type Alias HttpRouteConfigListNextResponse
+  - Added Type Alias HttpRouteConfigListResponse
+  - Added Type Alias HttpRouteConfigUpdateResponse
+  - Added Type Alias HttpRouteProvisioningState
+  - Added Type Alias ImageType
+  - Added Type Alias IngressTargetPortHttpScheme
+  - Added Type Alias JobRunningState
+  - Added Type Alias JobsResumeResponse
+  - Added Type Alias JobsSuspendResponse
+  - Added Type Alias Kind
+  - Added Type Alias Level
+  - Added Type Alias LogicAppsCreateOrUpdateResponse
+  - Added Type Alias LogicAppsGetResponse
+  - Added Type Alias LogicAppsGetWorkflowResponse
+  - Added Type Alias LogicAppsInvokeResponse
+  - Added Type Alias LogicAppsListWorkflowsConnectionsResponse
+  - Added Type Alias LogicAppsListWorkflowsNextResponse
+  - Added Type Alias LogicAppsListWorkflowsResponse
+  - Added Type Alias LogicAppsProxyMethod
+  - Added Type Alias MaintenanceConfigurationsCreateOrUpdateResponse
+  - Added Type Alias MaintenanceConfigurationsGetResponse
+  - Added Type Alias MaintenanceConfigurationsListNextResponse
+  - Added Type Alias MaintenanceConfigurationsListResponse
+  - Added Type Alias ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse
+  - Added Type Alias ManagedEnvironmentPrivateEndpointConnectionsDeleteResponse
+  - Added Type Alias ManagedEnvironmentPrivateEndpointConnectionsGetResponse
+  - Added Type Alias ManagedEnvironmentPrivateEndpointConnectionsListNextResponse
+  - Added Type Alias ManagedEnvironmentPrivateEndpointConnectionsListResponse
+  - Added Type Alias ManagedEnvironmentPrivateLinkResourcesListNextResponse
+  - Added Type Alias ManagedEnvironmentPrivateLinkResourcesListResponse
+  - Added Type Alias PatchApplyStatus
+  - Added Type Alias PatchingMode
+  - Added Type Alias PatchType
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias SessionProbeType
+  - Added Type Alias Status
+  - Added Type Alias WeekDay
+  - Added Type Alias WorkflowHealthState
+  - Added Type Alias WorkflowState
+  - Added Enum KnownBuilderProvisioningState
+  - Added Enum KnownBuildProvisioningState
+  - Added Enum KnownBuildStatus
+  - Added Enum KnownCertificateType
+  - Added Enum KnownConnectedEnvironmentDaprComponentProvisioningState
+  - Added Enum KnownConnectedEnvironmentStorageProvisioningState
+  - Added Enum KnownDetectionStatus
+  - Added Enum KnownDotNetComponentProvisioningState
+  - Added Enum KnownDotNetComponentType
+  - Added Enum KnownHttpRouteProvisioningState
+  - Added Enum KnownImageType
+  - Added Enum KnownIngressTargetPortHttpScheme
+  - Added Enum KnownJobRunningState
+  - Added Enum KnownKind
+  - Added Enum KnownLevel
+  - Added Enum KnownLogicAppsProxyMethod
+  - Added Enum KnownPatchApplyStatus
+  - Added Enum KnownPatchingMode
+  - Added Enum KnownPatchType
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownSessionProbeType
+  - Added Enum KnownStatus
+  - Added Enum KnownWorkflowState
+  - Enum KnownActiveRevisionsMode has a new value Labels
+  - Enum KnownBindingType has a new value Auto
+  - Enum KnownCertificateProvisioningState has a new value Deleting
+  - Enum KnownJavaComponentType has a new value Nacos
+  - Enum KnownJavaComponentType has a new value SpringCloudGateway
+  - Enum KnownStorageType has a new value Smb
+
+### Breaking Changes
+  - Removed operation ConnectedEnvironmentsCertificates.createOrUpdate
+  - Removed operation ConnectedEnvironmentsCertificates.delete
+  - Removed operation ConnectedEnvironmentsCertificates.update
+  - Removed operation ConnectedEnvironmentsDaprComponents.createOrUpdate
+  - Removed operation ConnectedEnvironmentsDaprComponents.delete
+  - Removed operation ConnectedEnvironmentsStorages.createOrUpdate
+  - Removed operation ConnectedEnvironmentsStorages.delete
+  - Operation ContainerAppsAuthConfigs.createOrUpdate has a new signature
+  - Operation ContainerAppsAuthConfigs.get has a new signature
+  - Operation JavaComponents.beginCreateOrUpdate has a new signature
+  - Operation JavaComponents.beginCreateOrUpdateAndWait has a new signature
+  - Operation JavaComponents.beginUpdate has a new signature
+  - Operation JavaComponents.beginUpdateAndWait has a new signature
+  - Operation JavaComponents.get has a new signature
+  - Type of parameter componentType of interface JavaComponentProperties is changed from "SpringBootAdmin" | "SpringCloudEureka" | "SpringCloudConfig" to "SpringCloudGateway" | "SpringBootAdmin" | "Nacos" | "SpringCloudEureka" | "SpringCloudConfig"
+  - Parameter sasUrlSettingName of interface BlobStorageTokenStore is now optional
+  - Type alias "JavaComponentPropertiesUnion" has been changed
+
     
 ## 2.2.0 (2025-04-16)
     

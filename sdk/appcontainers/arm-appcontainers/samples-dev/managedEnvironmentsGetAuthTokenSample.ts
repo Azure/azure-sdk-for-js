@@ -5,7 +5,7 @@
  * This sample demonstrates how to Checks if resource name is available.
  *
  * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironments_GetAuthToken.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironments_GetAuthToken.json
  */
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
