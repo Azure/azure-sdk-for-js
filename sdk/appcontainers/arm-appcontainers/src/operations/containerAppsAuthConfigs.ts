@@ -50,11 +50,7 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
     containerAppName: string,
     options?: ContainerAppsAuthConfigsListByContainerAppOptionalParams,
   ): PagedAsyncIterableIterator<AuthConfig> {
-    const iter = this.listByContainerAppPagingAll(
-      resourceGroupName,
-      containerAppName,
-      options,
-    );
+    const iter = this.listByContainerAppPagingAll(resourceGroupName, containerAppName, options);
     return {
       next() {
         return iter.next();
@@ -85,11 +81,7 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
     let result: ContainerAppsAuthConfigsListByContainerAppResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByContainerApp(
-        resourceGroupName,
-        containerAppName,
-        options,
-      );
+      result = await this._listByContainerApp(resourceGroupName, containerAppName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -290,7 +282,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.containerAppName,
     Parameters.authConfigName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -330,8 +322,8 @@ const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
     Parameters.nextLink,
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

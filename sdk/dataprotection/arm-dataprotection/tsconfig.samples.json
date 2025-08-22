@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-dataprotection": [
-        "./dist/esm"
-      ]
+      "@azure/arm-dataprotection": ["./dist/esm"]
     }
   }
 }

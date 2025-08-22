@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how to create or replace a sent share
+ *
+ * @summary Create or replace a sent share
+ */
+
 import type {
   SentSharesCreateOrReplaceParameters,
   PurviewSharingClient,
@@ -15,11 +21,6 @@ import createPurviewSharingClient, {
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * This sample demonstrates how to create or replace a sent share
- *
- * @summary Create or replace a sent share
- */
 async function createOrReplaceSentShare(
   client: PurviewSharingClient,
   sentShareId: string,

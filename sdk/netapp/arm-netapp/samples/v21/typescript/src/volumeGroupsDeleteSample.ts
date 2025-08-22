@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Delete the specified volume group only if there are no volumes under volume group.
  *
  * @summary Delete the specified volume group only if there are no volumes under volume group.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/VolumeGroups_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/VolumeGroups_Delete.json
  */
 async function volumeGroupsDelete(): Promise<void> {
   const subscriptionId =

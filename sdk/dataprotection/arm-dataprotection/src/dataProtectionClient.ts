@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   BackupVaultsImpl,
@@ -80,10 +76,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     subscriptionId: string,
     options?: DataProtectionClientOptionalParams,
   );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: DataProtectionClientOptionalParams,
-  );
+  constructor(credentials: coreAuth.TokenCredential, options?: DataProtectionClientOptionalParams);
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: DataProtectionClientOptionalParams | string,
@@ -110,7 +103,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-dataprotection/2.1.1`;
+    const packageDetails = `azsdk-js-arm-dataprotection/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -122,8 +115,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -133,8 +125,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -150,11 +141,9 @@ export class DataProtectionClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -164,31 +153,22 @@ export class DataProtectionClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2025-07-01";
     this.backupVaults = new BackupVaultsImpl(this);
     this.operationResult = new OperationResultImpl(this);
     this.operationStatus = new OperationStatusImpl(this);
-    this.operationStatusBackupVaultContext =
-      new OperationStatusBackupVaultContextImpl(this);
-    this.operationStatusResourceGroupContext =
-      new OperationStatusResourceGroupContextImpl(this);
-    this.backupVaultOperationResults = new BackupVaultOperationResultsImpl(
-      this,
-    );
+    this.operationStatusBackupVaultContext = new OperationStatusBackupVaultContextImpl(this);
+    this.operationStatusResourceGroupContext = new OperationStatusResourceGroupContextImpl(this);
+    this.backupVaultOperationResults = new BackupVaultOperationResultsImpl(this);
     this.dataProtection = new DataProtectionImpl(this);
     this.dataProtectionOperations = new DataProtectionOperationsImpl(this);
     this.backupPolicies = new BackupPoliciesImpl(this);
     this.backupInstances = new BackupInstancesImpl(this);
     this.recoveryPoints = new RecoveryPointsImpl(this);
-    this.fetchSecondaryRecoveryPoints = new FetchSecondaryRecoveryPointsImpl(
-      this,
-    );
+    this.fetchSecondaryRecoveryPoints = new FetchSecondaryRecoveryPointsImpl(this);
     this.fetchCrossRegionRestoreJob = new FetchCrossRegionRestoreJobImpl(this);
-    this.fetchCrossRegionRestoreJobs = new FetchCrossRegionRestoreJobsImpl(
-      this,
-    );
-    this.backupInstancesExtensionRouting =
-      new BackupInstancesExtensionRoutingImpl(this);
+    this.fetchCrossRegionRestoreJobs = new FetchCrossRegionRestoreJobsImpl(this);
+    this.backupInstancesExtensionRouting = new BackupInstancesExtensionRoutingImpl(this);
     this.jobs = new JobsImpl(this);
     this.restorableTimeRanges = new RestorableTimeRangesImpl(this);
     this.exportJobs = new ExportJobsImpl(this);
@@ -206,10 +186,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {

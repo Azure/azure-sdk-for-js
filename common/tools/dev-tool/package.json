@@ -19,7 +19,7 @@
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint src test",
     "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
+    "pack": "pnpm pack 2>&1",
     "prebuild": "npm run clean",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
@@ -74,17 +74,17 @@
     "@types/express-serve-static-core": "^5.0.6",
     "@types/fs-extra": "^11.0.4",
     "@types/minimist": "^1.2.5",
-    "@types/node": "^20.0.0",
+    "@types/node": "catalog:",
     "@types/semver": "^7.7.0",
     "@types/unzipper": "~0.10.11",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "autorest": "^3.7.1",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "autorest": "catalog:",
     "builtin-modules": "^3.1.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.9.0",
+    "eslint": "catalog:",
     "mkdirp": "^3.0.1",
     "rimraf": "^5.0.5",
     "typescript-eslint": "~8.39.1",
-    "vitest": "^3.0.9"
+    "vitest": "catalog:testing"
   }
 }

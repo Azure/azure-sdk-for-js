@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to check if mongo cluster name is available for use.
  *
  * @summary check if mongo cluster name is available for use.
  * x-ms-original-file: 2025-07-01-preview/MongoClusters_NameAvailability.json
  */
+
+import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function checksAndConfirmsTheMongoClusterNameIsAvailabilityForUse(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";

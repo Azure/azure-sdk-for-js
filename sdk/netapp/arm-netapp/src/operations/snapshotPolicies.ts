@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   SnapshotPolicy,
@@ -70,12 +66,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -96,11 +87,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
     accountName: string,
     options?: SnapshotPoliciesListOptionalParams,
   ): AsyncIterableIterator<SnapshotPolicy> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
       yield* page;
     }
   }
@@ -177,10 +164,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
     body: SnapshotPolicyPatch,
     options?: SnapshotPoliciesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotPoliciesUpdateResponse>,
-      SnapshotPoliciesUpdateResponse
-    >
+    SimplePollerLike<OperationState<SnapshotPoliciesUpdateResponse>, SnapshotPoliciesUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -192,8 +176,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -291,8 +274,7 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

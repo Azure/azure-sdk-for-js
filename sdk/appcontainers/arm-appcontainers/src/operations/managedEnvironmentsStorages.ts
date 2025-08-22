@@ -23,9 +23,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing ManagedEnvironmentsStorages operations. */
-export class ManagedEnvironmentsStoragesImpl
-  implements ManagedEnvironmentsStorages
-{
+export class ManagedEnvironmentsStoragesImpl implements ManagedEnvironmentsStorages {
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -171,6 +169,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedEnvironmentStorage,
     },
+    201: {
+      bodyMapper: Mappers.ManagedEnvironmentStorage,
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
@@ -184,7 +185,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.storageName,
     Parameters.environmentName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

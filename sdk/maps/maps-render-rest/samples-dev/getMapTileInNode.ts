@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary How to get the map tile and store it as a file in **Node.js**.
+ */
+
 import { DefaultAzureCredential } from "@azure/identity";
 import { createWriteStream } from "node:fs";
 import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
 
-/**
- * @summary How to get the map tile and store it as a file in **Node.js**.
- */
 async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
