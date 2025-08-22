@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//---------------------
+// ---------------------
 // interfaces
-//---------------------
+// ---------------------
 interface ValueOptions {
   isFirst: boolean; // is first value in the expression
   op?: string; // operator
@@ -171,7 +171,8 @@ export function expandUrlTemplate(
     }
     let op;
     if (["+", "#", ".", "/", ";", "?", "&"].includes(expr[0])) {
-      ((op = expr[0]), (expr = expr.slice(1)));
+      op = expr[0];
+      expr = expr.slice(1);
     }
     const varList = expr.split(/,/g);
     const result = [];
