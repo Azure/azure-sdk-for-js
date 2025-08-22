@@ -69,20 +69,4 @@ export class CloudRoleExample {
       console.error("Error configuring Azure Monitor:", error);
     }
   }
-
-  static showCloudRoleInfo() {
-    console.log("\n📋 Cloud Role Configuration Info:");
-    console.log("🎯 Cloud Role Name uses:");
-    console.log("   - service.namespace + service.name (preferred)");
-    console.log("   - service.name (fallback if namespace not set)");
-    console.log("🆔 Cloud Role Instance uses:");
-    console.log("   - service.instance.id");
-    console.log("\n🗺️  These values appear in the Application Map in Azure Portal");
-    console.log("📊 They help identify different services and instances in distributed systems");
-  }
-}
-
-// Usage instructions
-if (require.main === module) {
-  CloudRoleExample.showCloudRoleInfo();
 }

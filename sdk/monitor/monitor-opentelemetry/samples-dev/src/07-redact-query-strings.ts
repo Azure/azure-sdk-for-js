@@ -8,68 +8,68 @@
  */
 
 /**
- * Custom span processor that redacts query strings from HTTP attributes
+ * Factory function to create a RedactQueryStringProcessor with proper types
  */
-import { Span, Context } from "@opentelemetry/api";
-class RedactQueryStringProcessor {
-  private semanticConventions: any;
+async function createRedactQueryStringProcessor() {
+  // Import semantic conventions  
+  const semanticConventions = await import("@opentelemetry/semantic-conventions");
+  
+  // For TypeScript interface/type, we need to use a different approach
+  // Since Span is an interface, we'll use it as a type annotation when available
+  type SpanLike = {
+    attributes: Record<string, any>;
+  };
 
-  constructor() {
-    // Load semantic conventions asynchronously during construction
-    this.loadSemanticConventions();
-  }
+  /**
+   * Custom span processor that redacts query strings from HTTP attributes
+   */
+  class RedactQueryStringProcessor {
+    forceFlush() {
+      return Promise.resolve();
+    }
 
-  private async loadSemanticConventions() {
-    try {
-      this.semanticConventions = await import("@opentelemetry/semantic-conventions");
-    } catch (error) {
-      console.error("Failed to load semantic conventions:", error);
+    onStart(span: any, parentContext: any) {
+      // No action needed on span start
+      return;
+    }
+
+    shutdown() {
+      return Promise.resolve();
+    }
+
+    onEnd(span: SpanLike) {
+      // Use imported semantic conventions
+      const SEMATTRS_HTTP_ROUTE = semanticConventions.SEMATTRS_HTTP_ROUTE || "http.route";
+      const SEMATTRS_HTTP_TARGET = semanticConventions.SEMATTRS_HTTP_TARGET || "http.target";
+      const SEMATTRS_HTTP_URL = semanticConventions.SEMATTRS_HTTP_URL || "http.url";
+
+      // Find the index of the query string separator '?' in each HTTP attribute
+      const httpRouteIndex = String(span.attributes[SEMATTRS_HTTP_ROUTE] || "").indexOf("?");
+      const httpUrlIndex = String(span.attributes[SEMATTRS_HTTP_URL] || "").indexOf("?");
+      const httpTargetIndex = String(span.attributes[SEMATTRS_HTTP_TARGET] || "").indexOf("?");
+
+      // Remove query strings by keeping only the part before '?'
+      if (httpRouteIndex !== -1) {
+        span.attributes[SEMATTRS_HTTP_ROUTE] = String(span.attributes[SEMATTRS_HTTP_ROUTE]).substring(
+          0,
+          httpRouteIndex,
+        );
+      }
+      if (httpUrlIndex !== -1) {
+        span.attributes[SEMATTRS_HTTP_URL] = String(span.attributes[SEMATTRS_HTTP_URL]).substring(
+          0,
+          httpUrlIndex,
+        );
+      }
+      if (httpTargetIndex !== -1) {
+        span.attributes[SEMATTRS_HTTP_TARGET] = String(
+          span.attributes[SEMATTRS_HTTP_TARGET],
+        ).substring(0, httpTargetIndex);
+      }
     }
   }
 
-  forceFlush() {
-    return Promise.resolve();
-  }
-
-  onStart(span: Span, parentContext: Context) {
-    // No action needed on span start
-    return;
-  }
-
-  shutdown() {
-    return Promise.resolve();
-  }
-
-  onEnd(span: Span) {
-    // Use cached semantic conventions or fallback to string constants
-    const SEMATTRS_HTTP_ROUTE = this.semanticConventions?.SEMATTRS_HTTP_ROUTE || "http.route";
-    const SEMATTRS_HTTP_TARGET = this.semanticConventions?.SEMATTRS_HTTP_TARGET || "http.target";
-    const SEMATTRS_HTTP_URL = this.semanticConventions?.SEMATTRS_HTTP_URL || "http.url";
-
-    // Find the index of the query string separator '?' in each HTTP attribute
-    const httpRouteIndex = String(span.attributes[SEMATTRS_HTTP_ROUTE] || "").indexOf("?");
-    const httpUrlIndex = String(span.attributes[SEMATTRS_HTTP_URL] || "").indexOf("?");
-    const httpTargetIndex = String(span.attributes[SEMATTRS_HTTP_TARGET] || "").indexOf("?");
-
-    // Remove query strings by keeping only the part before '?'
-    if (httpRouteIndex !== -1) {
-      span.attributes[SEMATTRS_HTTP_ROUTE] = String(span.attributes[SEMATTRS_HTTP_ROUTE]).substring(
-        0,
-        httpRouteIndex,
-      );
-    }
-    if (httpUrlIndex !== -1) {
-      span.attributes[SEMATTRS_HTTP_URL] = String(span.attributes[SEMATTRS_HTTP_URL]).substring(
-        0,
-        httpUrlIndex,
-      );
-    }
-    if (httpTargetIndex !== -1) {
-      span.attributes[SEMATTRS_HTTP_TARGET] = String(
-        span.attributes[SEMATTRS_HTTP_TARGET],
-      ).substring(0, httpTargetIndex);
-    }
-  }
+  return new RedactQueryStringProcessor();
 }
 
 export class RedactQueryStringExample {
@@ -78,13 +78,16 @@ export class RedactQueryStringExample {
     const { useAzureMonitor } = await import("@azure/monitor-opentelemetry");
 
     try {
+      // Create the redact processor with proper types
+      const redactProcessor = await createRedactQueryStringProcessor();
+
       // Configure Azure Monitor with query string redaction
       const options = {
         azureMonitorExporterOptions: {
           connectionString:
             process.env.APPLICATIONINSIGHTS_CONNECTION_STRING || "<your connection string>",
         },
-        spanProcessors: [new RedactQueryStringProcessor()],
+        spanProcessors: [redactProcessor],
       };
 
       // Enable Azure Monitor integration with query string redaction
@@ -128,30 +131,4 @@ export class RedactQueryStringExample {
       console.error("Error configuring Azure Monitor:", error);
     }
   }
-
-  static showRedactionInfo() {
-    console.log("\nQuery String Redaction Information:");
-    console.log("Why redact query strings?");
-    console.log("   - Protect sensitive information (SAS tokens, API keys)");
-    console.log("   - Comply with data privacy requirements");
-    console.log("   - Prevent accidental exposure in logs and telemetry");
-    console.log("\nWhat gets redacted:");
-    console.log('   - Everything after "?" in URLs');
-    console.log("   - Affects http.route, http.url, and http.target attributes");
-    console.log("   - Applied during span processing");
-    console.log("\nImplementation:");
-    console.log("   - Custom SpanProcessor implementation");
-    console.log("   - Processes spans when they end");
-    console.log("   - Modifies attributes before export");
-    console.log("\nCommon use cases:");
-    console.log("   - Azure Storage with SAS tokens");
-    console.log("   - APIs with authentication tokens");
-    console.log("   - Search queries with sensitive terms");
-    console.log("   - Any URL parameters containing secrets");
-  }
-}
-
-// Usage instructions
-if (require.main === module) {
-  RedactQueryStringExample.showRedactionInfo();
 }

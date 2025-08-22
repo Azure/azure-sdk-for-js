@@ -82,29 +82,4 @@ export class OtlpExporterExample {
     );
     console.log("\n3. Configure collector to receive OTLP data");
   }
-
-  static showOtlpInfo() {
-    console.log("\nOTLP Exporter Information:");
-    console.log("Purpose:");
-    console.log("   - Send telemetry to multiple destinations");
-    console.log("   - Vendor-neutral telemetry export");
-    console.log("   - Support for custom collectors and backends");
-    console.log("\nImportant Notes:");
-    console.log("   - OTLP Exporter shown for convenience only");
-    console.log("   - Not officially supported by Azure Monitor team");
-    console.log("   - Third-party components downstream not supported");
-    console.log("\nCommon OTLP Endpoints:");
-    console.log("   - HTTP: http://localhost:4318/v1/traces");
-    console.log("   - gRPC: http://localhost:4317");
-    console.log("   - Custom: Configure based on your collector setup");
-    console.log("\nResources:");
-    console.log("   - OpenTelemetry Collector: https://opentelemetry.io/docs/collector/");
-    console.log("   - OTLP Specification: https://opentelemetry.io/docs/specs/otlp/");
-    console.log("   - Example on GitHub: opentelemetry-js/examples/otlp-exporter-node");
-  }
-}
-
-// Usage instructions
-if (require.main === module) {
-  OtlpExporterExample.showOtlpInfo();
 }

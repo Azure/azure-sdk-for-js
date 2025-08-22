@@ -48,28 +48,4 @@ export class SamplingExample {
       console.error("Error configuring Azure Monitor:", error);
     }
   }
-
-  static showSamplingInfo() {
-    console.log("\nSampling Configuration Guide:");
-    console.log("Sample Rate Range: 0.0 to 1.0 (inclusive)");
-    console.log("   - 0.05 = 5% sampling (recommended starting point)");
-    console.log("   - 0.1 = 10% sampling");
-    console.log("   - 0.5 = 50% sampling");
-    console.log("   - 1.0 = 100% sampling (no sampling)");
-    console.log("\nTips:");
-    console.log("   - Start with 5% (0.05) if unsure");
-    console.log("   - Higher rates = higher accuracy, higher costs");
-    console.log("   - Metrics and Logs are unaffected by sampling");
-    console.log("   - Alert on OpenTelemetry metrics for unaffected monitoring");
-    console.log("\nThe fixed-rate sampler:");
-    console.log("   - Populates events with sampling ratio");
-    console.log("   - Converts to ItemCount in Application Insights");
-    console.log("   - Preserves traces across services");
-    console.log("   - Interoperable with older Application Insights SDKs");
-  }
-}
-
-// Usage instructions
-if (require.main === module) {
-  SamplingExample.showSamplingInfo();
 }

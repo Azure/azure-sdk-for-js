@@ -10,11 +10,11 @@
 export class CustomMetricExample {
   static async run(): Promise<void> {
     // Import dependencies using dynamic imports for universal compatibility
-    const { useAzureMonitor, AzureMonitorOpenTelemetryOptions } = await import("@azure/monitor-opentelemetry");
+    const { useAzureMonitor } = await import("@azure/monitor-opentelemetry");
     const { metrics } = await import("@opentelemetry/api");
     const express = (await import("express")).default;
 
-    const options: AzureMonitorOpenTelemetryOptions = {
+    const options: any = {
       azureMonitorExporterOptions: {
         connectionString:
           process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
@@ -35,7 +35,7 @@ export class CustomMetricExample {
     }
 
     async function setupRoutes(): Promise<void> {
-      await app.get("/", async (_req: Request, res: Response) => {
+      await app.get("/", async (_req: any, res: any) => {
         await metricExport().then(() => {
           res.send("Metrics sent to Azure Monitor");
         });

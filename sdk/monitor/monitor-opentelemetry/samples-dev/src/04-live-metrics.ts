@@ -99,29 +99,4 @@ export class LiveMetricsExample {
       console.error("Error configuring Azure Monitor:", error);
     }
   }
-
-  static showLiveMetricsInfo() {
-    console.log("\nLive Metrics Information:");
-    console.log("What is Live Metrics?");
-    console.log("   - Real-time analytics dashboard");
-    console.log("   - Insight into application activity and performance");
-    console.log("   - Near real-time monitoring (< 1 second latency)");
-    console.log("\nWhat you can see:");
-    console.log("   - Incoming request rate");
-    console.log("   - Failed request rate");
-    console.log("   - Outgoing request rate");
-    console.log("   - Overall health");
-    console.log("   - Server performance counters");
-    console.log("\nImportant Notes:");
-    console.log("   - Currently in Preview");
-    console.log("   - See Supplemental Terms of Use for Microsoft Azure Previews");
-    console.log("   - Can be enabled/disabled via enableLiveMetrics property");
-    console.log("\nAccess Live Metrics:");
-    console.log("   Azure Portal > Application Insights > Live Metrics Stream");
-  }
-}
-
-// Usage instructions
-if (require.main === module) {
-  LiveMetricsExample.showLiveMetricsInfo();
 }

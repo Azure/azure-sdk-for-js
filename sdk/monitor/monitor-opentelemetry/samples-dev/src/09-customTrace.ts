@@ -10,14 +10,13 @@
 export class CustomTraceExample {
   static async run(): Promise<void> {
     // Import dependencies using dynamic imports for universal compatibility
-    const { context, trace, Span } = await import("@opentelemetry/api");
+    const { context, trace } = await import("@opentelemetry/api");
     const {
       useAzureMonitor,
       shutdownAzureMonitor,
-      AzureMonitorOpenTelemetryOptions,
     } = await import("@azure/monitor-opentelemetry");
 
-    const options: AzureMonitorOpenTelemetryOptions = {
+    const options: any = {
       azureMonitorExporterOptions: {
         connectionString:
           process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
@@ -26,25 +25,25 @@ export class CustomTraceExample {
 
     useAzureMonitor(options);
 
-    console.log("🔍 Custom Trace Example");
+    console.log("Custom Trace Example");
     console.log("Generating custom traces and spans...");
 
     try {
-      await CustomTraceExample.generateTraces();
-      console.log("✅ Custom traces generated successfully");
-      console.log("📊 Check Azure Application Insights to see the traces");
+      await CustomTraceExample.generateTraces(trace, context);
+      console.log("Custom traces generated successfully");
+      console.log("Check Azure Application Insights to see the traces");
 
       // Wait a bit for traces to be sent
       await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
-      console.error("❌ Error generating custom traces:", error);
+      console.error("Error generating custom traces:", error);
       throw error;
     } finally {
       await shutdownAzureMonitor();
     }
   }
 
-  private static async generateTraces(): Promise<void> {
+  private static async generateTraces(trace: any, context: any): Promise<void> {
     // Get Tracer and create Span
     const tracer = trace.getTracer("testTracer");
     // Create a span. A span must be closed.
@@ -52,7 +51,7 @@ export class CustomTraceExample {
 
     try {
       for (let i = 0; i < 10; i += 1) {
-        CustomTraceExample.doWork(parentSpan);
+        CustomTraceExample.doWork(parentSpan, trace, context);
       }
     } finally {
       // Be sure to end the span.
@@ -60,7 +59,7 @@ export class CustomTraceExample {
     }
   }
 
-  private static doWork(parent: Span): void {
+  private static doWork(parent: any, trace: any, context: any): void {
     // Start another span. In this example, the main method already started a
     // span, so that'll be the parent span, and this will be a child span.
     const ctx = trace.setSpan(context.active(), parent);

@@ -98,31 +98,4 @@ export class OfflineStorageExample {
       );
     }
   }
-
-  static showOfflineStorageInfo() {
-    console.log("\nOffline Storage Information:");
-    console.log("Purpose:");
-    console.log("   - Cache telemetry when disconnected from Application Insights");
-    console.log("   - Automatic retry for up to 48 hours");
-    console.log("   - Ensure no telemetry data is lost");
-    console.log("\nDefault Storage Locations:");
-    console.log("   Windows: %TEMP%\\Microsoft\\AzureMonitor");
-    console.log("   Non-Windows: %TMPDIR%/Microsoft/AzureMonitor");
-    console.log("   Fallback: /var/tmp/Microsoft/AzureMonitor");
-    console.log("\nConfiguration Options:");
-    console.log("   - storageDirectory: Custom storage path");
-    console.log("   - disableOfflineStorage: Disable the feature");
-    console.log("\nBehavior:");
-    console.log("   - High-load apps may drop telemetry (time/size limits)");
-    console.log("   - Recent events prioritized over old ones");
-    console.log("   - Automatic cleanup of old cache files");
-    console.log("\n🔒 Data Handling:");
-    console.log('   - See "Export and delete private data" documentation');
-    console.log("   - Consider data privacy requirements for cache location");
-  }
-}
-
-// Usage instructions
-if (require.main === module) {
-  OfflineStorageExample.showOfflineStorageInfo();
 }
