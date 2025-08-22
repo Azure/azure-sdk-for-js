@@ -100,13 +100,13 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   if (isSyntheticSource(span.attributes)) {
     tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
-  
+
   // Check for microsoft.client.ip first - this takes precedence over all other IP logic
   const microsoftClientIp = span.attributes[MICROSOFT_CLIENT_IP];
   if (microsoftClientIp) {
     tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
   }
-  
+
   if (span.kind === SpanKind.SERVER) {
     const httpMethod = getHttpMethod(span.attributes);
     // Only use the fallback IP logic for server spans if microsoft.client.ip is not set
