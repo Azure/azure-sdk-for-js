@@ -214,6 +214,12 @@ export const httpSemanticValues = [
 ];
 
 /**
+ * Microsoft client IP attribute name
+ * @internal
+ */
+export const MICROSOFT_CLIENT_IP = "microsoft.client.ip";
+
+/**
  * Internal Microsoft attributes
  * @internal
  */

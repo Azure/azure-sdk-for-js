@@ -25,7 +25,7 @@ import {
   ATTR_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
 import type { Measurements, Properties, Tags } from "../types.js";
-import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "../types.js";
+import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths, MICROSOFT_CLIENT_IP } from "../types.js";
 import type { Attributes } from "@opentelemetry/api";
 import { diag } from "@opentelemetry/api";
 import {
@@ -42,7 +42,6 @@ import {
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
 } from "./constants/applicationinsights.js";
-import { getLocationIp } from "./spanUtils.js";
 
 /**
  * Log to Azure envelope parsing.
@@ -154,7 +153,13 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
   if (isSyntheticSource(log.attributes as Attributes)) {
     tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
-  getLocationIp(tags, log.attributes as Attributes);
+  
+  // Set ai.location.ip from microsoft.client.ip if it exists
+  const microsoftClientIp = log.attributes?.[MICROSOFT_CLIENT_IP];
+  if (microsoftClientIp) {
+    tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
+  }
+  
   return tags;
 }
 
