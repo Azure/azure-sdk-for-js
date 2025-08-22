@@ -23,7 +23,7 @@
     "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
-    "test:node:live": "dev-tool run test:vitest --esm --no-test-proxy -- \"test/internal/functional/*.test.ts\"",
+    "test:node:live": "dev-tool run test:vitest --no-test-proxy -- \"test/internal/functional/*.test.ts\"",
     "update-snippets": "dev-tool run update-snippets"
   },
   "engines": {

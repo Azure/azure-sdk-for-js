@@ -98,7 +98,7 @@
     "generate:client": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:vitest --esm",
+    "integration-test:node": "dev-tool run test:vitest",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
     "minify": "echo skipped",
