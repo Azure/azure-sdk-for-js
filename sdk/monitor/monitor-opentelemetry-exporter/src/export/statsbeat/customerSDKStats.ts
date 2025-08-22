@@ -9,7 +9,7 @@ import type { AzureMonitorExporterOptions } from "../../index.js";
 import * as ai from "../../utils/constants/applicationinsights.js";
 import { StatsbeatMetrics } from "./statsbeatMetrics.js";
 import type { CustomerSDKStatsProperties, StatsbeatOptions } from "./types.js";
-import { CustomerSDKStats, DropCode, RetryCode } from "./types.js";
+import { CustomerSDKStats, DropCode, RetryCode, ExceptionType } from "./types.js";
 import { CustomSDKStatsCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./types.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
@@ -268,7 +268,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     envelopes: Envelope[],
     dropCode: DropCode | number,
     exceptionMessage?: string,
-    exceptionType?: string,
+    exceptionType?: ExceptionType,
   ): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
@@ -305,7 +305,11 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * @param exceptionType - Optional explicit exception type override for CLIENT_EXCEPTION
    * @returns A descriptive reason string with low cardinality
    */
-  private getDropReason(dropCode: DropCode | number, exceptionMessage?: string, exceptionType?: string): string {
+  private getDropReason(
+    dropCode: DropCode | number,
+    exceptionMessage?: string,
+    exceptionType?: ExceptionType,
+  ): string {
     if (dropCode === DropCode.CLIENT_EXCEPTION) {
       // If an explicit exception type is provided, use it
       if (exceptionType) {
@@ -342,11 +346,11 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * @param exceptionMessage - The exception message to categorize
    * @returns A well-known exception category string
    */
-  private categorizeExceptionMessage(exceptionMessage: string): string {
+  private categorizeExceptionMessage(exceptionMessage: string): ExceptionType {
     const message = exceptionMessage.toLowerCase();
 
     if (message.includes("timeout") || message.includes("timed out")) {
-      return "Timeout exception";
+      return ExceptionType.TIMEOUT_EXCEPTION;
     }
     if (
       message.includes("network") ||
@@ -354,7 +358,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       message.includes("dns") ||
       message.includes("socket")
     ) {
-      return "Network exception";
+      return ExceptionType.NETWORK_EXCEPTION;
     }
     if (
       message.includes("disk") ||
@@ -362,11 +366,11 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       message.includes("file") ||
       message.includes("persist")
     ) {
-      return "Storage exception";
+      return ExceptionType.STORAGE_EXCEPTION;
     }
 
     // Default to Client exception for any other cases
-    return "Client exception";
+    return ExceptionType.CLIENT_EXCEPTION;
   }
 
   /**
@@ -424,7 +428,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     envelopes: Envelope[],
     retryCode: RetryCode | number,
     exceptionMessage?: string,
-    exceptionType?: string,
+    exceptionType?: ExceptionType,
   ): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
@@ -461,7 +465,11 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * @param exceptionType - Optional explicit exception type override for CLIENT_EXCEPTION
    * @returns A descriptive reason string with low cardinality
    */
-  private getRetryReason(retryCode: RetryCode | number, exceptionMessage?: string, exceptionType?: string): string {
+  private getRetryReason(
+    retryCode: RetryCode | number,
+    exceptionMessage?: string,
+    exceptionType?: ExceptionType,
+  ): string {
     if (retryCode === RetryCode.CLIENT_EXCEPTION) {
       // If an explicit exception type is provided, use it
       if (exceptionType) {

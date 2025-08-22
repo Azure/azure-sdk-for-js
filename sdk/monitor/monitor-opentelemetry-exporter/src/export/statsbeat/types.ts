@@ -223,6 +223,17 @@ export enum StatsbeatFeatureType {
 }
 
 /**
+ * Exception types for client exceptions
+ * @internal
+ */
+export enum ExceptionType {
+  CLIENT_EXCEPTION = "Client exception",
+  NETWORK_EXCEPTION = "Network exception",
+  STORAGE_EXCEPTION = "Storage exception",
+  TIMEOUT_EXCEPTION = "Timeout exception",
+}
+
+/**
  * Status codes indicating that we should shutdown statsbeat
  * @internal
  */

@@ -741,6 +741,7 @@ describe("BaseSender", () => {
         envelopes,
         "CLIENT_EXCEPTION",
         "Circular redirect",
+        "Client exception",
       );
     });
 
@@ -771,6 +772,8 @@ describe("BaseSender", () => {
       expect(mockCustomerSDKStatsMetrics.countDroppedItems).toHaveBeenCalledWith(
         envelopes,
         "CLIENT_EXCEPTION",
+        undefined,
+        "Network exception",
       );
     });
 
