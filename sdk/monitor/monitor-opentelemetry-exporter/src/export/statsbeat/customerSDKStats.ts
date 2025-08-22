@@ -261,13 +261,14 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Tracks dropped items
    * @param envelopes - Number of envelopes dropped
    * @param dropCode - The drop code indicating the reason for drop
-   * @param telemetry_type - The type of telemetry being tracked
    * @param exceptionMessage - Optional exception message when dropCode is CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override when dropCode is CLIENT_EXCEPTION
    */
   public countDroppedItems(
     envelopes: Envelope[],
     dropCode: DropCode | number,
     exceptionMessage?: string,
+    exceptionType?: string,
   ): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
@@ -289,7 +290,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       }
 
       // Generate a low-cardinality, informative reason description
-      const reason = this.getDropReason(dropCode, exceptionMessage);
+      const reason = this.getDropReason(dropCode, exceptionMessage, exceptionType);
 
       // Update the count for this reason
       const currentCount = reasonMap.get(reason) || 0;
@@ -301,10 +302,15 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Generates a low-cardinality, informative description for drop reasons
    * @param dropCode - The drop code (enum value or status code number)
    * @param exceptionMessage - Optional exception message for CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override for CLIENT_EXCEPTION
    * @returns A descriptive reason string with low cardinality
    */
-  private getDropReason(dropCode: DropCode | number, exceptionMessage?: string): string {
+  private getDropReason(dropCode: DropCode | number, exceptionMessage?: string, exceptionType?: string): string {
     if (dropCode === DropCode.CLIENT_EXCEPTION) {
+      // If an explicit exception type is provided, use it
+      if (exceptionType) {
+        return exceptionType;
+      }
       // For client exceptions, derive a well-known exception category from the exception message
       if (exceptionMessage) {
         return this.categorizeExceptionMessage(exceptionMessage);
@@ -351,37 +357,12 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       return "Network exception";
     }
     if (
-      message.includes("auth") ||
-      message.includes("unauthorized") ||
-      message.includes("forbidden") ||
-      message.includes("authentication") ||
-      message.includes("authorization")
-    ) {
-      return "Auth exception";
-    }
-    if (
-      message.includes("parsing") ||
-      message.includes("parse") ||
-      message.includes("invalid") ||
-      message.includes("json") ||
-      message.includes("xml")
-    ) {
-      return "Parse exception";
-    }
-    if (
       message.includes("disk") ||
       message.includes("storage") ||
       message.includes("file") ||
       message.includes("persist")
     ) {
       return "Storage exception";
-    }
-    if (
-      message.includes("memory") ||
-      message.includes("out of memory") ||
-      message.includes("heap")
-    ) {
-      return "Memory exception";
     }
 
     // Default to Client exception for any other cases
@@ -436,13 +417,14 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Tracks retried envelopes
    * @param envelopes - Number of envelopes retried
    * @param retryCode - The retry code indicating the reason for retry
-   * @param telemetry_type - The type of telemetry being tracked
    * @param exceptionMessage - Optional exception message when retryCode is CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override when retryCode is CLIENT_EXCEPTION
    */
   public countRetryItems(
     envelopes: Envelope[],
     retryCode: RetryCode | number,
     exceptionMessage?: string,
+    exceptionType?: string,
   ): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
@@ -464,7 +446,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       }
 
       // Generate a low-cardinality, informative reason description
-      const reason = this.getRetryReason(retryCode, exceptionMessage);
+      const reason = this.getRetryReason(retryCode, exceptionMessage, exceptionType);
 
       // Update the count for this reason
       const currentCount = reasonMap.get(reason) || 0;
@@ -476,10 +458,15 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Generates a low-cardinality, informative description for retry reasons
    * @param retryCode - The retry code (enum value or status code number)
    * @param exceptionMessage - Optional exception message for CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override for CLIENT_EXCEPTION
    * @returns A descriptive reason string with low cardinality
    */
-  private getRetryReason(retryCode: RetryCode | number, exceptionMessage?: string): string {
+  private getRetryReason(retryCode: RetryCode | number, exceptionMessage?: string, exceptionType?: string): string {
     if (retryCode === RetryCode.CLIENT_EXCEPTION) {
+      // If an explicit exception type is provided, use it
+      if (exceptionType) {
+        return exceptionType;
+      }
       // For client exceptions, derive a low-cardinality reason from the exception message
       if (exceptionMessage) {
         return this.categorizeExceptionMessage(exceptionMessage);

@@ -196,6 +196,7 @@ export class FileSystemPersist implements PersistentStorage {
         envelopes,
         DropCode.CLIENT_EXCEPTION,
         writeError?.message,
+        "Storage exception",
       );
       diag.warn(`Error writing file to persistent file storage`, writeError);
       return false;

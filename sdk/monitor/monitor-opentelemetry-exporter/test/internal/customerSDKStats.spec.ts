@@ -611,7 +611,7 @@ describe("CustomerSDKStatsMetrics", () => {
         2,
         expect.objectContaining({
           "retry.code": RetryCode.CLIENT_EXCEPTION,
-          "retry.reason": "Auth exception",
+          "retry.reason": "Client exception",
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
