@@ -24638,7 +24638,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
       '@azure/core-util':
-        specifier: ^1.13.0
+        specifier: workspace:^
         version: link:../../core/core-util
       '@azure/dev-tool':
         specifier: workspace:^
