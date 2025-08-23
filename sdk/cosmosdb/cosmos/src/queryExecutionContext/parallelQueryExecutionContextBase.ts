@@ -109,7 +109,18 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         // Compare based on minInclusive values to ensure left-to-right range traversal
         const aMinInclusive = a.targetPartitionKeyRange.minInclusive;
         const bMinInclusive = b.targetPartitionKeyRange.minInclusive;
-        return bMinInclusive.localeCompare(aMinInclusive);
+        const minInclusiveComparison = bMinInclusive.localeCompare(aMinInclusive);
+        
+        // If minInclusive values are the same, check minEPK ranges if they exist
+        if (minInclusiveComparison === 0) {
+          const aMinEpk = a.startEpk;
+          const bMinEpk = b.startEpk;
+          if (aMinEpk && bMinEpk) {
+            return bMinEpk.localeCompare(aMinEpk);
+          }
+        }
+        
+        return minInclusiveComparison;
       },
     );
     // The comparator is supplied by the derived class

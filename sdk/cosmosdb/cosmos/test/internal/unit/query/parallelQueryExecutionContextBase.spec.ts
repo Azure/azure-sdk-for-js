@@ -676,5 +676,180 @@ describe("parallelQueryExecutionContextBase", () => {
       // Verify that empty string comes first, then lexicographic order
       assert.deepEqual(orderedRanges, ["", "00", "AA", "FF"]);
     });
+
+    it("should use EPK ranges for secondary comparison when minInclusive values are identical", async () => {
+      const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 4 };
+      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+
+      // Create partition key ranges with identical minInclusive but different EPK ranges
+      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "AA", "BB");
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "AA", "BB"); 
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "AA", "BB");
+      const mockPartitionKeyRange4 = createMockPartitionKeyRange("range4", "AA", "BB");
+
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3, mockPartitionKeyRange4],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub,
+      } as unknown as QueryIterator<PartitionKeyRange>);
+
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+        result: [] as unknown as Resource,
+        headers: {
+          "x-ms-request-charge": "2.0",
+          "x-ms-continuation": undefined,
+        },
+        code: 200,
+      });
+
+      // Mock the SmartRoutingMapProvider to return ranges in specific order
+      vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockResolvedValue([
+        mockPartitionKeyRange1, 
+        mockPartitionKeyRange2, 
+        mockPartitionKeyRange3, 
+        mockPartitionKeyRange4
+      ]);
+
+      // Mock the _createTargetPartitionQueryExecutionContext to return DocumentProducers with specific EPK values
+      const originalCreateMethod = TestParallelQueryExecutionContext.prototype['_createTargetPartitionQueryExecutionContext'];
+      vi.spyOn(TestParallelQueryExecutionContext.prototype, '_createTargetPartitionQueryExecutionContext' as any)
+        .mockImplementation(function(this: any, partitionKeyTargetRange: any, continuationToken?: any, startEpk?: string, endEpk?: string) {
+          // Create mock DocumentProducer with specific EPK values based on range ID
+          const mockDocumentProducer = {
+            targetPartitionKeyRange: partitionKeyTargetRange,
+            continuationToken: continuationToken,
+            // Set different EPK values for secondary sorting
+            startEpk: partitionKeyTargetRange.id === "range1" ? "epk-ZZ" :  // Should be last
+                     partitionKeyTargetRange.id === "range2" ? "epk-AA" :  // Should be first
+                     partitionKeyTargetRange.id === "range3" ? "epk-BB" :  // Should be second
+                     partitionKeyTargetRange.id === "range4" ? "epk-CC" :  // Should be third
+                     undefined,
+            endEpk: endEpk,
+            populateEpkRangeHeaders: !!(startEpk && endEpk),
+            hasMoreResults: vi.fn().mockReturnValue(false),
+            bufferMore: vi.fn().mockResolvedValue({}),
+            peakNextItem: vi.fn().mockReturnValue(undefined),
+            fetchNextItem: vi.fn().mockResolvedValue({ result: undefined, headers: {} }),
+            fetchBufferedItems: vi.fn().mockResolvedValue({ result: [], headers: {} })
+          };
+          return mockDocumentProducer;
+        });
+
+      const context = new TestParallelQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        options,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+      );
+
+      // Wait for initialization
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      assert.equal(context["unfilledDocumentProducersQueue"].size(), 4);
+
+      // Extract items and verify EPK-based ordering when minInclusive is the same
+      const orderedEpkRanges: string[] = [];
+      const orderedRangeIds: string[] = [];
+      while (context["unfilledDocumentProducersQueue"].size() > 0) {
+        const documentProducer = context["unfilledDocumentProducersQueue"].deq();
+        orderedEpkRanges.push(documentProducer.startEpk || "none");
+        orderedRangeIds.push(documentProducer.targetPartitionKeyRange.id);
+      }
+
+      // Verify that ranges are ordered by EPK values when minInclusive is identical
+      // Expected order: range2 (epk-AA), range3 (epk-BB), range4 (epk-CC), range1 (epk-ZZ)
+      assert.deepEqual(orderedRangeIds, ["range2", "range3", "range4", "range1"]);
+      assert.deepEqual(orderedEpkRanges, ["epk-AA", "epk-BB", "epk-CC", "epk-ZZ"]);
+
+      // Restore the original method
+      vi.restoreAllMocks();
+    });
+
+    it("should fall back to minInclusive comparison when EPK ranges are missing", async () => {
+      const options: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 3 };
+      const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
+
+      // Create partition key ranges with identical minInclusive and no EPK ranges
+      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "AA", "BB");
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "AA", "BB");
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "CC", "DD"); // Different minInclusive
+
+      const fetchAllInternalStub = vi.fn().mockResolvedValue({
+        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3],
+        headers: { "x-ms-request-charge": "1.23" },
+        code: 200,
+      });
+
+      vi.spyOn(clientContext, "queryPartitionKeyRanges").mockReturnValue({
+        fetchAllInternal: fetchAllInternalStub,
+      } as unknown as QueryIterator<PartitionKeyRange>);
+
+      vi.spyOn(clientContext, "queryFeed").mockResolvedValue({
+        result: [] as unknown as Resource,
+        headers: {
+          "x-ms-request-charge": "2.0",
+          "x-ms-continuation": undefined,
+        },
+        code: 200,
+      });
+
+      vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockResolvedValue([
+        mockPartitionKeyRange1, 
+        mockPartitionKeyRange2, 
+        mockPartitionKeyRange3
+      ]);
+
+      // Mock to return DocumentProducers without EPK values
+      vi.spyOn(TestParallelQueryExecutionContext.prototype, '_createTargetPartitionQueryExecutionContext' as any)
+        .mockImplementation(function(this: any, partitionKeyTargetRange: any, continuationToken?: any) {
+          const mockDocumentProducer = {
+            targetPartitionKeyRange: partitionKeyTargetRange,
+            continuationToken: continuationToken,
+            startEpk: undefined, // No EPK values
+            endEpk: undefined,
+            hasMoreResults: vi.fn().mockReturnValue(false),
+            bufferMore: vi.fn().mockResolvedValue({}),
+            peakNextItem: vi.fn().mockReturnValue(undefined),
+            fetchNextItem: vi.fn().mockResolvedValue({ result: undefined, headers: {} }),
+            fetchBufferedItems: vi.fn().mockResolvedValue({ result: [], headers: {} })
+          };
+          return mockDocumentProducer;
+        });
+
+      const context = new TestParallelQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        query,
+        options,
+        partitionedQueryExecutionInfo,
+        correlatedActivityId,
+      );
+
+      // Wait for initialization
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      assert.equal(context["unfilledDocumentProducersQueue"].size(), 3);
+
+      // Extract items and verify fallback to minInclusive ordering
+      const orderedMinInclusive: string[] = [];
+      while (context["unfilledDocumentProducersQueue"].size() > 0) {
+        const documentProducer = context["unfilledDocumentProducersQueue"].deq();
+        orderedMinInclusive.push(documentProducer.targetPartitionKeyRange.minInclusive);
+      }
+
+      // Should prioritize CC over AA ranges, and maintain original order for identical AA ranges
+      // Since priority queue returns them in reverse order for same priority, we expect AA ranges first, then CC
+      assert.equal(orderedMinInclusive[0], "AA");
+      assert.equal(orderedMinInclusive[1], "AA");
+      assert.equal(orderedMinInclusive[2], "CC");
+
+      vi.restoreAllMocks();
+    });
   });
 });
