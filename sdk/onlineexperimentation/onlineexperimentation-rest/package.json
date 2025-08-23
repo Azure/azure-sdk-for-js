@@ -8,6 +8,7 @@
   "sideEffects": false,
   "autoPublish": false,
   "tshy": {
+    "project": "../../../tsconfig.src.build.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
