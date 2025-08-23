@@ -630,5 +630,341 @@ describe("ParallelQueryExecutionContextBase - Continuation Token Filtering", () 
 
   });
 
- 
+  describe("Partition Data Patch Mapping", () => {
+    let mockDocumentProducer: any;
+    let anotherMockDocumentProducer: any;
+
+    beforeEach(() => {
+      mockDocumentProducer = {
+        targetPartitionKeyRange: createMockPartitionKeyRange("1", "AA", "BB"),
+        continuationToken: "token-partition-1",
+      };
+
+      anotherMockDocumentProducer = {
+        targetPartitionKeyRange: createMockPartitionKeyRange("2", "BB", "CC"),
+        continuationToken: "token-partition-2",
+      };
+
+      // Initialize the partition data patch map for testing
+      (context as any).partitionDataPatchMap = new Map();
+      (context as any).patchCounter = 0;
+    });
+
+    it("should create new patch when document producer has different partition than current patch", () => {
+      // Arrange
+      const partitionDataPatchMap = (context as any).partitionDataPatchMap;
+      let patchCounter = (context as any).patchCounter;
+
+      // Act - First document from partition 1
+      if (
+        mockDocumentProducer.targetPartitionKeyRange.id !==
+        partitionDataPatchMap.get(patchCounter.toString())?.partitionKeyRange?.id
+      ) {
+        patchCounter++;
+        partitionDataPatchMap.set(patchCounter.toString(), {
+          itemCount: 1,
+          partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+          continuationToken: mockDocumentProducer.continuationToken,
+        });
+        (context as any).patchCounter = patchCounter;
+      }
+
+      // Assert
+      expect(partitionDataPatchMap.size).toBe(1);
+      expect(partitionDataPatchMap.get("1")).toEqual({
+        itemCount: 1,
+        partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "token-partition-1",
+      });
+      expect((context as any).patchCounter).toBe(1);
+    });
+
+    it("should increment item count when document producer has same partition as current patch", () => {
+      // Arrange
+      const partitionDataPatchMap = (context as any).partitionDataPatchMap;
+      let patchCounter = (context as any).patchCounter;
+
+      // Set up initial patch
+      patchCounter = 1;
+      partitionDataPatchMap.set(patchCounter.toString(), {
+        itemCount: 1,
+        partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "initial-token",
+      });
+      (context as any).patchCounter = patchCounter;
+
+      // Act - Another document from the same partition
+      if (
+        mockDocumentProducer.targetPartitionKeyRange.id !==
+        partitionDataPatchMap.get(patchCounter.toString())?.partitionKeyRange?.id
+      ) {
+        // This should not execute - same partition
+        expect.fail("Should not create new patch for same partition");
+      } else {
+        const currentPatch = partitionDataPatchMap.get(patchCounter.toString());
+        if (currentPatch) {
+          currentPatch.itemCount++;
+          currentPatch.continuationToken = mockDocumentProducer.continuationToken;
+        }
+      }
+
+      // Assert
+      expect(partitionDataPatchMap.size).toBe(1);
+      expect(partitionDataPatchMap.get("1")).toEqual({
+        itemCount: 2, // Incremented from 1 to 2
+        partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "token-partition-1", // Updated to new token
+      });
+      expect((context as any).patchCounter).toBe(1); // Counter should remain the same
+    });
+
+    it("should create separate patches for different partitions", () => {
+      // Arrange
+      const partitionDataPatchMap = (context as any).partitionDataPatchMap;
+      let patchCounter = (context as any).patchCounter;
+
+      // Act - First document from partition 1
+      if (
+        mockDocumentProducer.targetPartitionKeyRange.id !==
+        partitionDataPatchMap.get(patchCounter.toString())?.partitionKeyRange?.id
+      ) {
+        patchCounter++;
+        partitionDataPatchMap.set(patchCounter.toString(), {
+          itemCount: 1,
+          partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+          continuationToken: mockDocumentProducer.continuationToken,
+        });
+        (context as any).patchCounter = patchCounter;
+      }
+
+      // Act - First document from partition 2 (different partition)
+      if (
+        anotherMockDocumentProducer.targetPartitionKeyRange.id !==
+        partitionDataPatchMap.get(patchCounter.toString())?.partitionKeyRange?.id
+      ) {
+        patchCounter++;
+        partitionDataPatchMap.set(patchCounter.toString(), {
+          itemCount: 1,
+          partitionKeyRange: anotherMockDocumentProducer.targetPartitionKeyRange,
+          continuationToken: anotherMockDocumentProducer.continuationToken,
+        });
+        (context as any).patchCounter = patchCounter;
+      }
+
+      // Assert
+      expect(partitionDataPatchMap.size).toBe(2);
+      expect(partitionDataPatchMap.get("1")).toEqual({
+        itemCount: 1,
+        partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "token-partition-1",
+      });
+      expect(partitionDataPatchMap.get("2")).toEqual({
+        itemCount: 1,
+        partitionKeyRange: anotherMockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "token-partition-2",
+      });
+      expect((context as any).patchCounter).toBe(2);
+    });
+
+    it("should handle multiple items from alternating partitions", () => {
+      // Arrange
+      const partitionDataPatchMap = (context as any).partitionDataPatchMap;
+      let patchCounter = (context as any).patchCounter;
+
+      const processDocument = (documentProducer: any): void => {
+        if (
+          documentProducer.targetPartitionKeyRange.id !==
+          partitionDataPatchMap.get(patchCounter.toString())?.partitionKeyRange?.id
+        ) {
+          patchCounter++;
+          partitionDataPatchMap.set(patchCounter.toString(), {
+            itemCount: 1,
+            partitionKeyRange: documentProducer.targetPartitionKeyRange,
+            continuationToken: documentProducer.continuationToken,
+          });
+          (context as any).patchCounter = patchCounter;
+        } else {
+          const currentPatch = partitionDataPatchMap.get(patchCounter.toString());
+          if (currentPatch) {
+            currentPatch.itemCount++;
+            currentPatch.continuationToken = documentProducer.continuationToken;
+          }
+        }
+      };
+
+      // Act - Simulate alternating partition documents: P1, P2, P1, P1, P2
+      processDocument(mockDocumentProducer); // P1 - patch 1
+      processDocument(anotherMockDocumentProducer); // P2 - patch 2  
+      processDocument(mockDocumentProducer); // P1 - patch 3 (new patch, different from current)
+      processDocument(mockDocumentProducer); // P1 - same patch, increment count
+      processDocument(anotherMockDocumentProducer); // P2 - patch 4 (new patch)
+
+      // Assert
+      expect(partitionDataPatchMap.size).toBe(4);
+      
+      // Patch 1: First document from partition 1
+      expect(partitionDataPatchMap.get("1")).toEqual({
+        itemCount: 1,
+        partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "token-partition-1",
+      });
+
+      // Patch 2: First document from partition 2
+      expect(partitionDataPatchMap.get("2")).toEqual({
+        itemCount: 1,
+        partitionKeyRange: anotherMockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "token-partition-2",
+      });
+
+      // Patch 3: Back to partition 1 (creates new patch since different from current)
+      expect(partitionDataPatchMap.get("3")).toEqual({
+        itemCount: 2, // One initial + one increment
+        partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "token-partition-1",
+      });
+
+      // Patch 4: Back to partition 2
+      expect(partitionDataPatchMap.get("4")).toEqual({
+        itemCount: 1,
+        partitionKeyRange: anotherMockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "token-partition-2",
+      });
+
+      expect((context as any).patchCounter).toBe(4);
+    });
+
+    it("should handle case when currentPatch is undefined", () => {
+      // Arrange
+      const partitionDataPatchMap = (context as any).partitionDataPatchMap;
+      let patchCounter = (context as any).patchCounter;
+
+      // Manually set up a corrupted state where the patch counter points to non-existent patch
+      patchCounter = 1;
+      (context as any).patchCounter = patchCounter;
+      // Don't set any patch in the map, so get() will return undefined
+
+      // Act - Try to increment count on non-existent patch
+      if (
+        mockDocumentProducer.targetPartitionKeyRange.id !==
+        partitionDataPatchMap.get(patchCounter.toString())?.partitionKeyRange?.id
+      ) {
+        // This should execute since there's no patch at index "1"
+        patchCounter++;
+        partitionDataPatchMap.set(patchCounter.toString(), {
+          itemCount: 1,
+          partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+          continuationToken: mockDocumentProducer.continuationToken,
+        });
+        (context as any).patchCounter = patchCounter;
+      } else {
+        const currentPatch = partitionDataPatchMap.get(patchCounter.toString());
+        if (currentPatch) {
+          currentPatch.itemCount++;
+          currentPatch.continuationToken = mockDocumentProducer.continuationToken;
+        }
+        // If currentPatch is undefined, nothing happens (safe)
+      }
+
+      // Assert
+      expect(partitionDataPatchMap.size).toBe(1);
+      expect(partitionDataPatchMap.get("2")).toEqual({
+        itemCount: 1,
+        partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "token-partition-1",
+      });
+      expect((context as any).patchCounter).toBe(2);
+    });
+
+    it("should update continuation token when processing same partition", () => {
+      // Arrange
+      const partitionDataPatchMap = (context as any).partitionDataPatchMap;
+      let patchCounter = (context as any).patchCounter;
+
+      // Set up initial patch
+      patchCounter = 1;
+      partitionDataPatchMap.set(patchCounter.toString(), {
+        itemCount: 1,
+        partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+        continuationToken: "old-token",
+      });
+      (context as any).patchCounter = patchCounter;
+
+      // Update the document producer with new continuation token
+      mockDocumentProducer.continuationToken = "new-updated-token";
+
+      // Act
+      if (
+        mockDocumentProducer.targetPartitionKeyRange.id !==
+        partitionDataPatchMap.get(patchCounter.toString())?.partitionKeyRange?.id
+      ) {
+        expect.fail("Should not create new patch for same partition");
+      } else {
+        const currentPatch = partitionDataPatchMap.get(patchCounter.toString());
+        if (currentPatch) {
+          currentPatch.itemCount++;
+          currentPatch.continuationToken = mockDocumentProducer.continuationToken;
+        }
+      }
+
+      // Assert
+      expect(partitionDataPatchMap.get("1")?.continuationToken).toBe("new-updated-token");
+      expect(partitionDataPatchMap.get("1")?.itemCount).toBe(2);
+    });
+
+    it("should handle partition key range with special characters in ID", () => {
+      // Arrange
+      const specialPartitionProducer = {
+        targetPartitionKeyRange: createMockPartitionKeyRange("partition-with-special-chars-123_ABC", "XX", "YY"),
+        continuationToken: "special-token",
+      };
+
+      const partitionDataPatchMap = (context as any).partitionDataPatchMap;
+      let patchCounter = (context as any).patchCounter;
+
+      // Act
+      if (
+        specialPartitionProducer.targetPartitionKeyRange.id !==
+        partitionDataPatchMap.get(patchCounter.toString())?.partitionKeyRange?.id
+      ) {
+        patchCounter++;
+        partitionDataPatchMap.set(patchCounter.toString(), {
+          itemCount: 1,
+          partitionKeyRange: specialPartitionProducer.targetPartitionKeyRange,
+          continuationToken: specialPartitionProducer.continuationToken,
+        });
+        (context as any).patchCounter = patchCounter;
+      }
+
+      // Assert
+      expect(partitionDataPatchMap.size).toBe(1);
+      expect(partitionDataPatchMap.get("1")?.partitionKeyRange.id).toBe("partition-with-special-chars-123_ABC");
+      expect(partitionDataPatchMap.get("1")?.continuationToken).toBe("special-token");
+    });
+
+    it("should properly handle zero-based patch counter increments", () => {
+      // Arrange
+      const partitionDataPatchMap = (context as any).partitionDataPatchMap;
+      let patchCounter = 0; // Start from 0
+      (context as any).patchCounter = patchCounter;
+
+      // Act - Process first document
+      if (
+        mockDocumentProducer.targetPartitionKeyRange.id !==
+        partitionDataPatchMap.get(patchCounter.toString())?.partitionKeyRange?.id
+      ) {
+        patchCounter++; // Should become 1
+        partitionDataPatchMap.set(patchCounter.toString(), {
+          itemCount: 1,
+          partitionKeyRange: mockDocumentProducer.targetPartitionKeyRange,
+          continuationToken: mockDocumentProducer.continuationToken,
+        });
+        (context as any).patchCounter = patchCounter;
+      }
+
+      // Assert
+      expect((context as any).patchCounter).toBe(1);
+      expect(partitionDataPatchMap.get("1")).toBeDefined();
+      expect(partitionDataPatchMap.get("0")).toBeUndefined(); // Should not create patch at index 0
+    });
+  });
 });

@@ -49,7 +49,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private bufferedDocumentProducersQueue: PriorityQueue<DocumentProducer>;
   // TODO: update type of buffer from any --> generic can be used here
   private buffer: any[];
-  private patchToRangeMapping: Map<string, QueryRangeMapping> = new Map();
+  private partitionDataPatchMap: Map<string, QueryRangeMapping> = new Map();
   private patchCounter: number = 0;
   private sem: any;
   protected continuationTokenManager: ContinuationTokenManager;
@@ -476,19 +476,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     );
   }
 
-  /**
-   * Gets the continuation token manager for this execution context
-   * @returns The continuation token manager instance
-   */
-  public getContinuationTokenManager(): ContinuationTokenManager | undefined {
+  private getContinuationTokenManager(): ContinuationTokenManager | undefined {
     return this.continuationTokenManager;
   }
 
-  /**
-   * Gets the current continuation token string from the token manager
-   * @returns Current continuation token string or undefined
-   */
-  public getCurrentContinuationToken(): string | undefined {
+  private getCurrentContinuationToken(): string | undefined {
     return this.continuationTokenManager?.getTokenString();
   }
 
@@ -572,12 +564,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const bufferedResults = this.buffer;
         this.buffer = [];
         // reset the patchToRangeMapping
-        const patchToRangeMapping = this.patchToRangeMapping;
-        this.patchToRangeMapping = new Map<string, QueryRangeMapping>();
+        const partitionDataPatchMap = this.partitionDataPatchMap;
+        this.partitionDataPatchMap = new Map<string, QueryRangeMapping>();
         this.patchCounter = 0;
         
         // Update continuation token manager with the current partition mappings
-        this.continuationTokenManager?.setPartitionKeyRangeMap(patchToRangeMapping);
+        this.continuationTokenManager?.setPartitionKeyRangeMap(partitionDataPatchMap);
 
         // release the lock before returning
         this.sem.leave();
@@ -660,7 +652,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               } else {
                 // Track document producer with no results in patchToRangeMapping
                 // This represents a scanned partition that yielded no results
-                this.patchToRangeMapping.set(this.patchCounter.toString(), {
+                this.partitionDataPatchMap.set(this.patchCounter.toString(), {
                   itemCount: 0, // 0 items for empty result set
                   partitionKeyRange: documentProducer.targetPartitionKeyRange,
                   continuationToken: documentProducer.continuationToken,
@@ -748,22 +740,19 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
               if (result) {
                 this.buffer.push(result);
-                if (
-                  documentProducer.targetPartitionKeyRange.id !==
-                  this.patchToRangeMapping.get(this.patchCounter.toString())?.partitionKeyRange?.id
-                ) {
-                  this.patchCounter++;
-                  this.patchToRangeMapping.set(this.patchCounter.toString(), {
-                    itemCount: 1, // Start with 1 item for new patch
+                // Update PartitionDataPatchMap
+                const currentPatch = this.partitionDataPatchMap.get(this.patchCounter.toString());
+                const isSamePartition = currentPatch?.partitionKeyRange?.id === documentProducer.targetPartitionKeyRange.id;
+                
+                if (!isSamePartition) {
+                  this.partitionDataPatchMap.set((++this.patchCounter).toString(), {
+                    itemCount: 1,
                     partitionKeyRange: documentProducer.targetPartitionKeyRange,
                     continuationToken: documentProducer.continuationToken,
                   });
-                } else {
-                  const currentPatch = this.patchToRangeMapping.get(this.patchCounter.toString());
-                  if (currentPatch) {
-                    currentPatch.itemCount++; // Increment item count for same partition
-                    currentPatch.continuationToken = documentProducer.continuationToken;
-                  }
+                } else if (currentPatch) {
+                  currentPatch.itemCount++;
+                  currentPatch.continuationToken = documentProducer.continuationToken;
                 }
               }
               if (documentProducer.peakNextItem() !== undefined) {
@@ -779,23 +768,17 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               const documentProducer = this.bufferedDocumentProducersQueue.deq();
               const { result, headers } = await documentProducer.fetchBufferedItems();
               this._mergeWithActiveResponseHeaders(headers);
-              if (result && result.length > 0) {
+              
+              // add a marker to buffer stating the partition key range and continuation token
+              this.partitionDataPatchMap.set((++this.patchCounter).toString(), {
+                itemCount: result?.length || 0, // Use actual result length for item count, 0 if no results
+                partitionKeyRange: documentProducer.targetPartitionKeyRange,
+                continuationToken: documentProducer.continuationToken,
+              });
+              
+              if (result?.length > 0) {
                 this.buffer.push(...result);
-                // add a marker to buffer stating the partition key range and continuation token
-                this.patchToRangeMapping.set(this.patchCounter.toString(), {
-                  itemCount: result.length, // Use actual result length for item count
-                  partitionKeyRange: documentProducer.targetPartitionKeyRange,
-                  continuationToken: documentProducer.continuationToken,
-                });
-              } else {
-                // Document producer returned empty results - still track it in patchToRangeMapping
-                this.patchToRangeMapping.set(this.patchCounter.toString(), {
-                  itemCount: 0, // 0 items for empty result set
-                  partitionKeyRange: documentProducer.targetPartitionKeyRange,
-                  continuationToken: documentProducer.continuationToken,
-                });
               }
-              this.patchCounter++;
               if (documentProducer.hasMoreResults()) {
                 this.unfilledDocumentProducersQueue.enq(documentProducer);
               }
