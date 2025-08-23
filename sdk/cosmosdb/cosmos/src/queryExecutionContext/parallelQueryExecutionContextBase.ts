@@ -172,8 +172,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             const filterCondition = filteringConditions ? filteringConditions[index] : undefined;
 
             // Extract EPK values from the partition range if available
-            const startEpk = partitionTargetRange.epkMin || undefined;
-            const endEpk = partitionTargetRange.epkMax || undefined;
+            const startEpk = partitionTargetRange.epkMin;
+            const endEpk = partitionTargetRange.epkMax;
 
             console.log(
               `Creating document producer for range ${partitionTargetRange.id}: ` +
@@ -228,10 +228,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     dp2: DocumentProducer,
   ): number;
 
-  /**
-   * Determines the query execution context type based on available information
-   * @returns The detected query execution context type
-   */
   protected getQueryType(): QueryExecutionContextType {
     const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
     const queryType = isOrderByQuery
@@ -306,8 +302,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       throw error;
     }
 
-    // Update continuation token to handle partition split
-    this._updateContinuationTokenForPartitionSplit(
+    // Update composite continuation token to handle partition split
+    this._updateContinuationTokenOnPartitionChange(
       documentProducer,
       replacementPartitionKeyRanges,
     );
@@ -349,8 +345,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       });
       console.log(`Created ${replacementDocumentProducers.length} replacement document producers for split scenario`);
     }
-    
-    console.log(`=== Completed Partition Split Handling ===`);
   }
 
   /**
@@ -360,7 +354,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @param originalDocumentProducer - The document producer for the original partition that was split/merged
    * @param replacementPartitionKeyRanges - The new partition ranges after the split/merge
    */
-  private _updateContinuationTokenForPartitionSplit(
+  private _updateContinuationTokenOnPartitionChange(
     originalDocumentProducer: DocumentProducer,
     replacementPartitionKeyRanges: any[],
   ): void {
@@ -389,8 +383,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
   /**
    * Handles partition merge scenario by updating range with EPK boundaries.
-   * Iterates over composite continuation token range mappings to find overlapping range with the document producer's range.
-   * Sets epkMin/epkMax to current minInclusive/maxExclusive, then updates logical boundaries to new merged range.
+   * Finds matching range, preserves EPK boundaries, and updates to new merged range properties.
    */
   private _handlePartitionMerge(
     compositeContinuationToken: any,
@@ -399,48 +392,38 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   ): void {
     const documentProducerRange = documentProducer.targetPartitionKeyRange;
     console.log(`Processing merge scenario for document producer range ${documentProducerRange.id} -> merged range ${newMergedRange.id}`);
-    // Iterate over all range mappings in the composite continuation token
-    for (let i = 0; i < compositeContinuationToken.rangeMappings.length; i++) {
-      const mapping = compositeContinuationToken.rangeMappings[i];
-      
-      if (!mapping || !mapping.partitionKeyRange) {
-        continue;
-      }
+    
+    const matchingMapping = compositeContinuationToken.rangeMappings.find((mapping: any) => {
+      const existingRange = mapping?.partitionKeyRange;
+      return existingRange && 
+             documentProducerRange.minInclusive === existingRange.minInclusive &&
+             existingRange.maxExclusive === documentProducerRange.maxExclusive;
+    });
 
-      const existingRange = mapping.partitionKeyRange;
-      
-      // Check if this range overlaps with the document producer's target range
-      // Use simple range overlap logic: ranges overlap if one starts before the other ends
-      const rangesOverlap = 
-        documentProducerRange.minInclusive === existingRange.minInclusive &&
-        existingRange.maxExclusive === documentProducerRange.maxExclusive;
-      // TODO: add more unit tests for this part
-      if (rangesOverlap) {
-        console.log(`Found overlapping range ${existingRange.id} [${existingRange.minInclusive}, ${existingRange.maxExclusive})`);
+    if (matchingMapping) {
+      const existingRange = matchingMapping.partitionKeyRange;
+      console.log(`Found overlapping range ${existingRange.id} [${existingRange.minInclusive}, ${existingRange.maxExclusive})`);
 
-        // Step 1: Add EPK boundaries using current logical boundaries
-        existingRange.epkMin = existingRange.minInclusive;
-        existingRange.epkMax = existingRange.maxExclusive;
+      // Preserve current boundaries as EPK boundaries
+      existingRange.epkMin = existingRange.minInclusive;
+      existingRange.epkMax = existingRange.maxExclusive;
+      console.log(`Set EPK boundaries for range ${existingRange.id}: epkMin=${existingRange.epkMin}, epkMax=${existingRange.epkMax}`);
 
-        console.log(`Set EPK boundaries for range ${existingRange.id}: epkMin=${existingRange.epkMin}, epkMax=${existingRange.epkMax}`);
+      // Update range properties from new merged range
+      Object.assign(existingRange, {
+        minInclusive: newMergedRange.minInclusive,
+        maxExclusive: newMergedRange.maxExclusive,
+        id: newMergedRange.id,
+        ridPrefix: newMergedRange.ridPrefix,
+        throughputFraction: newMergedRange.throughputFraction,
+        status: newMergedRange.status,
+        parents: newMergedRange.parents
+      });
 
-        // Step 2: Update all fields from the new merged range except epkMin and epkMax
-        existingRange.minInclusive = newMergedRange.minInclusive;
-        existingRange.maxExclusive = newMergedRange.maxExclusive;
-        existingRange.id = newMergedRange.id;
-        // Copy all other fields that might be present in the new merged range
-        existingRange.ridPrefix = newMergedRange.ridPrefix;
-        existingRange.throughputFraction = newMergedRange.throughputFraction;
-        existingRange.status = newMergedRange.status;
-        existingRange.parents = newMergedRange.parents;
-        
-        
-        console.log(
-          `Updated range ${newMergedRange.id} logical boundaries to [${newMergedRange.minInclusive}, ${newMergedRange.maxExclusive}) ` +
-          `while preserving EPK boundaries [${existingRange.epkMin}, ${existingRange.epkMax})`
-        );
-        break;
-      }
+      console.log(
+        `Updated range ${newMergedRange.id} logical boundaries to [${newMergedRange.minInclusive}, ${newMergedRange.maxExclusive}) ` +
+        `while preserving EPK boundaries [${existingRange.epkMin}, ${existingRange.epkMax})`
+      );
     }
   }
 
@@ -458,35 +441,30 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // Find and remove the original partition range from the continuation token
     const originalRangeIndex = compositeContinuationToken.rangeMappings.findIndex(
       (mapping: any) =>
-        mapping &&
-        mapping.partitionKeyRange &&
-        mapping.partitionKeyRange.minInclusive === originalPartitionKeyRange.minInclusive &&
-        mapping.partitionKeyRange.maxExclusive === originalPartitionKeyRange.maxExclusive
+        mapping?.partitionKeyRange?.minInclusive === originalPartitionKeyRange.minInclusive &&
+        mapping?.partitionKeyRange?.maxExclusive === originalPartitionKeyRange.maxExclusive
     );
 
-    if (originalRangeIndex !== -1) {
-      // Remove the original range mapping
-      compositeContinuationToken.rangeMappings.splice(originalRangeIndex, 1);
-      console.log(`Removed original partition range ${originalPartitionKeyRange.id} from continuation token for split`);
+    if (originalRangeIndex === -1) return;
 
-      // Add new range mappings for each replacement partition with preserved EPK boundaries
-      replacementPartitionKeyRanges.forEach((newPartitionKeyRange) => {
-        const newRangeMapping: QueryRangeMapping = {
-          partitionKeyRange: newPartitionKeyRange,
-          // Use the original continuation token for all replacement ranges
-          continuationToken: originalDocumentProducer.continuationToken,
-          itemCount: 0, // Start with 0 items for new partition
-        };
+    // Remove original range and add replacement ranges
+    compositeContinuationToken.rangeMappings.splice(originalRangeIndex, 1);
+    console.log(`Removed original partition range ${originalPartitionKeyRange.id} from continuation token for split`);
 
-        compositeContinuationToken.addRangeMapping(newRangeMapping);
-        console.log(`Added new partition range ${newPartitionKeyRange.id} to continuation token`);
-      });
+    // Add new range mappings for each replacement partition
+    replacementPartitionKeyRanges.forEach((newPartitionKeyRange) => {
+      compositeContinuationToken.addRangeMapping({
+        partitionKeyRange: newPartitionKeyRange,
+        continuationToken: originalDocumentProducer.continuationToken,
+        itemCount: 0, // Start with 0 items for new partition
+      } as QueryRangeMapping);
+      console.log(`Added new partition range ${newPartitionKeyRange.id} to continuation token`);
+    });
 
-      console.log(
-        `Successfully updated continuation token for partition split: ` +
-        `${originalPartitionKeyRange.id} -> [${replacementPartitionKeyRanges.map(r => r.id).join(', ')}]`
-      );
-    }
+    console.log(
+      `Successfully updated continuation token for partition split: ` +
+      `${originalPartitionKeyRange.id} -> [${replacementPartitionKeyRanges.map(r => r.id).join(', ')}]`
+    );
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
