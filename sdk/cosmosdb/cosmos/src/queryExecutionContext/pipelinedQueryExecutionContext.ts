@@ -336,10 +336,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       const temp = this.fetchBuffer.slice(0, endIndex);
       this.fetchBuffer = this.fetchBuffer.slice(endIndex);
 
-      // Remove the processed ranges
-      this.clearProcessedRangeMetadata(processedRanges, endIndex);
+      // Remove the processed ranges 
+      this._clearProcessedRangeMetadata(processedRanges, endIndex);
 
-      // Update headers before returning processed page
       // TODO: instead of passing header add a method here to update the header
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
 
@@ -350,12 +349,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       console.log("Fetched more results from endpoint", JSON.stringify(response));
 
       // Handle case where there are no more results from endpoint
-      if (!response || !response.result || !response.result.buffer) {
+      if (!response || !response.result) {
         return this.createEmptyResultWithHeaders(response?.headers);
       }
 
       // Process response and update continuation token manager
-      this.fetchBuffer = response.result.buffer;
+      this.fetchBuffer = response.result;
       if (this.fetchBuffer.length === 0) {
         return this.createEmptyResultWithHeaders(this.fetchMoreRespHeaders);
       }
@@ -364,7 +363,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
       const temp = this.fetchBuffer.slice(0, endIndex);
       this.fetchBuffer = this.fetchBuffer.slice(endIndex);
-      this.clearProcessedRangeMetadata(processedRanges, endIndex);
+      this._clearProcessedRangeMetadata(processedRanges, endIndex);
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
 
       return { result: temp, headers: this.fetchMoreRespHeaders };
@@ -383,9 +382,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     return result;
   }
 
-  // TODO: move it continuation token manager and delete it once end index is returned
-  // don't wait for buffer to be sliced as we are updating the coninuation token too
-  private clearProcessedRangeMetadata(processedRanges: string[], endIndex: number): void {
+  private _clearProcessedRangeMetadata(processedRanges: string[], endIndex: number): void {
     processedRanges.forEach((rangeId) => {
       this.continuationTokenManager.removePartitionRangeMapping(rangeId);
     });

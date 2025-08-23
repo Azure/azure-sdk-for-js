@@ -105,23 +105,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.respHeaders = getInitialHeader();
     // Make priority queue for documentProducers
     this.unfilledDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
-      (a: DocumentProducer, b: DocumentProducer) => {
-        // Compare based on minInclusive values to ensure left-to-right range traversal
-        const aMinInclusive = a.targetPartitionKeyRange.minInclusive;
-        const bMinInclusive = b.targetPartitionKeyRange.minInclusive;
-        const minInclusiveComparison = bMinInclusive.localeCompare(aMinInclusive);
-        
-        // If minInclusive values are the same, check minEPK ranges if they exist
-        if (minInclusiveComparison === 0) {
-          const aMinEpk = a.startEpk;
-          const bMinEpk = b.startEpk;
-          if (aMinEpk && bMinEpk) {
-            return bMinEpk.localeCompare(aMinEpk);
-          }
-        }
-        
-        return minInclusiveComparison;
-      },
+      (a: DocumentProducer, b: DocumentProducer) => this.compareDocumentProducersByRange(a, b),
     );
     // The comparator is supplied by the derived class
     this.bufferedDocumentProducersQueue = new PriorityQueue<DocumentProducer>(
@@ -238,6 +222,36 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     dp1: DocumentProducer,
     dp2: DocumentProducer,
   ): number;
+
+  /**
+   * Compares two document producers based on their partition key ranges and EPK values.
+   * Primary comparison: minInclusive values for left-to-right range traversal
+   * Secondary comparison: EPK ranges when minInclusive values are identical
+   * @param a - First document producer
+   * @param b - Second document producer
+   * @returns Comparison result for priority queue ordering
+   * @hidden
+   */
+  protected compareDocumentProducersByRange(
+    a: DocumentProducer,
+    b: DocumentProducer,
+  ): number {
+    // Compare based on minInclusive values to ensure left-to-right range traversal
+    const aMinInclusive = a.targetPartitionKeyRange.minInclusive;
+    const bMinInclusive = b.targetPartitionKeyRange.minInclusive;
+    const minInclusiveComparison = bMinInclusive.localeCompare(aMinInclusive);
+    
+    // If minInclusive values are the same, check minEPK ranges if they exist
+    if (minInclusiveComparison === 0) {
+      const aMinEpk = a.startEpk;
+      const bMinEpk = b.startEpk;
+      if (aMinEpk && bMinEpk) {
+        return bMinEpk.localeCompare(aMinEpk);
+      }
+    }
+    
+    return minInclusiveComparison;
+  }
 
   protected getQueryType(): QueryExecutionContextType {
     const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
