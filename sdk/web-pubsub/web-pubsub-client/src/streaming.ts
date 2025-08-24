@@ -49,21 +49,24 @@ export class StreamHandler {
   }
 
   /**
-   * @internal SDK-only method for handling stream messages
+   * @internal
+   * SDK-only method for handling stream messages
    */
   public _handleMessage(message: JSONTypes | ArrayBuffer): void {
     this._onMessage?.(message);
   }
 
   /**
-   * @internal SDK-only method for handling stream completion
+   * @internal
+   * SDK-only method for handling stream completion
    */
   public _handleComplete(): void {
     this._onComplete?.();
   }
 
   /**
-   * @internal SDK-only method for handling stream errors
+   * @internal
+   * SDK-only method for handling stream errors
    */
   public _handleError(error: StreamAckMessageError): void {
     this._onError?.(error);
@@ -352,27 +355,27 @@ export class Stream {
   public async _resendUnackedMessages(abortSignal?: AbortSignalLike): Promise<void> {
     // Safeguard to avoid duplicate resending
     if (this._isResending) {
-      logger.warning(`Stream ${this._streamId} is already resending. Abort resend.`);
+      logger.warning(`Stream ${this._streamId} in ${this._groupName} is already resending. Abort resend.`);
       return;
     }
     this._isResending = true;
 
     if (this._isDisposed) {
-      logger.warning(`Stream ${this._streamId} is disposed or completed. Abort resend.`);
+      logger.warning(`Stream ${this._streamId} in ${this._groupName} is disposed or completed. Abort resend.`);
       return;
     }
 
     try {
       // Check if we've exceeded the maximum resend attempts
       if (this._resendAttempts >= this._maxResendAttempts) {
-        logger.warning(
-          `Stream ${this._streamId} has exceeded maximum resend attempts (${this._maxResendAttempts}). Stopping resend.`,
+        logger.error(
+          `Stream ${this._streamId} in ${this._groupName} has exceeded maximum resend attempts (${this._maxResendAttempts}). Stopping resend.`,
         );
         this._handleError({
           name: "StreamMaxResendAttemptsExceeded",
-          message: `Maximum resend attempts (${this._maxResendAttempts}) exceeded for stream ${this._streamId}`,
+          message: `Maximum resend attempts (${this._maxResendAttempts}) exceeded for stream ${this._streamId} in ${this._groupName}`,
         });
-        return;
+        throw new Error(`Maximum resend attempts exceeded for stream ${this._streamId} in ${this._groupName}`);
       }
 
       // Add delay before resending (except for first attempt)
@@ -382,14 +385,14 @@ export class Stream {
           : this._resendInterval;
 
         logger.info(
-          `Waiting ${delay}ms before resend attempt ${this._resendAttempts + 1} for stream ${this._streamId}`,
+          `Waiting ${delay}ms before resend attempt ${this._resendAttempts + 1} for stream ${this._streamId} in ${this._groupName}`,
         );
         await new Promise((resolve) => setTimeout(resolve, delay));
       }
 
       this._resendAttempts++;
       logger.info(
-        `Resending buffered messages for stream ${this._streamId} (attempt ${this._resendAttempts}/${this._maxResendAttempts})`,
+        `Resending buffered messages for stream ${this._streamId} in ${this._groupName} (attempt ${this._resendAttempts}/${this._maxResendAttempts})`,
       );
       // Resend all messages in buffer
       for (const message of this._buffer) {
@@ -406,7 +409,7 @@ export class Stream {
         } catch (error) {
           this._handleError({
             name: "StreamResendError",
-            message: `Failed to resend message with sequence ID ${message.sequenceId}: ${error}`,
+            message: `Failed to resend message with sequence ID ${message.sequenceId} for ${this._streamId} in ${this._groupName}: ${error}`,
           });
           break;
         }
@@ -436,7 +439,7 @@ export class Stream {
     // Create a promise that resolves when buffer space becomes available
     return new Promise<void>((resolve, reject) => {
       if (this._isDisposed) {
-        reject(new Error("Stream is disposed"));
+        reject(new Error(`Stream ${this._streamId} in ${this._groupName} is disposed`));
         return;
       }
 
@@ -447,7 +450,7 @@ export class Stream {
         if (index >= 0) {
           this._waitingQueue.splice(index, 1);
         }
-        reject(new Error(`Buffer wait timeout after ${this._bufferWaitTimeout}ms`));
+        reject(new Error(`Buffer wait timeout for stream ${this._streamId} in ${this._groupName} after ${this._bufferWaitTimeout}ms`));
       }, this._bufferWaitTimeout);
 
       // Add to waiting queue with cleanup on resolve
@@ -482,7 +485,7 @@ export class Stream {
 
     // Double-check after waiting (in case stream was disposed while waiting)
     if (this._isDisposed) {
-      logger.warning(`Stream ${this._streamId} is disposed or completed when sending message`);
+      logger.warning(`Stream ${this._streamId} in ${this._groupName} is disposed or completed when sending message`);
       return;
     }
 
@@ -505,7 +508,7 @@ export class Stream {
     } catch (error) {
       this._handleError({
         name: "StreamSendError",
-        message: `Failed to send message: ${error}`,
+        message: `Failed to send message with sequence ID ${message.sequenceId} for ${this._streamId} in ${this._groupName}: ${error}`,
       });
     }
   }
@@ -522,7 +525,7 @@ export class Stream {
     while (this._waitingQueue.length > 0) {
       const waiter = this._waitingQueue.shift();
       if (waiter) {
-        waiter.reject(new Error("Stream is disposed"));
+        waiter.reject(new Error(`Stream ${this._streamId} in ${this._groupName} is disposed`));
       }
     }
   }
