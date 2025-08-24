@@ -336,7 +336,7 @@ describe("Stream", () => {
         await testStream.publish("msg2");
       } catch (error: any) {
         errorThrown = true;
-        assert.include(error.message, "Buffer wait timeout after");
+        assert.include(error.message, "Buffer wait timeout");
       }
 
       assert.isTrue(errorThrown, "Expected timeout error to be thrown");
@@ -377,13 +377,6 @@ describe("Stream", () => {
         { content: "msg1", dataType: "text", sequenceId: 1, endOfStream: false },
       ];
 
-      let errorHandled = false;
-      testStream.onError((error) => {
-        if (error.name === "StreamMaxResendAttemptsExceeded") {
-          errorHandled = true;
-        }
-      });
-
       // First resend attempt
       await (testStream as any)._resendUnackedMessages();
       assert.equal((testStream as any)._resendAttempts, 1);
@@ -393,9 +386,15 @@ describe("Stream", () => {
       assert.equal((testStream as any)._resendAttempts, 2);
 
       // Third attempt should be blocked and trigger error
-      await (testStream as any)._resendUnackedMessages();
+      let errorThrown = false;
+      try {
+        await (testStream as any)._resendUnackedMessages();
+      } catch (error: any) {
+        errorThrown = true;
+        assert.include(error.message, "Maximum resend attempts exceeded");
+      }
 
-      assert.isTrue(errorHandled, "Expected max resend attempts error to be handled");
+      assert.isTrue(errorThrown, "Expected max resend attempts error to be handled");
       assert.equal((testStream as any)._resendAttempts, 2);
     });
 

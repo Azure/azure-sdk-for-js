@@ -79,7 +79,7 @@ export class StreamHandler {
 export interface StreamOptions {
   /**
    * Maximum number of messages to buffer while waiting for acknowledgments
-   * Default: 1000
+   * Default: 100
    */
   maxBufferSize?: number;
 
@@ -120,7 +120,6 @@ export interface StreamOptions {
 export class Stream {
   private readonly _groupName: string;
   private readonly _streamId: string;
-  private readonly _timeToLive: number;
   private readonly _sendCallback: (
     groupName: string,
     content: JSONTypes | ArrayBuffer,
@@ -130,6 +129,7 @@ export class Stream {
     endOfStream: boolean,
     abortSignal?: AbortSignalLike,
   ) => Promise<void>;
+  private readonly _options: Required<StreamOptions>;
 
   private _sequenceId: number = 0;
   private _isCompleted: boolean = false;
@@ -138,11 +138,6 @@ export class Stream {
   // TODO: need better data structure for stream state
   private _buffer: StreamMessage[] = [];
   private _onError?: (error: StreamAckMessageError) => void;
-  private readonly _maxBufferSize: number;
-  private readonly _bufferWaitTimeout: number;
-  private readonly _maxResendAttempts: number;
-  private readonly _resendInterval: number;
-  private readonly _useExponentialBackoff: boolean;
   private _resendAttempts: number = 0;
   private _isDisposed: boolean = false;
   private _waitingQueue: Array<{
@@ -166,13 +161,17 @@ export class Stream {
   ) {
     this._groupName = groupName;
     this._streamId = streamId;
-    this._timeToLive = options?.timeToLive ?? 300000; // Default 5 minutes
     this._sendCallback = sendCallback;
-    this._maxBufferSize = options?.maxBufferSize ?? 100;
-    this._bufferWaitTimeout = options?.bufferWaitTimeout ?? 30000; // Default 30 seconds
-    this._maxResendAttempts = options?.maxResendAttempts ?? 3; // Default 3 attempts
-    this._resendInterval = options?.resendInterval ?? 1000; // Default 200 milliseconds
-    this._useExponentialBackoff = options?.useExponentialBackoff ?? false; // Default false
+    
+    // Set default options and merge with provided options
+    this._options = {
+      maxBufferSize: options?.maxBufferSize ?? 100,
+      timeToLive: options?.timeToLive ?? 300000, // Default 5 minutes
+      bufferWaitTimeout: options?.bufferWaitTimeout ?? 30000, // Default 30 seconds
+      maxResendAttempts: options?.maxResendAttempts ?? 3, // Default 3 attempts
+      resendInterval: options?.resendInterval ?? 1000, // Default 1 second
+      useExponentialBackoff: options?.useExponentialBackoff ?? false, // Default false
+    };
 
     // Set up TTL cleanup
     setTimeout(() => {
@@ -183,7 +182,7 @@ export class Stream {
         });
         this._destroy();
       }
-    }, this._timeToLive);
+    }, this._options.timeToLive);
   }
 
   /**
@@ -367,22 +366,22 @@ export class Stream {
 
     try {
       // Check if we've exceeded the maximum resend attempts
-      if (this._resendAttempts >= this._maxResendAttempts) {
+      if (this._resendAttempts >= this._options.maxResendAttempts) {
         logger.error(
-          `Stream ${this._streamId} in ${this._groupName} has exceeded maximum resend attempts (${this._maxResendAttempts}). Stopping resend.`,
+          `Stream ${this._streamId} in ${this._groupName} has exceeded maximum resend attempts (${this._options.maxResendAttempts}). Stopping resend.`,
         );
         this._handleError({
           name: "StreamMaxResendAttemptsExceeded",
-          message: `Maximum resend attempts (${this._maxResendAttempts}) exceeded for stream ${this._streamId} in ${this._groupName}`,
+          message: `Maximum resend attempts (${this._options.maxResendAttempts}) exceeded for stream ${this._streamId} in ${this._groupName}`,
         });
         throw new Error(`Maximum resend attempts exceeded for stream ${this._streamId} in ${this._groupName}`);
       }
 
       // Add delay before resending (except for first attempt)
       if (this._resendAttempts > 0) {
-        const delay = this._useExponentialBackoff
-          ? this._resendInterval * Math.pow(2, this._resendAttempts - 1)
-          : this._resendInterval;
+        const delay = this._options.useExponentialBackoff
+          ? this._options.resendInterval * Math.pow(2, this._resendAttempts - 1)
+          : this._options.resendInterval;
 
         logger.info(
           `Waiting ${delay}ms before resend attempt ${this._resendAttempts + 1} for stream ${this._streamId} in ${this._groupName}`,
@@ -392,7 +391,7 @@ export class Stream {
 
       this._resendAttempts++;
       logger.info(
-        `Resending buffered messages for stream ${this._streamId} in ${this._groupName} (attempt ${this._resendAttempts}/${this._maxResendAttempts})`,
+        `Resending buffered messages for stream ${this._streamId} in ${this._groupName} (attempt ${this._resendAttempts}/${this._options.maxResendAttempts})`,
       );
       // Resend all messages in buffer
       for (const message of this._buffer) {
@@ -432,7 +431,7 @@ export class Stream {
    * Wait for buffer space to become available
    */
   private async _waitForBufferSpace(): Promise<void> {
-    if (this._buffer.length < this._maxBufferSize) {
+    if (this._buffer.length < this._options.maxBufferSize) {
       return; // Buffer has space, no need to wait
     }
 
@@ -450,8 +449,8 @@ export class Stream {
         if (index >= 0) {
           this._waitingQueue.splice(index, 1);
         }
-        reject(new Error(`Buffer wait timeout for stream ${this._streamId} in ${this._groupName} after ${this._bufferWaitTimeout}ms`));
-      }, this._bufferWaitTimeout);
+        reject(new Error(`Buffer wait timeout for stream ${this._streamId} in ${this._groupName} after ${this._options.bufferWaitTimeout}ms`));
+      }, this._options.bufferWaitTimeout);
 
       // Add to waiting queue with cleanup on resolve
       this._waitingQueue.push({
@@ -471,7 +470,7 @@ export class Stream {
    * Notify waiting publishers that buffer space is available
    */
   private _notifyWaitingPublishers(): void {
-    while (this._waitingQueue.length > 0 && this._buffer.length < this._maxBufferSize) {
+    while (this._waitingQueue.length > 0 && this._buffer.length < this._options.maxBufferSize) {
       const waiter = this._waitingQueue.shift();
       if (waiter) {
         waiter.resolve();
