@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get all the Managed Environments in a resource group.
  *
  * @summary Get all the Managed Environments in a resource group.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironments_ListByResourceGroup.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironments_ListByResourceGroup.json
  */
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";

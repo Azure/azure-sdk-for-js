@@ -5,7 +5,7 @@
  * This sample demonstrates how to Check if a resource name is available.
  *
  * @summary Check if a resource name is available.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/CheckNameAvailability.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/CheckNameAvailability.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

@@ -17,3 +17,35 @@ packages:
   - '!sdk/identity/identity/test/manual*/**'
   - '!sdk/servicebus/service-bus/test/stress/**'
   - '!sdk/eventhub/event-hubs/test/stress/**'
+
+# Main catalog
+catalog:
+  '@types/node': ^20.19.0
+  autorest: latest
+  eslint: ^9.33.0
+  tslib: ^2.8.1
+  tsx: ^4.20.4
+  typescript: ~5.8.3
+
+# Named catalogs
+catalogs:
+  arm:
+    '@azure/arm-storage': 18.5.0
+    '@azure/arm-cognitiveservices': 7.6.0
+    '@azure/arm-webpubsub': 1.2.0
+  testing:
+    '@rollup/plugin-inject': ^5.0.5
+    '@types/chai': ^5.2.1
+    '@types/chai-as-promised': ^8.0.2
+    '@vitest/browser': ^3.2.3
+    '@vitest/coverage-istanbul': ^3.2.3
+    '@vitest/expect': ^3.2.3
+    chai: ^5.2.0
+    chai-as-promised: ^8.0.1
+    chai-exclude: ^3.0.0
+    dotenv: ^16.0.0
+    nock: ^13.5.4
+    playwright: ^1.50.1
+    vitest: ^3.2.3
+  internal:
+    '@azure/identity': 4.11.1

@@ -56,11 +56,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
     containerAppName: string,
     options?: ContainerAppsDiagnosticsListDetectorsOptionalParams,
   ): PagedAsyncIterableIterator<Diagnostics> {
-    const iter = this.listDetectorsPagingAll(
-      resourceGroupName,
-      containerAppName,
-      options,
-    );
+    const iter = this.listDetectorsPagingAll(resourceGroupName, containerAppName, options);
     return {
       next() {
         return iter.next();
@@ -72,12 +68,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listDetectorsPagingPage(
-          resourceGroupName,
-          containerAppName,
-          options,
-          settings,
-        );
+        return this.listDetectorsPagingPage(resourceGroupName, containerAppName, options, settings);
       },
     };
   }
@@ -91,11 +82,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
     let result: ContainerAppsDiagnosticsListDetectorsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listDetectors(
-        resourceGroupName,
-        containerAppName,
-        options,
-      );
+      result = await this._listDetectors(resourceGroupName, containerAppName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -140,11 +127,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
     containerAppName: string,
     options?: ContainerAppsDiagnosticsListRevisionsOptionalParams,
   ): PagedAsyncIterableIterator<Revision> {
-    const iter = this.listRevisionsPagingAll(
-      resourceGroupName,
-      containerAppName,
-      options,
-    );
+    const iter = this.listRevisionsPagingAll(resourceGroupName, containerAppName, options);
     return {
       next() {
         return iter.next();
@@ -156,12 +139,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listRevisionsPagingPage(
-          resourceGroupName,
-          containerAppName,
-          options,
-          settings,
-        );
+        return this.listRevisionsPagingPage(resourceGroupName, containerAppName, options, settings);
       },
     };
   }
@@ -175,11 +153,7 @@ export class ContainerAppsDiagnosticsImpl implements ContainerAppsDiagnostics {
     let result: ContainerAppsDiagnosticsListRevisionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listRevisions(
-        resourceGroupName,
-        containerAppName,
-        options,
-      );
+      result = await this._listRevisions(resourceGroupName, containerAppName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -468,8 +442,8 @@ const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
     Parameters.nextLink,
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -489,8 +463,8 @@ const listRevisionsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
     Parameters.nextLink,
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -5,7 +5,7 @@
  * This sample demonstrates how to Triggers restore for a BackupInstance
  *
  * @summary Triggers restore for a BackupInstance
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerRestore.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/TriggerRestore.json
  */
 
 import type {
@@ -18,11 +18,18 @@ import "dotenv/config";
 
 async function triggerRestore(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
   const vaultName = "PratikPrivatePreviewVault1";
   const backupInstanceName = "testInstance1";
   const parameters: AzureBackupRecoveryPointBasedRestoreRequestUnion = {
+    identityDetails: {
+      useSystemAssignedIdentity: false,
+      userAssignedIdentityArmUrl:
+        "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourcegroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testUami",
+    },
     objectType: "AzureBackupRecoveryPointBasedRestoreRequest",
     recoveryPointId: "hardcodedRP",
     restoreTargetInfo: {
@@ -76,12 +83,14 @@ async function triggerRestore(): Promise<void> {
  * This sample demonstrates how to Triggers restore for a BackupInstance
  *
  * @summary Triggers restore for a BackupInstance
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerRestoreAsFiles.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/TriggerRestoreAsFiles.json
  */
 async function triggerRestoreAsFiles(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
   const vaultName = "PrivatePreviewVault1";
   const backupInstanceName = "testInstance1";
   const parameters: AzureBackupRecoveryPointBasedRestoreRequestUnion = {
@@ -116,12 +125,14 @@ async function triggerRestoreAsFiles(): Promise<void> {
  * This sample demonstrates how to Triggers restore for a BackupInstance
  *
  * @summary Triggers restore for a BackupInstance
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerRestoreWithRehydration.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/TriggerRestoreWithRehydration.json
  */
 async function triggerRestoreWithRehydration(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
   const vaultName = "PratikPrivatePreviewVault1";
   const backupInstanceName = "testInstance1";
   const parameters: AzureBackupRestoreWithRehydrationRequest = {

@@ -58,9 +58,26 @@ export const exitWithFailureMessage = (
   } else {
     console.error(error.message);
   }
-
   // eslint-disable-next-line n/no-process-exit
   process.exit(1);
+};
+
+export const throwErrorWithFailureMessage = (
+  error: {
+    key: string;
+    message: string;
+    formatWithErrorDetails?: (errorDetails: string) => string;
+  },
+  errorDetails?: string,
+): never => {
+  console.log();
+
+  const finalMessage =
+    error.formatWithErrorDetails && errorDetails
+      ? error.formatWithErrorDetails(errorDetails)
+      : error.message;
+
+  throw new Error(finalMessage);
 };
 
 export const populateValuesFromServiceUrl = (): {
@@ -162,6 +179,9 @@ const warnAboutTokenExpiry = (expirationTime: number, currentTime: number): void
 
 export const warnIfAccessTokenCloseToExpiry = (): void => {
   const accessToken = getAccessToken();
+  if (!accessToken) {
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+  }
   const claims = parseJwt<JwtPayload>(accessToken!);
   const currentTime = Date.now();
   if (isTokenExpiringSoon(claims.exp!, currentTime)) {
@@ -171,13 +191,15 @@ export const warnIfAccessTokenCloseToExpiry = (): void => {
 
 export const fetchOrValidateAccessToken = async (credential?: TokenCredential): Promise<string> => {
   const entraIdAccessToken = createEntraIdAccessToken(credential);
-  if (entraIdAccessToken.token && entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
+  // Fetch a token or refresh if needed in a single call
+  if (entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
     await entraIdAccessToken.fetchEntraIdAccessToken();
   }
-  if (!getAccessToken()) {
+  const token = getAccessToken();
+  if (!token) {
     throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
   }
-  return getAccessToken()!;
+  return token;
 };
 
 export const getVersionInfo = (version: string): VersionInfo => {

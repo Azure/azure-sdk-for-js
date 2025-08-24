@@ -5,7 +5,7 @@
  * This sample demonstrates how to Patches a Managed Environment using JSON Merge Patch
  *
  * @summary Patches a Managed Environment using JSON Merge Patch
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironments_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironments_Patch.json
  */
 
 import {

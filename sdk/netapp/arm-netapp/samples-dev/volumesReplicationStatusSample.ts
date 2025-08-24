@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get the status of the replication
  *
  * @summary Get the status of the replication
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_ReplicationStatus.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_ReplicationStatus.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

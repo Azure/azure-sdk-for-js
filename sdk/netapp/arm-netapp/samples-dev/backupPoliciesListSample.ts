@@ -5,7 +5,7 @@
  * This sample demonstrates how to List backup policies for Netapp Account
  *
  * @summary List backup policies for Netapp Account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupPolicies_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/BackupPolicies_List.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

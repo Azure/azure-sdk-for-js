@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get details of the specified subvolume
  *
  * @summary Get details of the specified subvolume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Subvolumes_Metadata.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Subvolumes_Metadata.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

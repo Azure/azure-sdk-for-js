@@ -5,7 +5,7 @@
  * This sample demonstrates how to Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
  *
  * @summary Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Subvolumes_Create.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Subvolumes_Create.json
  */
 
 import { SubvolumeInfo, NetAppManagementClient } from "@azure/arm-netapp";

@@ -5,7 +5,7 @@
  * This sample demonstrates how to Create a backup under the Backup Vault
  *
  * @summary Create a backup under the Backup Vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupsUnderBackupVault_Create.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/BackupsUnderBackupVault_Create.json
  */
 
 import { Backup, NetAppManagementClient } from "@azure/arm-netapp";

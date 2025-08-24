@@ -5,7 +5,7 @@
  * This sample demonstrates how to List all replications for a specified volume
  *
  * @summary List all replications for a specified volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_ListReplications.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_ListReplications.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get current subscription usages
  *
  * @summary Get current subscription usages
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Usages_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Usages_List.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

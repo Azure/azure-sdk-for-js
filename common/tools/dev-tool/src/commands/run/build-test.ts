@@ -172,6 +172,7 @@ async function compileForEnvironment(
   }
 
   // Check if the TypeScript config uses package name imports or "internal" paths
+  // TODO: use hasPackageOrInternalPaths once all tests are migrated to import from package name
   const shouldSkipOverrides = false; //hasPackageOrInternalPaths(tsConfigJSON);
   if (shouldSkipOverrides) {
     log.info("Detected package name or internal path mappings, skipping file overrides");
