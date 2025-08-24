@@ -110,6 +110,7 @@ export function buildInternalChangeFeedOptions(
   internalCfOptions.sessionToken = options?.sessionToken;
   internalCfOptions.continuationToken = continuationToken;
   internalCfOptions.changeFeedMode = options?.changeFeedMode;
+  internalCfOptions.excludedLocations = options?.excludedLocations;
   // Default option of changefeed is to start from now.
   if (startFromNow) {
     internalCfOptions.startFromNow = true;

@@ -6,6 +6,7 @@ import { CosmosClient } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import type { CosmosClientOptions } from "../../../src/index.js";
 import { PluginOn } from "../../../src/index.js";
+import { ChangeFeedStartFrom } from "../../../src/index.js";
 import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 import { StatusCodes } from "../../../src/common/statusCodes.js";
@@ -136,6 +137,55 @@ const SuccessCreateResponse = {
 const SuccessReadResponse = {
   code: StatusCodes.Ok,
   result: { Documents: [] as any[] },
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
+const partitionKeyRangesResponse = {
+  code: StatusCodes.Ok,
+  result: {
+    _rid: "kdY4AIn8g54=",
+    PartitionKeyRanges: [
+      {
+        id: "0",
+        minInclusive: "",
+        maxExclusive: "FF",
+        ridPrefix: 0,
+        _self: "dbs/kdY4AA==/colls/kdY4AIn8g54=/pkranges/kdY4AIn8g54CAAAAAAAAAA==/",
+        throughputFraction: 1,
+        status: "online",
+        parents: [],
+        _ts: 1572274839,
+      },
+    ],
+    _count: 1,
+  },
+  headers: {},
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
+const changeFeedResponse = {
+  code: StatusCodes.Ok,
+  result: {
+    Documents: [
+      { id: "doc1", _partitionKey: "pk1" },
+      { id: "doc2", _partitionKey: "pk2" },
+    ],
+    _count: 2,
+  },
+  headers: {
+    "x-ms-continuation": "continuation-token",
+    etag: '"etag-value"',
+  },
+  diagnostics: getEmptyCosmosDiagnostics(),
+};
+
+const changeFeedEmptyResponse = {
+  code: StatusCodes.NotModified,
+  result: {
+    Documents: [],
+    _count: 0,
+  },
   headers: {},
   diagnostics: getEmptyCosmosDiagnostics(),
 };
@@ -788,6 +838,130 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
       "https://excludedregiontest.documents.azure.com/",
       "Should use request-level excluded region for READ operation",
     );
+    client.dispose();
+  });
+
+  it("Request-level excludedLocations for CHANGEFEED When EAST US is excluded", async () => {
+    const endpointTracker = { lastEndpointCalled: "" };
+
+    const responses = [
+      databaseAccountResponse,
+      collectionResponse,
+      partitionKeyRangesResponse,
+      changeFeedResponse,
+      ServiceUnavailableResponse,
+      changeFeedResponse,
+      TimeoutResponse,
+      changeFeedEmptyResponse,
+    ];
+
+    const plugins = getPlugins(responses, endpointTracker);
+    const client = new CosmosClient({
+      ...options,
+      plugins,
+    } as any);
+
+    await client.getWriteEndpoint();
+
+    const changeFeedIteratorOptions = {
+      excludedLocations: ["East US"],
+      maxItemCount: 12,
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(), // Mandatory parameter
+    };
+
+    const container = client.database("foo").container("foo");
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+    let iterationCount = 0;
+    while (iterator.hasMoreResults && iterationCount < 5) {
+      const response = await iterator.readNext();
+      const { result: items } = response;
+      if (items.length > 0) {
+        if (iterationCount === 0) {
+          assert.equal(
+            endpointTracker.lastEndpointCalled,
+            "https://excludedregiontest-australiaeast.documents.azure.com:443/",
+            "Should use Australia East when East US is excluded",
+          );
+        }
+        if (iterationCount === 1) {
+          assert.equal(
+            endpointTracker.lastEndpointCalled,
+            "https://excludedregiontest-westus.documents.azure.com:443/",
+            "Should use West US when Australia East is not available and East US is excluded",
+          );
+        }
+        if (iterationCount === 1) {
+          assert.equal(
+            endpointTracker.lastEndpointCalled,
+            "https://excludedregiontest-westus.documents.azure.com:443/",
+            "Should use West US when Australia East is timed out and East US is excluded",
+          );
+        }
+      }
+
+      // Exit when no more changes
+      if (items.length === 0) {
+        break;
+      }
+
+      iterationCount++;
+    }
+
+    client.dispose();
+  });
+
+  it("Request-level excludedLocations for CHANGEFEED When All Preferred Regions are excluded", async () => {
+    const endpointTracker = { lastEndpointCalled: "" };
+
+    const responses = [
+      databaseAccountResponse,
+      collectionResponse,
+      partitionKeyRangesResponse,
+      changeFeedResponse,
+      ServiceUnavailableResponse,
+      changeFeedResponse,
+      TimeoutResponse,
+      changeFeedEmptyResponse,
+    ];
+
+    const plugins = getPlugins(responses, endpointTracker);
+    const client = new CosmosClient({
+      ...options,
+      plugins,
+    } as any);
+
+    await client.getWriteEndpoint();
+
+    const changeFeedIteratorOptions = {
+      excludedLocations: ["East US", "West US", "Australia East"],
+      maxItemCount: 12,
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(), // Mandatory parameter
+    };
+
+    const container = client.database("foo").container("foo");
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+    let iterationCount = 0;
+    while (iterator.hasMoreResults && iterationCount < 5) {
+      const response = await iterator.readNext();
+      const { result: items } = response;
+      if (items.length > 0) {
+        assert.equal(
+          endpointTracker.lastEndpointCalled,
+          "https://excludedregiontest.documents.azure.com/",
+          "Should use default endpoint when All Regions are excluded",
+        );
+      }
+
+      // Exit when no more changes
+      if (items.length === 0) {
+        break;
+      }
+
+      iterationCount++;
+    }
+
     client.dispose();
   });
 });

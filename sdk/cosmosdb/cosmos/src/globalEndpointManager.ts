@@ -3,7 +3,7 @@
 import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { Location, DatabaseAccount } from "./documents/index.js";
-import type { FeedOptions, RequestOptions } from "./index.js";
+import type { FeedOptions, RequestOptions, ChangeFeedIteratorOptions } from "./index.js";
 import { Constants } from "./common/constants.js";
 import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
@@ -132,7 +132,7 @@ export class GlobalEndpointManager {
   }
 
   public getEffectiveExcludedLocations(
-    options: RequestOptions | FeedOptions = {},
+    options: RequestOptions | FeedOptions | ChangeFeedIteratorOptions = {},
     resourceType: ResourceType,
   ): Set<string> {
     if (!canApplyExcludedLocations(resourceType)) {
@@ -163,7 +163,7 @@ export class GlobalEndpointManager {
     resourceType: ResourceType,
     operationType: OperationType,
     startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
-    requestOptions: RequestOptions | FeedOptions = {}, // add to support request-level excluded region(location) overrides
+    requestOptions: RequestOptions | FeedOptions | ChangeFeedIteratorOptions = {}, // add to support request-level excluded region(location)
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
 

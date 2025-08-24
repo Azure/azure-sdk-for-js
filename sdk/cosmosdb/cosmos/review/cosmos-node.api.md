@@ -82,6 +82,7 @@ export class ChangeFeedIterator<T> {
 export interface ChangeFeedIteratorOptions {
     changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
+    excludedLocations?: string[];
     maxItemCount?: number;
     sessionToken?: string;
 }
@@ -1328,7 +1329,7 @@ export class GlobalEndpointManager {
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
     resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number, // Represents the starting index for selecting servers.
-    requestOptions?: RequestOptions | FeedOptions): Promise<string>;
+    requestOptions?: RequestOptions | FeedOptions | ChangeFeedIteratorOptions): Promise<string>;
 }
 
 // @public (undocumented)
