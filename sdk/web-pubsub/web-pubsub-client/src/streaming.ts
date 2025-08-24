@@ -162,7 +162,7 @@ export class Stream {
     this._groupName = groupName;
     this._streamId = streamId;
     this._sendCallback = sendCallback;
-    
+
     // Set default options and merge with provided options
     this._options = {
       maxBufferSize: options?.maxBufferSize ?? 100,
@@ -354,13 +354,17 @@ export class Stream {
   public async _resendUnackedMessages(abortSignal?: AbortSignalLike): Promise<void> {
     // Safeguard to avoid duplicate resending
     if (this._isResending) {
-      logger.warning(`Stream ${this._streamId} in ${this._groupName} is already resending. Abort resend.`);
+      logger.warning(
+        `Stream ${this._streamId} in ${this._groupName} is already resending. Abort resend.`,
+      );
       return;
     }
     this._isResending = true;
 
     if (this._isDisposed) {
-      logger.warning(`Stream ${this._streamId} in ${this._groupName} is disposed or completed. Abort resend.`);
+      logger.warning(
+        `Stream ${this._streamId} in ${this._groupName} is disposed or completed. Abort resend.`,
+      );
       return;
     }
 
@@ -374,7 +378,9 @@ export class Stream {
           name: "StreamMaxResendAttemptsExceeded",
           message: `Maximum resend attempts (${this._options.maxResendAttempts}) exceeded for stream ${this._streamId} in ${this._groupName}`,
         });
-        throw new Error(`Maximum resend attempts exceeded for stream ${this._streamId} in ${this._groupName}`);
+        throw new Error(
+          `Maximum resend attempts exceeded for stream ${this._streamId} in ${this._groupName}`,
+        );
       }
 
       // Add delay before resending (except for first attempt)
@@ -449,7 +455,11 @@ export class Stream {
         if (index >= 0) {
           this._waitingQueue.splice(index, 1);
         }
-        reject(new Error(`Buffer wait timeout for stream ${this._streamId} in ${this._groupName} after ${this._options.bufferWaitTimeout}ms`));
+        reject(
+          new Error(
+            `Buffer wait timeout for stream ${this._streamId} in ${this._groupName} after ${this._options.bufferWaitTimeout}ms`,
+          ),
+        );
       }, this._options.bufferWaitTimeout);
 
       // Add to waiting queue with cleanup on resolve
@@ -484,7 +494,9 @@ export class Stream {
 
     // Double-check after waiting (in case stream was disposed while waiting)
     if (this._isDisposed) {
-      logger.warning(`Stream ${this._streamId} in ${this._groupName} is disposed or completed when sending message`);
+      logger.warning(
+        `Stream ${this._streamId} in ${this._groupName} is disposed or completed when sending message`,
+      );
       return;
     }
 

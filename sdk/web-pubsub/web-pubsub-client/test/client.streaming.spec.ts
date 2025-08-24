@@ -37,7 +37,6 @@ describe("WebPubSubClient Streaming Integration", function () {
       assert.equal((stream as any)._options.resendInterval, 1000);
       assert.equal((stream as any)._options.useExponentialBackoff, false);
       assert.equal((stream as any)._options.bufferWaitTimeout, 30000);
-
     });
 
     it("should generate unique stream IDs", () => {
