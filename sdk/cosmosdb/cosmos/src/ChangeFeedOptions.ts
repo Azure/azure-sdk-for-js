@@ -35,9 +35,7 @@ export interface ChangeFeedOptions {
   startTime?: Date;
 
   /**
-   * Excludes one or more Azure regions for the operation (overrides client-level exclusions).
-   * Region names are case-insensitive (e.g. "East US"). An empty array explicitly means
-   * "do not exclude any regions for this request".
+   * Excludes one or more Azure regions for the operation.
    */
   excludedLocations?: string[];
 }
