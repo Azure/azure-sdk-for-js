@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get all storages for a managedEnvironment.
  *
  * @summary Get all storages for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironmentsStorages_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentsStorages_List.json
  */
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";

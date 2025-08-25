@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get storage for a managedEnvironment.
  *
  * @summary Get storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironmentsStorages_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentsStorages_Get.json
  */
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
@@ -34,7 +34,7 @@ async function getAEnvironmentsStorage(): Promise<void> {
  * This sample demonstrates how to Get storage for a managedEnvironment.
  *
  * @summary Get storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironmentsStorages_Get_NfsAzureFile.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironmentsStorages_Get_NfsAzureFile.json
  */
 async function getAEnvironmentsStorageForNfsAzureFile(): Promise<void> {
   const subscriptionId =

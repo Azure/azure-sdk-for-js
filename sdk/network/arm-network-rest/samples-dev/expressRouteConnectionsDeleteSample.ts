@@ -32,7 +32,7 @@ async function expressRouteConnectionDelete(): Promise<void> {
       connectionName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

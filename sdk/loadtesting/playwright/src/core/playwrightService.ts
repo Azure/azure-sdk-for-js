@@ -15,13 +15,14 @@ import {
   getAccessToken,
   getServiceWSEndpoint,
   validateMptPAT,
-  warnIfAccessTokenCloseToExpiry,
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
   getPlaywrightVersion,
   getVersionInfo,
+  throwErrorWithFailureMessage,
   getPackageVersion,
+  warnIfAccessTokenCloseToExpiry,
 } from "../utils/utils.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import type { PlaywrightTestConfig } from "@playwright/test";
@@ -36,6 +37,7 @@ const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): 
     warnIfAccessTokenCloseToExpiry();
   }
 };
+
 /**
  * @public
  *
@@ -211,11 +213,31 @@ const getServiceConfig = (
 const getConnectOptions = async (
   options?: PlaywrightServiceAdditionalOptions,
 ): Promise<BrowserConnectOptions> => {
-  const playwrightServiceConfig = new PlaywrightServiceConfig();
+  const playwrightServiceConfig = PlaywrightServiceConfig.instance;
 
   playwrightServiceConfig.setOptions(options, true);
+  performOneTimeOperation(options);
+  playwrightServiceConfig.serviceAuthType =
+    options?.serviceAuthType || DefaultConnectOptionsConstants.DEFAULT_SERVICE_AUTH_TYPE;
 
-  const token = await fetchOrValidateAccessToken(options?.credential);
+  let token: string | undefined;
+  if (playwrightServiceConfig.serviceAuthType === ServiceAuth.ENTRA_ID) {
+    if (!options?.credential) {
+      throw new Error(ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message);
+    }
+    playwrightServiceEntra.entraIdAccessToken = options.credential;
+    token = await fetchOrValidateAccessToken(options.credential);
+  } else if (playwrightServiceConfig.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
+    validateMptPAT(throwErrorWithFailureMessage);
+    token = getAccessToken();
+  } else {
+    throw new Error(ServiceErrorMessageConstants.INVALID_AUTH_TYPE_ERROR.message);
+  }
+
+  if (!token) {
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+  }
+
   return {
     wsEndpoint: getServiceWSEndpoint(
       playwrightServiceConfig.runId,

@@ -167,7 +167,7 @@
 /sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @Azure/azure-sdk-write-identity
 
 # ServiceLabel: %Azure.Identity
-# AzureSdkOwners:  @KarishmaGhiya @maorleger
+# AzureSdkOwners:  @KarishmaGhiya @maorleger @minhanh-phan
 
 # PRLabel: %KeyVault
 /sdk/keyvault/ @maorleger @timovv @Azure/azure-sdk-write-keyvault

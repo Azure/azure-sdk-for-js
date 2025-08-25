@@ -99,7 +99,7 @@ async function createLoadBalancer(): Promise<void> {
       loadBalancerName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -198,7 +198,7 @@ async function createLoadBalancerWithFrontendIPInZone1(): Promise<void> {
       loadBalancerName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -299,7 +299,7 @@ async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured(): Pr
       loadBalancerName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -404,7 +404,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOn
       loadBalancerName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -498,7 +498,7 @@ async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTw
       loadBalancerName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -597,7 +597,7 @@ async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBa
       loadBalancerName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -695,7 +695,7 @@ async function createLoadBalancerWithStandardSku(): Promise<void> {
       loadBalancerName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -766,7 +766,7 @@ async function createLoadBalancerWithInboundNatPool(): Promise<void> {
       loadBalancerName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -880,7 +880,7 @@ async function createLoadBalancerWithOutboundRules(): Promise<void> {
       loadBalancerName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

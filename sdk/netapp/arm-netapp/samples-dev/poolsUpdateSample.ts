@@ -5,7 +5,7 @@
  * This sample demonstrates how to Patch the specified capacity pool
  *
  * @summary Patch the specified capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Pools_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Pools_Update.json
  */
 
 import { CapacityPoolPatch, NetAppManagementClient } from "@azure/arm-netapp";
@@ -31,8 +31,34 @@ async function poolsUpdate(): Promise<void> {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to Patch the specified capacity pool
+ *
+ * @summary Patch the specified capacity pool
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Pools_Update_CustomThroughput.json
+ */
+async function poolsUpdateCustomThroughput(): Promise<void> {
+  const subscriptionId =
+    process.env["NETAPP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
+  const accountName = "account1";
+  const poolName = "customPool1";
+  const body: CapacityPoolPatch = {};
+  const credential = new DefaultAzureCredential();
+  const client = new NetAppManagementClient(credential, subscriptionId);
+  const result = await client.pools.beginUpdateAndWait(
+    resourceGroupName,
+    accountName,
+    poolName,
+    body,
+  );
+  console.log(result);
+}
+
 async function main(): Promise<void> {
   await poolsUpdate();
+  await poolsUpdateCustomThroughput();
 }
 
 main().catch(console.error);

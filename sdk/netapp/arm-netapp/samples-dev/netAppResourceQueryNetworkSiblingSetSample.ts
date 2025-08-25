@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get details of the specified network sibling set.
  *
  * @summary Get details of the specified network sibling set.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/NetworkSiblingSet_Query.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/NetworkSiblingSet_Query.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

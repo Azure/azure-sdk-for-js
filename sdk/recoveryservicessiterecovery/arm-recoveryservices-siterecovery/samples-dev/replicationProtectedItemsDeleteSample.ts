@@ -29,7 +29,7 @@ async function disablesProtection(): Promise<void> {
   const disableProtectionInput: DisableProtectionInput = {
     properties: {
       replicationProviderInput: {
-        instanceType: "DisableProtectionProviderSpecificInput",
+        instanceType: "InMage",
       },
     },
   };

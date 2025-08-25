@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-managednetworkfabric": ["./src/index.ts"],
+      "@azure/arm-managednetworkfabric/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

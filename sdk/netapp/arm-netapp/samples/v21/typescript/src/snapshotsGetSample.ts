@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get details of the specified snapshot
  *
  * @summary Get details of the specified snapshot
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Snapshots_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Snapshots_Get.json
  */
 async function snapshotsGet(): Promise<void> {
   const subscriptionId =

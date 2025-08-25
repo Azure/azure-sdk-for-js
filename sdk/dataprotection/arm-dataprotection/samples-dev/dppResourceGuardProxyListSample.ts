@@ -5,7 +5,7 @@
  * This sample demonstrates how to Returns the list of ResourceGuardProxies associated with the vault
  *
  * @summary Returns the list of ResourceGuardProxies associated with the vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardProxyCRUD/ListResourceGuardProxy.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/ResourceGuardProxyCRUD/ListResourceGuardProxy.json
  */
 
 import { DataProtectionClient } from "@azure/arm-dataprotection";
@@ -14,13 +14,18 @@ import "dotenv/config";
 
 async function getResourceGuardProxies(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "5e13b949-1218-4d18-8b99-7e12155ec4f7";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "5e13b949-1218-4d18-8b99-7e12155ec4f7";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
   const vaultName = "sampleVault";
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.dppResourceGuardProxy.list(resourceGroupName, vaultName)) {
+  for await (const item of client.dppResourceGuardProxy.list(
+    resourceGroupName,
+    vaultName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);

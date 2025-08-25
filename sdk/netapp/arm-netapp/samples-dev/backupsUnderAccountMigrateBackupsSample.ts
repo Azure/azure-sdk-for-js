@@ -5,7 +5,7 @@
  * This sample demonstrates how to Migrate the backups under a NetApp account to backup vault
  *
  * @summary Migrate the backups under a NetApp account to backup vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupsUnderAccount_Migrate.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/BackupsUnderAccount_Migrate.json
  */
 
 import {

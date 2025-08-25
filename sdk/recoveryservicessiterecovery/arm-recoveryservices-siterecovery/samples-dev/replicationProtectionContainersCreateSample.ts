@@ -28,7 +28,7 @@ async function createAProtectionContainer(): Promise<void> {
   const creationInput: CreateProtectionContainerInput = {
     properties: {
       providerSpecificInput: [
-        { instanceType: "ReplicationProviderSpecificContainerCreationInput" },
+        { instanceType: "A2A" },
       ],
     },
   };

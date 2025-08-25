@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get the latest status of the backup for a volume
  *
  * @summary Get the latest status of the backup for a volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_LatestBackupStatus.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_LatestBackupStatus.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

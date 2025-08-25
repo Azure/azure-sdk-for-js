@@ -5,12 +5,9 @@ import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder"
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import type { StorageClient } from "../../src/StorageClient.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { isNodeLike } from "@azure/core-util";
 
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];
-
-export function isBrowser(): boolean {
-  return typeof self !== "undefined";
-}
 
 export function configureStorageClient(recorder: Recorder, client: StorageClient): void {
   const options = recorder.configureClientOptions({});
@@ -35,7 +32,7 @@ const mockAccountKey = "aaaaa";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
 const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
-if (isBrowser()) {
+if (!isNodeLike) {
   sasParams.push("_");
 }
 
@@ -65,11 +62,11 @@ export function getUniqueName(prefix: string): string {
 }
 
 export function base64encode(content: string): string {
-  return isBrowser() ? btoa(content) : Buffer.from(content).toString("base64");
+  return !isNodeLike ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 export function base64decode(encodedString: string): string {
-  return isBrowser() ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return !isNodeLike ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 /**

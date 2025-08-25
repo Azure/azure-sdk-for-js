@@ -16,14 +16,16 @@ async function summarizeAtManagementGroupScope(): Promise<void> {
   const policyStatesSummaryResource = "latest";
   const managementGroupName = "myManagementGroup";
   const top = 0;
-  const fromParam = new Date("2019-10-05T18:00:00Z");
+  const from = new Date("2019-10-05T18:00:00Z");
   const to = new Date("2019-10-06T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny' or PolicyDefinitionAction eq 'audit'";
   const options: PolicyStatesSummarizeForManagementGroupOptionalParams = {
-    top,
-    fromParam,
-    to,
-    filter,
+    queryOptions: {
+      top,
+      from,
+      to,
+      filter,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential);

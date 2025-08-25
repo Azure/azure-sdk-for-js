@@ -5,7 +5,7 @@
  * This sample demonstrates how to Delete snapshot
  *
  * @summary Delete snapshot
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Snapshots_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Snapshots_Delete.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

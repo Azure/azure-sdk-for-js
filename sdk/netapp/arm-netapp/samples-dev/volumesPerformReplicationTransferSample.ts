@@ -5,7 +5,7 @@
  * This sample demonstrates how to Performs an adhoc replication transfer on a volume with volumeType Migration
  *
  * @summary Performs an adhoc replication transfer on a volume with volumeType Migration
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_PerformReplicationTransfer.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_PerformReplicationTransfer.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

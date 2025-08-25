@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Certificate,
   ConnectedEnvironmentsCertificatesListOptionalParams,
@@ -15,6 +16,7 @@ import {
   ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsCertificatesCreateOrUpdateResponse,
   ConnectedEnvironmentsCertificatesDeleteOptionalParams,
+  ConnectedEnvironmentsCertificatesDeleteResponse,
   CertificatePatch,
   ConnectedEnvironmentsCertificatesUpdateOptionalParams,
   ConnectedEnvironmentsCertificatesUpdateResponse,
@@ -54,7 +56,25 @@ export interface ConnectedEnvironmentsCertificates {
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    certificateName: string,
+    options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse>,
+      ConnectedEnvironmentsCertificatesCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or Update a Certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the Connected Environment.
+   * @param certificateName Name of the Certificate.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
@@ -67,12 +87,30 @@ export interface ConnectedEnvironmentsCertificates {
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
     options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsCertificatesDeleteResponse>,
+      ConnectedEnvironmentsCertificatesDeleteResponse
+    >
+  >;
+  /**
+   * Deletes the specified Certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the Connected Environment.
+   * @param certificateName Name of the Certificate.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    certificateName: string,
+    options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams,
+  ): Promise<ConnectedEnvironmentsCertificatesDeleteResponse>;
   /**
    * Patches a certificate. Currently only patching of tags is supported
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -81,7 +119,27 @@ export interface ConnectedEnvironmentsCertificates {
    * @param certificateEnvelope Properties of a certificate that need to be updated
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    certificateName: string,
+    certificateEnvelope: CertificatePatch,
+    options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsCertificatesUpdateResponse>,
+      ConnectedEnvironmentsCertificatesUpdateResponse
+    >
+  >;
+  /**
+   * Patches a certificate. Currently only patching of tags is supported
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the Connected Environment.
+   * @param certificateName Name of the Certificate.
+   * @param certificateEnvelope Properties of a certificate that need to be updated
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,

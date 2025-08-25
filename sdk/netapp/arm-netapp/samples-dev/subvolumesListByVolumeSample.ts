@@ -5,7 +5,7 @@
  * This sample demonstrates how to Returns a list of the subvolumes in the volume
  *
  * @summary Returns a list of the subvolumes in the volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Subvolumes_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Subvolumes_List.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

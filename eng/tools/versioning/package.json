@@ -5,6 +5,9 @@
   "main": "echo \"use increment.js or set-dev.js\"",
   "type": "module",
   "scripts": {
+    "build": "npm run format && npm run typecheck",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore  \"./**/*.{js,json}\"",
+    "typecheck": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,6 +31,8 @@
   },
   "devDependencies": {
     "@types/yargs": "^17.0.33",
-    "@types/node": "^20.0.0"
+    "@types/node": "^20.0.0",
+    "prettier": "^3.6.2",
+    "typescript": "~5.8.2"
   }
 }

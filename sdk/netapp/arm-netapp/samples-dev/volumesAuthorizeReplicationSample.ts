@@ -5,7 +5,7 @@
  * This sample demonstrates how to Authorize the replication connection on the source volume
  *
  * @summary Authorize the replication connection on the source volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_AuthorizeReplication.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_AuthorizeReplication.json
  */
 
 import { AuthorizeRequest, NetAppManagementClient } from "@azure/arm-netapp";

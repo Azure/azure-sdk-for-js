@@ -1,15 +1,34 @@
 # Release History
 
-## 2.1.1 (Unreleased)
+## 3.0.0 (2025-08-18)
 
 ### Features Added
+  - Added operation BackupInstances.beginValidateForModifyBackup
+  - Added operation BackupInstances.beginValidateForModifyBackupAndWait
+  - Added Interface AdlsBlobBackupDatasourceParameters
+  - Added Interface BackupInstancesValidateForModifyBackupHeaders
+  - Added Interface BackupInstancesValidateForModifyBackupOptionalParams
+  - Added Interface ValidateForModifyBackupRequest
+  - Interface ItemPathBasedRestoreCriteria has a new optional parameter renameTo
+  - Interface KubernetesClusterBackupDatasourceParameters has a new optional parameter includedVolumeTypes
+  - Added Type Alias AKSVolumeTypes
+  - Added Type Alias BackupInstancesValidateForModifyBackupResponse
+  - Added Type Alias BlobBackupDatasourceParametersUnion
+  - Added Enum KnownAKSVolumeTypes
 
 ### Breaking Changes
+  - Operation BackupInstances.beginCreateOrUpdate has a new signature
+  - Operation BackupInstances.beginCreateOrUpdateAndWait has a new signature
+  - Operation BackupInstances.beginValidateForBackup has a new signature
+  - Operation BackupInstances.beginValidateForBackupAndWait has a new signature
+  - Operation BackupInstances.get has a new signature
+  - Operation BackupInstances.getBackupInstanceOperationResult has a new signature
+  - Operation DeletedBackupInstances.get has a new signature
+  - Type of parameter objectType of interface BackupDatasourceParameters is changed from "KubernetesClusterBackupDatasourceParameters" | "BlobBackupDatasourceParameters" to "KubernetesClusterBackupDatasourceParameters" | "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters"
+  - Type of parameter objectType of interface BlobBackupDatasourceParameters is changed from "BlobBackupDatasourceParameters" to "BlobBackupDatasourceParameters" | "AdlsBlobBackupDatasourceParameters"
+  - Type alias "BackupDatasourceParametersUnion" has been changed
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 2.1.0 (2024-07-08)
     
 ### Features Added

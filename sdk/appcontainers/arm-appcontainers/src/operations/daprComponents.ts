@@ -52,11 +52,7 @@ export class DaprComponentsImpl implements DaprComponents {
     environmentName: string,
     options?: DaprComponentsListOptionalParams,
   ): PagedAsyncIterableIterator<DaprComponent> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      environmentName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, environmentName, options);
     return {
       next() {
         return iter.next();
@@ -68,12 +64,7 @@ export class DaprComponentsImpl implements DaprComponents {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          environmentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, environmentName, options, settings);
       },
     };
   }
@@ -94,12 +85,7 @@ export class DaprComponentsImpl implements DaprComponents {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        environmentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, environmentName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -112,11 +98,7 @@ export class DaprComponentsImpl implements DaprComponents {
     environmentName: string,
     options?: DaprComponentsListOptionalParams,
   ): AsyncIterableIterator<DaprComponent> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      environmentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, environmentName, options)) {
       yield* page;
     }
   }
@@ -298,7 +280,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  requestBody: Parameters.daprComponentEnvelope,
+  requestBody: Parameters.daprComponentEnvelope1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -307,7 +289,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.componentName,
     Parameters.environmentName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AzureDeveloperCliCredential } from "@azure/identity";
+import { azureDeveloperCliPublicErrorMessages } from "$internal/credentials/azureDeveloperCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
 import child_process, { type ChildProcess } from "node:child_process";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
@@ -98,10 +99,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       try {
         await credential.getToken("https://service/.default");
       } catch (error: any) {
-        assert.equal(
-          error.message,
-          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
-        );
+        assert.equal(error.message, azureDeveloperCliPublicErrorMessages.notInstalled);
       }
     } else {
       stdout = "";
@@ -111,23 +109,19 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       try {
         await credential.getToken("https://service/.default");
       } catch (error: any) {
-        assert.equal(
-          error.message,
-          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
-        );
+        assert.equal(error.message, azureDeveloperCliPublicErrorMessages.notInstalled);
       }
     }
   });
 
   it("get access token when azure cli not login in", async () => {
     stdout = "";
-    stderr =
-      "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.";
+    stderr = azureDeveloperCliPublicErrorMessages.login;
     const credential = new AzureDeveloperCliCredential();
     try {
       await credential.getToken("https://service/.default");
     } catch (error: any) {
-      assert.equal(error.message, stderr);
+      assert.equal(error.message, azureDeveloperCliPublicErrorMessages.login);
     }
   });
 
@@ -154,6 +148,79 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     assert.deepEqual(azdCommands, [
       "azd auth token --output json --no-prompt --scope https://service/.default",
     ]);
+  });
+
+  it("get access token with claims challenge", async function () {
+    stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
+    stderr = "";
+    const claimsChallenge = "fakeClaimChallenge";
+    const scope = "https://service/.default";
+
+    const credential = new AzureDeveloperCliCredential();
+    const actualToken = await credential.getToken(scope, { claims: claimsChallenge });
+
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azdCommands, [
+      `azd auth token --output json --scope ${scope} --claims ${claimsChallenge}`,
+    ]);
+  });
+
+  it("get access token with claims challenge and tenantId", async function () {
+    stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
+    stderr = "";
+    const claimsChallenge = "fakeClaimChallenge";
+    const tenantId = "12345678-1234-1234-1234-123456789012";
+    const scope = "https://service/.default";
+
+    const credential = new AzureDeveloperCliCredential();
+    const actualToken = await credential.getToken(scope, {
+      claims: claimsChallenge,
+      tenantId: tenantId,
+    });
+
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azdCommands, [
+      `azd auth token --output json --scope ${scope} --tenant-id ${tenantId} --claims ${claimsChallenge}`,
+    ]);
+  });
+
+  it("get access token with claims challenge and multiple scopes", async function () {
+    stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
+    stderr = "";
+    const claimsChallenge = "fakeClaimChallenge";
+    const scopes = ["https://service/.default", "https://management.azure.com/.default"];
+
+    const credential = new AzureDeveloperCliCredential();
+    const actualToken = await credential.getToken(scopes, { claims: claimsChallenge });
+
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azdCommands, [
+      `azd auth token --output json --scope ${scopes[0]} --scope ${scopes[1]} --claims ${claimsChallenge}`,
+    ]);
+  });
+
+  it("does not include claims when empty string", async function () {
+    stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
+    stderr = "";
+    const scope = "https://service/.default";
+
+    const credential = new AzureDeveloperCliCredential();
+    const actualToken = await credential.getToken(scope, { claims: "" });
+
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azdCommands, [`azd auth token --output json --scope ${scope}`]);
+  });
+
+  it("does not include claims when undefined", async function () {
+    stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
+    stderr = "";
+    const scope = "https://service/.default";
+
+    const credential = new AzureDeveloperCliCredential();
+    const actualToken = await credential.getToken(scope, { claims: undefined });
+
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azdCommands, [`azd auth token --output json --scope ${scope}`]);
   });
 
   for (const tenantId of [

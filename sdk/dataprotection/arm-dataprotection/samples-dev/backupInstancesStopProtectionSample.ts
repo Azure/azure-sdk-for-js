@@ -5,7 +5,7 @@
  * This sample demonstrates how to This operation will stop protection of a backup instance and data will be held forever
  *
  * @summary This operation will stop protection of a backup instance and data will be held forever
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/StopProtection.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/StopProtection.json
  */
 
 import type {
@@ -18,8 +18,10 @@ import "dotenv/config";
 
 async function stopProtection(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "testrg";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "testrg";
   const vaultName = "testvault";
   const backupInstanceName = "testbi";
   const credential = new DefaultAzureCredential();
@@ -36,12 +38,14 @@ async function stopProtection(): Promise<void> {
  * This sample demonstrates how to This operation will stop protection of a backup instance and data will be held forever
  *
  * @summary This operation will stop protection of a backup instance and data will be held forever
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/StopProtection_ResourceGuardEnabled.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/StopProtection_ResourceGuardEnabled.json
  */
 async function stopProtectionWithMua(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "testrg";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "testrg";
   const vaultName = "testvault";
   const backupInstanceName = "testbi";
   const parameters: StopProtectionRequest = {

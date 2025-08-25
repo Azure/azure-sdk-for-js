@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-astro": ["./src/index.ts"],
+      "@azure/arm-astro/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

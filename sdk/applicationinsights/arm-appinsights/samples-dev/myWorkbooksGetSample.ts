@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Get a single private workbook by its resourceName.
  *
@@ -16,7 +17,7 @@ async function workbookGet(): Promise<void> {
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
-  const result = await client.myWorkbooks.get(resourceGroupName, resourceName);
+  const result = await client.workbooks.get(resourceGroupName, resourceName);
   console.log(result);
 }
 

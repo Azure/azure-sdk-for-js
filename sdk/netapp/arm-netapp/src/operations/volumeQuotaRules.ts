@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VolumeQuotaRule,
@@ -197,10 +193,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     body: VolumeQuotaRule,
     options?: VolumeQuotaRulesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VolumeQuotaRulesCreateResponse>,
-      VolumeQuotaRulesCreateResponse
-    >
+    SimplePollerLike<OperationState<VolumeQuotaRulesCreateResponse>, VolumeQuotaRulesCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -212,8 +205,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -315,10 +307,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     body: VolumeQuotaRulePatch,
     options?: VolumeQuotaRulesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VolumeQuotaRulesUpdateResponse>,
-      VolumeQuotaRulesUpdateResponse
-    >
+    SimplePollerLike<OperationState<VolumeQuotaRulesUpdateResponse>, VolumeQuotaRulesUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -330,8 +319,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -441,8 +429,7 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

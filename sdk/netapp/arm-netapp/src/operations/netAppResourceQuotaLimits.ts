@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetAppResourceQuotaLimits operations. */
-export class NetAppResourceQuotaLimitsImpl
-  implements NetAppResourceQuotaLimits
-{
+export class NetAppResourceQuotaLimitsImpl implements NetAppResourceQuotaLimits {
   private readonly client: NetAppManagementClient;
 
   /**
@@ -105,10 +103,7 @@ export class NetAppResourceQuotaLimitsImpl
     location: string,
     options?: NetAppResourceQuotaLimitsListOptionalParams,
   ): Promise<NetAppResourceQuotaLimitsListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -139,10 +134,7 @@ export class NetAppResourceQuotaLimitsImpl
     nextLink: string,
     options?: NetAppResourceQuotaLimitsListNextOptionalParams,
   ): Promise<NetAppResourceQuotaLimitsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -160,11 +152,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

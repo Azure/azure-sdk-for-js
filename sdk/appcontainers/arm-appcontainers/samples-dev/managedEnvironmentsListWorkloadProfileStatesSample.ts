@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get all workload Profile States for a Managed Environment.
  *
  * @summary Get all workload Profile States for a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironments_ListWorkloadProfileStates.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironments_ListWorkloadProfileStates.json
  */
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";

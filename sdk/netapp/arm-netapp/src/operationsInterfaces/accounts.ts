@@ -72,10 +72,7 @@ export interface Accounts {
     body: NetAppAccount,
     options?: AccountsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsCreateOrUpdateResponse>,
-      AccountsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<AccountsCreateOrUpdateResponse>, AccountsCreateOrUpdateResponse>
   >;
   /**
    * Create or update the specified NetApp account within the resource group
@@ -124,12 +121,7 @@ export interface Accounts {
     accountName: string,
     body: NetAppAccountPatch,
     options?: AccountsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsUpdateResponse>,
-      AccountsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
   /**
    * Patch the specified NetApp account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -243,10 +235,7 @@ export interface Accounts {
     accountName: string,
     options?: AccountsChangeKeyVaultOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsChangeKeyVaultResponse>,
-      AccountsChangeKeyVaultResponse
-    >
+    SimplePollerLike<OperationState<AccountsChangeKeyVaultResponse>, AccountsChangeKeyVaultResponse>
   >;
   /**
    * Affects existing volumes that are encrypted with Key Vault/Managed HSM, and new volumes. Supports

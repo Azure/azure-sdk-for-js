@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-hdinsightcontainers": ["./src/index.ts"],
+      "@azure/arm-hdinsightcontainers/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
