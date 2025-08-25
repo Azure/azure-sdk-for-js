@@ -40,7 +40,7 @@ import {
   PathSetExpiryOptionalParams,
   PathSetExpiryResponse,
   PathUndeleteOptionalParams,
-  PathUndeleteResponse
+  PathUndeleteResponse,
 } from "../models/index.js";
 
 /** Class containing PathOperations operations. */
@@ -59,7 +59,7 @@ export class PathOperationsImpl implements PathOperations {
    * Create or rename a file or directory.    By default, the destination is overwritten and if the
    * destination already exists and has a lease the lease is broken.  This operation supports conditional
    * HTTP requests.  For more information, see [Specifying Conditional Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    *  To fail if the destination already exists, use a conditional request with If-None-Match: "*".
    * @param options The options parameters.
    */
@@ -73,7 +73,7 @@ export class PathOperationsImpl implements PathOperations {
    * appended to a file. Concurrent writes to the same file using multiple clients are not supported.
    * This operation supports conditional HTTP requests. For more information, see [Specifying Conditional
    * Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to flush
    *               previously uploaded data to a file, "setProperties" to set the properties of a file or directory,
    *               "setAccessControl" to set the owner, group, permissions, or access control list for a file or
@@ -91,11 +91,11 @@ export class PathOperationsImpl implements PathOperations {
     action: PathUpdateAction,
     mode: PathSetAccessControlRecursiveMode,
     body: coreRestPipeline.RequestBodyType,
-    options?: PathUpdateOptionalParams
+    options?: PathUpdateOptionalParams,
   ): Promise<PathUpdateResponse> {
     return this.client.sendOperationRequest(
       { action, mode, body, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -103,7 +103,7 @@ export class PathOperationsImpl implements PathOperations {
    * Create and manage a lease to restrict write and delete access to the path. This operation supports
    * conditional HTTP requests.  For more information, see [Specifying Conditional Headers for Blob
    * Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param xMsLeaseAction There are five lease actions: "acquire", "break", "change", "renew", and
    *                       "release". Use "acquire" and specify the "x-ms-proposed-lease-id" and "x-ms-lease-duration" to
    *                       acquire a new lease. Use "break" to break an existing lease. When a lease is broken, the lease break
@@ -117,11 +117,11 @@ export class PathOperationsImpl implements PathOperations {
    */
   lease(
     xMsLeaseAction: PathLeaseAction,
-    options?: PathLeaseOptionalParams
+    options?: PathLeaseOptionalParams,
   ): Promise<PathLeaseResponse> {
     return this.client.sendOperationRequest(
       { xMsLeaseAction, options },
-      leaseOperationSpec
+      leaseOperationSpec,
     );
   }
 
@@ -129,7 +129,7 @@ export class PathOperationsImpl implements PathOperations {
    * Read the contents of a file.  For read operations, range requests are supported. This operation
    * supports conditional HTTP requests.  For more information, see [Specifying Conditional Headers for
    * Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   read(options?: PathReadOptionalParams): Promise<PathReadResponse> {
@@ -141,22 +141,22 @@ export class PathOperationsImpl implements PathOperations {
    * system defined properties for a path. Get Access Control List returns the access control list for a
    * path. This operation supports conditional HTTP requests.  For more information, see [Specifying
    * Conditional Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   getProperties(
-    options?: PathGetPropertiesOptionalParams
+    options?: PathGetPropertiesOptionalParams,
   ): Promise<PathGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getPropertiesOperationSpec
+      getPropertiesOperationSpec,
     );
   }
 
   /**
    * Delete the file or directory. This operation supports conditional HTTP requests.  For more
    * information, see [Specifying Conditional Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
+   * Operations](https://learn.microsoft.com/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
    * @param options The options parameters.
    */
   delete(options?: PathDeleteOptionalParams): Promise<PathDeleteResponse> {
@@ -168,11 +168,11 @@ export class PathOperationsImpl implements PathOperations {
    * @param options The options parameters.
    */
   setAccessControl(
-    options?: PathSetAccessControlOptionalParams
+    options?: PathSetAccessControlOptionalParams,
   ): Promise<PathSetAccessControlResponse> {
     return this.client.sendOperationRequest(
       { options },
-      setAccessControlOperationSpec
+      setAccessControlOperationSpec,
     );
   }
 
@@ -185,11 +185,11 @@ export class PathOperationsImpl implements PathOperations {
    */
   setAccessControlRecursive(
     mode: PathSetAccessControlRecursiveMode,
-    options?: PathSetAccessControlRecursiveOptionalParams
+    options?: PathSetAccessControlRecursiveOptionalParams,
   ): Promise<PathSetAccessControlRecursiveResponse> {
     return this.client.sendOperationRequest(
       { mode, options },
-      setAccessControlRecursiveOperationSpec
+      setAccessControlRecursiveOperationSpec,
     );
   }
 
@@ -198,11 +198,11 @@ export class PathOperationsImpl implements PathOperations {
    * @param options The options parameters.
    */
   flushData(
-    options?: PathFlushDataOptionalParams
+    options?: PathFlushDataOptionalParams,
   ): Promise<PathFlushDataResponse> {
     return this.client.sendOperationRequest(
       { options },
-      flushDataOperationSpec
+      flushDataOperationSpec,
     );
   }
 
@@ -213,11 +213,11 @@ export class PathOperationsImpl implements PathOperations {
    */
   appendData(
     body: coreRestPipeline.RequestBodyType,
-    options?: PathAppendDataOptionalParams
+    options?: PathAppendDataOptionalParams,
   ): Promise<PathAppendDataResponse> {
     return this.client.sendOperationRequest(
       { body, options },
-      appendDataOperationSpec
+      appendDataOperationSpec,
     );
   }
 
@@ -228,11 +228,11 @@ export class PathOperationsImpl implements PathOperations {
    */
   setExpiry(
     expiryOptions: PathExpiryOptions,
-    options?: PathSetExpiryOptionalParams
+    options?: PathSetExpiryOptionalParams,
   ): Promise<PathSetExpiryResponse> {
     return this.client.sendOperationRequest(
       { expiryOptions, options },
-      setExpiryOperationSpec
+      setExpiryOperationSpec,
     );
   }
 
@@ -241,7 +241,7 @@ export class PathOperationsImpl implements PathOperations {
    * @param options The options parameters.
    */
   undelete(
-    options?: PathUndeleteOptionalParams
+    options?: PathUndeleteOptionalParams,
   ): Promise<PathUndeleteResponse> {
     return this.client.sendOperationRequest({ options }, undeleteOperationSpec);
   }
@@ -254,18 +254,18 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     201: {
-      headersMapper: Mappers.PathCreateHeaders
+      headersMapper: Mappers.PathCreateHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathCreateExceptionHeaders
-    }
+      headersMapper: Mappers.PathCreateExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.continuation,
     Parameters.timeout,
     Parameters.resource2,
-    Parameters.mode
+    Parameters.mode,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -301,9 +301,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.leaseDuration,
     Parameters.expiryOptions,
     Parameters.expiresOn,
-    Parameters.encryptionContext
+    Parameters.encryptionContext,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
@@ -311,15 +311,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SetAccessControlRecursiveResponse,
-      headersMapper: Mappers.PathUpdateHeaders
+      headersMapper: Mappers.PathUpdateHeaders,
     },
     202: {
-      headersMapper: Mappers.PathUpdateHeaders
+      headersMapper: Mappers.PathUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathUpdateExceptionHeaders
-    }
+      headersMapper: Mappers.PathUpdateExceptionHeaders,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [
@@ -331,7 +331,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.forceFlag,
     Parameters.position,
     Parameters.retainUncommittedData,
-    Parameters.close
+    Parameters.close,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -355,28 +355,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType1,
     Parameters.accept2,
     Parameters.contentLength,
-    Parameters.contentMD5
+    Parameters.contentMD5,
+    Parameters.structuredBodyType,
+    Parameters.structuredContentLength,
   ],
   mediaType: "binary",
-  serializer
+  serializer,
 };
 const leaseOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.PathLeaseHeaders
+      headersMapper: Mappers.PathLeaseHeaders,
     },
     201: {
-      headersMapper: Mappers.PathLeaseHeaders
+      headersMapper: Mappers.PathLeaseHeaders,
     },
     202: {
-      headersMapper: Mappers.PathLeaseHeaders
+      headersMapper: Mappers.PathLeaseHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathLeaseExceptionHeaders
-    }
+      headersMapper: Mappers.PathLeaseExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeout],
   urlParameters: [Parameters.url],
@@ -392,9 +394,9 @@ const leaseOperationSpec: coreClient.OperationSpec = {
     Parameters.proposedLeaseId,
     Parameters.xMsLeaseAction,
     Parameters.xMsLeaseDuration,
-    Parameters.xMsLeaseBreakPeriod
+    Parameters.xMsLeaseBreakPeriod,
   ],
-  serializer
+  serializer,
 };
 const readOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
@@ -403,21 +405,21 @@ const readOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: {
         type: { name: "Stream" },
-        serializedName: "parsedResponse"
+        serializedName: "parsedResponse",
       },
-      headersMapper: Mappers.PathReadHeaders
+      headersMapper: Mappers.PathReadHeaders,
     },
     206: {
       bodyMapper: {
         type: { name: "Stream" },
-        serializedName: "parsedResponse"
+        serializedName: "parsedResponse",
       },
-      headersMapper: Mappers.PathReadHeaders
+      headersMapper: Mappers.PathReadHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathReadExceptionHeaders
-    }
+      headersMapper: Mappers.PathReadExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeout],
   urlParameters: [Parameters.url],
@@ -434,21 +436,21 @@ const readOperationSpec: coreClient.OperationSpec = {
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
     Parameters.range,
-    Parameters.xMsRangeGetContentMd5
+    Parameters.xMsRangeGetContentMd5,
   ],
-  serializer
+  serializer,
 };
 const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.PathGetPropertiesHeaders
+      headersMapper: Mappers.PathGetPropertiesHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathGetPropertiesExceptionHeaders
-    }
+      headersMapper: Mappers.PathGetPropertiesExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeout, Parameters.upn, Parameters.action1],
   urlParameters: [Parameters.url],
@@ -460,30 +462,30 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
     Parameters.ifUnmodifiedSince,
     Parameters.leaseId,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.PathDeleteHeaders
+      headersMapper: Mappers.PathDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.PathDeleteHeaders
+      headersMapper: Mappers.PathDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathDeleteExceptionHeaders
-    }
+      headersMapper: Mappers.PathDeleteExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.continuation,
     Parameters.timeout,
     Parameters.recursive1,
-    Parameters.paginated
+    Parameters.paginated,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -494,21 +496,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.ifUnmodifiedSince,
     Parameters.leaseId,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
-  serializer
+  serializer,
 };
 const setAccessControlOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      headersMapper: Mappers.PathSetAccessControlHeaders
+      headersMapper: Mappers.PathSetAccessControlHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathSetAccessControlExceptionHeaders
-    }
+      headersMapper: Mappers.PathSetAccessControlExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeout, Parameters.action2],
   urlParameters: [Parameters.url],
@@ -524,9 +526,9 @@ const setAccessControlOperationSpec: coreClient.OperationSpec = {
     Parameters.ifNoneMatch,
     Parameters.owner,
     Parameters.group,
-    Parameters.acl
+    Parameters.acl,
   ],
-  serializer
+  serializer,
 };
 const setAccessControlRecursiveOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
@@ -534,12 +536,12 @@ const setAccessControlRecursiveOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SetAccessControlRecursiveResponse,
-      headersMapper: Mappers.PathSetAccessControlRecursiveHeaders
+      headersMapper: Mappers.PathSetAccessControlRecursiveHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathSetAccessControlRecursiveExceptionHeaders
-    }
+      headersMapper: Mappers.PathSetAccessControlRecursiveExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.continuation,
@@ -547,35 +549,35 @@ const setAccessControlRecursiveOperationSpec: coreClient.OperationSpec = {
     Parameters.maxRecords,
     Parameters.mode1,
     Parameters.forceFlag,
-    Parameters.action3
+    Parameters.action3,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.accept,
     Parameters.requestId,
     Parameters.version,
-    Parameters.acl
+    Parameters.acl,
   ],
-  serializer
+  serializer,
 };
 const flushDataOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      headersMapper: Mappers.PathFlushDataHeaders
+      headersMapper: Mappers.PathFlushDataHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathFlushDataExceptionHeaders
-    }
+      headersMapper: Mappers.PathFlushDataExceptionHeaders,
+    },
   },
   queryParameters: [
     Parameters.timeout,
     Parameters.position,
     Parameters.retainUncommittedData,
     Parameters.close,
-    Parameters.action4
+    Parameters.action4,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -599,28 +601,28 @@ const flushDataOperationSpec: coreClient.OperationSpec = {
     Parameters.leaseDuration,
     Parameters.contentLength,
     Parameters.contentMD5,
-    Parameters.leaseAction
+    Parameters.leaseAction,
   ],
-  serializer
+  serializer,
 };
 const appendDataOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PATCH",
   responses: {
     202: {
-      headersMapper: Mappers.PathAppendDataHeaders
+      headersMapper: Mappers.PathAppendDataHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathAppendDataExceptionHeaders
-    }
+      headersMapper: Mappers.PathAppendDataExceptionHeaders,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [
     Parameters.timeout,
     Parameters.position,
     Parameters.action5,
-    Parameters.flush
+    Parameters.flush,
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -634,25 +636,27 @@ const appendDataOperationSpec: coreClient.OperationSpec = {
     Parameters.leaseDuration,
     Parameters.accept2,
     Parameters.contentLength,
+    Parameters.structuredBodyType,
+    Parameters.structuredContentLength,
     Parameters.leaseAction,
     Parameters.contentType2,
     Parameters.transactionalContentHash,
-    Parameters.transactionalContentCrc64
+    Parameters.transactionalContentCrc64,
   ],
   mediaType: "binary",
-  serializer
+  serializer,
 };
 const setExpiryOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.PathSetExpiryHeaders
+      headersMapper: Mappers.PathSetExpiryHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathSetExpiryExceptionHeaders
-    }
+      headersMapper: Mappers.PathSetExpiryExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeout, Parameters.comp1],
   urlParameters: [Parameters.url],
@@ -661,21 +665,21 @@ const setExpiryOperationSpec: coreClient.OperationSpec = {
     Parameters.requestId,
     Parameters.version,
     Parameters.expiresOn,
-    Parameters.expiryOptions1
+    Parameters.expiryOptions1,
   ],
-  serializer
+  serializer,
 };
 const undeleteOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}/{path}",
   httpMethod: "PUT",
   responses: {
     200: {
-      headersMapper: Mappers.PathUndeleteHeaders
+      headersMapper: Mappers.PathUndeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.StorageError,
-      headersMapper: Mappers.PathUndeleteExceptionHeaders
-    }
+      headersMapper: Mappers.PathUndeleteExceptionHeaders,
+    },
   },
   queryParameters: [Parameters.timeout, Parameters.comp2],
   urlParameters: [Parameters.url],
@@ -683,7 +687,7 @@ const undeleteOperationSpec: coreClient.OperationSpec = {
     Parameters.accept,
     Parameters.requestId,
     Parameters.version,
-    Parameters.undeleteSource
+    Parameters.undeleteSource,
   ],
-  serializer
+  serializer,
 };
