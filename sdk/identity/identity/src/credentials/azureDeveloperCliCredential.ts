@@ -82,6 +82,7 @@ export const developerCliCredentialInternals = {
           "token",
           "--output",
           "json",
+          "--no-prompt",
           ...scopes.reduce<string[]>(
             (previous, current) => previous.concat("--scope", current),
             [],

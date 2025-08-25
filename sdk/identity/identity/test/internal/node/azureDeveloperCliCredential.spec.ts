@@ -39,7 +39,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azdCommands, [
-      "azd auth token --output json --scope https://service/.default",
+      "azd auth token --output json --no-prompt --scope https://service/.default",
     ]);
     // Used a working directory, and a shell
     assert.deepEqual(
@@ -59,7 +59,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     } as GetTokenOptions);
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azdCommands, [
-      "azd auth token --output json --scope https://service/.default --tenant-id TENANT-ID",
+      "azd auth token --output json --no-prompt --scope https://service/.default --tenant-id TENANT-ID",
     ]);
     // Used a working directory, and a shell
     assert.deepEqual(
@@ -79,7 +79,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azdCommands, [
-      "azd auth token --output json --scope https://service/.default --tenant-id tenantId",
+      "azd auth token --output json --no-prompt --scope https://service/.default --tenant-id tenantId",
     ]);
     // Used a working directory, and a shell
     assert.deepEqual(
@@ -136,6 +136,20 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     }
   });
 
+  it("includes --no-prompt flag to prevent interactive prompts", async function () {
+    stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
+    stderr = "";
+    const credential = new AzureDeveloperCliCredential();
+    await credential.getToken("https://service/.default");
+
+    // Verify the command includes --no-prompt to prevent hanging on debug prompts
+    const command = azdCommands[0];
+    assert.ok(command.includes("--no-prompt"), "Command should include --no-prompt flag");
+    assert.deepEqual(azdCommands, [
+      "azd auth token --output json --no-prompt --scope https://service/.default",
+    ]);
+  });
+
   it("get access token with claims challenge", async function () {
     stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
     stderr = "";
@@ -147,7 +161,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
 
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azdCommands, [
-      `azd auth token --output json --scope ${scope} --claims ${claimsChallenge}`,
+      `azd auth token --output json --no-prompt --scope ${scope} --claims ${claimsChallenge}`,
     ]);
   });
 
@@ -166,7 +180,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
 
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azdCommands, [
-      `azd auth token --output json --scope ${scope} --tenant-id ${tenantId} --claims ${claimsChallenge}`,
+      `azd auth token --output json --no-prompt --scope ${scope} --tenant-id ${tenantId} --claims ${claimsChallenge}`,
     ]);
   });
 
@@ -181,7 +195,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
 
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azdCommands, [
-      `azd auth token --output json --scope ${scopes[0]} --scope ${scopes[1]} --claims ${claimsChallenge}`,
+      `azd auth token --output json --no-prompt --scope ${scopes[0]} --scope ${scopes[1]} --claims ${claimsChallenge}`,
     ]);
   });
 
@@ -194,7 +208,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     const actualToken = await credential.getToken(scope, { claims: "" });
 
     assert.equal(actualToken!.token, "token");
-    assert.deepEqual(azdCommands, [`azd auth token --output json --scope ${scope}`]);
+    assert.deepEqual(azdCommands, [`azd auth token --output json --no-prompt --scope ${scope}`]);
   });
 
   it("does not include claims when undefined", async function () {
@@ -206,7 +220,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     const actualToken = await credential.getToken(scope, { claims: undefined });
 
     assert.equal(actualToken!.token, "token");
-    assert.deepEqual(azdCommands, [`azd auth token --output json --scope ${scope}`]);
+    assert.deepEqual(azdCommands, [`azd auth token --output json --no-prompt --scope ${scope}`]);
   });
 
   for (const tenantId of [
