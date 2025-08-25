@@ -7,33 +7,33 @@ import {
   IoTFirmwareDefenseClientOptionalParams,
 } from "./api/index.js";
 import {
-  UsageMetricsOperations,
-  _getUsageMetricsOperations,
-} from "./classic/usageMetrics/index.js";
-import { SummariesOperations, _getSummariesOperations } from "./classic/summaries/index.js";
-import {
-  SbomComponentsOperations,
-  _getSbomComponentsOperations,
-} from "./classic/sbomComponents/index.js";
-import {
-  PasswordHashesOperations,
-  _getPasswordHashesOperations,
-} from "./classic/passwordHashes/index.js";
-import { CvesOperations, _getCvesOperations } from "./classic/cves/index.js";
-import { CryptoKeysOperations, _getCryptoKeysOperations } from "./classic/cryptoKeys/index.js";
+  BinaryHardeningOperations,
+  _getBinaryHardeningOperations,
+} from "./classic/binaryHardening/index.js";
 import {
   CryptoCertificatesOperations,
   _getCryptoCertificatesOperations,
 } from "./classic/cryptoCertificates/index.js";
-import {
-  BinaryHardeningOperations,
-  _getBinaryHardeningOperations,
-} from "./classic/binaryHardening/index.js";
-import { WorkspacesOperations, _getWorkspacesOperations } from "./classic/workspaces/index.js";
+import { CryptoKeysOperations, _getCryptoKeysOperations } from "./classic/cryptoKeys/index.js";
+import { CvesOperations, _getCvesOperations } from "./classic/cves/index.js";
 import { FirmwaresOperations, _getFirmwaresOperations } from "./classic/firmwares/index.js";
 import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  PasswordHashesOperations,
+  _getPasswordHashesOperations,
+} from "./classic/passwordHashes/index.js";
+import {
+  SbomComponentsOperations,
+  _getSbomComponentsOperations,
+} from "./classic/sbomComponents/index.js";
+import { SummariesOperations, _getSummariesOperations } from "./classic/summaries/index.js";
+import {
+  UsageMetricsOperations,
+  _getUsageMetricsOperations,
+} from "./classic/usageMetrics/index.js";
+import { WorkspacesOperations, _getWorkspacesOperations } from "./classic/workspaces/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { IoTFirmwareDefenseClientOptionalParams } from "./api/ioTFirmwareDefenseContext.js";
 

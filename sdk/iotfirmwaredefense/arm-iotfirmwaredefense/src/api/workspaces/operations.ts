@@ -17,6 +17,12 @@ import {
   urlTokenDeserializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   WorkspacesGenerateUploadUrlOptionalParams,
   WorkspacesListBySubscriptionOptionalParams,
   WorkspacesListByResourceGroupOptionalParams,
@@ -26,16 +32,12 @@ import {
   WorkspacesGetOptionalParams,
 } from "./options.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
   StreamableMethod,
   PathUncheckedResponse,
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _generateUploadUrlSend(
   context: Client,
@@ -219,17 +221,11 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "204"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -245,14 +241,18 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
  *         to the operation to override the generated name.
  */
-export async function $delete(
+export function $delete(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
   options: WorkspacesDeleteOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _$deleteSend(context, resourceGroupName, workspaceName, options);
-  return _$deleteDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _$deleteSend(context, resourceGroupName, workspaceName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _updateSend(

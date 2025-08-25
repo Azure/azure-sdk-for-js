@@ -14,6 +14,7 @@ export function createIoTFirmwareDefense(credential: TokenCredential, subscripti
 // @public
 export interface IoTFirmwareDefenseClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public

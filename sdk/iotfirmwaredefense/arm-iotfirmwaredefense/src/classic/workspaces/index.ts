@@ -3,11 +3,14 @@
 
 import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
 import {
-  Workspace,
-  WorkspaceUpdate,
-  GenerateUploadUrlRequest,
-  UrlToken,
-} from "../../models/models.js";
+  generateUploadUrl,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  create,
+  get,
+} from "../../api/workspaces/operations.js";
 import {
   WorkspacesGenerateUploadUrlOptionalParams,
   WorkspacesListBySubscriptionOptionalParams,
@@ -18,15 +21,13 @@ import {
   WorkspacesGetOptionalParams,
 } from "../../api/workspaces/options.js";
 import {
-  generateUploadUrl,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  create,
-  get,
-} from "../../api/workspaces/operations.js";
+  Workspace,
+  WorkspaceUpdate,
+  GenerateUploadUrlRequest,
+  UrlToken,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Workspaces operations. */
 export interface WorkspacesOperations {
@@ -56,7 +57,7 @@ export interface WorkspacesOperations {
     resourceGroupName: string,
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams,
-  ) => Promise<void>;
+  ) => PollerLike<OperationState<void>, void>;
   /** The operation to update a firmware analysis workspaces. */
   update: (
     resourceGroupName: string,

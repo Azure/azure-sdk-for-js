@@ -133,6 +133,13 @@ export interface CryptoKeySummaryResource extends SummaryResourceProperties {
 export type CryptoKeyType = string;
 
 // @public
+export interface CveComponent {
+    componentId?: string;
+    name?: string;
+    version?: string;
+}
+
+// @public
 export interface CveLink {
     href?: string;
     label?: string;
@@ -145,12 +152,17 @@ export interface CveResource extends ProxyResource {
 
 // @public
 export interface CveResult {
+    component?: CveComponent;
     componentId?: string;
     componentName?: string;
     componentVersion?: string;
     cveId?: string;
     cveName?: string;
+    cvssScore?: string;
     cvssScores?: CvssScore[];
+    cvssV2Score?: string;
+    cvssV3Score?: string;
+    cvssVersion?: string;
     description?: string;
     effectiveCvssScore?: number;
     effectiveCvssVersion?: number;
@@ -177,7 +189,7 @@ export interface CvssScore {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -320,7 +332,7 @@ export enum KnownSummaryType {
 
 // @public
 export enum KnownVersions {
-    V20250401Preview = "2025-04-01-preview"
+    V20250802 = "2025-08-02"
 }
 
 // @public

@@ -8,12 +8,12 @@ import {
   _binaryHardeningResourceListResultDeserializer,
   BinaryHardeningResource,
 } from "../../models/models.js";
-import { BinaryHardeningListByFirmwareOptionalParams } from "./options.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { BinaryHardeningListByFirmwareOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
