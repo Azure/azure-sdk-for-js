@@ -16,7 +16,7 @@ import type { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { LoggerProvider } from "@opentelemetry/sdk-logs";
 
-import { useAzureMonitor } from "../../src/index.js";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import type { Expectation, Scenario } from "./types.js";
 import type { HttpClient } from "@azure/core-rest-pipeline";
 

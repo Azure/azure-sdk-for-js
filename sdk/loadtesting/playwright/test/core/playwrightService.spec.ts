@@ -488,7 +488,7 @@ describe("getConnectOptions", () => {
   });
 
   it("should throw error when ENTRA_ID auth type is specified but no credential is provided", async () => {
-    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+    const { getConnectOptions } = await import(".$internal/core/playwrightService.js");
 
     await expect(() =>
       getConnectOptions({
@@ -503,7 +503,7 @@ describe("getConnectOptions", () => {
     vi.spyOn(utils, "validateMptPAT").mockReturnValue();
     vi.spyOn(utils, "getAccessToken").mockReturnValue(accessToken);
 
-    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+    const { getConnectOptions } = await import(".$internal/core/playwrightService.js");
 
     const connectOptions = await getConnectOptions({
       serviceAuthType: ServiceAuth.ACCESS_TOKEN,
@@ -514,7 +514,7 @@ describe("getConnectOptions", () => {
   });
 
   it("should throw error when invalid auth type is specified", async () => {
-    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+    const { getConnectOptions } = await import(".$internal/core/playwrightService.js");
 
     await expect(() =>
       getConnectOptions({
@@ -528,7 +528,7 @@ describe("getConnectOptions", () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, accessToken);
     vi.spyOn(utils, "validateMptPAT").mockReturnValue();
 
-    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+    const { getConnectOptions } = await import(".$internal/core/playwrightService.js");
 
     const playwrightServiceConfigSpy = vi.spyOn(
       PlaywrightServiceConfig.prototype,

@@ -3,14 +3,14 @@
 
 import path from "node:path";
 
-import { InternalConfig } from "../../../../src/shared/index.js";
-import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
+import { InternalConfig } from "$internal/shared/index.js";
+import { JsonConfig } from "$internal/shared/jsonConfig.js";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import {
   CloudPlatformValues,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
-import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/types.js";
+import type { AzureMonitorOpenTelemetryOptions } from "$internal/types.js";
 import type { MockInstance } from "vitest";
 import { assert, expect, afterEach, describe, it, vi, beforeEach } from "vitest";
 import { azureVmDetector } from "@opentelemetry/resource-detector-azure";

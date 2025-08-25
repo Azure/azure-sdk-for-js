@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosDbDiagnosticLevel } from "@azure/cosmos";
 import { PipelinedQueryExecutionContext } from "$internal/queryExecutionContext/pipelinedQueryExecutionContext.js";
-import type { QueryInfo } from "$internal/request/ErrorResponse.js";
+import { CosmosDbDiagnosticLevel, QueryInfo } from "@azure/cosmos";
 import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
 import {
   createDummyDiagnosticNode,

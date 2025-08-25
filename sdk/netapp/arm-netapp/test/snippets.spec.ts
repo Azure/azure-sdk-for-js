@@ -7,10 +7,7 @@
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";
-import {
-  DefaultAzureCredential,
-  InteractiveBrowserCredential,
-} from "@azure/identity";
+import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 

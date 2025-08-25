@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientContext, Container, PluginConfig, RequestContext } from "@azure/cosmos";
+import type {
+  ClientContext,
+  Container,
+  PluginConfig,
+  RequestContext,
+  Response,
+} from "@azure/cosmos";
 import {
   PluginOn,
   OperationType,
@@ -17,7 +23,6 @@ import {
   getTestDatabase,
   removeAllDatabases,
 } from "../../public/common/TestHelpers.js";
-import type { Response } from "$internal/request/Response.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
 describe("New session token", () => {

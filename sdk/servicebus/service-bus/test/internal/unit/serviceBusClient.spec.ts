@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { extractReceiverArguments, ServiceBusClient } from "$internal/serviceBusClient.js";
+import { extractReceiverArguments } from "$internal/serviceBusClient.js";
+import { ServiceBusClient } from "@azure/service-bus";
 import type { ServiceBusSessionReceiverOptions } from "@azure/service-bus";
 import { entityPathMisMatchError } from "$internal/util/errors.js";
 import {

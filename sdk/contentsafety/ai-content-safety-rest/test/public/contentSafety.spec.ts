@@ -4,8 +4,8 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecorder, createClient } from "./utils/recordedClient.js";
-import type { ContentSafetyClient, TextBlocklistItemOutput } from "../../src/index.js";
-import { isUnexpected, paginate } from "../../src/index.js";
+import type { ContentSafetyClient, TextBlocklistItemOutput } from "@azure-rest/ai-content-safety";
+import { isUnexpected, paginate } from "@azure-rest/ai-content-safety";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

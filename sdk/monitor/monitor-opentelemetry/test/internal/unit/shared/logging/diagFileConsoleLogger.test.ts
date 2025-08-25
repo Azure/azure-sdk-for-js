@@ -3,8 +3,8 @@
 
 import path from "node:path";
 
-import * as fileHelper from "../../../../../src/utils/fileSystem.js";
-import { DiagFileConsoleLogger } from "../../../../../src/shared/logging/diagFileConsoleLogger.js";
+import * as fileHelper from "$internal/utils/fileSystem.js";
+import { DiagFileConsoleLogger } from "$internal/shared/logging/diagFileConsoleLogger.js";
 import { vi, assert, describe, beforeEach, afterEach, it, expect } from "vitest";
 
 describe("Library/DiagFileConsoleLogger", () => {

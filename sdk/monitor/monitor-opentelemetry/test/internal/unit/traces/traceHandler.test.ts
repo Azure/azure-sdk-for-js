@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TraceHandler } from "../../../../src/traces/index.js";
-import { MetricHandler } from "../../../../src/metrics/index.js";
-import { InternalConfig } from "../../../../src/shared/index.js";
+import { TraceHandler } from "$internal/traces/index.js";
+import { MetricHandler } from "$internal/metrics/index.js";
+import { InternalConfig } from "$internal/shared/index.js";
 import {
   HttpInstrumentation,
   type HttpInstrumentationConfig,
