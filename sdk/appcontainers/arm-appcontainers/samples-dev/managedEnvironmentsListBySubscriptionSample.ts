@@ -5,7 +5,7 @@
  * This sample demonstrates how to Get all Managed Environments for a subscription.
  *
  * @summary Get all Managed Environments for a subscription.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironments_ListBySubscription.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironments_ListBySubscription.json
  */
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";

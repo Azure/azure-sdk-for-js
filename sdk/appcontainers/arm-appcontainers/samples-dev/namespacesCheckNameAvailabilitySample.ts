@@ -5,7 +5,7 @@
  * This sample demonstrates how to Checks if resource name is available.
  *
  * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/Certificates_CheckNameAvailability.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/Certificates_CheckNameAvailability.json
  */
 
 import {
@@ -40,7 +40,7 @@ async function certificatesCheckNameAvailability(): Promise<void> {
  * This sample demonstrates how to Checks if resource name is available.
  *
  * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ContainerApps_CheckNameAvailability.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ContainerApps_CheckNameAvailability.json
  */
 async function containerAppsCheckNameAvailability(): Promise<void> {
   const subscriptionId =

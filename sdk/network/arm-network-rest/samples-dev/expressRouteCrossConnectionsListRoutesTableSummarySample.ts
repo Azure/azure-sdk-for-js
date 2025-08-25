@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Gets the route table summary associated with the express route cross connection in a resource group.
  *
@@ -33,7 +34,7 @@ async function getExpressRouteCrossConnectionsRouteTableSummary(): Promise<void>
       devicePath,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

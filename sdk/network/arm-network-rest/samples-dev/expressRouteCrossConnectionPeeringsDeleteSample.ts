@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Deletes the specified peering from the ExpressRouteCrossConnection.
  *
@@ -31,7 +32,7 @@ async function deleteExpressRouteCrossConnectionBgpPeering(): Promise<void> {
       peeringName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

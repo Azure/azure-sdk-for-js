@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Approve or reject private end point connection for a private link service in a subscription.
  *
@@ -23,9 +24,6 @@ async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService():
     body: {
       name: "testPlePeConnection",
       properties: {
-        privateEndpoint: {
-          id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
-        },
         privateLinkServiceConnectionState: {
           description: "approved it for some reason.",
           status: "Approved",

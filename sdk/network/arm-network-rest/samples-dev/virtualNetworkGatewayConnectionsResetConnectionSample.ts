@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Resets the virtual network gateway connection specified.
  *
@@ -29,7 +30,7 @@ async function resetVirtualNetworkGatewayConnection(): Promise<void> {
       virtualNetworkGatewayConnectionName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

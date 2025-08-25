@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-recoveryservices-siterecovery": ["./src/index.ts"],
+      "@azure/arm-recoveryservices-siterecovery/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

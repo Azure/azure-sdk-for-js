@@ -1,3 +1,10 @@
 {
-  "extends": ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"]
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-tools/communication-alpha-ids": ["./dist/browser/index.d.ts"],
+      "@azure-tools/communication-alpha-ids/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  }
 }

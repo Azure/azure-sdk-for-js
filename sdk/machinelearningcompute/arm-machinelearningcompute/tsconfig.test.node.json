@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-machinelearningcompute": ["./src/index.ts"],
+      "@azure/arm-machinelearningcompute/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -67,6 +67,7 @@ import { parseEventHubSpan } from "./eventhub.js";
 import {
   AzureMonitorSampleRate,
   DependencyTypes,
+  MicrosoftClientIp,
   MS_LINKS,
 } from "./constants/applicationinsights.js";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes.js";
@@ -99,9 +100,19 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   if (isSyntheticSource(span.attributes)) {
     tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
+
+  // Check for microsoft.client.ip first - this takes precedence over all other IP logic
+  const microsoftClientIp = span.attributes[MicrosoftClientIp];
+  if (microsoftClientIp) {
+    tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
+  }
+
   if (span.kind === SpanKind.SERVER) {
     const httpMethod = getHttpMethod(span.attributes);
-    getLocationIp(tags, span.attributes);
+    // Only use the fallback IP logic for server spans if microsoft.client.ip is not set
+    if (!microsoftClientIp) {
+      getLocationIp(tags, span.attributes);
+    }
     if (httpMethod) {
       const httpRoute = span.attributes[ATTR_HTTP_ROUTE];
       const httpUrl = getHttpUrl(span.attributes);

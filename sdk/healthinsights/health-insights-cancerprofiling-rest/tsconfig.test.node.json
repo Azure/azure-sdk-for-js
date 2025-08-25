@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/health-insights-cancerprofiling": ["./src/index.ts"],
+      "@azure-rest/health-insights-cancerprofiling/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

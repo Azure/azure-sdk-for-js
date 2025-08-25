@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
@@ -181,7 +182,6 @@ async function createAzureFirewallWithAdditionalProperties(): Promise<void> {
             },
           },
         ],
-        ipGroups: [],
         natRuleCollections: [
           {
             name: "natrulecoll",

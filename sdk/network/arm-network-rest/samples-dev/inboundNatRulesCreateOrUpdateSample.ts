@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Creates or updates a load balancer inbound NAT rule.
  *
@@ -44,7 +45,7 @@ async function inboundNatRuleCreate(): Promise<void> {
       inboundNatRuleName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

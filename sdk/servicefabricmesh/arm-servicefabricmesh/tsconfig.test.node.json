@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-servicefabricmesh": ["./src/index.ts"],
+      "@azure/arm-servicefabricmesh/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -14,9 +14,6 @@ export default defineConfig({
     "process.env": process.env,
   },
   test: {
-    typecheck: {
-      enabled: true,
-    },
     testTimeout: 1200000,
     hookTimeout: 1200000,
     reporters: [new AzureSDKReporter(), "junit"],

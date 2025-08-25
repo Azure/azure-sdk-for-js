@@ -35,7 +35,7 @@ async function effectiveRoutesForAConnectionResource(): Promise<void> {
       virtualHubName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -69,7 +69,7 @@ async function effectiveRoutesForARouteTableResource(): Promise<void> {
       virtualHubName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -99,7 +99,7 @@ async function effectiveRoutesForTheVirtualHub(): Promise<void> {
       virtualHubName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

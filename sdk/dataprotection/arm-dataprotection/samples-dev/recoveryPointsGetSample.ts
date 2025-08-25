@@ -5,7 +5,7 @@
  * This sample demonstrates how to Gets a Recovery Point using recoveryPointId for a Datasource.
  *
  * @summary Gets a Recovery Point using recoveryPointId for a Datasource.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/GetRecoveryPoint.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/GetRecoveryPoint.json
  */
 
 import { DataProtectionClient } from "@azure/arm-dataprotection";
@@ -14,8 +14,10 @@ import "dotenv/config";
 
 async function getRecoveryPoint(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
   const vaultName = "PratikPrivatePreviewVault1";
   const backupInstanceName = "testInstance1";
   const recoveryPointId = "7fb2cddd-c5b3-44f6-a0d9-db3c4f9d5f25";

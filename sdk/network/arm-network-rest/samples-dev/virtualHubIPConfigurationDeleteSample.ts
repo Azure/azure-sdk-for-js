@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Deletes a VirtualHubIpConfiguration.
  *
@@ -31,7 +32,7 @@ async function virtualHubIPConfigurationDelete(): Promise<void> {
       ipConfigName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

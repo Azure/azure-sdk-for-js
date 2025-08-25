@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Starts packet capture on virtual network gateway in the specified resource group.
  *
@@ -33,7 +34,7 @@ async function startPacketCaptureOnVirtualNetworkGatewayWithFilter(): Promise<vo
       virtualNetworkGatewayName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -62,7 +63,7 @@ async function startPacketCaptureOnVirtualNetworkGatewayWithoutFilter(): Promise
       virtualNetworkGatewayName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

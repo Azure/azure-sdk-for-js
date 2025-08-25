@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Gives the sas-url to download the configurations for vpn-sites in a resource group.
  *
@@ -36,7 +37,7 @@ async function vpnSitesConfigurationDownload(): Promise<void> {
       virtualWANName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

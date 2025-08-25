@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Updates the specified private endpoint connection on application gateway.
  *
@@ -23,9 +24,6 @@ async function updateApplicationGatewayPrivateEndpointConnection(): Promise<void
     body: {
       name: "connection1",
       properties: {
-        privateEndpoint: {
-          id: "/subscriptions/subId2/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
-        },
         privateLinkServiceConnectionState: {
           description: "approved it for some reason.",
           status: "Approved",

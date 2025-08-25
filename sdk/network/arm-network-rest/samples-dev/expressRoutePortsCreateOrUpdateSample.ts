@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Creates or updates the specified ExpressRoutePort resource.
  *
@@ -38,7 +39,7 @@ async function expressRoutePortCreate(): Promise<void> {
       expressRoutePortName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -77,7 +78,7 @@ async function expressRoutePortUpdateLink(): Promise<void> {
       expressRoutePortName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

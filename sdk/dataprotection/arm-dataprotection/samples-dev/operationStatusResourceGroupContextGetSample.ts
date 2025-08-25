@@ -5,7 +5,7 @@
  * This sample demonstrates how to Gets the operation status for an operation over a ResourceGroup's context.
  *
  * @summary Gets the operation status for an operation over a ResourceGroup's context.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/GetOperationStatusRGContext.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/GetOperationStatusRGContext.json
  */
 
 import { DataProtectionClient } from "@azure/arm-dataprotection";
@@ -14,8 +14,10 @@ import "dotenv/config";
 
 async function getOperationStatus(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "0b352192-dcac-4cc7-992e-a96190ccc68c";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "0b352192-dcac-4cc7-992e-a96190ccc68c";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
   const operationId =
     "MjkxOTMyODMtYTE3My00YzJjLTg5NjctN2E4MDIxNDA3NjA2OzdjNGE2ZWRjLWJjMmItNDRkYi1hYzMzLWY1YzEwNzk5Y2EyOA==";
   const credential = new DefaultAzureCredential();

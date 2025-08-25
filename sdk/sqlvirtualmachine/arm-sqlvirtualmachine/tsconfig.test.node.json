@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-sqlvirtualmachine": ["./src/index.ts"],
+      "@azure/arm-sqlvirtualmachine/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

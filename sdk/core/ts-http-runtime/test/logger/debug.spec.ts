@@ -94,4 +94,19 @@ describe("debug", function () {
   it("names ending in * are always enabled", () => {
     assert.isTrue(debug.enabled("foo*"));
   });
+
+  it("enable works with pattern edge cases", () => {
+    debug.enable("ab*abc");
+    assert.isTrue(debug.enabled("ababababababc"));
+    assert.isFalse(debug.enabled("abababababab"));
+    debug.enable("a*a*");
+    assert.isTrue(debug.enabled("aa"));
+    assert.isTrue(debug.enabled("aab"));
+    assert.isTrue(debug.enabled("aaaaaab"));
+    assert.isTrue(debug.enabled("abba"));
+    debug.enable("test****test");
+    assert.isTrue(debug.enabled("testtest"));
+    assert.isTrue(debug.enabled("testabcdtest"));
+    assert.isFalse(debug.enabled("testabcdtes"));
+  });
 });

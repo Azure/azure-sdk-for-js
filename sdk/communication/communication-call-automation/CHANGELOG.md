@@ -9,7 +9,7 @@
 - Added support for Personally Identifiable Information (PII) redaction and summarization in transcription, improving privacy and providing concise summaries of transcribed content.
 - Added support for sentiment analysis in both speech and choice recognition, allowing detection of participant sentiment during call interactions.
 
-## 1.5.0 (2025-07-25)
+## 1.5.0 (2025-08-25)
 
 ### Features Added
 

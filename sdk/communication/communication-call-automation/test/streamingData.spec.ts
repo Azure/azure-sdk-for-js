@@ -26,7 +26,7 @@ describe("Stream data parser unit tests", function () {
   const dtmfDataJson = '{"kind":"DtmfData","dtmfData":{"data":"test"}}';
   it("Successfully parse binary data to transcription meta data ", function () {
     const transcriptionMetaDataBinary = encoder.encode(transcriptionMetaDataJson);
-    const parsedData = StreamingData.parse(transcriptionMetaDataBinary);
+    const parsedData = StreamingData.parse(transcriptionMetaDataBinary.slice().buffer);
     if ("locale" in parsedData) {
       validateTranscriptionMetadata(parsedData);
     }
@@ -41,7 +41,7 @@ describe("Stream data parser unit tests", function () {
 
   it("Successfully parse binary data to transcription data ", function () {
     const transcriptionDataBinary = encoder.encode(transcriptionDataJson);
-    const parsedData = StreamingData.parse(transcriptionDataBinary);
+    const parsedData = StreamingData.parse(transcriptionDataBinary.slice().buffer);
     if ("text" in parsedData) {
       validateTranscriptionData(parsedData);
     }
@@ -55,7 +55,7 @@ describe("Stream data parser unit tests", function () {
   });
   it("Successfully parse binary data to audio meta data ", function () {
     const audioMetaDataBinary = encoder.encode(audioMetadataJson);
-    const parsedData = StreamingData.parse(audioMetaDataBinary);
+    const parsedData = StreamingData.parse(audioMetaDataBinary.slice().buffer);
     if ("encoding" in parsedData) {
       validateAudioMetadata(parsedData);
     }
@@ -70,7 +70,7 @@ describe("Stream data parser unit tests", function () {
 
   it("Successfully parse binary data to audio data ", function () {
     const audioDataBinary = encoder.encode(audioDataJson);
-    const parsedData = StreamingData.parse(audioDataBinary);
+    const parsedData = StreamingData.parse(audioDataBinary.slice().buffer);
     if ("isSilent" in parsedData) {
       validateAudioData(parsedData);
     }

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
  *
@@ -58,7 +59,7 @@ async function createPrivateEndpoint(): Promise<void> {
       privateEndpointName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -110,7 +111,7 @@ async function createPrivateEndpointWithApplicationSecurityGroups(): Promise<voi
       privateEndpointName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -168,7 +169,7 @@ async function createPrivateEndpointWithManualApprovalConnection(): Promise<void
       privateEndpointName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

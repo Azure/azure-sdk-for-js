@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get current subscription usage of the specific type
  *
  * @summary Get current subscription usage of the specific type
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Usages_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Usages_Get.json
  */
 async function usagesGet(): Promise<void> {
   const subscriptionId =

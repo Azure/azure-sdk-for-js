@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Lists IKE Security Associations for Vpn Site Link Connection in the specified resource group.
  *
@@ -33,7 +34,7 @@ async function getVpnLinkConnectionIkeSa(): Promise<void> {
       linkConnectionName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

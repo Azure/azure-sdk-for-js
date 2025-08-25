@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
@@ -57,7 +58,7 @@ async function createFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
       ruleCollectionGroupName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -111,7 +112,7 @@ async function createFirewallPolicyRuleCollectionGroup(): Promise<void> {
       ruleCollectionGroupName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -168,7 +169,7 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups(): Promise<vo
       ruleCollectionGroupName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -221,7 +222,7 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories(): Promi
       ruleCollectionGroupName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

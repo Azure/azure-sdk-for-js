@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 /**
  * This sample demonstrates how to Gets the inbound routes configured for the Virtual Hub on a particular connection.
  *
@@ -34,7 +35,7 @@ async function inboundRoutesForTheVirtualHubOnAParticularConnection(): Promise<v
       virtualHubName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

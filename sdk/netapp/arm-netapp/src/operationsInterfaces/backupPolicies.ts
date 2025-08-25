@@ -63,10 +63,7 @@ export interface BackupPolicies {
     body: BackupPolicy,
     options?: BackupPoliciesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BackupPoliciesCreateResponse>,
-      BackupPoliciesCreateResponse
-    >
+    SimplePollerLike<OperationState<BackupPoliciesCreateResponse>, BackupPoliciesCreateResponse>
   >;
   /**
    * Create a backup policy for Netapp Account
@@ -98,10 +95,7 @@ export interface BackupPolicies {
     body: BackupPolicyPatch,
     options?: BackupPoliciesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BackupPoliciesUpdateResponse>,
-      BackupPoliciesUpdateResponse
-    >
+    SimplePollerLike<OperationState<BackupPoliciesUpdateResponse>, BackupPoliciesUpdateResponse>
   >;
   /**
    * Patch a backup policy for Netapp Account
