@@ -48,6 +48,8 @@ export interface CommunicationIdentifierModel {
   microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
   /** The Microsoft Teams application. */
   microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
+  /** The Microsoft Teams Extension user. */
+  teamsExtensionUser?: TeamsExtensionUserIdentifierModel;
 }
 
 /** A user that got created with an Azure Communication Services resource. */
@@ -58,13 +60,17 @@ export interface CommunicationUserIdentifierModel {
 
 /** A phone number. */
 export interface PhoneNumberIdentifierModel {
-  /** The phone number in E.164 format. */
+  /** The phone number, usually in E.164 format. */
   value: string;
+  /** True if the phone number is anonymous. By default false if missing. If the phone number is anonymous, the value will be the string 'anonymous'. */
+  isAnonymous?: boolean;
+  /** The asserted Id of the phone number. An asserted Id gets generated when the same phone number joins the same call more than once. */
+  assertedId?: string;
 }
 
 /** A Microsoft Teams user. */
 export interface MicrosoftTeamsUserIdentifierModel {
-  /** The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user. */
+  /** The Id of the Microsoft Teams user. If not anonymous, this is the Entra ID object Id of the user. */
   userId: string;
   /** True if the Microsoft Teams user is anonymous. By default false if missing. */
   isAnonymous?: boolean;
@@ -77,6 +83,18 @@ export interface MicrosoftTeamsAppIdentifierModel {
   /** The Id of the Microsoft Teams application. */
   appId: string;
   /** The cloud that the Microsoft Teams application belongs to. By default 'public' if missing. */
+  cloud?: CommunicationCloudEnvironmentModel;
+}
+
+/** A Microsoft Teams Phone user who is using a Communication Services resource to extend their Teams Phone set up. */
+export interface TeamsExtensionUserIdentifierModel {
+  /** The Id of the Microsoft Teams Extension user, i.e. the Entra ID object Id of the user. */
+  userId: string;
+  /** The tenant Id of the Microsoft Teams Extension user. */
+  tenantId: string;
+  /** The Communication Services resource Id. */
+  resourceId: string;
+  /** The cloud that the Microsoft Teams Extension user belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
@@ -359,6 +377,8 @@ export enum KnownCommunicationIdentifierModelKind {
   MicrosoftTeamsUser = "microsoftTeamsUser",
   /** MicrosoftTeamsApp */
   MicrosoftTeamsApp = "microsoftTeamsApp",
+  /** TeamsExtensionUser */
+  TeamsExtensionUser = "teamsExtensionUser",
 }
 
 /**
@@ -370,7 +390,8 @@ export enum KnownCommunicationIdentifierModelKind {
  * **communicationUser** \
  * **phoneNumber** \
  * **microsoftTeamsUser** \
- * **microsoftTeamsApp**
+ * **microsoftTeamsApp** \
+ * **teamsExtensionUser**
  */
 export type CommunicationIdentifierModelKind = string;
 
