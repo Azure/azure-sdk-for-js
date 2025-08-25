@@ -10,6 +10,9 @@
 
 import { AzureOpenAI } from "openai";
 import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main(): Promise<void> {
   const apiVersion = "2025-04-01-preview";
@@ -17,10 +20,13 @@ export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(credential, scope);
+  // Get the endpoint from the environment variable or use a placeholder
+  const endpoint = process.env["AZURE_OPENAI_ENDPOINT"] || "<your-azure-openai-endpoint>";
 
   const client = new AzureOpenAI({
     azureADTokenProvider,
     apiVersion,
+    endpoint, // Specify the Azure OpenAI endpoint
   });
 
   // Create an assistant using code interpreter tool
