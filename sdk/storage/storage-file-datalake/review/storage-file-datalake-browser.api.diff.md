@@ -243,7 +243,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { HttpHeaders }
  
-@@ -1858,72 +1737,8 @@
+@@ -1865,72 +1744,8 @@
      // (undocumented)
      write: boolean;
  }
@@ -316,7 +316,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface ServiceGenerateAccountSasUrlOptions {
-@@ -2028,12 +1843,8 @@
+@@ -2035,12 +1850,8 @@
  export { StorageRetryPolicyFactory }
  
  export { StorageRetryPolicyType }

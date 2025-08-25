@@ -1173,6 +1173,7 @@ export interface ListFileSystemsSegmentResponse {
 export interface ListPathsOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
+    beginFrom?: string;
     // (undocumented)
     path?: string;
     // (undocumented)
@@ -1537,10 +1538,16 @@ export interface PathGetPropertiesHeadersModel {
     contentMD5?: string;
     contentRange?: string;
     contentType?: string;
+    creationTime?: Date;
     date?: Date;
+    encryptionContext?: string;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
     errorCode?: string;
     etag?: string;
+    expiresOn?: Date;
     group?: string;
+    isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: string;
     leaseState?: string;

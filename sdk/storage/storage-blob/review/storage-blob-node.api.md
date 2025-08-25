@@ -753,7 +753,7 @@ export interface BlobGetTagsHeaders {
 // @public
 export interface BlobGetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: TagConditions & LeaseAccessConditions;
+    conditions?: TagConditions & LeaseAccessConditions & BlobModifiedAccessConditions;
 }
 
 // @public
@@ -855,6 +855,14 @@ export class BlobLeaseClient {
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     renewLease(options?: LeaseOperationOptions): Promise<Lease>;
     get url(): string;
+}
+
+// @public
+export interface BlobModifiedAccessConditions {
+    ifMatch?: string;
+    ifModifiedSince?: Date;
+    ifNoneMatch?: string;
+    ifUnmodifiedSince?: Date;
 }
 
 // @public (undocumented)
@@ -1250,7 +1258,7 @@ export interface BlobSetTagsHeaders {
 // @public
 export interface BlobSetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: TagConditions & LeaseAccessConditions;
+    conditions?: TagConditions & LeaseAccessConditions & BlobModifiedAccessConditions;
 }
 
 // @public

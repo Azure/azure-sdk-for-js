@@ -10,12 +10,12 @@ import * as coreHttpCompat from "@azure/core-http-compat";
 import {
   ServiceImpl,
   FileSystemOperationsImpl,
-  PathOperationsImpl
+  PathOperationsImpl,
 } from "./operations/index.js";
 import {
   Service,
   FileSystemOperations,
-  PathOperations
+  PathOperations,
 } from "./operationsInterfaces/index.js";
 import { StorageClientOptionalParams } from "./models/index.js";
 
@@ -41,7 +41,7 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: StorageClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
     const packageDetails = `azsdk-js-azure-storage-datalake/12.28.1`;
@@ -54,9 +54,9 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{url}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{url}",
     };
     super(optionsWithDefaults);
     // Parameter assignments

@@ -116,6 +116,7 @@ import type {
   BlobSetLegalHoldResponse,
   BlobSetMetadataResponse,
   FileShareTokenIntent,
+  BlobModifiedAccessConditions  
 } from "./generatedModels.js";
 import type {
   AppendBlobRequestConditions,
@@ -423,7 +424,7 @@ export interface BlobSetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    */
-  conditions?: TagConditions & LeaseAccessConditions;
+  conditions?: TagConditions & LeaseAccessConditions & BlobModifiedAccessConditions;
 }
 
 /**
@@ -438,7 +439,7 @@ export interface BlobGetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    */
-  conditions?: TagConditions & LeaseAccessConditions;
+  conditions?: TagConditions & LeaseAccessConditions & BlobModifiedAccessConditions;
 }
 
 /**
@@ -1596,6 +1597,7 @@ export class BlobClient extends StorageClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
           },
+          blobModifiedAccessConditions: options.conditions,
           tracingOptions: updatedOptions.tracingOptions,
           tags: toBlobTags(tags),
         }),
@@ -1618,6 +1620,7 @@ export class BlobClient extends StorageClient {
             ...options.conditions,
             ifTags: options.conditions?.tagConditions,
           },
+          blobModifiedAccessConditions: options.conditions,
           tracingOptions: updatedOptions.tracingOptions,
         }),
       );
