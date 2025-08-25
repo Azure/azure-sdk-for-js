@@ -74,13 +74,14 @@ function Set-GitHubIssue($Package) {
 }
 
 Write-Host "Running pnpm outdated --format json --recursive"
-$rushUpdateOutput = pnpm outdated --format json --recursive
-write-host $rushUpdateOutput
+$env:NODE_OPTIONS = "--max-old-space-size=16384"
+$pnpmOutdatedOutput = pnpm outdated --format list --recursive
+write-host $pnpmOutdatedOutput
 $gitDifOutput = git --no-pager diff
 foreach ($line in $gitDifOutput) {
   write-host $line
 }
-foreach ($line in $rushUpdateOutput) {
+foreach ($line in $pnpmOutdatedOutput) {
   if ($line -match $deprecatedDependencyRegex) {
     $p = New-Object PSObject -Property @{
       Name         = $matches['pkg']
