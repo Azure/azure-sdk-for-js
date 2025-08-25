@@ -75,25 +75,25 @@ function Set-GitHubIssue($Package) {
 
 Write-Host "Running pnpm outdated --format json --recursive"
 $env:NODE_OPTIONS = "--max-old-space-size=16384"
-$pnpmOutdatedOutput = pnpm outdated --format list --recursive
-write-host $pnpmOutdatedOutput
-$gitDifOutput = git --no-pager diff
-foreach ($line in $gitDifOutput) {
-  write-host $line
-}
-foreach ($line in $pnpmOutdatedOutput) {
-  if ($line -match $deprecatedDependencyRegex) {
+$pnpmOutdatedOutput = pnpm outdated --format json --recursive
+
+$availableUpdates = $pnpmOutdatedOutput | ConvertFrom-Json
+
+foreach ($update in $availableUpdates.PSObject.Properties) {
+  if ($update.Name -notmatch '^@azure') {
     $p = New-Object PSObject -Property @{
-      Name         = $matches['pkg']
-      OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])
-      NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
-      IsDeprecated = ($matches['deprecated'] -eq "deprecated")
+      Name         = $update.Name
+      OldVersion   = $update.Value.'wanted'
+      NewVersion   = $update.Value.'latest'
+      IsDeprecated = $update.Value.'isDeprecated'
     }
+    Write-Host $update.Name, $update.Value.'wanted', $update.Value.'latest'
 
     if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion) {
-      # Set-GitHubIssue -Package $p
+      Set-GitHubIssue -Package $p
       Start-Sleep -s 5
     }
   }
 }
+
 Write-Host "Verified and filed issues"
