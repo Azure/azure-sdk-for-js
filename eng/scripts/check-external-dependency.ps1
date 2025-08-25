@@ -14,7 +14,7 @@ param (
 
 $dependencyUpgradeLabel = "dependency-upgrade-required"
 $deprecatedDependency = "Deprecated-Dependency"
-$deprecatedDependencyRegex = "^\+\s(?<pkg>[\S]*)\s|\sWARN\(?<deprecated>deprecated\)"
+
 $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
 Write-Host "Repo root: $RepoRoot"
 
@@ -87,9 +87,9 @@ foreach ($update in $availableUpdates.PSObject.Properties) {
       NewVersion   = $update.Value.'latest'
       IsDeprecated = $update.Value.'isDeprecated'
     }
-    Write-Host $update.Name, $update.Value.'wanted', $update.Value.'latest'
 
-    if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion) {
+    if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion -and $p.OldVersion -ne $p.NewVersion) {
+      Write-Host $update.Name, $update.Value.'wanted', $update.Value.'latest'
       Set-GitHubIssue -Package $p
       Start-Sleep -s 5
     }
