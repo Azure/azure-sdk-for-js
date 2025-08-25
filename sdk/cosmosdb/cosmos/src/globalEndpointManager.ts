@@ -3,7 +3,7 @@
 import { OperationType, ResourceType, isReadRequest } from "./common/index.js";
 import type { CosmosClientOptions } from "./CosmosClientOptions.js";
 import type { Location, DatabaseAccount } from "./documents/index.js";
-import type { FeedOptions, RequestOptions, ChangeFeedIteratorOptions } from "./index.js";
+import type { SharedOptions, RequestOptions, ChangeFeedIteratorOptions } from "./index.js";
 import { Constants } from "./common/constants.js";
 import type { ResourceResponse } from "./request/index.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
@@ -131,8 +131,8 @@ export class GlobalEndpointManager {
     return canUse;
   }
 
-  public getEffectiveExcludedLocations(
-    options: RequestOptions | FeedOptions | ChangeFeedIteratorOptions = {},
+  private getEffectiveExcludedLocations(
+    options: SharedOptions | ChangeFeedIteratorOptions = {},
     resourceType: ResourceType,
   ): Set<string> {
     if (!canApplyExcludedLocations(resourceType)) {
@@ -145,7 +145,7 @@ export class GlobalEndpointManager {
       : new Set();
   }
 
-  public filterExcludedLocations(
+  private filterExcludedLocations(
     preferredLocations: string[],
     excludedLocations?: Set<string>,
   ): string[] {
@@ -163,7 +163,7 @@ export class GlobalEndpointManager {
     resourceType: ResourceType,
     operationType: OperationType,
     startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
-    requestOptions: RequestOptions | FeedOptions | ChangeFeedIteratorOptions = {}, // add to support request-level excluded region(location)
+    options: SharedOptions | ChangeFeedIteratorOptions = {}, // add to support request-level excluded region(location)
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
 
@@ -200,7 +200,11 @@ export class GlobalEndpointManager {
       : this.writeableLocations;
 
     // Get effective excluded locations (request-level overrides client-level)
-    const excludedLocations = this.getEffectiveExcludedLocations(requestOptions, resourceType);
+    const excludedLocations = this.getEffectiveExcludedLocations(options, resourceType);
+    diagnosticNode.addData(
+      { excludedLocations: Array.from(excludedLocations) },
+      "excluded_locations",
+    );
 
     // Filter locations based on exclusions
     const availableLocations = this.filterExcludedLocations(
