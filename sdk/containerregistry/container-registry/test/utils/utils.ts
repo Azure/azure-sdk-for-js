@@ -8,7 +8,7 @@ import {
   ContainerRegistryContentClient,
   ContainerRegistryClient,
   KnownContainerRegistryAudience,
-} from "../../src/index.js";
+} from "@azure/container-registry";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they

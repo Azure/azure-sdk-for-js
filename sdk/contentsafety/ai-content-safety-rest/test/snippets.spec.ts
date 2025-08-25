@@ -4,7 +4,7 @@
 import ContentSafetyClient, {
   CreateOrUpdateTextBlocklistParameters,
   isUnexpected,
-} from "../src/index.js";
+} from "@azure-rest/ai-content-safety";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { readFileSync } from "node:fs";

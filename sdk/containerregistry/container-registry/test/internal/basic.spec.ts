@@ -3,10 +3,10 @@
 
 // Chai is the Azure SDK Team's preferred assertion library, and it is included
 // as part of our template project.
-import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src/index.js";
-import { calculateDigest } from "../../src/utils/digest.js";
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
+import { calculateDigest } from "$internal/utils/digest.js";
 import { Readable } from "node:stream";
-import { parseWWWAuthenticate } from "../../src/utils/wwwAuthenticateParser.js";
+import { parseWWWAuthenticate } from "$internal/utils/wwwAuthenticateParser.js";
 import { describe, it, assert, expect } from "vitest";
 
 describe("ContainerRegistryClient functional test", async function () {

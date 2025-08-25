@@ -4,12 +4,12 @@
 import { assert, describe, it } from "vitest";
 import { DefaultRetryPolicy } from "$internal/retry/defaultRetryPolicy.js";
 import {
+  CosmosDbDiagnosticLevel,
   DiagnosticNodeInternal,
   DiagnosticNodeType,
   OperationType,
   StatusCodes,
 } from "@azure/cosmos";
-import { CosmosDbDiagnosticLevel } from "../../../../dist/esm/index.js";
 
 describe("DefaultRetryPolicy", () => {
   const dummyError = {

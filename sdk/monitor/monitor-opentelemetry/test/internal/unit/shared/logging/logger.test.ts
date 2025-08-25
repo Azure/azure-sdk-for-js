@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { DiagLogLevel } from "@opentelemetry/api";
-import { Logger } from "../../../../../src/shared/logging/logger.js";
+import { Logger } from "$internal/shared/logging/logger.js";
 import { describe, assert, beforeEach, afterEach, it, vi, expect } from "vitest";
 
 describe("#Logger", () => {

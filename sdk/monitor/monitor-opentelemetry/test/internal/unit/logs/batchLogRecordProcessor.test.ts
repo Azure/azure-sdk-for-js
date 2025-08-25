@@ -4,8 +4,8 @@
 import type { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
 import { InMemoryLogRecordExporter, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { ApplicationInsightsSampler } from "../../../../src/traces/sampler.js";
-import { AzureBatchLogRecordProcessor } from "../../../../src/logs/batchLogRecordProcessor.js";
+import { ApplicationInsightsSampler } from "$internal/traces/sampler.js";
+import { AzureBatchLogRecordProcessor } from "$internal/logs/batchLogRecordProcessor.js";
 import { assert, describe, it } from "vitest";
 
 // TODO: this is failing on main, but the startActiveSpan call is not awaited

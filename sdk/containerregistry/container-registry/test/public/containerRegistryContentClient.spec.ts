@@ -7,12 +7,12 @@ import {
   isPlaybackMode,
   isLiveMode,
 } from "@azure-tools/test-recorder";
-import type { ContainerRegistryContentClient, OciImageManifest } from "../../src/index.js";
-import { KnownManifestMediaType } from "../../src/index.js";
+import type { ContainerRegistryContentClient, OciImageManifest } from "@azure/container-registry";
+import { KnownManifestMediaType } from "@azure/container-registry";
 import { createBlobClient, recorderStartOptions } from "../utils/utils.js";
 import fs from "node:fs";
 import { Readable } from "node:stream";
-import { readStreamToEnd } from "../../src/utils/helpers.js";
+import { readStreamToEnd } from "$internal/utils/helpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const serviceVersion = "2021-07-01";

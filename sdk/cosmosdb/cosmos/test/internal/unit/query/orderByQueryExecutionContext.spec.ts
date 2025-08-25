@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosDbDiagnosticLevel } from "@azure/cosmos";
-import type { QueryInfo } from "$internal/request/ErrorResponse.js";
 import {
   createTestClientContext,
   createDummyDiagnosticNode,
 } from "../../../public/common/TestHelpers.js";
-import type { QueryIterator } from "@azure/cosmos";
 import type { PartitionKeyRange } from "$internal/client/Container/PartitionKeyRange.js";
 import type { Resource } from "$internal/client/Resource.js";
 import { OrderByQueryExecutionContext } from "$internal/queryExecutionContext/orderByQueryExecutionContext.js";
-import type { FeedOptions } from "$internal/request/FeedOptions.js";
+import { CosmosDbDiagnosticLevel, QueryIterator, QueryInfo, FeedOptions } from "@azure/cosmos";
 import { describe, it, assert, vi } from "vitest";
 
 describe("OrderByQueryExecutionContext", () => {

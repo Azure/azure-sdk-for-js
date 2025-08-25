@@ -4,8 +4,8 @@
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import "./env.js";
-import type { ContentSafetyClient } from "../../../src/index.js";
-import ContentSafety from "../../../src/index.js";
+import type { ContentSafetyClient } from "../../../@azure-rest/ai-content-safety";
+import ContentSafety from "../../../@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 // import { ClientOptions } from "@azure-rest/core-client";
 

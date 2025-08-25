@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { resourceFromAttributes, emptyResource } from "@opentelemetry/resources";
-import type { AzureMonitorOpenTelemetryOptions } from "../src";
-import { useAzureMonitor } from "../src";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import type { Context, Exception, ObservableResult, Span } from "@opentelemetry/api";
 import { metrics, SpanKind, trace, TraceFlags } from "@opentelemetry/api";

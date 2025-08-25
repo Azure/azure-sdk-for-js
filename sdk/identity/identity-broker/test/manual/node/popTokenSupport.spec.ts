@@ -4,7 +4,7 @@ import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
 import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 
 import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { nativeBrokerPlugin } from "../../../src/index.js";
+import { nativeBrokerPlugin } from "@azure/identity-broker";
 import { isNodeLike } from "@azure/core-util";
 import { sendGraphRequest } from "./popTokenClient.js";
 import { describe, it, assert } from "vitest";

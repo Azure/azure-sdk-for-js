@@ -3,7 +3,7 @@
 
 import { describe, it } from "vitest";
 import { strict as assert } from "assert";
-import { APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW } from "../../../src/types.js";
+import { APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW } from "$internal/types.js";
 
 describe("Types Constants", () => {
   describe("APPLICATIONINSIGHTS_SDKSTATS_ENABLED_PREVIEW", () => {

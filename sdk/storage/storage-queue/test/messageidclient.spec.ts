@@ -206,8 +206,8 @@ describe("QueueClient messageId methods", () => {
   it("verify messageID and queueName passed to the client", async () => {
     const newClient = new QueueClient(
       extractConnectionStringParts(getSASConnectionStringFromEnvironment(recorder)).url +
-      "/" +
-      queueName,
+        "/" +
+        queueName,
     );
     assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });

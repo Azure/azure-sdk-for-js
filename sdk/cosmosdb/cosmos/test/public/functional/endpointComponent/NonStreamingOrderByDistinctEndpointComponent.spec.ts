@@ -3,7 +3,7 @@
 
 import type { ExecutionContext } from "$internal/queryExecutionContext/index.js";
 import { NonStreamingOrderByDistinctEndpointComponent } from "$internal/queryExecutionContext/EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
-import type { QueryInfo } from "$internal/request/ErrorResponse.js";
+import { QueryInfo } from "@azure/cosmos";
 import { describe, it, assert } from "vitest";
 
 describe("NonStreamingOrderByDistinctEndpointComponent", () => {

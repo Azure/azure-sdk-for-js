@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import { createTestCredential } from "@azure-tools/test-credential";
 import {
   getGenericBSU,
-  getGenericCredential,
   getTokenCredential,
   SimpleTokenCredential,
   recorderEnvSetup,
@@ -16,15 +16,15 @@ import type {
   ContainerClient,
   BlockBlobClient,
   BlobBatchClient,
-  StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { TokenCredential } from "@azure/core-auth";
 
 describe("BlobBatch", () => {
   let blobServiceClient: BlobServiceClient;
   let blobBatchClient: BlobBatchClient;
   let containerScopedBatchClient: BlobBatchClient;
-  let credential: StorageSharedKeyCredential;
+  let credential: TokenCredential;
   let containerName: string;
   let containerClient: ContainerClient;
   const blockBlobCount = 3;
@@ -40,7 +40,7 @@ describe("BlobBatch", () => {
 
     blobServiceClient = getGenericBSU(recorder, "");
     blobBatchClient = blobServiceClient.getBlobBatchClient();
-    credential = getGenericCredential("");
+    credential = createTestCredential();
 
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -665,7 +665,7 @@ describe("BlobBatch", () => {
       if (
         err instanceof RangeError &&
         err.message ===
-          "BlobBatch only supports one operation type per batch and it already is being used for delete operations."
+        "BlobBatch only supports one operation type per batch and it already is being used for delete operations."
       ) {
         exceptionCaught = true;
       }

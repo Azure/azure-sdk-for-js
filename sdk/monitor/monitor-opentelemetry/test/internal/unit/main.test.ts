@@ -4,8 +4,8 @@
 import type { Context, TracerProvider } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
-import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index.js";
-import { useAzureMonitor, shutdownAzureMonitor, _getSdkInstance } from "../../../src/index.js";
+import type { AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import { useAzureMonitor, shutdownAzureMonitor, _getSdkInstance } from "@azure/monitor-opentelemetry";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
@@ -16,11 +16,11 @@ import {
   StatsbeatFeature,
   StatsbeatInstrumentation,
   StatsbeatInstrumentationMap,
-} from "../../../src/types.js";
-import { getOsPrefix } from "../../../src/utils/common.js";
+} from "$internal/types.js";
+import { getOsPrefix } from "$internal/utils/common.js";
 import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor, SdkLogRecord } from "@opentelemetry/sdk-logs";
-import { getInstance } from "../../../src/utils/statsbeat.js";
+import { getInstance } from "$internal/utils/statsbeat.js";
 import type { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
 import { describe, it, beforeEach, afterEach, expect, assert, vi, afterAll } from "vitest";
 

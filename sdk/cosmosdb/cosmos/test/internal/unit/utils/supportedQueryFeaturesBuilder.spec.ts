@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { supportedQueryFeaturesBuilder } from "$internal/utils/supportedQueryFeaturesBuilder.js";
-import type { FeedOptions } from "$internal/request/FeedOptions.js";
+import { FeedOptions } from "@azure/cosmos";
 import { describe, it, assert } from "vitest";
 
 describe("validate supportedQueryFeaturesBuilder", () => {

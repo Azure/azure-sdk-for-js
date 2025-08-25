@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AvroReadableFromBlob } from "$internal/index-browser.mjs";
+import { AvroReadableFromBlob } from "@azure/storage-internal-avro";
 import { arraysEqual } from "$internal/utils/utils.common.js";
 import { describe, it, assert } from "vitest";
 
