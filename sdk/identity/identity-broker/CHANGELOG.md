@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for Mac OS broker authentication. [#35683](https://github.com/Azure/azure-sdk-for-js/pull/35683)
+
 ### Breaking Changes
 
 ### Bugs Fixed
