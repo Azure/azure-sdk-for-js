@@ -1312,7 +1312,7 @@ export class GlobalEndpointManager {
     // (undocumented)
     filterExcludedLocations(preferredLocations: string[], excludedLocations?: Set<string>): string[];
     // (undocumented)
-    getEffectiveExcludedLocations(options: RequestOptions | FeedOptions, resourceType: ResourceType): Set<string>;
+    getEffectiveExcludedLocations(options: RequestOptions | FeedOptions | ChangeFeedIteratorOptions, resourceType: ResourceType): Set<string>;
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getReadEndpoints(): Promise<ReadonlyArray<string>>;
