@@ -14,7 +14,7 @@ extends:
             # Contains alternate tenant, AAD app and cert info for testing
             - $(sub-config-identity-test-resources)
             - $(sub-config-identity-test-resources-js)
-      # The pool has been deleted for security reason. Disble Managed Identity live test.
+      # The pool has been deleted for security reason. Disable Managed Identity live test.
       # Tracking issue: https://github.com/Azure/azure-sdk-for-js/issues/35682
       # AdditionalMatrixConfigs:
       #   - Name: Identity_msi_live_test_base
