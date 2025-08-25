@@ -73,8 +73,8 @@ function Set-GitHubIssue($Package) {
   }
 }
 
-Write-Host "Running pnpm install --latest"
-$rushUpdateOutput = pnpm update --latest
+Write-Host "Running pnpm outdated --format json --recursive"
+$rushUpdateOutput = pnpm outdated --format json --recursive
 write-host $rushUpdateOutput
 $gitDifOutput = git --no-pager diff
 foreach ($line in $gitDifOutput) {
