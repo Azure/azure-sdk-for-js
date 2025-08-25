@@ -7,7 +7,11 @@ import { DropCode, RetryCode, TelemetryType } from "../../src/export/statsbeat/t
 import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 
 // Helper function to create mock envelopes for testing
-function createMockEnvelopes(count: number, telemetryType: TelemetryType): Envelope[] {
+function createMockEnvelopes(
+  count: number,
+  telemetryType: TelemetryType,
+  statusCode?: number,
+): Envelope[] {
   const envelopes: Envelope[] = [];
 
   let baseType: string;
@@ -43,7 +47,7 @@ function createMockEnvelopes(count: number, telemetryType: TelemetryType): Envel
   }
 
   for (let i = 0; i < count; i++) {
-    envelopes.push({
+    const envelope: Envelope = {
       name: `Microsoft.ApplicationInsights.${baseType}`,
       time: new Date(),
       instrumentationKey: "00000000-0000-0000-0000-000000000000",
@@ -53,7 +57,14 @@ function createMockEnvelopes(count: number, telemetryType: TelemetryType): Envel
           version: 2,
         },
       },
-    });
+    };
+
+    // Add status code if provided
+    if (statusCode !== undefined) {
+      (envelope as any).statusCode = statusCode;
+    }
+
+    envelopes.push(envelope);
   }
 
   return envelopes;
@@ -124,8 +135,8 @@ describe("CustomerSDKStatsMetrics", () => {
       const exceptionMessage = "Some error message";
 
       customerSDKStatsMetrics.countDroppedItems(
-        createMockEnvelopes(2, TelemetryType.TRACE),
-        DropCode.UNKNOWN,
+        createMockEnvelopes(2, TelemetryType.TRACE, 400),
+        400,
         exceptionMessage,
       );
 
@@ -136,11 +147,11 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(dropCodeMap).toBeDefined();
       expect(dropCodeMap.size).toBe(1);
 
-      const reasonMap = dropCodeMap.get(DropCode.UNKNOWN);
+      const reasonMap = dropCodeMap.get(400);
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
-      // Should have "Unknown reason" as reason for UNKNOWN drop code
-      expect(reasonMap.get("Unknown reason")).toBe(2);
+      // Should have "Bad request" as reason for 400 status code
+      expect(reasonMap.get("Bad request")).toBe(2);
     });
 
     it("should aggregate counts for same drop code and exception message", () => {
@@ -306,7 +317,7 @@ describe("CustomerSDKStatsMetrics", () => {
     it("should include drop.reason in drop count metrics when present", () => {
       // Test that a 403 status code sets the drop code to the number 403
       customerSDKStatsMetrics.countDroppedItems(
-        createMockEnvelopes(5, TelemetryType.TRACE),
+        createMockEnvelopes(5, TelemetryType.TRACE, 403),
         403, // Using numeric status code
       );
 
@@ -339,7 +350,10 @@ describe("CustomerSDKStatsMetrics", () => {
         RetryCode.CLIENT_EXCEPTION,
         "Retry error",
       );
-      customerSDKStatsMetrics.countRetryItems(createMockEnvelopes(1, TelemetryType.TRACE), 502);
+      customerSDKStatsMetrics.countRetryItems(
+        createMockEnvelopes(1, TelemetryType.TRACE, 502),
+        502,
+      );
 
       const mockObservableResult = {
         observe: vi.fn(),
@@ -511,10 +525,10 @@ describe("CustomerSDKStatsMetrics", () => {
     it("should NOT capture drop.reason for non-CLIENT_EXCEPTION codes even when provided", () => {
       const testErrorMessage = "Some error message";
 
-      // Test dropped items with non-CLIENT_EXCEPTION code
+      // Test dropped items with non-CLIENT_EXCEPTION code (using 500 status code)
       customerSDKStatsMetrics.countDroppedItems(
-        createMockEnvelopes(2, TelemetryType.TRACE),
-        DropCode.UNKNOWN,
+        createMockEnvelopes(2, TelemetryType.TRACE, 500),
+        500,
         testErrorMessage,
       );
 
@@ -525,10 +539,10 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(nonClientExceptionDropCodeMap).toBeDefined();
       expect(nonClientExceptionDropCodeMap.size).toBe(1);
 
-      const nonClientExceptionReasonMap = nonClientExceptionDropCodeMap.get(DropCode.UNKNOWN);
+      const nonClientExceptionReasonMap = nonClientExceptionDropCodeMap.get(500);
       expect(nonClientExceptionReasonMap).toBeDefined();
       expect(nonClientExceptionReasonMap.size).toBe(1);
-      expect(nonClientExceptionReasonMap.get("Unknown reason")).toBe(2);
+      expect(nonClientExceptionReasonMap.get("Internal server error")).toBe(2);
 
       // Test observable callback does not include drop.reason
       const mockObservableResult = {
@@ -543,7 +557,7 @@ describe("CustomerSDKStatsMetrics", () => {
         expect.any(Object), // The observable gauge
         2,
         expect.objectContaining({
-          "drop.code": DropCode.UNKNOWN,
+          "drop.code": 500,
           language: expect.any(String),
           version: expect.any(String),
           computeType: expect.any(String),
