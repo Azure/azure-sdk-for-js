@@ -91,7 +91,7 @@ const examplePackageGood = `{
     }
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-amqp": "^3.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
@@ -242,7 +242,7 @@ const examplePackageBad = `{
     }
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-amqp": "^3.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
