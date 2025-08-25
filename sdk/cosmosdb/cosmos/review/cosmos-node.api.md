@@ -1039,6 +1039,7 @@ export type DiagnosticDataValue = {
         url: string;
     }>;
     partitionKeyRangeFailoverInfo: string;
+    excludedLocations: string[];
 };
 
 // @public
@@ -1309,10 +1310,6 @@ export class GlobalEndpointManager {
     // (undocumented)
     canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
     enableEndpointDiscovery: boolean;
-    // (undocumented)
-    filterExcludedLocations(preferredLocations: string[], excludedLocations?: Set<string>): string[];
-    // (undocumented)
-    getEffectiveExcludedLocations(options: RequestOptions | FeedOptions | ChangeFeedIteratorOptions, resourceType: ResourceType): Set<string>;
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
     getReadEndpoints(): Promise<ReadonlyArray<string>>;
@@ -1329,7 +1326,7 @@ export class GlobalEndpointManager {
     refreshEndpointList(diagnosticNode: DiagnosticNodeInternal): Promise<void>;
     // (undocumented)
     resolveServiceEndpoint(diagnosticNode: DiagnosticNodeInternal, resourceType: ResourceType, operationType: OperationType, startServiceEndpointIndex?: number, // Represents the starting index for selecting servers.
-    requestOptions?: RequestOptions | FeedOptions | ChangeFeedIteratorOptions): Promise<string>;
+    options?: SharedOptions | ChangeFeedIteratorOptions): Promise<string>;
 }
 
 // @public (undocumented)

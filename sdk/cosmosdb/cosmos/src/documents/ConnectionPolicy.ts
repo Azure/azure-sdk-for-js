@@ -56,5 +56,4 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   enableBackgroundEndpointRefreshing: true,
   enablePartitionLevelFailover: false,
   enablePartitionLevelCircuitBreaker: false,
-  excludedLocations: [],
 });
