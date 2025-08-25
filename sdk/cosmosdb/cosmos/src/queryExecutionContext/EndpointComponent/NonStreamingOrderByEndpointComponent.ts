@@ -87,7 +87,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         return { result: undefined, headers: resHeaders };
       }
 
-      for (const item of response.result.buffer) {
+      for (const item of response.result) {
         if (item !== undefined) {
           this.nonStreamingOrderByPQ.enqueue(item);
         }

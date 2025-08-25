@@ -591,65 +591,32 @@ export class ContinuationTokenManager {
    * have been consumed by offset/limit operations, maintaining accurate continuation state.
    * Also calculates what offset/limit would be after completely consuming each partition range.
    * 
-   * @param partitionKeyRangeMap - Original partition key range map from execution context
    * @param initialOffset - Initial offset value before processing
    * @param finalOffset - Final offset value after processing
    * @param initialLimit - Initial limit value before processing
    * @param finalLimit - Final limit value after processing
    * @param bufferLength - Total length of the buffer that was processed
-   * @returns Updated partition key range map reflecting the offset/limit processing
    */
   public processOffsetLimitAndUpdateRangeMap(
-    partitionKeyRangeMap: Map<string, any>,
     initialOffset: number,
     finalOffset: number,
     initialLimit: number,
     finalLimit: number,
     bufferLength: number
-  ): Map<string, any> {
-    if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0) {
-      return partitionKeyRangeMap;
+  ): void {
+    if (!this.partitionKeyRangeMap || this.partitionKeyRangeMap.size === 0) {
+      return;
     }
 
     // Calculate and store offset/limit values for each partition range after complete consumption
-    let updatedPartitionKeyRangeMap = this.calculateOffsetLimitForEachPartitionRange(
-      partitionKeyRangeMap,
+    const updatedPartitionKeyRangeMap = this.calculateOffsetLimitForEachPartitionRange(
+      this.partitionKeyRangeMap,
       initialOffset,
       initialLimit
     );
 
-    // Calculate how many items were consumed by offset and limit operations
-    const removedOffset = initialOffset - finalOffset;
-    const removedLimit = initialLimit - finalLimit;
-    
-    // Start with excluding items consumed by offset
-    updatedPartitionKeyRangeMap = this.updatePartitionKeyRangeMapForOffsetLimit(
-      partitionKeyRangeMap,
-      removedOffset,
-      true // exclude flag
-    );
-
-    // Then include items that were consumed by limit
-    updatedPartitionKeyRangeMap = this.updatePartitionKeyRangeMapForOffsetLimit(
-      updatedPartitionKeyRangeMap,
-      removedLimit,
-      false // include flag
-    );
-
-    // If limit is exhausted, exclude any remaining items in the buffer
-    const remainingValue = bufferLength - (removedOffset + removedLimit);
-    if (finalLimit <= 0 && remainingValue > 0) {
-      updatedPartitionKeyRangeMap = this.updatePartitionKeyRangeMapForOffsetLimit(
-        updatedPartitionKeyRangeMap,
-        remainingValue,
-        true // exclude flag
-      );
-    }
-
-    // TODO: remove Update the internal partition key range map with the processed mappings
+    // Update the internal partition key range map with the processed mappings
     this.resetInitializePartitionKeyRangeMap(updatedPartitionKeyRangeMap);
-
-    return updatedPartitionKeyRangeMap;
   }
 
   /**

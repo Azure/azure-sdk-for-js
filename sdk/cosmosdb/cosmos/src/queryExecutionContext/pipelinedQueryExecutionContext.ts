@@ -280,9 +280,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         if (Array.isArray(response.result)) {
           // Old format - result is directly the array
           bufferedResults = response.result;
-        } else if (response.result && response.result.buffer) {
+        } else if (response.result && response.result) {
           // New format - result has buffer property
-          bufferedResults = response.result.buffer;
+          bufferedResults = response.result;
         } else {
           // Handle undefined/null case
           bufferedResults = response.result;

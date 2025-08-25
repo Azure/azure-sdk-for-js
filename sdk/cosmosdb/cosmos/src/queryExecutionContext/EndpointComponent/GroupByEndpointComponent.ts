@@ -42,18 +42,12 @@ export class GroupByEndpointComponent implements ExecutionContext {
     const response = await this.executionContext.fetchMore(diagnosticNode);
     mergeHeaders(aggregateHeaders, response.headers);
 
-    if (
-      response === undefined ||
-      response.result === undefined
-    ) {
+    if (response === undefined || response.result === undefined) {
       // If there are any groupings, consolidate and return them
       if (this.groupings.size > 0) {
         return this.consolidateGroupResults(aggregateHeaders);
       }
-      return { 
-        result: undefined, 
-        headers: aggregateHeaders 
-      };
+      return { result: undefined, headers: aggregateHeaders };
     }
 
     for (const item of response.result as GroupByResult[]) {
@@ -94,10 +88,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
     }
 
     if (this.executionContext.hasMoreResults()) {
-      return {
-        result: [],
-        headers: aggregateHeaders,
-      };
+      return { result: [], headers: aggregateHeaders };
     } else {
       return this.consolidateGroupResults(aggregateHeaders);
     }
@@ -112,9 +103,6 @@ export class GroupByEndpointComponent implements ExecutionContext {
       this.aggregateResultArray.push(groupResult);
     }
     this.completed = true;
-    return { 
-      result:  this.aggregateResultArray,
-      headers: aggregateHeaders 
-    };
+    return { result: this.aggregateResultArray, headers: aggregateHeaders };
   }
 }

@@ -176,8 +176,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       while (this.globalStatisticsExecutionContext.hasMoreResults()) {
         const result = await this.globalStatisticsExecutionContext.fetchMore(diagnosticNode);
         mergeHeaders(fetchMoreRespHeaders, result.headers);
-        if (result && result.result && result.result.buffer) {
-          for (const item of result.result.buffer) {
+        if (result && result.result && result.result) {
+          for (const item of result.result) {
             const globalStatistics: GlobalStatistics = item;
             if (globalStatistics) {
               // iterate over the components update placeholders from globalStatistics

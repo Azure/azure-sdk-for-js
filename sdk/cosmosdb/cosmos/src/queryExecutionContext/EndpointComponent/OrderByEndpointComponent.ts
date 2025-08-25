@@ -40,10 +40,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
     const orderByItemsArray: any[][] = []; // Store order by items for each item
 
     const response = await this.executionContext.fetchMore(diagnosticNode);
-    if (
-      response === undefined ||
-      response.result === undefined
-    ) {
+    if (response === undefined || response.result === undefined) {
       return { result: undefined, headers: response.headers };
     }
 
@@ -65,10 +62,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
     if (this.continuationTokenManager && orderByItemsArray.length > 0) {
       this.continuationTokenManager.setOrderByItemsArray(orderByItemsArray);
     }
-    
-    return {
-      result: buffer,
-      headers: response.headers,
-    };
+
+    return { result: buffer, headers: response.headers };
   }
 }

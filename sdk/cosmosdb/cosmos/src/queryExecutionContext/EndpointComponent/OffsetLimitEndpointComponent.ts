@@ -56,7 +56,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     const initialOffset = this.offset;
     const initialLimit = this.limit;
 
-    for (const item of response.result.buffer) {
+    for (const item of response.result) {
       if (this.offset > 0) {
         this.offset--;
       } else if (this.limit > 0) {
@@ -65,53 +65,37 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       }
     }
 
-    // let updatedPartitionKeyRangeMap = response.result.partitionKeyRangeMap;
-    // TODO: convert to void function
     // Process offset/limit logic and update partition key range map
-    // updatedPartitionKeyRangeMap = this.processOffsetLimitWithContinuationToken(
-    //   response.result.partitionKeyRangeMap,
-    //   initialOffset,
-    //   initialLimit,
-    //   response.result.length,
-    // );
+    this.processOffsetLimitWithContinuationToken(
+      initialOffset,
+      initialLimit,
+      response.result.length,
+    );
 
-    return { 
-      result:  buffer,
-      headers: aggregateHeaders 
+    return {
+      result: buffer,
+      headers: aggregateHeaders
     };
   }
 
   /**
-   * Processes offset/limit logic using the continuation token manager and updates partition key range map
-   * @param partitionKeyRangeMap - Original partition key range map from execution context
-   * @param initialOffset - Initial offset value before processing
-   * @param initialLimit - Initial limit value before processing
-   * @param bufferLength - Total length of the buffer that was processed
-   * @param headers - Response headers to update with continuation token
-   * @returns Updated partition key range map
+   * Processes offset/limit logic using the continuation token manager 
+   * and updates partition key range map
    */
   private processOffsetLimitWithContinuationToken(
-    partitionKeyRangeMap: Map<string, any>,
     initialOffset: number,
     initialLimit: number,
     bufferLength: number,
-  ): Map<string, any> {
+  ): void {
     // Use continuation token manager to process offset/limit logic and update partition key range map
     if (this.continuationTokenManager) {      
-      // Delegate the complex partition key range map processing to the continuation token manager
-      const updatedPartitionKeyRangeMap = this.continuationTokenManager.processOffsetLimitAndUpdateRangeMap(
-        partitionKeyRangeMap,
+      this.continuationTokenManager.processOffsetLimitAndUpdateRangeMap(
         initialOffset,
         this.offset,
         initialLimit,
         this.limit,
         bufferLength
       );
-      
-      this.continuationTokenManager.updateOffsetLimit(this.offset, this.limit);
-      return updatedPartitionKeyRangeMap;
     }
-    // Return original map if no continuation token manager is available
-    return partitionKeyRangeMap;
   }
 }
