@@ -74,10 +74,17 @@ export interface ListTollFreeAreaCodesOptions
 export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCodesOptionalParams {}
 
 /**
+ * Additional options that can be passed to the Mobile area codes request.
+ */
+export interface ListMobileAreaCodesOptions
+  extends Omit<PhoneNumbersListAreaCodesOptionalParams, "locality" | "administrativeDivision"> {}
+
+/**
  * Additional options that can be passed to the available localities request.
  */
 export interface ListLocalitiesOptions extends OperationOptions {
   administrativeDivision?: string;
+  phoneNumberType?: PhoneNumberType;
 }
 
 /**

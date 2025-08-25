@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-phone-numbers",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "SDK for Azure Communication service which facilitates phone number management.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",

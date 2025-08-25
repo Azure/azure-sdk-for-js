@@ -64,6 +64,20 @@ matrix([[true, false]], async (useAad) => {
       for (const phoneNumber of browseGeographicAvailableNumbers.phoneNumbers) {
         assert.equal(phoneNumber.phoneNumberType, "geographic");
       }
+
+      const browseMobileAvailableNumberRequest: BrowseAvailableNumbersRequest = {
+        countryCode: "IE",
+        phoneNumberType: "mobile",
+      };
+
+      const browseMobileAvailableNumbers = await client.browseAvailablePhoneNumbers(
+        browseMobileAvailableNumberRequest,
+      );
+      assert.isTrue(browseMobileAvailableNumbers.phoneNumbers.length > 0);
+
+      for (const phoneNumber of browseMobileAvailableNumbers.phoneNumbers) {
+        assert.equal(phoneNumber.phoneNumberType, "mobile");
+      }
     });
 
     it("throws error on invalid browse request", { timeout: 60000 }, async () => {
