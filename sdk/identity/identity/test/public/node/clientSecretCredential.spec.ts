@@ -7,7 +7,6 @@ import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { delay, env } from "@azure-tools/test-recorder";
-
 import { ClientSecretCredential, type GetTokenOptions } from "@azure/identity";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";

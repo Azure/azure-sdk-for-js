@@ -4,8 +4,8 @@
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import "./env.js";
-import type { MapsRenderClient } from "../../../src/index.js";
-import MapsRender from "../../../src/index.js";
+import type { MapsRenderClient } from "@azure-rest/maps-render";
+import MapsRender from "@azure-rest/maps-render";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 

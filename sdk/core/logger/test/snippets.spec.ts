@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { setLogLevel, AzureLogger } from "../src/index.js";
+import { setLogLevel, AzureLogger } from "@azure/logger";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {

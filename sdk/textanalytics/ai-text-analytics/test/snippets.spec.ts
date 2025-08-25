@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, TextAnalyticsClient } from "../src/index.js";
+import { AzureKeyCredential, TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

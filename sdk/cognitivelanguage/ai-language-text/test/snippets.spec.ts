@@ -7,7 +7,7 @@ import {
   KnownPiiEntityCategory,
   KnownPiiEntityDomain,
   TextAnalysisClient,
-} from "../src/index.js";
+} from "@azure/ai-language-text";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

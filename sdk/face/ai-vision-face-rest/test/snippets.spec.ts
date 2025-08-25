@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import FaceClient, { getLongRunningPoller, isUnexpected } from "../src/index.js";
+import FaceClient, { getLongRunningPoller, isUnexpected } from "@azure-rest/ai-vision-face";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

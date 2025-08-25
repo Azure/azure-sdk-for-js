@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import { createTracingClient } from "../src/index.js";
+import { createTracingClient } from "@azure/core-tracing";
 
 describe("snippets", () => {
   it("ReadmeSampleWithSpanExample", async () => {

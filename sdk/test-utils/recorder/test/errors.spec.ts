@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecorderError, RecordingStateManager } from "../src/utils/utils.js";
-import { Recorder } from "../src/recorder.js";
+import { RecorderError, RecordingStateManager } from "$internal/utils/utils.js";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { encodeBase64 } from "../src/utils/encoding.js";
+import { encodeBase64 } from "$internal/utils/encoding.js";
 import { describe, it, beforeEach, expect } from "vitest";
 
 describe("State Manager", function () {

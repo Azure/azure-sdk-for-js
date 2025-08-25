@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { parseNotificationOutcome } from "../../../src/serializers/notificationOutcomeSerializer.js";
+import { parseNotificationOutcome } from "$internal/serializers/notificationOutcomeSerializer.js";
 
 const FEEDBACK = `<NotificationOutcome xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
   <Success>1</Success>

@@ -10,8 +10,8 @@ import type {
   DetectUnivariateEntireSeriesParameters,
   DetectUnivariateLastPointParameters,
   TimeSeriesPoint,
-} from "../src/index.js";
-import AnomalyDetector, { isUnexpected } from "../src/index.js";
+} from "@azure-rest/ai-anomaly-detector";
+import AnomalyDetector, { isUnexpected } from "@azure-rest/ai-anomaly-detector";
 import { setLogLevel } from "@azure/logger";
 
 describe("snippets", () => {

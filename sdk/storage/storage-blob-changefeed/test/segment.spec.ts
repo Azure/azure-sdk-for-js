@@ -3,12 +3,12 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import type { BlobChangeFeedEvent } from "../src/index.js";
+import type { BlobChangeFeedEvent } from "@azure/storage-blob-changefeed";
 import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 import type { ContainerClient, BlobClient } from "@azure/storage-blob";
-import type { Shard } from "../src/Shard.js";
-import { SegmentFactory } from "../src/SegmentFactory.js";
-import type { ShardFactory } from "../src/ShardFactory.js";
+import type { Shard } from "$internal/Shard.js";
+import { SegmentFactory } from "$internal/SegmentFactory.js";
+import type { ShardFactory } from "$internal/ShardFactory.js";
 
 describe("Segment", async () => {
   const manifestPath = "idx/segments/2020/03/25/0200/meta.json";

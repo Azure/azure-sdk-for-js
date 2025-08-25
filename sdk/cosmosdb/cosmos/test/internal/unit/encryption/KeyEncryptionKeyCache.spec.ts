@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyEncryptionKeyCache } from "../../../../src/encryption/Cache/KeyEncryptionKeyCache.js";
+import { KeyEncryptionKeyCache } from "$internal/encryption/Cache/KeyEncryptionKeyCache.js";
 import { describe, it, assert } from "vitest";
 
 describe("KeyEncryptionKeyCache", () => {

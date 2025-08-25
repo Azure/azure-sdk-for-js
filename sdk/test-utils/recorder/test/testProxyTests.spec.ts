@@ -3,8 +3,8 @@
 
 import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
-import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src/index.js";
-import { isLiveMode, TestMode } from "../src/utils/utils.js";
+import { CustomMatcherOptions, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, TestMode } from "$internal/utils/utils.js";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
 import { describe, it, assert, expect, beforeEach, afterEach, beforeAll } from "vitest";
 

@@ -13,7 +13,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ApplicationInsightsManagementClient } from "../src/applicationInsightsManagementClient.js";
+import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

@@ -10,8 +10,8 @@ import type {
   FirebaseLegacyRegistrationChannel,
   FirebaseV1RegistrationChannel,
   WindowsRegistrationChannel,
-} from "../../../src/models/registration.js";
-import { getFilterByChannel } from "../../../src/utils/registrationUtils.js";
+} from "$internal/models/registration.js";
+import { getFilterByChannel } from "$internal/utils/registrationUtils.js";
 
 describe("registrationUtils", () => {
   describe("getFilterByChannel", () => {

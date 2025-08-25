@@ -13,13 +13,14 @@ import type {
   OperationSpec,
   ParameterPath,
   QueryCollectionFormat,
-} from "../src/index.js";
+} from "@azure/core-client";
 import {
   MapperTypeNames,
   ServiceClient,
   createSerializer,
   serializationPolicy,
-} from "../src/index.js";
+  deserializationPolicy,
+} from "@azure/core-client";
 import type {
   HttpClient,
   PipelinePolicy,
@@ -36,11 +37,10 @@ import {
 import {
   getOperationArgumentValueFromParameter,
   getOperationRequestInfo,
-} from "../src/operationHelpers.js";
+} from "$internal/operationHelpers.js";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertServiceClientResponse } from "./utils/serviceClient.js";
-import { deserializationPolicy } from "../src/deserializationPolicy.js";
-import { getCachedDefaultHttpClient } from "../src/httpClientCache.js";
+import { getCachedDefaultHttpClient } from "$internal/httpClientCache.js";
 
 describe("ServiceClient", function () {
   describe("Auth scopes", () => {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createWindowsBadgeNotificationBody } from "../../../src/models/notificationBodyBuilder.js";
+import { createWindowsBadgeNotificationBody } from "$internal/models/notificationBodyBuilder.js";
 
 describe("createWindowsBadgeNotificationBody", () => {
   it("should handle a notification count", () => {

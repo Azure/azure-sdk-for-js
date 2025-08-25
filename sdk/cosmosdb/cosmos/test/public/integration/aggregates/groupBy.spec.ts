@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, ContainerDefinition, FeedOptions } from "../../../../src/index.js";
+import type { Container, ContainerDefinition, FeedOptions } from "@azure/cosmos";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
 import groupBySnapshot from "./groupBy.snapshot.js";
 import { describe, it, assert, beforeEach, beforeAll, TestContext } from "vitest";

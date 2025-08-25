@@ -8,14 +8,14 @@ import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
 import {
   ENQUEUED_TIME,
   TIME_SINCE_ENQUEUED,
-} from "../../src/utils/constants/applicationinsights.js";
+} from "$internal/utils/constants/applicationinsights.js";
 import {
   AzNamespace,
   MessageBusDestination,
   MicrosoftEventHub,
-} from "../../src/utils/constants/span/azAttributes.js";
-import { parseEventHubSpan } from "../../src/utils/eventhub.js";
-import type { RemoteDependencyData, TelemetryItem as Envelope } from "../../src/generated/index.js";
+} from "$internal/utils/constants/span/azAttributes.js";
+import { parseEventHubSpan } from "$internal/utils/eventhub.js";
+import type { RemoteDependencyData, TelemetryItem as Envelope } from "$internal/generated/index.js";
 import { describe, it, assert } from "vitest";
 import { spanToReadableSpan } from "../utils/spanToReadableSpan.js";
 

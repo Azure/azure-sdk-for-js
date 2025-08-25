@@ -4,9 +4,9 @@
 import {
   DefaultConnectOptionsConstants,
   InternalEnvironmentVariables,
-} from "../../src/common/constants.js";
-import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig.js";
-import { getAndSetRunId } from "../../src/utils/utils.js";
+} from "$internal/common/constants.js";
+import { PlaywrightServiceConfig } from "$internal/common/playwrightServiceConfig.js";
+import { getAndSetRunId } from "$internal/utils/utils.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("PlaywrightServiceConfig", () => {

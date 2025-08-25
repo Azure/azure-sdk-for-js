@@ -6,7 +6,7 @@ import type {
   EventHubProducerClient,
   EventPosition,
   Subscription,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import { delay } from "@azure/core-amqp";
 import { loggerForTest } from "./logHelpers.js";
 

@@ -5,7 +5,7 @@ import type {
   CommunicationIdentifier,
   CommunicationIdentifierKind,
   PhoneNumberIdentifier,
-} from "../../src/index.js";
+} from "@azure/communication-common";
 import {
   createIdentifierFromRawId,
   getIdentifierKind,
@@ -15,7 +15,7 @@ import {
   isPhoneNumberIdentifier,
   isTeamsExtensionUserIdentifier,
   isUnknownIdentifier,
-} from "../../src/index.js";
+} from "@azure/communication-common";
 import { describe, it, assert } from "vitest";
 
 describe("Identifier models", function () {

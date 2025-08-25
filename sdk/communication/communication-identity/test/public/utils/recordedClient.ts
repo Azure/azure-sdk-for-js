@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { CommunicationIdentityClient } from "../../../src/index.js";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { parseConnectionString } from "@azure/communication-common";

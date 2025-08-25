@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { KeyClient } from "../../src/index.js";
+import type { KeyClient } from "@azure/keyvault-keys";
 import { testPollerProperties } from "../public/utils/recorderUtils.js";
 import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication.js";

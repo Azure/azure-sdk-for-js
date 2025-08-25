@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, odata, WebPubSubServiceClient } from "../src/index.js";
+import { AzureKeyCredential, odata, WebPubSubServiceClient } from "@azure/web-pubsub";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

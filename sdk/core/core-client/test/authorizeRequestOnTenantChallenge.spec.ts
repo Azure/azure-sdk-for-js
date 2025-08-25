@@ -9,7 +9,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { authorizeRequestOnTenantChallenge } from "../src/index.js";
+import { authorizeRequestOnTenantChallenge } from "@azure/core-client";
 
 describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
   const fakeGuid = "3a4e2c3b-defc-466c-b0c8-6a419bf92858";

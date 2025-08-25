@@ -8,7 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SubscriptionClient } from "../src/subscriptionClient.js";
+import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
 import { describe, it, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

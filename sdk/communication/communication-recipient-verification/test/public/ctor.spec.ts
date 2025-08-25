@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { RecipientVerificationClient } from "../../src/index.js";
+import { RecipientVerificationClient } from "@azure-tools/communication-recipient-verification";
 import { createMockToken } from "./utils/recordedClient.js";
 import { describe, it, assert } from "vitest";
 

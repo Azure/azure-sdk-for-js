@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import * as Constants from "../../../src/utils/constants.js";
+import * as Constants from "$internal/utils/constants.js";
 import {
   createAdmNotification,
   createAppleNotification,
@@ -16,7 +16,7 @@ import {
   createWindowsRawNotification,
   createWindowsTileNotification,
   createWindowsToastNotification,
-} from "../../../src/models/notification.js";
+} from "$internal/models/notification.js";
 
 describe("createAppleNotification", () => {
   it("should create an apple message with defaults", () => {

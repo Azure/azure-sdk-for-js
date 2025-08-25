@@ -11,7 +11,6 @@ import {
 } from "@azure/identity";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
-
 import type { AuthenticationResult } from "@azure/msal-node";
 import { env } from "@azure-tools/test-recorder";
 import path from "node:path";

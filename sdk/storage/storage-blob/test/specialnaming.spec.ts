@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BlobServiceClient } from "../src/index.js";
-import { BlockBlobClient } from "../src/index.js";
+import type { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+import { BlockBlobClient } from "@azure/storage-blob";
 import {
   getBSU,
   getRecorderUniqueVariable,
@@ -10,9 +10,8 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/index.js";
-import { appendToURLPath, EscapePath } from "../src/utils/utils.common.js";
+import { appendToURLPath, EscapePath } from "$internal/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ContainerClient } from "../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Special Naming Tests", () => {

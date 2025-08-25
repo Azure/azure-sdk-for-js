@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import type { ReceiverOptions } from "rhea-promise";
-import { BatchingReceiver } from "../../../src/core/batchingReceiver.js";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
-import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
+import { BatchingReceiver } from "$internal/core/batchingReceiver.js";
+import { StreamingReceiver } from "$internal/core/streamingReceiver.js";
+import { ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
 import {
   addTestStreamingReceiver,
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
 } from "./unittestUtils.js";
-import type { InternalMessageHandlers } from "../../../src/models.js";
+import type { InternalMessageHandlers } from "$internal/models.js";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver.js";
-import { MessageSession } from "../../../src/session/messageSession.js";
+import { ServiceBusSessionReceiverImpl } from "$internal/receivers/sessionReceiver.js";
+import { MessageSession } from "$internal/session/messageSession.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { Constants } from "@azure/core-amqp";
 import { describe, it, vi, afterEach } from "vitest";

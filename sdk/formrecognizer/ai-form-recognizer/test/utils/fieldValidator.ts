@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { AnalyzedDocument } from "../../src/lro/analysis.js";
 import type {
+  AnalyzedDocument,
   DocumentArrayField,
   DocumentDateField,
   DocumentField,
   DocumentObjectField,
   DocumentValueField,
-} from "../../src/models/index.js";
+} from "@azure/ai-form-recognizer";
 import { logger } from "./recordedClients.js";
 import { assert } from "vitest";
 

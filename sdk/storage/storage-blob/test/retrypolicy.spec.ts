@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Pipeline, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
-import type { ContainerClient, BlobServiceClient } from "../src/index.js";
-import { RestError } from "../src/index.js";
+import type { ContainerClient, BlobServiceClient } from "@azure/storage-blob";
+import { RestError } from "@azure/storage-blob";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/index.js";
 import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy.js";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";

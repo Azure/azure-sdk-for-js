@@ -3,9 +3,11 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";
-import type { PurviewWorkflowClient } from "../../src/clientDefinitions.js";
-import type { SubmitUserRequestsParameters } from "../../src/parameters.js";
-import { isUnexpected } from "../../src/isUnexpected.js";
+import type {
+  PurviewWorkflowClient,
+  SubmitUserRequestsParameters,
+} from "@azure-rest/purview-workflow";
+import { isUnexpected } from "@azure-rest/purview-workflow";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Submit a user request", () => {

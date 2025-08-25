@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 
 import path from "node:path";
-
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-
 import { ClientCertificateCredential } from "@azure/identity";
 import { parseCertificate } from "$internal/credentials/clientCertificateCredential.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

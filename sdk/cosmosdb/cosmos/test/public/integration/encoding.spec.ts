@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IndexingMode } from "../../../src/index.js";
+import { IndexingMode } from "@azure/cosmos";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

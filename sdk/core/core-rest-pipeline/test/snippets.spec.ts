@@ -10,7 +10,7 @@ import {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-} from "../src/index.js";
+} from "@azure/core-rest-pipeline";
 
 describe("snippets", () => {
   it("ReadmeSampleSendRequest", () => {

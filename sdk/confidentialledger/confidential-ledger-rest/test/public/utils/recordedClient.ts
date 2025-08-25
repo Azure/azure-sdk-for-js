@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfidentialLedgerClient } from "../../../src/index.js";
-import ConfidentialLedger, { getLedgerIdentity } from "../../../src/index.js";
+import type { ConfidentialLedgerClient } from "@azure-rest/confidential-ledger";
+import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import {
   Recorder,
   env,

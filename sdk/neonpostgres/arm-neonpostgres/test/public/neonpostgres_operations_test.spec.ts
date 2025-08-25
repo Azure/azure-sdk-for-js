@@ -6,7 +6,7 @@ import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
-import { PostgresClient } from "../../src/postgresClient.js";
+import { PostgresClient } from "@azure/arm-neonpostgres";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,

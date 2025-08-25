@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
-
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
-import type { DeletedSecret, SecretClient } from "../../src/index.js";
+import type { DeletedSecret, SecretClient } from "@azure/keyvault-secrets";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";

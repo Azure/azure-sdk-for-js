@@ -4,15 +4,15 @@
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { ExportResultCode, millisToHrTime } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
-import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics.js";
-import { InternalConfig } from "../../../../src/shared/index.js";
+import { LiveMetrics } from "$internal/metrics/quickpulse/liveMetrics.js";
+import { InternalConfig } from "$internal/shared/index.js";
 import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,
-} from "../../../../src/metrics/quickpulse/types.js";
-import type { Exception, RemoteDependency, Request } from "../../../../src/generated/index.js";
+} from "$internal/metrics/quickpulse/types.js";
+import type { Exception, RemoteDependency, Request } from "$internal/generated/index.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import { resourceMetricsToQuickpulseDataPoint } from "../../../../src/metrics/quickpulse/utils.js";
+import { resourceMetricsToQuickpulseDataPoint } from "$internal/metrics/quickpulse/utils.js";
 import {
   ATTR_HTTP_REQUEST_METHOD,
   ATTR_HTTP_RESPONSE_STATUS_CODE,

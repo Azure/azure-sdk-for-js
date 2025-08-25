@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect } from "vitest";
-import { BuffersStream } from "../../src/BuffersStream.js";
+import { BuffersStream } from "$internal/BuffersStream.js";
 
 describe("BuffersStream", () => {
   it("should read all data from a single buffer", async () => {

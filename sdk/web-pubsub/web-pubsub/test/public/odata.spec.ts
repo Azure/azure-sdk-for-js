@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { odata } from "../../src/utils.js";
+import { odata } from "@azure/web-pubsub";
 import { describe, it, assert } from "vitest";
 
 describe("Can parse odata to string", () => {

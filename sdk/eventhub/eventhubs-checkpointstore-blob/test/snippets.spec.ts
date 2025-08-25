@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { EventHubConsumerClient } from "@azure/event-hubs";
-import { BlobCheckpointStore } from "../src/index.js";
+import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 import { setLogLevel } from "@azure/logger";
 import { ContainerClient } from "@azure/storage-blob";
 import { describe, it } from "vitest";

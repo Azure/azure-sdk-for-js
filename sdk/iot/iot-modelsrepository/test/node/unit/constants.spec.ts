@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as cnst from "../../../src/utils/constants.js";
+import * as cnst from "$internal/utils/constants.js";
 import { readFileSync } from "node:fs";
 import { describe, it, expect } from "vitest";
 

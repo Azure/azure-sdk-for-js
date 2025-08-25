@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FetchFunctionCallback } from "../../../../src/queryExecutionContext/index.js";
-import { DefaultQueryExecutionContext } from "../../../../src/queryExecutionContext/defaultQueryExecutionContext.js";
-import type { FeedOptions } from "../../../../src/index.js";
-import { sleep } from "../../../../src/common/index.js";
+import type { FetchFunctionCallback } from "$internal/queryExecutionContext/index.js";
+import { DefaultQueryExecutionContext } from "$internal/queryExecutionContext/defaultQueryExecutionContext.js";
+import type { FeedOptions } from "@azure/cosmos";
+import { sleep } from "$internal/common/index.js";
 import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers.js";
-import { getEmptyCosmosDiagnostics } from "../../../../src/utils/diagnostics.js";
+import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 
 describe("defaultQueryExecutionContext", () => {

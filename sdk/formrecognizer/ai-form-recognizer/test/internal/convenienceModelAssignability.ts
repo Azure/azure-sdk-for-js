@@ -13,7 +13,7 @@ import type {
   DocumentWord as GeneratedDocumentWord,
   DocumentBarcode as GeneratedDocumentBarcode,
   DocumentFormula as GeneratedDocumentFormula,
-} from "../../src/generated/index.js";
+} from "$internal/generated/index.js";
 import type {
   Document,
   DocumentKeyValueElement,
@@ -26,7 +26,7 @@ import type {
   DocumentWord,
   DocumentBarcode,
   DocumentFormula,
-} from "../../src/models/documentElements.js";
+} from "$internal/models/documentElements.js";
 
 // To avoid going out-of-sync with the generated types, we test the re-constructed interfaces are following the shapes in the generated interfaces in this test file.
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConfigurationClient } from "../../src/index.js";
+import { ConfigurationClient } from "@azure/template";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { createTestCredential } from "@azure-tools/test-credential";

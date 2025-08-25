@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseEventHubConnectionString } from "../../src/util/connectionStringUtils.js";
+import { parseEventHubConnectionString } from "@azure/event-hubs";
 import { describe, it } from "vitest";
 import { assert } from "../utils/chai.js";
 

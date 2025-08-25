@@ -3,7 +3,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
-import { ConfigurationClient } from "../src/index.js";
+import { ConfigurationClient } from "@azure/template";
 import { describe, it } from "vitest";
 
 describe("snippets", function () {

@@ -12,31 +12,28 @@ import type {
   Exception,
   Trace,
   DocumentFilterConjunctionGroupInfo,
-} from "../../../../src/generated/index.js";
+} from "$internal/generated/index.js";
 import {
   KnownPredicateType,
   KnownTelemetryType,
   KnownDocumentType,
   KnownAggregationType,
-} from "../../../../src/generated/index.js";
-import { Validator } from "../../../../src/metrics/quickpulse/filtering/validator.js";
-import { Filter } from "../../../../src/metrics/quickpulse/filtering/filter.js";
-import { Projection } from "../../../../src/metrics/quickpulse/filtering/projection.js";
+} from "$internal/generated/index.js";
+import { Validator } from "$internal/metrics/quickpulse/filtering/validator.js";
+import { Filter } from "$internal/metrics/quickpulse/filtering/filter.js";
+import { Projection } from "$internal/metrics/quickpulse/filtering/projection.js";
 import {
   TelemetryTypeError,
   UnexpectedFilterCreateError,
   MetricFailureToCreateError,
-} from "../../../../src/metrics/quickpulse/filtering/quickpulseErrors.js";
+} from "$internal/metrics/quickpulse/filtering/quickpulseErrors.js";
 import type {
   RequestData,
   DependencyData,
   ExceptionData,
   TraceData,
-} from "../../../../src/metrics/quickpulse/types.js";
-import {
-  KnownRequestColumns,
-  KnownDependencyColumns,
-} from "../../../../src/metrics/quickpulse/types.js";
+} from "$internal/metrics/quickpulse/types.js";
+import { KnownRequestColumns, KnownDependencyColumns } from "$internal/metrics/quickpulse/types.js";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { millisToHrTime } from "@opentelemetry/core";
 import { LogRecord, LoggerProvider } from "@opentelemetry/sdk-logs";
@@ -47,7 +44,7 @@ import {
   getSpanDocument,
   getLogDocument,
   getMsFromFilterTimestampString,
-} from "../../../../src/metrics/quickpulse/utils.js";
+} from "$internal/metrics/quickpulse/utils.js";
 import { describe, it } from "vitest";
 
 describe("Live Metrics filtering - Validator", () => {

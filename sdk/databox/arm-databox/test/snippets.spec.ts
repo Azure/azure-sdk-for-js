@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DataBoxManagementClient } from "../src/index.js";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

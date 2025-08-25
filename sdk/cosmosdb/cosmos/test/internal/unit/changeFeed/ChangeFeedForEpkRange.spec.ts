@@ -5,32 +5,26 @@ import {
   ChangeFeedForEpkRange,
   ChangeFeedIteratorResponse,
   ChangeFeedMode,
-} from "../../../../src/client/ChangeFeed/index.js";
-import type { ClientContext } from "../../../../src/index.js";
-import {
-  Constants,
-  Container,
-  ErrorResponse,
-  StatusCodes,
-  TimeoutError,
-} from "../../../../src/index.js";
-import { PartitionKeyRangeCache, QueryRange } from "../../../../src/routing/index.js";
-import { ChangeFeedRange } from "../../../../src/client/ChangeFeed/ChangeFeedRange.js";
+} from "$internal/client/ChangeFeed/index.js";
+import type { ClientContext } from "@azure/cosmos";
+import { Constants, Container, ErrorResponse, StatusCodes, TimeoutError } from "@azure/cosmos";
+import { PartitionKeyRangeCache, QueryRange } from "$internal/routing/index.js";
+import { ChangeFeedRange } from "$internal/client/ChangeFeed/ChangeFeedRange.js";
 import { MockedClientContext } from "../../../public/common/MockClientContext.js";
 import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
-import { getEmptyCosmosDiagnostics } from "../../../../src/utils/diagnostics.js";
-import { SubStatusCodes } from "../../../../src/common/statusCodes.js";
-import { FeedRangeQueue } from "../../../../src/client/ChangeFeed/FeedRangeQueue.js";
+import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
+import { SubStatusCodes } from "$internal/common/statusCodes.js";
+import { FeedRangeQueue } from "$internal/client/ChangeFeed/FeedRangeQueue.js";
 
 interface Resource {
   id: string;
   [key: string]: any;
 }
 
-vi.mock("../../../../src/index.js", async (importActual) => {
+vi.mock("@azure/cosmos", async (importActual) => {
   const ContainerMock = vi.fn();
 
-  const actual = await importActual<typeof import("../../../../src/index.js")>();
+  const actual = await importActual<typeof import("@azure/cosmos")>();
   return {
     ...actual,
     Container: ContainerMock,

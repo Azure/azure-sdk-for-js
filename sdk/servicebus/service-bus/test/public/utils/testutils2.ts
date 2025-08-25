@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceBusClient } from "../../../src/index.js";
+import { ServiceBusClient } from "@azure/service-bus";
 import { TestClientType, TestMessage } from "./testUtils.js";
 import {
   recreateQueue,
@@ -18,7 +18,7 @@ import type {
   ServiceBusSessionReceiver,
   ServiceBusClientOptions,
   ServiceBusSender,
-} from "../../../src/index.js";
+} from "@azure/service-bus";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, afterEach, beforeAll, beforeEach } from "vitest";
 import { should } from "./chai.js";

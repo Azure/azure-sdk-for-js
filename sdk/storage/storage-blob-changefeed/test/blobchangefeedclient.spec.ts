@@ -8,13 +8,13 @@ import {
   streamToString,
   uriSanitizers,
 } from "./utils/index.js";
-import type { BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src/index.js";
-import { BlobChangeFeedClient } from "../src/index.js";
+import type { BlobChangeFeedEvent, BlobChangeFeedEventPage } from "@azure/storage-blob-changefeed";
+import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
 import type { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
-import { SDK_VERSION } from "../src/utils/constants.js";
+import { SDK_VERSION } from "$internal/utils/constants.js";
 import fs from "node:fs";
 import path from "node:path";
-import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common.js";
+import { rawEventToBlobChangeFeedEvent } from "$internal/utils/utils.common.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { toHttpHeadersLike } from "@azure/core-http-compat";

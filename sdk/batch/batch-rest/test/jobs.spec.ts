@@ -10,8 +10,8 @@ import type {
   CreateJobParameters,
   CreatePoolParameters,
   UpdateJobParameters,
-} from "../src/index.js";
-import { isUnexpected } from "../src/index.js";
+} from "@azure-rest/batch";
+import { isUnexpected } from "@azure-rest/batch";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";

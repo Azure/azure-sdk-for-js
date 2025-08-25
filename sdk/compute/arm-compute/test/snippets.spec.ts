@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ComputeManagementClient } from "../src/index.js";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

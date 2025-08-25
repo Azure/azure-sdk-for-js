@@ -9,7 +9,7 @@ import type {
   TestSecretClientInterface,
 } from "./operation.js";
 import { makeRestoreSecretBackupPollOperation } from "./operation.js";
-import type { SecretProperties } from "../../../../../src/index.js";
+import type { SecretProperties } from "@azure/keyvault-secrets";
 
 export interface RestoreSecretBackupPollerOptions {
   client: TestSecretClientInterface;

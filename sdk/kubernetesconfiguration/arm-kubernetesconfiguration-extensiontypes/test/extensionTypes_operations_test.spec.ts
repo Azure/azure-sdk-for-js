@@ -14,7 +14,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { ExtensionTypesClient } from "../src/extensionTypesClient.js";
+import { ExtensionTypesClient } from "@azure/arm-kubernetesconfiguration-extensiontypes";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"

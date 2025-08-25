@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MachineLearningComputeManagementClient } from "../src/index.js";
+import { MachineLearningComputeManagementClient } from "@azure/arm-machinelearningcompute";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

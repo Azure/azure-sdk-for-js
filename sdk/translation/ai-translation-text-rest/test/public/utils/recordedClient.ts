@@ -4,8 +4,8 @@
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential.js";
-import type { TextTranslationClient } from "../../../src/index.js";
-import createTextTranslationClient from "../../../src/index.js";
+import type { TextTranslationClient } from "@azure-rest/ai-translation-text";
+import createTextTranslationClient from "@azure-rest/ai-translation-text";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";

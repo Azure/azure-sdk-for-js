@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData.js";
+import { fromRheaMessage, isAmqpAnnotatedMessage } from "$internal/eventData.js";
 import { Constants } from "@azure/core-amqp";
 import { describe, it } from "vitest";
 import { assert } from "../utils/chai.js";

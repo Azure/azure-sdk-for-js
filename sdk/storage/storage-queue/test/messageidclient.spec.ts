@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { getQSU, getSASConnectionStringFromEnvironment, uriSanitizers } from "./utils/index.js";
-import { QueueClient } from "../src/QueueClient.js";
+import { QueueClient } from "@azure/storage-queue";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { extractConnectionStringParts } from "../src/utils/utils.common.js";
+import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 import { getUniqueName, recorderEnvSetup } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

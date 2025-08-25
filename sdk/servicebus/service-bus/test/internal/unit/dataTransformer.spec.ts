@@ -3,7 +3,7 @@
 
 import { Buffer } from "buffer";
 import isBuffer from "is-buffer";
-import { defaultDataTransformer } from "../../../src/dataTransformer.js";
+import { defaultDataTransformer } from "$internal/dataTransformer.js";
 import { describe, it } from "vitest";
 import { assert, should } from "../../public/utils/chai.js";
 

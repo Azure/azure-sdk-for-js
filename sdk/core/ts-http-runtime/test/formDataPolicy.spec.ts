@@ -2,12 +2,16 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
-import type { PipelineResponse, SendRequest } from "../src/index.js";
-import type { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces.js";
-import { createPipelineRequest } from "../src/pipelineRequest.js";
-import { createHttpHeaders } from "../src/httpHeaders.js";
-import { formDataPolicy } from "../src/policies/formDataPolicy.js";
-import { isBrowser, isNodeLike } from "../src/util/checkEnvironment.js";
+import type {
+  PipelineResponse,
+  SendRequest,
+  BodyPart,
+  FormDataMap,
+  MultipartRequestBody,
+} from "@typespec/ts-http-runtime";
+import { createPipelineRequest, createHttpHeaders } from "@typespec/ts-http-runtime";
+import { formDataPolicy } from "$internal/policies/formDataPolicy.js";
+import { isBrowser, isNodeLike } from "$internal/util/checkEnvironment.js";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {
   const request = createPipelineRequest({

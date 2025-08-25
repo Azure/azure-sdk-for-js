@@ -5,8 +5,8 @@ import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder"
 import { Recorder, env } from "@azure-tools/test-recorder";
 import "./env.js";
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { MapsGeolocationClient } from "../../../src/index.js";
-import MapsGeolocation from "../../../src/index.js";
+import type { MapsGeolocationClient } from "@azure-rest/maps-geolocation";
+import MapsGeolocation from "@azure-rest/maps-geolocation";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: Record<string, string> = {

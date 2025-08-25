@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-import type { ConversationAnalysisClient } from "../../src/index.js";
+import type { ConversationAnalysisClient } from "@azure/ai-language-conversations";
 import { type Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {

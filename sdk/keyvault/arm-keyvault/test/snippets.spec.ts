@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultManagementClient } from "../src/index.js";
+import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

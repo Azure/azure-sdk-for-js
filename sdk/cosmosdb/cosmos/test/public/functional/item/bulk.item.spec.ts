@@ -7,7 +7,9 @@ import type {
   ContainerRequest,
   OperationResponse,
   PluginConfig,
-} from "../../../../src/index.js";
+  OperationInput,
+  PartitionKey,
+} from "@azure/cosmos";
 import {
   Constants,
   CosmosClient,
@@ -16,20 +18,16 @@ import {
   PluginOn,
   StatusCodes,
   ErrorResponse,
-} from "../../../../src/index.js";
-import { addEntropy, getTestContainer, testForDiagnostics } from "../../common/TestHelpers.js";
-import type { OperationInput } from "../../../../src/index.js";
-import { BulkOperationType } from "../../../../src/index.js";
-import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec.js";
-import type { PartitionKey } from "../../../../src/documents/index.js";
-import {
+  BulkOperationType,
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
-} from "../../../../src/documents/index.js";
+} from "@azure/cosmos";
+import { addEntropy, getTestContainer, testForDiagnostics } from "../../common/TestHelpers.js";
+import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec.js";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
-import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
-import { SubStatusCodes } from "../../../../src/common/index.js";
+import { getCurrentTimestampInMs } from "$internal/utils/time.js";
+import { SubStatusCodes } from "$internal/common/index.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 describe("test bulk operations", async () => {

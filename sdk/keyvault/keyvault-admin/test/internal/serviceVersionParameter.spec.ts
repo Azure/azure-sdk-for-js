@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src/index.js";
-import { LATEST_API_VERSION } from "../../src/constants.js";
+import {
+  KeyVaultAccessControlClient,
+  KeyVaultBackupClient,
+  LATEST_API_VERSION,
+} from "@azure/keyvault-admin";
 import {
   type PipelineRequest,
   type PipelineResponse,

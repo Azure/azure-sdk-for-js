@@ -21,7 +21,7 @@ import type {
   RemoveParticipantsOption,
   CancelAddParticipantOperationOptions,
   TransferCallToParticipantOptions,
-} from "../../src/index.js";
+} from "@azure/communication-call-automation";
 import {
   CALL_TARGET_ID,
   CALL_TARGET_ID_2,
@@ -45,7 +45,7 @@ import {
 import type { MockedObject } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
-vi.mock(import("../../src/index.js"), async (importOriginal) => {
+vi.mock(import("@azure/communication-call-automation"), async (importOriginal) => {
   const mod = await importOriginal();
 
   const CallConnection = vi.fn();
@@ -65,7 +65,7 @@ vi.mock(import("../../src/index.js"), async (importOriginal) => {
   };
 });
 
-import { CallConnection } from "../../src/index.js";
+import { CallConnection } from "@azure/communication-call-automation";
 
 describe("CallConnection Unit Tests", () => {
   let target: CallInvite;

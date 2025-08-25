@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import ReporterUtils from "../../src/utils/reporterUtils.js";
-import type { TestResult as MPTTestResult } from "../../src/model/testResult.js";
+import ReporterUtils from "$internal/utils/reporterUtils.js";
+import type { TestResult as MPTTestResult } from "$internal/model/testResult.js";
 import type { TestCase, TestResult } from "@playwright/test/reporter";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 

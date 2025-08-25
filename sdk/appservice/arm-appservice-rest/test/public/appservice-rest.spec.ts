@@ -4,8 +4,8 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode, env } from "@azure-tools/test-recorder";
 import { createRecorder, createClient } from "./utils/recordedClient.js";
-import type { WebSiteManagementClient } from "../../src/index.js";
-import { paginate, getLongRunningPoller } from "../../src/index.js";
+import type { WebSiteManagementClient } from "@azure-rest/arm-appservice";
+import { paginate, getLongRunningPoller } from "@azure-rest/arm-appservice";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {

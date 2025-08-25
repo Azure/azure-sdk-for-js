@@ -8,11 +8,11 @@ import type {
   PipelinePolicy,
   PipelineResponse,
   SendRequest,
-} from "../../src/index.js";
-import { createHttpHeaders, createPipelineRequest } from "../../src/index.js";
-import { basicAuthenticationPolicy } from "../../src/policies/auth/basicAuthenticationPolicy.js";
-import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
-import { logger } from "../../src/log.js";
+} from "@typespec/ts-http-runtime";
+import { createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
+import { basicAuthenticationPolicy } from "$internal/policies/auth/basicAuthenticationPolicy.js";
+import { createDefaultPipeline } from "$internal/client/clientHelpers.js";
+import { logger } from "$internal/log.js";
 
 describe("basicAuthenticationPolicy", () => {
   it("should add basic auth header with correct encoding", async () => {

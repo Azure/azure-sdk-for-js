@@ -3,8 +3,8 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createAADRecorder, createAADClient } from "./utils/recordedAADClient.js";
-import type { ContentSafetyClient } from "../../src/index.js";
-import { isUnexpected } from "../../src/index.js";
+import type { ContentSafetyClient } from "@azure-rest/ai-content-safety";
+import { isUnexpected } from "@azure-rest/ai-content-safety";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { isBrowser } from "@azure/core-util";

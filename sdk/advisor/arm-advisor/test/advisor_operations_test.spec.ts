@@ -8,8 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AdvisorManagementClient } from "../src/advisorManagementClient.js";
-import { RecommendationsListOptionalParams } from "../src/models/index.js";
+import { AdvisorManagementClient, RecommendationsListOptionalParams } from "@azure/arm-advisor";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

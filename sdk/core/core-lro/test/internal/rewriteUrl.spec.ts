@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { rewriteUrl } from "../../src/http/utils.js";
+import { rewriteUrl } from "$internal/http/utils.js";
 
 describe("rewriteUrl", () => {
   it("should return undefined when the input url is undefined", () => {

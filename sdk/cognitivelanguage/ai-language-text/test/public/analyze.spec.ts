@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TextAnalysisClient } from "../../src/index.js";
+import type { TextAnalysisClient } from "@azure/ai-language-text";
 import {
   AnalyzeActionNames,
   KnownPiiEntityCategory,
   KnownPiiEntityDomain,
   KnownStringIndexType,
   KnownTextAnalysisErrorCode,
-} from "../../src/index.js";
+} from "@azure/ai-language-text";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { assertActionResults, assertRestError } from "./utils/resultHelper.js";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers.js";

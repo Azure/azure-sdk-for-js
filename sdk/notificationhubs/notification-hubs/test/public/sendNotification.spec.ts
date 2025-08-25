@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import type { NotificationHubsClientContext } from "../../src/api/index.js";
-import { sendBroadcastNotification, sendNotification } from "../../src/api/index.js";
+import type { NotificationHubsClientContext } from "$internal/api/index.js";
+import { sendBroadcastNotification, sendNotification } from "$internal/api/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createAppleNotification } from "../../src/models/index.js";
+import { createAppleNotification } from "@azure/notification-hubs";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
 
 describe("sendDirectNotification()", () => {

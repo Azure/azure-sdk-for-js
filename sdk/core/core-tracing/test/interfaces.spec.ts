@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import type * as coreAuth from "@azure/core-auth";
-import type * as coreTracing from "../src/index.js";
+import type * as coreTracing from "@azure/core-tracing";
 import { describe, it, assert } from "vitest";
-import { createTracingContext } from "../src/tracingContext.js";
+import { createTracingContext } from "$internal/tracingContext.js";
 
 describe("Interface compatibility", () => {
   describe("OperationTracingOptions", () => {

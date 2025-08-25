@@ -10,8 +10,8 @@ import type {
   PiiEntityRecognitionResult,
   PiiEntityRecognitionSuccessResult,
   SentimentAnalysisResult,
-} from "../../src/index.js";
-import { KnownErrorCode } from "../../src/index.js";
+} from "@azure/ai-language-text";
+import { KnownErrorCode } from "@azure/ai-language-text";
 
 const failedOn = undefined as any;
 const modelVersion = undefined as any;

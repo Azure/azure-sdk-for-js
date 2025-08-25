@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventData, ReceivedEventData } from "../../src/eventData.js";
-import { fromRheaMessage, toRheaMessage } from "../../src/eventData.js";
+import type { EventData, ReceivedEventData } from "@azure/event-hubs";
+import { fromRheaMessage, toRheaMessage } from "$internal/eventData.js";
 import { assert, should } from "../utils/chai.js";
 import {
   dataSectionTypeCode,
   sequenceSectionTypeCode,
   valueSectionTypeCode,
-} from "../../src/dataTransformer.js";
+} from "$internal/dataTransformer.js";
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import type { Message } from "rhea-promise";
 import { describe, it } from "vitest";

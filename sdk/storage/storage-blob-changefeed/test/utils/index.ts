@@ -4,7 +4,7 @@
 import { configureBlobStorageClient, SimpleTokenCredential } from "./testutils.common.js";
 import type { StoragePipelineOptions } from "@azure/storage-blob";
 import { StorageSharedKeyCredential, BlobServiceClient } from "@azure/storage-blob";
-import { BlobChangeFeedClient } from "../../src/index.js";
+import { BlobChangeFeedClient } from "@azure/storage-blob-changefeed";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";

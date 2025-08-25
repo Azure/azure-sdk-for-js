@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants } from "../../../../src/index.js";
-import type { Batch, Operation } from "../../../../src/utils/batch.js";
+import { Constants } from "@azure/cosmos";
+import type { Batch, Operation } from "$internal/utils/batch.js";
 import {
   BulkOperationType,
   calculateObjectSizeInBytes,
   splitBatchBasedOnBodySize,
-} from "../../../../src/utils/batch.js";
+} from "$internal/utils/batch.js";
 import { describe, it, assert } from "vitest";
 
 const operationSkeleton: Operation = {

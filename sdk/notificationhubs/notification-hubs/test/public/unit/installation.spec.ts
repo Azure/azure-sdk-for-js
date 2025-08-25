@@ -11,7 +11,7 @@ import {
   createFcmLegacyInstallation,
   createXiaomiInstallation,
   createWindowsInstallation,
-} from "../../../src/models/installation.js";
+} from "$internal/models/installation.js";
 
 describe("createAppleInstallation", () => {
   it("should set the default properties", () => {

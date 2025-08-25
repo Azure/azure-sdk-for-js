@@ -1,20 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  Instrumenter,
-  TracingClient,
-  TracingContext,
-  TracingSpan,
-} from "../src/interfaces.js";
+import type { Instrumenter, TracingClient, TracingContext, TracingSpan } from "@azure/core-tracing";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   useInstrumenter,
-} from "../src/instrumenter.js";
-import { createTracingContext, knownContextKeys } from "../src/tracingContext.js";
+} from "$internal/instrumenter.js";
+import { createTracingContext, knownContextKeys } from "$internal/tracingContext.js";
 import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
-import { createTracingClient } from "../src/tracingClient.js";
+import { createTracingClient } from "@azure/core-tracing";
 
 describe("TracingClient", () => {
   let instrumenter: Instrumenter;

@@ -3,10 +3,9 @@
 
 import { createTableClient, createTableServiceClient } from "./utils/recordedClient.js";
 import type { CreateClientMode } from "./utils/recordedClient.js";
-import type { TableClient } from "../../src/TableClient.js";
-import type { TableServiceClient } from "../../src/TableServiceClient.js";
+import type { TableClient, TableServiceClient } from "@azure/data-tables";
 import { isNodeLike } from "@azure/core-util";
-import { odata } from "../../src/odata.js";
+import { odata } from "@azure/data-tables";
 import { describe, it, assert, beforeEach, afterAll } from "vitest";
 import { isLiveMode } from "../utils/injectables.js";
 

@@ -3,8 +3,8 @@
 
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import type * as RestModel from "../../../src/generated/src/models/index.js";
-import { RoomsClient } from "../../../src/index.js";
+import type * as RestModel from "$internal/generated/src/models/index.js";
+import { RoomsClient } from "@azure/communication-rooms";
 
 export const mockCreateRoomsResult: RestModel.RoomsCreateResponse = {
   id: "id",

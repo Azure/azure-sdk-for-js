@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import PurviewDataMap, { isUnexpected } from "../src/index.js";
+import PurviewDataMap, { isUnexpected } from "@azure-rest/purview-datamap";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

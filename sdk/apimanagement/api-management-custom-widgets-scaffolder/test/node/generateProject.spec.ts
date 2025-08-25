@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WidgetConfig } from "../../src/scaffolding.js";
-import { TECHNOLOGIES, displayNameToName } from "../../src/scaffolding.js";
+import type { WidgetConfig } from "$internal/scaffolding.js";
+import {
+  TECHNOLOGIES,
+  displayNameToName,
+  generateProject,
+} from "@azure/api-management-custom-widgets-scaffolder";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 vi.mock("node:fs/promises", async () => {
@@ -15,9 +19,7 @@ vi.mock("node:fs/promises", async () => {
     },
   };
 });
-
 import promises from "node:fs/promises";
-import { generateProject } from "../../src/index.js";
 
 const widgetConfig: Omit<WidgetConfig, "technology"> = {
   displayName: "Contoso App",

@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { assert, describe, it } from "vitest";
-import type { ClientCredential } from "../../src/auth/credentials.js";
+import type { ClientCredential } from "@typespec/ts-http-runtime";
 import {
   isApiKeyCredential,
   isBasicCredential,
   isBearerTokenCredential,
   isOAuth2TokenCredential,
-} from "../../src/auth/credentials.js";
+} from "$internal/auth/credentials.js";
 
 const fakeApiKeyCredential: ClientCredential = {
   key: "fakeKey",

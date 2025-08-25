@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchRequest, RouteGetRouteDirectionsQueryParamProperties } from "../../src/index.js";
+import type {
+  BatchRequest,
+  RouteGetRouteDirectionsQueryParamProperties,
+} from "@azure-rest/maps-route";
 import {
   createRouteDirectionsBatchRequest,
   toColonDelimitedLatLonString,
-} from "../../src/index.js";
+} from "@azure-rest/maps-route";
 import type { LatLon } from "@azure/maps-common";
 import { describe, it, assert } from "vitest";
 

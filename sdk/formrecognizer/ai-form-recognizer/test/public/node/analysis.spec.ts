@@ -9,13 +9,13 @@ import type {
   DocumentTable,
   DocumentModelDetails,
   DocumentBarcode,
-} from "../../../src/index.js";
+} from "@azure/ai-form-recognizer";
 import {
   DocumentAnalysisClient,
   DocumentModelAdministrationClient,
   FormRecognizerFeature,
-} from "../../../src/index.js";
-import type { DocumentSelectionMarkField } from "../../../src/models/fields.js";
+} from "@azure/ai-form-recognizer";
+import type { DocumentSelectionMarkField } from "$internal/models/fields.js";
 import {
   authMethods,
   createRecorder,
@@ -23,7 +23,7 @@ import {
   makeCredential,
   testPollingOptions,
 } from "../../utils/recordedClients.js";
-import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions.js";
+import { DocumentModelBuildMode } from "$internal/options/BuildModelOptions.js";
 import { createValidator } from "../../utils/fieldValidator.js";
 import { PrebuiltModels } from "../../utils/prebuilts.js";
 import type { PrebuiltIdDocumentDocument } from "../../utils/schemas/prebuilt-idDocument.js";

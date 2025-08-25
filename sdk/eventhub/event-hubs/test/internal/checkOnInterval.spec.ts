@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { checkOnInterval } from "../../src/partitionReceiver.js";
+import { checkOnInterval } from "$internal/partitionReceiver.js";
 import { describe, it, vi } from "vitest";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import { expect } from "../utils/chai.js";

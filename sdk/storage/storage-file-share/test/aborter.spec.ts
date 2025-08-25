@@ -3,7 +3,7 @@
 
 import { getBSU, recorderEnvSetup, getUniqueName, uriSanitizers } from "./utils/index.js";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import type { ShareClient } from "../src/index.js";
+import type { ShareClient } from "@azure/storage-file-share";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Aborter", () => {

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { env, Recorder } from "@azure-tools/test-recorder";
-import type { MapsTimeZoneClient } from "../../../src/index.js";
-import MapsTimeZone from "../../../src/index.js";
+import type { MapsTimeZoneClient } from "@azure-rest/maps-timezone";
+import MapsTimeZone from "@azure-rest/maps-timezone";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 

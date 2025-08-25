@@ -11,13 +11,11 @@ import type {
   WebPubSubClientOptions,
   WebPubSubResult,
   WebPubSubRetryOptions,
-} from "../src/models/index.js";
-import { WebPubSubClient } from "../src/webPubSubClient.js";
+} from "@azure/web-pubsub-client";
+import { WebPubSubClient, WebPubSubJsonProtocol, SendMessageError } from "@azure/web-pubsub-client";
 import { delay } from "@azure/core-util";
 import { TestWebSocketClient } from "./testWebSocketClient.js";
-import { WebPubSubJsonProtocol } from "../src/protocols/index.js";
 import { getConnectedPayload } from "./utils.js";
-import { SendMessageError } from "../src/errors/index.js";
 import { describe, it, assert, expect, vi } from "vitest";
 import type { MockInstance } from "vitest";
 

@@ -6,7 +6,7 @@ import type { Recorder, RecorderStartOptions, SanitizerOptions } from "@azure-to
 import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { isDefined } from "@azure/core-util";
 import { OpenAIClient } from "@azure/openai";
-import { SearchClient, SearchIndexClient, SearchIndexerClient } from "../../../src/index.js";
+import { SearchClient, SearchIndexClient, SearchIndexerClient } from "@azure/search-documents";
 
 export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;

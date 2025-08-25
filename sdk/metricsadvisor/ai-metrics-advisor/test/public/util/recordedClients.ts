@@ -9,7 +9,7 @@ import {
   MetricsAdvisorAdministrationClient,
   MetricsAdvisorClient,
   MetricsAdvisorKeyCredential,
-} from "../../../src/index.js";
+} from "@azure/ai-metrics-advisor";
 
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;

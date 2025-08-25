@@ -14,7 +14,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SignalRManagementClient } from "../src/signalRManagementClient.js";
+import { SignalRManagementClient } from "@azure/arm-signalr";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

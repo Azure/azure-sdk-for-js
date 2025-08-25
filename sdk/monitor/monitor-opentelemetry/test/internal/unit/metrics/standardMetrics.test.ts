@@ -23,9 +23,9 @@ import {
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { resourceFromAttributes } from "@opentelemetry/resources";
-import { StandardMetrics } from "../../../../src/metrics/standardMetrics.js";
-import { InternalConfig } from "../../../../src/shared/index.js";
-import { getDependencyTarget } from "../../../../src/metrics/utils.js";
+import { StandardMetrics } from "$internal/metrics/standardMetrics.js";
+import { InternalConfig } from "$internal/shared/index.js";
+import { getDependencyTarget } from "$internal/metrics/utils.js";
 import type { MockInstance } from "vitest";
 import { expect, afterAll, afterEach, beforeAll, describe, it, vi, assert } from "vitest";
 

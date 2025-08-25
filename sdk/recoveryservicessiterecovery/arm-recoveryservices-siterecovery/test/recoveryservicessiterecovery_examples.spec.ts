@@ -8,7 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { SiteRecoveryManagementClient } from "../src/siteRecoveryManagementClient.js";
+import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { describe, it, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

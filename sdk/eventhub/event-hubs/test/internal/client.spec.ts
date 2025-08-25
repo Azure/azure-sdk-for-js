@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventHubConsumerClient, EventHubProducerClient } from "../../src/index.js";
-import type { ConnectionContext } from "../../src/connectionContext.js";
+import { EventHubConsumerClient, EventHubProducerClient } from "@azure/event-hubs";
+import type { ConnectionContext } from "$internal/connectionContext.js";
 import { MessagingError } from "@azure/core-amqp";
-import { getRuntimeInfo } from "../../src/util/runtimeInfo.js";
-import { packageJsonInfo } from "../../src/util/constants.js";
+import { getRuntimeInfo } from "$internal/util/runtimeInfo.js";
+import { packageJsonInfo } from "$internal/util/constants.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";

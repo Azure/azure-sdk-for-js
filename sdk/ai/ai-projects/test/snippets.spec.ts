@@ -2,18 +2,17 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectClient, DatasetVersion } from "../src/index.js";
+import { AIProjectClient, DatasetVersion } from "@azure/ai-projects";
 import type {
   AzureAISearchIndex,
   Connection,
   DatasetVersionUnion,
   ModelDeployment,
-} from "../src/index.js";
-import { isRestError } from "@azure/core-rest-pipeline";
+} from "@azure/ai-projects";
+import { isRestError, RestError } from "@azure/core-rest-pipeline";
 import { createProjectsClient } from "./public/utils/createClient.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { beforeEach, it, describe } from "vitest";
-import { RestError } from "@azure/core-rest-pipeline";
 import * as path from "path";
 
 describe("snippets", function () {

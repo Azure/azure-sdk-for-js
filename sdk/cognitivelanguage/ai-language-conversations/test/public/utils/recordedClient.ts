@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConversationAnalysisClientOptionalParams } from "../../../src/index.js";
-import { ConversationAnalysisClient } from "../../../src/index.js";
+import type { ConversationAnalysisClientOptionalParams } from "@azure/ai-language-conversations";
+import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";

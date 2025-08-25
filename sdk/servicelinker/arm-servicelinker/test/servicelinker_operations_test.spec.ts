@@ -12,7 +12,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ServiceLinkerManagementClient } from "../src/serviceLinkerManagementClient.js"
+import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker"
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

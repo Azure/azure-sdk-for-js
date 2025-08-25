@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import { HttpSender } from "../../src/platform/nodejs/httpSender.js";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants.js";
+import { HttpSender } from "$internal/platform/nodejs/httpSender.js";
+import { DEFAULT_BREEZE_ENDPOINT } from "$internal/Declarations/Constants.js";
 import {
   successfulBreezeResponse,
   failedBreezeResponse,
   partialBreezeResponse,
 } from "../utils/breezeTestUtils.js";
-import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
+import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
 import nock from "nock";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";

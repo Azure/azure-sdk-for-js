@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CertificateClient } from "../../src/index.js";
-import { SDK_VERSION } from "../../src/constants.js";
+import { CertificateClient } from "@azure/keyvault-certificates";
+import { SDK_VERSION } from "$internal/constants.js";
 import { describe, it, assert } from "vitest";
 
 describe("Certificates client's user agent (only in Node, because of fs)", () => {

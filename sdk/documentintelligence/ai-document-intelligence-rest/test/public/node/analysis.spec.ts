@@ -3,7 +3,13 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "../utils/recorderUtils.js";
-import DocumentIntelligence, { KnownDocumentIntelligenceAudience } from "../../../src/index.js";
+import DocumentIntelligence, {
+  KnownDocumentIntelligenceAudience,
+  getLongRunningPoller,
+  isUnexpected,
+  parseResultIdFromResponse,
+  streamToUint8Array,
+} from "@azure-rest/ai-document-intelligence";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   ASSET_PATH,
@@ -22,13 +28,7 @@ import type {
   DocumentModelDetailsOutput,
   DocumentTableOutput,
   DocumentIntelligenceClient,
-} from "../../../src/index.js";
-import {
-  getLongRunningPoller,
-  isUnexpected,
-  parseResultIdFromResponse,
-  streamToUint8Array,
-} from "../../../src/index.js";
+} from "@azure-rest/ai-document-intelligence";
 import { getEndpoint, getSelectionMarkStorageContainerSasUrl } from "../../utils/injectables.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 

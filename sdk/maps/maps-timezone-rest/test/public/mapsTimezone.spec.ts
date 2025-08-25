@@ -6,8 +6,8 @@ import { env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import type { IanaIdOutput } from "../../src/index.js";
-import MapsTimeZone, { isUnexpected } from "../../src/index.js";
+import type { IanaIdOutput } from "@azure-rest/maps-timezone";
+import MapsTimeZone, { isUnexpected } from "@azure-rest/maps-timezone";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Authentication", function () {

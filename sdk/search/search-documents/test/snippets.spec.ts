@@ -11,7 +11,7 @@ import {
   SearchIndexClient,
   SearchIndexerClient,
   SelectFields,
-} from "../src/index.js";
+} from "@azure/search-documents";
 import { setLogLevel } from "@azure/logger";
 
 describe("snippets", () => {

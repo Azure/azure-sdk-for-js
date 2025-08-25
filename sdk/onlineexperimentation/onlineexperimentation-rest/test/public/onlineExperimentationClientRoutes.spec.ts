@@ -2,15 +2,18 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { ExperimentMetric, ExperimentMetricOutput } from "../../src/index.js";
-import type { OnlineExperimentationClient } from "../../src/index.js";
+import type {
+  ExperimentMetric,
+  ExperimentMetricOutput,
+  OnlineExperimentationClient,
+} from "@azure-rest/onlineexperimentation";
 import {
   KnownDesiredDirection,
   isUnexpected,
   KnownLifecycleStage,
   KnownExperimentMetricType,
   paginate,
-} from "../../src/index.js";
+} from "@azure-rest/onlineexperimentation";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

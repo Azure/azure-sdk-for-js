@@ -16,7 +16,7 @@ import type {
   ContainerClient,
   BlobClient,
   BlobServiceClient,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   newPipeline,
   PageBlobClient,
@@ -24,7 +24,7 @@ import {
   BlobSASPermissions,
   StorageBlobAudience,
   getBlobServiceAccountAudience,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";

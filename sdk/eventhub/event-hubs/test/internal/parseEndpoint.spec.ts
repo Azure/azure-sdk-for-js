@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseEndpoint } from "../../src/util/parseEndpoint.js";
+import { parseEndpoint } from "$internal/util/parseEndpoint.js";
 import { describe, it } from "vitest";
 import { should } from "../utils/chai.js";
 

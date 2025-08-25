@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessControlRestClient } from "../../../src/index.js";
-import AccessControlClient from "../../../src/index.js";
+import type { AccessControlRestClient } from "@azure-rest/synapse-access-control";
+import AccessControlClient from "@azure-rest/synapse-access-control";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";

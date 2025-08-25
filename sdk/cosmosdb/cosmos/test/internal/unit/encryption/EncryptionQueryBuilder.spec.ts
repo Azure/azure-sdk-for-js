@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosEncryptedNumber } from "../../../../src/encryption/index.js";
-import {
-  EncryptionQueryBuilder,
-  CosmosEncryptedNumberType,
-} from "../../../../src/encryption/index.js";
-import { TypeMarker } from "../../../../src/encryption/enums/TypeMarker.js";
-import type { JSONArray, JSONObject, SqlParameter } from "../../../../src/index.js";
+import type { CosmosEncryptedNumber, JSONArray, JSONObject, SqlParameter } from "@azure/cosmos";
+import { EncryptionQueryBuilder, CosmosEncryptedNumberType } from "@azure/cosmos";
+import { TypeMarker } from "$internal/encryption/enums/TypeMarker.js";
 import { describe, it, assert } from "vitest";
 
 describe("EncryptionQueryBuilder.addParameter", () => {

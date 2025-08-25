@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CertificateClient } from "../../src/index.js";
-import { LATEST_API_VERSION } from "../../src/certificatesModels.js";
+import { CertificateClient } from "@azure/keyvault-certificates";
+import { LATEST_API_VERSION } from "$internal/certificatesModels.js";
 import type {
   HttpClient,
   PipelineRequest,

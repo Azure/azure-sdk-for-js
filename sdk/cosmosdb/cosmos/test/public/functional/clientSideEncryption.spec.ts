@@ -2,18 +2,9 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import { Constants, EncryptionAlgorithm } from "../../../src/index.js";
-import type {
-  Database,
-  Container,
-  ContainerDefinition,
-  OperationInput,
-  PatchOperation,
-  EncryptionKeyWrapMetadata,
-  ClientEncryptionPolicy,
-  ClientEncryptionIncludedPath,
-} from "../../../src/index.js";
 import {
+  Constants,
+  EncryptionAlgorithm,
   CosmosClient,
   KeyEncryptionAlgorithm,
   EncryptionType,
@@ -29,7 +20,17 @@ import {
   ChangeFeedRetentionTimeSpan,
   PartitionKeyKind,
   PermissionMode,
-} from "../../../src/index.js";
+} from "@azure/cosmos";
+import type {
+  Database,
+  Container,
+  ContainerDefinition,
+  OperationInput,
+  PatchOperation,
+  EncryptionKeyWrapMetadata,
+  ClientEncryptionPolicy,
+  ClientEncryptionIncludedPath,
+} from "@azure/cosmos";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { endpoint, skipTestForSignOff } from "../common/_testConfig.js";
 import {
@@ -49,8 +50,8 @@ import {
   verifyDiagnostics,
 } from "../common/encryptionTestHelpers.js";
 import { removeAllDatabases } from "../common/TestHelpers.js";
-import type { CosmosEncryptedNumber } from "../../../src/encryption/CosmosEncryptedNumber.js";
-import { CosmosEncryptedNumberType } from "../../../src/encryption/CosmosEncryptedNumber.js";
+import type { CosmosEncryptedNumber } from "$internal/encryption/CosmosEncryptedNumber.js";
+import { CosmosEncryptedNumberType } from "$internal/encryption/CosmosEncryptedNumber.js";
 import { describe, it, assert, beforeEach, beforeAll, afterAll } from "vitest";
 
 let encryptionClient: CosmosClient;

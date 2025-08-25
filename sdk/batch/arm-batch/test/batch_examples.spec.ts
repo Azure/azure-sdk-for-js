@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { BatchManagementClient } from "../src/batchManagementClient.js";
+import { BatchManagementClient } from "@azure/arm-batch";
 import { fakeTestPasswordPlaceholder, fakeTestCertData } from "./fakeTestSecrets.js";
 import type { StorageAccountCreateParameters } from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";

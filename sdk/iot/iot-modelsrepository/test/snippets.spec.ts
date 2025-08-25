@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ModelsRepositoryClient, getModelUri, isValidDtmi } from "../src/index.js";
+import { ModelsRepositoryClient, getModelUri, isValidDtmi } from "@azure/iot-modelsrepository";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 

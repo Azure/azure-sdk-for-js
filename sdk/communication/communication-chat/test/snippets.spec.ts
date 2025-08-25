@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChatClient, SendMessageOptions } from "../src/index.js";
+import { ChatClient, SendMessageOptions } from "@azure/communication-chat";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

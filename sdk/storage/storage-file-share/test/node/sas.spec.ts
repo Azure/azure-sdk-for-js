@@ -9,13 +9,13 @@ import {
   ShareClient,
   ShareFileClient,
   ShareServiceClient,
-} from "../../src/index.js";
+  FileSASPermissions,
+  generateFileSASQueryParameters,
+  newPipeline,
+  ShareSASPermissions,
+} from "@azure/storage-file-share";
 import { AnonymousCredential } from "@azure/storage-common";
 import type { StorageSharedKeyCredential } from "@azure/storage-common";
-import { FileSASPermissions } from "../../src/FileSASPermissions.js";
-import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues.js";
-import { newPipeline } from "../../src/Pipeline.js";
-import { ShareSASPermissions } from "../../src/ShareSASPermissions.js";
 import {
   configureStorageClient,
   getBSU,

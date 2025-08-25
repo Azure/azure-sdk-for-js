@@ -7,7 +7,7 @@ import {
   type BrowseAvailableNumbersRequest,
   type PhoneNumbersClient,
   type SearchAvailablePhoneNumbersRequest,
-} from "../../src/index.js";
+} from "@azure/communication-phone-numbers";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

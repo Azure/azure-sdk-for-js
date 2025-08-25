@@ -15,8 +15,8 @@ import type {
   VirtualMachinesGetParameters,
   VirtualMachinesListParameters,
   VirtualMachinesUpdateParameters,
-} from "../../src/index.js";
-import { getLongRunningPoller, isUnexpected, paginate } from "../../src/index.js";
+} from "@azure-rest/arm-compute";
+import { getLongRunningPoller, isUnexpected, paginate } from "@azure-rest/arm-compute";
 import type { NetworkInterface, Subnet, VirtualNetwork } from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { createTestComputeManagementClient } from "./utils/recordedClient.js";

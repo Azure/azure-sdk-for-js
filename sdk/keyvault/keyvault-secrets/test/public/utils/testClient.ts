@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { testPollerProperties } from "./recorderUtils.js";
-import type { SecretClient, SecretProperties } from "../../../src/index.js";
+import type { SecretClient, SecretProperties } from "@azure/keyvault-secrets";
 import type { PollOperationState, PollerLike } from "@azure/core-lro";
 import { RestoreSecretBackupPoller } from "./lro/restore/poller.js";
 import type { BeginRestoreSecretBackupOptions } from "./lro/restore/operation.js";

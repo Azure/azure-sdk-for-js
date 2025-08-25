@@ -5,7 +5,7 @@ import type {
   AnalyzeBatchResult,
   KnownTextAnalysisErrorCode,
   PagedAnalyzeBatchResult,
-} from "../../../src/index.js";
+} from "@azure/ai-language-text";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { assert, chai } from "vitest";
 import chaiExclude from "chai-exclude";

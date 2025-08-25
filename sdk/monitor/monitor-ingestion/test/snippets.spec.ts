@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isAggregateLogsUploadError, LogsIngestionClient } from "../src/index.js";
+import { isAggregateLogsUploadError, LogsIngestionClient } from "@azure/monitor-ingestion";
 import { LogsQueryClient } from "@azure/monitor-query-logs";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";

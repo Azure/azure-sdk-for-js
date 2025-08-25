@@ -13,7 +13,7 @@ import type {
   BlobClient,
   BlockBlobClient,
   ContainerClient,
-} from "../src/index.js";
+} from "@azure/storage-blob";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

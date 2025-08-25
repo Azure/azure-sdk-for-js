@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import AccessControl, { isUnexpected, paginate } from "../src/index.js";
+import AccessControl, { isUnexpected, paginate } from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

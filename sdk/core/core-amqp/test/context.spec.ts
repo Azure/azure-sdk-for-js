@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { CbsClient, ConnectionConfig, ConnectionContextBase, Constants } from "../src/index.js";
+import { CbsClient, ConnectionConfig, ConnectionContextBase, Constants } from "@azure/core-amqp";
 import { Connection } from "rhea-promise";
 import type { ConnectionOptions as TlsConnectionOptions } from "node:tls";
 

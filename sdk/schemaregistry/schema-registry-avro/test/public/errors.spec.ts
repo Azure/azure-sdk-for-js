@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { AvroSerializer } from "../../src/index.js";
+import type { AvroSerializer } from "@azure/schema-registry-avro";
 import type { SchemaRegistry } from "@azure/schema-registry";
 import { assertError } from "./utils/assertError.js";
 import {

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputedProperty } from "../../../src/documents/ComputedProperty.js";
-import type { IndexingPolicy } from "../../../src/documents/IndexingPolicy.js";
+import type { ComputedProperty } from "$internal/documents/ComputedProperty.js";
+import type { IndexingPolicy } from "$internal/documents/IndexingPolicy.js";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers.js";
-import type { Container } from "../../../src/client/Container/Container.js";
+import type { Container } from "$internal/client/Container/Container.js";
 import { describe, it, assert, beforeEach, beforeAll } from "vitest";
 
 // As of the current emulator release (March 23), computed properties are not supported,

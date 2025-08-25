@@ -6,10 +6,10 @@ import { TraceBasicScenario } from "../../utils/basic.js";
 import {
   DEFAULT_BREEZE_ENDPOINT,
   ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
-} from "../../../src/Declarations/Constants.js";
+} from "$internal/Declarations/Constants.js";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
-import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
+import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
 import { describe, it, beforeAll, afterAll } from "vitest";
 import { delay } from "@azure/core-util";
 

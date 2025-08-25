@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationOptions, ServiceBusMessage } from "../../src/index.js";
-import { ServiceBusAdministrationClient, ServiceBusClient } from "../../src/index.js";
+import type { OperationOptions, ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusAdministrationClient, ServiceBusClient } from "@azure/service-bus";
 import { TestClientType } from "../public/utils/testUtils.js";
 import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
@@ -10,7 +10,7 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2.js";
-import type { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender.js";
+import type { ServiceBusSender, ServiceBusSenderImpl } from "$internal/sender.js";
 import { delay } from "@azure/core-util";
 import { createLiveCredential, createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";

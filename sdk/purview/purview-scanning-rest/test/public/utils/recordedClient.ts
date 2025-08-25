@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PurviewScanningRestClient } from "../../../src/index.js";
-import PurviewScanning from "../../../src/index.js";
+import type { PurviewScanningRestClient } from "@azure-rest/purview-scanning";
+import PurviewScanning from "@azure-rest/purview-scanning";
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 

@@ -5,7 +5,7 @@ import PurviewWorkflow, {
   ApproveApprovalTaskParameters,
   isUnexpected,
   SubmitUserRequestsParameters,
-} from "../src/index.js";
+} from "@azure-rest/purview-workflow";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

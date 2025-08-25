@@ -2,9 +2,15 @@
 // Licensed under the MIT License.
 
 import { beforeAll, describe, afterAll, assert, it } from "vitest";
-import type { CreateOperationInput, OperationInput } from "../../../../src/utils/batch.js";
-import { BulkOperationType, calculateObjectSizeInBytes } from "../../../../src/utils/batch.js";
-import type { PartitionKey, Container, PluginConfig } from "../../../../src/index.js";
+import type {
+  CreateOperationInput,
+  OperationInput,
+  PartitionKey,
+  Container,
+  PluginConfig,
+  Response,
+} from "@azure/cosmos";
+import { BulkOperationType, calculateObjectSizeInBytes } from "$internal/utils/batch.js";
 import {
   PluginOn,
   ResourceType,
@@ -16,7 +22,7 @@ import {
   ErrorResponse,
   PartitionKeyDefinitionVersion,
   PartitionKeyKind,
-} from "../../../../src/index.js";
+} from "@azure/cosmos";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { endpoint } from "../../common/_testConfig.js";
 import type { CosmosDiagnosticsTestSpec } from "../../common/TestHelpers.js";
@@ -26,8 +32,7 @@ import {
   removeAllDatabases,
   validateDiagnostics,
 } from "../../common/TestHelpers.js";
-import type { Response } from "../../../../src/index.js";
-import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
+import { getCurrentTimestampInMs } from "$internal/utils/time.js";
 import { randomUUID } from "@azure/core-util";
 
 const operationSkeleton = {

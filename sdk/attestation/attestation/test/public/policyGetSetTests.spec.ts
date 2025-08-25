@@ -11,11 +11,11 @@ import {
   getIsolatedSigningKey,
   recorderOptions,
 } from "../utils/recordedClient.js";
-import type { AttestationType } from "../../src/index.js";
-import { KnownAttestationType, createAttestationPolicyToken } from "../../src/index.js";
+import type { AttestationType } from "@azure/attestation";
+import { KnownAttestationType, createAttestationPolicyToken } from "@azure/attestation";
 import { createRSAKey, createX509Certificate, generateSha256Hash } from "../utils/cryptoUtils.js";
-import { KnownPolicyModification } from "../../src/generated/index.js";
-import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";
+import { KnownPolicyModification } from "$internal/generated/index.js";
+import { verifyAttestationSigningKey } from "$internal/utils/helpers.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("PolicyGetSetTests ", () => {

@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 import type { Recorder } from "@azure-tools/test-recorder";
 import { testPollingOptions } from "@azure-tools/test-recorder";
-import type { AppConfigurationClient } from "../../src/appConfigurationClient.js";
 import type {
+  AppConfigurationClient,
   ConfigurationSnapshot,
   ConfigurationSettingsFilter,
   CreateSnapshotResponse,
   ConfigurationSettingId,
-} from "../../src/models.js";
+} from "@azure/app-configuration";
 import {
   assertEqualSnapshot,
   assertThrowsAbortError,

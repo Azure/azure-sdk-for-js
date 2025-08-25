@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { Durations } from "../../../src/index.js";
-import type { QueryTimeInterval } from "../../../src/index.js";
+import { Durations } from "@azure/monitor-query-metrics";
+import type { QueryTimeInterval } from "@azure/monitor-query-metrics";
 
 describe("Model unit tests", () => {
   describe("Durations", () => {

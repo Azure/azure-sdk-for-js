@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { latestEventPosition } from "../../../src/index.js";
-import type { WritableReceiver } from "../../../src/partitionReceiver.js";
-import { EventHubSender } from "../../../src/eventHubSender.js";
+import { latestEventPosition } from "@azure/event-hubs";
+import type { WritableReceiver } from "$internal/partitionReceiver.js";
+import { EventHubSender } from "$internal/eventHubSender.js";
 import { MessagingError } from "@azure/core-amqp";
 import { should } from "../../utils/chai.js";
 import { describe, it, beforeAll, vi } from "vitest";

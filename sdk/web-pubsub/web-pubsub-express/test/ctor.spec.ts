@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { WebPubSubEventHandler } from "../src/webPubSubEventHandler.js";
+import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
 
 describe("Can create event handler", function () {
   it("Can provide default path", () => {

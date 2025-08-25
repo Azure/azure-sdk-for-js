@@ -5,9 +5,9 @@ import {
   TracingContextImpl,
   createTracingContext,
   knownContextKeys,
-} from "../src/tracingContext.js";
+} from "$internal/tracingContext.js";
 import { describe, it, assert, beforeEach } from "vitest";
-import { createDefaultTracingSpan } from "../src/instrumenter.js";
+import { createDefaultTracingSpan } from "$internal/instrumenter.js";
 
 describe("TracingContext", () => {
   describe("TracingContextImpl", () => {

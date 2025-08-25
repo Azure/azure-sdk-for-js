@@ -4,8 +4,8 @@
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { MonitoringClientOptionalParams } from "../../../src/index.js";
-import { MonitoringClient } from "../../../src/index.js";
+import type { MonitoringClientOptionalParams } from "@azure/synapse-monitoring";
+import { MonitoringClient } from "@azure/synapse-monitoring";
 
 const envSetupForPlayback: { [k: string]: string } = {
   ENDPOINT: "https://testaccount.dev.azuresynapse.net",

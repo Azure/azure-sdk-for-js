@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { buildBaseUrl, buildRequestUrl } from "../../src/client/urlHelpers.js";
+import { buildBaseUrl, buildRequestUrl } from "$internal/client/urlHelpers.js";
 
 describe("urlHelpers", () => {
   const mockBaseUrl = "https://example.org";

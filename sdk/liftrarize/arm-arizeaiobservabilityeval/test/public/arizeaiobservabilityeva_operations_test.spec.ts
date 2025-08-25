@@ -9,7 +9,7 @@ import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
-import { ObservabilityEvalClient } from "../../src/observabilityEvalClient.js";
+import { ObservabilityEvalClient } from "@azure/arm-arizeaiobservabilityeval";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,

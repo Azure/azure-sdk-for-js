@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import { assert } from "vitest";
-import type { TypeSpecRuntimeLogger } from "../src/logger/logger.js";
-import type { RequestBodyType } from "../src/interfaces.js";
-import { isNodeReadableStream } from "../src/util/typeGuards.js";
+import type { TypeSpecRuntimeLogger, RequestBodyType } from "@typespec/ts-http-runtime";
+import { isNodeReadableStream } from "$internal/util/typeGuards.js";
 
 export function makeTestLogger(): {
   logger: TypeSpecRuntimeLogger;

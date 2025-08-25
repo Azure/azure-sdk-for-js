@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RequestOptions } from "../../../src/index.js";
-import type { Container, ContainerDefinition } from "../../../src/index.js";
-import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents/index.js";
+import type { RequestOptions, Container, ContainerDefinition } from "@azure/cosmos";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "@azure/cosmos";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 

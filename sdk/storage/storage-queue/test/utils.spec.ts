@@ -5,7 +5,7 @@ import {
   sanitizeURL,
   extractConnectionStringParts,
   isIpEndpointStyle,
-} from "../src/utils/utils.common.js";
+} from "$internal/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";

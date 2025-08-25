@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GlobalStatisticsAggregator } from "../../../src/queryExecutionContext/Aggregators/GlobalStatisticsAggregator.js";
-import type { GlobalStatistics } from "../../../src/request/globalStatistics.js";
+import { GlobalStatisticsAggregator } from "$internal/queryExecutionContext/Aggregators/GlobalStatisticsAggregator.js";
+import type { GlobalStatistics } from "$internal/request/globalStatistics.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
 describe("global statistics aggregator", { timeout: 10000 }, () => {

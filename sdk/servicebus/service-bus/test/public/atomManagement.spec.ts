@@ -4,14 +4,21 @@
 import { isNodeLike } from "@azure/core-util";
 import type { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
-import { parseServiceBusConnectionString } from "../../src/index.js";
-import type { CreateQueueOptions } from "../../src/index.js";
-import type { RuleProperties } from "../../src/index.js";
-import type { CreateSubscriptionOptions, SubscriptionProperties } from "../../src/index.js";
-import type { CreateTopicOptions } from "../../src/index.js";
-import type { WithResponse } from "../../src/index.js";
-import { ServiceBusAdministrationClient } from "../../src/index.js";
-import type { EntityStatus, EntityAvailabilityStatus } from "../../src/index.js";
+import {
+  parseServiceBusConnectionString,
+  ServiceBusAdministrationClient,
+} from "@azure/service-bus";
+import type {
+  CreateQueueOptions,
+  RuleProperties,
+  CreateSubscriptionOptions,
+  SubscriptionProperties,
+  CreateTopicOptions,
+  WithResponse,
+  EntityStatus,
+  EntityAvailabilityStatus,
+} from "@azure/service-bus";
+
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils.js";
 import { EntityNames, TestClientType } from "./utils/testUtils.js";
 import { TestConstants } from "./fakeTestSecrets.js";

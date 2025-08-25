@@ -9,8 +9,8 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { matrix } from "@azure-tools/test-utils-vitest";
-import type { SmsClient, SmsSendOptions, SmsSendRequest } from "../../src/index.js";
-import { Uuid } from "../../src/utils/uuid.js";
+import type { SmsClient, SmsSendOptions, SmsSendRequest } from "@azure/communication-sms";
+import { Uuid } from "$internal/utils/uuid.js";
 import {
   createRecordedSmsClient,
   createRecordedSmsClientWithToken,

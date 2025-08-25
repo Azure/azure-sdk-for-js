@@ -8,7 +8,7 @@ import {
   EventGridPublisherClient,
   generateSharedAccessSignature,
   isSystemEvent,
-} from "../src/index.js";
+} from "@azure/eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

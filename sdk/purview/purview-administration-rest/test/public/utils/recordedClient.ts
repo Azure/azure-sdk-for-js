@@ -5,7 +5,7 @@
 
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import { PurviewAccount, PurviewMetadataPolicies } from "../../../src/index.js";
+import { PurviewAccount, PurviewMetadataPolicies } from "@azure-rest/purview-administration";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 import type { ClientOptions } from "@azure-rest/core-client";

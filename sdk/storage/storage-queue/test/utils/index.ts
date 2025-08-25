@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import { StorageSharedKeyCredential } from "@azure/storage-common";
-import { newPipeline } from "../../src/Pipeline.js";
-import { QueueServiceClient } from "../../src/QueueServiceClient.js";
 import {
+  newPipeline,
+  QueueServiceClient,
   generateAccountSASQueryParameters,
   AccountSASPermissions,
   SASProtocol,
   AccountSASResourceTypes,
   AccountSASServices,
-} from "../../src/index.js";
-import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+} from "@azure/storage-queue";
+import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { configureStorageClient } from "./testutils.common.js";

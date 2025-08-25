@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { StorageSharedKeyCredential } from "../../src/index.js";
+import type { StorageSharedKeyCredential } from "@azure/storage-queue";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -12,8 +12,8 @@ import {
   generateQueueSASQueryParameters,
   QueueServiceClient,
   newPipeline,
-} from "../../src/index.js";
-import { SASProtocol } from "../../src/SASQueryParameters.js";
+  SASProtocol,
+} from "@azure/storage-queue";
 import {
   configureStorageClient,
   getQSU,

@@ -3,8 +3,8 @@
 
 import { createSasTokenProvider } from "@azure/core-amqp";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import type { ServiceBusReceiver } from "../../src/index.js";
-import { ServiceBusClient, parseServiceBusConnectionString } from "../../src/index.js";
+import type { ServiceBusReceiver } from "@azure/service-bus";
+import { ServiceBusClient, parseServiceBusConnectionString } from "@azure/service-bus";
 import { TestClientType } from "../public/utils/testUtils.js";
 import type {
   ServiceBusClientForTests,

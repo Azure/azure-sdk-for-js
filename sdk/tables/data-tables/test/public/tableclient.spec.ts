@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Edm, TableClient, TableEntity, TableEntityResult } from "../../src/index.js";
-import { odata } from "../../src/index.js";
+import type { Edm, TableClient, TableEntity, TableEntityResult } from "@azure/data-tables";
+import { odata } from "@azure/data-tables";
 import { Recorder } from "@azure-tools/test-recorder";
 import { delay, isNodeLike } from "@azure/core-util";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";

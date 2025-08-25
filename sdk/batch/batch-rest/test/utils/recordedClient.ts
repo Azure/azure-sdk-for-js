@@ -4,14 +4,13 @@
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { BatchClient } from "../../src/index.js";
-import BatchServiceClient from "../../src/index.js";
+import type { BatchClient } from "@azure-rest/batch";
+import BatchServiceClient from "@azure-rest/batch";
 import {
   fakeTestPasswordPlaceholder1,
   fakeAzureBatchAccount,
   fakeAzureBatchEndpoint,
 } from "./fakeTestSecrets.js";
-
 import { isNodeLike } from "@azure/core-util";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { AzureNamedKeyCredential } from "@azure/core-auth";

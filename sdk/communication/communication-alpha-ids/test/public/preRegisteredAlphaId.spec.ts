@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { AlphaIdsClient } from "../../src/index.js";
+import type { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

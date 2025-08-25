@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DnsResolverManagementClient } from "../src/index.js";
+import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

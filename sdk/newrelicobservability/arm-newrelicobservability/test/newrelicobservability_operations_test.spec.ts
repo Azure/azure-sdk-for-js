@@ -10,7 +10,7 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { CreateTestCredentialOptions } from "@azure-tools/test-credential";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { NewRelicObservability } from "../src/newRelicObservability.js";
+import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

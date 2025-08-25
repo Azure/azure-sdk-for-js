@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { vsCodePlugin } from "../src/index.js";
+import { vsCodePlugin } from "@azure/identity-vscode";
 import {
   DefaultAzureCredential,
   useIdentityPlugin,

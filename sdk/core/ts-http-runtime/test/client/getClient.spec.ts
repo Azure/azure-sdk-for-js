@@ -2,17 +2,16 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, afterEach } from "vitest";
-import { getCachedDefaultHttpsClient } from "../../src/client/clientHelpers.js";
-import { getClient } from "../../src/client/getClient.js";
+import { getCachedDefaultHttpsClient } from "$internal/client/clientHelpers.js";
+import { getClient, createHttpHeaders } from "@typespec/ts-http-runtime";
 import type {
   HttpClient,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-} from "../../src/interfaces.js";
-import { createEmptyPipeline, type PipelinePolicy } from "../../src/pipeline.js";
-import { createHttpHeaders } from "../../src/httpHeaders.js";
-import { isNodeLike } from "../../src/util/checkEnvironment.js";
+} from "@typespec/ts-http-runtime";
+import { createEmptyPipeline, type PipelinePolicy } from "$internal/pipeline.js";
+import { isNodeLike } from "$internal/util/checkEnvironment.js";
 
 describe("getClient", () => {
   afterEach(() => {

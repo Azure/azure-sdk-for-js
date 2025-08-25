@@ -4,7 +4,7 @@
 import {
   decodeContinuationToken,
   encodeContinuationToken,
-} from "../../src/utils/continuationToken.js";
+} from "$internal/utils/continuationToken.js";
 import { describe, it, assert } from "vitest";
 
 describe("continuation token utils", () => {

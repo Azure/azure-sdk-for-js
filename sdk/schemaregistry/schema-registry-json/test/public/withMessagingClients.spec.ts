@@ -14,7 +14,7 @@
  *    to read from corresponding event hubs
  */
 
-import type { JsonSchemaSerializer } from "../../src/index.js";
+import type { JsonSchemaSerializer } from "@azure/schema-registry-json";
 import type { EventData } from "@azure/event-hubs";
 import { createEventDataAdapter } from "@azure/event-hubs";
 import type { MessagingTestClient } from "./clients/models.js";

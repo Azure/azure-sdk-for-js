@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RecoveryServicesBackupClient } from "../src/index.js";
+import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

@@ -4,13 +4,14 @@ import type {
   StorageSharedKeyCredential,
   ContainerClient,
   BlobServiceClient,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   AppendBlobClient,
   newPipeline,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
-} from "../../src/index.js";
+  getBlobServiceAccountAudience,
+} from "@azure/storage-blob";
 import {
   getBSU,
   getConnectionStringFromEnvironment,
@@ -26,7 +27,6 @@ import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
-import { getBlobServiceAccountAudience } from "../../src/models.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

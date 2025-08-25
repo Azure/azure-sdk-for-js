@@ -3,10 +3,10 @@
 
 import { assertCount, assertLogExpectation } from "../../utils/assert.js";
 import { LogBasicScenario } from "../../utils/basic.js";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants.js";
+import { DEFAULT_BREEZE_ENDPOINT } from "$internal/Declarations/Constants.js";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
-import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
+import type { TelemetryItem as Envelope } from "$internal/generated/index.js";
 import { describe, it, beforeAll, afterAll } from "vitest";
 import { delay } from "@azure/core-util";
 

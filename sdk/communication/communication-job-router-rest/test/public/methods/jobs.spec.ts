@@ -7,8 +7,8 @@ import type {
   RouterJob,
   RouterJobOutput,
   RouterJobPositionDetailsOutput,
-} from "../../../src/index.js";
-import { paginate } from "../../../src/index.js";
+} from "@azure-rest/communication-job-router";
+import { paginate } from "@azure-rest/communication-job-router";
 import {
   getClassificationPolicyRequest,
   getDistributionPolicyRequest,

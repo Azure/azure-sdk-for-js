@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { AppConfigurationManagementClient } from "../src/index.js";
+import { AppConfigurationManagementClient } from "@azure/arm-appconfiguration";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

@@ -5,7 +5,7 @@ import { describe, it, assert } from "vitest";
 import {
   isDirectSendNotificationOptions,
   isSendNotificationOptions,
-} from "../../../src/utils/optionUtils.js";
+} from "$internal/utils/optionUtils.js";
 
 describe("optionUtils", () => {
   describe("isSendNotificationOptions", () => {

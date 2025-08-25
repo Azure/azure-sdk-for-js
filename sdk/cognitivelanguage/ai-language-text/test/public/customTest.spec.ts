@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { TextAnalysisClient } from "../../src/index.js";
-import { AnalyzeBatchActionNames } from "../../src/index.js";
+import type { TextAnalysisClient } from "@azure/ai-language-text";
+import { AnalyzeBatchActionNames } from "@azure/ai-language-text";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { assertActionsResults } from "./utils/resultHelper.js";
 import { expectation1, expectation2, expectation4 } from "./expectations.js";

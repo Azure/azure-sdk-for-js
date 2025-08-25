@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { getYieldedValue } from "../src/getYieldedValue.js";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 
 describe("getYieldedValue", () => {
   it("returns the yielded value", () => {

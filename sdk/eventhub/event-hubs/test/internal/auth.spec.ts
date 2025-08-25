@@ -6,7 +6,7 @@ import {
   parseEventHubConnectionString,
   EventHubConsumerClient,
   type EventHubProducerClient,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import { createConsumer, createProducer } from "../utils/clients.js";
 import { isSasTokenProvider } from "@azure/core-amqp";
 import { should, assert } from "../utils/chai.js";

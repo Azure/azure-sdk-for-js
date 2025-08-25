@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "../utils/chai.js";
-import { mapPartitionKeyToId } from "../../src/impl/partitionKeyToIdMapper.js";
+import { mapPartitionKeyToId } from "$internal/impl/partitionKeyToIdMapper.js";
 import { describe, it } from "vitest";
 
 /**

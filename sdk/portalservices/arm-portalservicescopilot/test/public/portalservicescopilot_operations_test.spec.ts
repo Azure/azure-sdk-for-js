@@ -9,7 +9,7 @@ import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
-import { PortalServicesClient } from "../../src/portalServicesClient.js";
+import { PortalServicesClient } from "@azure/arm-portalservicescopilot";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,

@@ -8,8 +8,8 @@ import type {
   ModelClient,
   GetEmbeddingsBodyParam,
   EmbeddingsResultOutput,
-} from "../../src/index.js";
-import { isUnexpected } from "../../src/index.js";
+} from "@azure-rest/ai-inference";
+import { isUnexpected } from "@azure-rest/ai-inference";
 
 describe("embeddings test suite", () => {
   let recorder: Recorder;

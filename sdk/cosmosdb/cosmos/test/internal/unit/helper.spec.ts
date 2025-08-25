@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseConnectionString } from "../../../src/common/index.js";
+import { parseConnectionString } from "$internal/common/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("Helper methods", () => {

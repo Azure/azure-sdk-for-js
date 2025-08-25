@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { readFileSync, unlinkSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
-
 import type { TokenCredential } from "@azure/core-auth";
 import { isNodeLike } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-
 import type {
   BlobImmutabilityPolicyMode,
   BlobServiceClient,
   BlockBlobClient,
   ContainerClient,
   StorageSharedKeyCredential,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   BlobClient,
   BlobSASPermissions,
   generateBlobSASQueryParameters,
   newPipeline,
-} from "../../src/index.js";
+} from "@azure/storage-blob";
 import {
   base64encode,
   bodyToString,
@@ -37,7 +36,7 @@ import {
 } from "../utils/index.js";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node.js";
-import { streamToBuffer3 } from "../../src/utils/utils.js";
+import { streamToBuffer3 } from "$internal/utils/utils.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 import { ShareClient, ShareServiceClient } from "@azure/storage-file-share";

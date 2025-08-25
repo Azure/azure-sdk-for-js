@@ -13,8 +13,8 @@ import type {
   SendRequest,
   AddPolicyOptions,
   Client,
-} from "../src/index.js";
-import { AbortError } from "../src/index.js";
+} from "@typespec/ts-http-runtime";
+import { AbortError } from "@typespec/ts-http-runtime";
 
 interface GetOperationResult {}
 interface DetectFromUrl {}

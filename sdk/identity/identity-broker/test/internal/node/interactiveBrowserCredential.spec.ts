@@ -5,7 +5,7 @@ import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
 import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 import { PublicClientApplication } from "@azure/msal-node";
 import { Recorder, isLiveMode, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { nativeBrokerPlugin } from "../../../src/index.js";
+import { nativeBrokerPlugin } from "@azure/identity-broker";
 import { isNodeLike } from "@azure/core-util";
 import type http from "node:http";
 import type { MockInstance } from "vitest";

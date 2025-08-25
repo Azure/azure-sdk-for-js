@@ -5,11 +5,11 @@ import type {
   CommunicationIdentifier,
   CommunicationIdentifierKind,
   SerializedCommunicationIdentifier,
-} from "../../src/index.js";
+} from "@azure/communication-common";
 import {
   deserializeCommunicationIdentifier,
   serializeCommunicationIdentifier,
-} from "../../src/index.js";
+} from "@azure/communication-common";
 import { describe, it, assert } from "vitest";
 
 const assertSerialize = (

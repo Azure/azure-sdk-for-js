@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DocumentSpan } from "../../src/index.js";
+import type { DocumentSpan } from "@azure/ai-form-recognizer";
 import {
   contains,
   fastGetChildren,
   iteratorFromFirstMatchBinarySearch,
-} from "../../src/lro/analysis.js";
+} from "$internal/lro/analysis.js";
 import { describe, it, assert } from "vitest";
 
 interface TestData {

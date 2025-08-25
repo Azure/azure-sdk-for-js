@@ -5,12 +5,15 @@ import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { matrix } from "@azure-tools/test-utils-vitest";
-import type { CommunicationIdentityClient } from "../../../src/communicationIdentityClient.js";
+import type {
+  CommunicationIdentityClient,
+  CreateUserAndTokenOptions,
+  GetTokenOptions,
+} from "@azure/communication-identity";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "../utils/recordedClient.js";
-import type { CreateUserAndTokenOptions, GetTokenOptions } from "../../../src/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]], async (useAad: boolean) => {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { testPollerProperties } from "./recorderUtils.js";
-import type { KeyClient } from "../../../src/index.js";
+import type { KeyClient } from "@azure/keyvault-keys";
 
 export interface TestClientInterface {
   client: KeyClient;

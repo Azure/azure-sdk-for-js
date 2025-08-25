@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
-import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter.js";
+import { OpenTelemetryInstrumenter, propagator } from "$internal/instrumenter.js";
 import { SpanKind, context, trace } from "@opentelemetry/api";
 import type { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
-import type { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
+import type { OpenTelemetrySpanWrapper } from "$internal/spanWrapper.js";
 import type { Span } from "@opentelemetry/sdk-trace-base";
-import { environmentCache } from "../../src/configuration.js";
+import { environmentCache } from "$internal/configuration.js";
 import { inMemoryExporter } from "./util/setup.js";
 import { isTracingSuppressed } from "@opentelemetry/core";
 

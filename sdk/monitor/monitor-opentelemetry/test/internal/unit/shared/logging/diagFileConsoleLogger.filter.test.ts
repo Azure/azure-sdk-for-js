@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { DiagFileConsoleLogger } from "../../../../../src/shared/logging/diagFileConsoleLogger.js";
+import { DiagFileConsoleLogger } from "$internal/shared/logging/diagFileConsoleLogger.js";
 
 describe("DiagFileConsoleLogger filtering", () => {
   let logger: DiagFileConsoleLogger;

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { AzureHealthInsightsClient } from "../../src/index.js";
-import { getLongRunningPoller } from "../../src/index.js";
+import type { AzureHealthInsightsClient } from "@azure-rest/health-insights-radiologyinsights";
+import { getLongRunningPoller } from "@azure-rest/health-insights-radiologyinsights";
 import { createRecorder, createTestClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

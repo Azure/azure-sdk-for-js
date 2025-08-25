@@ -8,11 +8,11 @@ import type {
   OperationRequest,
   OperationSpec,
   SerializerOptions,
-} from "../src/index.js";
-import { createSerializer, deserializationPolicy } from "../src/index.js";
+} from "@azure/core-client";
+import { createSerializer, deserializationPolicy } from "@azure/core-client";
 import type { PipelineResponse, RawHttpHeaders, SendRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { getOperationRequestInfo } from "../src/operationHelpers.js";
+import { getOperationRequestInfo } from "$internal/operationHelpers.js";
 import { parseXML } from "@azure/core-xml";
 
 describe("deserializationPolicy", function () {

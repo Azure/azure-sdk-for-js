@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PermissionMode } from "../../../src/index.js";
-import type { PermissionDefinition } from "../../../src/index.js";
+import { PermissionMode } from "@azure/cosmos";
+import type { PermissionDefinition } from "@azure/cosmos";
 import {
   createOrUpsertPermission,
   getTestContainer,

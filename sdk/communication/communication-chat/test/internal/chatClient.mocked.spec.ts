@@ -5,10 +5,10 @@ import type {
   ChatClientOptions,
   CreateChatThreadOptions,
   CreateChatThreadRequest,
-} from "../../src/index.js";
-import { ChatClient } from "../../src/index.js";
-import type * as RestModel from "../../src/generated/src/models/index.js";
-import { apiVersion } from "../../src/generated/src/models/parameters.js";
+} from "@azure/communication-chat";
+import { ChatClient } from "@azure/communication-chat";
+import type * as RestModel from "$internal/generated/src/models/index.js";
+import { apiVersion } from "$internal/generated/src/models/parameters.js";
 import { baseUri, generateToken } from "../public/utils/connectionUtils.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";

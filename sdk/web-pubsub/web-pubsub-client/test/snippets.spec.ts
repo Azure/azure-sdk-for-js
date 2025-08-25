@@ -6,7 +6,7 @@ import {
   WebPubSubClient,
   WebPubSubJsonProtocol,
   WebPubSubJsonReliableProtocol,
-} from "../src/index.js";
+} from "@azure/web-pubsub-client";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 // @ts-ignore

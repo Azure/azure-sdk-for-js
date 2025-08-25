@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BareMetalInfrastructureClient } from "../src/index.js";
+import { BareMetalInfrastructureClient } from "@azure/arm-baremetalinfrastructure";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

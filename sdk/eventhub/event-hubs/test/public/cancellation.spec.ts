@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubConsumerClient, EventHubProducerClient } from "../../src/index.js";
+import type { EventHubConsumerClient, EventHubProducerClient } from "@azure/event-hubs";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
 import { expect } from "../utils/chai.js";

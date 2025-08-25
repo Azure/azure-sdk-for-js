@@ -4,7 +4,7 @@
 import type { FullOperationResponse } from "@azure/core-client";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { createPhoneNumbersPagingPolicy } from "../../src/utils/customPipelinePolicies.js";
+import { createPhoneNumbersPagingPolicy } from "$internal/utils/customPipelinePolicies.js";
 import { describe, it, assert } from "vitest";
 
 describe("phoneNumbersPagingPolicy", function () {

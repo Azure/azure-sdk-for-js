@@ -3,16 +3,15 @@
 
 import { assertEnvironmentVariable, env, type Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";
-
 import {
   type KeyVaultAccessControlClient,
   type KeyVaultPermission,
   type KeyVaultRoleDefinition,
   KnownKeyVaultDataAction,
-} from "../../src/index.js";
+} from "@azure/keyvault-admin";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
-import { KnownRoleScope } from "../../src/generated/src/index.js";
+import { KnownRoleScope } from "$internal/generated/src/index.js";
 expect.extend({ toSupportTracing });
 
 describe("KeyVaultAccessControlClient", () => {

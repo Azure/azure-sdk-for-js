@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RoomsClient } from "../../src/index.js";
+import type { RoomsClient } from "@azure/communication-rooms";
 import {
   createRoomsClient,
   generateHttpClient,

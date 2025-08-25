@@ -7,7 +7,7 @@ import type { APIVersion } from "../utils/utils.js";
 import { assertCompletions, assertCompletionsStream } from "../utils/asserts.js";
 import { APIMatrix, testWithDeployments } from "../utils/utils.js";
 import { completionsModelsToSkip } from "../utils/models.js";
-import "../../src/types/index.js";
+import "$internal/types/index.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
 describe.concurrent.each(APIMatrix)("Legacy Completions [%s]", (apiVersion: APIVersion) => {

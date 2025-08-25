@@ -6,9 +6,9 @@ import type {
   OperationQueryParameter,
   OperationSpec,
   OperationURLParameter,
-} from "../src/index.js";
-import { createSerializer } from "../src/index.js";
-import { appendQueryParams, getRequestUrl } from "../src/urlHelpers.js";
+} from "@azure/core-client";
+import { createSerializer } from "@azure/core-client";
+import { appendQueryParams, getRequestUrl } from "$internal/urlHelpers.js";
 
 describe("getRequestUrl", function () {
   const urlParameter: OperationURLParameter = {

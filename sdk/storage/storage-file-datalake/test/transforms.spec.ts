@@ -14,7 +14,7 @@ import {
   toPublicAccessType,
   toRolePermissions,
   toRolePermissionsString,
-} from "../src/transforms.js";
+} from "$internal/transforms.js";
 import { describe, it, assert } from "vitest";
 
 describe("transforms", () => {

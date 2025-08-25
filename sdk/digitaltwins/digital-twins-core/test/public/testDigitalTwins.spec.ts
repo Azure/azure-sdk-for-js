@@ -6,7 +6,7 @@ import type {
   DigitalTwinsAddOptionalParams,
   DigitalTwinsDeleteOptionalParams,
   DigitalTwinsUpdateOptionalParams,
-} from "../../src/index.js";
+} from "@azure/digital-twins-core";
 import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";

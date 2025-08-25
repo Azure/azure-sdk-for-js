@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { MessagingError } from "@azure/core-amqp";
-import { LockRenewer } from "../../../src/core/autoLockRenewer.js";
+import { LockRenewer } from "$internal/core/autoLockRenewer.js";
 import type {
   ManagementClient,
   SendManagementRequestOptions,
-} from "../../../src/core/managementClient.js";
+} from "$internal/core/managementClient.js";
 import { getPromiseResolverForTest } from "./unittestUtils.js";
 import { describe, it, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 import { assert, expect } from "../../public/utils/chai.js";

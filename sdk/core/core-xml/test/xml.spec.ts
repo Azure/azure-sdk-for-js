@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseXML, stringifyXML } from "../src/index.js";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 import { describe, it, assert } from "vitest";
 
 describe("XML serializer", function () {

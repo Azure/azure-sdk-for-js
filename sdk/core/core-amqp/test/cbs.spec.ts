@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
-import { CbsClient, TokenType, defaultCancellableLock } from "../src/index.js";
+import { CbsClient, TokenType, defaultCancellableLock } from "@azure/core-amqp";
 import { Connection } from "rhea-promise";
 import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isError } from "@azure/core-util";

@@ -3,7 +3,7 @@
 import {
   convertEventGridEventToModelType,
   convertCloudEventToModelType,
-} from "../../src/eventGridClient.js";
+} from "$internal/eventGridClient.js";
 import { describe, it, assert } from "vitest";
 
 describe("convertEventGridEventToModelType", () => {

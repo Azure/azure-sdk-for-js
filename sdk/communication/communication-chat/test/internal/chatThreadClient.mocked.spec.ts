@@ -8,10 +8,10 @@ import type {
   SendMessageOptions,
   SendMessageRequest,
   UpdateMessageOptions,
-} from "../../src/index.js";
-import { ChatThreadClient } from "../../src/index.js";
-import type * as RestModel from "../../src/generated/src/models/index.js";
-import { apiVersion } from "../../src/generated/src/models/parameters.js";
+} from "@azure/communication-chat";
+import { ChatThreadClient } from "@azure/communication-chat";
+import type * as RestModel from "$internal/generated/src/models/index.js";
+import { apiVersion } from "$internal/generated/src/models/parameters.js";
 import { baseUri, generateToken } from "../public/utils/connectionUtils.js";
 import {
   createChatThreadClient,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { dataSectionTypeCode, defaultDataTransformer } from "../../src/dataTransformer.js";
+import { dataSectionTypeCode, defaultDataTransformer } from "$internal/dataTransformer.js";
 import { Buffer } from "buffer";
 import isBuffer from "is-buffer";
 import { assert, should } from "../utils/chai.js";

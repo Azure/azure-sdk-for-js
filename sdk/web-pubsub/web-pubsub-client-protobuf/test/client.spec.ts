@@ -14,7 +14,7 @@ import type {
   ServerDataMessage,
   WebPubSubMessage,
 } from "@azure/web-pubsub-client";
-import { WebPubSubProtobufProtocol } from "../src/index.js";
+import { WebPubSubProtobufProtocol } from "@azure/web-pubsub-client-protobuf";
 import { describe, it, assert } from "vitest";
 
 describe("WebPubSubClient", function () {

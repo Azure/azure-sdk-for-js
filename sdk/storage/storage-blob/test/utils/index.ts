@@ -5,21 +5,25 @@ import { randomBytes } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { config } from "dotenv";
-import { configureFileStorageClient, SimpleTokenCredential } from "./testutils.common.js";
-import { createTestCredential } from "@azure-tools/test-credential";
-import type { StoragePipelineOptions } from "../../src/index.js";
-import { StorageSharedKeyCredential } from "../../src/index.js";
-import { BlobServiceClient } from "../../src/index.js";
-import { getUniqueName, configureBlobStorageClient } from "./testutils.common.js";
-import { newPipeline } from "../../src/index.js";
 import {
+  configureFileStorageClient,
+  SimpleTokenCredential,
+  getUniqueName,
+  configureBlobStorageClient,
+} from "./testutils.common.js";
+import { createTestCredential } from "@azure-tools/test-credential";
+import type { StoragePipelineOptions } from "@azure/storage-blob";
+import {
+  StorageSharedKeyCredential,
+  BlobServiceClient,
+  newPipeline,
   generateAccountSASQueryParameters,
   AccountSASPermissions,
   SASProtocol,
   AccountSASResourceTypes,
   AccountSASServices,
-} from "../../src/index.js";
-import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
+} from "@azure/storage-blob";
+import { extractConnectionStringParts } from "$internal/utils/utils.common.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";

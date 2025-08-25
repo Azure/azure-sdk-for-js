@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { RestError } from "@azure/core-rest-pipeline";
-import { DeleteCertificatePoller } from "../../src/lro/delete/poller.js";
-import { RecoverDeletedCertificatePoller } from "../../src/lro/recover/poller.js";
-import type { KeyVaultClient } from "../../src/generated/src/index.js";
+import { DeleteCertificatePoller } from "$internal/lro/delete/poller.js";
+import { RecoverDeletedCertificatePoller } from "$internal/lro/recover/poller.js";
+import type { KeyVaultClient } from "$internal/generated/src/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("The LROs properly throw on unexpected errors", () => {

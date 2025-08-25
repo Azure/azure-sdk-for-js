@@ -7,7 +7,7 @@ import type {
   ImagePointOutput,
   ObjectsResultOutput,
   TagsResultOutput,
-} from "../../src/index.js";
+} from "@azure-rest/ai-vision-image-analysis";
 import { createRecorder } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";

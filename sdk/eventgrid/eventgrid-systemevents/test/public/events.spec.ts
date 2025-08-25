@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { isSystemEvent } from "../../src/index.js";
-import type { KeyVaultSecretNearExpiryEventData } from "../../src/index.js";
+import { isSystemEvent } from "@azure/eventgrid-systemevents";
+import type { KeyVaultSecretNearExpiryEventData } from "@azure/eventgrid-systemevents";
 import { describe, it, assert, expectTypeOf } from "vitest";
 
 describe("Events tests", () => {

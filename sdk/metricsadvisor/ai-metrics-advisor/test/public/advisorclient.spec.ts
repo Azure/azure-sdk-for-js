@@ -6,7 +6,7 @@ import type {
   MetricCommentFeedback,
   MetricPeriodFeedback,
   MetricsAdvisorClient,
-} from "../../src/index.js";
+} from "@azure/ai-metrics-advisor";
 import { createRecordedAdvisorClient, makeCredential } from "./util/recordedClients.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";

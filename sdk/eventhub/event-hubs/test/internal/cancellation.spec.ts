@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PartitionReceiver } from "../../src/partitionReceiver.js";
-import { createReceiver } from "../../src/partitionReceiver.js";
-import { EventHubSender } from "../../src/eventHubSender.js";
-import type { ConnectionContext } from "../../src/connectionContext.js";
+import type { PartitionReceiver } from "$internal/partitionReceiver.js";
+import { createReceiver } from "$internal/partitionReceiver.js";
+import { EventHubSender } from "$internal/eventHubSender.js";
+import type { ConnectionContext } from "$internal/connectionContext.js";
 import { createContext } from "../utils/clients.js";
 import { expect } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";

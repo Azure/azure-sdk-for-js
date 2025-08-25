@@ -2,11 +2,9 @@
 // Licensed under the MIT License.
 
 import { assert } from "vitest";
-import type { BatchClient } from "../../src/clientDefinitions.js";
-import { isUnexpected } from "../../src/isUnexpected.js";
-import { paginate } from "../../src/paginateHelper.js";
+import type { BatchClient, BatchNodeOutput } from "@azure-rest/batch";
+import { isUnexpected, paginate } from "@azure-rest/batch";
 import { waitForNotNull } from "./helpers.js";
-import type { BatchNodeOutput } from "../../src/outputModels.js";
 
 export function waitForNodesToStart(
   poolId: string,

@@ -14,7 +14,7 @@ import type {
   DocumentNotificationContent,
   StickerNotificationContent,
   ReactionNotificationContent,
-} from "../../src/generated/src/index.js";
+} from "$internal/generated/src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Notification Messages Test", () => {

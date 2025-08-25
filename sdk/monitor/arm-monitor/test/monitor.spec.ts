@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { MonitorClient } from "../src/monitorClient.js";
+import { MonitorClient } from "@azure/arm-monitor";
 import { LogicManagementClient } from "@azure/arm-logic";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { EventHubManagementClient } from "@azure/arm-eventhub";

@@ -6,7 +6,7 @@ import type {
   ShortCodesClient,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief,
-} from "../../src/index.js";
+} from "@azure-tools/communication-short-codes";
 import {
   doesProgramBriefContainAnyAttachment,
   getProgramBriefAttachmentsWithId,

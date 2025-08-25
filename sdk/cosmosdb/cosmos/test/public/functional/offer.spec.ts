@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants, CosmosClient } from "../../../src/index.js";
+import { Constants, CosmosClient } from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers.js";

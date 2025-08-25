@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import GeographyPoint from "../../src/geographyPoint.js";
+import GeographyPoint from "$internal/geographyPoint.js";
 import { describe, it, assert } from "vitest";
 
 describe("geographyPoint", () => {

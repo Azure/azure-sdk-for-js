@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MarketplaceOrderingAgreements } from "../src/index.js";
+import { MarketplaceOrderingAgreements } from "@azure/arm-marketplaceordering";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

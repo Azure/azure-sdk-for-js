@@ -3,9 +3,9 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { ChangeFeedFactory } from "../src/ChangeFeedFactory.js";
-import { getHost } from "../src/utils/utils.common.js";
-import type { BlobChangeFeedEvent } from "../src/index.js";
+import { ChangeFeedFactory } from "$internal/ChangeFeedFactory.js";
+import { getHost } from "$internal/utils/utils.common.js";
+import type { BlobChangeFeedEvent } from "@azure/storage-blob-changefeed";
 import type { BlobServiceClient, ContainerClient, BlobClient } from "@azure/storage-blob";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 

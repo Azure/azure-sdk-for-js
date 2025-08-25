@@ -4,10 +4,9 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createRecorder } from "../utils/recorderUtils.js";
-import DocumentIntelligence from "../../../src/index.js";
+import DocumentIntelligence, { isUnexpected } from "@azure-rest/ai-document-intelligence";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import type { DocumentIntelligenceClient } from "../../../src/index.js";
-import { isUnexpected } from "../../../src/index.js";
+import type { DocumentIntelligenceClient } from "@azure-rest/ai-document-intelligence";
 import { getEndpoint } from "../../utils/injectables.js";
 
 describe("DocumentIntelligenceClient", () => {

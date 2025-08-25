@@ -8,7 +8,7 @@ import {
   TableServiceClient,
   TableTransaction,
   TransactionAction,
-} from "../src/index.js";
+} from "@azure/data-tables";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

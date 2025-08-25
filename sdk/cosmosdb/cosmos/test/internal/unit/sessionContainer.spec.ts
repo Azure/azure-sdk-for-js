@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants, OperationType, ResourceType } from "../../../src/common/index.js";
-import type { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders.js";
-import { SessionContainer } from "../../../src/session/sessionContainer.js";
-import type { SessionContext } from "../../../src/session/SessionContext.js";
+import { Constants, OperationType, ResourceType } from "@azure/cosmos";
+import type { CosmosHeaders } from "$internal/queryExecutionContext/CosmosHeaders.js";
+import { SessionContainer } from "$internal/session/sessionContainer.js";
+import type { SessionContext } from "$internal/session/SessionContext.js";
 import { describe, it, assert } from "vitest";
 
 describe("SessionContainer", () => {

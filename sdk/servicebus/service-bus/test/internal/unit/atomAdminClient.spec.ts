@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert, describe, it } from "vitest";
-import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient.js";
+import { ServiceBusAdministrationClient } from "@azure/service-bus";
 
 describe("ServiceBusAtomAdminClient", () => {
   it("use HTTPS by default", () => {

@@ -3,7 +3,7 @@
 
 import { describe, it, assert } from "vitest";
 import type { Readable } from "node:stream";
-import { PooledBuffer } from "../../src/PooledBuffer.js";
+import { PooledBuffer } from "$internal/PooledBuffer.js";
 
 /**
  * Helper to collect stream data into a single Buffer.

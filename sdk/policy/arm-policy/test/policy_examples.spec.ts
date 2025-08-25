@@ -9,7 +9,7 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { PolicyClient } from "../src/policyClient.js";
+import { PolicyClient } from "@azure/arm-policy";
 import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

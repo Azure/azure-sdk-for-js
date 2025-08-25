@@ -14,7 +14,7 @@ import {
   getTagsOrUndefined,
   isDefined,
   isString,
-} from "../../../src/utils/utils.js";
+} from "$internal/utils/utils.js";
 
 describe("utils", () => {
   describe("isDefined", () => {

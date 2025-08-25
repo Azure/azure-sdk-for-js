@@ -4,8 +4,8 @@
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { CancerProfilingRestClient } from "../../../src/index.js";
-import CancerProfiling from "../../../src/index.js";
+import type { CancerProfilingRestClient } from "@azure-rest/health-insights-cancerprofiling";
+import CancerProfiling from "@azure-rest/health-insights-cancerprofiling";
 import "./env.js";
 
 const envSetupForPlayback: Record<string, string> = {

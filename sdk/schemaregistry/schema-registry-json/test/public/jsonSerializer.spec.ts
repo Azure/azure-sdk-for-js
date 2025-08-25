@@ -4,7 +4,7 @@
 import type { CreateTestSerializerOptions } from "./utils/mockedSerializer.js";
 import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer.js";
 import { createContentType, encoder, testGroup, testSchema, testValue } from "./utils/dummies.js";
-import type { MessageContent } from "../../src/index.js";
+import type { MessageContent } from "@azure/schema-registry-json";
 import { createTestRegistry } from "./utils/mockedRegistryClient.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import type { SchemaRegistry } from "@azure/schema-registry";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { SipRoutingClient } from "../../../src/index.js";
 
+import type { SipRoutingClient } from "@azure/communication-phone-numbers";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";

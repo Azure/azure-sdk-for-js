@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosClient, OperationType } from "../../../src/index.js";
+import { CosmosClient, OperationType } from "@azure/cosmos";
 import { endpoint } from "../common/_testConfig.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import { testForDiagnostics } from "../common/TestHelpers.js";

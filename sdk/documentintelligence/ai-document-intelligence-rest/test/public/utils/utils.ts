@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { createClientLogger } from "@azure/logger";
-
 import path from "node:path";
 import {
   getBatchTrainingDataContainerSasUrl,

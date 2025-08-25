@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getYieldedValue } from "@azure-tools/test-utils-vitest";
+import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import type {
   FileSystemListPathsResponse,
   DataLakeServiceClient,
   FileSystemListDeletedPathsResponse,
-} from "../src/index.js";
+} from "@azure/storage-file-datalake";
 import {
   DataLakeFileSystemClient,
   DataLakeFileClient,
   DataLakeDirectoryClient,
-} from "../src/index.js";
+} from "@azure/storage-file-datalake";
 import {
   getDataLakeServiceClient,
   getEncryptionScope,
@@ -22,7 +22,6 @@ import {
   uriSanitizers,
 } from "./utils/index.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
 import {
   Pipeline,

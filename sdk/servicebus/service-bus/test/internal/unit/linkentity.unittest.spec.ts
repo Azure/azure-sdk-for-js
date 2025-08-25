@@ -3,14 +3,14 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { Receiver, ReceiverOptions } from "rhea-promise";
-import type { ConnectionContext } from "../../../src/connectionContext.js";
-import { BatchingReceiver } from "../../../src/core/batchingReceiver.js";
-import { LinkEntity } from "../../../src/core/linkEntity.js";
-import { ManagementClient } from "../../../src/core/managementClient.js";
-import { MessageSender } from "../../../src/core/messageSender.js";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
-import { receiverLogger } from "../../../src/log.js";
-import { MessageSession } from "../../../src/session/messageSession.js";
+import type { ConnectionContext } from "$internal/connectionContext.js";
+import { BatchingReceiver } from "$internal/core/batchingReceiver.js";
+import { LinkEntity } from "$internal/core/linkEntity.js";
+import { ManagementClient } from "$internal/core/managementClient.js";
+import { MessageSender } from "$internal/core/messageSender.js";
+import { StreamingReceiver } from "$internal/core/streamingReceiver.js";
+import { receiverLogger } from "$internal/log.js";
+import { MessageSession } from "$internal/session/messageSession.js";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils.js";
 import { describe, it, vi, beforeEach, afterEach } from "vitest";
 import { assert, expect } from "../../public/utils/chai.js";

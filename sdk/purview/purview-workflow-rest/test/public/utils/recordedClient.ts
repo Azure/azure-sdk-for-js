@@ -7,8 +7,8 @@ import "./env.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import type { PurviewWorkflowClient } from "../../../src/index.js";
-import PurviewWorkflow from "../../../src/index.js";
+import type { PurviewWorkflowClient } from "@azure-rest/purview-workflow";
+import PurviewWorkflow from "@azure-rest/purview-workflow";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

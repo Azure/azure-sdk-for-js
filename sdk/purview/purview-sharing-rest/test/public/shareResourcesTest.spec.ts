@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PurviewSharingClient, ShareResourceOutput } from "../../src/index.js";
-import { isUnexpected, paginate } from "../../src/index.js";
+import type { PurviewSharingClient, ShareResourceOutput } from "@azure-rest/purview-sharing";
+import { isUnexpected, paginate } from "@azure-rest/purview-sharing";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

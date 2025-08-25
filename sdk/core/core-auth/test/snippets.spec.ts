@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, AzureNamedKeyCredential, AzureSASCredential } from "../src/index.js";
+import { AzureKeyCredential, AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {

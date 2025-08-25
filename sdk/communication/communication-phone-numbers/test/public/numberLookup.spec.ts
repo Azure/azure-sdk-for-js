@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { PhoneNumbersClient } from "../../src/index.js";
+import type { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import { getPhoneNumber } from "./utils/testPhoneNumber.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

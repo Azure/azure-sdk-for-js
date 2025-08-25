@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { addTestStreamingReceiver } from "./unittestUtils.js";
-import type { ProcessErrorArgs, ServiceBusReceivedMessage } from "../../../src/index.js";
+import type { ProcessErrorArgs, ServiceBusReceivedMessage } from "@azure/service-bus";
 import type { EventContext } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";

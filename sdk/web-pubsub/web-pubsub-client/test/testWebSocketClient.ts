@@ -3,11 +3,11 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import EventEmitter from "events";
-import type { WebPubSubClient } from "../src/webPubSubClient.js";
+import type { WebPubSubClient } from "@azure/web-pubsub-client";
 import type {
   WebSocketClientFactoryLike,
   WebSocketClientLike,
-} from "../src/websocket/websocketClientLike.js";
+} from "$internal/websocket/websocketClientLike.js";
 
 export class TestWebSocketClient implements WebSocketClientLike {
   private readonly _emitter: EventEmitter = new EventEmitter();

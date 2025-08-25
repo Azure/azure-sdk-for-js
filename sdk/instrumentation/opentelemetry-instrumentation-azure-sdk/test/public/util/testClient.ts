@@ -9,8 +9,7 @@ import {
   createHttpHeaders,
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
-
-import { SDK_VERSION } from "../../../src/configuration.js";
+import { SDK_VERSION } from "$internal/configuration.js";
 
 /**
  * A partial interface compatible with OperationOptions.

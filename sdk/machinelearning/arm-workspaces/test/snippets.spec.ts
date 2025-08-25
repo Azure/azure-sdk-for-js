@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MachineLearningWorkspacesManagementClient } from "../src/index.js";
+import { MachineLearningWorkspacesManagementClient } from "@azure/arm-workspaces";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

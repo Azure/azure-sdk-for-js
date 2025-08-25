@@ -1,5 +1,5 @@
 import { TokenCredential } from "@azure/core-auth";
-import { ResourceManagementClient } from "../src/resourceManagementClient.js";
+import { ResourceManagementClient } from "@azure/arm-resources";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { OperationRequest } from "@azure/core-client";
 import { describe, it, assert } from "vitest";

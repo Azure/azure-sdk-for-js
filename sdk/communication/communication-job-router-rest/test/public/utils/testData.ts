@@ -14,7 +14,7 @@ import type {
   RouterWorker,
   StaticQueueSelectorAttachment,
   RouterJob,
-} from "../../../src/index.js";
+} from "@azure-rest/communication-job-router";
 
 const queueId = "test-a-queue";
 const exceptionPolicyId = "test-e-policy";

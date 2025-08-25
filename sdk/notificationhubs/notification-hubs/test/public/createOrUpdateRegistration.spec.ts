@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import type { NotificationHubsClientContext } from "../../src/api/index.js";
+import type { NotificationHubsClientContext } from "$internal/api/index.js";
 import {
   createOrUpdateRegistration,
   createRegistrationId,
   deleteRegistration,
   getRegistration,
-} from "../../src/api/index.js";
+} from "$internal/api/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createAppleRegistrationDescription } from "../../src/models/index.js";
+import { createAppleRegistrationDescription } from "@azure/notification-hubs";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
 
 describe("createRegistrationId()", () => {

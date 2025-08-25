@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CertificateClient, KeyVaultCertificate } from "../../../src/index.js";
+import type { CertificateClient, KeyVaultCertificate } from "@azure/keyvault-certificates";
 import type { PollerLike, PollOperationState } from "@azure/core-lro";
 import { RestoreCertificateBackupPoller } from "./lro/restore/poller.js";
 import type { BeginRestoreCertificateBackupOptions } from "./lro/restore/operation.js";

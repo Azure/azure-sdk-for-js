@@ -9,7 +9,7 @@
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, beforeEach, afterEach } from "vitest";
-import { AzureSiteRecoveryManagementServiceAPI } from "../../src/azureSiteRecoveryManagementServiceAPI.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "@azure/arm-recoveryservicesdatareplication";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",

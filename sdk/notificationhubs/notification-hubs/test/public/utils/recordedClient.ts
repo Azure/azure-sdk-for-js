@@ -3,8 +3,8 @@
 
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import type { NotificationHubsClientContext } from "../../../src/api/index.js";
-import { createClientContext } from "../../../src/api/index.js";
+import type { NotificationHubsClientContext } from "$internal/api/index.js";
+import { createClientContext } from "$internal/api/index.js";
 import { vi } from "vitest";
 
 const replaceableVariables: { [k: string]: string } = {

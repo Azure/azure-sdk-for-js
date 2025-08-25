@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UserDefinedFunctionDefinition, Container } from "../../../src/index.js";
+import type { UserDefinedFunctionDefinition, Container } from "@azure/cosmos";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers.js";
 import { describe, it, assert, beforeEach } from "vitest";
 

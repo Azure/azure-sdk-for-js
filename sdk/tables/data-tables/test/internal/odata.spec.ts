@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { odata } from "../../src/index.js";
+import { odata } from "@azure/data-tables";
 import { describe, it, assert } from "vitest";
 
 describe("odata", () => {

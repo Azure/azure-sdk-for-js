@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryClient } from "../../src/index.js";
+import type { ContainerRegistryClient } from "@azure/container-registry";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRegistryClient, recorderStartOptions } from "../utils/utils.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

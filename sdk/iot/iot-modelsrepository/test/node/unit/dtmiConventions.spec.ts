@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as lib from "../../../src/dtmiConventions.js";
+import * as lib from "$internal/dtmiConventions.js";
 import { describe, it, assert, expect } from "vitest";
 
 interface TestCase {

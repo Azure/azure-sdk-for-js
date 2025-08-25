@@ -9,7 +9,7 @@ import {
   DocumentObjectField,
   DocumentStringField,
   KnownFormRecognizerAudience,
-} from "../src/index.js";
+} from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

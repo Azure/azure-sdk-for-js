@@ -5,15 +5,15 @@
 
 import type { Context as AzureFnV3Context } from "@azure/functions-old";
 import type { InvocationContext as AzureFnV4Context } from "@azure/functions";
-import type { PreInvocationContext } from "../../../../src/traces/azureFnHook.js";
-import { AzureFunctionsHook } from "../../../../src/traces/azureFnHook.js";
-import { TraceHandler } from "../../../../src/traces/index.js";
-import { Logger } from "../../../../src/shared/logging/index.js";
-import { InternalConfig } from "../../../../src/shared/index.js";
-import { MetricHandler } from "../../../../src/metrics/index.js";
+import type { PreInvocationContext } from "$internal/traces/azureFnHook.js";
+import { AzureFunctionsHook } from "$internal/traces/azureFnHook.js";
+import { TraceHandler } from "$internal/traces/index.js";
+import { Logger } from "$internal/shared/logging/index.js";
+import { InternalConfig } from "$internal/shared/index.js";
+import { MetricHandler } from "$internal/metrics/index.js";
 import { metrics, trace } from "@opentelemetry/api";
 import { vi, describe, it, beforeEach, afterEach, expect, assert, beforeAll } from "vitest";
-import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index.js";
+import { shutdownAzureMonitor, useAzureMonitor } from "@azure/monitor-opentelemetry";
 
 describe("Library/AzureFunctionsHook", () => {
   let metricHandler: MetricHandler;

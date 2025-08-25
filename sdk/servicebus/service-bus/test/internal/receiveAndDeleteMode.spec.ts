@@ -7,11 +7,9 @@ import type {
   ServiceBusReceiver,
   ProcessErrorArgs,
   ServiceBusSender,
-} from "../../src/index.js";
-
+} from "@azure/service-bus";
 import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils.js";
-
-import { InvalidOperationInReceiveAndDeleteMode } from "../../src/util/errors.js";
+import { InvalidOperationInReceiveAndDeleteMode } from "$internal/util/errors.js";
 import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
   createServiceBusClientForTests,
@@ -19,7 +17,7 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2.js";
-import { DispositionType } from "../../src/serviceBusMessage.js";
+import { DispositionType } from "$internal/serviceBusMessage.js";
 import type Long from "long";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { expect, should } from "../public/utils/chai.js";

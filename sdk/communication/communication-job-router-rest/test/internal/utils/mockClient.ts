@@ -5,8 +5,8 @@ import type { ClientOptions } from "@azure-rest/core-client";
 import * as dotenv from "dotenv";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import JobRouter from "../../../src/index.js";
-import type { AzureCommunicationRoutingServiceClient } from "../../../src/index.js";
+import JobRouter from "@azure-rest/communication-job-router";
+import type { AzureCommunicationRoutingServiceClient } from "@azure-rest/communication-job-router";
 import { isNodeLike } from "@azure/core-util";
 import { generateToken } from "../../public/utils/connection.js";
 

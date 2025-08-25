@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MetricsAdvisorKeyCredential } from "../../src/index.js";
+import { MetricsAdvisorKeyCredential } from "@azure/ai-metrics-advisor";
 import { describe, it, assert, beforeEach } from "vitest";
 
 describe("MetricsAdvisorKeyCredential", () => {

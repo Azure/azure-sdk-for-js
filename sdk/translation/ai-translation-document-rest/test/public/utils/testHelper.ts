@@ -9,7 +9,7 @@ import type {
   StorageInputType,
   StorageSource,
   TargetInput,
-} from "../../../src/index.js";
+} from "@azure-rest/ai-translation-document";
 import { isLiveMode } from "../../utils/injectables.js";
 
 export function createSourceInput(

@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { padStart } from "../../src/utils/utils.common.js";
+import { padStart } from "$internal/utils/utils.common.js";
 import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type {
+  RecorderStartOptions,
+  FindReplaceSanitizer,
+  RegexSanitizer,
+} from "@azure-tools/test-recorder";
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import type { StorageClient } from "../../src/StorageClient.js";
+import type { StorageClient } from "$internal/StorageClient.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import type { FindReplaceSanitizer, RegexSanitizer } from "@azure-tools/test-recorder";
 import type { TestContext } from "vitest";
 import type { ShareServiceClient } from "@azure/storage-file-share";
 import { isNodeLike } from "@azure/core-util";

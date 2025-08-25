@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, generateSharedAccessSignature } from "../../src/index.js";
+import { AzureKeyCredential, generateSharedAccessSignature } from "@azure/eventgrid";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert } from "vitest";
 

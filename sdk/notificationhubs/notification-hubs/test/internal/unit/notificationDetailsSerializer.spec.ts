@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { parseNotificationDetails } from "../../../src/serializers/notificationDetailsSerializer.js";
+import { parseNotificationDetails } from "$internal/serializers/notificationDetailsSerializer.js";
 
 const APNS_NOTIFICATION_DETAILS = `<NotificationDetails xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
   <NotificationId>{Your message id}</NotificationId>

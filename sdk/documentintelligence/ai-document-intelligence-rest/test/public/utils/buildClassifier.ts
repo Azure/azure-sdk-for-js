@@ -6,7 +6,7 @@ import {
   isUnexpected,
   type DocumentClassifierDetailsOutput,
   type DocumentIntelligenceClient,
-} from "../../../src/index.js";
+} from "@azure-rest/ai-document-intelligence";
 import { getClassifierTrainingDataContainerSasUrl } from "../../utils/injectables.js";
 import { assert } from "vitest";
 import { getRandomNumber } from "./utils.js";

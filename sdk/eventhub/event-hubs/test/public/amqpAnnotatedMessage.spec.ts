@@ -8,9 +8,9 @@ import type {
   EventPosition,
   ReceivedEventData,
   Subscription,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import type { BodyTypes } from "../../src/dataTransformer.js";
+import type { BodyTypes } from "$internal/dataTransformer.js";
 import { Buffer } from "buffer";
 import { randomUUID } from "@azure/core-util";
 import { should, assert } from "../utils/chai.js";

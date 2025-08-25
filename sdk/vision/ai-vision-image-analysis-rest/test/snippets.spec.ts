@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import ImageAnalysisClient, { isUnexpected } from "../src/index.js";
+import ImageAnalysisClient, { isUnexpected } from "@azure-rest/ai-vision-image-analysis";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import { DefaultAzureCredential } from "@azure/identity";

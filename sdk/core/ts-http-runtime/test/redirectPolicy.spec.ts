@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi } from "vitest";
-import { redirectPolicy } from "../src/policies/redirectPolicy.js";
-import type { PipelineResponse, SendRequest } from "../src/index.js";
-import { createHttpHeaders, createPipelineRequest } from "../src/index.js";
+import { redirectPolicy } from "$internal/policies/redirectPolicy.js";
+import type { PipelineResponse, SendRequest } from "@typespec/ts-http-runtime";
+import { createHttpHeaders, createPipelineRequest } from "@typespec/ts-http-runtime";
 
 describe("RedirectPolicy", () => {
   it("should not follow redirect if no location header", async () => {

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { Mapper } from "../../src/index.js";
-import { createSerializer } from "../../src/index.js";
+import type { Mapper } from "@azure/core-client";
+import { createSerializer } from "@azure/core-client";
 
 describe("Serializer (browser specific)", function () {
   describe("serialize", function () {

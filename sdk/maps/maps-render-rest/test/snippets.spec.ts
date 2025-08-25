@@ -6,8 +6,8 @@ import MapsRender, {
   createPinsQuery,
   isUnexpected,
   positionToTileXY,
-} from "../src/index.js";
-import type { CircularPath, PinSet, PolygonalPath } from "../src/index.js";
+} from "@azure-rest/maps-render";
+import type { CircularPath, PinSet, PolygonalPath } from "@azure-rest/maps-render";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 // @ts-ignore

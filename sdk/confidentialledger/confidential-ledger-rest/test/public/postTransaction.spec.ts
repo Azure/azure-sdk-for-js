@@ -5,8 +5,8 @@ import type {
   ConfidentialLedgerClient,
   CreateLedgerEntryParameters,
   LedgerEntry,
-} from "../../src/index.js";
-import { isUnexpected } from "../../src/index.js";
+} from "@azure-rest/confidential-ledger";
+import { isUnexpected } from "@azure-rest/confidential-ledger";
 import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

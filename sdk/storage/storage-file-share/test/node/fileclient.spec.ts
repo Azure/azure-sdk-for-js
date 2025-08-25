@@ -11,14 +11,14 @@ import type {
   ShareClient,
   ShareDirectoryClient,
   StorageSharedKeyCredential,
-} from "../../src/index.js";
+} from "@azure/storage-file-share";
 import {
   FileSASPermissions,
   generateFileSASQueryParameters,
   getFileServiceAccountAudience,
   newPipeline,
   ShareFileClient,
-} from "../../src/index.js";
+} from "@azure/storage-file-share";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";
 import {
   bodyToString,

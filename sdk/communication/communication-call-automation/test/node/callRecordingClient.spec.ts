@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type * as RestModel from "../../src/generated/src/models/index.js";
+import type * as RestModel from "$internal/generated/src/models/index.js";
 import { createRecordingClient, generateHttpClient } from "../utils/mockClient.js";
 import {
   baseUri,
@@ -13,20 +13,23 @@ import {
   RECORDING_ID,
   RECORDING_STATE,
 } from "../utils/connectionUtils.js";
-import { CallRecording } from "../../src/callRecording.js";
+import { CallRecording } from "@azure/communication-call-automation";
 import type {
   AnswerCallOptions,
   CreateCallOptions,
   PlayOptions,
   StartRecordingOptions,
-} from "../../src/models/options.js";
-import { apiVersion } from "../../src/generated/src/models/parameters.js";
-import type { ChannelAffinity } from "@azure/communication-call-automation";
+  ChannelAffinity,
+  CallAutomationClient,
+  CallInvite,
+  CallConnection,
+  FileSource,
+} from "@azure/communication-call-automation";
+import { apiVersion } from "$internal/generated/src/models/parameters.js";
 import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
-import type { CallAutomationClient, CallInvite, CallConnection } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import {
   createRecorder,
@@ -43,7 +46,6 @@ import {
   persistEvents,
   fileSourceUrl,
 } from "../utils/recordedClient.js";
-import type { FileSource } from "../../src/models/models.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("CallRecording Unit Tests", () => {

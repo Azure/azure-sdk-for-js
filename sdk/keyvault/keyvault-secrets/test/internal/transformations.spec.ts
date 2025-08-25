@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DeletedSecret, KeyVaultSecret } from "../../src/index.js";
-import type { DeletedSecretBundle, SecretBundle } from "../../src/generated/src/models/index.js";
-import { getSecretFromSecretBundle } from "../../src/transformations.js";
+import type { DeletedSecret, KeyVaultSecret } from "@azure/keyvault-secrets";
+import type { DeletedSecretBundle, SecretBundle } from "$internal/generated/src/models/index.js";
+import { getSecretFromSecretBundle } from "$internal/transformations.js";
 import { describe, it, assert } from "vitest";
 
 describe("Transformations", () => {

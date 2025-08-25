@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  ServiceBusMessage,
-  ServiceBusReceivedMessage,
-} from "../../../src/serviceBusMessage.js";
+import type { ServiceBusMessage, ServiceBusReceivedMessage } from "@azure/service-bus";
 import {
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
   ServiceBusMessageImpl,
   toRheaMessage,
-} from "../../../src/serviceBusMessage.js";
+} from "$internal/serviceBusMessage.js";
 import type { Delivery, Message } from "rhea-promise";
 import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { Constants } from "@azure/core-amqp";
@@ -19,11 +16,11 @@ import {
   defaultDataTransformer,
   isRheaAmqpSection,
   valueSectionTypeCode,
-} from "../../../src/dataTransformer.js";
+} from "$internal/dataTransformer.js";
 import {
   errorInvalidMessageTypeSingle,
   errorInvalidMessageTypeSingleOrArray,
-} from "../../../src/util/errors.js";
+} from "$internal/util/errors.js";
 import { assert, beforeEach, describe, it } from "vitest";
 
 describe("AMQP message encoding", () => {

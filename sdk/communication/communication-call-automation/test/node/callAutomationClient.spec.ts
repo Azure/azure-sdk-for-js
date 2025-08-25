@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CallConnectionProperties } from "../../src/models/models.js";
-import type { AnswerCallResult, CreateCallResult } from "../../src/models/responses.js";
+import type {
+  CallConnectionProperties,
+  AnswerCallResult,
+  CreateCallResult,
+  CallInvite,
+  CallConnection,
+} from "@azure/communication-call-automation";
 import {
   CALL_CALLBACK_URL,
   CALL_INCOMING_CALL_CONTEXT,
@@ -10,12 +15,11 @@ import {
   CALL_TARGET_ID_2,
 } from "../utils/connectionUtils.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
-import type { CallInvite, CallConnection } from "../../src/index.js";
 import { randomUUID } from "@azure/core-util";
 import type { MockedObject } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach } from "vitest";
 
-vi.mock("../src/index.js", async (importActual) => {
+vi.mock("@azure/communication-call-automation", async (importActual) => {
   const CallAutomationClient = vi.fn();
   CallAutomationClient.prototype.createCall = vi.fn();
   CallAutomationClient.prototype.createGroupCall = vi.fn();
@@ -29,7 +33,7 @@ vi.mock("../src/index.js", async (importActual) => {
   };
 });
 
-import { CallAutomationClient } from "../../src/index.js";
+import { CallAutomationClient } from "@azure/communication-call-automation";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];

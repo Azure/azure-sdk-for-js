@@ -5,13 +5,13 @@ import type {
   JsonWebKey,
   KeyClient,
   KeyVaultKey,
-} from "../../src/index.js";
-import { CryptographyClient } from "../../src/index.js";
+} from "@azure/keyvault-keys";
+import { CryptographyClient } from "@azure/keyvault-keys";
 import { getKey, stringToUint8Array, uint8ArrayToString } from "../public/utils/crypto.js";
 import TestClient from "../public/utils/testClient.js";
 import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication.js";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
-import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider.js";
+import { RemoteCryptographyProvider } from "$internal/cryptography/remoteCryptographyProvider.js";
 import type { ClientSecretCredential } from "@azure/identity";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 

@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientContext } from "../../../src/ClientContext.js";
+import type { ClientContext } from "@azure/cosmos";
 import {
   PartitionKeyRangeCache,
   QueryRange,
   SmartRoutingMapProvider,
-} from "../../../src/routing/index.js";
+} from "$internal/routing/index.js";
 import { MockedClientContext } from "../../public/common/MockClientContext.js";
 import { createDummyDiagnosticNode } from "../../public/common/TestHelpers.js";
 import { describe, it, assert } from "vitest";

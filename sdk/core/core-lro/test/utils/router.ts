@@ -16,15 +16,15 @@ import type {
   State,
 } from "./utils.js";
 import { createProcessor, generate } from "./utils.js";
-import type { PollerLike } from "../../src/index.js";
-import { createHttpPoller } from "../../src/index.js";
+import type { PollerLike } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 import type {
   CreateHttpPollerOptions,
   OperationResponse,
   RawResponse,
   ResourceLocationConfig,
   ResponseBody,
-} from "../../src/http/models.js";
+} from "$internal/http/models.js";
 import { AbortError } from "@azure/abort-controller";
 import { createCoreRestPipelineLro } from "./coreRestPipelineLro.js";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";

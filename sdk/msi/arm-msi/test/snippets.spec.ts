@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedServiceIdentityClient } from "../src/index.js";
+import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

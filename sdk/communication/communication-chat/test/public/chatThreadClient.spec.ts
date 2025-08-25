@@ -8,7 +8,7 @@ import type {
   ChatThreadClient,
   NoneRetentionPolicy,
   ThreadCreationDateRetentionPolicy,
-} from "../../src/index.js";
+} from "@azure/communication-chat";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import { getIdentifierKind } from "@azure/communication-common";

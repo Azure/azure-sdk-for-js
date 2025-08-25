@@ -7,8 +7,8 @@ import type {
   JoinGroupOptions,
   LeaveGroupOptions,
   ServerDataMessage,
-} from "../src/models/index.js";
-import { WebPubSubClient } from "../src/webPubSubClient.js";
+} from "@azure/web-pubsub-client";
+import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { describe, it, expect, vi } from "vitest";
 describe("WebPubSubClient", () => {
   describe("Execute operation and translate to WebPubSubMessage", () => {

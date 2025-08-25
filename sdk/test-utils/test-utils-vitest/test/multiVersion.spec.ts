@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { isVersionInSupportedRange, versionsToTest } from "../src/multiVersion.js";
+import { isVersionInSupportedRange, versionsToTest } from "$internal/multiVersion.js";
 
 describe("Multi-service-version test support", () => {
   const allVersions = ["1.0", "1.1", "1.2"];

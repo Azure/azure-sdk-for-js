@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getPackageManager } from "../../src/utils/packageManager.js";
+import { getPackageManager } from "$internal/utils/packageManager.js";
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 
 describe("Package Manager", () => {

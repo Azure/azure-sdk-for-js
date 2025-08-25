@@ -6,8 +6,8 @@ import type {
   CommunicationIdentityClientOptions,
   CommunicationUserToken,
   TokenScope,
-} from "../../../src/index.js";
-import { CommunicationIdentityClient } from "../../../src/index.js";
+} from "@azure/communication-identity";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 import {
   createUserAndTokenHttpClient,
   createUserHttpClient,

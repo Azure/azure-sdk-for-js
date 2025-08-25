@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TextAnalysisClient } from "../../src/index.js";
+import type { TextAnalysisClient } from "@azure/ai-language-text";
 import {
   AnalyzeBatchActionNames,
   KnownExtractiveSummarizationOrderingCriteria,
@@ -9,7 +9,7 @@ import {
   KnownPiiEntityDomain,
   KnownStringIndexType,
   KnownTextAnalysisErrorCode,
-} from "../../src/index.js";
+} from "@azure/ai-language-text";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";

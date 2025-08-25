@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchingReceiver } from "../../../src/core/batchingReceiver.js";
-import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
+import type { BatchingReceiver } from "$internal/core/batchingReceiver.js";
+import { ServiceBusReceiverImpl } from "$internal/receivers/receiver.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils.js";
-import type { InternalMessageHandlers } from "../../../src/models.js";
+import type { InternalMessageHandlers } from "$internal/models.js";
 import { afterEach, beforeEach, describe, it } from "vitest";
 import { assert } from "../../public/utils/chai.js";
 

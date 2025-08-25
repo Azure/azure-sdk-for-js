@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createStream } from "../../src/utils.js";
+import { createStream } from "$internal/utils.js";
 
 describe("createStream", () => {
   const createIter = async function* (): AsyncGenerator<number> {

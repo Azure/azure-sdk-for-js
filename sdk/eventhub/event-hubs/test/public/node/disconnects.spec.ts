@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Subscription } from "../../../src/index.js";
+import type { Subscription } from "@azure/event-hubs";
 import { should } from "../../utils/chai.js";
 import { describe, it } from "vitest";
 import { createConsumer, createProducer } from "../../utils/clients.js";

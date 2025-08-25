@@ -9,12 +9,12 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils/index.js";
-import type { StorageSharedKeyCredential, ShareClient } from "../../src/index.js";
+import type { StorageSharedKeyCredential, ShareClient } from "@azure/storage-file-share";
 import {
   newPipeline,
   ShareDirectoryClient,
   getFileServiceAccountAudience,
-} from "../../src/index.js";
+} from "@azure/storage-file-share";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

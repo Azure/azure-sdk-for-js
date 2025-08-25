@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import fs from "node:fs";
-import { randomUUID } from "@azure/core-util";
-import { isNodeLike } from "@azure/core-util";
+import { randomUUID, isNodeLike } from "@azure/core-util";
 import {
   bodyToString,
   getBSU,
@@ -22,10 +21,10 @@ import type {
   RehydratePriority,
   ObjectReplicationPolicy,
   BlobImmutabilityPolicyMode,
-} from "../src/index.js";
-import { BlobClient, BlockBlobTier, BlobServiceClient } from "../src/index.js";
+} from "@azure/storage-blob";
+import { BlobClient, BlockBlobTier, BlobServiceClient } from "@azure/storage-blob";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets.js";
-import { base64encode } from "../src/utils/utils.common.js";
+import { base64encode } from "$internal/utils/utils.common.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";

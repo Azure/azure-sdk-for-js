@@ -6,8 +6,8 @@ import type {
   OperationResponseOutput,
   PurviewSharingClient,
   ReceivedShareListOutput,
-} from "../../src/index.js";
-import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
+} from "@azure-rest/purview-sharing";
+import { getLongRunningPoller, isUnexpected } from "@azure-rest/purview-sharing";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient.js";

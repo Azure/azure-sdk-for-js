@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import AzureLoadTesting, { getLongRunningPoller, isUnexpected } from "../src/index.js";
+import AzureLoadTesting, { getLongRunningPoller, isUnexpected } from "@azure-rest/load-testing";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

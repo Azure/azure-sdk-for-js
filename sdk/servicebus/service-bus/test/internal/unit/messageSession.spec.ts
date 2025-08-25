@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MessageSession } from "../../../src/session/messageSession.js";
+import { MessageSession } from "$internal/session/messageSession.js";
 import {
   addCloseablesCleanup,
   createConnectionContextForTests,
@@ -15,10 +15,10 @@ import type {
   Receiver as RheaPromiseReceiver,
 } from "rhea-promise";
 import { ReceiverEvents, SessionEvents } from "rhea-promise";
-import type { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver.js";
-import type { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
-import type { ProcessErrorArgs, ServiceBusError } from "../../../src/index.js";
-import type { ReceiveMode } from "../../../src/models.js";
+import type { OnAmqpEventAsPromise } from "$internal/core/messageReceiver.js";
+import type { ServiceBusMessageImpl } from "$internal/serviceBusMessage.js";
+import type { ProcessErrorArgs, ServiceBusError } from "@azure/service-bus";
+import type { ReceiveMode } from "$internal/models.js";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
 import type { MockInstance } from "vitest";

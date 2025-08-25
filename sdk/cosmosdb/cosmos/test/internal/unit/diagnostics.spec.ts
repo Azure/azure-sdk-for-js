@@ -5,15 +5,9 @@ import {
   addDiagnosticChild,
   getEmptyCosmosDiagnostics,
   withDiagnostics,
-} from "../../../src/utils/diagnostics.js";
-import { CosmosDbDiagnosticLevel } from "../../../src/diagnostics/CosmosDbDiagnosticLevel.js";
-import type {
-  ClientConfigDiagnostic,
-  CosmosClientOptions,
-  RequestOptions,
-  Resource,
-} from "../../../src/index.js";
+} from "$internal/utils/diagnostics.js";
 import {
+  CosmosDbDiagnosticLevel,
   ClientContext,
   ConsistencyLevel,
   Constants,
@@ -21,18 +15,22 @@ import {
   ErrorResponse,
   GlobalEndpointManager,
   ItemResponse,
-} from "../../../src/index.js";
-import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
-import {
   DiagnosticNodeInternal,
   DiagnosticNodeType,
-} from "../../../src/diagnostics/DiagnosticNodeInternal.js";
-import { allowTracing } from "../../../src/diagnostics/diagnosticLevelComparator.js";
+} from "@azure/cosmos";
+import type {
+  ClientConfigDiagnostic,
+  CosmosClientOptions,
+  RequestOptions,
+  Resource,
+} from "@azure/cosmos";
+import { getCurrentTimestampInMs } from "$internal/utils/time.js";
+import { allowTracing } from "$internal/diagnostics/diagnosticLevelComparator.js";
 import {
   determineDiagnosticLevel,
   getDiagnosticLevelFromEnvironment,
   setDiagnosticLevel,
-} from "../../../src/diagnostics/index.js";
+} from "$internal/diagnostics/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Diagnostic Unit Tests", () => {

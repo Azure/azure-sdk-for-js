@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
-import type { QuantumJobClient } from "../../src/index.js";
+import type { QuantumJobClient } from "@azure/quantum-jobs";
 import { authenticate } from "../utils/testAuthentication.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import fs from "node:fs";

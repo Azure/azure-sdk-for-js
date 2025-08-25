@@ -3,7 +3,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
-import { QueueServiceClient, StorageSharedKeyCredential } from "../src/index.js";
+import { QueueServiceClient, StorageSharedKeyCredential } from "@azure/storage-queue";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {

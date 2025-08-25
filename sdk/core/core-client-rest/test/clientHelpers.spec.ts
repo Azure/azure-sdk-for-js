@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { createDefaultPipeline } from "../src/clientHelpers.js";
+import { createDefaultPipeline } from "$internal/clientHelpers.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
-import { keyCredentialAuthenticationPolicyName } from "../src/keyCredentialAuthenticationPolicy.js";
+import { keyCredentialAuthenticationPolicyName } from "$internal/keyCredentialAuthenticationPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { apiVersionPolicyName } from "../src/apiVersionPolicy.js";
+import { apiVersionPolicyName } from "$internal/apiVersionPolicy.js";
 
 describe("clientHelpers", () => {
   const mockBaseUrl = "https://example.org";

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EmailClient, EmailMessage } from "../../src/index.js";
-import { KnownEmailSendStatus } from "../../src/index.js";
+import type { EmailClient, EmailMessage } from "@azure/communication-email";
+import { KnownEmailSendStatus } from "@azure/communication-email";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

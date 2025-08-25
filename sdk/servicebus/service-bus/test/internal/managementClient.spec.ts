@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagementClient } from "../../src/core/managementClient.js";
+import { ManagementClient } from "$internal/core/managementClient.js";
 import { createConnectionContextForTests } from "./unit/unittestUtils.js";
 import { delay } from "rhea-promise";
 import { describe, it } from "vitest";

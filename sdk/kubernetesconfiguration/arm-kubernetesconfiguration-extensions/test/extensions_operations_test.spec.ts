@@ -9,7 +9,7 @@
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { ExtensionsClient } from "../src/extensionsClient.js";
+import { ExtensionsClient } from "@azure/arm-kubernetesconfiguration-extensions";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import type { Client } from "../src/index.js";
+import type { Client } from "@azure-rest/core-client";
 
 interface GetOperationResult {}
 interface DetectFromUrl {}

@@ -1,5 +1,5 @@
 import { AzureNamedKeyCredential } from "@azure/core-auth";
-import createClient from "../src/index.js";
+import createClient from "@azure-rest/batch";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 

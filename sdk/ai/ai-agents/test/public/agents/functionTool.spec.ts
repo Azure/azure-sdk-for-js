@@ -10,10 +10,10 @@ import type {
   MessageImageFileContent,
   MessageTextContent,
   SubmitToolOutputsAction,
-} from "../../../src/index.js";
+} from "@azure/ai-agents";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { isOutputOfType } from "../../../src/utils/utils.js";
+import { isOutputOfType } from "@azure/ai-agents";
 
 describe("Agents - function tool", () => {
   let recorder: Recorder;

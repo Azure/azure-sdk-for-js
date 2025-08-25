@@ -8,8 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import { SecurityCenter } from "../src/securityCenter.js";
-import { SecurityContact } from "../src/models/index.js";
+import { SecurityCenter, SecurityContact } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

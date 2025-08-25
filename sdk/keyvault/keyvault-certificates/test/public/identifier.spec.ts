@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseKeyVaultCertificateIdentifier } from "../../src/identifier.js";
+import { parseKeyVaultCertificateIdentifier } from "$internal/identifier.js";
 import { describe, it, assert } from "vitest";
 
 describe("Key Vault Certificates Identifier", () => {

@@ -5,7 +5,7 @@ import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import fs from "node:fs";
 import path from "node:path";
 import buffer from "node:buffer";
-import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src/index.js";
+import type { DataLakeFileClient, DataLakeFileSystemClient } from "@azure/storage-file-datalake";
 import {
   bodyToString,
   createRandomLocalFile,
@@ -18,10 +18,10 @@ import {
   FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
   BLOCK_BLOB_MAX_BLOCKS,
   FILE_UPLOAD_MAX_CHUNK_SIZE,
-} from "../../src/utils/constants.js";
+} from "$internal/utils/constants.js";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";
 import { Readable, PassThrough } from "node:stream";
-import { streamToBuffer2 } from "../../src/utils/utils.js";
+import { streamToBuffer2 } from "$internal/utils/utils.js";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets.js";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 

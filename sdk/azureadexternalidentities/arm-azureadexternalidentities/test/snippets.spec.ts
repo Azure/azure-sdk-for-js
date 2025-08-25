@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ExternalIdentitiesConfigurationClient } from "../src/index.js";
+import { ExternalIdentitiesConfigurationClient } from "@azure/arm-azureadexternalidentities";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

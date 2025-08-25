@@ -6,7 +6,7 @@ import {
   AzureMonitorLogExporter,
   AzureMonitorMetricExporter,
   AzureMonitorTraceExporter,
-} from "../src/index.js";
+} from "@azure/monitor-opentelemetry-exporter";
 import { setLogLevel } from "@azure/logger";
 import { diag, DiagConsoleLogger, DiagLogLevel, metrics } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";

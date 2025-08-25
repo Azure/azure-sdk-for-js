@@ -17,7 +17,6 @@ import { PassThrough } from "node:stream";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { getError } from "../../authTestUtils.js";
 import { openIdConfigurationResponse } from "../../msalTestUtils.js";
-
 import type { MockInstance } from "vitest";
 import { vi } from "vitest";
 

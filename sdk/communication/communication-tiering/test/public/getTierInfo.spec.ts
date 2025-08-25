@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import type { TieringClient } from "../../src/index.js";
+import type { TieringClient } from "@azure-tools/communication-tiering";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

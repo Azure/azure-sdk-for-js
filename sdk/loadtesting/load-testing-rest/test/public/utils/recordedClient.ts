@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureLoadTestingClient } from "../../../src/index.js";
-import AzureLoadTesting from "../../../src/index.js";
+import type { AzureLoadTestingClient } from "@azure-rest/load-testing";
+import AzureLoadTesting from "@azure-rest/load-testing";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import "./env.js";

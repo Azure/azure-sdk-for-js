@@ -8,7 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { MicrosoftSecurityDevOps } from "../src/microsoftSecurityDevOps.js";
+import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
 import { describe, it, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

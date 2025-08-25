@@ -6,8 +6,8 @@ import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder"
 import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { assert } from "vitest";
 import { createClientLogger } from "@azure/logger";
-import type { LogsTable } from "../../../src/index.js";
-import { LogsQueryClient } from "../../../src/index.js";
+import type { LogsTable } from "@azure/monitor-query-logs";
+import { LogsQueryClient } from "@azure/monitor-query-logs";
 import type { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
 

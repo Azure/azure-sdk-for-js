@@ -7,7 +7,7 @@ import type {
   EventHubProducerClient,
   EventPosition,
   MessagingError,
-} from "../../src/index.js";
+} from "@azure/event-hubs";
 import { translate } from "@azure/core-amqp";
 import "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";

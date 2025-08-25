@@ -6,7 +6,7 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets.js";
 import { isNodeLike } from "@azure/core-util";
-import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy.js";
+import { tablesNamedKeyCredentialPolicy } from "$internal/tablesNamedCredentialPolicy.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("TablesSharedKeyCredential", () => {

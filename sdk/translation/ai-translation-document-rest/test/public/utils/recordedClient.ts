@@ -3,8 +3,8 @@
 
 import { Recorder, type RecorderStartOptions } from "@azure-tools/test-recorder";
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { DocumentTranslationClient } from "../../../src/index.js";
-import { default as createClient } from "../../../src/index.js";
+import type { DocumentTranslationClient } from "@azure-rest/ai-translation-document";
+import { default as createClient } from "@azure-rest/ai-translation-document";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { TestContext } from "vitest";

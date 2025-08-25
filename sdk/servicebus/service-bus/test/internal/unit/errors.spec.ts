@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { MessagingError } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
-import { createServiceBusLogger } from "../../../src/log.js";
+import { createServiceBusLogger } from "$internal/log.js";
 import type { MockInstance } from "vitest";
 import { describe, it, vi, beforeEach, beforeAll } from "vitest";
 import { expect } from "../../public/utils/chai.js";

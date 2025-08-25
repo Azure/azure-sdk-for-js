@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CosmosDBManagementClient } from "../src/index.js";
+import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

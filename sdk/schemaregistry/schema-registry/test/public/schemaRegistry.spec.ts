@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import type { Schema, SchemaDescription, SchemaProperties } from "../../src/index.js";
-import { KnownSchemaFormats, SchemaRegistryClient } from "../../src/index.js";
+import type { Schema, SchemaDescription, SchemaProperties } from "@azure/schema-registry";
+import { KnownSchemaFormats, SchemaRegistryClient } from "@azure/schema-registry";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import type { Format } from "./utils/recordedClient.js";
 import { createRecordedClient, recorderOptions } from "./utils/recordedClient.js";

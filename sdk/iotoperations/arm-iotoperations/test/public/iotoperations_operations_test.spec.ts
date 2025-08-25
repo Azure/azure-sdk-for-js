@@ -10,7 +10,7 @@ import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
-import { IoTOperationsClient } from "../../src/ioTOperationsClient.js";
+import { IoTOperationsClient } from "@azure/arm-iotoperations";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,

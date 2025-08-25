@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AbortSignalLike } from "../src/index.js";
-import { AbortError } from "../src/index.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 import { describe, it, assert } from "vitest";
 
 describe("AbortSignalLike", () => {

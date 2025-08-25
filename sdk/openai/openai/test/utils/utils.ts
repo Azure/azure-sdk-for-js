@@ -12,7 +12,7 @@ import {
   RestError,
 } from "@azure/core-rest-pipeline";
 import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
-import type { AzureChatExtensionConfiguration } from "../../src/types/index.js";
+import type { AzureChatExtensionConfiguration } from "$internal/types/index.js";
 import { getSearchInfo } from "./injectables.js";
 import type {
   ClientsAndDeploymentsInfo,

@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessControlRestClient } from "../../src/index.js";
-import { isUnexpected } from "../../src/index.js";
+import type {
+  AccessControlRestClient,
+  RoleAssignmentDetailsOutput,
+} from "@azure-rest/synapse-access-control";
+import { isUnexpected, paginate } from "@azure-rest/synapse-access-control";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { RoleAssignmentDetailsOutput } from "../../src/index.js";
 import { createClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
-import { paginate } from "../../src/paginateHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Access Control smoke", () => {

@@ -8,7 +8,7 @@ import {
   bodyToString,
 } from "../utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "@azure/storage-file-share";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 // for file

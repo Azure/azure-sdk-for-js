@@ -10,7 +10,7 @@ import {
   createPipelineFromOptions,
   createPipelineRequest,
   setClientRequestIdPolicy,
-} from "../src/index.js";
+} from "@azure/core-rest-pipeline";
 
 describe("setClientRequestIdPolicy", function () {
   it("should set the header name with `x-ms-client-request-id` if no header name is provided", async () => {

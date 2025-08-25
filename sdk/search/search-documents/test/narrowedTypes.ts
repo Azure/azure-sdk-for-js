@@ -5,15 +5,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-import type { SelectFields } from "../src/index.js";
-import { SearchClient } from "../src/index.js";
+import { SearchClient } from "@azure/search-documents";
 import type {
   NarrowedModel as GenericNarrowedModel,
   SearchFieldArray,
   SearchPick,
   SelectArray,
+  SelectFields,
   SuggestNarrowedModel,
-} from "../src/indexModels.js";
+} from "@azure/search-documents";
 
 type Equals<T1, T2> =
   (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;

@@ -6,11 +6,11 @@ import {
   TRACEPARENT_PROPERTY,
   instrumentMessage,
   toProcessingSpanOptions,
-} from "../../../src/diagnostics/instrumentServiceBusMessage.js";
-import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing.js";
+} from "$internal/diagnostics/instrumentServiceBusMessage.js";
+import { toSpanOptions, tracingClient } from "$internal/diagnostics/tracing.js";
 import type { TracingContext } from "@azure/core-tracing";
 import Long from "long";
-import type { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage.js";
+import type { ServiceBusReceivedMessage } from "@azure/service-bus";
 import { describe, it, vi, afterEach } from "vitest";
 import { assert, expect } from "../../public/utils/chai.js";
 

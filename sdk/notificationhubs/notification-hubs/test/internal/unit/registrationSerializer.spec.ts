@@ -21,7 +21,7 @@ import type {
   XiaomiTemplateRegistrationDescription,
   WindowsRegistrationDescription,
   WindowsTemplateRegistrationDescription,
-} from "../../../src/models/registration.js";
+} from "$internal/models/registration.js";
 import {
   createAdmRegistrationDescription,
   createAdmTemplateRegistrationDescription,
@@ -39,11 +39,11 @@ import {
   createXiaomiTemplateRegistrationDescription,
   createWindowsRegistrationDescription,
   createWindowsTemplateRegistrationDescription,
-} from "../../../src/models/registration.js";
+} from "$internal/models/registration.js";
 import {
   registrationDescriptionParser,
   registrationDescriptionSerializer,
-} from "../../../src/serializers/registrationSerializer.js";
+} from "$internal/serializers/registrationSerializer.js";
 
 const ADM_REGISTRATION = `<?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">

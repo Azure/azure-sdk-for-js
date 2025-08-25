@@ -5,7 +5,7 @@ import type {
   AnomalyDetectionConfiguration,
   MetricAlertConfiguration,
   MetricsAdvisorAdministrationClient,
-} from "../../src/index.js";
+} from "@azure/ai-metrics-advisor";
 import {
   createRecordedAdminClient,
   getRecorderUniqueVariable,

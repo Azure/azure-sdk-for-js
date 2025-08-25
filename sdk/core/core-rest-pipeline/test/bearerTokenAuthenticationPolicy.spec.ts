@@ -8,15 +8,15 @@ import type {
   PipelinePolicy,
   PipelineResponse,
   SendRequest,
-} from "../src/index.js";
+} from "@azure/core-rest-pipeline";
 import {
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,
   RestError,
-} from "../src/index.js";
+} from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
+import { DEFAULT_CYCLER_OPTIONS } from "$internal/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 

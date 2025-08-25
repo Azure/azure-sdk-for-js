@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { MapsRenderClient } from "../../src/index.js";
-import { isUnexpected, positionToTileXY } from "../../src/index.js";
+import type { MapsRenderClient } from "@azure-rest/maps-render";
+import { isUnexpected, positionToTileXY } from "@azure-rest/maps-render";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

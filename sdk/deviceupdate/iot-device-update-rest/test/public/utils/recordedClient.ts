@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { DeviceUpdateClient } from "../../../src/index.js";
-import DeviceUpdate from "../../../src/index.js";
+import type { DeviceUpdateClient } from "@azure-rest/iot-device-update";
+import DeviceUpdate from "@azure-rest/iot-device-update";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 

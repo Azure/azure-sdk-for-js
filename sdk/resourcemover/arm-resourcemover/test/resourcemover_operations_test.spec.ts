@@ -8,8 +8,7 @@
 
 import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ResourceMoverServiceAPI } from "../src/resourceMoverServiceAPI.js";
-import { MoveCollection, MoveCollectionsCreateOptionalParams } from "../src/models/index.js";
+import { ResourceMoverServiceAPI, MoveCollection, MoveCollectionsCreateOptionalParams } from "@azure/arm-resourcemover";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {

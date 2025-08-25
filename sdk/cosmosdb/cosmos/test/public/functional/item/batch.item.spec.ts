@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container, OperationResponse } from "../../../../src/index.js";
+import type { Container, OperationResponse, OperationInput } from "@azure/cosmos";
 import {
   CosmosClient,
   OperationType,
   PatchOperationType,
   ResourceType,
-} from "../../../../src/index.js";
+  BulkOperationType,
+  PartitionKeyKind,
+} from "@azure/cosmos";
 import { addEntropy, testForDiagnostics } from "../../common/TestHelpers.js";
-import type { OperationInput } from "../../../../src/index.js";
-import { BulkOperationType } from "../../../../src/index.js";
-import { PartitionKeyKind } from "../../../../src/documents/index.js";
 import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
-import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
+import { getCurrentTimestampInMs } from "$internal/utils/time.js";
 import { describe, it, assert, beforeAll } from "vitest";
 
 describe("test batch operations", () => {

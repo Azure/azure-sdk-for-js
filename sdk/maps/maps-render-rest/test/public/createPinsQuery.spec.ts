@@ -3,8 +3,8 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { LatLon } from "@azure/maps-common";
-import type { MapsRenderClient } from "../../src/index.js";
-import { createPinsQuery, isUnexpected } from "../../src/index.js";
+import type { MapsRenderClient } from "@azure-rest/maps-render";
+import { createPinsQuery, isUnexpected } from "@azure-rest/maps-render";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

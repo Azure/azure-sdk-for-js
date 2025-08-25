@@ -4,8 +4,8 @@
 import os from "node:os";
 import type { Resource } from "@opentelemetry/resources";
 import { defaultResource, resourceFromAttributes } from "@opentelemetry/resources";
-import type { Tags } from "../../src/types.js";
-import { createTagsFromResource, serializeAttribute } from "../../src/utils/common.js";
+import type { Tags } from "$internal/types.js";
+import { createTagsFromResource, serializeAttribute } from "$internal/utils/common.js";
 import { describe, it, assert } from "vitest";
 
 describe("commonUtils.ts", () => {

@@ -6,7 +6,7 @@ import {
   GitHubActionsConstants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
-} from "../../src/common/constants.js";
+} from "$internal/common/constants.js";
 import {
   getAccessToken,
   getServiceBaseURL,
@@ -23,15 +23,17 @@ import {
   getRunName,
   isValidGuid,
   ValidateRunID,
-} from "../../src/utils/utils.js";
-import * as packageManager from "../../src/utils/packageManager.js";
+} from "$internal/utils/utils.js";
+import * as packageManager from "$internal/utils/packageManager.js";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import process from "node:process";
-import { getPlaywrightVersion } from "../../src/utils/getPlaywrightVersion.js";
-import { parseJwt } from "../../src/utils/parseJwt.js";
-import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
-import { createEntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
-import { CI_PROVIDERS } from "../../src/utils/cIInfoProvider.js";
+import { getPlaywrightVersion } from "$internal/utils/getPlaywrightVersion.js";
+import { parseJwt } from "$internal/utils/parseJwt.js";
+import {
+  EntraIdAccessToken,
+  createEntraIdAccessToken,
+} from "$internal/common/entraIdAccessToken.js";
+import { CI_PROVIDERS } from "$internal/utils/cIInfoProvider.js";
 import * as childProcess from "node:child_process";
 
 vi.mock("child_process", async (importOriginal) => {
@@ -62,8 +64,8 @@ vi.mock("child_process", async (importOriginal) => {
   };
 });
 
-vi.mock("../../src/common/entraIdAccessToken.js", async (importActual) => {
-  const actual = await importActual<typeof import("../../src/common/entraIdAccessToken.js")>();
+vi.mock(".$internal/common/entraIdAccessToken.js", async (importActual) => {
+  const actual = await importActual<typeof import("$internal/common/entraIdAccessToken.js")>();
   return {
     ...actual,
     createEntraIdAccessToken: vi.fn(),
@@ -80,24 +82,24 @@ vi.mock("node:process", async (importActual) => {
   };
 });
 
-vi.mock("../../src/utils/parseJwt.js", async (importActual) => {
-  const actual = await importActual<typeof import("../../src/utils/parseJwt.js")>();
+vi.mock("$internal/utils/parseJwt.js", async (importActual) => {
+  const actual = await importActual<typeof import("$internal/utils/parseJwt.js")>();
   return {
     ...actual,
     parseJwt: vi.fn(),
   };
 });
 
-vi.mock("../../src/utils/getPlaywrightVersion.js", async (importActual) => {
-  const actual = await importActual<typeof import("../../src/utils/getPlaywrightVersion.js")>();
+vi.mock("$internal/utils/getPlaywrightVersion.js", async (importActual) => {
+  const actual = await importActual<typeof import("$internal/utils/getPlaywrightVersion.js")>();
   return {
     ...actual,
     getPlaywrightVersion: vi.fn(),
   };
 });
 
-vi.mock("../../src/utils/utils.js", async (importActual) => {
-  const actual = await importActual<typeof import("../../src/utils/utils.js")>();
+vi.mock("$internal/utils/utils.js", async (importActual) => {
+  const actual = await importActual<typeof import("$internal/utils/utils.js")>();
   return {
     ...actual,
     populateValuesFromServiceUrl: vi.fn(),
@@ -323,7 +325,7 @@ describe("Service Utils", () => {
 
   it("should not exit the process if workspace URL is mismatched", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
-      await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");
+      await vi.importActual<typeof import("$internal/utils/utils.js")>("$internal/utils/utils.js");
 
     const exitStub = vi.mocked(process.exit);
     process.env["PLAYWRIGHT_SERVICE_URL"] =
@@ -545,16 +547,16 @@ describe("Service Utils", () => {
 
   it("should return playwright version from env variable", async () => {
     const { getPlaywrightVersion: localGetPlaywrightVersion } = await vi.importActual<
-      typeof import("../../src/utils/getPlaywrightVersion.js")
-    >("../../src/utils/getPlaywrightVersion.js");
+      typeof import("$internal/utils/getPlaywrightVersion.js")
+    >("$internal/utils/getPlaywrightVersion.js");
     process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.2.0";
     expect(localGetPlaywrightVersion()).to.equal("1.2.0");
   });
 
   it("should fetch playwright version and set it in env variable", async () => {
     const { getPlaywrightVersion: localGetPlaywrightVersion } = await vi.importActual<
-      typeof import("../../src/utils/getPlaywrightVersion.js")
-    >("../../src/utils/getPlaywrightVersion.js");
+      typeof import("$internal/utils/getPlaywrightVersion.js")
+    >("$internal/utils/getPlaywrightVersion.js");
     const mockVersion = "1.2.3";
     delete process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION];
     vi.spyOn(packageManager, "getPackageManager").mockReturnValue({
@@ -569,7 +571,7 @@ describe("Service Utils", () => {
 
   it("should return region, domain and accountId from a valid service URL", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
-      await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");
+      await vi.importActual<typeof import("$internal/utils/utils.js")>("$internal/utils/utils.js");
     process.env["PLAYWRIGHT_SERVICE_URL"] =
       "wss://eastus.api.playwright.microsoft.com/workspaces/1234/browsers";
 
@@ -630,7 +632,7 @@ describe("Service Utils", () => {
   });
   it("should return null for an invalid service URL", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
-      await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");
+      await vi.importActual<typeof import("$internal/utils/utils.js")>("$internal/utils/utils.js");
     process.env["PLAYWRIGHT_SERVICE_URL"] = "invalid-url";
 
     const result = localPopulateValuesFromServiceUrl();
@@ -641,7 +643,7 @@ describe("Service Utils", () => {
 
   it("should return null if PLAYWRIGHT_SERVICE_URL is not set", async () => {
     const { populateValuesFromServiceUrl: localPopulateValuesFromServiceUrl } =
-      await vi.importActual<typeof import("../../src/utils/utils.js")>("../../src/utils/utils.js");
+      await vi.importActual<typeof import("$internal/utils/utils.js")>("$internal/utils/utils.js");
 
     const result = localPopulateValuesFromServiceUrl();
 

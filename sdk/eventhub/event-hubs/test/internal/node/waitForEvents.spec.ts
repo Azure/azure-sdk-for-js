@@ -3,7 +3,7 @@
 
 import { assert } from "../../utils/chai.js";
 import EventEmitter from "events";
-import { waitForEvents } from "../../../src/partitionReceiver.js";
+import { waitForEvents } from "$internal/partitionReceiver.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { afterAll, beforeAll, describe, it, vi } from "vitest";
 

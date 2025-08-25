@@ -8,10 +8,17 @@ import {
   getUniqueName,
   recorderEnvSetup,
 } from "../utils/index.js";
-import type { PublicAccessType } from "../../src/index.js";
-import { getBlobServiceAccountAudience } from "../../src/index.js";
-import type { StorageSharedKeyCredential, BlobServiceClient } from "../../src/index.js";
-import { ContainerClient, newPipeline, ContainerSASPermissions } from "../../src/index.js";
+import type {
+  PublicAccessType,
+  StorageSharedKeyCredential,
+  BlobServiceClient,
+} from "@azure/storage-blob";
+import {
+  getBlobServiceAccountAudience,
+  ContainerClient,
+  newPipeline,
+  ContainerSASPermissions,
+} from "@azure/storage-blob";
 import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert.js";
 import { Recorder } from "@azure-tools/test-recorder";

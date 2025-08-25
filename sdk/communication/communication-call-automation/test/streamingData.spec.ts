@@ -7,8 +7,8 @@ import type {
   DtmfData,
   TranscriptionData,
   TranscriptionMetadata,
-} from "../src/models/streaming.js";
-import { StreamingData } from "../src/streamingData.js";
+} from "@azure/communication-call-automation";
+import { StreamingData } from "@azure/communication-call-automation";
 import { describe, it, assert } from "vitest";
 
 describe("Stream data parser unit tests", function () {

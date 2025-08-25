@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as dotenv from "dotenv";
 
+import * as dotenv from "dotenv";
 import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { PhoneNumbersClient } from "../../../src/index.js";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";

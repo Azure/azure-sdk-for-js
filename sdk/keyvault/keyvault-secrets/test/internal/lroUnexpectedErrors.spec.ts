@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { RestError } from "@azure/core-rest-pipeline";
-import { DeleteSecretPoller } from "../../src/lro/delete/poller.js";
-import { RecoverDeletedSecretPoller } from "../../src/lro/recover/poller.js";
+import { DeleteSecretPoller } from "$internal/lro/delete/poller.js";
+import { RecoverDeletedSecretPoller } from "$internal/lro/recover/poller.js";
 import { describe, it, assert } from "vitest";
 
 describe("The LROs properly throw on unexpected errors", () => {

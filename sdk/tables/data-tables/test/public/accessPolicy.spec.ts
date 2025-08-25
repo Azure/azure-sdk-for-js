@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import type { TableClient } from "../../src/index.js";
+import type { TableClient } from "@azure/data-tables";
 import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";

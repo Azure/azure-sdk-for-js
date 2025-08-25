@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MessageSender } from "../../../src/core/messageSender.js";
+import { MessageSender } from "$internal/core/messageSender.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { createConnectionContextForTests } from "./unittestUtils.js";
 import { describe, it } from "vitest";

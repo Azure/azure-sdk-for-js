@@ -4,7 +4,7 @@
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { isCommunicationUserIdentifier } from "@azure/communication-common";
 import { getTokenForTeamsUserHttpClient, getTokenHttpClient } from "./utils/mockHttpClients.js";
-import { CommunicationIdentityClient } from "../../src/index.js";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";

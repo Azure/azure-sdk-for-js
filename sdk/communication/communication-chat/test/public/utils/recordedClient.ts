@@ -8,7 +8,7 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { ChatClient } from "../../../src/index.js";
+import { ChatClient } from "@azure/communication-chat";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
   AzureCommunicationTokenCredential,

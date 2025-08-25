@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { computeSha256Hash, computeSha256Hmac } from "../../src/util/sha256.js";
+import { computeSha256Hash, computeSha256Hmac } from "$internal/util/sha256.js";
 
 describe("SHA-256", function () {
   describe("Hash", function () {

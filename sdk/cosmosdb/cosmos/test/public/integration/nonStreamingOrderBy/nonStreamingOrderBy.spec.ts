@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Container } from "../../../../src/index.js";
-import { CosmosClient } from "../../../../src/index.js";
-import { endpoint } from "../../common/_testConfig.js";
-import { masterKey } from "../../common/_fakeTestSecrets.js";
-import { getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
-import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../../src/index.js";
+import type { Container, IndexingPolicy, VectorEmbeddingPolicy } from "@azure/cosmos";
 import {
+  CosmosClient,
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
-} from "../../../../src/documents/index.js";
+} from "@azure/cosmos";
+import { endpoint } from "../../common/_testConfig.js";
+import { masterKey } from "../../common/_fakeTestSecrets.js";
+import { getTestContainer, removeAllDatabases } from "../../common/TestHelpers.js";
 import { describe, it, assert, beforeAll, afterAll } from "vitest";
 
 describe("Test nonStreaming Queries", { timeout: 30000 }, () => {

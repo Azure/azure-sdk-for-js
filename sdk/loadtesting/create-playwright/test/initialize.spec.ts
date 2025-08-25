@@ -3,16 +3,16 @@
 
 import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
 import fs from "node:fs";
-import { PlaywrightServiceInitialize } from "../src/initialize.js";
+import { PlaywrightServiceInitialize } from "$internal/initialize.js";
 
-vi.mock("../src/utils.js", (imported) => {
+vi.mock("$internal/utils.js", (imported) => {
   return {
     ...imported,
     executeCommand: vi.fn(),
   };
 });
 
-import * as utils from "../src/utils.js";
+import * as utils from "$internal/utils.js";
 
 describe("PlaywrightServiceInitialize", () => {
   const npmConfigUserAgentInitialValue: string | undefined = process.env["npm_config_user_agent"];

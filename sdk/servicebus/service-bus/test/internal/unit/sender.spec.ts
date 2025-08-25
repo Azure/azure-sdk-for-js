@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
-import type { ConnectionContext } from "../../../src/connectionContext.js";
-import type { ServiceBusMessage } from "../../../src/index.js";
-import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../../src/sender.js";
+import { ServiceBusMessageBatchImpl } from "$internal/serviceBusMessageBatch.js";
+import type { ConnectionContext } from "$internal/connectionContext.js";
+import type { ServiceBusMessage } from "@azure/service-bus";
+import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "$internal/sender.js";
 import { createConnectionContextForTests } from "./unittestUtils.js";
 import {
   errorInvalidMessageTypeSingleOrArray,
   errorInvalidMessageTypeSingle,
   PartitionKeySessionIdMismatchError,
-} from "../../../src/util/errors.js";
+} from "$internal/util/errors.js";
 import { describe, it } from "vitest";
 import { assert } from "../../public/utils/chai.js";
 

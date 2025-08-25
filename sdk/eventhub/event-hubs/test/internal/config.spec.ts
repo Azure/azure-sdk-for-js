@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventHubConnectionConfig } from "../../src/eventhubConnectionConfig.js";
+import { EventHubConnectionConfig } from "$internal/eventhubConnectionConfig.js";
 import { describe, it } from "vitest";
 import { should, expect } from "../utils/chai.js";
-import { EventHubConsumerClient } from "../../src/eventHubConsumerClient.js";
+import { EventHubConsumerClient } from "@azure/event-hubs";
 
 const expectedHost = "hostname.servicebus.windows.net";
 const expectedSharedAccessKeyName = "sakName";

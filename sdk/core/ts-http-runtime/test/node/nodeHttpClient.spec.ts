@@ -4,7 +4,7 @@
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "node:stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { createPipelineRequest } from "../../src/index.js";
+import { createPipelineRequest } from "@typespec/ts-http-runtime";
 
 vi.mock("node:https", async () => {
   const actual = await vi.importActual("node:https");
@@ -28,7 +28,7 @@ vi.mock("node:http", async () => {
 
 import https from "node:https";
 import http from "node:http";
-import { createDefaultHttpClient } from "../../src/defaultHttpClient.js";
+import { createDefaultHttpClient } from "@typespec/ts-http-runtime";
 
 function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => {

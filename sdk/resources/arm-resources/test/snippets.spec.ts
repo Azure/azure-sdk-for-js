@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ResourceManagementClient } from "../src/index.js";
+import { ResourceManagementClient } from "@azure/arm-resources";
 import {
   DefaultAzureCredential,
   InteractiveBrowserCredential,

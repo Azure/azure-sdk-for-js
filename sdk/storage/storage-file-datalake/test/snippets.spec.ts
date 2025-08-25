@@ -9,7 +9,7 @@ import {
   generateDataLakeSASQueryParameters,
   SASProtocol,
   StorageSharedKeyCredential,
-} from "../src/index.js";
+} from "@azure/storage-file-datalake";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {

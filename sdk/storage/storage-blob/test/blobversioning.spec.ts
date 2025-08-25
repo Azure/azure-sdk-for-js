@@ -17,9 +17,9 @@ import type {
   BlobClient,
   BlockBlobClient,
   BlockBlobUploadResponse,
-} from "../src/index.js";
-import { BlobBatch } from "../src/index.js";
-import { setURLParameter } from "../src/utils/utils.common.js";
+} from "@azure/storage-blob";
+import { BlobBatch } from "@azure/storage-blob";
+import { setURLParameter } from "$internal/utils/utils.common.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Blob versioning", () => {

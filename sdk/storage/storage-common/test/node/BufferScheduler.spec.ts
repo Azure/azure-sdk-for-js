@@ -3,7 +3,7 @@
 
 import { describe, it, assert } from "vitest";
 import { PassThrough } from "node:stream";
-import { BufferScheduler } from "../../src/BufferScheduler.js";
+import { BufferScheduler } from "@azure/storage-common";
 
 describe("BufferScheduler", () => {
   it("handles a small amount of data", async () => {

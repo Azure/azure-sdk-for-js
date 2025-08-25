@@ -4,7 +4,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "url";
-import { packageJsonInfo } from "../../../src/util/constants.js";
+import { packageJsonInfo } from "$internal/util/constants.js";
 import { describe, it } from "vitest";
 import { should } from "../../public/utils/chai.js";
 

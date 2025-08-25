@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
-
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
-import type { SecretClient } from "../../src/index.js";
+import type { SecretClient } from "@azure/keyvault-secrets";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";

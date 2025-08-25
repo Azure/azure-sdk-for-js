@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import "./env.js";
-import type { ManagedPrivateEndpointsClientOptionalParams } from "../../../src/index.js";
-import { ManagedPrivateEndpointsClient } from "../../../src/index.js";
+import type { ManagedPrivateEndpointsClientOptionalParams } from "@azure/synapse-managed-private-endpoints";
+import { ManagedPrivateEndpointsClient } from "@azure/synapse-managed-private-endpoints";
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 

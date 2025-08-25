@@ -14,13 +14,13 @@ import type {
   ListPoolsParameters,
   ReplacePoolPropertiesParameters,
   ResizePoolParameters,
-} from "../src/index.js";
+} from "@azure-rest/batch";
 import {
   isUnexpected,
   paginate,
   type GetPool200Response,
   type BatchPoolNodeCountsOutput,
-} from "../src/index.js";
+} from "@azure-rest/batch";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { wait } from "./utils/wait.js";
 import { getResourceName, POLLING_INTERVAL, waitForNotNull } from "./utils/helpers.js";

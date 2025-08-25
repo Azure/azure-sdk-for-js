@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { wrapAbortSignalLikePolicy } from "../src/policies/wrapAbortSignalLikePolicy.js";
-import { createPipelineRequest } from "../src/pipelineRequest.js";
+import { wrapAbortSignalLikePolicy } from "$internal/policies/wrapAbortSignalLikePolicy.js";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
 describe("wrapAbortSignalLikePolicy", () => {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PurviewAccount, PurviewMetadataPolicies } from "../src/index.js";
+import { PurviewAccount, PurviewMetadataPolicies } from "@azure-rest/purview-administration";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

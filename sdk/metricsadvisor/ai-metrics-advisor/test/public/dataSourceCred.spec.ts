@@ -10,7 +10,7 @@ import type {
   DataSourceSqlConnectionString,
   DataSourceSqlServerConnectionStringPatch,
   MetricsAdvisorAdministrationClient,
-} from "../../src/index.js";
+} from "@azure/ai-metrics-advisor";
 import {
   createRecordedAdminClient,
   getRecorderUniqueVariable,

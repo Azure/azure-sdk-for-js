@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { resourceFromAttributes } from "@opentelemetry/resources";
-import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "../src";
+import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import {
   Context,

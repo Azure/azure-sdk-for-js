@@ -5,15 +5,15 @@ import type {
   ProcessErrorArgs,
   ServiceBusReceiver,
   ServiceBusSender,
-} from "../../src/index.js";
-import { delay } from "../../src/index.js";
-import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../../src/util/errors.js";
+} from "@azure/service-bus";
+import { delay } from "@azure/service-bus";
+import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "$internal/util/errors.js";
 import { TestMessage, checkWithTimeout } from "../public/utils/testUtils.js";
-import { DispositionType } from "../../src/serviceBusMessage.js";
+import { DispositionType } from "$internal/serviceBusMessage.js";
 import type {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
-} from "../../src/receivers/sessionReceiver.js";
+} from "$internal/receivers/sessionReceiver.js";
 import type {
   EntityName,
   ServiceBusClientForTests,

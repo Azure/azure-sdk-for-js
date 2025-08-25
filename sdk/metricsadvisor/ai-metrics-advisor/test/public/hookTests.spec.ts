@@ -6,7 +6,7 @@ import type {
   MetricsAdvisorAdministrationClient,
   WebNotificationHook,
   WebNotificationHookPatch,
-} from "../../src/index.js";
+} from "@azure/ai-metrics-advisor";
 import {
   createRecordedAdminClient,
   getRecorderUniqueVariable,

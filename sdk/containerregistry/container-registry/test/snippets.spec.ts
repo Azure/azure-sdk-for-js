@@ -7,7 +7,7 @@ import {
   KnownContainerRegistryAudience,
   KnownManifestMediaType,
   OciImageManifest,
-} from "../src/index.js";
+} from "@azure/container-registry";
 import { AzureAuthorityHosts, DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";

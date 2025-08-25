@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as msalClient from "$internal/msal/nodeFlows/msalClient.js";
-
 import type { AuthenticationResult } from "@azure/msal-node";
 import {
   ClientApplication,
@@ -13,9 +12,8 @@ import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
-
 import { AbortError } from "@azure/abort-controller";
-import { AuthenticationRequiredError } from "$internal/errors.js";
+import { AuthenticationRequiredError } from "@azure/identity";
 import { DeveloperSignOnClientId } from "$internal/constants.js";
 import { IdentityClient } from "$internal/client/identityClient.js";
 import { credentialLogger } from "$internal/util/logging.js";

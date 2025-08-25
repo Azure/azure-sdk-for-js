@@ -6,7 +6,7 @@ import type {
   DataLakeFileClient,
   DataLakeDirectoryClient,
   DataLakeFileSystemClient,
-} from "../src/index.js";
+} from "@azure/storage-file-datalake";
 import {
   getDataLakeServiceClient,
   getUniqueName,

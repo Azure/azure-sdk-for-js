@@ -11,15 +11,15 @@ import type {
   SearchIndexClient,
   SelectArray,
   SelectFields,
-} from "../../../src/index.js";
+} from "@azure/search-documents";
 import {
   AzureKeyCredential,
   IndexDocumentsBatch,
   KnownQueryLanguage,
   KnownQuerySpeller,
   SearchClient,
-} from "../../../src/index.js";
-import { defaultServiceVersion } from "../../../src/serviceUtils.js";
+} from "@azure/search-documents";
+import { defaultServiceVersion } from "$internal/serviceUtils.js";
 import type { Hotel } from "../utils/interfaces.js";
 import { createClients } from "../utils/recordedClient.js";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup.js";

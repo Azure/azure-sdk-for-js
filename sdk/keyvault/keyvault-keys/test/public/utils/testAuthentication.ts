@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyClient } from "../../../src/index.js";
+import { KeyClient } from "@azure/keyvault-keys";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
 import { uniqueString } from "./recorderUtils.js";

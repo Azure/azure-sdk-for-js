@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DigitalTwinsClient } from "../../src/index.js";
+import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import type { TestInfo } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { removeAllDatabases, getTestContainer, testForDiagnostics } from "../common/TestHelpers.js";
-import { getCurrentTimestampInMs } from "../../../src/utils/time.js";
+import { getCurrentTimestampInMs } from "$internal/utils/time.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
 describe("Conflicts", { timeout: 10000 }, () => {

@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CosmosClient } from "../../../src/index.js";
+import { CosmosClient, PluginOn } from "@azure/cosmos";
 import { masterKey } from "../common/_fakeTestSecrets.js";
-import type { PluginConfig, CosmosClientOptions } from "../../../src/index.js";
-import { PluginOn } from "../../../src/index.js";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
+import type { PluginConfig, CosmosClientOptions } from "@azure/cosmos";
+import { getEmptyCosmosDiagnostics } from "$internal/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 
 const endpoint = "https://failovertest.documents.azure.com/";

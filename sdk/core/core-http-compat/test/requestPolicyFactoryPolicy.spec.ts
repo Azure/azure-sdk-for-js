@@ -8,7 +8,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { createRequestPolicyFactoryPolicy } from "../src/policies/requestPolicyFactoryPolicy.js";
+import { createRequestPolicyFactoryPolicy } from "@azure/core-http-compat";
 import { mutateRequestPolicy, mutateResponsePolicy } from "./mutatePolicies.js";
 import { cloneRequestPolicy } from "./cloneRequestPolicy.js";
 

@@ -3,7 +3,7 @@
 
 import { createServiceBusClientForTests } from "./utils/testutils2.js";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
-import type { ServiceBusReceivedMessage, ServiceBusReceiver } from "../../src/index.js";
+import type { ServiceBusReceivedMessage, ServiceBusReceiver } from "@azure/service-bus";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { should } from "./utils/chai.js";
 

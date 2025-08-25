@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy.js";
-import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy.js";
-import type { PartitionOwnership } from "../../src/index.js";
-import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy.js";
+import { BalancedLoadBalancingStrategy } from "$internal/loadBalancerStrategies/balancedStrategy.js";
+import { GreedyLoadBalancingStrategy } from "$internal/loadBalancerStrategies/greedyStrategy.js";
+import type { PartitionOwnership } from "@azure/event-hubs";
+import { UnbalancedLoadBalancingStrategy } from "$internal/loadBalancerStrategies/unbalancedStrategy.js";
 import { should } from "../utils/chai.js";
 import { describe, it } from "vitest";
 

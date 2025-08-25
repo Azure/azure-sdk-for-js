@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubBufferedProducerClient } from "../../src/index.js";
+import type { EventHubBufferedProducerClient } from "@azure/event-hubs";
 import { createBufferedProducer } from "../utils/clients.js";
 import { describe, it, afterEach, vi, beforeEach, beforeAll, afterAll } from "vitest";
 import { assert, expect } from "../utils/chai.js";

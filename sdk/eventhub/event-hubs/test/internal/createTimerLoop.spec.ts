@@ -3,7 +3,7 @@
 
 import { describe, it, vi, beforeAll, afterAll } from "vitest";
 import { assert } from "../utils/chai.js";
-import { createTimerLoop } from "../../src/util/timerLoop.js";
+import { createTimerLoop } from "$internal/util/timerLoop.js";
 
 describe("createTimerLoop", () => {
   beforeAll(async () => {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createSseStream, NodeJSReadableStream } from "../../../src/index.js";
+import { createSseStream, NodeJSReadableStream } from "@azure/core-sse";
 import { type Client, getClient } from "@azure-rest/core-client";
 import { assert, beforeAll, beforeEach, afterEach, describe, it } from "vitest";
 import { port } from "../../server/config.mjs";

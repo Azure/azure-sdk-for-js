@@ -8,8 +8,8 @@ import type {
   EventPosition,
   ReceivedEventData,
   SendBatchOptions,
-} from "../../src/index.js";
-import type { EventDataBatchImpl } from "../../src/eventDataBatch.js";
+} from "@azure/event-hubs";
+import type { EventDataBatchImpl } from "$internal/eventDataBatch.js";
 import { expect, should } from "../utils/chai.js";
 import { SubscriptionHandlerForTests } from "../utils/subscriptionHandlerForTests.js";
 import { getStartingPositionsForTests } from "../utils/testUtils.js";
