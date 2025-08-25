@@ -678,11 +678,7 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
   });
   it("Request-level excludedLocations for DeleteAllItemsForPartitionKey", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
-    const responses = [
-      databaseAccountResponse,
-      SuccessReadResponse,
-      SuccessReadResponse,
-    ];
+    const responses = [databaseAccountResponse, SuccessReadResponse, SuccessReadResponse];
     const plugins = getPlugins(responses, endpointTracker);
     const client = new CosmosClient({ ...options, plugins } as any);
     const writeEndpoint = await client.getWriteEndpoint();
