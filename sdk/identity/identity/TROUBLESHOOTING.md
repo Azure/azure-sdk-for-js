@@ -468,6 +468,7 @@ Broker authentication is used by `DefaultAzureCredential` to enable secure sign-
 > [!NOTE] 
 > Brokered authentication is currently only supported on Windows and macOS. Linux is not yet supported.
 > macOS support requires `@azure/identity-broker` version 1.3.0 and higher.
+> Linux is not yet supported.
 
 ### Unable to log in with Microsoft account (MSA) on Windows
 
