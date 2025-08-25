@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-mariadb": ["./src/index.ts"],
+      "@azure/arm-mariadb/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

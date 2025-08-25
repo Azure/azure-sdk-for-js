@@ -61,7 +61,6 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped for now, follow https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template-dpg/package.json once the tests are fixed",
     "test:node": "echo skipped for now, follow https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template-dpg/package.json once the tests are fixed",
-    "test:node:esm": "dev-tool run test:vitest --esm",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,

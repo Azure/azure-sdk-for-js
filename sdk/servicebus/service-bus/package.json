@@ -44,7 +44,6 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
-    "test:node:esm": "dev-tool run test:vitest --esm --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,

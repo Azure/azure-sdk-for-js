@@ -65,12 +65,11 @@
     "execute:samples": "echo skipped",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "test": "npm run test:node && npm run test:browser",
-    "test:node": "dev-tool run test:vitest",
+    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest",
     "test:browser": "echo skipped",
     "update-snippets": "dev-tool run update-snippets",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "test:node:esm": "dev-tool run test:vitest --esm"
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser"
   },
   "sideEffects": false,
   "//metadata": {

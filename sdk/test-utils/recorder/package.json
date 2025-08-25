@@ -21,7 +21,6 @@
     "test:browser:proxy": "dev-tool run test:vitest --browser",
     "test:node": "concurrently \"npm run tests:server\" \"npm run test:node:proxy\" --kill-others --success first",
     "test:node:proxy": "dev-tool run test:vitest",
-    "test:node:esm": "echo skipped",
     "tests:server": "node server.mjs",
     "update-snippets": "dev-tool run update-snippets"
   },

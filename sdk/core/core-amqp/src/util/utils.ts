@@ -241,10 +241,10 @@ export function executePromisesSequentially(
  * @returns boolean.
  */
 export function isIotHubConnectionString(connectionString: string): boolean {
-  connectionString = String(connectionString);
+  const cs = String(connectionString);
 
   let result: boolean = false;
-  const model: any = parseConnectionString<any>(connectionString);
+  const model: any = parseConnectionString<any>(cs);
   if (model && model.HostName && model.SharedAccessKey && model.SharedAccessKeyName) {
     result = true;
   }
@@ -263,4 +263,18 @@ export function isString(s: unknown): s is string {
  */
 export function isNumber(n: unknown): n is number {
   return typeof n === "number";
+}
+
+/**
+ * @internal
+ * Safely read a property from the global object by key.
+ * Returns undefined if the property or global object is unavailable.
+ */
+export function getGlobalProperty<T = any>(key: string): T | undefined {
+  try {
+    const g: any = globalThis as any;
+    return g?.[key] as T | undefined;
+  } catch {
+    return undefined;
+  }
 }

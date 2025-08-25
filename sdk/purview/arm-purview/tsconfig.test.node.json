@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-purview": ["./src/index.ts"],
+      "@azure/arm-purview/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

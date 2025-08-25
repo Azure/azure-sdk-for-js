@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/microsoft-playwright-testing": ["./src/index.ts"],
+      "@azure/microsoft-playwright-testing/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

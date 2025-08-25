@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-monitor-profile-2020-09-01-hybrid": ["./src/index.ts"],
+      "@azure/arm-monitor-profile-2020-09-01-hybrid/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

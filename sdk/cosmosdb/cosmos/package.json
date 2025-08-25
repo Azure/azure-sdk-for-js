@@ -52,7 +52,6 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "npm run test:node:unit",
-    "test:node:esm": "dev-tool run test:vitest --esm",
     "test:node:integration": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.int.config.ts",
     "test:node:unit": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
     "update-snippets": "dev-tool run update-snippets"

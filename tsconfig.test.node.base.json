@@ -1,0 +1,19 @@
+{
+  "extends": ["./tsconfig.json", "./tsconfig.nonlib.json"],
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "paths": {
+      "$internal/*": ["./src/*"]
+    },
+    "lib": ["ESNext"],
+    "resolveJsonModule": true
+  },
+  "include": ["${configDir}/test", "${configDir}/src"],
+  "exclude": [
+    "${configDir}/**/*-browser.mts",
+    "${configDir}/**/*-react-native.mts",
+    "${configDir}/test/stress",
+    "${configDir}/test/snippets.spec.ts",
+    "${configDir}/test/**/browser"
+  ]
+}

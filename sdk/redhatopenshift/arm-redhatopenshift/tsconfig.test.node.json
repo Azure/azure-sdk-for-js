@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-redhatopenshift": ["./src/index.ts"],
+      "@azure/arm-redhatopenshift/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

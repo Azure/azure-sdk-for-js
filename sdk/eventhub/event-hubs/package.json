@@ -47,8 +47,7 @@
     "test:browser": "echo skipped",
     "test:browser:live": "dev-tool run build-package && dev-tool run build-test && dev-tool run vendored cross-env TEST_MODE=live dev-tool run test:vitest --browser --no-test-proxy",
     "test:node": "npm run generate-certs && dev-tool run vendored cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" AZURE_LOG_LEVEL=\"info\" npm run vitest:node",
-    "test:node:esm": "echo skipped",
-    "test:node:live": "dev-tool run build-package && dev-tool run vendored cross-env TEST_MODE=live npm run vitest:node --esm",
+    "test:node:live": "dev-tool run build-package && dev-tool run vendored cross-env TEST_MODE=live npm run vitest:node",
     "update-snippets": "dev-tool run update-snippets",
     "vitest:node": "dev-tool run test:vitest --no-test-proxy"
   },

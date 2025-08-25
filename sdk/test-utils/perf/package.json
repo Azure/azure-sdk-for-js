@@ -25,7 +25,6 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "npm run build && tsc --project tsconfig.tests.config.json && node dist-test/runAllTests.js",
-    "test:node:esm": "echo skipped",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
