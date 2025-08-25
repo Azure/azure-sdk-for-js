@@ -91,7 +91,7 @@ export type PlaywrightServiceAdditionalOptions = {
    *
    * @defaultValue `30000`
    */
-  timeout?: number;
+  connectTimeout?: number;
 
   /**
    * @public

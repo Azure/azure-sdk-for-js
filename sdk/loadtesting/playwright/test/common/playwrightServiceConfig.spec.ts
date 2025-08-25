@@ -28,7 +28,7 @@ describe("PlaywrightServiceConfig", () => {
     );
     expect(playwrightServiceConfig.runName).to.equal("");
     expect(playwrightServiceConfig.runId).to.equal("");
-    expect(playwrightServiceConfig.timeout).to.equal(
+    expect(playwrightServiceConfig.connectTimeout).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_TIMEOUT,
     );
     expect(playwrightServiceConfig.apiVersion).to.equal(Constants.LatestAPIVersion);
@@ -69,7 +69,7 @@ describe("PlaywrightServiceConfig", () => {
       runId: "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
       runName: "runName",
       slowMo: 100,
-      timeout: 200,
+      connectTimeout: 200,
       exposeNetwork: "localhost",
       apiVersion: "sample" as "2025-07-01-preview",
     });
@@ -78,7 +78,7 @@ describe("PlaywrightServiceConfig", () => {
     expect(playwrightServiceConfig.runId).to.equal("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
     expect(playwrightServiceConfig.runName).to.equal("runName");
     expect(playwrightServiceConfig.slowMo).to.equal(100);
-    expect(playwrightServiceConfig.timeout).to.equal(200);
+    expect(playwrightServiceConfig.connectTimeout).to.equal(200);
     expect(playwrightServiceConfig.exposeNetwork).to.equal("localhost");
     expect(playwrightServiceConfig.apiVersion).to.equal("sample");
     expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(
@@ -102,7 +102,7 @@ describe("PlaywrightServiceConfig", () => {
     );
     expect(playwrightServiceConfig.runId).toBeDefined();
     expect(playwrightServiceConfig.runName).to.equal("");
-    expect(playwrightServiceConfig.timeout).to.equal(
+    expect(playwrightServiceConfig.connectTimeout).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_TIMEOUT,
     );
     expect(playwrightServiceConfig.slowMo).to.equal(DefaultConnectOptionsConstants.DEFAULT_SLOW_MO);

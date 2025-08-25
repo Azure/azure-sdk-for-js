@@ -1,13 +1,12 @@
-# How to authenticate to Azure Playwright service using service access token.
+# How to authenticate to Azure Playwright service using service access token
 
-This guide will walk you through the steps to integrate your Playwright project where you are launching browsers from within the tests with the service. 
+This guide will walk you through the steps to integrate your Playwright project where you are launching browsers from within the tests with the service.
 
 ### Prerequisites
 
 - An Azure account with an active subscription. If you don't have an Azure subscription, [create a free account](https://aka.ms/pww/docs/create-azure-subscription) before you begin.
 - Your Azure account must be assigned the [Owner](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#owner), [Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#contributor), or one of the [classic administrator roles](https://learn.microsoft.com/azure/role-based-access-control/rbac-and-directory-admin-roles#classic-subscription-administrator-roles).
-- [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) must be installed in the machine from where you are running Playwright tests. 
-
+- [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) must be installed in the machine from where you are running Playwright tests.
 
 ### Setup Azure Playwright workspace
 
@@ -40,7 +39,7 @@ The service configuration serves to:
 
     ```javascript
     const {
-        getServiceConfig,
+        createAzurePlaywrightConfig,
         ServiceAuth,
     } = require("@azure/playwright");
     const { defineConfig } = require("@playwright/test");
@@ -48,7 +47,7 @@ The service configuration serves to:
 
     export default defineConfig(
         config,
-        getServiceConfig(config, {
+        createAzurePlaywrightConfig(config, {
             serviceAuthType: ServiceAuth.ACCESS_TOKEN,
         })
     );
@@ -81,6 +80,7 @@ npm i --save-dev dotenv
 ```
 
 `.env` file
+
 ```
 PLAYWRIGHT_SERVICE_ACCESS_TOKEN=eyJh...
 PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/playwrightworkspaces/workspace-id/browsers

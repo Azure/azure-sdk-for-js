@@ -15,10 +15,10 @@ import type {
   EndpointOptions,
   PlaywrightServiceAdditionalOptions,
 } from "./common/types.js";
-import { getServiceConfig, getConnectOptions } from "./core/playwrightService.js";
+import { createAzurePlaywrightConfig, getConnectOptions } from "./core/playwrightService.js";
 
 export {
-  getServiceConfig,
+  createAzurePlaywrightConfig,
   getConnectOptions,
   ServiceOS,
   ServiceAuth,

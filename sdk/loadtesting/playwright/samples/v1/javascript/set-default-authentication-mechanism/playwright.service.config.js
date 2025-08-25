@@ -1,4 +1,4 @@
-const { getServiceConfig, ServiceAuth, ServiceEnvironmentVariable } = require("@azure/playwright");
+const { createAzurePlaywrightConfig, ServiceAuth, ServiceEnvironmentVariable } = require("@azure/playwright");
 const { defineConfig } = require('@playwright/test');
 const config = require("./playwright.config");
 
@@ -6,6 +6,6 @@ const config = require("./playwright.config");
 process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = "Remote Browser URL";
 process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "***Access Token***";
 
-export default defineConfig(config, getServiceConfig(config, {
+export default defineConfig(config, createAzurePlaywrightConfig(config, {
   serviceAuthType: ServiceAuth.ACCESS_TOKEN
 }));
