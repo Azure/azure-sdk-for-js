@@ -29,7 +29,6 @@ import {
   httpSemanticValues,
   legacySemanticValues,
   MaxPropertyLengths,
-  MICROSOFT_CLIENT_IP,
 } from "../types.js";
 import type { Attributes } from "@opentelemetry/api";
 import { diag } from "@opentelemetry/api";
@@ -46,6 +45,7 @@ import {
   ApplicationInsightsMessageName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
+  MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
 
 /**
@@ -160,7 +160,7 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
   }
 
   // Set ai.location.ip from microsoft.client.ip if it exists
-  const microsoftClientIp = log.attributes?.[MICROSOFT_CLIENT_IP];
+  const microsoftClientIp = log.attributes?.[MicrosoftClientIp];
   if (microsoftClientIp) {
     tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
   }

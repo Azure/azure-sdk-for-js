@@ -62,12 +62,12 @@ import {
   internalMicrosoftAttributes,
   legacySemanticValues,
   MaxPropertyLengths,
-  MICROSOFT_CLIENT_IP,
 } from "../types.js";
 import { parseEventHubSpan } from "./eventhub.js";
 import {
   AzureMonitorSampleRate,
   DependencyTypes,
+  MicrosoftClientIp,
   MS_LINKS,
 } from "./constants/applicationinsights.js";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes.js";
@@ -102,7 +102,7 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   }
 
   // Check for microsoft.client.ip first - this takes precedence over all other IP logic
-  const microsoftClientIp = span.attributes[MICROSOFT_CLIENT_IP];
+  const microsoftClientIp = span.attributes[MicrosoftClientIp];
   if (microsoftClientIp) {
     tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
   }
