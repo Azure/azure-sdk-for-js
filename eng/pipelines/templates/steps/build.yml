@@ -58,13 +58,9 @@ steps:
     displayName: "Install library dependencies"
 
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
-      - task: AzureCLI@2
-        inputs:
-          azureSubscription: "Azure SDK Artifacts"
-          scriptType: "bash"
-          scriptLocation: "inlineScript"
-          inlineScript: |
-            echo "##vso[task.setvariable variable=TURBO_CACHE;]local:,remote:w"
+      - pwsh: |
+          echo "##vso[task.setvariable variable=TURBO_CACHE;]local:,remote:w"
+        displayName: "Set Turborepo Cache remote write only"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
