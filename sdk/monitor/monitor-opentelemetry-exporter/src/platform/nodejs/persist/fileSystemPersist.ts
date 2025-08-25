@@ -10,7 +10,7 @@ import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers.j
 import type { AzureMonitorExporterOptions } from "../../../config.js";
 import { readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import type { CustomerSDKStatsMetrics } from "../../../export/statsbeat/customerSDKStats.js";
-import { DropCode } from "../../../export/statsbeat/types.js";
+import { DropCode, ExceptionType } from "../../../export/statsbeat/types.js";
 import type { TelemetryItem as Envelope } from "../../../generated/index.js";
 
 /**
@@ -196,6 +196,7 @@ export class FileSystemPersist implements PersistentStorage {
         envelopes,
         DropCode.CLIENT_EXCEPTION,
         writeError?.message,
+        ExceptionType.STORAGE_EXCEPTION,
       );
       diag.warn(`Error writing file to persistent file storage`, writeError);
       return false;
