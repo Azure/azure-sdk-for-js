@@ -65,9 +65,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
     if (this.continuationTokenManager && orderByItemsArray.length > 0) {
       this.continuationTokenManager.setOrderByItemsArray(orderByItemsArray);
     }
-
-    // Preserve the response structure with buffer and partitionKeyRangeMap
-    // The continuation token manager now handles the orderByItemsArray internally
+    
     return {
       result: buffer,
       headers: response.headers,

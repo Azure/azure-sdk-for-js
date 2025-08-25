@@ -42,10 +42,7 @@ export class ParallelQueryExecutionContext
       // Buffer document producers and fill buffer from the queue
       await this.bufferDocumentProducers(diagnosticNode);
       await this.fillBufferFromBufferQueue();
-
       // Drain buffered items
-      // TODO: remove it, but idea is create some kind of seperations in the buffer such that it will be easier to identify
-      // which items belong to which partition, maybe an map of partiion id to data can be returned along with contiuation data
       return this.drainBufferedItems();
     } catch (error) {
       // Handle any errors that occur during fetching

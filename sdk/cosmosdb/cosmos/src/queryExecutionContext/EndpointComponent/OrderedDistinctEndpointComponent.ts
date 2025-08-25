@@ -18,6 +18,9 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
   ) {
     // Get the continuation token manager from options if available
     this.continuationTokenManager = (options as any)?.continuationTokenManager;
+
+    // Initialize hashedLastResult from continuation token if available
+    this.hashedLastResult = this.continuationTokenManager?.getHashedLastResult();
   }
 
   public hasMoreResults(): boolean {
@@ -27,16 +30,12 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
   public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<Response<any>> {
     const buffer: any[] = [];
     const response = await this.executionContext.fetchMore(diagnosticNode);
-    if (
-      response === undefined ||
-      response.result === undefined ||
-      response.result.buffer === undefined
-    ) {
+    if (!response || !response.result ) {
       return { result: undefined, headers: response.headers };
     }
 
     // Process each item and maintain hashedLastResult for distinct filtering
-    for (const item of response.result.buffer) {
+    for (const item of response.result) {
       if (item) {
         const hashedResult = await hashObject(item);
         if (hashedResult !== this.hashedLastResult) {
@@ -45,21 +44,18 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
         }
       }
     }
-    // TODO: convert this method to void 
-    // let updatedPartitionKeyRangeMap = response.result.partitionKeyRangeMap;
 
-    // // Use continuation token manager to process distinct query logic and update partition key range map
-    // if (this.continuationTokenManager && response.result.partitionKeyRangeMap) {
-    //   updatedPartitionKeyRangeMap = await this.continuationTokenManager.processDistinctQueryAndUpdateRangeMap(
-    //     response.result.partitionKeyRangeMap,
-    //     response.result.buffer,
-    //     hashObject
-    //   );
-    // }
+    // Use continuation token manager to process distinct query logic and update partition key range map
+    if (this.continuationTokenManager) {
+      await this.continuationTokenManager.processDistinctQueryAndUpdateRangeMap(
+        response.result,
+        hashObject
+      );
+    }
 
-    return { 
-      result:  buffer,
-      headers: response.headers 
+    return {
+      result: buffer,
+      headers: response.headers
     };
   }
 

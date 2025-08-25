@@ -153,7 +153,7 @@ export class ContinuationTokenManager {
    * @returns Hashed last result or undefined
    */
   public getHashedLastResult(): string | undefined {
-    return this.orderByQueryContinuationToken?.hashedLastResult;
+    return this.orderByQueryContinuationToken?.hashedLastResult || undefined;
   }
 
   /**
@@ -812,66 +812,44 @@ export class ContinuationTokenManager {
    * This method handles the complex logic of tracking the last hash value for each partition range
    * in distinct queries, essential for proper continuation token generation.
    * 
-   * @param partitionKeyRangeMap - Original partition key range map from execution context
    * @param originalBuffer - Original buffer from execution context before distinct filtering
    * @param hashObject - Hash function to compute hash of items
-   * @returns Updated partition key range map with hashedLastResult for each range
    */
   public async processDistinctQueryAndUpdateRangeMap(
-    partitionKeyRangeMap: Map<string, any>,
     originalBuffer: any[],
     hashObject: (item: any) => Promise<string>
-  ): Promise<Map<string, any>> {
-    if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0) {
-      return partitionKeyRangeMap;
+  ): Promise<void> {
+    if (!this.partitionKeyRangeMap || this.partitionKeyRangeMap.size === 0) {
+      return;
     }
 
-    const updatedPartitionKeyRangeMap = new Map<string, any>();
-    
     // Update partition key range map with hashedLastResult for each range
     let bufferIndex = 0;
-    for (const [rangeId, rangeMapping] of partitionKeyRangeMap) {
+    for (const [rangeId, rangeMapping] of this.partitionKeyRangeMap) {
       const { itemCount } = rangeMapping;
       
       // Find the last document in this partition range that made it to the final buffer
       let lastHashForThisRange: string | undefined;
       
       if (itemCount > 0 && bufferIndex < originalBuffer.length) {
-        // Process items from this range in the original buffer
+        // Calculate the index of the last item from this range
         const rangeEndIndex = Math.min(bufferIndex + itemCount, originalBuffer.length);
+        const lastItemIndex = rangeEndIndex - 1;
         
-        // Find the last item from this range in the original buffer
-        for (let i = bufferIndex; i < rangeEndIndex; i++) {
-          const item = originalBuffer[i];
-          if (item) {
-            lastHashForThisRange = await hashObject(item);
-          }
+        // Get the hash of the last item from this range
+        const lastItem = originalBuffer[lastItemIndex];
+        if (lastItem) {
+          lastHashForThisRange = await hashObject(lastItem);
         }
-        
         // Move buffer index to start of next range
         bufferIndex = rangeEndIndex;
       }
-
-      // Update the range mapping with the hashed last result
-      updatedPartitionKeyRangeMap.set(rangeId, {
+      // Update the range mapping directly in the instance's partition key range map
+      const updatedMapping = {
         ...rangeMapping,
-        hashedLastResult: lastHashForThisRange || rangeMapping.hashedLastResult,
-      });
+        hashedLastResult: lastHashForThisRange,
+      };
+      this.partitionKeyRangeMap.set(rangeId, updatedMapping);
     }
-
-    
-
-    // Also update the hashed last result in the continuation token for ORDER BY distinct queries
-    if (this.isOrderByQuery && updatedPartitionKeyRangeMap.size > 0) {
-      // For ORDER BY distinct queries, use the overall last hash value
-      const lastRangeMapping = Array.from(updatedPartitionKeyRangeMap.values()).pop();
-      if (lastRangeMapping?.hashedLastResult) {
-        this.updateHashedLastResult(lastRangeMapping.hashedLastResult);
-      }
-    }
-
-    // Update the internal partition key range map with the processed mappings
-    this.resetInitializePartitionKeyRangeMap(updatedPartitionKeyRangeMap);
-    return updatedPartitionKeyRangeMap;
   }
 }
