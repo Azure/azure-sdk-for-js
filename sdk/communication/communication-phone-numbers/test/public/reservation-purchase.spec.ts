@@ -56,7 +56,7 @@ matrix([[true, false]], async (useAad) => {
 
         const reservationResponse = await client.createOrUpdateReservation(
           {
-            reservationId: getReservationId(),
+            reservationId: reservationId,
           },
           {
             add: phoneNumbersList,
