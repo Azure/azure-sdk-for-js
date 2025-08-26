@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-chaos": ["./src/index.ts"],
+      "@azure/arm-chaos/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -411,7 +411,7 @@ describe("Service Utils", () => {
     const tokenMock = "test";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
     const entraIdAccessToken = {
-      token: "",
+      token: "existing-token", // Change to non-empty token to avoid fetchEntraIdAccessToken call
       doesEntraIdAccessTokenNeedRotation: vi.fn().mockReturnValue(false),
       fetchEntraIdAccessToken: vi.fn(),
     } as any as EntraIdAccessToken;
@@ -419,7 +419,7 @@ describe("Service Utils", () => {
     vi.mocked(createEntraIdAccessToken).mockReturnValue(entraIdAccessToken);
 
     const token = await fetchOrValidateAccessToken();
-    expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation).not.toHaveBeenCalled();
+    expect(entraIdAccessToken.doesEntraIdAccessTokenNeedRotation).toHaveBeenCalled();
     expect(entraIdAccessToken.fetchEntraIdAccessToken).not.toHaveBeenCalled();
 
     expect(token).to.equal(tokenMock);

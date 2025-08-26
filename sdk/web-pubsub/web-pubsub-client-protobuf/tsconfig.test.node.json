@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/web-pubsub-client-protobuf": ["./src/index.ts"],
+      "@azure/web-pubsub-client-protobuf/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

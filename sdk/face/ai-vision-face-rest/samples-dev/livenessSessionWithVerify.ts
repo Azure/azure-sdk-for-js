@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomUUID } from "node:crypto";
-import { AzureKeyCredential } from "@azure/core-auth";
-import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to create a liveness detection with face verification session.
  *
  * @summary Liveness detection with face verification.
  */
+
+import { randomUUID } from "node:crypto";
+import { AzureKeyCredential } from "@azure/core-auth";
+import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
+import "dotenv/config";
 
 function pressAnyKeyToContinue(): Promise<void> {
   return new Promise<void>((resolve) => {

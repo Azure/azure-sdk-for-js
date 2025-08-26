@@ -1,8 +1,14 @@
 {
-  "extends": ["./tsconfig.src.json", "../../../tsconfig.test.base.json"],
+  "references": [
+    {
+      "path": "./tsconfig.test.node.json"
+    },
+    {
+      "path": "./tsconfig.browser.config.json"
+    }
+  ],
   "compilerOptions": {
-    "lib": ["DOM", "ES2021.Promise"],
-    "resolveJsonModule": true
+    "composite": true
   },
-  "exclude": ["./test/stress"]
+  "files": []
 }

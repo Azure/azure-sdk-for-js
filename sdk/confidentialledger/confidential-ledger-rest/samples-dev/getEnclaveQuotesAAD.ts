@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to list enclave quotes using client AAD Authentication
  *
  * @summary gets a list of all enclave quotes using AAD Authentication
  * @azsdk-weight 30
  */
+
+import "dotenv/config";
+
 import ConfidentialLedger, {
   getLedgerIdentity,
   isUnexpected,

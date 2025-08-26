@@ -55,9 +55,9 @@ to include the following line in the `devDependencies` section:
   // ... your package.json properties
   "devDependencies": {
     // ... your devDependencies
-    "@azure/test-utils-vitest": "^1.0.0",
+    "@azure/test-utils-vitest": "^2.0.0"
     // ... more of your devDependencies
-  },
+  }
   // ... more of your package.json properties
 }
 ```
@@ -69,7 +69,6 @@ pnpm install
 ```
 
 ## Key concepts
-
 
 ### Custom Testing Matrix
 
@@ -93,13 +92,13 @@ Wrap the top level `describe` of a test file to run the suite with the provided 
 matrix(
   [
     [true, false],
-    [1, 2, 3]
+    [1, 2, 3],
   ] as const,
   (enabled: boolean, attempts: number) => {
     describe(`Run with flag ${enabled ? "" : "not "}enabled and ${attempts} attempts`, () => {
       // ...
     });
-  }
+  },
 );
 ```
 

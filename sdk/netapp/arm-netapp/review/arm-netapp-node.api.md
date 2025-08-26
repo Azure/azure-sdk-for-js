@@ -11,6 +11,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type AcceptGrowCapacityPoolForShortTermCloneSplit = string;
+
+// @public
 export interface AccountEncryption {
     identity?: EncryptionIdentity;
     keySource?: KeySource;
@@ -592,6 +595,7 @@ export interface BreakReplicationRequest {
 // @public
 export interface CapacityPool extends TrackedResource {
     coolAccess?: boolean;
+    customThroughputMibps?: number;
     encryptionType?: EncryptionType;
     readonly etag?: string;
     readonly poolId?: string;
@@ -612,6 +616,7 @@ export interface CapacityPoolList {
 // @public
 export interface CapacityPoolPatch {
     coolAccess?: boolean;
+    customThroughputMibps?: number;
     readonly id?: string;
     location?: string;
     readonly name?: string;
@@ -819,6 +824,12 @@ export interface KeyVaultProperties {
 
 // @public
 export type KeyVaultStatus = string;
+
+// @public
+export enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit {
+    Accepted = "Accepted",
+    Declined = "Declined"
+}
 
 // @public
 export enum KnownActiveDirectoryStatus {
@@ -1030,6 +1041,7 @@ export enum KnownSecurityStyle {
 
 // @public
 export enum KnownServiceLevel {
+    Flexible = "Flexible",
     Premium = "Premium",
     Standard = "Standard",
     StandardZRS = "StandardZRS",
@@ -2049,6 +2061,7 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface Volume extends TrackedResource {
+    acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
     readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
     backupId?: string;
@@ -2073,6 +2086,7 @@ export interface Volume extends TrackedResource {
     exportPolicy?: VolumePropertiesExportPolicy;
     readonly fileAccessLogs?: FileAccessLogs;
     readonly fileSystemId?: string;
+    readonly inheritedSizeInBytes?: number;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
     readonly isRestoring?: boolean;
@@ -2200,6 +2214,7 @@ export type VolumeGroupsListByNetAppAccountResponse = VolumeGroupList;
 
 // @public
 export interface VolumeGroupVolumeProperties {
+    acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
     readonly actualThroughputMibps?: number;
     avsDataStore?: AvsDataStore;
     backupId?: string;
@@ -2224,6 +2239,7 @@ export interface VolumeGroupVolumeProperties {
     readonly fileAccessLogs?: FileAccessLogs;
     readonly fileSystemId?: string;
     readonly id?: string;
+    readonly inheritedSizeInBytes?: number;
     isDefaultQuotaEnabled?: boolean;
     isLargeVolume?: boolean;
     readonly isRestoring?: boolean;
@@ -2452,6 +2468,8 @@ export interface Volumes {
     beginRevertAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumeRevert, options?: VolumesRevertOptionalParams): Promise<void>;
     beginRevertRelocation(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRevertRelocationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRevertRelocationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRevertRelocationOptionalParams): Promise<void>;
+    beginSplitCloneFromParent(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesSplitCloneFromParentOptionalParams): Promise<SimplePollerLike<OperationState<VolumesSplitCloneFromParentResponse>, VolumesSplitCloneFromParentResponse>>;
+    beginSplitCloneFromParentAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesSplitCloneFromParentOptionalParams): Promise<VolumesSplitCloneFromParentResponse>;
     beginUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumePatch, options?: VolumesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesUpdateResponse>, VolumesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumePatch, options?: VolumesUpdateOptionalParams): Promise<VolumesUpdateResponse>;
     get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesGetOptionalParams): Promise<VolumesGetResponse>;
@@ -2701,6 +2719,21 @@ export interface VolumesRevertRelocationOptionalParams extends coreClient.Operat
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface VolumesSplitCloneFromParentHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VolumesSplitCloneFromParentOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumesSplitCloneFromParentResponse = Volume;
 
 // @public
 export type VolumeStorageToNetworkProximity = string;

@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Patch the specified volume
  *
  * @summary Patch the specified volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_Update.json
  */
 async function volumesUpdate(): Promise<void> {
   const subscriptionId =

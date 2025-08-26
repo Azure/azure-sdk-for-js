@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlaywrightManagementClient } from "@azure/arm-playwright";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to lists Playwright quota resources for a given subscription ID.
  *
  * @summary lists Playwright quota resources for a given subscription ID.
  * x-ms-original-file: 2025-09-01/PlaywrightQuotas_ListBySubscription.json
  */
+
+import { PlaywrightManagementClient } from "@azure/arm-playwright";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function playwrightQuotasListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

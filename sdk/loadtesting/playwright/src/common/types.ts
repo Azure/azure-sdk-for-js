@@ -114,15 +114,6 @@ export type PlaywrightServiceAdditionalOptions = {
   /**
    * @public
    *
-   * Use cloud hosted browsers.
-   *
-   * @defaultValue `false`
-   */
-  useCloudHostedBrowsers?: boolean;
-
-  /**
-   * @public
-   *
    * Custom token credential for Entra ID authentication. Learn more at {@link https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/using-azure-identity.md | Using Azure Identity}.
    *
    * @defaultValue `DefaultAzureCredential`

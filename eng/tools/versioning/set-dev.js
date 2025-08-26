@@ -81,11 +81,13 @@ function updateDependencySection(repoPackages, dependencySection, buildId, catal
         const parsedPackageVersion = semver.parse(packageVersion);
         const resolvedVersion = resolveFromCatalog(catalogs, {
           alias: depName,
-          pref: depVersionRange,
+          bareSpecifier: depVersionRange,
         });
-        const parsedDepMinVersion = semver.minVersion(resolvedVersion.resolution.specifier);
-        if (semver.eq(parsedDepMinVersion, parsedPackageVersion)) {
-          repoPackages = updatePackageVersion(repoPackages, depName, buildId, catalogs);
+        if (resolvedVersion.type === "found") {
+          const parsedDepMinVersion = semver.minVersion(resolvedVersion.resolution.specifier);
+          if (semver.eq(parsedDepMinVersion, parsedPackageVersion)) {
+            repoPackages = updatePackageVersion(repoPackages, depName, buildId, catalogs);
+          }
         }
       } else {
         const parsedPackageVersion = semver.parse(packageVersion);
@@ -160,10 +162,12 @@ function makeDependencySectionConsistentForPackage(
     } else if (depVersionRange.startsWith("catalog:")) {
       const resolvedVersion = resolveFromCatalog(catalogs, {
         alias: depName,
-        pref: depVersionRange,
+        bareSpecifier: depVersionRange,
       });
-      const parsedDepMinVersion = semver.minVersion(resolvedVersion.resolution.specifier);
-      shouldReplace = semver.eq(parsedDepMinVersion, parsedPackageVersion);
+      if (resolvedVersion.type === "found") {
+        const parsedDepMinVersion = semver.minVersion(resolvedVersion.resolution.specifier);
+        shouldReplace = semver.eq(parsedDepMinVersion, parsedPackageVersion);
+      }
     } else {
       const parsedDepMinVersion = semver.minVersion(depVersionRange);
       shouldReplace = semver.eq(parsedDepMinVersion, parsedPackageVersion);
@@ -260,4 +264,7 @@ async function main(argv) {
   }
 }
 
-main(argv);
+main(argv).catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

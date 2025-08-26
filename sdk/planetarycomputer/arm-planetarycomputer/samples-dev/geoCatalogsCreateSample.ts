@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SpatioClient } from "@azure/arm-planetarycomputer";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a GeoCatalog
  *
  * @summary create a GeoCatalog
  * x-ms-original-file: 2025-02-11-preview/GeoCatalogs_Create.json
  */
+
+import { SpatioClient } from "@azure/arm-planetarycomputer";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function geoCatalogsCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "cd9b6cdf-dcf0-4dca-ab19-82be07b74704";

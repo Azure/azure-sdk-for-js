@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create a volume group along with specified volumes
  *
  * @summary Create a volume group along with specified volumes
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/VolumeGroups_Create_Oracle.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/VolumeGroups_Create_Oracle.json
  */
 async function volumeGroupsCreateOracle(): Promise<void> {
   const subscriptionId =
@@ -456,7 +456,7 @@ async function volumeGroupsCreateOracle(): Promise<void> {
  * This sample demonstrates how to Create a volume group along with specified volumes
  *
  * @summary Create a volume group along with specified volumes
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/VolumeGroups_Create_SapHana.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/VolumeGroups_Create_SapHana.json
  */
 async function volumeGroupsCreateSapHana(): Promise<void> {
   const subscriptionId =
