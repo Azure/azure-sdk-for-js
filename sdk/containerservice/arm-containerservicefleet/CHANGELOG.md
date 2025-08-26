@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.1 (2025-08-04)
+## 2.1.0-beta.1 (2025-08-26)
 Compared with version 2.0.0
 
 ### Features Added
@@ -48,9 +48,6 @@ Compared with version 2.0.0
   - Enum KnownVersions has a new value V20240202Preview
   - Enum KnownVersions has a new value V20240502Preview
   - Enum KnownVersions has a new value V20250401Preview
-
-### Breaking Changes
-  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, any> to any
 
     
 ## 2.0.0 (2025-04-16)

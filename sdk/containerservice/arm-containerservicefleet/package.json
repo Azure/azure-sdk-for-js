@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "3.0.0-beta.1",
+  "version": "2.1.0-beta.1",
   "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
     "node": ">=20.0.0"
