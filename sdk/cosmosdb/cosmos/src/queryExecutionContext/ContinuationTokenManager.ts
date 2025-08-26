@@ -97,12 +97,8 @@ export class ContinuationTokenManager {
     this.orderByItemsArray = orderByItemsArray;
   }
 
-  /**
-   * Updates the offset and limit values in the continuation tokens
-   * @param offset - Current offset value
-   * @param limit - Current limit value
-   */
-  public updateOffsetLimit(offset?: number, limit?: number): void {
+  
+  private updateOffsetLimit(offset?: number, limit?: number): void {
     // For ORDER BY queries, also update the OrderBy continuation token if it exists
     if (this.isOrderByQuery && this.orderByQueryContinuationToken) {
       // Since OrderByQueryContinuationToken properties are readonly, we need to recreate it
@@ -368,9 +364,6 @@ export class ContinuationTokenManager {
       const lastItemIndexOnPage = endIndex - 1;
       if (lastItemIndexOnPage < this.orderByItemsArray.length) {
         lastOrderByItems = this.orderByItemsArray[lastItemIndexOnPage];
-        console.log(
-          `✅ ORDER BY extracted order by items for last item at index ${lastItemIndexOnPage}`,
-        );
       } else {
         throw new Error(
           `ORDER BY processing error: orderByItemsArray length (${this.orderByItemsArray.length}) ` +
@@ -410,24 +403,13 @@ export class ContinuationTokenManager {
       lastOrderByItems,
       documentRid, // Document RID from the last item in the page
       skipCount, // Number of documents with the same RID already processed
-      this.getOffset(), // Current offset value
-      this.getLimit(),  // Current limit value
-      lastRangeBeforePageLimit.hashedLastResult, // hashedLastResult - to be set for distinct queries
     );
 
-
-    // TODO: removeLog ORDER BY specific metrics
-    const orderByMetrics = {
-      queryType: "ORDER BY (Sequential)",
-      totalRangesProcessed: processedRanges.length,
-      finalEndIndex: endIndex,
-      continuationTokenGenerated: !!this.getTokenString(),
-      slidingWindowSize: this.partitionKeyRangeMap.size,
-      bufferUtilization: `${endIndex}/${currentBufferLength}`,
-      pageCompliance: endIndex <= pageSize,
-      sequentialProcessing: "✅ Single-range continuation token",
-      orderByResumeValues: lastOrderByItems ? "✅ Included" : "❌ Not available",
-    };
+    // Update offset/limit and hashed result from the last processed range
+    if (lastRangeBeforePageLimit) {
+      this.updateOffsetLimit(lastRangeBeforePageLimit.offset, lastRangeBeforePageLimit.limit);
+      this.updateHashedLastResult(lastRangeBeforePageLimit.hashedLastResult);
+    }
 
     console.log("=== ORDER BY Query Performance Summary ===", orderByMetrics);
     return { endIndex, processedRanges };
@@ -444,6 +426,7 @@ export class ContinuationTokenManager {
     let endIndex = 0;
     const processedRanges: string[] = [];
     let rangesAggregatedInCurrentToken = 0;
+    let lastPartitionBeforeCutoff: { rangeId: string; mapping: QueryRangeMapping };
 
     for (const [rangeId, value] of this.partitionKeyRangeMap) {
       rangesAggregatedInCurrentToken++;
@@ -468,6 +451,9 @@ export class ContinuationTokenManager {
 
       // Check if this complete range fits within remaining page size capacity
       if (endIndex + itemCount <= pageSize) {
+        // Track this as the last partition before potential cutoff
+        lastPartitionBeforeCutoff = { rangeId, mapping: value };
+        
         // Add or update this range mapping in the continuation token
         this.addOrUpdateRangeMapping(value);
         endIndex += itemCount;
@@ -477,24 +463,12 @@ export class ContinuationTokenManager {
       }
     }
 
-    // TODO: remove it. Log performance metrics
-    const parallelMetrics = {
-      queryType: "Parallel (Multi-Range Aggregation)",
-      totalRangesProcessed: processedRanges.length,
-      rangesAggregatedInCurrentToken: rangesAggregatedInCurrentToken,
-      finalEndIndex: endIndex,
-      continuationTokenGenerated: !!this.getTokenString(),
-      slidingWindowSize: this.partitionKeyRangeMap.size,
-      bufferUtilization: `${endIndex}/${currentBufferLength}`,
-      pageCompliance: endIndex <= pageSize,
-      aggregationEfficiency: `${rangesAggregatedInCurrentToken}/${this.partitionKeyRangeMap.size} ranges per token`,
-      parallelismUtilization:
-        rangesAggregatedInCurrentToken > 1
-          ? "✅ Multi-range aggregation"
-          : "⚠️ Single-range processing",
-    };
-
-    console.log("=== Parallel Query Performance Summary ===", parallelMetrics);
+    // Update offset/limit and hashed result from the last processed range
+    if (lastPartitionBeforeCutoff) {
+      const { mapping } = lastPartitionBeforeCutoff;
+      this.updateOffsetLimit(mapping.offset, mapping.limit);
+      this.updateHashedLastResult(mapping.hashedLastResult);
+    }
 
     return { endIndex, processedRanges };
   }
