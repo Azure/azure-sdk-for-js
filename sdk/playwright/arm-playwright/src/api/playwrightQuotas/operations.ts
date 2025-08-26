@@ -11,14 +11,14 @@ import {
   _playwrightQuotaListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PlaywrightQuotasListBySubscriptionOptionalParams,
-  PlaywrightQuotasGetOptionalParams,
-} from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  PlaywrightQuotasListBySubscriptionOptionalParams,
+  PlaywrightQuotasGetOptionalParams,
+} from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -66,7 +66,7 @@ export async function _listBySubscriptionDeserialize(
   return _playwrightQuotaListResultDeserializer(result.body);
 }
 
-/** List Playwright quota resources for a given subscription Id. */
+/** Lists Playwright quota resources for a given subscription ID. */
 export function listBySubscription(
   context: Client,
   location: string,
@@ -121,7 +121,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pl
   return playwrightQuotaDeserializer(result.body);
 }
 
-/** Get subscription-level location-based Playwright quota resource by name. */
+/** Gets a subscription-level location-based Playwright quota resource by name. */
 export async function get(
   context: Client,
   location: string,
