@@ -20,8 +20,7 @@ Write-Host "Repo root: $RepoRoot"
 
 . $RepoRoot/eng/common/scripts/common.ps1
 
-# $ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
-$ghIssues = @()
+$ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
 # Check and return if an issue already exists to upgrade the package
 function Get-GithubIssue($IssueTitle) {
   foreach ($issue in $ghIssues) {
