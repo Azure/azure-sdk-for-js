@@ -18,6 +18,8 @@ $deprecatedDependency = "Deprecated-Dependency"
 $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
 Write-Host "Repo root: $RepoRoot"
 
+. $RepoRoot/eng/common/scripts/common.ps1
+
 # $ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
 $ghIssues = @()
 # Check and return if an issue already exists to upgrade the package
