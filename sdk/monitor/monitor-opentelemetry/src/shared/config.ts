@@ -78,12 +78,12 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this.metricExportIntervalMillis = this.calculateMetricExportInterval();
     this.instrumentationOptions = {
       http: { enabled: true },
-      azureSdk: { enabled: false },
-      mongoDb: { enabled: false },
-      mySql: { enabled: false },
-      postgreSql: { enabled: false },
-      redis: { enabled: false },
-      redis4: { enabled: false },
+      azureSdk: { enabled: true },
+      mongoDb: { enabled: true },
+      mySql: { enabled: true },
+      postgreSql: { enabled: true },
+      redis: { enabled: true },
+      redis4: { enabled: true },
     };
     this._setDefaultResource();
     this.browserSdkLoaderOptions = {
