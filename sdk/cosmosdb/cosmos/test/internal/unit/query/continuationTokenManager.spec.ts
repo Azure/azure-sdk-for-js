@@ -4,7 +4,8 @@
 import { describe, it, assert, beforeEach, vi, expect } from "vitest";
 import { ContinuationTokenManager } from "../../../../src/queryExecutionContext/ContinuationTokenManager.js";
 import type { QueryRangeMapping } from "../../../../src/queryExecutionContext/QueryRangeMapping.js";
-import { CompositeQueryContinuationToken } from "../../../../src/queryExecutionContext/CompositeQueryContinuationToken.js";
+import type { CompositeQueryContinuationToken } from "../../../../src/queryExecutionContext/CompositeQueryContinuationToken.js";
+import { createCompositeQueryContinuationToken } from "../../../../src/queryExecutionContext/CompositeQueryContinuationToken.js";
 
 describe("ContinuationTokenManager", () => {
   let manager: ContinuationTokenManager;
@@ -60,12 +61,12 @@ describe("ContinuationTokenManager", () => {
     });
 
     it("should parse existing parallel query continuation token", () => {
-      const existingCompositeToken = new CompositeQueryContinuationToken(
+      const existingCompositeToken = createCompositeQueryContinuationToken(
         collectionLink,
         [createMockRangeMapping("00", "AA")],
         undefined,
       );
-      const existingTokenString = existingCompositeToken.toString();
+      const existingTokenString = JSON.stringify(existingCompositeToken);
 
       manager = new ContinuationTokenManager(collectionLink, existingTokenString, false);
 

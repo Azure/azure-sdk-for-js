@@ -6,7 +6,8 @@ import type {
   TargetPartitionRangeStrategy,
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
-import { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
+import type { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
+import { compositeTokenFromString } from "./CompositeQueryContinuationToken.js";
 
 /**
  * Strategy for filtering partition ranges in parallel query execution context
@@ -70,7 +71,7 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
 
     let compositeContinuationToken: CompositeQueryContinuationToken;
     try {
-      compositeContinuationToken = CompositeQueryContinuationToken.fromString(continuationToken);
+      compositeContinuationToken = compositeTokenFromString(continuationToken);
     } catch (error) {
       throw new Error(`Failed to parse composite continuation token: ${error.message}`);
     }

@@ -7,7 +7,8 @@ import type {
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
 import { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
-import { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
+import type { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
+import { compositeTokenFromString } from "./CompositeQueryContinuationToken.js";
 
 /**
  * Strategy for filtering partition ranges in ORDER BY query execution context
@@ -45,7 +46,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
       // Validate the compositeToken structure
       try {
-        const composite = CompositeQueryContinuationToken.fromString(orderByToken.compositeToken);
+        const composite = compositeTokenFromString(orderByToken.compositeToken);
         
         // Additional validation for composite token structure
         if (!composite.rangeMappings || !Array.isArray(composite.rangeMappings)) {
@@ -136,7 +137,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
     if (orderByToken.compositeToken) {
       try {
-        compositeContinuationToken = CompositeQueryContinuationToken.fromString(
+        compositeContinuationToken = compositeTokenFromString(
           orderByToken.compositeToken,
         );
         console.log(
