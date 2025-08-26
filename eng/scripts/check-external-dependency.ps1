@@ -98,3 +98,5 @@ foreach ($update in $availableUpdates.PSObject.Properties) {
 }
 
 Write-Host "Verified and filed issues"
+
+exit 0
