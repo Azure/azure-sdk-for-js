@@ -1,4 +1,8 @@
-import { getServiceConfig, ServiceAuth, ServiceEnvironmentVariable } from "@azure/playwright";
+import {
+  createAzurePlaywrightConfig,
+  ServiceAuth,
+  ServiceEnvironmentVariable,
+} from "@azure/playwright";
 import { defineConfig } from "@playwright/test";
 import config from "./playwright.config.js";
 
@@ -8,7 +12,7 @@ process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "***Ac
 
 export default defineConfig(
   config,
-  getServiceConfig(config, {
+  createAzurePlaywrightConfig(config, {
     serviceAuthType: ServiceAuth.ACCESS_TOKEN,
   }),
 );
