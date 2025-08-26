@@ -136,6 +136,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
 
         if (this.requestContinuation) {
+          if(!this.options.enableQueryControl){
+             throw new Error("Continuation tokens are not yet supported for cross partition queries");
+          }
           // Determine the query type based on the context
           const queryType = this.getQueryType();
           let rangeManager: TargetPartitionRangeManager;
