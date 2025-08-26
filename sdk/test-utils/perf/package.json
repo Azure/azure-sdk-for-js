@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-perf",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "sdk-type": "utility",
   "description": "Performance test framework for the Azure SDK for JavaScript and TypeScript",
   "main": "./dist/commonjs/index.js",

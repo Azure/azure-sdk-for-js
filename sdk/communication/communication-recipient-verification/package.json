@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/communication-recipient-verification",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Test",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -78,7 +78,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/generated/src/RecipientVerificationClient.ts",
+        "path": "src/generated/src/recipientVerificationClient.ts",
         "prefix": "packageDetails"
       },
       {
