@@ -204,7 +204,7 @@ describe("Library/Config", () => {
         },
         samplingRatio: 0.7,
         instrumentationOptions: {
-          redis4: { enabled: true },
+          redis4: { enabled: false },
         },
       };
       env["APPLICATIONINSIGHTS_CONFIGURATION_CONTENT"] = JSON.stringify(jsonOptions);
@@ -232,7 +232,7 @@ describe("Library/Config", () => {
         "Wrong connectionString",
       );
       assert.deepStrictEqual(config.instrumentationOptions.http?.enabled, false, "Wrong http");
-      assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
+      assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, false, "Wrong redis4");
 
       // Default values
       assert.deepStrictEqual(
