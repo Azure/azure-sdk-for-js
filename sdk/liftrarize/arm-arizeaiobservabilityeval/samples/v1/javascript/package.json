@@ -28,6 +28,6 @@
   "dependencies": {
     "@azure/arm-arizeaiobservabilityeval": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.9.1"
+    "@azure/identity": "^4.9.0"
   }
 }
