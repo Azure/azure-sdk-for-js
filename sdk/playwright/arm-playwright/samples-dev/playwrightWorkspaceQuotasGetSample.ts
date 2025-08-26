@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to get Playwright workspace quota resource by name.
+ * This sample demonstrates how to gets a Playwright workspace quota resource by name.
  *
- * @summary get Playwright workspace quota resource by name.
- * x-ms-original-file: 2025-07-01-preview/PlaywrightWorkspaceQuotas_Get.json
+ * @summary gets a Playwright workspace quota resource by name.
+ * x-ms-original-file: 2025-09-01/PlaywrightWorkspaceQuotas_Get.json
  */
 
 import { PlaywrightManagementClient } from "@azure/arm-playwright";

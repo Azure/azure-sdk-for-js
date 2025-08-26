@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { PlaywrightManagementContext } from "../../api/playwrightManagementContext.js";
-import { Operation } from "../../models/models.js";
-import { OperationsListOptionalParams } from "../../api/operations/options.js";
 import { list } from "../../api/operations/operations.js";
+import { OperationsListOptionalParams } from "../../api/operations/options.js";
+import { Operation } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */

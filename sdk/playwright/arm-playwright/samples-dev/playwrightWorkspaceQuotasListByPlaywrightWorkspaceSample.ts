@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to list quota resources for a given Playwright workspace resource.
+ * This sample demonstrates how to lists quota resources for a given Playwright workspace.
  *
- * @summary list quota resources for a given Playwright workspace resource.
- * x-ms-original-file: 2025-07-01-preview/PlaywrightWorkspaceQuotas_ListByPlaywrightWorkspace.json
+ * @summary lists quota resources for a given Playwright workspace.
+ * x-ms-original-file: 2025-09-01/PlaywrightWorkspaceQuotas_ListByPlaywrightWorkspace.json
  */
 
 import { PlaywrightManagementClient } from "@azure/arm-playwright";

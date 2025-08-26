@@ -5,10 +5,10 @@ import { PlaywrightManagementClient } from "@azure/arm-playwright";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to delete a PlaywrightWorkspace
+ * This sample demonstrates how to deletes a Playwright workspace resource asynchronously.
  *
- * @summary delete a PlaywrightWorkspace
- * x-ms-original-file: 2025-07-01-preview/PlaywrightWorkspaces_Delete.json
+ * @summary deletes a Playwright workspace resource asynchronously.
+ * x-ms-original-file: 2025-09-01/PlaywrightWorkspaces_Delete.json
  */
 async function playwrightWorkspacesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

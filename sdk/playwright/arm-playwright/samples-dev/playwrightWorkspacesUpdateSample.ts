@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to update a PlaywrightWorkspace
+ * This sample demonstrates how to updates a Playwright workspace resource synchronously.
  *
- * @summary update a PlaywrightWorkspace
- * x-ms-original-file: 2025-07-01-preview/PlaywrightWorkspaces_Update.json
+ * @summary updates a Playwright workspace resource synchronously.
+ * x-ms-original-file: 2025-09-01/PlaywrightWorkspaces_Update.json
  */
 
 import { PlaywrightManagementClient } from "@azure/arm-playwright";
