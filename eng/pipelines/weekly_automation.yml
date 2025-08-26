@@ -20,7 +20,7 @@ jobs:
     displayName: "Install Pnpm"
 
   - script: |
-      echo pnpm update --recursive --no-save
+      pnpm update --recursive --no-save
     displayName: "Run Pnpm Update"
 
   - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
