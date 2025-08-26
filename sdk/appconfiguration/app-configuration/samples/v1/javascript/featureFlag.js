@@ -8,6 +8,7 @@ const {
   AppConfigurationClient,
   featureFlagContentType,
   parseFeatureFlag,
+  featureFlagPrefix
 } = require("@azure/app-configuration");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -17,8 +18,9 @@ require("dotenv").config();
 async function main() {
   console.log(`Running featureFlag sample`);
 
-  const originalFeatureFlag = {
-    key: `sample-feature-flag`,
+  const featureFlagName = "sample-feature-flag";
+  const sampleFeatureFlag = {
+    key: `${featureFlagPrefix}${featureFlagName}`,
     isReadOnly: false,
     contentType: featureFlagContentType,
     value: {
@@ -26,14 +28,6 @@ async function main() {
       description: "I'm a description",
       conditions: {
         clientFilters: [
-          {
-            // Time window filter - Use this filter to activate the feature for a time period
-            name: "Microsoft.TimeWindow",
-            parameters: {
-              Start: "Wed, 01 May 2021 13:59:59 GMT",
-              End: "Mon, 01 July 2022 00:00:00 GMT",
-            },
-          },
           {
             // Targeting filter - you can target users/groups of users using this filter
             name: "Microsoft.Targeting",
@@ -47,9 +41,12 @@ async function main() {
             },
           },
           // {
-          //   // Percentage filter - activates a feature based on a percentage, to enable the feature flag for 50% of requests
-          //   name: "Microsoft.Percentage",
-          //   parameters: { Value: 50 }
+          //   // Time window filter - Use this filter to activate the feature for a time period
+          //   name: "Microsoft.TimeWindow",
+          //   parameters: {
+          //     Start: new Date().toUTCString(),
+          //     End: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString(), // 30 days from now
+          //   },
           // },
           // { name: "FilterX" }, // Custom filter
         ],
@@ -62,69 +59,49 @@ async function main() {
   const credential = new DefaultAzureCredential();
   const appConfigClient = new AppConfigurationClient(endpoint, credential);
 
-  await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
+  await cleanupSampleValues([sampleFeatureFlag.key], appConfigClient);
 
-  console.log(`Add a new featureFlag with key: ${originalFeatureFlag.key}`);
-  await appConfigClient.addConfigurationSetting(originalFeatureFlag);
+  console.log(`Add a new featureFlag with key: ${sampleFeatureFlag.key}`);
+  await appConfigClient.addConfigurationSetting(sampleFeatureFlag);
 
-  console.log(`Get the added configurationSetting with key: ${originalFeatureFlag.key}`);
-  const getResponse = await appConfigClient.getConfigurationSetting({
-    key: originalFeatureFlag.key,
+  console.log(`Use configuration provider to load feature flags and enable dynamic refresh`);
+  const appConfigProvider = await load(endpoint, credential, {
+    featureFlagOptions: {
+      enabled: true,
+      refresh: {
+        enabled: true,
+        refreshIntervalInMs: 5000
+      }
+    }
   });
 
-  // You can use the `isFeatureFlag` global method to check if the content type is featureFlagContentType ("application/vnd.microsoft.appconfig.ff+json;charset=utf-8")
-  const newFeatureFlag = parseFeatureFlag(getResponse); // Converts the configurationsetting into featureflag
-  // Modify the props
-  for (const clientFilter of newFeatureFlag.value.conditions.clientFilters) {
-    clientFilter.parameters = clientFilter.parameters || {};
-    console.log(
-      `\n...clientFilter - "${clientFilter.name}"...\nparams => ${JSON.stringify(clientFilter.parameters, null, 1)}\n`,
-    );
-    switch (clientFilter.name) {
-      // Tweak the client filters of the feature flag
-      case "Microsoft.Targeting":
-        // Adds a new user to the group
-        if (isTargetingClientFilter(clientFilter)) {
-          clientFilter.parameters.Audience.Users =
-            clientFilter.parameters.Audience.Users.concat("test2@contoso.com");
-        }
-        break;
-      case "Microsoft.TimeWindow":
-        // Changes the start time
-        if (isTimeWindowClientFilter(clientFilter)) {
-          clientFilter.parameters.Start = "Wed, 01 June 2021 13:59:59 GMT";
-        }
-        break;
-      // case "Microsoft.Percentage":
-      // // Changes the percentage value from 50 to 75 - to enable the feature flag for 75% of requests
-      //   clientFilter.parameters.Value = 75;
-      //   break;
-      default:
-        // Change the filter name for all other client filters
-        // clientFilter.name = "FilterY";
-        break;
-    }
-  }
+  console.log(`Use feature management library to consume feature flags`);
+  const featureManager = new FeatureManager(
+    new ConfigurationMapFeatureFlagProvider(appConfigProvider));
+
+  let isEnabled = await featureManager.isEnabled(featureFlagName);
+  console.log(`Is featureFlag enabled? ${isEnabled}`);
 
   console.log(`========> Update the featureFlag <======== `);
+
+  sampleFeatureFlag.value.enabled = true;
+
   // Updating the config setting
-  await appConfigClient.setConfigurationSetting(newFeatureFlag);
+  await appConfigClient.setConfigurationSetting(sampleFeatureFlag);
 
-  // Get the config setting again
-  console.log(`Get the updated config setting with key: ${newFeatureFlag.key}`);
-  const getResponseAfterUpdate = await appConfigClient.getConfigurationSetting({
-    key: newFeatureFlag.key,
-  });
+  // Wait for refresh interval to elapse
+  await new Promise(resolve => setTimeout(resolve, 5000));
 
-  // You can use the `isFeatureFlag` global method to check if the content type is featureFlagContentType ("application/vnd.microsoft.appconfig.ff+json;charset=utf-8")
-  const featureFlagAfterUpdate = parseFeatureFlag(getResponseAfterUpdate); // Converts the configurationsetting into featureflag
-  const conditions = featureFlagAfterUpdate.value.conditions;
-  for (const clientFilter of conditions.clientFilters) {
-    console.log(
-      `\n...clientFilter - "${clientFilter.name}"...\nparams => ${JSON.stringify(clientFilter.parameters, null, 1)}\n`,
-    );
-  }
-  await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
+  await appConfigProvider.refresh();  
+
+  isEnabled = await featureManager.isEnabled(featureFlagName);
+  console.log(`Is featureFlag enabled? ${isEnabled}`);
+
+  const targetingContext : ITargetingContext = { userId: "test@contoso.com" };
+  isEnabled = await featureManager.isEnabled(featureFlagName, targetingContext);
+  console.log(`Is featureFlag enabled for test@contoso.com? ${isEnabled}`);
+
+  await cleanupSampleValues([sampleFeatureFlag.key], appConfigClient);
 }
 
 async function cleanupSampleValues(keys, client) {
@@ -135,34 +112,6 @@ async function cleanupSampleValues(keys, client) {
   for await (const setting of settingsIterator) {
     await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
-}
-
-/**
- * typeguard - for targeting client filter
- */
-function isTargetingClientFilter(clientFilter) {
-  return (
-    clientFilter.name === "Microsoft.Targeting" &&
-    clientFilter.parameters &&
-    clientFilter.parameters["Audience"] &&
-    Array.isArray(clientFilter.parameters["Audience"]["Groups"]) &&
-    Array.isArray(clientFilter.parameters["Audience"]["Users"]) &&
-    typeof clientFilter.parameters["Audience"]["DefaultRolloutPercentage"] === "number"
-  );
-}
-
-/**
- * typeguard - for timewindow client filter
- */
-function isTimeWindowClientFilter(clientFilter) {
-  return (
-    clientFilter.name === "Microsoft.TimeWindow" &&
-    clientFilter.parameters &&
-    clientFilter.parameters["Start"] &&
-    clientFilter.parameters["End"] &&
-    typeof clientFilter.parameters["Start"] === "string" &&
-    typeof clientFilter.parameters["End"] === "string"
-  );
 }
 
 main().catch((err) => {
