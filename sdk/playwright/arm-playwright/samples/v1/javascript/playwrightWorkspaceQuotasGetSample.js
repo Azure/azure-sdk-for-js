@@ -5,20 +5,25 @@ const { PlaywrightManagementClient } = require("@azure/arm-playwright");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to delete a PlaywrightWorkspace
+ * This sample demonstrates how to gets a Playwright workspace quota resource by name.
  *
- * @summary delete a PlaywrightWorkspace
- * x-ms-original-file: 2025-07-01-preview/PlaywrightWorkspaces_Delete.json
+ * @summary gets a Playwright workspace quota resource by name.
+ * x-ms-original-file: 2025-09-01/PlaywrightWorkspaceQuotas_Get.json
  */
-async function playwrightWorkspacesDelete() {
+async function playwrightWorkspaceQuotasGet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlaywrightManagementClient(credential, subscriptionId);
-  await client.playwrightWorkspaces.delete("dummyrg", "myWorkspace");
+  const result = await client.playwrightWorkspaceQuotas.get(
+    "dummyrg",
+    "myWorkspace",
+    "ExecutionMinutes",
+  );
+  console.log(result);
 }
 
 async function main() {
-  await playwrightWorkspacesDelete();
+  await playwrightWorkspaceQuotasGet();
 }
 
 main().catch(console.error);

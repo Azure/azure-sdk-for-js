@@ -5,25 +5,24 @@ const { PlaywrightManagementClient } = require("@azure/arm-playwright");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to get Playwright workspace quota resource by name.
+ * This sample demonstrates how to updates a Playwright workspace resource synchronously.
  *
- * @summary get Playwright workspace quota resource by name.
- * x-ms-original-file: 2025-07-01-preview/PlaywrightWorkspaceQuotas_Get.json
+ * @summary updates a Playwright workspace resource synchronously.
+ * x-ms-original-file: 2025-09-01/PlaywrightWorkspaces_Update.json
  */
-async function playwrightWorkspaceQuotasGet() {
+async function playwrightWorkspacesUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new PlaywrightManagementClient(credential, subscriptionId);
-  const result = await client.playwrightWorkspaceQuotas.get(
-    "dummyrg",
-    "myWorkspace",
-    "ExecutionMinutes",
-  );
+  const result = await client.playwrightWorkspaces.update("dummyrg", "myWorkspace", {
+    tags: { Team: "Dev Exp", Division: "LT" },
+    properties: { regionalAffinity: "Disabled" },
+  });
   console.log(result);
 }
 
 async function main() {
-  await playwrightWorkspaceQuotasGet();
+  await playwrightWorkspacesUpdate();
 }
 
 main().catch(console.error);
