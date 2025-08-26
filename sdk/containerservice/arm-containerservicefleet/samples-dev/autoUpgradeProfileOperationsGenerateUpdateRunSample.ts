@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to generates an update run for a given auto upgrade profile.
+ * This sample demonstrates how to a long-running resource action.
  *
- * @summary generates an update run for a given auto upgrade profile.
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfileOperations_GenerateUpdateRun_MaximumSet_Gen.json
+ * @summary a long-running resource action.
+ * x-ms-original-file: 2025-03-01/AutoUpgradeProfileOperations_GenerateUpdateRun_MaximumSet_Gen.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";

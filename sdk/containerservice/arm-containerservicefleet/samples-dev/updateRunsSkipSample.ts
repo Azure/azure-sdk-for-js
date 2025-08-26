@@ -5,7 +5,7 @@
  * This sample demonstrates how to skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
  *
  * @summary skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Skip.json
+ * x-ms-original-file: 2025-03-01/UpdateRuns_Skip.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -28,7 +28,7 @@ async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRun(
  * This sample demonstrates how to skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
  *
  * @summary skips one or a combination of member/group/stage/afterStageWait(s) of an update run.
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Skip_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/UpdateRuns_Skip_MaximumSet_Gen.json
  */
 async function skipsOneOrMoreMemberOrGroupOrStageOrAfterStageWaitSOfAnUpdateRunGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

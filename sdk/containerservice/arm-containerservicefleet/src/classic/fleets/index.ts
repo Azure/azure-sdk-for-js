@@ -2,15 +2,7 @@
 // Licensed under the MIT License.
 
 import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
-import {
-  listCredentials,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  updateAsync,
-  create,
-  get,
-} from "../../api/fleets/operations.js";
+import { Fleet, FleetPatch, FleetCredentialResults } from "../../models/models.js";
 import {
   FleetsListCredentialsOptionalParams,
   FleetsListBySubscriptionOptionalParams,
@@ -20,7 +12,15 @@ import {
   FleetsCreateOptionalParams,
   FleetsGetOptionalParams,
 } from "../../api/fleets/options.js";
-import { Fleet, FleetPatch, FleetCredentialResults } from "../../models/models.js";
+import {
+  listCredentials,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  updateAsync,
+  create,
+  get,
+} from "../../api/fleets/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

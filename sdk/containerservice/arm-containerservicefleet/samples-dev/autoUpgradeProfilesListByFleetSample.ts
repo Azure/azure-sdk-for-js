@@ -5,7 +5,7 @@
  * This sample demonstrates how to list AutoUpgradeProfile resources by Fleet
  *
  * @summary list AutoUpgradeProfile resources by Fleet
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_ListByFleet.json
+ * x-ms-original-file: 2025-03-01/AutoUpgradeProfiles_ListByFleet.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -27,7 +27,7 @@ async function listsTheAutoUpgradeProfileResourcesByFleet(): Promise<void> {
  * This sample demonstrates how to list AutoUpgradeProfile resources by Fleet
  *
  * @summary list AutoUpgradeProfile resources by Fleet
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_ListByFleet_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/AutoUpgradeProfiles_ListByFleet_MaximumSet_Gen.json
  */
 async function listsTheAutoUpgradeProfileResourcesByFleetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

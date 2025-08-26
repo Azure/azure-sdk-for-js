@@ -2,13 +2,7 @@
 // Licensed under the MIT License.
 
 import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
-import {
-  listByFleet,
-  $delete,
-  updateAsync,
-  create,
-  get,
-} from "../../api/fleetMembers/operations.js";
+import { FleetMember, FleetMemberUpdate } from "../../models/models.js";
 import {
   FleetMembersListByFleetOptionalParams,
   FleetMembersDeleteOptionalParams,
@@ -16,7 +10,13 @@ import {
   FleetMembersCreateOptionalParams,
   FleetMembersGetOptionalParams,
 } from "../../api/fleetMembers/options.js";
-import { FleetMember, FleetMemberUpdate } from "../../models/models.js";
+import {
+  listByFleet,
+  $delete,
+  updateAsync,
+  create,
+  get,
+} from "../../api/fleetMembers/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

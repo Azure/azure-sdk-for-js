@@ -6,21 +6,21 @@ import {
   PlaywrightManagementContext,
   PlaywrightManagementClientOptionalParams,
 } from "./api/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  PlaywrightQuotasOperations,
-  _getPlaywrightQuotasOperations,
-} from "./classic/playwrightQuotas/index.js";
 import {
   PlaywrightWorkspaceQuotasOperations,
   _getPlaywrightWorkspaceQuotasOperations,
 } from "./classic/playwrightWorkspaceQuotas/index.js";
 import {
+  PlaywrightQuotasOperations,
+  _getPlaywrightQuotasOperations,
+} from "./classic/playwrightQuotas/index.js";
+import {
   PlaywrightWorkspacesOperations,
   _getPlaywrightWorkspacesOperations,
 } from "./classic/playwrightWorkspaces/index.js";
-import { TokenCredential } from "@azure/core-auth";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 
 export { PlaywrightManagementClientOptionalParams } from "./api/playwrightManagementContext.js";
 
@@ -29,7 +29,7 @@ export class PlaywrightManagementClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Playwright Service Management API provides access to Playwright workspace resources and their operations through Azure Resource Manager. */
+  /** Playwright service provides access to Playwright workspace resource and it's operations. */
   constructor(
     credential: TokenCredential,
     subscriptionId: string,

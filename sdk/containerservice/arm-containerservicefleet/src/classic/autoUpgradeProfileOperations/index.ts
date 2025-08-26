@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
-import { generateUpdateRun } from "../../api/autoUpgradeProfileOperations/operations.js";
-import { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "../../api/autoUpgradeProfileOperations/options.js";
 import { GenerateResponse } from "../../models/models.js";
+import { AutoUpgradeProfileOperationsGenerateUpdateRunOptionalParams } from "../../api/autoUpgradeProfileOperations/options.js";
+import { generateUpdateRun } from "../../api/autoUpgradeProfileOperations/operations.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AutoUpgradeProfileOperations operations. */
 export interface AutoUpgradeProfileOperationsOperations {
-  /** Generates an update run for a given auto upgrade profile. */
+  /** A long-running resource action. */
   generateUpdateRun: (
     resourceGroupName: string,
     fleetName: string,

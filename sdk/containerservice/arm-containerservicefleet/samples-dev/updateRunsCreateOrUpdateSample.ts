@@ -5,7 +5,7 @@
  * This sample demonstrates how to create a UpdateRun
  *
  * @summary create a UpdateRun
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_CreateOrUpdate.json
+ * x-ms-original-file: 2025-03-01/UpdateRuns_CreateOrUpdate.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -23,15 +23,7 @@ async function createAnUpdateRun(): Promise<void> {
         stages: [
           {
             name: "stage1",
-            groups: [
-              {
-                name: "group-a",
-                beforeGates: [{ displayName: "gate before group-a", type: "Approval" }],
-                afterGates: [{ displayName: "gate after group-a", type: "Approval" }],
-              },
-            ],
-            beforeGates: [{ displayName: "gate before stage1", type: "Approval" }],
-            afterGates: [{ displayName: "gate after stage1", type: "Approval" }],
+            groups: [{ name: "group-a" }],
             afterStageWaitInSeconds: 3600,
           },
         ],
@@ -49,7 +41,7 @@ async function createAnUpdateRun(): Promise<void> {
  * This sample demonstrates how to create a UpdateRun
  *
  * @summary create a UpdateRun
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/UpdateRuns_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function createAnUpdateRunGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -5,7 +5,7 @@
  * This sample demonstrates how to get a UpdateRun
  *
  * @summary get a UpdateRun
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Get.json
+ * x-ms-original-file: 2025-03-01/UpdateRuns_Get.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -23,7 +23,7 @@ async function getsAnUpdateRunResource(): Promise<void> {
  * This sample demonstrates how to get a UpdateRun
  *
  * @summary get a UpdateRun
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/UpdateRuns_Get_MaximumSet_Gen.json
  */
 async function getsAnUpdateRunResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

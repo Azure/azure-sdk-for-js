@@ -5,7 +5,7 @@
  * This sample demonstrates how to stops an UpdateRun.
  *
  * @summary stops an UpdateRun.
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Stop.json
+ * x-ms-original-file: 2025-03-01/UpdateRuns_Stop.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -23,7 +23,7 @@ async function stopsAnUpdateRun(): Promise<void> {
  * This sample demonstrates how to stops an UpdateRun.
  *
  * @summary stops an UpdateRun.
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Stop_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/UpdateRuns_Stop_MaximumSet_Gen.json
  */
 async function stopsAnUpdateRunGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

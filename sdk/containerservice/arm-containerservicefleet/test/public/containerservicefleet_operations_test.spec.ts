@@ -48,7 +48,7 @@ describe("containerservicefleet test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "SSS3PT_myjstest";
+    resourceGroup = "myjstest";
     resourceName = "testresource-12a";
   });
 

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -48,20 +47,6 @@ export {
   ProxyResource,
   FleetMemberUpdate,
   FleetMemberUpdateProperties,
-  Gate,
-  GateProperties,
-  KnownGateProvisioningState,
-  GateProvisioningState,
-  KnownGateType,
-  GateType,
-  GateTarget,
-  UpdateRunGateTargetProperties,
-  KnownTiming,
-  Timing,
-  KnownGateState,
-  GateState,
-  GatePatch,
-  GatePatchProperties,
   UpdateRun,
   UpdateRunProperties,
   KnownUpdateRunProvisioningState,
@@ -69,7 +54,6 @@ export {
   UpdateRunStrategy,
   UpdateStage,
   UpdateGroup,
-  GateConfiguration,
   ManagedClusterUpdate,
   ManagedClusterUpgradeSpec,
   KnownManagedClusterUpgradeType,
@@ -85,7 +69,6 @@ export {
   UpdateStageStatus,
   UpdateGroupStatus,
   MemberUpdateStatus,
-  UpdateRunGateStatus,
   WaitStatus,
   NodeImageSelectionStatus,
   SkipProperties,
@@ -141,11 +124,6 @@ export {
   FleetUpdateStrategiesCreateOrUpdateOptionalParams,
   FleetUpdateStrategiesGetOptionalParams,
 } from "./api/fleetUpdateStrategies/index.js";
-export {
-  GatesListByFleetOptionalParams,
-  GatesUpdateOptionalParams,
-  GatesGetOptionalParams,
-} from "./api/gates/index.js";
 export { OperationsListOptionalParams } from "./api/operations/index.js";
 export {
   UpdateRunsSkipOptionalParams,
@@ -162,9 +140,7 @@ export {
   FleetMembersOperations,
   FleetsOperations,
   FleetUpdateStrategiesOperations,
-  GatesOperations,
   OperationsOperations,
   UpdateRunsOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };

@@ -3,7 +3,6 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { AzureSupportedClouds, getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -21,8 +20,6 @@ export interface ContainerServiceFleetClientOptionalParams extends ClientOptions
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
-  /** Specifies the Azure cloud environment for the client. */
-  cloudSetting?: AzureSupportedClouds;
 }
 
 /** Azure Kubernetes Fleet Manager api client. */
@@ -31,10 +28,9 @@ export function createContainerServiceFleet(
   subscriptionId: string,
   options: ContainerServiceFleetClientOptionalParams = {},
 ): ContainerServiceFleetContext {
-  const endpointUrl =
-    options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-containerservicefleet/2.1.0-beta.1`;
+  const userAgentInfo = `azsdk-js-arm-containerservicefleet/2.0.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -48,7 +44,7 @@ export function createContainerServiceFleet(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-04-01-preview";
+  const apiVersion = options.apiVersion ?? "2025-03-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

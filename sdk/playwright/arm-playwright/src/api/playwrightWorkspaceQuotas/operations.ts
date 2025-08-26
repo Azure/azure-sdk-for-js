@@ -11,14 +11,14 @@ import {
   _playwrightWorkspaceQuotaListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
   PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams,
   PlaywrightWorkspaceQuotasGetOptionalParams,
 } from "./options.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -68,7 +68,7 @@ export async function _listByPlaywrightWorkspaceDeserialize(
   return _playwrightWorkspaceQuotaListResultDeserializer(result.body);
 }
 
-/** Lists quota resources for a given Playwright workspace. */
+/** List quota resources for a given Playwright workspace resource. */
 export function listByPlaywrightWorkspace(
   context: Client,
   resourceGroupName: string,
@@ -129,7 +129,7 @@ export async function _getDeserialize(
   return playwrightWorkspaceQuotaDeserializer(result.body);
 }
 
-/** Gets a Playwright workspace quota resource by name. */
+/** Get Playwright workspace quota resource by name. */
 export async function get(
   context: Client,
   resourceGroupName: string,

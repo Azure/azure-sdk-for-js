@@ -5,7 +5,7 @@
  * This sample demonstrates how to get a AutoUpgradeProfile
  *
  * @summary get a AutoUpgradeProfile
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_Get.json
+ * x-ms-original-file: 2025-03-01/AutoUpgradeProfiles_Get.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -23,7 +23,7 @@ async function getsAnAutoUpgradeProfileResource(): Promise<void> {
  * This sample demonstrates how to get a AutoUpgradeProfile
  *
  * @summary get a AutoUpgradeProfile
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/AutoUpgradeProfiles_Get_MaximumSet_Gen.json
  */
 async function getsAnAutoUpgradeProfileResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

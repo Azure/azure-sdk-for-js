@@ -5,7 +5,7 @@
  * This sample demonstrates how to list UpdateRun resources by Fleet
  *
  * @summary list UpdateRun resources by Fleet
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_ListByFleet.json
+ * x-ms-original-file: 2025-03-01/UpdateRuns_ListByFleet.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -27,7 +27,7 @@ async function listsTheUpdateRunResourcesByFleet(): Promise<void> {
  * This sample demonstrates how to list UpdateRun resources by Fleet
  *
  * @summary list UpdateRun resources by Fleet
- * x-ms-original-file: 2025-04-01-preview/UpdateRuns_ListByFleet_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/UpdateRuns_ListByFleet_MaximumSet_Gen.json
  */
 async function listsTheUpdateRunResourcesByFleetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure PlaywrightManagement client.
 
-Playwright Service Management API provides access to Playwright workspace resources and their operations through Azure Resource Manager.
+Playwright service provides access to Playwright workspace resource and it's operations.
 
 Key links:
 

@@ -15,12 +15,6 @@ import {
   fleetCredentialResultsDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
   FleetsListCredentialsOptionalParams,
   FleetsListBySubscriptionOptionalParams,
   FleetsListByResourceGroupOptionalParams,
@@ -29,6 +23,12 @@ import {
   FleetsCreateOptionalParams,
   FleetsGetOptionalParams,
 } from "./options.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -342,7 +342,7 @@ export function _createSend(
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<Fleet> {
-  const expectedStatuses = ["200", "201", "202"];
+  const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -360,7 +360,7 @@ export function create(
   resource: Fleet,
   options: FleetsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Fleet>, Fleet> {
-  return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {
+  return getLongRunningPoller(context, _createDeserialize, ["200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSend(context, resourceGroupName, fleetName, resource, options),

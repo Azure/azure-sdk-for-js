@@ -5,7 +5,7 @@
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
- * x-ms-original-file: 2025-04-01-preview/Fleets_PatchTags.json
+ * x-ms-original-file: 2025-03-01/Fleets_PatchTags.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -28,7 +28,7 @@ async function updateAFleet(): Promise<void> {
  * This sample demonstrates how to update a Fleet
  *
  * @summary update a Fleet
- * x-ms-original-file: 2025-04-01-preview/Fleets_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/Fleets_Update_MaximumSet_Gen.json
  */
 async function updateAFleetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

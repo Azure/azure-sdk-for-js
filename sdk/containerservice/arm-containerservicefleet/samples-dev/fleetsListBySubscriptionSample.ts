@@ -5,7 +5,7 @@
  * This sample demonstrates how to lists fleets in the specified subscription.
  *
  * @summary lists fleets in the specified subscription.
- * x-ms-original-file: 2025-04-01-preview/Fleets_ListBySub.json
+ * x-ms-original-file: 2025-03-01/Fleets_ListBySub.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -27,7 +27,7 @@ async function listsTheFleetResourcesInASubscription(): Promise<void> {
  * This sample demonstrates how to lists fleets in the specified subscription.
  *
  * @summary lists fleets in the specified subscription.
- * x-ms-original-file: 2025-04-01-preview/Fleets_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/Fleets_ListBySubscription_MaximumSet_Gen.json
  */
 async function listsTheFleetResourcesInASubscriptionGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import { PlaywrightManagementContext } from "../../api/playwrightManagementContext.js";
-import { listByPlaywrightWorkspace, get } from "../../api/playwrightWorkspaceQuotas/operations.js";
+import { QuotaName, PlaywrightWorkspaceQuota } from "../../models/models.js";
 import {
   PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams,
   PlaywrightWorkspaceQuotasGetOptionalParams,
 } from "../../api/playwrightWorkspaceQuotas/options.js";
-import { QuotaName, PlaywrightWorkspaceQuota } from "../../models/models.js";
+import { listByPlaywrightWorkspace, get } from "../../api/playwrightWorkspaceQuotas/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PlaywrightWorkspaceQuotas operations. */
 export interface PlaywrightWorkspaceQuotasOperations {
-  /** Lists quota resources for a given Playwright workspace. */
+  /** List quota resources for a given Playwright workspace resource. */
   listByPlaywrightWorkspace: (
     resourceGroupName: string,
     playwrightWorkspaceName: string,
     options?: PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams,
   ) => PagedAsyncIterableIterator<PlaywrightWorkspaceQuota>;
-  /** Gets a Playwright workspace quota resource by name. */
+  /** Get Playwright workspace quota resource by name. */
   get: (
     resourceGroupName: string,
     playwrightWorkspaceName: string,

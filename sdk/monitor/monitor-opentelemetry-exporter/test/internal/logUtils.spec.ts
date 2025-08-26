@@ -39,11 +39,12 @@ import { resourceFromAttributes } from "@opentelemetry/resources";
 
 const context = getInstance();
 
-const expectedServiceTagsBase: Tags = {
+const expectedServiceTags: Tags = {
   [KnownContextTagKeys.AiCloudRole]: "testServiceNamespace.testServiceName",
   [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID",
   [KnownContextTagKeys.AiOperationId]: "1f1008dc8e270e85c40a0d7c3939b278",
   [KnownContextTagKeys.AiOperationParentId]: "5e107261f64fa53e",
+  [KnownContextTagKeys.AiLocationIp]: "127.0.0.1",
 };
 
 function assertEnvelope(
@@ -55,7 +56,6 @@ function assertEnvelope(
   expectedMeasurements?: Measurements,
   expectedBaseData?: Partial<MonitorDomain>,
   expectedTime?: Date,
-  expectedServiceTags: Tags = expectedServiceTagsBase,
 ): void {
   assert.isDefined(envelope);
   assert.strictEqual(envelope?.name, name);
@@ -145,7 +145,6 @@ describe("logUtils.ts", () => {
         emptyMeasurements,
         expectedBaseData,
         expectedTime,
-        expectedServiceTagsBase,
       );
     });
 
@@ -162,7 +161,7 @@ describe("logUtils.ts", () => {
       const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
       assert.deepStrictEqual(envelope?.tags, {
         ...context.tags,
-        ...expectedServiceTagsBase,
+        ...expectedServiceTags,
       });
     });
 
@@ -207,7 +206,6 @@ describe("logUtils.ts", () => {
         emptyMeasurements,
         expectedBaseData,
         expectedTime,
-        expectedServiceTagsBase,
       );
     });
   });
@@ -255,7 +253,6 @@ describe("logUtils.ts", () => {
         expectedMeasurements,
         expectedBaseData,
         expectedTime,
-        expectedServiceTagsBase,
       );
     });
 
@@ -301,7 +298,6 @@ describe("logUtils.ts", () => {
         expectedMeasurements,
         expectedBaseData,
         expectedTime,
-        expectedServiceTagsBase,
       );
     });
 
@@ -356,7 +352,6 @@ describe("logUtils.ts", () => {
         emptyMeasurements,
         expectedBaseData,
         expectedTime,
-        expectedServiceTagsBase,
       );
     });
 
@@ -405,7 +400,6 @@ describe("logUtils.ts", () => {
         emptyMeasurements,
         expectedBaseData,
         expectedTime,
-        expectedServiceTagsBase,
       );
     });
 
@@ -452,7 +446,6 @@ describe("logUtils.ts", () => {
         emptyMeasurements,
         expectedBaseData,
         expectedTime,
-        expectedServiceTagsBase,
       );
     });
 
@@ -491,7 +484,6 @@ describe("logUtils.ts", () => {
         emptyMeasurements,
         expectedBaseData,
         expectedTime,
-        expectedServiceTagsBase,
       );
     });
 
@@ -523,7 +515,6 @@ describe("logUtils.ts", () => {
         emptyMeasurements,
         expectedBaseData,
         expectedTime,
-        expectedServiceTagsBase,
       );
     });
   });
@@ -564,7 +555,6 @@ describe("logUtils.ts", () => {
       emptyMeasurements,
       expectedBaseData,
       expectedTime,
-      expectedServiceTagsBase,
     );
   });
 });

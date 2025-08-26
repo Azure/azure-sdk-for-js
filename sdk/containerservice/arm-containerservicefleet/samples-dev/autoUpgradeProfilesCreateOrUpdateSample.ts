@@ -5,7 +5,7 @@
  * This sample demonstrates how to create a AutoUpgradeProfile
  *
  * @summary create a AutoUpgradeProfile
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_CreateOrUpdate.json
+ * x-ms-original-file: 2025-03-01/AutoUpgradeProfiles_CreateOrUpdate.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -19,13 +19,7 @@ async function createAnAutoUpgradeProfile(): Promise<void> {
     "rg1",
     "fleet1",
     "autoupgradeprofile1",
-    {
-      properties: {
-        targetKubernetesVersion: "",
-        longTermSupport: false,
-        channel: "Stable",
-      },
-    },
+    { properties: { channel: "Stable" } },
   );
   console.log(result);
 }
@@ -34,7 +28,7 @@ async function createAnAutoUpgradeProfile(): Promise<void> {
  * This sample demonstrates how to create a AutoUpgradeProfile
  *
  * @summary create a AutoUpgradeProfile
- * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/AutoUpgradeProfiles_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function createAnAutoUpgradeProfileGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -51,9 +45,10 @@ async function createAnAutoUpgradeProfileGeneratedByMaximumSetRule(): Promise<vo
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgfleets/providers/Microsoft.ContainerService/fleets/fleet1/updateStrategies/strategy1",
         nodeImageSelection: { type: "Latest" },
         disabled: true,
+        autoUpgradeProfileStatus: { lastTriggerError: {} },
       },
     },
-    { ifMatch: "uktvayathbu", ifNoneMatch: "vdjolwxnefqamimybcvxxva" },
+    { ifMatch: "teikqmg", ifNoneMatch: "ghfmmyrekxincsxklbldnvhqd" },
   );
   console.log(result);
 }

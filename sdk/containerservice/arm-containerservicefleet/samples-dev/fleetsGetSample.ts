@@ -5,7 +5,7 @@
  * This sample demonstrates how to gets a Fleet.
  *
  * @summary gets a Fleet.
- * x-ms-original-file: 2025-04-01-preview/Fleets_Get.json
+ * x-ms-original-file: 2025-03-01/Fleets_Get.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -23,7 +23,7 @@ async function getsAFleetResource(): Promise<void> {
  * This sample demonstrates how to gets a Fleet.
  *
  * @summary gets a Fleet.
- * x-ms-original-file: 2025-04-01-preview/Fleets_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/Fleets_Get_MaximumSet_Gen.json
  */
 async function getsAFleetResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -5,7 +5,7 @@
  * This sample demonstrates how to get a FleetUpdateStrategy
  *
  * @summary get a FleetUpdateStrategy
- * x-ms-original-file: 2025-04-01-preview/FleetUpdateStrategies_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/FleetUpdateStrategies_Get_MaximumSet_Gen.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -23,7 +23,7 @@ async function getAFleetUpdateStrategyResourceGeneratedByMaximumSetRule(): Promi
  * This sample demonstrates how to get a FleetUpdateStrategy
  *
  * @summary get a FleetUpdateStrategy
- * x-ms-original-file: 2025-04-01-preview/UpdateStrategies_Get.json
+ * x-ms-original-file: 2025-03-01/UpdateStrategies_Get.json
  */
 async function getAFleetUpdateStrategyResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

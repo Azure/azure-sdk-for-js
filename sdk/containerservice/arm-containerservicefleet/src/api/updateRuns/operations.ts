@@ -13,12 +13,6 @@ import {
   skipPropertiesSerializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
   UpdateRunsSkipOptionalParams,
   UpdateRunsStopOptionalParams,
   UpdateRunsStartOptionalParams,
@@ -27,6 +21,12 @@ import {
   UpdateRunsCreateOrUpdateOptionalParams,
   UpdateRunsGetOptionalParams,
 } from "./options.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -369,7 +369,7 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<UpdateRun> {
-  const expectedStatuses = ["200", "201", "202"];
+  const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -388,7 +388,7 @@ export function createOrUpdate(
   resource: UpdateRun,
   options: UpdateRunsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<UpdateRun>, UpdateRun> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

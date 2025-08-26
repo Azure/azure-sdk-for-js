@@ -5,7 +5,7 @@
  * This sample demonstrates how to list FleetMember resources by Fleet
  *
  * @summary list FleetMember resources by Fleet
- * x-ms-original-file: 2025-04-01-preview/FleetMembers_ListByFleet.json
+ * x-ms-original-file: 2025-03-01/FleetMembers_ListByFleet.json
  */
 
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
@@ -27,7 +27,7 @@ async function listsTheMembersOfAFleet(): Promise<void> {
  * This sample demonstrates how to list FleetMember resources by Fleet
  *
  * @summary list FleetMember resources by Fleet
- * x-ms-original-file: 2025-04-01-preview/FleetMembers_ListByFleet_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-01/FleetMembers_ListByFleet_MaximumSet_Gen.json
  */
 async function listsTheMembersOfAFleetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

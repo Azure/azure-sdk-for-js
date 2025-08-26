@@ -17,16 +17,6 @@ import { TokenCredential } from '@azure/core-auth';
 export type ActionType = string;
 
 // @public
-export enum AzureClouds {
-    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
-    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
-    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
-}
-
-// @public
-export type AzureSupportedClouds = `${AzureClouds}`;
-
-// @public
 export type CheckNameAvailabilityReason = string;
 
 // @public
@@ -138,7 +128,7 @@ export enum KnownQuotaName {
 
 // @public
 export enum KnownVersions {
-    V20250901 = "2025-09-01"
+    V20250701Preview = "2025-07-01-preview"
 }
 
 // @public
@@ -195,7 +185,6 @@ export class PlaywrightManagementClient {
 // @public
 export interface PlaywrightManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -243,7 +232,6 @@ export interface PlaywrightWorkspaceProperties {
     localAuth?: EnablementStatus;
     readonly provisioningState?: ProvisioningState;
     regionalAffinity?: EnablementStatus;
-    readonly workspaceId?: string;
 }
 
 // @public
