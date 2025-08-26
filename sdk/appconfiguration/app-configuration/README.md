@@ -7,7 +7,7 @@ If you **only need to read configuration**, then use the [_@azure/app-configurat
 - Query mechanism to declaratively compose app configuration
 - Configuration refresh during runtime
 - Replica discovery, failover, and load balancing
-- Key vault reference rolution and auto-refresh
+- Key vault reference resolution and auto-refresh
 - Feature flag integration for [@microsoft/feature-management](https://www.npmjs.com/package/@microsoft/feature-management) library
 
 For more information, please go to [configuration provider](https://learn.microsoft.com/azure/azure-app-configuration/configuration-provider-overview).
