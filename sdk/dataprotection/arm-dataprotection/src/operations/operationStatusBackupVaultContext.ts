@@ -17,9 +17,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing OperationStatusBackupVaultContext operations. */
-export class OperationStatusBackupVaultContextImpl
-  implements OperationStatusBackupVaultContext
-{
+export class OperationStatusBackupVaultContextImpl implements OperationStatusBackupVaultContext {
   private readonly client: DataProtectionClient;
 
   /**

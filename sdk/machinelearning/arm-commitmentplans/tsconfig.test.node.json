@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-commitmentplans": ["./src/index.ts"],
+      "@azure/arm-commitmentplans/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

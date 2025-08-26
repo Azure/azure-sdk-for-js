@@ -12,8 +12,9 @@ import type {
 } from "@azure/core-http-compat";
 import { BaseRequestPolicy } from "./RequestPolicy.js";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { type StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
-import { URLConstants } from "../utils/constants.js";
+
+import type { StorageRetryOptions } from "../StorageRetryPolicyFactory.js";
+import { HeaderConstants, URLConstants } from "../utils/constants.js";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common.js";
 import { logger } from "../log.js";
 import { StorageRetryPolicyType } from "./StorageRetryPolicyType.js";
@@ -233,21 +234,20 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       }
     }
 
-    // [Copy source error code] Feature is pending on service side, skip retry on copy source error for now.
-    // if (response) {
-    //   // Retry select Copy Source Error Codes.
-    //   if (response?.status >= 400) {
-    //     const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
-    //     if (copySourceError !== undefined) {
-    //       switch (copySourceError) {
-    //         case "InternalError":
-    //         case "OperationTimedOut":
-    //         case "ServerBusy":
-    //           return true;
-    //       }
-    //     }
-    //   }
-    // }
+    if (response) {
+      // Retry select Copy Source Error Codes.
+      if (response?.status >= 400) {
+        const copySourceError = response.headers.get(HeaderConstants.X_MS_CopySourceErrorCode);
+        if (copySourceError !== undefined) {
+          switch (copySourceError) {
+            case "InternalError":
+            case "OperationTimedOut":
+            case "ServerBusy":
+              return true;
+          }
+        }
+      }
+    }
 
     if (err?.code === "PARSE_ERROR" && err?.message.startsWith(`Error "Error: Unclosed root tag`)) {
       logger.info(

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
+import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter,
@@ -46,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-02-01-preview",
+    defaultValue: "2025-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

@@ -66,7 +66,9 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
     if (!retryContext || !locationEndpoint) {
       return false;
     }
-
+    if (!this.enableEndPointDiscovery) {
+      return false;
+    }
     // Mark the partition as unavailable.
     // Let the Retry logic decide if the request should be retried
     if (requestContext && this.globalPartitionEndpointManager) {
@@ -75,12 +77,8 @@ export class TimeoutFailoverRetryPolicy implements RetryPolicy {
         diagnosticNode,
       );
     }
-
     // Check if the error is a timeout error (TimeoutErrorCode) and if it is not a valid HTTP network timeout request
     if (err.code === TimeoutErrorCode && !this.isValidRequestForTimeoutError()) {
-      return false;
-    }
-    if (!this.enableEndPointDiscovery) {
       return false;
     }
     if (

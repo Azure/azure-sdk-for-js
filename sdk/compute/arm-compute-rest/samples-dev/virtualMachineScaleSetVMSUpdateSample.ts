@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VirtualMachineScaleSetVMsUpdateParameters } from "@azure-rest/arm-compute";
-import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
  *
  * @summary Updates a virtual machine of a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MaximumSet_Gen.json
  */
+
+import type { VirtualMachineScaleSetVMsUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualMachineScaleSetVMSUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);

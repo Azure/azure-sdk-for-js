@@ -24,7 +24,7 @@ import {
 export interface DiskRestorePointOperations {
   /**
    * Lists diskRestorePoints under a vmRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
@@ -38,11 +38,11 @@ export interface DiskRestorePointOperations {
   ): PagedAsyncIterableIterator<DiskRestorePoint>;
   /**
    * Get disk restorePoint resource
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   * @param diskRestorePointName The name of the disk restore point created.
+   * @param diskRestorePointName The name of the DiskRestorePoint
    * @param options The options parameters.
    */
   get(
@@ -54,11 +54,11 @@ export interface DiskRestorePointOperations {
   ): Promise<DiskRestorePointGetResponse>;
   /**
    * Grants access to a diskRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   * @param diskRestorePointName The name of the disk restore point created.
+   * @param diskRestorePointName The name of the DiskRestorePoint
    * @param grantAccessData Access data object supplied in the body of the get disk access operation.
    * @param options The options parameters.
    */
@@ -77,11 +77,11 @@ export interface DiskRestorePointOperations {
   >;
   /**
    * Grants access to a diskRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   * @param diskRestorePointName The name of the disk restore point created.
+   * @param diskRestorePointName The name of the DiskRestorePoint
    * @param grantAccessData Access data object supplied in the body of the get disk access operation.
    * @param options The options parameters.
    */
@@ -95,11 +95,11 @@ export interface DiskRestorePointOperations {
   ): Promise<DiskRestorePointGrantAccessResponse>;
   /**
    * Revokes access to a diskRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   * @param diskRestorePointName The name of the disk restore point created.
+   * @param diskRestorePointName The name of the DiskRestorePoint
    * @param options The options parameters.
    */
   beginRevokeAccess(
@@ -111,11 +111,11 @@ export interface DiskRestorePointOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revokes access to a diskRestorePoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
    *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   * @param diskRestorePointName The name of the disk restore point created.
+   * @param diskRestorePointName The name of the DiskRestorePoint
    * @param options The options parameters.
    */
   beginRevokeAccessAndWait(

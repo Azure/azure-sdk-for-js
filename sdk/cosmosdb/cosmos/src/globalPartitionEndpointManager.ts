@@ -10,6 +10,7 @@ import {
 } from "./index.js";
 import { PartitionKeyRangeFailoverInfo } from "./PartitionKeyRangeFailoverInfo.js";
 import { normalizeEndpoint } from "./utils/checkURL.js";
+import { startBackgroundTask } from "./utils/time.js";
 import { assertNotUndefined } from "./utils/typeChecks.js";
 
 /**
@@ -381,14 +382,12 @@ export class GlobalPartitionEndpointManager {
    * The loop runs at a defined interval specified by Constants.StalePartitionUnavailabilityRefreshIntervalInMs.
    */
   private initiateCircuitBreakerFailbackLoop(): void {
-    this.circuitBreakerFailbackBackgroundRefresher = setInterval(() => {
-      (async () => {
-        try {
-          await this.openConnectionToUnhealthyEndpointsWithFailback();
-        } catch (err) {
-          console.error("Failed to open connection to unhealthy endpoints: ", err);
-        }
-      })();
+    this.circuitBreakerFailbackBackgroundRefresher = startBackgroundTask(async () => {
+      try {
+        await this.openConnectionToUnhealthyEndpointsWithFailback();
+      } catch (err) {
+        console.error("Failed to open connection to unhealthy endpoints: ", err);
+      }
     }, Constants.StalePartitionUnavailabilityRefreshIntervalInMs);
   }
 

@@ -1088,6 +1088,9 @@ export interface ImmutableStorageWithVersioning {
 }
 
 // @public
+export type IntervalUnit = string;
+
+// @public
 export type InventoryRuleType = string;
 
 // @public
@@ -1278,6 +1281,11 @@ export enum KnownImmutabilityPolicyUpdateType {
     Extend = "extend",
     Lock = "lock",
     Put = "put"
+}
+
+// @public
+export enum KnownIntervalUnit {
+    Days = "Days"
 }
 
 // @public
@@ -3398,7 +3406,7 @@ export interface TrackedResource extends Resource {
 export interface TriggerParameters {
     endBy?: Date;
     interval?: number;
-    intervalUnit?: "Days";
+    intervalUnit?: IntervalUnit;
     startFrom?: Date;
     startOn?: Date;
 }
@@ -3407,7 +3415,7 @@ export interface TriggerParameters {
 export interface TriggerParametersUpdate {
     endBy?: Date;
     interval?: number;
-    intervalUnit?: "Days";
+    intervalUnit?: IntervalUnit;
     startFrom?: Date;
     startOn?: Date;
 }

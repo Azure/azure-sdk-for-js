@@ -25,7 +25,7 @@ import {
   ProjectsDeleteOptionalParams,
   ProjectsUpdateOptionalParams,
   ProjectsUpdateResponse,
-  ProjectsListNextResponse
+  ProjectsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export class ProjectsImpl implements Projects {
   public list(
     groupName: string,
     serviceName: string,
-    options?: ProjectsListOptionalParams
+    options?: ProjectsListOptionalParams,
   ): PagedAsyncIterableIterator<Project> {
     const iter = this.listPagingAll(groupName, serviceName, options);
     return {
@@ -66,7 +66,7 @@ export class ProjectsImpl implements Projects {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(groupName, serviceName, options, settings);
-      }
+      },
     };
   }
 
@@ -74,7 +74,7 @@ export class ProjectsImpl implements Projects {
     groupName: string,
     serviceName: string,
     options?: ProjectsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Project[]> {
     let result: ProjectsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class ProjectsImpl implements Projects {
         groupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -102,12 +102,12 @@ export class ProjectsImpl implements Projects {
   private async *listPagingAll(
     groupName: string,
     serviceName: string,
-    options?: ProjectsListOptionalParams
+    options?: ProjectsListOptionalParams,
   ): AsyncIterableIterator<Project> {
     for await (const page of this.listPagingPage(
       groupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class ProjectsImpl implements Projects {
   private _list(
     groupName: string,
     serviceName: string,
-    options?: ProjectsListOptionalParams
+    options?: ProjectsListOptionalParams,
   ): Promise<ProjectsListResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -145,11 +145,11 @@ export class ProjectsImpl implements Projects {
     serviceName: string,
     projectName: string,
     parameters: Project,
-    options?: ProjectsCreateOrUpdateOptionalParams
+    options?: ProjectsCreateOrUpdateOptionalParams,
   ): Promise<ProjectsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -165,11 +165,11 @@ export class ProjectsImpl implements Projects {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: ProjectsGetOptionalParams
+    options?: ProjectsGetOptionalParams,
   ): Promise<ProjectsGetResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -185,11 +185,11 @@ export class ProjectsImpl implements Projects {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: ProjectsDeleteOptionalParams
+    options?: ProjectsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -207,11 +207,11 @@ export class ProjectsImpl implements Projects {
     serviceName: string,
     projectName: string,
     parameters: Project,
-    options?: ProjectsUpdateOptionalParams
+    options?: ProjectsUpdateOptionalParams,
   ): Promise<ProjectsUpdateResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -226,11 +226,11 @@ export class ProjectsImpl implements Projects {
     groupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ProjectsListNextOptionalParams
+    options?: ProjectsListNextOptionalParams,
   ): Promise<ProjectsListNextResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -238,66 +238,63 @@ export class ProjectsImpl implements Projects {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectList
+      bodyMapper: Mappers.ProjectList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     201: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -305,21 +302,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.deleteRunningTasks],
   urlParameters: [
@@ -327,55 +323,53 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Project
+      bodyMapper: Mappers.Project,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.serviceName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectList
+      bodyMapper: Mappers.ProjectList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.groupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

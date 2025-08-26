@@ -13,7 +13,6 @@ import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { coreLogger } from "../common/logger.js";
 import type { TokenCredential } from "@azure/core-auth";
 import process from "node:process";
-import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { parseJwt } from "./parseJwt.js";
 import { getPlaywrightVersion } from "./getPlaywrightVersion.js";
@@ -21,18 +20,64 @@ import { createEntraIdAccessToken } from "../common/entraIdAccessToken.js";
 import { FullConfig } from "@playwright/test";
 import { CI_PROVIDERS, CIInfo } from "./cIInfoProvider.js";
 import { exec } from "child_process";
+import { getPackageVersionFromFolder } from "./getPackageVersion.js";
 
 // Re-exporting for backward compatibility
 export { getPlaywrightVersion } from "./getPlaywrightVersion.js";
 export { parseJwt } from "./parseJwt.js";
 
+export const getPackageVersion = (): string => {
+  // hacky way to get package version
+  // try from dist folder first (customer perspective)
+  const distVersion = getPackageVersionFromFolder("../../../");
+  if (distVersion) {
+    return distVersion;
+  }
+  // if not found, try from src folder (internal test suite)
+  const srcVersion = getPackageVersionFromFolder("../../");
+  if (srcVersion) {
+    return srcVersion;
+  }
+  return "unknown-version";
+};
+
 // const playwrightServiceConfig = new PlaywrightServiceConfig();
 
-export const exitWithFailureMessage = (error: { key: string; message: string }): never => {
+export const exitWithFailureMessage = (
+  error: {
+    key: string;
+    message: string;
+    formatWithErrorDetails?: (errorDetails: string) => string;
+  },
+  errorDetails?: string,
+): never => {
   console.log();
-  console.error(error.message);
+
+  if (error.formatWithErrorDetails && errorDetails) {
+    console.error(error.formatWithErrorDetails(errorDetails));
+  } else {
+    console.error(error.message);
+  }
   // eslint-disable-next-line n/no-process-exit
   process.exit(1);
+};
+
+export const throwErrorWithFailureMessage = (
+  error: {
+    key: string;
+    message: string;
+    formatWithErrorDetails?: (errorDetails: string) => string;
+  },
+  errorDetails?: string,
+): never => {
+  console.log();
+
+  const finalMessage =
+    error.formatWithErrorDetails && errorDetails
+      ? error.formatWithErrorDetails(errorDetails)
+      : error.message;
+
+  throw new Error(finalMessage);
 };
 
 export const populateValuesFromServiceUrl = (): {
@@ -65,6 +110,14 @@ export const getServiceBaseURL = (): string | undefined => {
   return process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
 };
 
+export const isValidGuid = (guid: string | null | undefined): boolean => {
+  if (!guid) {
+    return false;
+  }
+  const guidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return guidRegex.test(guid);
+};
+
 export const getAndSetRunId = (): string => {
   const runId = randomUUID();
   process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = runId;
@@ -82,6 +135,13 @@ export const validateServiceUrl = (): void => {
   }
 };
 
+export const ValidateRunID = (runID: string): void => {
+  const isValidRunID = isValidGuid(runID);
+  if (!isValidRunID) {
+    const errorMessage = ServiceErrorMessageConstants.INVALID_RUN_ID_FORMAT.message;
+    throw new Error(errorMessage);
+  }
+};
 export const validateMptPAT = (
   validationFailureCallback: (error: { key: string; message: string }) => void,
 ): void => {
@@ -119,6 +179,9 @@ const warnAboutTokenExpiry = (expirationTime: number, currentTime: number): void
 
 export const warnIfAccessTokenCloseToExpiry = (): void => {
   const accessToken = getAccessToken();
+  if (!accessToken) {
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+  }
   const claims = parseJwt<JwtPayload>(accessToken!);
   const currentTime = Date.now();
   if (isTokenExpiringSoon(claims.exp!, currentTime)) {
@@ -128,39 +191,15 @@ export const warnIfAccessTokenCloseToExpiry = (): void => {
 
 export const fetchOrValidateAccessToken = async (credential?: TokenCredential): Promise<string> => {
   const entraIdAccessToken = createEntraIdAccessToken(credential);
-  if (entraIdAccessToken.token && entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
+  // Fetch a token or refresh if needed in a single call
+  if (entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
     await entraIdAccessToken.fetchEntraIdAccessToken();
   }
-  if (!getAccessToken()) {
+  const token = getAccessToken();
+  if (!token) {
     throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
   }
-  return getAccessToken()!;
-};
-
-const getPackageVersionFromFolder = (folder: string): string => {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const version = require(path.join(__dirname, folder, "package.json")).version;
-    return version;
-  } catch (error) {
-    coreLogger.error("Error fetching package version:", error);
-    return "";
-  }
-};
-
-export const getPackageVersion = (): string => {
-  // hacky way to get package version
-  // try from dist folder first (customer perspective)
-  const distVersion = getPackageVersionFromFolder("../../../");
-  if (distVersion) {
-    return distVersion;
-  }
-  // if not found, try from src folder (internal test suite)
-  const srcVersion = getPackageVersionFromFolder("../../");
-  if (srcVersion) {
-    return srcVersion;
-  }
-  return "unknown-version";
+  return token;
 };
 
 export const getVersionInfo = (version: string): VersionInfo => {
@@ -244,7 +283,7 @@ async function runCommand(command: string): Promise<string> {
 
 export async function getRunName(ciInfo: CIInfo): Promise<string> {
   if (
-    ciInfo.provider === CI_PROVIDERS.GITHUB &&
+    ciInfo.providerName === CI_PROVIDERS.GITHUB &&
     process.env["GITHUB_EVENT_NAME"] === "pull_request"
   ) {
     const prNumber: string = `${process.env["GITHUB_REF_NAME"]?.split("/")[0]}`;
@@ -266,5 +305,21 @@ export async function getRunName(ciInfo: CIInfo): Promise<string> {
   } catch (err) {
     coreLogger.error(`Error in getting git commit message: ${err}.`);
     return "";
+  }
+}
+
+export function extractErrorMessage(responseBody: string): string {
+  if (!responseBody) {
+    return "";
+  }
+
+  try {
+    const errorResponse = JSON.parse(responseBody);
+    if (errorResponse.error && errorResponse.error.message) {
+      return errorResponse.error.message;
+    }
+    return responseBody;
+  } catch (e) {
+    return responseBody;
   }
 }

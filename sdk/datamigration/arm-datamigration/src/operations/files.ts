@@ -29,7 +29,7 @@ import {
   FilesReadResponse,
   FilesReadWriteOptionalParams,
   FilesReadWriteResponse,
-  FilesListNextResponse
+  FilesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,13 +57,13 @@ export class FilesImpl implements Files {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: FilesListOptionalParams
+    options?: FilesListOptionalParams,
   ): PagedAsyncIterableIterator<ProjectFile> {
     const iter = this.listPagingAll(
       groupName,
       serviceName,
       projectName,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +81,9 @@ export class FilesImpl implements Files {
           serviceName,
           projectName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +92,7 @@ export class FilesImpl implements Files {
     serviceName: string,
     projectName: string,
     options?: FilesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProjectFile[]> {
     let result: FilesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,7 +109,7 @@ export class FilesImpl implements Files {
         serviceName,
         projectName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,13 +122,13 @@ export class FilesImpl implements Files {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: FilesListOptionalParams
+    options?: FilesListOptionalParams,
   ): AsyncIterableIterator<ProjectFile> {
     for await (const page of this.listPagingPage(
       groupName,
       serviceName,
       projectName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -146,11 +146,11 @@ export class FilesImpl implements Files {
     groupName: string,
     serviceName: string,
     projectName: string,
-    options?: FilesListOptionalParams
+    options?: FilesListOptionalParams,
   ): Promise<FilesListResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -168,11 +168,11 @@ export class FilesImpl implements Files {
     serviceName: string,
     projectName: string,
     fileName: string,
-    options?: FilesGetOptionalParams
+    options?: FilesGetOptionalParams,
   ): Promise<FilesGetResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, fileName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -191,11 +191,11 @@ export class FilesImpl implements Files {
     projectName: string,
     fileName: string,
     parameters: ProjectFile,
-    options?: FilesCreateOrUpdateOptionalParams
+    options?: FilesCreateOrUpdateOptionalParams,
   ): Promise<FilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, fileName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -212,11 +212,11 @@ export class FilesImpl implements Files {
     serviceName: string,
     projectName: string,
     fileName: string,
-    options?: FilesDeleteOptionalParams
+    options?: FilesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, fileName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -235,11 +235,11 @@ export class FilesImpl implements Files {
     projectName: string,
     fileName: string,
     parameters: ProjectFile,
-    options?: FilesUpdateOptionalParams
+    options?: FilesUpdateOptionalParams,
   ): Promise<FilesUpdateResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, fileName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -257,11 +257,11 @@ export class FilesImpl implements Files {
     serviceName: string,
     projectName: string,
     fileName: string,
-    options?: FilesReadOptionalParams
+    options?: FilesReadOptionalParams,
   ): Promise<FilesReadResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, fileName, options },
-      readOperationSpec
+      readOperationSpec,
     );
   }
 
@@ -278,11 +278,11 @@ export class FilesImpl implements Files {
     serviceName: string,
     projectName: string,
     fileName: string,
-    options?: FilesReadWriteOptionalParams
+    options?: FilesReadWriteOptionalParams,
   ): Promise<FilesReadWriteResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, fileName, options },
-      readWriteOperationSpec
+      readWriteOperationSpec,
     );
   }
 
@@ -299,11 +299,11 @@ export class FilesImpl implements Files {
     serviceName: string,
     projectName: string,
     nextLink: string,
-    options?: FilesListNextOptionalParams
+    options?: FilesListNextOptionalParams,
   ): Promise<FilesListNextResponse> {
     return this.client.sendOperationRequest(
       { groupName, serviceName, projectName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -311,39 +311,15 @@ export class FilesImpl implements Files {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileList
+      bodyMapper: Mappers.FileList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.groupName,
-    Parameters.serviceName,
-    Parameters.projectName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProjectFile
+      bodyMapper: Mappers.ApiError,
     },
-    default: {
-      bodyMapper: Mappers.ApiError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -352,27 +328,48 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.fileName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProjectFile,
+    },
+    default: {
+      bodyMapper: Mappers.ApiError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.groupName,
+    Parameters.serviceName,
+    Parameters.projectName,
+    Parameters.fileName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectFile
+      bodyMapper: Mappers.ProjectFile,
     },
     201: {
-      bodyMapper: Mappers.ProjectFile
+      bodyMapper: Mappers.ProjectFile,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -380,22 +377,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.fileName
+    Parameters.fileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -404,24 +400,23 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.fileName
+    Parameters.fileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ProjectFile
+      bodyMapper: Mappers.ProjectFile,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -429,23 +424,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.fileName
+    Parameters.fileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const readOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}/read",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}/read",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.FileStorageInfo
+      bodyMapper: Mappers.FileStorageInfo,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -454,22 +448,21 @@ const readOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.fileName
+    Parameters.fileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const readWriteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}/readwrite",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}/readwrite",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.FileStorageInfo
+      bodyMapper: Mappers.FileStorageInfo,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -478,31 +471,30 @@ const readWriteOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.serviceName,
     Parameters.projectName,
-    Parameters.fileName
+    Parameters.fileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileList
+      bodyMapper: Mappers.FileList,
     },
     default: {
-      bodyMapper: Mappers.ApiError
-    }
+      bodyMapper: Mappers.ApiError,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.groupName,
     Parameters.serviceName,
-    Parameters.projectName
+    Parameters.projectName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -189,6 +189,7 @@ import type { SASProtocol } from "./SASQueryParameters.js";
 import type { SasIPRange } from "./SasIPRange.js";
 import type { FileSASPermissions } from "./FileSASPermissions.js";
 import type { ListFilesIncludeType } from "./generated/src/index.js";
+import { Readable } from "node:stream";
 
 export { ShareClientOptions, ShareClientConfig } from "./models.js";
 
@@ -1061,7 +1062,10 @@ export class ShareClient extends StorageClient {
           ...res,
         };
       } catch (e: any) {
-        if (e.details?.errorCode === "ShareNotFound") {
+        if (
+          e.details?.errorCode === "ShareNotFound" ||
+          e.details?.errorCode === "ShareSnapshotNotFound"
+        ) {
           return {
             succeeded: false,
             ...e.response?.parsedHeaders,
@@ -4842,7 +4846,7 @@ export class ShareFileClient extends StorageClient {
           updatedOptions,
         );
       } else {
-        const browserBlob = new Blob([data]);
+        const browserBlob = new Blob([data as any]);
         return this.uploadSeekableInternal(
           (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
@@ -5184,7 +5188,7 @@ export class ShareFileClient extends StorageClient {
    * @param options -
    */
   public async uploadStream(
-    stream: NodeJS.ReadableStream,
+    stream: Readable,
     size: number,
     bufferSize: number,
     maxBuffers: number,

@@ -11,14 +11,14 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualMachineRunCommand,
   VirtualMachineScaleSetVMRunCommandsListOptionalParams,
+  VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
+  VirtualMachineScaleSetVMRunCommandsGetResponse,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse,
   VirtualMachineRunCommandUpdate,
   VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams,
   VirtualMachineScaleSetVMRunCommandsUpdateResponse,
   VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams,
-  VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
-  VirtualMachineScaleSetVMRunCommandsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,9 +26,9 @@ import {
 export interface VirtualMachineScaleSetVMRunCommands {
   /**
    * The operation to get all run commands of an instance in Virtual Machine Scaleset.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
    * @param options The options parameters.
    */
   list(
@@ -38,11 +38,26 @@ export interface VirtualMachineScaleSetVMRunCommands {
     options?: VirtualMachineScaleSetVMRunCommandsListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineRunCommand>;
   /**
+   * The operation to get the VMSS VM run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    runCommandName: string,
+    options?: VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMRunCommandsGetResponse>;
+  /**
    * The operation to create or update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param runCommand Parameters supplied to the Create Virtual Machine RunCommand operation.
    * @param options The options parameters.
    */
@@ -61,10 +76,10 @@ export interface VirtualMachineScaleSetVMRunCommands {
   >;
   /**
    * The operation to create or update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param runCommand Parameters supplied to the Create Virtual Machine RunCommand operation.
    * @param options The options parameters.
    */
@@ -78,11 +93,11 @@ export interface VirtualMachineScaleSetVMRunCommands {
   ): Promise<VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse>;
   /**
    * The operation to update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Update Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param runCommand Resource create parameters.
    * @param options The options parameters.
    */
   beginUpdate(
@@ -100,11 +115,11 @@ export interface VirtualMachineScaleSetVMRunCommands {
   >;
   /**
    * The operation to update the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param runCommand Parameters supplied to the Update Virtual Machine RunCommand operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
+   * @param runCommand Resource create parameters.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
@@ -117,10 +132,10 @@ export interface VirtualMachineScaleSetVMRunCommands {
   ): Promise<VirtualMachineScaleSetVMRunCommandsUpdateResponse>;
   /**
    * The operation to delete the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   beginDelete(
@@ -132,10 +147,10 @@ export interface VirtualMachineScaleSetVMRunCommands {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VirtualMachineScaleSet
+   * @param instanceId The name of the VirtualMachineScaleSetVM
+   * @param runCommandName The name of the VirtualMachineRunCommand
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -145,19 +160,4 @@ export interface VirtualMachineScaleSetVMRunCommands {
     runCommandName: string,
     options?: VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * The operation to get the VMSS VM run command.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param runCommandName The name of the virtual machine run command.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    runCommandName: string,
-    options?: VirtualMachineScaleSetVMRunCommandsGetOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMRunCommandsGetResponse>;
 }

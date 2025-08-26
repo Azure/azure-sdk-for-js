@@ -50,7 +50,7 @@ export interface EndpointResource extends ExtensionResource {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -76,6 +76,10 @@ export interface ExtensionResource extends Resource {
 export interface GenerateAwsTemplateRequest {
     connectorId: string;
     solutionTypes?: SolutionTypeSettings[];
+}
+
+// @public
+export interface GenerateAwsTemplateResponse {
 }
 
 // @public
@@ -351,7 +355,8 @@ export interface SolutionConfigurationUpdate extends ProxyResource {
 }
 
 // @public
-export interface SolutionSettings extends Record<string, string> {
+export interface SolutionSettings {
+    additionalProperties?: Record<string, string>;
 }
 
 // @public

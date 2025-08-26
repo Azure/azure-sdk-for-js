@@ -4,43 +4,12 @@
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { resolveProject, resolveRoot } from "../../util/resolveProject";
-import stripJsonComments from "strip-json-comments";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { vendoredWithOptions } from "../run/vendored";
+import { getRushJson, RushJsonProject } from "../../util/synthesizedRushJson";
 
 const log = createPrinter("migrate-tests");
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _rushJson: any = undefined;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function getRushJson(): Promise<any> {
-  if (_rushJson) return _rushJson;
-
-  const rushJsonText = await readFile(resolve(__dirname, "../../../../../../rush.json"), "utf-8");
-
-  return (_rushJson = JSON.parse(stripJsonComments(rushJsonText)));
-}
-
-/**
- * The shape of a rush.json `projects` entry.
- */
-export interface RushJsonProject {
-  /**
-   * The name of the package.
-   */
-  packageName: string;
-  /**
-   * The path to the project, relative to the monorepo root.
-   */
-  projectFolder: string;
-
-  /**
-   * The version policy name.
-   */
-  versionPolicyName: string;
-}
 
 export const commandInfo = makeCommandInfo(
   "migrate-tests",
@@ -73,7 +42,7 @@ export default leafCommand(commandInfo, async ({ all, "package-name": packageNam
     for (const project of projects) {
       log.info(`Migrating package ${project.packageName}`);
       const projectFolder = resolve(root, project.projectFolder);
-      const success = await updatePackageJson(projectFolder, project.packageName);
+      const success = await updatePackageJson(projectFolder);
       if (!success) {
         log.error(`Failed to migrate package ${packageName}`);
         return false;
@@ -101,7 +70,7 @@ export default leafCommand(commandInfo, async ({ all, "package-name": packageNam
   }
 
   log.info(`Migrating package ${packageName}`);
-  const success = await updatePackageJson(projectFolder, packageName);
+  const success = await updatePackageJson(projectFolder);
   if (!success) {
     log.error(`Failed to migrate package ${packageName}`);
     return false;
@@ -110,7 +79,7 @@ export default leafCommand(commandInfo, async ({ all, "package-name": packageNam
   return true;
 });
 
-async function updatePackageJson(projectFolder: string, packageName: string): Promise<boolean> {
+async function updatePackageJson(projectFolder: string): Promise<boolean> {
   const packageJsonPath = resolve(projectFolder, "package.json");
   const packageJsonContent = await readFile(packageJsonPath, "utf-8");
   const packageJson = JSON.parse(packageJsonContent);
@@ -159,20 +128,6 @@ async function updatePackageJson(projectFolder: string, packageName: string): Pr
     delete packageJson.scripts["build:browser"];
     delete packageJson.scripts["build:node"];
     delete packageJson.scripts["minify"];
-
-    packageJson.scripts["test:node:esm"] = "dev-tool run test:vitest --esm";
-    if (packageJson.scripts["test:node"].includes("--no-test-proxy")) {
-      packageJson.scripts["test:node:esm"] += " --no-test-proxy";
-    }
-
-    if (
-      packageName.startsWith("@azure-tests/perf-") ||
-      packageName === "@azure/dev-tool" ||
-      packageName === "@azure-tools/vite-plugin-browser-test-map" ||
-      packageName === "@azure/eslint-plugin-azure-sdk"
-    ) {
-      packageJson.scripts["test:node:esm"] = "echo skipped";
-    }
 
     // Set the entry point for testing
     packageJson.scripts["test"] = "npm run test:node && npm run test:browser";

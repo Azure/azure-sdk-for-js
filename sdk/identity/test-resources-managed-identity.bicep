@@ -35,6 +35,7 @@ param principalUserType string = 'User'
 // https://learn.microsoft.com/azure/role-based-access-control/built-in-roles
 var blobOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b7e6dc6d-f1e8-4753-8033-0f276bb0955b') // Storage Blob Data Owner
 var serviceOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '17d1049b-9a84-46fb-8f53-869881c3d3ab')
+var acrPull = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d') // ACR Pull
 var websiteContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772') // Website Contributor
 
 // Cluster parameters
@@ -76,7 +77,7 @@ resource blobRoleCluster 'Microsoft.Authorization/roleAssignments@2022-04-01' = 
 }
 
 resource blobRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  scope: storageAccount2
+  scope: storageAccountUserAssigned
   name: guid(resourceGroup().id, blobOwner, userAssignedIdentity.id)
   properties: {
     principalId: userAssignedIdentity.properties.principalId
@@ -105,6 +106,16 @@ resource webRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   }
 }
 
+resource acrPullContainerInstance 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  scope: acrResource
+  name: guid(resourceGroup().id, acrPull, 'containerInstance')
+  properties: {
+    principalId: userAssignedIdentity.properties.principalId
+    roleDefinitionId: acrPull
+    principalType: 'ServicePrincipal'
+  }
+}
+
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   name: uniqueString(resourceGroup().id)
   location: location
@@ -117,10 +128,10 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   }
 }
 
-resource storageAccount2 'Microsoft.Storage/storageAccounts@2021-08-01' = {
+resource storageAccountUserAssigned 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   name: '${uniqueString(resourceGroup().id)}2'
   location: location
-  sku: { 
+  sku: {
     name: 'Standard_LRS'
   }
   kind: 'StorageV2'
@@ -152,7 +163,7 @@ resource web 'Microsoft.Web/sites@2022-09-01' = {
   identity: {
     type: 'SystemAssigned, UserAssigned'
     userAssignedIdentities: {
-      '${userAssignedIdentity.id}' : { }
+      '${userAssignedIdentity.id}': {}
     }
   }
   properties: {
@@ -174,8 +185,8 @@ resource web 'Microsoft.Web/sites@2022-09-01' = {
           value: storageAccount.name
         }
         {
-          name: 'IDENTITY_STORAGE_NAME_2'
-          value: storageAccount2.name
+          name: 'IDENTITY_STORAGE_NAME_USER_ASSIGNED'
+          value: storageAccountUserAssigned.name
         }
         {
           name: 'IDENTITY_USER_DEFINED_CLIENT_ID'
@@ -197,7 +208,7 @@ resource azureFunction 'Microsoft.Web/sites@2022-09-01' = {
   identity: {
     type: 'SystemAssigned, UserAssigned'
     userAssignedIdentities: {
-      '${userAssignedIdentity.id}' : { }
+      '${userAssignedIdentity.id}': {}
     }
   }
   properties: {
@@ -215,8 +226,8 @@ resource azureFunction 'Microsoft.Web/sites@2022-09-01' = {
           value: storageAccount.name
         }
         {
-          name: 'IDENTITY_STORAGE_NAME_2'
-          value: storageAccount2.name
+          name: 'IDENTITY_STORAGE_NAME_USER_ASSIGNED'
+          value: storageAccountUserAssigned.name
         }
         {
           name: 'IDENTITY_USER_DEFINED_CLIENT_ID'
@@ -294,7 +305,7 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
       {
         name: 'agentpool'
         count: 1
-        vmSize: 'Standard_D2s_v3'
+        vmSize: 'Standard_D2s_v5'
         osDiskSizeGB: 128
         osDiskType: 'Managed'
         kubeletDiskType: 'OS'
@@ -331,12 +342,16 @@ output IdentityWebAppName string = web.name
 output IdentityWebAppPlan string = farm.name
 output IdentityUserDefinedIdentity string = userAssignedIdentity.id
 output IdentityUserDefinedClientId string = userAssignedIdentity.properties.clientId
+output IdentityUserDefinedObjectId string = userAssignedIdentity.properties.principalId
 output IdentityUserDefinedIdentityName string = userAssignedIdentity.name
 output IdentityStorageName1 string = storageAccount.name
-output IdentityStorageName2 string = storageAccount2.name
+output IdentityStorageNameUserAssigned string = storageAccountUserAssigned.name
+output IdentityStorageId1 string = storageAccount.id
+output IdentityStorageIdUserAssigned string = storageAccountUserAssigned.id
 output IdentityFunctionName string = azureFunction.name
 output IdentityAksClusterName string = kubernetesCluster.name
 output IdentityAksPodName string = 'javascript-test-app'
+output IdentityContainerInstanceName string = 'javascript-container-app'
 output IdentityAcrName string = acrResource.name
 output IdentityAcrLoginServer string = acrResource.properties.loginServer
 output IdentityTenantID string = tenantId

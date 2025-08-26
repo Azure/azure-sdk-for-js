@@ -33,7 +33,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike);
      sendRequest(request: WebResourceLike): Promise<CompatResponse>;
  }
-@@ -123,26 +118,16 @@
+@@ -129,26 +124,16 @@
      EXPONENTIAL = 0,
      FIXED = 1
  }

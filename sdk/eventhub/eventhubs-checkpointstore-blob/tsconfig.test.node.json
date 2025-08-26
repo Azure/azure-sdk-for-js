@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/eventhubs-checkpointstore-blob": ["./src/index.ts"],
+      "@azure/eventhubs-checkpointstore-blob/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { VirtualNetworkGatewayConnectionsListParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
  * This sample demonstrates how to The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
@@ -11,6 +7,12 @@ import "dotenv/config";
  * @summary The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayConnectionsList.json
  */
+
+import type { VirtualNetworkGatewayConnectionsListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listVirtualNetworkGatewayConnectionsinResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);

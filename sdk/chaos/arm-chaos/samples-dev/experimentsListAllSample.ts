@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChaosManagementClient } from "@azure/arm-chaos";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get a list of Experiment resources in a subscription.
  *
  * @summary get a list of Experiment resources in a subscription.
  * x-ms-original-file: 2025-01-01/Experiments_ListAll.json
  */
+
+import { ChaosManagementClient } from "@azure/arm-chaos";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function listAllExperimentsInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";

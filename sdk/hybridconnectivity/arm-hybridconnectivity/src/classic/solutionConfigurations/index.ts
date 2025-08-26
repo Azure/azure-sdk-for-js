@@ -3,10 +3,13 @@
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
-  SolutionConfiguration,
-  SolutionConfigurationUpdate,
-  OperationStatusResult,
-} from "../../models/models.js";
+  syncNow,
+  list,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/solutionConfigurations/operations.js";
 import {
   SolutionConfigurationsSyncNowOptionalParams,
   SolutionConfigurationsListOptionalParams,
@@ -16,13 +19,10 @@ import {
   SolutionConfigurationsGetOptionalParams,
 } from "../../api/solutionConfigurations/options.js";
 import {
-  syncNow,
-  list,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/solutionConfigurations/operations.js";
+  OperationStatusResult,
+  SolutionConfiguration,
+  SolutionConfigurationUpdate,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 

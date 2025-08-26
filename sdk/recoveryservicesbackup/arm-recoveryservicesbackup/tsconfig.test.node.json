@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-recoveryservicesbackup": ["./src/index.ts"],
+      "@azure/arm-recoveryservicesbackup/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

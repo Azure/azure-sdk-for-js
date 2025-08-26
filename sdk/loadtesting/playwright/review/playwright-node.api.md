@@ -22,7 +22,7 @@ export type EndpointOptions = {
 };
 
 // @public
-export const getConnectOptions: (options?: Omit<PlaywrightServiceAdditionalOptions, "serviceAuthType">) => Promise<BrowserConnectOptions>;
+export const getConnectOptions: (options?: PlaywrightServiceAdditionalOptions) => Promise<BrowserConnectOptions>;
 
 // @public
 export const getServiceConfig: (config: PlaywrightTestConfig, options?: PlaywrightServiceAdditionalOptions) => PlaywrightTestConfig;
@@ -38,7 +38,6 @@ export type PlaywrightServiceAdditionalOptions = {
     timeout?: number;
     slowMo?: number;
     exposeNetwork?: string;
-    useCloudHostedBrowsers?: boolean;
     credential?: TokenCredential;
     runName?: string;
     apiVersion?: "2025-07-01-preview";

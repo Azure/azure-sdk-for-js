@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthClient } from "@azure/arm-cloudhealth";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to get a Entity
  *
  * @summary get a Entity
  * x-ms-original-file: 2025-05-01-preview/Entities_Get.json
  */
+
+import { CloudHealthClient } from "@azure/arm-cloudhealth";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function entitiesGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";

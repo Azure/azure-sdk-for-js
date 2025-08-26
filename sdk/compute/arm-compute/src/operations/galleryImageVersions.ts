@@ -24,13 +24,13 @@ import {
   GalleryImageVersionsListByGalleryImageNextOptionalParams,
   GalleryImageVersionsListByGalleryImageOptionalParams,
   GalleryImageVersionsListByGalleryImageResponse,
+  GalleryImageVersionsGetOptionalParams,
+  GalleryImageVersionsGetResponse,
   GalleryImageVersionsCreateOrUpdateOptionalParams,
   GalleryImageVersionsCreateOrUpdateResponse,
   GalleryImageVersionUpdate,
   GalleryImageVersionsUpdateOptionalParams,
   GalleryImageVersionsUpdateResponse,
-  GalleryImageVersionsGetOptionalParams,
-  GalleryImageVersionsGetResponse,
   GalleryImageVersionsDeleteOptionalParams,
   GalleryImageVersionsListByGalleryImageNextResponse,
 } from "../models/index.js";
@@ -50,10 +50,9 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
 
   /**
    * List gallery image versions in a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
-   * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image
-   *                         Versions are to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param options The options parameters.
    */
   public listByGalleryImage(
@@ -143,14 +142,57 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   }
 
   /**
+   * List gallery image versions in a gallery image definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param options The options parameters.
+   */
+  private _listByGalleryImage(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryImageName: string,
+    options?: GalleryImageVersionsListByGalleryImageOptionalParams,
+  ): Promise<GalleryImageVersionsListByGalleryImageResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, galleryImageName, options },
+      listByGalleryImageOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves information about a gallery image version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param galleryImageVersionName The name of the gallery image version to be retrieved.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryImageName: string,
+    galleryImageVersionName: string,
+    options?: GalleryImageVersionsGetOptionalParams,
+  ): Promise<GalleryImageVersionsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        galleryName,
+        galleryImageName,
+        galleryImageVersionName,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Create or update a gallery image version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
-   * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
-   *                         created.
-   * @param galleryImageVersionName The name of the gallery image version to be created. Needs to follow
-   *                                semantic version name pattern: The allowed characters are digit and period. Digits must be within
-   *                                the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param galleryImageVersionName The name of the gallery image version to be retrieved.
    * @param galleryImageVersion Parameters supplied to the create or update gallery image version
    *                            operation.
    * @param options The options parameters.
@@ -224,6 +266,7 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -231,13 +274,10 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
 
   /**
    * Create or update a gallery image version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
-   * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
-   *                         created.
-   * @param galleryImageVersionName The name of the gallery image version to be created. Needs to follow
-   *                                semantic version name pattern: The allowed characters are digit and period. Digits must be within
-   *                                the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param galleryImageVersionName The name of the gallery image version to be retrieved.
    * @param galleryImageVersion Parameters supplied to the create or update gallery image version
    *                            operation.
    * @param options The options parameters.
@@ -263,13 +303,10 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
 
   /**
    * Update a gallery image version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
-   * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
-   *                         updated.
-   * @param galleryImageVersionName The name of the gallery image version to be updated. Needs to follow
-   *                                semantic version name pattern: The allowed characters are digit and period. Digits must be within
-   *                                the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param galleryImageVersionName The name of the gallery image version to be retrieved.
    * @param galleryImageVersion Parameters supplied to the update gallery image version operation.
    * @param options The options parameters.
    */
@@ -342,6 +379,7 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -349,13 +387,10 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
 
   /**
    * Update a gallery image version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
-   * @param galleryImageName The name of the gallery image definition in which the Image Version is to be
-   *                         updated.
-   * @param galleryImageVersionName The name of the gallery image version to be updated. Needs to follow
-   *                                semantic version name pattern: The allowed characters are digit and period. Digits must be within
-   *                                the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param galleryImageVersionName The name of the gallery image version to be retrieved.
    * @param galleryImageVersion Parameters supplied to the update gallery image version operation.
    * @param options The options parameters.
    */
@@ -379,38 +414,11 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   }
 
   /**
-   * Retrieves information about a gallery image version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
-   * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
-   * @param galleryImageVersionName The name of the gallery image version to be retrieved.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    galleryName: string,
-    galleryImageName: string,
-    galleryImageVersionName: string,
-    options?: GalleryImageVersionsGetOptionalParams,
-  ): Promise<GalleryImageVersionsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        galleryName,
-        galleryImageName,
-        galleryImageVersionName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Delete a gallery image version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
-   * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
-   * @param galleryImageVersionName The name of the gallery image version to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param galleryImageVersionName The name of the gallery image version to be retrieved.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -472,6 +480,7 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -479,10 +488,10 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
 
   /**
    * Delete a gallery image version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
-   * @param galleryImageName The name of the gallery image definition in which the Image Version resides.
-   * @param galleryImageVersionName The name of the gallery image version to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param galleryImageVersionName The name of the gallery image version to be retrieved.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -503,31 +512,10 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
   }
 
   /**
-   * List gallery image versions in a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
-   * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image
-   *                         Versions are to be listed.
-   * @param options The options parameters.
-   */
-  private _listByGalleryImage(
-    resourceGroupName: string,
-    galleryName: string,
-    galleryImageName: string,
-    options?: GalleryImageVersionsListByGalleryImageOptionalParams,
-  ): Promise<GalleryImageVersionsListByGalleryImageResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, galleryImageName, options },
-      listByGalleryImageOperationSpec,
-    );
-  }
-
-  /**
    * ListByGalleryImageNext
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
-   * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image
-   *                         Versions are to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param nextLink The nextLink from the previous successful call to the ListByGalleryImage method.
    * @param options The options parameters.
    */
@@ -547,6 +535,51 @@ export class GalleryImageVersionsImpl implements GalleryImageVersions {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByGalleryImageOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImageVersionList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryImageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImageVersion,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3, Parameters.expand12],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryImageName,
+    Parameters.galleryImageVersionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
   httpMethod: "PUT",
@@ -587,15 +620,19 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.GalleryImageVersion,
+      headersMapper: Mappers.GalleryImageVersionsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.GalleryImageVersion,
+      headersMapper: Mappers.GalleryImageVersionsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.GalleryImageVersion,
+      headersMapper: Mappers.GalleryImageVersionsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.GalleryImageVersion,
+      headersMapper: Mappers.GalleryImageVersionsUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -613,29 +650,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryImageVersion,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3, Parameters.expand12],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
-    Parameters.galleryImageName,
-    Parameters.galleryImageVersionName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -662,28 +676,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByGalleryImageOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryImageVersionList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
-    Parameters.galleryImageName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listByGalleryImageNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -697,8 +689,8 @@ const listByGalleryImageNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryImageName,

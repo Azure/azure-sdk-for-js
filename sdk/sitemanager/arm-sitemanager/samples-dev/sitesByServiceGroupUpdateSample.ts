@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeClient } from "@azure/arm-sitemanager";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to update Site at SG scope
  *
  * @summary update Site at SG scope
  * x-ms-original-file: 2025-03-01-preview/SitesByServiceGroup_Update_MaximumSet_Gen.json
  */
+
+import { EdgeClient } from "@azure/arm-sitemanager";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function sitesByServiceGroupUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";

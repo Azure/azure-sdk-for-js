@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-confluent": ["./src/index.ts"],
+      "@azure/arm-confluent/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

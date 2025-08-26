@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   BackupVault,
@@ -60,11 +56,7 @@ export class BackupVaultsImpl implements BackupVaults {
     accountName: string,
     options?: BackupVaultsListByNetAppAccountOptionalParams,
   ): PagedAsyncIterableIterator<BackupVault> {
-    const iter = this.listByNetAppAccountPagingAll(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const iter = this.listByNetAppAccountPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
         return iter.next();
@@ -95,11 +87,7 @@ export class BackupVaultsImpl implements BackupVaults {
     let result: BackupVaultsListByNetAppAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByNetAppAccount(
-        resourceGroupName,
-        accountName,
-        options,
-      );
+      result = await this._listByNetAppAccount(resourceGroupName, accountName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -199,8 +187,7 @@ export class BackupVaultsImpl implements BackupVaults {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -284,10 +271,7 @@ export class BackupVaultsImpl implements BackupVaults {
     body: BackupVaultPatch,
     options?: BackupVaultsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BackupVaultsUpdateResponse>,
-      BackupVaultsUpdateResponse
-    >
+    SimplePollerLike<OperationState<BackupVaultsUpdateResponse>, BackupVaultsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -299,8 +283,7 @@ export class BackupVaultsImpl implements BackupVaults {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -382,10 +365,7 @@ export class BackupVaultsImpl implements BackupVaults {
     backupVaultName: string,
     options?: BackupVaultsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BackupVaultsDeleteResponse>,
-      BackupVaultsDeleteResponse
-    >
+    SimplePollerLike<OperationState<BackupVaultsDeleteResponse>, BackupVaultsDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -397,8 +377,7 @@ export class BackupVaultsImpl implements BackupVaults {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -455,12 +434,7 @@ export class BackupVaultsImpl implements BackupVaults {
     backupVaultName: string,
     options?: BackupVaultsDeleteOptionalParams,
   ): Promise<BackupVaultsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      accountName,
-      backupVaultName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, accountName, backupVaultName, options);
     return poller.pollUntilDone();
   }
 

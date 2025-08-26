@@ -233,6 +233,16 @@ export class Items {
   ): Promise<QueryIterator<ItemDefinition>> {
     const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
     const sqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
+    if (this.clientContext.enableEncryption && options.partitionKey) {
+      await this.container.checkAndInitializeEncryption();
+      const { partitionKeyList, encryptedCount } =
+        await this.container.encryptionProcessor.getEncryptedPartitionKeyValue([
+          options.partitionKey,
+        ] as PartitionKeyInternal);
+      if (encryptedCount > 0) {
+        options.partitionKey = partitionKeyList[0];
+      }
+    }
     const iterator = this.query<ItemDefinition>(sqlQuerySpec, options);
     return iterator;
   }

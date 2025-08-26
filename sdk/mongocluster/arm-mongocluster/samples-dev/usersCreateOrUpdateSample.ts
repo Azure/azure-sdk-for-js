@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to creates a new user or updates an existing user on a mongo cluster.
  *
  * @summary creates a new user or updates an existing user on a mongo cluster.
- * x-ms-original-file: 2025-04-01-preview/MongoClusters_UserCreateOrUpdate.json
+ * x-ms-original-file: 2025-07-01-preview/MongoClusters_UserCreateOrUpdate.json
  */
+
+import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function createsAUserOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -20,7 +21,7 @@ async function createsAUserOnAMongoClusterResource(): Promise<void> {
     "uuuuuuuu-uuuu-uuuu-uuuu-uuuuuuuuuuuu",
     {
       properties: {
-        roles: [{ role: "dbOwner", db: "admin" }],
+        roles: [{ role: "root", db: "admin" }],
         identityProvider: {
           type: "MicrosoftEntraID",
           properties: { principalType: "user" },

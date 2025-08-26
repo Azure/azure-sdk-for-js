@@ -23,8 +23,11 @@ import {
   MessageStreamEvent,
   RunStepStreamEvent,
   RunStreamEvent,
-  ThreadStreamEvent,
   ToolOutput,
+  messageDeltaChunkDeserializer,
+  runStepDeltaChunkDeserializer,
+  runStepDeserializer,
+  threadMessageDeserializer,
 } from "../models/models.js";
 import type {
   CreateThreadAndRunOptionalParams,
@@ -62,9 +65,9 @@ export function _createThreadAndRunSend(
   options: CreateThreadAndRunOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/threads/runs{?api%2Dversion}",
+    "/threads/runs{?api-version}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -148,10 +151,10 @@ export function _deleteAgentSend(
   options: DeleteAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api%2Dversion}",
+    "/assistants/{assistantId}{?api-version}",
     {
       assistantId: assistantId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,10 +198,10 @@ export function _updateAgentSend(
   options: UpdateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api%2Dversion}",
+    "/assistants/{assistantId}{?api-version}",
     {
       assistantId: assistantId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -257,10 +260,10 @@ export function _getAgentSend(
   options: GetAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants/{assistantId}{?api%2Dversion}",
+    "/assistants/{assistantId}{?api-version}",
     {
       assistantId: assistantId,
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -301,9 +304,9 @@ export function _listAgentsSend(
   options: ListAgentsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants{?api%2Dversion,limit,order,after,before}",
+    "/assistants{?api-version,limit,order,after,before}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
       limit: options?.limit,
       order: options?.order,
       after: options?.after,
@@ -355,9 +358,9 @@ export function _createAgentSend(
   options: CreateAgentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/assistants{?api%2Dversion}",
+    "/assistants{?api-version}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -409,12 +412,6 @@ export async function createAgent(
   const result = await _createAgentSend(context, model, options);
   return _createAgentDeserialize(result);
 }
-const handlers = [
-  { events: Object.values(ThreadStreamEvent) as string[] },
-  { events: Object.values(RunStreamEvent) as string[] },
-  { events: Object.values(RunStepStreamEvent) as string[] },
-  { events: Object.values(MessageStreamEvent) as string[] },
-];
 
 function createAgentStream(stream: EventMessageStream): AgentEventMessageStream {
   const asyncIterator = toAsyncIterable(stream);
@@ -432,24 +429,22 @@ async function* toAsyncIterable(stream: EventMessageStream): AsyncIterable<Agent
 function deserializeEventData(event: EventMessage): AgentEventStreamData {
   try {
     const jsonData = JSON.parse(event.data);
+    if (Object.values(RunStepStreamEvent).includes(event.event as RunStepStreamEvent)) {
+      if (event.event === RunStepStreamEvent.ThreadRunStepDelta) {
+        return runStepDeltaChunkDeserializer(jsonData);
+      }
+      return runStepDeserializer(jsonData);
+    }
+    if (Object.values(MessageStreamEvent).includes(event.event as MessageStreamEvent)) {
+      if (event.event === MessageStreamEvent.ThreadMessageDelta) {
+        return messageDeltaChunkDeserializer(jsonData);
+      }
+      return threadMessageDeserializer(jsonData);
+    }
     if (Object.values(RunStreamEvent).includes(event.event as RunStreamEvent)) {
       return threadRunDeserializer(jsonData);
     }
-    switch (event.event) {
-      case MessageStreamEvent.ThreadMessageDelta:
-        return jsonData;
-      case RunStepStreamEvent.ThreadRunStepDelta:
-        return jsonData;
-      default: {
-        for (const { events } of handlers) {
-          if (events.includes(event.event)) {
-            return jsonData;
-          }
-        }
-
-        return jsonData;
-      }
-    }
+    return jsonData;
   } catch (ex) {
     logger.error(`Failed to parse event data  ${event.event} - error: ${ex}`);
     return event.data;

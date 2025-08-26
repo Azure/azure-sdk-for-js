@@ -136,7 +136,8 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, domaintopicName);
   });
 
-  it("domainTopicEventSubscriptions create test", async () => {
+  //Skip this case as it's too troublesome to create a domain topic with a custom topic.
+  it.skip("domainTopicEventSubscriptions create test", async () => {
     // before test this case please create an eventhub namespace "czweventhub" and an eventhub "czweh"
     const res = await client.domainTopicEventSubscriptions.beginCreateOrUpdateAndWait(
       resourceGroupName,
@@ -167,7 +168,7 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, eventSubscriptionName);
   });
 
-  it("domainTopicEventSubscriptions listByResourceGroup test", async () => {
+  it.skip("domainTopicEventSubscriptions listByResourceGroup test", async () => {
     const resArray = new Array();
     for await (const item of client.domainTopicEventSubscriptions.list(
       resourceGroupName,
@@ -180,7 +181,7 @@ describe("Eventgrid test", () => {
     console.log("********************************");
   });
 
-  it("domainTopicEventSubscriptions get test", async () => {
+  it.skip("domainTopicEventSubscriptions get test", async () => {
     const res = await client.domainTopicEventSubscriptions.get(
       resourceGroupName,
       domainName,
@@ -190,7 +191,7 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, eventSubscriptionName);
   });
 
-  it("domainTopicEventSubscriptions update test", async () => {
+  it.skip("domainTopicEventSubscriptions update test", async () => {
     const res = await client.domainTopicEventSubscriptions.beginUpdateAndWait(
       resourceGroupName,
       domainName,
@@ -216,7 +217,7 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, eventSubscriptionName);
   });
 
-  it("domainTopicEventSubscriptions delete test", async () => {
+  it.skip("domainTopicEventSubscriptions delete test", async () => {
     await client.domainTopicEventSubscriptions.beginDeleteAndWait(
       resourceGroupName,
       domainName,

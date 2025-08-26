@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Utilities to manipulate version information",
   "main": "echo \"use increment.js or set-dev.js\"",
+  "type": "module",
   "scripts": {
+    "build": "npm run format && npm run typecheck",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore  \"./**/*.{js,json}\"",
+    "typecheck": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +24,15 @@
     "@azure-tools/eng-package-utils": "file:../eng-package-utils",
     "semver": "^7.5.4",
     "yargs": "^17.7.2",
-    "yargs-parser": "^21.1.1"
+    "yargs-parser": "^21.1.1",
+    "@pnpm/fs.find-packages": "^1000.0.8",
+    "@pnpm/config": "^1002.7.0",
+    "@pnpm/catalogs.resolver": "^1000.0.2"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.33",
+    "@types/node": "^20.0.0",
+    "prettier": "^3.6.2",
+    "typescript": "~5.8.2"
   }
 }

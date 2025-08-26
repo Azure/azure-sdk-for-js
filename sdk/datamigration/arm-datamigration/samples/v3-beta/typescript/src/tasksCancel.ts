@@ -21,11 +21,7 @@ async function tasksCancel(): Promise<void> {
   const taskName = "DmsSdkTask";
   const credential = new DefaultAzureCredential();
   const client = new DataMigrationManagementClient(credential, subscriptionId);
-  const result = await client.serviceTasks.cancel(
-    groupName,
-    serviceName,
-    taskName
-  );
+  const result = await client.serviceTasks.cancel(groupName, serviceName, taskName);
   console.log(result);
 }
 

@@ -11,10 +11,8 @@
  * @summary Create or Update SQL Migration Service.
  * x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2021-10-30-preview/examples/CreateOrUpdateMigrationServiceMIN.json
  */
-import {
-  SqlMigrationService,
-  DataMigrationManagementClient
-} from "@azure/arm-datamigration";
+import type { SqlMigrationService } from "@azure/arm-datamigration";
+import { DataMigrationManagementClient } from "@azure/arm-datamigration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function createOrUpdateSqlMigrationServiceWithMinimumParameters(): Promise<void> {
@@ -27,7 +25,7 @@ async function createOrUpdateSqlMigrationServiceWithMinimumParameters(): Promise
   const result = await client.sqlMigrationServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     sqlMigrationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

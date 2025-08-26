@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-portalservicescopilot": ["./src/index.ts"],
+      "@azure/arm-portalservicescopilot/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

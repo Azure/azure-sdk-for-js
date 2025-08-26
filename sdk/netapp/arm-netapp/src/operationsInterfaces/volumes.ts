@@ -33,8 +33,6 @@ import {
   GetGroupIdListForLdapUserRequest,
   VolumesListGetGroupIdListForLdapUserOptionalParams,
   VolumesListGetGroupIdListForLdapUserResponse,
-  VolumesListQuotaReportOptionalParams,
-  VolumesListQuotaReportResponse,
   VolumesBreakReplicationOptionalParams,
   ReestablishReplicationRequest,
   VolumesReestablishReplicationOptionalParams,
@@ -124,10 +122,7 @@ export interface Volumes {
     body: Volume,
     options?: VolumesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VolumesCreateOrUpdateResponse>,
-      VolumesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<VolumesCreateOrUpdateResponse>, VolumesCreateOrUpdateResponse>
   >;
   /**
    * Create or update the specified volume within the capacity pool
@@ -162,12 +157,7 @@ export interface Volumes {
     volumeName: string,
     body: VolumePatch,
     options?: VolumesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VolumesUpdateResponse>,
-      VolumesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<VolumesUpdateResponse>, VolumesUpdateResponse>>;
   /**
    * Patch the specified volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -423,41 +413,6 @@ export interface Volumes {
     body: GetGroupIdListForLdapUserRequest,
     options?: VolumesListGetGroupIdListForLdapUserOptionalParams,
   ): Promise<VolumesListGetGroupIdListForLdapUserResponse>;
-  /**
-   * Returns report of quotas for the volume
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  beginListQuotaReport(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesListQuotaReportOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VolumesListQuotaReportResponse>,
-      VolumesListQuotaReportResponse
-    >
-  >;
-  /**
-   * Returns report of quotas for the volume
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  beginListQuotaReportAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesListQuotaReportOptionalParams,
-  ): Promise<VolumesListQuotaReportResponse>;
   /**
    * Break the replication connection on the destination volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -65,12 +65,7 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          vaultName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, vaultName, options, settings);
       },
     };
   }
@@ -91,12 +86,7 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        vaultName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, vaultName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -109,11 +99,7 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
     vaultName: string,
     options?: DppResourceGuardProxyListOptionalParams,
   ): AsyncIterableIterator<ResourceGuardProxyBaseResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      vaultName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, vaultName, options)) {
       yield* page;
     }
   }
@@ -304,7 +290,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters22,
+  requestBody: Parameters.parameters23,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -349,7 +335,7 @@ const unlockDeleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters23,
+  requestBody: Parameters.parameters24,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

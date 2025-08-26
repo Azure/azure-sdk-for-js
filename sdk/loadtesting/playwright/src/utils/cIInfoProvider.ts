@@ -9,7 +9,7 @@ export enum CI_PROVIDERS {
 }
 
 export type CIInfo = {
-  provider?: CI_PROVIDERS | null;
+  providerName?: CI_PROVIDERS | null;
   branch?: string | null;
   author?: string | null;
   commitId?: string | null;
@@ -36,7 +36,7 @@ export class CIInfoProvider {
     if (ciProvider === CI_PROVIDERS.GITHUB) {
       // Logic to get GitHub Actions CIInfo
       return {
-        provider: CI_PROVIDERS.GITHUB,
+        providerName: CI_PROVIDERS.GITHUB,
         branch: this.getGHBranchName() || null,
         author: process.env["GITHUB_ACTOR"] || null,
         commitId: process.env["GITHUB_SHA"] || null,
@@ -47,7 +47,7 @@ export class CIInfoProvider {
     } else if (ciProvider === CI_PROVIDERS.ADO) {
       // Logic to get Azure DevOps CIInfo
       return {
-        provider: CI_PROVIDERS.ADO,
+        providerName: CI_PROVIDERS.ADO,
         branch: process.env["BUILD_SOURCEBRANCH"] || null,
         author: process.env["BUILD_REQUESTEDFOR"] || null,
         commitId: process.env["BUILD_SOURCEVERSION"] || null,
@@ -58,7 +58,7 @@ export class CIInfoProvider {
     } else {
       // Handle unsupported CI provider
       return {
-        provider: CI_PROVIDERS.DEFAULT,
+        providerName: CI_PROVIDERS.DEFAULT,
         branch: process.env["BRANCH"] ?? null,
         author: process.env["AUTHOR"] ?? null,
         commitId: process.env["COMMIT_ID"] ?? null,
