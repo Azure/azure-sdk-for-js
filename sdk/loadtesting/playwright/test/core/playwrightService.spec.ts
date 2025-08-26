@@ -251,7 +251,7 @@ describe("createAzurePlaywrightConfig", () => {
   });
 
   it("should set service global setup and teardown for entra authentication", async () => {
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     const config = localGetServiceConfig(samplePlaywrightConfigInput);
@@ -260,7 +260,7 @@ describe("createAzurePlaywrightConfig", () => {
   });
 
   it("should not set service global setup and teardown for mpt PAT authentication even if pat is not set", async () => {
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     vi.spyOn(utils, "validateMptPAT").mockReturnValue();

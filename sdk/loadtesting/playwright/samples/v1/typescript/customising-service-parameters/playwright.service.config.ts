@@ -25,4 +25,7 @@ const playwrightServiceAdditionalOptions: PlaywrightServiceAdditionalOptions = {
   runName: "Typescript V1 - Sample Run", // Run name for the test run
 };
 
-export default defineConfig(config, createAzurePlaywrightConfig(config, playwrightServiceAdditionalOptions));
+export default defineConfig(
+  config,
+  createAzurePlaywrightConfig(config, playwrightServiceAdditionalOptions),
+);

@@ -1,4 +1,8 @@
-import { createAzurePlaywrightConfig, ServiceAuth, ServiceEnvironmentVariable } from "@azure/playwright";
+import {
+  createAzurePlaywrightConfig,
+  ServiceAuth,
+  ServiceEnvironmentVariable,
+} from "@azure/playwright";
 import { defineConfig } from "@playwright/test";
 import config from "./playwright.config.js";
 
