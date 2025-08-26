@@ -158,7 +158,7 @@ const getServiceConfig = (
 
   if (!process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED]) {
     process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] = "true";
-    console.log("\nRunning tests using Azure Playwright service.");
+    console.log("\nRunning tests using Playwright workspaces.");
   }
 
   return {
