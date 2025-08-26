@@ -18,7 +18,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     options?: FeedOptions,
   ) {
     // Get the continuation token manager from options if available
-    this.continuationTokenManager = (options as any)?.continuationTokenManager;
+    this.continuationTokenManager = options.continuationTokenManager;
 
     // Check continuation token for offset/limit values during initialization
     if (options?.continuationToken) {
@@ -31,8 +31,10 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
         if (parsedToken.limit) {
           this.limit = parsedToken.limit;
         }
-      } catch {
-        // If parsing fails, use the provided offset/limit values from query plan
+      } catch (error) {
+        throw new Error(
+          `Failed to parse Continuation token: ${options.continuationToken}`
+        );
       }
     }
   }
