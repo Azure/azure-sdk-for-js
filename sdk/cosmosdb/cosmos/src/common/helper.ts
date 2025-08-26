@@ -546,9 +546,5 @@ export function validateClientEncryptionPolicy(
  * @returns true if excluded locations can be applied, false otherwise
  */
 export function canApplyExcludedLocations(resourceType: ResourceType): boolean {
-  return (
-    resourceType === ResourceType.item ||
-    resourceType === ResourceType.container ||
-    resourceType === ResourceType.partitionkey
-  );
+  return resourceType === ResourceType.item;
 }

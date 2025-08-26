@@ -676,45 +676,6 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     );
     client.dispose();
   });
-  it("Request-level excludedLocations for DeleteAllItemsForPartitionKey", async () => {
-    const endpointTracker = { lastEndpointCalled: "" };
-    const responses = [databaseAccountResponse, SuccessReadResponse, SuccessReadResponse];
-    const plugins = getPlugins(responses, endpointTracker);
-    const client = new CosmosClient({ ...options, plugins } as any);
-    const writeEndpoint = await client.getWriteEndpoint();
-    assert.equal(
-      writeEndpoint,
-      "https://excludedregiontest-eastus.documents.azure.com:443/",
-      "Should use request-level excluded region",
-    );
-    const requestOptions = {
-      excludedLocations: ["Australia East"],
-      startFromBeginning: true,
-    } as any;
-    await client
-      .database("foo")
-      .container("foo")
-      .deleteAllItemsForPartitionKey("cat1", requestOptions);
-    assert.equal(
-      endpointTracker.lastEndpointCalled,
-      "https://excludedregiontest-eastus.documents.azure.com:443/",
-      "Should use East US region for DeleteAllItemsForPartitionKey",
-    );
-    const requestOptions1 = {
-      excludedLocations: ["East US", "Australia East"],
-      startFromBeginning: true,
-    } as any;
-    await client
-      .database("foo")
-      .container("foo")
-      .deleteAllItemsForPartitionKey("cat1", requestOptions1);
-    assert.equal(
-      endpointTracker.lastEndpointCalled,
-      "https://excludedregiontest-westus.documents.azure.com:443/",
-      "Should use West US region for DeleteAllItemsForPartitionKey",
-    );
-    client.dispose();
-  });
   it("Request-level excludedLocations without preferredLocations", async () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
