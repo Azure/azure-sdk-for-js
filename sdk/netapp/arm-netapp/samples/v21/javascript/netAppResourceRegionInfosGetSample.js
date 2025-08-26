@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Provides storage to network proximity and logical zone mapping information.
  *
  * @summary Provides storage to network proximity and logical zone mapping information.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/RegionInfos_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/RegionInfos_Get.json
  */
 async function regionInfosGet() {
   const subscriptionId =

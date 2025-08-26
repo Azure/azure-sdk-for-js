@@ -7,14 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  DaprComponent,
+  ConnectedEnvironmentDaprComponent,
   ConnectedEnvironmentsDaprComponentsListOptionalParams,
   ConnectedEnvironmentsDaprComponentsGetOptionalParams,
   ConnectedEnvironmentsDaprComponentsGetResponse,
   ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse,
   ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
+  ConnectedEnvironmentsDaprComponentsDeleteResponse,
   ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams,
   ConnectedEnvironmentsDaprComponentsListSecretsResponse,
 } from "../models/index.js";
@@ -32,7 +34,7 @@ export interface ConnectedEnvironmentsDaprComponents {
     resourceGroupName: string,
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsDaprComponentsListOptionalParams,
-  ): PagedAsyncIterableIterator<DaprComponent>;
+  ): PagedAsyncIterableIterator<ConnectedEnvironmentDaprComponent>;
   /**
    * Get a dapr component.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -54,11 +56,31 @@ export interface ConnectedEnvironmentsDaprComponents {
    * @param daprComponentEnvelope Configuration details of the Dapr Component.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
-    daprComponentEnvelope: DaprComponent,
+    daprComponentEnvelope: ConnectedEnvironmentDaprComponent,
+    options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>,
+      ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Creates or updates a Dapr Component in a connected environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the connected environment.
+   * @param componentName Name of the Dapr Component.
+   * @param daprComponentEnvelope Configuration details of the Dapr Component.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    componentName: string,
+    daprComponentEnvelope: ConnectedEnvironmentDaprComponent,
     options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>;
   /**
@@ -68,12 +90,30 @@ export interface ConnectedEnvironmentsDaprComponents {
    * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     componentName: string,
     options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsDaprComponentsDeleteResponse>,
+      ConnectedEnvironmentsDaprComponentsDeleteResponse
+    >
+  >;
+  /**
+   * Delete a Dapr Component from a connected environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the connected environment.
+   * @param componentName Name of the Dapr Component.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    componentName: string,
+    options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
+  ): Promise<ConnectedEnvironmentsDaprComponentsDeleteResponse>;
   /**
    * List secrets for a dapr component
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -62,11 +62,7 @@ const checkFeatureSupportOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,

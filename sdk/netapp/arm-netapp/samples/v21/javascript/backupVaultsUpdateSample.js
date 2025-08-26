@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Patch the specified NetApp Backup Vault
  *
  * @summary Patch the specified NetApp Backup Vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupVaults_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/BackupVaults_Update.json
  */
 async function backupVaultsUpdate() {
   const subscriptionId =

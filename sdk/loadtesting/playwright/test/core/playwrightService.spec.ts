@@ -402,9 +402,16 @@ describe("getConnectOptions", () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     delete process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG];
     const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+    const credential = {
+      getToken: vi
+        .fn()
+        .mockResolvedValue({ token: "token", expiresOnTimestamp: Date.now() + 10000 }),
+    };
     await getConnectOptions({
       runId: "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
       os: ServiceOS.WINDOWS,
+      credential,
+      serviceAuthType: ServiceAuth.ENTRA_ID,
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(playwrightServiceConfig.runId).to.equal("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
@@ -427,7 +434,15 @@ describe("getConnectOptions", () => {
     const mockVersion = "1.0.0";
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     vi.spyOn(require("../../package.json"), "version", "get").mockReturnValue(mockVersion);
-    const connectOptions = await getConnectOptions({});
+    const credential = {
+      getToken: vi
+        .fn()
+        .mockResolvedValue({ token: "token", expiresOnTimestamp: Date.now() + 10000 }),
+    };
+    const connectOptions = await getConnectOptions({
+      credential,
+      serviceAuthType: ServiceAuth.ENTRA_ID,
+    });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(connectOptions).to.deep.equal({
       wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
@@ -447,9 +462,12 @@ describe("getConnectOptions", () => {
   it("should throw error if token is not set", async () => {
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
     const { getConnectOptions } = await import("../../src/core/playwrightService.js");
-    await expect(() => getConnectOptions()).rejects.toThrow(
-      ServiceErrorMessageConstants.NO_AUTH_ERROR.message,
-    );
+
+    await expect(() =>
+      getConnectOptions({
+        serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+      }),
+    ).rejects.toThrow(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
   });
 
   it("should fetch entra token using credentials passed by customer", async () => {
@@ -467,5 +485,61 @@ describe("getConnectOptions", () => {
       credential,
     });
     expect(credential.getToken).toHaveBeenCalled();
+  });
+
+  it("should throw error when ENTRA_ID auth type is specified but no credential is provided", async () => {
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+
+    await expect(() =>
+      getConnectOptions({
+        serviceAuthType: ServiceAuth.ENTRA_ID,
+      }),
+    ).rejects.toThrow(ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message);
+  });
+
+  it("should use environment access token when ACCESS_TOKEN auth type is specified", async () => {
+    const accessToken = "token";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, accessToken);
+    vi.spyOn(utils, "validateMptPAT").mockReturnValue();
+    vi.spyOn(utils, "getAccessToken").mockReturnValue(accessToken);
+
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+
+    const connectOptions = await getConnectOptions({
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+    });
+
+    // Access the options correctly based on the structure
+    expect(connectOptions.options?.headers?.Authorization).to.equal(`Bearer ${accessToken}`);
+  });
+
+  it("should throw error when invalid auth type is specified", async () => {
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+
+    await expect(() =>
+      getConnectOptions({
+        serviceAuthType: "INVALID_AUTH_TYPE" as any,
+      }),
+    ).rejects.toThrow(ServiceErrorMessageConstants.INVALID_AUTH_TYPE_ERROR.message);
+  });
+
+  it("should honor serviceAuthType when specified", async () => {
+    const accessToken = "token";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, accessToken);
+    vi.spyOn(utils, "validateMptPAT").mockReturnValue();
+
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+
+    const playwrightServiceConfigSpy = vi.spyOn(
+      PlaywrightServiceConfig.prototype,
+      "serviceAuthType",
+      "set",
+    );
+
+    await getConnectOptions({
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+    });
+
+    expect(playwrightServiceConfigSpy).toHaveBeenCalledWith(ServiceAuth.ACCESS_TOKEN);
   });
 });

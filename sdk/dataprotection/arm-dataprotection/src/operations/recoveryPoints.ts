@@ -49,12 +49,7 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     backupInstanceName: string,
     options?: RecoveryPointsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupRecoveryPointResource> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      vaultName,
-      backupInstanceName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, vaultName, backupInstanceName, options);
     return {
       next() {
         return iter.next();
@@ -87,12 +82,7 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     let result: RecoveryPointsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        vaultName,
-        backupInstanceName,
-        options,
-      );
+      result = await this._list(resourceGroupName, vaultName, backupInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -210,11 +200,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

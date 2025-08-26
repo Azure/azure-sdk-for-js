@@ -78,6 +78,7 @@ class PlaywrightServiceConfig {
     if (isGetConnectOptions) {
       this.validateOptions(options);
     }
+
     if (options?.exposeNetwork) {
       this.exposeNetwork = options.exposeNetwork;
     }

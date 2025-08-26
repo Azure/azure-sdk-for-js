@@ -19,6 +19,22 @@ import { checkSubscription } from "../util/subscriptionUtils.js";
 const logger = credentialLogger("AzureCliCredential");
 
 /**
+ * Messages to use when throwing in this credential.
+ * @internal
+ */
+export const azureCliPublicErrorMessages = {
+  claim:
+    "This credential doesn't support claims challenges. To authenticate with the required claims, please run the following command:",
+  notInstalled:
+    "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
+  login:
+    "Please run 'az login' from a command prompt to authenticate before using this credential.",
+  unknown: "Unknown error while trying to retrieve the access token",
+  unexpectedResponse:
+    'Unexpected response from Azure CLI when getting token. Expected "expiresOn" to be a RFC3339 date string. Got:',
+};
+
+/**
  * Mockable reference to the CLI credential cliCredentialFunctions
  * @internal
  */
@@ -136,6 +152,23 @@ export class AzureCliCredential implements TokenCredential {
     scopes: string | string[],
     options: GetTokenOptions = {},
   ): Promise<AccessToken> {
+    const scope = typeof scopes === "string" ? scopes : scopes[0];
+    const claimsValue = options.claims;
+    if (claimsValue && claimsValue.trim()) {
+      let loginCmd = `az login --claims-challenge ${claimsValue} --scope ${scope}`;
+
+      const tenantIdFromOptions = options.tenantId;
+      if (tenantIdFromOptions) {
+        loginCmd += ` --tenant ${tenantIdFromOptions}`;
+      }
+
+      const error = new CredentialUnavailableError(
+        `${azureCliPublicErrorMessages.claim} ${loginCmd}`,
+      );
+      logger.getToken.info(formatError(scope, error));
+      throw error;
+    }
+
     const tenantId = processMultiTenantRequest(
       this.tenantId,
       options,
@@ -147,7 +180,6 @@ export class AzureCliCredential implements TokenCredential {
     if (this.subscription) {
       checkSubscription(logger, this.subscription);
     }
-    const scope = typeof scopes === "string" ? scopes : scopes[0];
     logger.getToken.info(`Using the scope ${scope}`);
 
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
@@ -166,16 +198,12 @@ export class AzureCliCredential implements TokenCredential {
           obj.stderr?.match("az:(.*)not found") || obj.stderr?.startsWith("'az' is not recognized");
 
         if (isNotInstallError) {
-          const error = new CredentialUnavailableError(
-            "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
-          );
+          const error = new CredentialUnavailableError(azureCliPublicErrorMessages.notInstalled);
           logger.getToken.info(formatError(scopes, error));
           throw error;
         }
         if (isLoginError) {
-          const error = new CredentialUnavailableError(
-            "Please run 'az login' from a command prompt to authenticate before using this credential.",
-          );
+          const error = new CredentialUnavailableError(azureCliPublicErrorMessages.login);
           logger.getToken.info(formatError(scopes, error));
           throw error;
         }
@@ -195,7 +223,7 @@ export class AzureCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-                (err as Error).message || "Unknown error while trying to retrieve the access token",
+                (err as Error).message || azureCliPublicErrorMessages.unknown,
               );
         logger.getToken.info(formatError(scopes, error));
         throw error;
@@ -234,7 +262,7 @@ export class AzureCliCredential implements TokenCredential {
     // ensure expiresOn is well-formatted
     if (isNaN(expiresOnTimestamp)) {
       throw new CredentialUnavailableError(
-        `Unexpected response from Azure CLI when getting token. Expected "expiresOn" to be a RFC3339 date string. Got: "${response.expiresOn}"`,
+        `${azureCliPublicErrorMessages.unexpectedResponse} "${response.expiresOn}"`,
       );
     }
 

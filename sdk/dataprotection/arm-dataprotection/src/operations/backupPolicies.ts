@@ -62,12 +62,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          vaultName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, vaultName, options, settings);
       },
     };
   }
@@ -88,12 +83,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        vaultName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, vaultName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -106,11 +96,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
     vaultName: string,
     options?: BackupPoliciesListOptionalParams,
   ): AsyncIterableIterator<BaseBackupPolicyResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      vaultName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, vaultName, options)) {
       yield* page;
     }
   }

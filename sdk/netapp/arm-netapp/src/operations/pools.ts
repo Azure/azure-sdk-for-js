@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetAppManagementClient } from "../netAppManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   CapacityPool,
@@ -71,12 +67,7 @@ export class PoolsImpl implements Pools {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -97,12 +88,7 @@ export class PoolsImpl implements Pools {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        accountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, accountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -115,11 +101,7 @@ export class PoolsImpl implements Pools {
     accountName: string,
     options?: PoolsListOptionalParams,
   ): AsyncIterableIterator<CapacityPool> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      accountName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, accountName, options)) {
       yield* page;
     }
   }
@@ -175,10 +157,7 @@ export class PoolsImpl implements Pools {
     body: CapacityPool,
     options?: PoolsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PoolsCreateOrUpdateResponse>,
-      PoolsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<PoolsCreateOrUpdateResponse>, PoolsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -190,8 +169,7 @@ export class PoolsImpl implements Pools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -274,9 +252,7 @@ export class PoolsImpl implements Pools {
     poolName: string,
     body: CapacityPoolPatch,
     options?: PoolsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -287,8 +263,7 @@ export class PoolsImpl implements Pools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -320,14 +295,14 @@ export class PoolsImpl implements Pools {
       args: { resourceGroupName, accountName, poolName, body, options },
       spec: updateOperationSpec,
     });
-    const poller = await createHttpPoller<
-      PoolsUpdateResponse,
-      OperationState<PoolsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
+    const poller = await createHttpPoller<PoolsUpdateResponse, OperationState<PoolsUpdateResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+        resourceLocationConfig: "location",
+      },
+    );
     await poller.poll();
     return poller;
   }
@@ -347,13 +322,7 @@ export class PoolsImpl implements Pools {
     body: CapacityPoolPatch,
     options?: PoolsUpdateOptionalParams,
   ): Promise<PoolsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      accountName,
-      poolName,
-      body,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, accountName, poolName, body, options);
     return poller.pollUntilDone();
   }
 
@@ -380,8 +349,7 @@ export class PoolsImpl implements Pools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -435,12 +403,7 @@ export class PoolsImpl implements Pools {
     poolName: string,
     options?: PoolsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      accountName,
-      poolName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, accountName, poolName, options);
     return poller.pollUntilDone();
   }
 

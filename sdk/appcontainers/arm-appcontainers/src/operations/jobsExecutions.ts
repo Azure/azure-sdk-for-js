@@ -57,12 +57,7 @@ export class JobsExecutionsImpl implements JobsExecutions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          jobName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, jobName, options, settings);
       },
     };
   }
@@ -83,12 +78,7 @@ export class JobsExecutionsImpl implements JobsExecutions {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        jobName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, jobName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -101,11 +91,7 @@ export class JobsExecutionsImpl implements JobsExecutions {
     jobName: string,
     options?: JobsExecutionsListOptionalParams,
   ): AsyncIterableIterator<JobExecution> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      jobName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, jobName, options)) {
       yield* page;
     }
   }

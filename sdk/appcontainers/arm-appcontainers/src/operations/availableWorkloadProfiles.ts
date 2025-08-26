@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailableWorkloadProfiles operations. */
-export class AvailableWorkloadProfilesImpl
-  implements AvailableWorkloadProfiles
-{
+export class AvailableWorkloadProfilesImpl implements AvailableWorkloadProfiles {
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -103,10 +101,7 @@ export class AvailableWorkloadProfilesImpl
     location: string,
     options?: AvailableWorkloadProfilesGetOptionalParams,
   ): Promise<AvailableWorkloadProfilesGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, getOperationSpec);
   }
 
   /**
@@ -120,10 +115,7 @@ export class AvailableWorkloadProfilesImpl
     nextLink: string,
     options?: AvailableWorkloadProfilesGetNextOptionalParams,
   ): Promise<AvailableWorkloadProfilesGetNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      getNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, getNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -141,11 +133,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
