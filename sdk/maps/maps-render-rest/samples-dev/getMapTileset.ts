@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultAzureCredential } from "@azure/identity";
-import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
-
 /**
  * @summary How to get the metadata of a certain tileset.
  */
+
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
+
 async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:

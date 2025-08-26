@@ -7,10 +7,7 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
-  ExportJobsTriggerOptionalParams,
-  ExportJobsTriggerResponse,
-} from "../models/index.js";
+import { ExportJobsTriggerOptionalParams, ExportJobsTriggerResponse } from "../models/index.js";
 
 /** Interface representing a ExportJobs. */
 export interface ExportJobs {
@@ -25,10 +22,7 @@ export interface ExportJobs {
     vaultName: string,
     options?: ExportJobsTriggerOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ExportJobsTriggerResponse>,
-      ExportJobsTriggerResponse
-    >
+    SimplePollerLike<OperationState<ExportJobsTriggerResponse>, ExportJobsTriggerResponse>
   >;
   /**
    * Triggers export of jobs and returns an OperationID to track.

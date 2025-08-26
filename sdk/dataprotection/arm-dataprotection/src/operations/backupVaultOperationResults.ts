@@ -17,9 +17,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing BackupVaultOperationResults operations. */
-export class BackupVaultOperationResultsImpl
-  implements BackupVaultOperationResults
-{
+export class BackupVaultOperationResultsImpl implements BackupVaultOperationResults {
   private readonly client: DataProtectionClient;
 
   /**

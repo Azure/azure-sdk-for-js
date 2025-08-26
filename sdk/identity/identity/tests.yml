@@ -14,14 +14,16 @@ extends:
             # Contains alternate tenant, AAD app and cert info for testing
             - $(sub-config-identity-test-resources)
             - $(sub-config-identity-test-resources-js)
-      AdditionalMatrixConfigs:
-        - Name: Identity_msi_live_test_base
-          Path: sdk/identity/identity/managed-identity-matrix.json
-          Selection: sparse
-          GenerateVMJobs: true
-      MatrixReplace:
-        - Pool=.*LINUXNEXTPOOL.*/azsdk-pool-mms-ubuntu-2204-identitymsi
-        - OSVmImage=.*LINUXNEXTVMIMAGE.*/azsdk-pool-mms-ubuntu-2204-1espt
+      # The pool has been deleted for security reason. Disable Managed Identity live test.
+      # Tracking issue: https://github.com/Azure/azure-sdk-for-js/issues/35682
+      # AdditionalMatrixConfigs:
+      #   - Name: Identity_msi_live_test_base
+      #     Path: sdk/identity/identity/managed-identity-matrix.json
+      #     Selection: sparse
+      #     GenerateVMJobs: true
+      # MatrixReplace:
+      #   - Pool=.*LINUXNEXTPOOL.*/azsdk-pool-mms-ubuntu-2204-identitymsi
+      #   - OSVmImage=.*LINUXNEXTVMIMAGE.*/azsdk-pool-mms-ubuntu-2204-1espt
       EnvVars:
         AZURE_CLIENT_ID: $(IDENTITY_SP_CLIENT_ID)
         AZURE_CLIENT_SECRET: $(IDENTITY_SP_CLIENT_SECRET)

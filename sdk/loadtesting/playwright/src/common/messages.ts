@@ -53,10 +53,14 @@ export const ServiceErrorMessageConstants = {
   },
   INVALID_PARAM_WITH_SERVICE_CONFIG: {
     key: "InvalidParamWithServiceConfig",
-    message: `Remove serviceAuth, runId, and runName from getConnectOptions when using getServiceConfig. Configure these options through getServiceConfig instead.`,
+    message: `Remove serviceAuth, runId, and runName from getConnectOptions when using createAzurePlaywrightConfig. Configure these options through createAzurePlaywrightConfig instead.`,
   },
   INVALID_RUN_ID_FORMAT: {
     key: "InvalidRunIdFormat",
     message: "The Run ID must be a valid GUID format. Please provide a valid GUID for the Run ID.",
+  },
+  INVALID_AUTH_TYPE_ERROR: {
+    key: "InvalidAuthTypeError",
+    message: "Invalid authentication type specified. Please use either ENTRA_ID or ACCESS_TOKEN.",
   },
 };

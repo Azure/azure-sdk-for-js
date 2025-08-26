@@ -80,10 +80,7 @@ export interface SnapshotPolicies {
     body: SnapshotPolicyPatch,
     options?: SnapshotPoliciesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotPoliciesUpdateResponse>,
-      SnapshotPoliciesUpdateResponse
-    >
+    SimplePollerLike<OperationState<SnapshotPoliciesUpdateResponse>, SnapshotPoliciesUpdateResponse>
   >;
   /**
    * Patch a snapshot policy

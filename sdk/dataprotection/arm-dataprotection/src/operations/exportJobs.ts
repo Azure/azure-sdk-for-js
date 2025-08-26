@@ -11,16 +11,9 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataProtectionClient } from "../dataProtectionClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
-  ExportJobsTriggerOptionalParams,
-  ExportJobsTriggerResponse,
-} from "../models/index.js";
+import { ExportJobsTriggerOptionalParams, ExportJobsTriggerResponse } from "../models/index.js";
 
 /** Class containing ExportJobs operations. */
 export class ExportJobsImpl implements ExportJobs {
@@ -45,10 +38,7 @@ export class ExportJobsImpl implements ExportJobs {
     vaultName: string,
     options?: ExportJobsTriggerOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ExportJobsTriggerResponse>,
-      ExportJobsTriggerResponse
-    >
+    SimplePollerLike<OperationState<ExportJobsTriggerResponse>, ExportJobsTriggerResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -60,8 +50,7 @@ export class ExportJobsImpl implements ExportJobs {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -116,11 +105,7 @@ export class ExportJobsImpl implements ExportJobs {
     vaultName: string,
     options?: ExportJobsTriggerOptionalParams,
   ): Promise<ExportJobsTriggerResponse> {
-    const poller = await this.beginTrigger(
-      resourceGroupName,
-      vaultName,
-      options,
-    );
+    const poller = await this.beginTrigger(resourceGroupName, vaultName, options);
     return poller.pollUntilDone();
   }
 }

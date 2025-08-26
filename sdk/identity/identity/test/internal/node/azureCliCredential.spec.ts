@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AzureCliCredential } from "@azure/identity";
+import { azureCliPublicErrorMessages } from "$internal/credentials/azureCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
 import child_process from "node:child_process";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
@@ -138,10 +139,7 @@ describe("AzureCliCredential (internal)", function () {
       try {
         await credential.getToken("https://service/.default");
       } catch (error: any) {
-        assert.equal(
-          error.message,
-          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
-        );
+        assert.equal(error.message, azureCliPublicErrorMessages.notInstalled);
       }
     } else {
       stdout = "";
@@ -151,27 +149,93 @@ describe("AzureCliCredential (internal)", function () {
       try {
         await credential.getToken("https://service/.default");
       } catch (error: any) {
-        assert.equal(
-          error.message,
-          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
-        );
+        assert.equal(error.message, azureCliPublicErrorMessages.notInstalled);
       }
     }
   });
 
   it("get access token when azure cli not login in", async () => {
     stdout = "";
-    stderr =
-      "Please run 'az login' from a command prompt to authenticate before using this credential.";
+    stderr = azureCliPublicErrorMessages.login;
     const credential = new AzureCliCredential();
     try {
       await credential.getToken("https://service/.default");
     } catch (error: any) {
-      assert.equal(
-        error.message,
-        "Please run 'az login' from a command prompt to authenticate before using this credential.",
-      );
+      assert.equal(error.message, azureCliPublicErrorMessages.login);
     }
+  });
+
+  it("throws an expected error when claims challenge is provided", async function () {
+    const credential = new AzureCliCredential();
+    const claimsChallenge = "fakeClaimChallenge";
+    const scope = "https://service/.default";
+
+    let error: Error | null = null;
+    try {
+      await credential.getToken(scope, { claims: claimsChallenge });
+    } catch (e: any) {
+      error = e;
+    }
+
+    assert.ok(error);
+    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(
+      error?.message,
+      `${azureCliPublicErrorMessages.claim} az login --claims-challenge ${claimsChallenge} --scope ${scope}`,
+    );
+  });
+
+  it("throws an expected error when claims challenge is provided with tenant", async function () {
+    const credential = new AzureCliCredential();
+    const claimsChallenge = "fakeClaimChallenge";
+    const tenantId = "12345678-1234-1234-1234-123456789012";
+    const scope = "https://service/.default";
+
+    let error: Error | null = null;
+    try {
+      await credential.getToken(scope, {
+        claims: claimsChallenge,
+        tenantId: tenantId,
+      });
+    } catch (e: any) {
+      error = e;
+    }
+
+    assert.ok(error);
+    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(
+      error?.message,
+      `${azureCliPublicErrorMessages.claim} az login --claims-challenge ${claimsChallenge} --scope ${scope} --tenant ${tenantId}`,
+    );
+  });
+
+  it("does not throw error when claims is empty string", async function () {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "";
+    const scope = "https://service/.default";
+
+    const credential = new AzureCliCredential();
+
+    // Should not throw an error for empty claims
+    const actualToken = await credential.getToken(scope, { claims: "" });
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azCommands, [
+      "az account get-access-token --output json --resource https://service",
+    ]);
+  });
+
+  it("does not throw error when claims is undefined", async function () {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "";
+    const scope = "https://service/.default";
+    const credential = new AzureCliCredential();
+
+    // Should not throw an error for undefined claims
+    const actualToken = await credential.getToken(scope, { claims: undefined });
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azCommands, [
+      "az account get-access-token --output json --resource https://service",
+    ]);
   });
 
   it("get access token when having other access token error", async () => {

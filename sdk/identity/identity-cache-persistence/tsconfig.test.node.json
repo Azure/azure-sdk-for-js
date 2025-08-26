@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/identity-cache-persistence": ["./src/index.ts"],
+      "@azure/identity-cache-persistence/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

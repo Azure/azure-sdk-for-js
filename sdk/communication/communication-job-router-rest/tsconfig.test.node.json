@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure-rest/communication-job-router": ["./src/index.ts"],
+      "@azure-rest/communication-job-router/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

@@ -71,7 +71,6 @@ If you prefer to setup your own environment instead, make sure you have these pr
 - Git
 - Any of the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - A C++ compiler toolchain and Python (for compiling machine-code modules):
-
   - Windows: Install the [Visual Studio Build Tools][buildtools] from Microsoft and [Python 3.9][python39windows] from the Microsoft Store.
   - macOS: Install Xcode or the "Command Line Tools for XCode" (much smaller) from [Apple's developer downloads page](https://developer.apple.com/download/all/).
   - Linux: Install Python and GCC/G++ (part of the `build-essential` package on Ubuntu-based distributions) using your distribution's package manager.
@@ -205,22 +204,39 @@ If you're having problems and want to restore your repo to a clean state without
 
 Generally speaking, the following commands are roughly equivalent:
 
-| NPM command                          | pnpm command                                  | pnpm command effect                                              |
-| ------------------------------------ | --------------------------------------------- | ---------------------------------------------------------------- |
-| `npm install`                        | `pnpm install`                                | Install dependencies for all projects in the pnpm workspace      |
-| `npm install --save[-dev] <package>` | `pnpm add -p <package> [-D]`                  | Add or update a dependency in the current project                |
-| `npm build`                          | `pnpm build`                                  | Build all projects in the pnpm workspace                         |
-|                                      | `pnpm build --filter=<package>...`            | Build named project and any projects it depends on               |
-|                                      | `pnpm build`                                  | Build the current project only                                   |
-|                                      | `pnpm -F {./}... build` or `npx turbo build`  | (Run inside a project) Build the project and its dependencies    |
-|                                      | `pnpm --filter=<package>... build`            | (Run inside a project) Build the project and its dependencies    |
-| `npm test`                           | `pnpm test`                                   | Run dev tests in all projects in the pnpm workspace              |
-|                                      | `pnpm test --filter=<packagename>...`         | Run dev tests in named project and any projects it depends on    |
-|                                      | `pnpm test`                                   | Run dev tests in the current project only                        |
-| `npm run <scriptname>`               | `pnpm <scriptname>`                           | Run named script in all projects in the pnpm workspace           |
-|                                      | `pnpm <scriptname> --filter=<packagename>...` | Run named script in named project and any projects it depends on |
-|                                      | `pnpm <scriptname>`                           | Run named script in the current project only                     |
-| `npx <command>`                      | `npx <command>`                               | Run named command provided by installed dependency package       |
+| NPM command                          | pnpm command                                  | Where to run      | pnpm command effect                                              |
+| ------------------------------------ | --------------------------------------------- | ----------------- | ---------------------------------------------------------------- |
+| `npm install`                        | `pnpm install`                                | Anywhere in repo  | Install dependencies for all projects in the pnpm workspace      |
+| `npm install --save[-dev] <package>` | `pnpm add -p <package> [-D]`                  | Package directory | Add or update a dependency in the current project                |
+| `npm build`                          | `pnpm build`                                  | Repo root         | Build all projects in the pnpm workspace                         |
+|                                      | `pnpm build --filter=<package>...`            | Repo root         | Build named project and any projects it depends on               |
+|                                      | `pnpm build`                                  | Package directory | Build the current project only                                   |
+|                                      | `pnpm -F {./}... build`                       | Package directory | Build the current project and its dependencies                   |
+|                                      | `pnpm --filter=<package>... build`            | Package directory | Build named project and its dependencies                         |
+| `npm test`                           | `pnpm test`                                   | Repo root         | Run dev tests in all projects in the pnpm workspace              |
+|                                      | `pnpm test --filter=<packagename>...`         | Repo root         | Run dev tests in named project and any projects it depends on    |
+|                                      | `pnpm test`                                   | Package directory | Run dev tests in the current project only                        |
+| `npm run <scriptname>`               | `pnpm <scriptname>`                           | Repo root         | Run named script in all projects in the pnpm workspace           |
+|                                      | `pnpm <scriptname> --filter=<packagename>...` | Repo root         | Run named script in named project and any projects it depends on |
+|                                      | `pnpm <scriptname>`                           | Package directory | Run named script in the current project only                     |
+| `npx <command>`                      | `npx <command>`                               | Anywhere          | Run named command provided by installed dependency package       |
+
+Similarly other monorepo commands (`clean`, `test`, `test:node`, `format`, `lint`, etc.) also work with selections via `--filter` or `-F` option. It is supported to pass `--filter` or `-F` option multiple times.
+
+> **Note about "Where to run":**
+>
+> - **Repo root**: The top-level directory of the azure-sdk-for-js repository (where `pnpm-workspace.yaml` is located)
+> - **Package directory**: The specific package folder containing its own `package.json` file (e.g., `sdk/appconfiguration/app-configuration`)
+> - **Anywhere in repo**: Can be run from any directory within the repository
+
+**Filtering patterns:**
+
+- To select package's dependencies and itself: `--filter <package name>...`
+- To select package itself only: `--filter <package name>`
+- To select package and its dependents: `--filter ...<package name>`
+- To select package's dependencies, itself, and its dependents: `--filter ...<package name>...`
+
+For more filtering information please see [Filtering | pnpm](https://pnpm.io/filtering).
 
 ### Documentation
 
@@ -267,7 +283,7 @@ All libraries must follow our [repository structure](https://github.com/Azure/az
 
 The repository contains two different sets of libraries, each follows different rules for development and maintaining. The first type is generated automatically from the [swagger specifications](https://github.com/Azure/azure-rest-api-specs) and their code should not be edited by hand. Onboarding such library is just a matter of pushing its auto-generated directory to the right location in the repository.
 
-The second type of libraries is more complex to develop and maintain because they require a custom design that is not necessarily mirroring the swagger specification, if any, and they are handcrafted by our engineers. To add a new such library to the repository, ensure that the project will be picked up in the `pnpm-workspace.yaml`.  Once the library is added, run `pnpm install` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
+The second type of libraries is more complex to develop and maintain because they require a custom design that is not necessarily mirroring the swagger specification, if any, and they are handcrafted by our engineers. To add a new such library to the repository, ensure that the project will be picked up in the `pnpm-workspace.yaml`. Once the library is added, run `pnpm install` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
 
 In general, it's recommended to avoid using NPM [hook scripts](https://docs.npmjs.com/misc/scripts) (those starting with `pre` / `post`). The build system will always explicitly run the `install`, `build`, `build:test`, `pack`, `lint`, and `test` scripts at the appropriate times during the build. Adding hooks that perform steps like installing dependencies or compiling the source code will at best slow down the build, and at worst may lead to difficult to diagnose build failures.
 

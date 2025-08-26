@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/monitor-opentelemetry-exporter": ["./src/index.ts"],
+      "@azure/monitor-opentelemetry-exporter/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

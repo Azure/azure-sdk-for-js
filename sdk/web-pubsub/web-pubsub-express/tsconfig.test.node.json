@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/web-pubsub-express": ["./src/index.ts"],
+      "@azure/web-pubsub-express/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

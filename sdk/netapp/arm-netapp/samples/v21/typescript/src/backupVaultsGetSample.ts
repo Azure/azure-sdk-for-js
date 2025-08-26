@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get the Backup Vault
  *
  * @summary Get the Backup Vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupVaults_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/BackupVaults_Get.json
  */
 async function backupVaultsGet(): Promise<void> {
   const subscriptionId =

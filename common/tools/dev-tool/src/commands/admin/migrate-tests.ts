@@ -42,7 +42,7 @@ export default leafCommand(commandInfo, async ({ all, "package-name": packageNam
     for (const project of projects) {
       log.info(`Migrating package ${project.packageName}`);
       const projectFolder = resolve(root, project.projectFolder);
-      const success = await updatePackageJson(projectFolder, project.packageName);
+      const success = await updatePackageJson(projectFolder);
       if (!success) {
         log.error(`Failed to migrate package ${packageName}`);
         return false;
@@ -70,7 +70,7 @@ export default leafCommand(commandInfo, async ({ all, "package-name": packageNam
   }
 
   log.info(`Migrating package ${packageName}`);
-  const success = await updatePackageJson(projectFolder, packageName);
+  const success = await updatePackageJson(projectFolder);
   if (!success) {
     log.error(`Failed to migrate package ${packageName}`);
     return false;
@@ -79,7 +79,7 @@ export default leafCommand(commandInfo, async ({ all, "package-name": packageNam
   return true;
 });
 
-async function updatePackageJson(projectFolder: string, packageName: string): Promise<boolean> {
+async function updatePackageJson(projectFolder: string): Promise<boolean> {
   const packageJsonPath = resolve(projectFolder, "package.json");
   const packageJsonContent = await readFile(packageJsonPath, "utf-8");
   const packageJson = JSON.parse(packageJsonContent);
@@ -128,15 +128,6 @@ async function updatePackageJson(projectFolder: string, packageName: string): Pr
     delete packageJson.scripts["build:browser"];
     delete packageJson.scripts["build:node"];
     delete packageJson.scripts["minify"];
-
-    if (
-      packageName.startsWith("@azure-tests/perf-") ||
-      packageName === "@azure/dev-tool" ||
-      packageName === "@azure-tools/vite-plugin-browser-test-map" ||
-      packageName === "@azure/eslint-plugin-azure-sdk"
-    ) {
-      packageJson.scripts["test:node:esm"] = "echo skipped";
-    }
 
     // Set the entry point for testing
     packageJson.scripts["test"] = "npm run test:node && npm run test:browser";

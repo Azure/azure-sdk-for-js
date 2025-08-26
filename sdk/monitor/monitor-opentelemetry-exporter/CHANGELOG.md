@@ -2,10 +2,15 @@
 
 ## 1.0.0-beta.34 ()
 
+### Features Added
+
+- Added support for configuring customer SDK Stats export interval using the `APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL` environment variable (specified in seconds).
+
 ### Other Changes
 
 - Renamed Customer Statsbeat feature to customer SDK Stats.
 - Update drop.reason values for customer SDK Stats.
+- Update logic setting ai.location.ip to use the microsoft.client.ip value by default.
 
 ## 1.0.0-beta.33 (2025-08-04)
 
