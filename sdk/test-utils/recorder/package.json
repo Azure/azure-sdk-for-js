@@ -60,7 +60,7 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
-    "concurrently": "^8.2.0",
+    "concurrently": "^9.2.1",
     "eslint": "catalog:",
     "express": "^4.19.2",
     "playwright": "catalog:testing",
