@@ -17,15 +17,15 @@ export type BrowserConnectOptions = EndpointOptions & {
 };
 
 // @public
+export const createAzurePlaywrightConfig: (baseConfig: PlaywrightTestConfig, options?: PlaywrightServiceAdditionalOptions) => PlaywrightTestConfig;
+
+// @public
 export type EndpointOptions = {
     wsEndpoint: string;
 };
 
 // @public
 export const getConnectOptions: (options?: PlaywrightServiceAdditionalOptions) => Promise<BrowserConnectOptions>;
-
-// @public
-export const getServiceConfig: (config: PlaywrightTestConfig, options?: PlaywrightServiceAdditionalOptions) => PlaywrightTestConfig;
 
 // @public
 export type OsType = (typeof ServiceOS)[keyof typeof ServiceOS];
@@ -35,7 +35,7 @@ export type PlaywrightServiceAdditionalOptions = {
     serviceAuthType?: AuthenticationType;
     os?: OsType;
     runId?: string;
-    timeout?: number;
+    connectTimeout?: number;
     slowMo?: number;
     exposeNetwork?: string;
     credential?: TokenCredential;

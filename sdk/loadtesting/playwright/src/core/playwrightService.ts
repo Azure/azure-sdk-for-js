@@ -43,33 +43,33 @@ const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): 
  *
  * Generate playwright configuration integrated with Azure Playwright.
  *
- * @param config - base playwright configuration
+ * @param baseConfig - base playwright configuration
  * @param options - additional options for the service
  * @returns PlaywrightConfig
  *
  * @example
  * ```
  * import { defineConfig } from "playwright/test";
- * import { getServiceConfig } from "@azure/playwright";
+ * import { createAzurePlaywrightConfig } from "@azure/playwright";
  * import playwrightConfig from "./playwright.config";
  *
- * export default defineConfig(playwrightConfig, getServiceConfig(playwrightConfig));
+ * export default defineConfig(playwrightConfig, createAzurePlaywrightConfig(playwrightConfig));
  * ```
  *
  * @example
  * ```
  * import { defineConfig } from "playwright/test";
- * import { getServiceConfig, ServiceOS } from "@azure/playwright";
+ * import { createAzurePlaywrightConfig, ServiceOS } from "@azure/playwright";
  * import playwrightConfig from "./playwright.config";
  *
- * export default defineConfig(playwrightConfig, getServiceConfig(playwrightConfig, {
+ * export default defineConfig(playwrightConfig, createAzurePlaywrightConfig(playwrightConfig, {
  *  runId: "custom run id",
  *  os: ServiceOS.WINDOWS
  * }));
  * ```
  */
-const getServiceConfig = (
-  config: PlaywrightTestConfig,
+const createAzurePlaywrightConfig = (
+  baseConfig: PlaywrightTestConfig,
   options?: PlaywrightServiceAdditionalOptions,
 ): PlaywrightTestConfig => {
   validatePlaywrightVersion();
@@ -91,12 +91,12 @@ const getServiceConfig = (
   // if global setup/teardown is array -
   // 1. if multiple global file is not supported, throw error
   // 2. append playwright-service global setup/teardown with customer provided global setup/teardown
-  if (config && config.globalSetup) {
-    if (typeof config.globalSetup === "string") {
+  if (baseConfig && baseConfig.globalSetup) {
+    if (typeof baseConfig.globalSetup === "string") {
       if (isMultipleGlobalFileSupported) {
-        customerConfig.globalSetup = [config.globalSetup];
+        customerConfig.globalSetup = [baseConfig.globalSetup];
       } else {
-        customerConfig.globalSetup = config.globalSetup;
+        customerConfig.globalSetup = baseConfig.globalSetup;
       }
     } else {
       if (!isMultipleGlobalFileSupported) {
@@ -104,16 +104,16 @@ const getServiceConfig = (
           ServiceErrorMessageConstants.MULTIPLE_SETUP_FILE_PLAYWRIGHT_VERSION_ERROR.message,
         );
       }
-      customerConfig.globalSetup = config.globalSetup;
+      customerConfig.globalSetup = baseConfig.globalSetup;
     }
   }
 
-  if (config && config.globalTeardown) {
-    if (typeof config.globalTeardown === "string") {
+  if (baseConfig && baseConfig.globalTeardown) {
+    if (typeof baseConfig.globalTeardown === "string") {
       if (isMultipleGlobalFileSupported) {
-        customerConfig.globalTeardown = [config.globalTeardown];
+        customerConfig.globalTeardown = [baseConfig.globalTeardown];
       } else {
-        customerConfig.globalTeardown = config.globalTeardown;
+        customerConfig.globalTeardown = baseConfig.globalTeardown;
       }
     } else {
       if (!isMultipleGlobalFileSupported) {
@@ -121,7 +121,7 @@ const getServiceConfig = (
           ServiceErrorMessageConstants.MULTIPLE_SETUP_FILE_PLAYWRIGHT_VERSION_ERROR.message,
         );
       }
-      customerConfig.globalTeardown = config.globalTeardown;
+      customerConfig.globalTeardown = baseConfig.globalTeardown;
     }
   }
 
@@ -173,7 +173,7 @@ const getServiceConfig = (
           Authorization: `Bearer ${getAccessToken()}`,
           "x-ms-package-version": `@azure/playwright/${getPackageVersion()}`,
         },
-        timeout: playwrightServiceConfig.timeout,
+        timeout: playwrightServiceConfig.connectTimeout,
         exposeNetwork: playwrightServiceConfig.exposeNetwork,
         slowMo: playwrightServiceConfig.slowMo,
       },
@@ -249,11 +249,11 @@ const getConnectOptions = async (
         Authorization: `Bearer ${token}`,
         "x-ms-package-version": `@azure/playwright/${getPackageVersion()}`,
       },
-      timeout: playwrightServiceConfig.timeout,
+      timeout: playwrightServiceConfig.connectTimeout,
       exposeNetwork: playwrightServiceConfig.exposeNetwork,
       slowMo: playwrightServiceConfig.slowMo,
     },
   };
 };
 
-export { getServiceConfig, getConnectOptions };
+export { createAzurePlaywrightConfig, getConnectOptions };
