@@ -5,7 +5,11 @@ import type { QueryRangeMapping } from "./QueryRangeMapping.js";
 import type { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
 import { CompositeQueryContinuationToken as CompositeQueryContinuationTokenClass } from "./CompositeQueryContinuationToken.js";
 import type { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
-import { OrderByQueryContinuationToken as OrderByQueryContinuationTokenClass } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
+import { 
+  createOrderByQueryContinuationToken,
+  serializeOrderByQueryContinuationToken,
+  parseOrderByQueryContinuationToken
+} from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";
 import { Constants } from "../common/index.js";
 
@@ -100,10 +104,10 @@ export class ContinuationTokenManager {
 
   
   private updateOffsetLimit(offset?: number, limit?: number): void {
-    // For ORDER BY queries, also update the OrderBy continuation token if it exists
+    // For ORDER BY queries, update the OrderBy continuation token if it exists
     if (this.isOrderByQuery && this.orderByQueryContinuationToken) {
-      // Since OrderByQueryContinuationToken properties are readonly, we need to recreate it
-      this.orderByQueryContinuationToken = new OrderByQueryContinuationTokenClass(
+      // Create a new OrderBy continuation token with updated values
+      this.orderByQueryContinuationToken = createOrderByQueryContinuationToken(
         this.orderByQueryContinuationToken.compositeToken,
         this.orderByQueryContinuationToken.orderByItems,
         this.orderByQueryContinuationToken.rid,
@@ -159,8 +163,8 @@ export class ContinuationTokenManager {
    */
   public updateHashedLastResult(hashedLastResult?: string): void {
     if (this.isOrderByQuery && this.orderByQueryContinuationToken) {
-      // Since OrderByQueryContinuationToken properties are readonly, we need to recreate it
-      this.orderByQueryContinuationToken = new OrderByQueryContinuationTokenClass(
+      // Create a new OrderBy continuation token with updated values
+      this.orderByQueryContinuationToken = createOrderByQueryContinuationToken(
         this.orderByQueryContinuationToken.compositeToken,
         this.orderByQueryContinuationToken.orderByItems,
         this.orderByQueryContinuationToken.rid,
@@ -399,7 +403,7 @@ export class ContinuationTokenManager {
 
     // Create ORDER BY specific continuation token with resume values
     const compositeTokenString = this.compositeContinuationToken.toString();
-    this.orderByQueryContinuationToken = new OrderByQueryContinuationTokenClass(
+    this.orderByQueryContinuationToken = createOrderByQueryContinuationToken(
       compositeTokenString,
       lastOrderByItems,
       documentRid, // Document RID from the last item in the page
@@ -514,7 +518,7 @@ export class ContinuationTokenManager {
   public getTokenString(): string | undefined {
     // For ORDER BY queries, prioritize the ORDER BY continuation token
     if (this.isOrderByQuery && this.orderByQueryContinuationToken) {
-      return JSON.stringify(this.orderByQueryContinuationToken);
+      return serializeOrderByQueryContinuationToken(this.orderByQueryContinuationToken);
     }
     // For parallel queries 
     if (
