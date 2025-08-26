@@ -74,6 +74,10 @@ function Set-GitHubIssue($Package) {
   }
 }
 
+# do a update first so we don't report on upgrades that will be in azure sdk bot PR
+Write-Host "Running pnpm update --recursive --no-save"
+pnpm update --recursive --no-save
+
 Write-Host "Running pnpm outdated --format json --recursive"
 $env:NODE_OPTIONS = "--max-old-space-size=16384"
 $pnpmOutdatedOutput = pnpm outdated --format json --recursive
