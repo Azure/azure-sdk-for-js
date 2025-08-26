@@ -1645,6 +1645,9 @@ sdk/storagediscovery/arm-storagediscovery/ @qiaozha @MaryGao
 # PRLabel: %Mgmt
 sdk/azurestackhcivm/arm-azurestackhcivm/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+sdk/containerservice/arm-containerservicesafeguards/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
