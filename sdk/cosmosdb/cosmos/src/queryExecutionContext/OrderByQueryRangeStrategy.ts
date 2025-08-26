@@ -7,7 +7,7 @@ import type {
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
 import { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
-import { CompositeQueryContinuationToken } from "./QueryRangeMapping.js";
+import { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
 
 /**
  * Strategy for filtering partition ranges in ORDER BY query execution context

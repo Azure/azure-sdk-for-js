@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { QueryRangeMapping, CompositeQueryContinuationToken } from "./QueryRangeMapping.js";
-import { CompositeQueryContinuationToken as CompositeQueryContinuationTokenClass } from "./QueryRangeMapping.js";
+import type { QueryRangeMapping } from "./QueryRangeMapping.js";
+import type { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
+import { CompositeQueryContinuationToken as CompositeQueryContinuationTokenClass } from "./CompositeQueryContinuationToken.js";
 import type { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import { OrderByQueryContinuationToken as OrderByQueryContinuationTokenClass } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";

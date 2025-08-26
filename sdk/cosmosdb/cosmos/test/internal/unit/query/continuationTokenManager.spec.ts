@@ -4,7 +4,7 @@
 import { describe, it, assert, beforeEach, vi, expect } from "vitest";
 import { ContinuationTokenManager } from "../../../../src/queryExecutionContext/ContinuationTokenManager.js";
 import type { QueryRangeMapping } from "../../../../src/queryExecutionContext/QueryRangeMapping.js";
-import { CompositeQueryContinuationToken } from "../../../../src/queryExecutionContext/QueryRangeMapping.js";
+import { CompositeQueryContinuationToken } from "../../../../src/queryExecutionContext/CompositeQueryContinuationToken.js";
 
 describe("ContinuationTokenManager", () => {
   let manager: ContinuationTokenManager;

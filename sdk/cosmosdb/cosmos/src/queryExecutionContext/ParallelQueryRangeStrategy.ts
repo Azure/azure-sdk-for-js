@@ -6,7 +6,7 @@ import type {
   TargetPartitionRangeStrategy,
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
-import { CompositeQueryContinuationToken } from "./QueryRangeMapping.js";
+import { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
 
 /**
  * Strategy for filtering partition ranges in parallel query execution context
