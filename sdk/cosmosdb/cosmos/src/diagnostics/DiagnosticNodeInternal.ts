@@ -414,6 +414,7 @@ export type DiagnosticDataValue = {
     url: string;
   }>;
   partitionKeyRangeFailoverInfo: string;
+  excludedLocations: string[];
 };
 
 /**
