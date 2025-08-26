@@ -21,6 +21,8 @@ import type {
   RemoveParticipantsOption,
   CancelAddParticipantOperationOptions,
   TransferCallToParticipantOptions,
+  MoveParticipantsResult,
+  MoveParticipantsOptions,
 } from "../../src/index.js";
 import {
   CALL_TARGET_ID,
@@ -55,6 +57,8 @@ vi.mock(import("../../src/index.js"), async (importOriginal) => {
   CallConnection.prototype.listParticipants = vi.fn();
   CallConnection.prototype.addParticipant = vi.fn();
   CallConnection.prototype.transferCallToParticipant = vi.fn();
+  CallConnection.prototype.moveParticipants = vi.fn();
+  CallConnection.prototype.muteParticipant = vi.fn();
   CallConnection.prototype.removeParticipant = vi.fn();
   CallConnection.prototype.muteParticipant = vi.fn();
   CallConnection.prototype.cancelAddParticipantOperation = vi.fn();
@@ -71,6 +75,7 @@ describe("CallConnection Unit Tests", () => {
   let target: CallInvite;
   let phoneTarget: CallInvite;
   let phoneTarget2: CallInvite;
+  let teamsTarget: CallInvite;
   let callConnection: MockedObject<CallConnection>;
 
   beforeEach(() => {
@@ -99,6 +104,41 @@ describe("CallConnection Unit Tests", () => {
           key: "TestKey2",
           value: "TestValue2",
           sipHeaderPrefix: "X-",
+        },
+      ],
+    };
+
+    teamsTarget = {
+      targetParticipant: { teamsAppId: "teamsAppId123" },
+      customCallingContext: [
+        {
+          kind: "voip",
+          key: "teamsKey",
+          value: "teamsValue",
+        },
+        {
+          kind: "teamsPhoneCallDetails",
+          teamsPhoneCallerDetails: {
+            caller: { teamsAppId: "teamsAppId123" },
+            name: "John Doe",
+            phoneNumber: "+14255551234",
+            additionalCallerInformation: {
+              Department: "Sales",
+              Priority: "High",
+            },
+          },
+          teamsPhoneSourceDetails: {
+            source: { teamsAppId: "teamsAppId123" },
+            language: "en-US",
+            status: "Active",
+          },
+          sessionId: "session-123-abc",
+          intent: "Sales Inquiry",
+          callTopic: "New Product Information",
+          callContext: "Customer is interested in our latest product line",
+          transcriptUrl: "https://transcripts.example.com/call/123",
+          callSentiment: "Positive",
+          suggestedActions: "Offer product demo, Schedule follow-up",
         },
       ],
     };
@@ -379,6 +419,36 @@ describe("CallConnection Unit Tests", () => {
     assert.equal(result, transferCallResultMock);
   });
 
+  it("TransferCallToParticipantWithTransfereeTeamsHeader", async () => {
+    // mocks
+    const transferCallResultMock: TransferCallResult = {};
+    callConnection.transferCallToParticipant.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(transferCallResultMock);
+      }),
+    );
+
+    const transferee = { teamsAppId: "teamsAppId123" };
+
+    const options: TransferCallToParticipantOptions = {
+      customCallingContext: teamsTarget.customCallingContext,
+      transferee: transferee,
+    };
+    const promiseResult = callConnection.transferCallToParticipant(
+      teamsTarget.targetParticipant,
+      options,
+    );
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
+      teamsTarget.targetParticipant,
+      options,
+    );
+    assert.equal(result, transferCallResultMock);
+  });
+
   it("RemoveParticipant", async () => {
     // mocks
     const removeParticipantResultMock: RemoveParticipantResult = {};
@@ -395,6 +465,103 @@ describe("CallConnection Unit Tests", () => {
     assert.isNotNull(result);
     expect(callConnection.removeParticipant).toHaveBeenCalledWith(target.targetParticipant);
     assert.equal(result, removeParticipantResultMock);
+  });
+
+  it("MoveParticipants", async () => {
+    // mocks
+    const moveParticipantsResultMock: MoveParticipantsResult = {
+      participants: [{ identifier: target.targetParticipant }],
+      fromCall: "source-call-connection-id",
+      // waitForEventProcessor: async () => {
+      //   return {} as MoveParticipantEventResult;
+      // },
+    };
+    callConnection.moveParticipants.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(moveParticipantsResultMock);
+      }),
+    );
+
+    const targetParticipants = [target.targetParticipant];
+    const fromCall = "source-call-connection-id";
+    const promiseResult = callConnection.moveParticipants(targetParticipants, fromCall);
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.moveParticipants).toHaveBeenCalledWith(targetParticipants, fromCall);
+    assert.equal(result, moveParticipantsResultMock);
+    assert.equal(result.fromCall, "source-call-connection-id");
+    assert.isDefined(result.participants);
+    assert.equal(result.participants.length, 1);
+  });
+
+  it("MoveParticipantsWithOptions", async () => {
+    // mocks
+    const moveParticipantsResultMock: MoveParticipantsResult = {
+      participants: [
+        { identifier: target.targetParticipant },
+        { identifier: { communicationUserId: CALL_TARGET_ID_2 } },
+      ],
+      fromCall: "source-call-connection-id",
+      operationContext: "move-operation-context",
+      // waitForEventProcessor: async () => {
+      //   return {} as MoveParticipantEventResult;
+      // },
+    };
+    callConnection.moveParticipants.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(moveParticipantsResultMock);
+      }),
+    );
+
+    const targetParticipants = [
+      target.targetParticipant,
+      { communicationUserId: CALL_TARGET_ID_2 },
+    ];
+    const fromCall = "source-call-connection-id";
+    const options: MoveParticipantsOptions = {
+      operationContext: "move-operation-context",
+      operationCallbackUrl: "https://callback.example.com",
+    };
+    const promiseResult = callConnection.moveParticipants(targetParticipants, fromCall, options);
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.moveParticipants).toHaveBeenCalledWith(
+      targetParticipants,
+      fromCall,
+      options,
+    );
+    assert.equal(result, moveParticipantsResultMock);
+    assert.equal(result.fromCall, "source-call-connection-id");
+    assert.equal(result.operationContext, "move-operation-context");
+    assert.isDefined(result.participants);
+    assert.equal(result.participants.length, 2);
+  });
+
+  it("MoveParticipantsWithSingleParticipant", async () => {
+    // mocks
+    const moveParticipantsResultMock: MoveParticipantsResult = {
+      participants: [{ identifier: target.targetParticipant }],
+      fromCall: "source-call-connection-id",
+    };
+    callConnection.moveParticipants.mockReturnValue(
+      new Promise((resolve) => {
+        resolve(moveParticipantsResultMock);
+      }),
+    );
+
+    const targetParticipants = [target.targetParticipant];
+    const fromCall = "source-call-connection-id";
+    const promiseResult = callConnection.moveParticipants(targetParticipants, fromCall);
+
+    // asserts
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.moveParticipants).toHaveBeenCalledWith(targetParticipants, fromCall);
+    assert.equal(result, moveParticipantsResultMock);
   });
 
   it("MuteParticipant", async () => {

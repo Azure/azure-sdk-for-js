@@ -41,6 +41,9 @@ import type {
   MediaStreamingFailed,
   PlayStarted,
   StartRecordingFailed,
+  MoveParticipantSucceeded,
+  MoveParticipantFailed,
+  TranscriptionCallSummaryUpdated,
 } from "./models/events.js";
 
 import { CloudEventMapper } from "./models/mapper.js";
@@ -157,6 +160,11 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.TranscriptionFailed":
       callbackEvent = { kind: "TranscriptionFailed" } as TranscriptionFailed;
       break;
+    case "Microsoft.Communication.TranscriptionCallSummaryUpdated":
+      callbackEvent = {
+        kind: "TranscriptionCallSummaryUpdated",
+      } as TranscriptionCallSummaryUpdated;
+      break;
     case "Microsoft.Communication.CreateCallFailed":
       callbackEvent = { kind: "CreateCallFailed" } as CreateCallFailed;
       break;
@@ -183,6 +191,16 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.StartRecordingFailed":
       callbackEvent = { kind: "StartRecordingFailed" } as StartRecordingFailed;
+      break;
+    case "Microsoft.Communication.MoveParticipantSucceeded":
+      callbackEvent = { kind: "MoveParticipantSucceeded" } as MoveParticipantSucceeded;
+      parsed.participant = communicationIdentifierConverter(data.participant);
+      parsed.fromCall = data.fromCall;
+      break;
+    case "Microsoft.Communication.MoveParticipantFailed":
+      callbackEvent = { kind: "MoveParticipantFailed" } as MoveParticipantFailed;
+      parsed.participant = communicationIdentifierConverter(data.participant);
+      parsed.fromCall = data.fromCall;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);

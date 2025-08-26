@@ -74,6 +74,7 @@ export class CallAutomationClient {
   private readonly sourceIdentity?: CommunicationUserIdentifierModel;
   private readonly credential: TokenCredential | KeyCredential;
   private readonly internalPipelineOptions: InternalPipelineOptions;
+
   /**
    * Initializes a new instance of the CallAutomationClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
@@ -229,6 +230,7 @@ export class CallAutomationClient {
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
       teamsAppSource: microsoftTeamsAppIdentifierModelConverter(options.teamsAppSource),
+      enableLoopbackAudio: options.enableLoopbackAudio,
     };
 
     return this.createCallInternal(request, options);
@@ -257,6 +259,7 @@ export class CallAutomationClient {
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
       teamsAppSource: microsoftTeamsAppIdentifierModelConverter(options.teamsAppSource),
+      enableLoopbackAudio: options.enableLoopbackAudio,
     };
 
     return this.createCallInternal(request, options);
@@ -288,6 +291,7 @@ export class CallAutomationClient {
       operationContext: operationContext,
       callbackUri: callbackUrl,
       answeredBy: this.sourceIdentity,
+      enableLoopbackAudio: options.enableLoopbackAudio,
     };
     const optionsInternal = {
       ...operationOptions,
