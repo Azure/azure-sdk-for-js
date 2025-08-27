@@ -24,7 +24,7 @@ import {
   ATTR_EXCEPTION_STACKTRACE,
   ATTR_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
-import { experimentalOpenTelemetryValues } from "../../src/types.js";
+import { experimentalOpenTelemetryValues } from "../types.js";
 import type { Measurements, Properties, Tags } from "../types.js";
 import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "../types.js";
 import type { Attributes } from "@opentelemetry/api";
