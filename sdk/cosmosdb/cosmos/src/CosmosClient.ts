@@ -271,8 +271,10 @@ export class CosmosClient {
    *
    * The urls may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
-  public getWriteEndpoints(): Promise<readonly string[]> {
-    return this.clientContext.getWriteEndpoints();
+  public async getWriteEndpoints(): Promise<readonly string[]> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.clientContext.getWriteEndpoints(diagnosticNode);
+    }, this.clientContext);
   }
 
   /**
@@ -280,8 +282,10 @@ export class CosmosClient {
    *
    * The url may contain a region suffix (e.g. "-eastus") if we're using location specific endpoints.
    */
-  public getReadEndpoints(): Promise<readonly string[]> {
-    return this.clientContext.getReadEndpoints();
+  public async getReadEndpoints(): Promise<readonly string[]> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      return this.clientContext.getReadEndpoints(diagnosticNode);
+    }, this.clientContext);
   }
 
   /**
