@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-recorder",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "sdk-type": "utility",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "./dist/commonjs/index.js",

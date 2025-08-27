@@ -12802,10 +12802,10 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
       '@azure/abort-controller':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: workspace:^
+        version: link:../../core/abort-controller
       '@azure/core-client':
-        specifier: ^1.7.0
+        specifier: workspace:^
         version: link:../../core/core-client
       '@azure/core-rest-pipeline':
         specifier: workspace:^
@@ -12820,7 +12820,7 @@ importers:
         specifier: workspace:^
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/logger':
-        specifier: ^1.0.4
+        specifier: workspace:^
         version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'

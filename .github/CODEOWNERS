@@ -47,7 +47,7 @@
 # AzureSdkOwners: @Azure/azure-sdk-for-js-core
 
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @HarshaNalluru @minhanh-phan
+/sdk/appconfiguration/ @HarshaNalluru @minhanh-phan @jimmyca15 @zhenlan @zhiyuanliang-ms
 
 # ServiceLabel: %App Configuration
 # AzureSdkOwners:  @HarshaNalluru @minhanh-phan
@@ -317,7 +317,7 @@
 /sdk/networkcloud/ @Azure/azure-sdk-write-networkcloud
 
 # PRLabel: %Search
-/sdk/search/ @dgetu @Azure/azsdk-search
+/sdk/search/ @Azure/azure-sdk-write-search @Azure/azsdk-search
 
 # ServiceLabel: %Search
 # AzureSdkOwners: @dgetu
@@ -1475,7 +1475,7 @@
 # ServiceOwners:          @derek1ee
 
 # ServiceLabel: %Search %Service Attention
-# ServiceOwners:          @bleroy @tjacobhi @markheff @miwelsh
+# ServiceOwners:          @kuanlu95 @mattgotteiner
 
 # ServiceLabel: %Security %Service Attention
 # ServiceOwners:          @chlahav
