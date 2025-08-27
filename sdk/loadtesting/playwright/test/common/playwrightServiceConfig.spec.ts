@@ -71,7 +71,7 @@ describe("PlaywrightServiceConfig", () => {
       slowMo: 100,
       connectTimeout: 200,
       exposeNetwork: "localhost",
-      apiVersion: "sample" as "2025-07-01-preview",
+      apiVersion: "sample" as "2025-09-01",
     });
 
     expect(playwrightServiceConfig.serviceOs).to.equal("windows");

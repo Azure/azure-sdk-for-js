@@ -133,9 +133,9 @@ export type PlaywrightServiceAdditionalOptions = {
    *
    * API Version
    *
-   * @defaultValue `2025-07-01-preview`
+   * @defaultValue `2025-09-01`
    */
-  apiVersion?: "2025-07-01-preview";
+  apiVersion?: "2025-09-01";
 };
 
 /**
