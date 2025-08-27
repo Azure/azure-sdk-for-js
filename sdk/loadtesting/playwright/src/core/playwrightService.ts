@@ -59,11 +59,13 @@ const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): 
  * @example
  * ```
  * import { defineConfig } from "playwright/test";
- * import { createAzurePlaywrightConfig, ServiceOS } from "@azure/playwright";
+ * import { createAzurePlaywrightConfig, ServiceOS, ServiceAuth } from "@azure/playwright";
  * import playwrightConfig from "./playwright.config";
+ * import { DefaultAzureCredential } from '@azure/identity';
  *
  * export default defineConfig(playwrightConfig, createAzurePlaywrightConfig(playwrightConfig, {
- *  runId: "custom run id",  // run ID should be a GUID
+ *  credential: new DefaultAzureCredential(),
+ *  serviceAuthType:ServiceAuth.ENTRA_ID,
  *  os: ServiceOS.WINDOWS
  * }));
  * ```
