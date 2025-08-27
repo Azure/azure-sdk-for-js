@@ -64,7 +64,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.2",
-    "glob": "^10.3.12",
+    "glob": "^11.0.3",
     "inquirer": "^9.2.17",
     "mustache": "^4.2.0",
     "tslib": "^2.6.2",
