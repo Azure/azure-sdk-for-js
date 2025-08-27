@@ -257,7 +257,6 @@ export class PartitionRangeManager {
       // Calculate what offset/limit would be after completely consuming this partition range
       let offsetAfterThisRange = currentOffset;
       let limitAfterThisRange = currentLimit;
-      
       if (itemCount > 0) {
         if (currentOffset > 0) {
           // Items from this range will be consumed by offset first
@@ -266,7 +265,8 @@ export class PartitionRangeManager {
           
           // Calculate remaining items in this range after offset consumption
           const remainingItemsAfterOffset = itemCount - offsetConsumption;
-          
+          // TODO: Updat itemCount when offset actually utilises that range during slicing 
+
           if (remainingItemsAfterOffset > 0 && currentLimit > 0) {
             // Remaining items will be consumed by limit
             const limitConsumption = Math.min(currentLimit, remainingItemsAfterOffset);
