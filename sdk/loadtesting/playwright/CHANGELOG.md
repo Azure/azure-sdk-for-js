@@ -17,7 +17,7 @@ This release marks the general availability of the `@azure/playwright` package.
 
 ### Bugs Fixed
 
-- Fixed an issue where getConnectOption did not correctly serviceAuthType.
+- Fixed an issue where getConnectOption did not correctly handle serviceAuthType.
 
 - Fixed an issue where an error was thrown when using the ESM version of this package. [#35553](https://github.com/Azure/azure-sdk-for-js/pull/35553)
 
