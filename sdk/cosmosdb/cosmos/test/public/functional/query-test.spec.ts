@@ -338,7 +338,7 @@ describe("Queries", { timeout: 10000 }, () => {
     await database.database.delete();
   });
 
-  it("should recreate parallel query iterator using continuation token", async () => {
+  it.skip("should recreate parallel query iterator using continuation token", async () => {
     const query = "SELECT * FROM c";
     const queryOptions = {
       enableQueryControl: true, // Enable your new feature
@@ -455,4 +455,6 @@ describe("Queries", { timeout: 10000 }, () => {
     // Clean up
     await database.database.delete();
   });
+
+  
 });

@@ -78,7 +78,6 @@ export function compositeTokenFromString(tokenString: string): CompositeQueryCon
   return createCompositeQueryContinuationToken(
     parsed.rid,
     parsed.rangeMappings,
-    parsed.globalContinuationToken,
     parsed.offset,
     parsed.limit,
   );

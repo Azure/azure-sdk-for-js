@@ -50,11 +50,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     // Initialize continuation token manager early so it's available for OffsetLimitEndpointComponent
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
-    this.continuationTokenManager = new ContinuationTokenManager(
-      this.collectionLink,
-      this.options.continuationToken,
-      isOrderByQuery,
-    );
+    if(this.options.enableQueryControl){
+      this.continuationTokenManager = new ContinuationTokenManager(
+        this.collectionLink,
+        this.options.continuationToken,
+        isOrderByQuery,
+      );
+    }
+    
 
     // Pick between Nonstreaming and streaming endpoints
     this.nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo.hasNonStreamingOrderBy;
@@ -68,7 +71,11 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     // Check if this is an unordered DISTINCT query
     const isUnorderedDistinctQuery = partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
 
-    // Validate continuation token usage for unsupported query types
+    // Configure continuation token manager for unsupported query types
+    if (this.continuationTokenManager && (isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy)) {
+      this.continuationTokenManager.setUnsupportedQueryType(true);
+    }
+    // Validate continuation token usage for some unsupported query types that should still throw errors
     // Note: OrderedDistinctEndpointComponent is supported, but UnorderedDistinctEndpointComponent
     // requires storing too much duplicate tracking data in continuation tokens
     if (this.options.continuationToken) {
@@ -147,24 +154,17 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.emitRawOrderByPayload,
         );
       }
-    } else {
-      // Create shared continuation token manager for streaming execution contexts
-      const sharedContinuationTokenManager = new ContinuationTokenManager(
-        this.collectionLink,
-        this.options.continuationToken,
-        isOrderByQuery,
-      );
-      
+    } else {    
       // Pass shared continuation token manager via options
       const optionsWithSharedManager = {
         ...this.options,
-        continuationTokenManager: sharedContinuationTokenManager
+        continuationTokenManager: this.continuationTokenManager
       };
 
       if (Array.isArray(sortOrders) && sortOrders.length > 0) {
-        // Need to wrap orderby execution context in endpoint component, since the data is nested as a \
-        //      "payload" property.
-        
+        // Need to wrap orderby execution context in endpoint component, since the data is nested as a
+        //     "payload" property.
+
         this.endpoint = new OrderByEndpointComponent(
           new OrderByQueryExecutionContext(
             this.clientContext,

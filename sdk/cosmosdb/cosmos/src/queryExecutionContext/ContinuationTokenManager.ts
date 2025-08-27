@@ -30,6 +30,7 @@ export class ContinuationTokenManager {
   private isOrderByQuery: boolean = false;
   private orderByQueryContinuationToken: OrderByQueryContinuationToken | undefined;
   private orderByItemsArray: any[][] | undefined;
+  private isUnsupportedQueryType: boolean = false;
 
   constructor(
     private readonly collectionLink: string,
@@ -116,7 +117,7 @@ export class ContinuationTokenManager {
         this.orderByQueryContinuationToken.compositeToken,
         this.orderByQueryContinuationToken.orderByItems,
         this.orderByQueryContinuationToken.rid,
-        this.orderByQueryContinuationToken.skipCount,
+        this.orderByQueryContinuationToken.skipCount, // TODO: apply skip count during recreation of token
         offset,
         limit,
         this.orderByQueryContinuationToken.hashedLastResult,
@@ -188,6 +189,14 @@ export class ContinuationTokenManager {
     this.partitionRangeManager.clearRangeMappings();
   }
 
+  /**
+   * Sets whether this query type supports continuation tokens
+   * @param isUnsupported - True if the query type doesn't support continuation tokens
+   */
+  public setUnsupportedQueryType(isUnsupported: boolean): void {
+    this.isUnsupportedQueryType = isUnsupported;
+  }  
+  
   /**
    * Checks if a continuation token indicates an exhausted partition
    * @param continuationToken - The continuation token to check
@@ -425,8 +434,15 @@ export class ContinuationTokenManager {
    * Gets the continuation token string representation
    * For ORDER BY queries, returns OrderByQueryContinuationToken if available
    * For parallel queries, returns CompositeQueryContinuationToken
+   * For unsupported query types, returns undefined to indicate no continuation token
    */
   public getTokenString(): string | undefined {
+    // For unsupported query types (e.g., unordered DISTINCT), return undefined
+    // This prevents continuation tokens from being generated for queries that don't support them
+    if (this.isUnsupportedQueryType) {
+      return undefined;
+    }
+
     // For ORDER BY queries, prioritize the ORDER BY continuation token
     if (this.isOrderByQuery && this.orderByQueryContinuationToken) {
       return serializeOrderByQueryContinuationToken(this.orderByQueryContinuationToken);
