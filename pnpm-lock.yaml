@@ -6119,6 +6119,76 @@ importers:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.11)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
+  sdk/containerservice/arm-containerservicesafeguards:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: ^2.0.0
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: ^4.1.0
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: ^1.0.0
+        version: 1.0.0(@types/debug@4.1.12)(@types/node@20.19.11)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
+      '@azure/dev-tool':
+        specifier: ^1.0.0
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: ^3.0.0
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: ^4.9.0
+        version: link:../../identity/identity
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.11
+      '@vitest/browser':
+        specifier: ^3.0.9
+        version: 3.2.4(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(playwright@1.55.0)(vite@7.1.3(@types/node@20.19.11)(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1))(vitest@3.2.4)
+      '@vitest/coverage-istanbul':
+        specifier: ^3.0.9
+        version: 3.2.4(vitest@3.2.4)
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      eslint:
+        specifier: ^9.9.0
+        version: 9.34.0
+      playwright:
+        specifier: ^1.52.0
+        version: 1.55.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+      vitest:
+        specifier: ^3.0.9
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.11)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
+
   sdk/contentsafety/ai-content-safety-rest:
     dependencies:
       '@azure-rest/core-client':

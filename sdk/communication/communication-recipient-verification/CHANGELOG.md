@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.1 (2023-03-08)
+## 1.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,3 +10,9 @@ The first preview of the Azure Communication Recipient Verification client libra
 - Request a verification code to a phone number(US)
 - Removing a verified/pending phone number
 - Returning the constant values for a resource in relation to recipient verification
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
