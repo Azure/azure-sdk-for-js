@@ -65,7 +65,7 @@ const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): 
  *
  * export default defineConfig(playwrightConfig, createAzurePlaywrightConfig(playwrightConfig, {
  *  credential: new DefaultAzureCredential(),
- *  serviceAuthType:ServiceAuth.ENTRA_ID,
+ *  serviceAuthType: ServiceAuth.ENTRA_ID,
  *  os: ServiceOS.WINDOWS
  * }));
  * ```
