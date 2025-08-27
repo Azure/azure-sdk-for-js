@@ -63,7 +63,7 @@ const performOneTimeOperation = (options?: PlaywrightServiceAdditionalOptions): 
  * import playwrightConfig from "./playwright.config";
  *
  * export default defineConfig(playwrightConfig, createAzurePlaywrightConfig(playwrightConfig, {
- *  runId: "custom run id",
+ *  runId: "custom run id",  // run ID should be a GUID
  *  os: ServiceOS.WINDOWS
  * }));
  * ```
