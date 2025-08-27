@@ -30,6 +30,6 @@
     "ws": "^8.0.0",
     "https-proxy-agent": "^7.0.0",
     "@azure/identity": "^4.2.1",
-    "@azure/abort-controller": "^1.0.0"
+    "@azure/abort-controller": "^2.0.0"
   }
 }

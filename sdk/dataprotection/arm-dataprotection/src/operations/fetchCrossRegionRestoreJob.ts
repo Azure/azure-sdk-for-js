@@ -18,9 +18,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing FetchCrossRegionRestoreJob operations. */
-export class FetchCrossRegionRestoreJobImpl
-  implements FetchCrossRegionRestoreJob
-{
+export class FetchCrossRegionRestoreJobImpl implements FetchCrossRegionRestoreJob {
   private readonly client: DataProtectionClient;
 
   /**
@@ -64,7 +62,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters17,
+  requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

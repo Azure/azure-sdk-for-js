@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WorkloadsClient } from "@azure/arm-workloadssapvirtualinstance";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateDetectDS.json
  */
+
+import { WorkloadsClient } from "@azure/arm-workloadssapvirtualinstance";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function detectSAPSoftwareInstallationOnADistributedSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";

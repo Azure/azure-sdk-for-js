@@ -466,7 +466,9 @@ Broker authentication is used by `DefaultAzureCredential` to enable secure sign-
 | `CredentialUnavailableException: Failed to acquire token using broker authentication` | An unexpected error occurred while getting token with the broker authentication flow. | Check the inner exception for more details. Ensure your environment meets all requirements for broker authentication (Windows OS, correct dependencies, and configuration). |
 
 > [!NOTE] 
-> Brokered authentication is currently only supported on Windows. macOS and Linux are not yet supported.
+> Brokered authentication is currently only supported on Windows and macOS. Linux is not yet supported.
+> macOS support requires `@azure/identity-broker` version 1.3.0 and higher.
+> Linux is not yet supported.
 
 ### Unable to log in with Microsoft account (MSA) on Windows
 

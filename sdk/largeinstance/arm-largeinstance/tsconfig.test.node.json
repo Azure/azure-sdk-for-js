@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-largeinstance": ["./src/index.ts"],
+      "@azure/arm-largeinstance/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

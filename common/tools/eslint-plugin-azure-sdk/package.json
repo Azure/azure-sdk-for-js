@@ -68,12 +68,10 @@
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "lint": "eslint src tests/rules",
     "lint:fix": "eslint src tests/rules --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
+    "pack": "pnpm pack 2>&1",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "vitest",
-    "test:node:esm": "echo skipped",
     "update-snippets": "echo skipped"
   },
   "engines": {
@@ -97,7 +95,7 @@
     "@types/estree": "~1.0.0",
     "@typescript-eslint/typescript-estree": "~8.39.1",
     "eslint-config-prettier": "^10.0.1",
-    "glob": "^10.3.10",
+    "glob": "^11.0.3",
     "tslib": "^2.6.2",
     "typescript": "~5.8.2",
     "typescript-eslint": "~8.39.1"
@@ -105,19 +103,19 @@
   "devDependencies": {
     "@types/eslint": "^9.6.0",
     "@types/eslint-config-prettier": "6.11.3",
-    "@types/node": "^20.0.0",
+    "@types/node": "catalog:",
     "@typescript-eslint/eslint-plugin": "~8.39.1",
     "@typescript-eslint/parser": "~8.39.1",
     "@typescript-eslint/rule-tester": "~8.39.1",
     "@typescript-eslint/utils": "~8.39.1",
-    "@vitest/browser": "^3.0.9",
-    "@vitest/coverage-istanbul": "^3.0.9",
-    "eslint": "^9.9.0",
-    "playwright": "^1.49.1",
+    "@vitest/browser": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "eslint": "catalog:",
+    "playwright": "catalog:testing",
     "prettier": "^3.3.3",
-    "rimraf": "^5.0.5",
+    "rimraf": "^6.0.1",
     "tshy": "^3.0.0",
-    "vitest": "^3.0.9"
+    "vitest": "catalog:testing"
   },
   "tshy": {
     "exports": {

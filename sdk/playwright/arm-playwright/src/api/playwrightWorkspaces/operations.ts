@@ -17,6 +17,12 @@ import {
   checkNameAvailabilityResponseDeserializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
   PlaywrightWorkspacesListBySubscriptionOptionalParams,
   PlaywrightWorkspacesListByResourceGroupOptionalParams,
@@ -25,12 +31,6 @@ import {
   PlaywrightWorkspacesCreateOrUpdateOptionalParams,
   PlaywrightWorkspacesGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -80,7 +80,7 @@ export async function _checkNameAvailabilityDeserialize(
   return checkNameAvailabilityResponseDeserializer(result.body);
 }
 
-/** Implements global CheckNameAvailability operations */
+/** Checks if a Playwright workspace name is available globally. */
 export async function checkNameAvailability(
   context: Client,
   body: CheckNameAvailabilityRequest,
@@ -221,13 +221,7 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -241,7 +235,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete a PlaywrightWorkspace */
+/** Deletes a Playwright workspace resource asynchronously. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -305,7 +299,7 @@ export async function _updateDeserialize(
   return playwrightWorkspaceDeserializer(result.body);
 }
 
-/** Update a PlaywrightWorkspace */
+/** Updates a Playwright workspace resource synchronously. */
 export async function update(
   context: Client,
   resourceGroupName: string,
@@ -358,7 +352,7 @@ export function _createOrUpdateSend(
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<PlaywrightWorkspace> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -378,7 +372,7 @@ export function createOrUpdate(
     requestOptions: {},
   },
 ): PollerLike<OperationState<PlaywrightWorkspace>, PlaywrightWorkspace> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>

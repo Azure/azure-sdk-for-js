@@ -120,7 +120,6 @@ Heart size is normal. No pericardial effusion. Thoracic aorta as well as pulmona
 Limited evaluation of the upper abdomen shows no concerning abnormality.
 Review of bone windows shows no aggressive appearing osseous lesions.
 
-
 IMPRESSION:
 
 1. Previously identified small pulmonary nodules in the right upper lobe have resolved, but there are multiple new small nodules scattered throughout both lungs. Recommend short-term follow-up with noncontrast chest CT in 3 months as per current  Current guidelines (2017 Fleischner Society).

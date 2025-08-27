@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/storage-file-datalake": ["./src/index.ts"],
+      "@azure/storage-file-datalake/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

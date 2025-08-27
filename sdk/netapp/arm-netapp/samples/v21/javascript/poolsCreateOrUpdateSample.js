@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Create or Update a capacity pool
  *
  * @summary Create or Update a capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Pools_CreateOrUpdate.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Pools_CreateOrUpdate.json
  */
 async function poolsCreateOrUpdate() {
   const subscriptionId =
@@ -39,8 +39,39 @@ async function poolsCreateOrUpdate() {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to Create or Update a capacity pool
+ *
+ * @summary Create or Update a capacity pool
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Pools_CreateOrUpdate_CustomThroughput.json
+ */
+async function poolsCreateOrUpdateCustomThroughput() {
+  const subscriptionId =
+    process.env["NETAPP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
+  const accountName = "account1";
+  const poolName = "customPool1";
+  const body = {
+    customThroughputMibps: 128,
+    location: "eastus",
+    qosType: "Manual",
+    serviceLevel: "Flexible",
+    size: 4398046511104,
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new NetAppManagementClient(credential, subscriptionId);
+  const result = await client.pools.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    accountName,
+    poolName,
+    body,
+  );
+  console.log(result);
+}
+
 async function main() {
   await poolsCreateOrUpdate();
+  await poolsCreateOrUpdateCustomThroughput();
 }
 
 main().catch(console.error);

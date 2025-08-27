@@ -63,10 +63,7 @@ export interface Pools {
     body: CapacityPool,
     options?: PoolsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PoolsCreateOrUpdateResponse>,
-      PoolsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<PoolsCreateOrUpdateResponse>, PoolsCreateOrUpdateResponse>
   >;
   /**
    * Create or Update a capacity pool
@@ -97,9 +94,7 @@ export interface Pools {
     poolName: string,
     body: CapacityPoolPatch,
     options?: PoolsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>>;
   /**
    * Patch the specified capacity pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

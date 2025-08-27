@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ContainerApp,
@@ -136,11 +132,7 @@ export class ContainerAppsImpl implements ContainerApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -160,11 +152,7 @@ export class ContainerAppsImpl implements ContainerApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -176,10 +164,7 @@ export class ContainerAppsImpl implements ContainerApps {
     resourceGroupName: string,
     options?: ContainerAppsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ContainerApp> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -191,10 +176,7 @@ export class ContainerAppsImpl implements ContainerApps {
   private _listBySubscription(
     options?: ContainerAppsListBySubscriptionOptionalParams,
   ): Promise<ContainerAppsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -257,8 +239,7 @@ export class ContainerAppsImpl implements ContainerApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -350,8 +331,7 @@ export class ContainerAppsImpl implements ContainerApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -403,11 +383,7 @@ export class ContainerAppsImpl implements ContainerApps {
     containerAppName: string,
     options?: ContainerAppsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      containerAppName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, containerAppName, options);
     return poller.pollUntilDone();
   }
 
@@ -424,10 +400,7 @@ export class ContainerAppsImpl implements ContainerApps {
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ContainerAppsUpdateResponse>,
-      ContainerAppsUpdateResponse
-    >
+    SimplePollerLike<OperationState<ContainerAppsUpdateResponse>, ContainerAppsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -439,8 +412,7 @@ export class ContainerAppsImpl implements ContainerApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -572,10 +544,7 @@ export class ContainerAppsImpl implements ContainerApps {
     containerAppName: string,
     options?: ContainerAppsStartOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ContainerAppsStartResponse>,
-      ContainerAppsStartResponse
-    >
+    SimplePollerLike<OperationState<ContainerAppsStartResponse>, ContainerAppsStartResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -587,8 +556,7 @@ export class ContainerAppsImpl implements ContainerApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -643,11 +611,7 @@ export class ContainerAppsImpl implements ContainerApps {
     containerAppName: string,
     options?: ContainerAppsStartOptionalParams,
   ): Promise<ContainerAppsStartResponse> {
-    const poller = await this.beginStart(
-      resourceGroupName,
-      containerAppName,
-      options,
-    );
+    const poller = await this.beginStart(resourceGroupName, containerAppName, options);
     return poller.pollUntilDone();
   }
 
@@ -662,10 +626,7 @@ export class ContainerAppsImpl implements ContainerApps {
     containerAppName: string,
     options?: ContainerAppsStopOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ContainerAppsStopResponse>,
-      ContainerAppsStopResponse
-    >
+    SimplePollerLike<OperationState<ContainerAppsStopResponse>, ContainerAppsStopResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -677,8 +638,7 @@ export class ContainerAppsImpl implements ContainerApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -733,11 +693,7 @@ export class ContainerAppsImpl implements ContainerApps {
     containerAppName: string,
     options?: ContainerAppsStopOptionalParams,
   ): Promise<ContainerAppsStopResponse> {
-    const poller = await this.beginStop(
-      resourceGroupName,
-      containerAppName,
-      options,
-    );
+    const poller = await this.beginStop(resourceGroupName, containerAppName, options);
     return poller.pollUntilDone();
   }
 
@@ -804,11 +760,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -864,7 +816,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.containerAppName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -918,7 +870,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.containerAppName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -1059,11 +1011,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

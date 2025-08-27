@@ -8,7 +8,7 @@ import { getTestRunConfig } from "../utils/utils.js";
 import { CIInfoProvider } from "../utils/cIInfoProvider.js";
 
 /**
- * Initializes the Playwright service by setting up authentication and creating a test run.
+ * Initializes the Playwright workspaces by setting up authentication and creating a test run.
  *
  * @param config - The full Playwright configuration
  * @returns Promise that resolves when service initialization is complete

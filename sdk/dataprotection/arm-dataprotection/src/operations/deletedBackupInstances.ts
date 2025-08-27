@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataProtectionClient } from "../dataProtectionClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DeletedBackupInstanceResource,
@@ -66,12 +62,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          vaultName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, vaultName, options, settings);
       },
     };
   }
@@ -92,12 +83,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        vaultName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, vaultName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,11 +96,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
     vaultName: string,
     options?: DeletedBackupInstancesListOptionalParams,
   ): AsyncIterableIterator<DeletedBackupInstanceResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      vaultName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, vaultName, options)) {
       yield* page;
     }
   }
@@ -177,8 +159,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

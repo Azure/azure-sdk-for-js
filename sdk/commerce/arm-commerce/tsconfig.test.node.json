@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-commerce": ["./src/index.ts"],
+      "@azure/arm-commerce/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

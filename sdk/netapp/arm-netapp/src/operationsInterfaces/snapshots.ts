@@ -75,12 +75,7 @@ export interface Snapshots {
     snapshotName: string,
     body: Snapshot,
     options?: SnapshotsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotsCreateResponse>,
-      SnapshotsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<SnapshotsCreateResponse>, SnapshotsCreateResponse>>;
   /**
    * Create the specified snapshot within the given volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -118,12 +113,7 @@ export interface Snapshots {
     snapshotName: string,
     body: Record<string, unknown>,
     options?: SnapshotsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotsUpdateResponse>,
-      SnapshotsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<SnapshotsUpdateResponse>, SnapshotsUpdateResponse>>;
   /**
    * Patch a snapshot
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

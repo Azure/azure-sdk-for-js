@@ -45,5 +45,6 @@ https://learn.microsoft.com/javascript/api/@azure/arm-playwright?view=azure-node
 https://learn.microsoft.com/javascript/api/@azure/arm-cloudhealth?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-resourcesbicep?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-resourcesdeployments?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-containerservicesafeguards?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-storagediscovery?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhcivm?view=azure-node-preview
