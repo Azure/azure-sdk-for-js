@@ -1,6 +1,6 @@
 ## Learn about different available service parameters and how to use them
 
-Follow the steps listed in this [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/playwright/README.md) to integrate your existing Playwright test suite with the Azure Playwright service.
+Follow the steps listed in this [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/playwright/README.md) to integrate your existing Playwright test suite with the Playwright workspaces.
 
 This guide explains the different options available to you in the `playwright.service.config.ts` file and how to use them.
 
@@ -49,5 +49,5 @@ export default defineConfig(
     - **Example**:
 
       ```typescript
-      runName: "Playwright Service Test" 
+      runName: "Playwright Workspaces Test" 
       ```

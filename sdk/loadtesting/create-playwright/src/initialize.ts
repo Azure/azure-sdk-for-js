@@ -71,13 +71,13 @@ export class PlaywrightServiceInitialize {
       `test -c ${this.createAzurePlaywrightConfigFileName()} --workers=20`,
     );
 
-    console.log(`\n\nTo run playwrights tests using Playwright Service\n`);
+    console.log(`\n\nTo run playwrights tests using Playwright Workspaces\n`);
     console.log(`\t${runCommandParallelWorkers}\n`);
 
     console.log("Getting Started - https://aka.ms/pww/docs/quickstart\n");
 
     console.log(
-      "If you're already using the Azure Playwright service, please review the quickstart guide [https://aka.ms/pww/docs/quickstart] to ensure your tests continue running smoothly.",
+      "If you're already using the Playwright Workspaces, please review the quickstart guide [https://aka.ms/pww/docs/quickstart] to ensure your tests continue running smoothly.",
     );
   };
 

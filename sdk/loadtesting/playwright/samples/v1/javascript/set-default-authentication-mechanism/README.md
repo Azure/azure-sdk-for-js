@@ -1,4 +1,4 @@
-# How to authenticate to Azure Playwright service using service access token
+# How to authenticate to Playwright workspaces using service access token.
 
 This guide will walk you through the steps to integrate your Playwright project where you are launching browsers from within the tests with the service.
 
@@ -26,7 +26,7 @@ Installing the service package will create a service config named `playwright.se
 
 The service configuration serves to:
 
-- Direct and authenticate Playwright to the Azure Playwright service.
+- Direct and authenticate Playwright to the Playwright Workspaces.
 - Override timeouts for service operations, if needed.
 
 > Make sure your project uses @playwright/test version 1.47 or above.
