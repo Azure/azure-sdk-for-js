@@ -14,12 +14,14 @@ param (
 
 $dependencyUpgradeLabel = "dependency-upgrade-required"
 $deprecatedDependency = "Deprecated-Dependency"
-$deprecatedDependencyRegex = "^\+\s(?<pkg>[\S]*)\s|\sWARN\(?<deprecated>deprecated\)"
+
 $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
 Write-Host "Repo root: $RepoRoot"
 
-# $ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
-$ghIssues = @()
+$EngCommonScriptsPath = Join-Path (Resolve-Path "${PSScriptRoot}/..") "common" "scripts"
+. (Join-Path $EngCommonScriptsPath common.ps1)
+
+$ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
 # Check and return if an issue already exists to upgrade the package
 function Get-GithubIssue($IssueTitle) {
   foreach ($issue in $ghIssues) {
@@ -73,26 +75,33 @@ function Set-GitHubIssue($Package) {
   }
 }
 
-Write-Host "Running pnpm install --latest"
-$rushUpdateOutput = pnpm update --latest
-write-host $rushUpdateOutput
-$gitDifOutput = git --no-pager diff
-foreach ($line in $gitDifOutput) {
-  write-host $line
-}
-foreach ($line in $rushUpdateOutput) {
-  if ($line -match $deprecatedDependencyRegex) {
+# do a update first so we don't report on upgrades that will be in azure sdk bot PR
+Write-Host "Running pnpm update --recursive --no-save"
+pnpm update --recursive --no-save
+
+Write-Host "Running pnpm outdated --format json --recursive"
+$env:NODE_OPTIONS = "--max-old-space-size=16384"
+$pnpmOutdatedOutput = pnpm outdated --format json --recursive
+
+$availableUpdates = $pnpmOutdatedOutput | ConvertFrom-Json
+
+foreach ($update in $availableUpdates.PSObject.Properties) {
+  if ($update.Name -notmatch '^@azure') {
     $p = New-Object PSObject -Property @{
-      Name         = $matches['pkg']
-      OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])
-      NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
-      IsDeprecated = ($matches['deprecated'] -eq "deprecated")
+      Name         = $update.Name
+      OldVersion   = $update.Value.'wanted'
+      NewVersion   = $update.Value.'latest'
+      IsDeprecated = $update.Value.'isDeprecated'
     }
 
-    if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion) {
-      # Set-GitHubIssue -Package $p
+    if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion -and $p.OldVersion -ne $p.NewVersion) {
+      Write-Host $update.Name, $update.Value.'wanted', $update.Value.'latest'
+      Set-GitHubIssue -Package $p
       Start-Sleep -s 5
     }
   }
 }
+
 Write-Host "Verified and filed issues"
+
+exit 0
