@@ -131,7 +131,7 @@
     "playwright": "catalog:testing",
     "typescript": "catalog:",
     "vitest": "catalog:testing",
-    "zod": "^3.24.2"
+    "zod": "catalog:"
   },
   "dependencies": {
     "tslib": "^2.8.1"
