@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrate how to search the coordinates of an address (a.k.a. Geocoding).
+ */
+
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-/**
- * @summary Demonstrate how to search the coordinates of an address (a.k.a. Geocoding).
- */
 async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:

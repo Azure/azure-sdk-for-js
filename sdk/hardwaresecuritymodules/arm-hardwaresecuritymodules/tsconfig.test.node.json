@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-hardwaresecuritymodules": ["./src/index.ts"],
+      "@azure/arm-hardwaresecuritymodules/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

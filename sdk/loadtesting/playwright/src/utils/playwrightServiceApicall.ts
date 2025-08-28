@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { getTestRunApiUrl, getAccessToken, exitWithFailureMessage } from "./utils.js";
+import {
+  getTestRunApiUrl,
+  getAccessToken,
+  extractErrorMessage,
+  exitWithFailureMessage,
+} from "./utils.js";
 import { HttpService } from "../common/httpService.js";
 import { TestRunCreatePayload } from "../common/types.js";
 import { ServiceErrorMessageConstants } from "../common/messages.js";
 import { Constants } from "../common/constants.js";
 
 /**
- * Makes a PATCH call to the Playwright Service Test Run API to create or update a test run.
+ * Makes a PATCH call to the Playwright workspaces Test Run API to create or update a test run.
  *
  * @param payload - The request payload (displayName, config, ciConfig, etc.).
  * @returns The parsed JSON response from the API.
@@ -42,8 +47,10 @@ export class PlaywrightServiceApiCall {
       correlationId,
     );
     if (response.status !== 200) {
-      exitWithFailureMessage(ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN);
+      const errorMessage = extractErrorMessage(response?.bodyAsText ?? "");
+      exitWithFailureMessage(ServiceErrorMessageConstants.FAILED_TO_CREATE_TEST_RUN, errorMessage);
     }
+    console.log("Test run created successfully.");
     return response.bodyAsText ? JSON.parse(response.bodyAsText) : {};
   }
 }

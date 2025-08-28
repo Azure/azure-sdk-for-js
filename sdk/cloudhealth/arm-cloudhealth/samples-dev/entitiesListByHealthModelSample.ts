@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthClient } from "@azure/arm-cloudhealth";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to list Entity resources by HealthModel
  *
  * @summary list Entity resources by HealthModel
  * x-ms-original-file: 2025-05-01-preview/Entities_ListByHealthModel.json
  */
+
+import { CloudHealthClient } from "@azure/arm-cloudhealth";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function entitiesListByHealthModel(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";

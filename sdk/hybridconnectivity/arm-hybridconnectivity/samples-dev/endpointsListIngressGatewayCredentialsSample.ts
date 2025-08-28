@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to gets the ingress gateway endpoint credentials
  *
  * @summary gets the ingress gateway endpoint credentials
  * x-ms-original-file: 2024-12-01/EndpointsPostListIngressGatewayCredentials.json
  */
+
+import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function hybridConnectivityEndpointsPostListIngressGatewayCredentials(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";

@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @summary How to convert a Windows Timezone ID to IANA Timezone IDs.
+ */
+
 import { DefaultAzureCredential } from "@azure/identity";
 import type { IanaIdOutput } from "@azure-rest/maps-timezone";
 import MapsTimezone, { isUnexpected } from "@azure-rest/maps-timezone";
 
-/**
- * @summary How to convert a Windows Timezone ID to IANA Timezone IDs.
- */
 async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";

@@ -24,6 +24,13 @@ import {
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import type { OperationOptions } from "@azure/core-client";
+import {
+  Pipeline,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 
 expect.extend({ toSupportTracing });
 
@@ -1194,6 +1201,53 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
       assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
       assert.ok(await fileundeleteResponse.pathClient.exists());
+    }
+  });
+});
+
+describe("Version error test", () => {
+  let fileSystemName: string;
+  let fileSystemClient: DataLakeFileSystemClient;
+
+  let recorder: Recorder;
+  let serviceClient: DataLakeServiceClient;
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    serviceClient = getDataLakeServiceClient(recorder);
+    fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  function XMSVersioninjectorPolicy(version: string): PipelinePolicy {
+    return {
+      name: "XMSVersioninjectorPolicy",
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+        request.headers.set("x-ms-version", version);
+        return next(request);
+      },
+    };
+  }
+
+  it("Invalid service version", async () => {
+    const injector = XMSVersioninjectorPolicy(`3025-01-01`);
+
+    const pipeline: Pipeline = fileSystemClient["storageClientContext"].pipeline;
+    pipeline.addPolicy(injector, { afterPhase: "Retry" });
+    try {
+      await fileSystemClient.create();
+    } catch (err) {
+      assert.ok(
+        (err as any).message.startsWith(
+          "The provided service version is not enabled on this storage account. Please see",
+        ),
+      );
     }
   });
 });

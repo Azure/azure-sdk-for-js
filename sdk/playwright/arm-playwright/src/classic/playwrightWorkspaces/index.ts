@@ -3,11 +3,14 @@
 
 import { PlaywrightManagementContext } from "../../api/playwrightManagementContext.js";
 import {
-  PlaywrightWorkspace,
-  PlaywrightWorkspaceUpdate,
-  CheckNameAvailabilityRequest,
-  CheckNameAvailabilityResponse,
-} from "../../models/models.js";
+  checkNameAvailability,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/playwrightWorkspaces/operations.js";
 import {
   PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
   PlaywrightWorkspacesListBySubscriptionOptionalParams,
@@ -18,20 +21,17 @@ import {
   PlaywrightWorkspacesGetOptionalParams,
 } from "../../api/playwrightWorkspaces/options.js";
 import {
-  checkNameAvailability,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/playwrightWorkspaces/operations.js";
+  PlaywrightWorkspace,
+  PlaywrightWorkspaceUpdate,
+  CheckNameAvailabilityRequest,
+  CheckNameAvailabilityResponse,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PlaywrightWorkspaces operations. */
 export interface PlaywrightWorkspacesOperations {
-  /** Implements global CheckNameAvailability operations */
+  /** Checks if a Playwright workspace name is available globally. */
   checkNameAvailability: (
     body: CheckNameAvailabilityRequest,
     options?: PlaywrightWorkspacesCheckNameAvailabilityOptionalParams,
@@ -45,7 +45,7 @@ export interface PlaywrightWorkspacesOperations {
     resourceGroupName: string,
     options?: PlaywrightWorkspacesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<PlaywrightWorkspace>;
-  /** Delete a PlaywrightWorkspace */
+  /** Deletes a Playwright workspace resource asynchronously. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -56,7 +56,7 @@ export interface PlaywrightWorkspacesOperations {
     playwrightWorkspaceName: string,
     options?: PlaywrightWorkspacesDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
-  /** Update a PlaywrightWorkspace */
+  /** Updates a Playwright workspace resource synchronously. */
   update: (
     resourceGroupName: string,
     playwrightWorkspaceName: string,

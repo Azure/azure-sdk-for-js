@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Create or update the specified Backup Vault in the NetApp account
  *
  * @summary Create or update the specified Backup Vault in the NetApp account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupVaults_Create.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/BackupVaults_Create.json
  */
 async function backupVaultCreateOrUpdate(): Promise<void> {
   const subscriptionId =

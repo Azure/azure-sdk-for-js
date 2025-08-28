@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BackupInstancesExtensionRouting operations. */
-export class BackupInstancesExtensionRoutingImpl
-  implements BackupInstancesExtensionRouting
-{
+export class BackupInstancesExtensionRoutingImpl implements BackupInstancesExtensionRouting {
   private readonly client: DataProtectionClient;
 
   /**
@@ -103,10 +101,7 @@ export class BackupInstancesExtensionRoutingImpl
     resourceId: string,
     options?: BackupInstancesExtensionRoutingListOptionalParams,
   ): Promise<BackupInstancesExtensionRoutingListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceId, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceId, options }, listOperationSpec);
   }
 
   /**

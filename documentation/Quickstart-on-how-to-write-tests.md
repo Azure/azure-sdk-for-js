@@ -38,8 +38,8 @@ Please notice that this quickstart is based on 3.x.y version of recorder tool (`
 
 # Prerequisites
 
-- Rush 5.x
-  - Install/update Rush globally via `npm install -g @microsoft/rush`
+- pnpm
+  - Install/update pnpm globally via [pnpm installation instructions](https://pnpm.io/installation)
 - Any of [the LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - A C++ compiler toolchain and Python (for compiling machine-code modules)
   - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
@@ -52,7 +52,7 @@ To be able to leverage the asset-sync workflow
 
 # How to run test
 
-This section describes how to run the SDK tests. If you want to run the tests of a specific project, go to that project's folder and execute `rushx test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `rushx test:node` and `rushx test:browser`. Let's take `purview-scanning-rest` as an example.
+This section describes how to run the SDK tests. If you want to run the tests of a specific project, go to that project's folder and execute `pnpm test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `pnpm test:node` and `pnpm test:browser`. Let's take `purview-scanning-rest` as an example.
 
 If you have no concepts of `recording`, `playback` or [TEST_MODE](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#test_mode) we'll highly recommand you to read this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md#key-concepts). We'll touch upon these concepts in below content.
 
@@ -86,18 +86,18 @@ sdk/
 
 ## Run tests in record mode
 
-Before running tests, it's advised to update the dependencises and build our project by running the command `rush update && rush build -t <package-name>`. Please notice this command is time-consuming and it will take around 10 mins, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#resolving-dependency-version-conflicts) for more details.
+Before running tests, it's advised to update the dependencises and build our project by running the command `pnpm install && pnpm build --filter=<package-name>...`. Please notice this command is time-consuming and it will take around 10 mins, you could refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#resolving-dependency-version-conflicts) for more details.
 
 ```Shell
-> rush update
-> rush build -t @azure-rest/purview-scanning
+> pnpm install
+> pnpm build --filter=@azure-rest/purview-scanning...
 ```
 
 Then, we could go to the project folder to run the tests. By default, if you don't specify `TEST_MODE`, it will run previously recorded tests.
 
 ```Shell
 > cd sdk/purview/purview-scanning-rest
-sdk/purview/purview-scanning-rest> rushx test
+sdk/purview/purview-scanning-rest> pnpm test
 ```
 
 If you are the first time to run tests you may fail with below message because there is no any recordings found.
@@ -112,16 +112,16 @@ If you are the first time to run tests you may fail with below message because t
 [node-tests]      RecorderError: Start request failed.
 ```
 
-To record or update our recordings, we need to set the environment variable `TEST_MODE` to `record`. Then, run `rushx test`.
+To record or update our recordings, we need to set the environment variable `TEST_MODE` to `record`. Then, run `pnpm test`.
 
 ```Shell
 # Windows
 > set TEST_MODE=record
-> rushx test
+> pnpm test
 
 # Linux / Mac
 > export TEST_MODE=record
-> rushx test
+> pnpm test
 ```
 
 This time we could get following similar logs. Go to the folder `purview-scanning-rest/recordings` to view recording files.
@@ -142,11 +142,11 @@ If we have existing recordings, then the tests have been run against generated t
 ```Shell
 # Windows
 > set TEST_MODE=playback
-> rushx test
+> pnpm test
 
 # Linux / Mac
 > export TEST_MODE=playback
-> rushx test
+> pnpm test
 ```
 
 ## How to push test recordings to assets repo

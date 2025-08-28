@@ -19,11 +19,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [deployments/deploymentsBasics.js][deployments_deploymentsbasics]           | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all deployments, get the properties of a deployment by its name, and delete a deployment.                        |
 | [indexes/indexesBasics.js][indexes_indexesbasics]                           | Given an AIProjectClient, this sample demonstrates how to enumerate the properties of all indexes, get the properties of an index by its name, and delete an index.                                    |
 | [inference/azureOpenAIChat.js][inference_azureopenaichat]                   | Given an AIProjectClient, this sample demonstrates how to get an Azure OpenAI client and create a chat completion.                                                                                     |
-| [inference/chatCompletion.js][inference_chatcompletion]                     | Given an AIProjectClient, this sample demonstrates how to get a response from a chat model. Get the chat completions for the provided chat messages.                                                   |
-| [inference/imageEmbedding.js][inference_imageembedding]                     | Given an AIProjectClient, this sample demonstrates how to get the image embeddings for a given image. Get the image embeddings for a given image.                                                      |
-| [inference/textEmbeddings.js][inference_textembeddings]                     | Given an AIProjectClient, this sample demonstrates how to get the text embeddings for a given text. Get the text embeddings for arrays of given texts.                                                 |
 | [telemetry/inferenceRemoteTelemetry.js][telemetry_inferenceremotetelemetry] | This sample demonstrates how to enable remote telemetry for inference operations using AIProjectClient.                                                                                                |
-| [telemetry/inferenceTelemetry.js][telemetry_inferencetelemetry]             | This sample demonstrates how to enable telemetry for inference operations using AIProjectClient.                                                                                                       |
 | [telemetry/telemetryBasics.js][telemetry_telemetrybasics]                   | Given the AIProjectClient, this sample shows how to get the connection string for telemetry.                                                                                                           |
 
 ## Prerequisites
@@ -70,11 +66,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deployments_deploymentsbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1/javascript/deployments/deploymentsBasics.js
 [indexes_indexesbasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1/javascript/indexes/indexesBasics.js
 [inference_azureopenaichat]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1/javascript/inference/azureOpenAIChat.js
-[inference_chatcompletion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1/javascript/inference/chatCompletion.js
-[inference_imageembedding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1/javascript/inference/imageEmbedding.js
-[inference_textembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1/javascript/inference/textEmbeddings.js
 [telemetry_inferenceremotetelemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1/javascript/telemetry/inferenceRemoteTelemetry.js
-[telemetry_inferencetelemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1/javascript/telemetry/inferenceTelemetry.js
 [telemetry_telemetrybasics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-projects/samples/v1/javascript/telemetry/telemetryBasics.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-projects
 [freesub]: https://azure.microsoft.com/free/

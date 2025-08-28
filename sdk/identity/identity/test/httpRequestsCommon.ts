@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { AccessToken, GetTokenOptions, TokenCredential } from "../src/index.js";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/identity";
 import type { AzureLogLevel, AzureLogger } from "@azure/logger";
 import type { RawHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 

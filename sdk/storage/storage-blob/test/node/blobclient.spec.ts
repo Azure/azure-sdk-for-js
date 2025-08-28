@@ -950,8 +950,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 
-  // [Copy source error code] Feature is pending on service side, skip the case for now.
-  it.skip("syncCopyFromURL - should fail with copy source error message", async function () {
+  it("syncCopyFromURL - should fail with copy source error message", async function () {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 

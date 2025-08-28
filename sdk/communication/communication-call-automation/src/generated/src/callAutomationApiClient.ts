@@ -66,7 +66,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-call-automation/1.5.0-beta.3`;
+    const packageDetails = `azsdk-js-communication-call-automation/1.5.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -85,7 +85,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2025-05-15";
+    this.apiVersion = options.apiVersion || "2025-06-15";
     this.callConnection = new CallConnectionImpl(this);
     this.callMedia = new CallMediaImpl(this);
     this.callRecording = new CallRecordingImpl(this);

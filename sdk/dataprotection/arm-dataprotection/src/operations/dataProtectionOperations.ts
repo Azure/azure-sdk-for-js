@@ -107,10 +107,7 @@ export class DataProtectionOperationsImpl implements DataProtectionOperations {
     nextLink: string,
     options?: DataProtectionOperationsListNextOptionalParams,
   ): Promise<DataProtectionOperationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

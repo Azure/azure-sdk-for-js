@@ -1,6 +1,6 @@
 ## Setting up the perf project
 
-1. Build the service-bus perf test project `rush build -t perf-service-bus`.
+1. Build the service-bus perf test project `pnpm build --filter perf-service-bus...`.
 2. Navigate to `cd sdk/servicebus/perf-tests/service-bus`.
 
 ## Environment setup

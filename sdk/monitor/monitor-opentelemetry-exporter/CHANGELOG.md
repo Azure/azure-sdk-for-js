@@ -1,10 +1,21 @@
 # Release History
 
-## 1.0.0-beta.33 ()
+## 1.0.0-beta.34 ()
 
 ### Features Added
 
-- Track CLIENT_READONLY and CLIENT_TIMEOUT customer statsbeat.
+- Added support for configuring customer SDK Stats export interval using the `APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL` environment variable (specified in seconds).
+
+### Other Changes
+
+- Renamed Customer Statsbeat feature to customer SDK Stats.
+- Update logic setting ai.location.ip to use the microsoft.client.ip value by default.
+
+## 1.0.0-beta.33 (2025-08-04)
+
+### Features Added
+
+- Track CLIENT_READONLY and CLIENT_TIMEOUT customer SDK Stats.
 
 ### Bugs Fixed
 
@@ -18,7 +29,7 @@
 
 ### Features Added
 
-- Added customer-facing statsbeat preview.
+- Added customer-facing SDK Stats preview.
 
 ### Features Added
 

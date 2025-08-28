@@ -114,7 +114,7 @@ export enum KnownQuotaName {
 
 // @public
 export enum KnownVersions {
-    V20250701Preview = "2025-07-01-preview"
+    V20250901 = "2025-09-01"
 }
 
 // @public
@@ -168,6 +168,7 @@ export interface PlaywrightWorkspaceProperties {
     localAuth?: EnablementStatus;
     readonly provisioningState?: ProvisioningState;
     regionalAffinity?: EnablementStatus;
+    readonly workspaceId?: string;
 }
 
 // @public

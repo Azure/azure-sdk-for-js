@@ -375,8 +375,8 @@ const listOSVersionsNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.location1,
   ],
   headerParameters: [Parameters.accept],
@@ -395,8 +395,8 @@ const listOSFamiliesNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.location1,
   ],
   headerParameters: [Parameters.accept],

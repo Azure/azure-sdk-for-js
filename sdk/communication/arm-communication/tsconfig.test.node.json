@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-communication": ["./src/index.ts"],
+      "@azure/arm-communication/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

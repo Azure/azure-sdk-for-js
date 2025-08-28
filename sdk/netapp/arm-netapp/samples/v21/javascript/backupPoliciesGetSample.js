@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Get a particular backup Policy
  *
  * @summary Get a particular backup Policy
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupPolicies_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/BackupPolicies_Get.json
  */
 async function backupsGet() {
   const subscriptionId =

@@ -1,5 +1,23 @@
 # Release History
 
+## 21.7.0 (2025-08-14)
+
+### Features Added
+  - Added operation Volumes.beginSplitCloneFromParent
+  - Added operation Volumes.beginSplitCloneFromParentAndWait
+  - Added Interface VolumesSplitCloneFromParentHeaders
+  - Added Interface VolumesSplitCloneFromParentOptionalParams
+  - Interface CapacityPool has a new optional parameter customThroughputMibps
+  - Interface CapacityPoolPatch has a new optional parameter customThroughputMibps
+  - Interface Volume has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface Volume has a new optional parameter inheritedSizeInBytes
+  - Interface VolumeGroupVolumeProperties has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface VolumeGroupVolumeProperties has a new optional parameter inheritedSizeInBytes
+  - Added Type Alias AcceptGrowCapacityPoolForShortTermCloneSplit
+  - Added Type Alias VolumesSplitCloneFromParentResponse
+  - Added Enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit
+  - Enum KnownServiceLevel has a new value Flexible
+
 ## 21.6.0 (2025-07-25)
 
 ### Features Added

@@ -76,12 +76,7 @@ export interface Subvolumes {
     subvolumeName: string,
     body: SubvolumeInfo,
     options?: SubvolumesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SubvolumesCreateResponse>,
-      SubvolumesCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<SubvolumesCreateResponse>, SubvolumesCreateResponse>>;
   /**
    * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -119,12 +114,7 @@ export interface Subvolumes {
     subvolumeName: string,
     body: SubvolumePatchRequest,
     options?: SubvolumesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SubvolumesUpdateResponse>,
-      SubvolumesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<SubvolumesUpdateResponse>, SubvolumesUpdateResponse>>;
   /**
    * Patch a subvolume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -195,10 +185,7 @@ export interface Subvolumes {
     subvolumeName: string,
     options?: SubvolumesGetMetadataOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SubvolumesGetMetadataResponse>,
-      SubvolumesGetMetadataResponse
-    >
+    SimplePollerLike<OperationState<SubvolumesGetMetadataResponse>, SubvolumesGetMetadataResponse>
   >;
   /**
    * Get details of the specified subvolume

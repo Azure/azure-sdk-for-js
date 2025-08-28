@@ -24,13 +24,13 @@ import {
   GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextOptionalParams,
   GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
   GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse,
+  GalleryInVMAccessControlProfileVersionsGetOptionalParams,
+  GalleryInVMAccessControlProfileVersionsGetResponse,
   GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams,
   GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse,
   GalleryInVMAccessControlProfileVersionUpdate,
   GalleryInVMAccessControlProfileVersionsUpdateOptionalParams,
   GalleryInVMAccessControlProfileVersionsUpdateResponse,
-  GalleryInVMAccessControlProfileVersionsGetOptionalParams,
-  GalleryInVMAccessControlProfileVersionsGetResponse,
   GalleryInVMAccessControlProfileVersionsDeleteOptionalParams,
   GalleryInVMAccessControlProfileVersionsDeleteResponse,
   GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextResponse,
@@ -53,11 +53,10 @@ export class GalleryInVMAccessControlProfileVersionsImpl
 
   /**
    * List gallery inVMAccessControlProfile versions in a gallery inVMAccessControlProfile
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile from which the
-   *                                     inVMAccessControlProfile versions are to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param options The options parameters.
    */
   public listByGalleryInVMAccessControlProfile(
@@ -147,16 +146,62 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   }
 
   /**
-   * Create or update a gallery inVMAccessControlProfile version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
-   *                                     inVMAccessControlProfile version is to be created.
+   * List gallery inVMAccessControlProfile versions in a gallery inVMAccessControlProfile
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
+   * @param options The options parameters.
+   */
+  private _listByGalleryInVMAccessControlProfile(
+    resourceGroupName: string,
+    galleryName: string,
+    inVMAccessControlProfileName: string,
+    options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
+  ): Promise<GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, inVMAccessControlProfileName, options },
+      listByGalleryInVMAccessControlProfileOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves information about a gallery inVMAccessControlProfile version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
-   *                                            to be created. Needs to follow semantic version name pattern: The allowed characters are digit and
-   *                                            period. Digits must be within the range of a 32-bit integer. Format:
-   *                                            <MajorVersion>.<MinorVersion>.<Patch>
+   *                                            to be retrieved.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    inVMAccessControlProfileName: string,
+    inVMAccessControlProfileVersionName: string,
+    options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams,
+  ): Promise<GalleryInVMAccessControlProfileVersionsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        galleryName,
+        inVMAccessControlProfileName,
+        inVMAccessControlProfileVersionName,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Create or update a gallery inVMAccessControlProfile version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
+   * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
+   *                                            to be retrieved.
    * @param galleryInVMAccessControlProfileVersion Parameters supplied to the create or update gallery
    *                                               inVMAccessControlProfile version operation.
    * @param options The options parameters.
@@ -230,6 +275,7 @@ export class GalleryInVMAccessControlProfileVersionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -237,15 +283,12 @@ export class GalleryInVMAccessControlProfileVersionsImpl
 
   /**
    * Create or update a gallery inVMAccessControlProfile version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
-   *                                     inVMAccessControlProfile version is to be created.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
-   *                                            to be created. Needs to follow semantic version name pattern: The allowed characters are digit and
-   *                                            period. Digits must be within the range of a 32-bit integer. Format:
-   *                                            <MajorVersion>.<MinorVersion>.<Patch>
+   *                                            to be retrieved.
    * @param galleryInVMAccessControlProfileVersion Parameters supplied to the create or update gallery
    *                                               inVMAccessControlProfile version operation.
    * @param options The options parameters.
@@ -271,15 +314,12 @@ export class GalleryInVMAccessControlProfileVersionsImpl
 
   /**
    * Update a gallery inVMAccessControlProfile version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
-   *                                     inVMAccessControlProfile version is to be updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
-   *                                            to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and
-   *                                            period. Digits must be within the range of a 32-bit integer. Format:
-   *                                            <MajorVersion>.<MinorVersion>.<Patch>
+   *                                            to be retrieved.
    * @param galleryInVMAccessControlProfileVersion Parameters supplied to the update gallery
    *                                               inVMAccessControlProfile version operation.
    * @param options The options parameters.
@@ -353,6 +393,7 @@ export class GalleryInVMAccessControlProfileVersionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -360,15 +401,12 @@ export class GalleryInVMAccessControlProfileVersionsImpl
 
   /**
    * Update a gallery inVMAccessControlProfile version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
-   *                                     inVMAccessControlProfile version is to be updated.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
-   *                                            to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and
-   *                                            period. Digits must be within the range of a 32-bit integer. Format:
-   *                                            <MajorVersion>.<MinorVersion>.<Patch>
+   *                                            to be retrieved.
    * @param galleryInVMAccessControlProfileVersion Parameters supplied to the update gallery
    *                                               inVMAccessControlProfile version operation.
    * @param options The options parameters.
@@ -393,44 +431,13 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   }
 
   /**
-   * Retrieves information about a gallery inVMAccessControlProfile version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
-   *                                     inVMAccessControlProfile version resides.
+   * Delete a gallery inVMAccessControlProfile version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
    *                                            to be retrieved.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    galleryName: string,
-    inVMAccessControlProfileName: string,
-    inVMAccessControlProfileVersionName: string,
-    options?: GalleryInVMAccessControlProfileVersionsGetOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfileVersionsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        galleryName,
-        inVMAccessControlProfileName,
-        inVMAccessControlProfileVersionName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Delete a gallery inVMAccessControlProfile version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
-   *                                     inVMAccessControlProfile version resides.
-   * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
-   *                                            to be deleted.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -500,6 +507,7 @@ export class GalleryInVMAccessControlProfileVersionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -507,13 +515,12 @@ export class GalleryInVMAccessControlProfileVersionsImpl
 
   /**
    * Delete a gallery inVMAccessControlProfile version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile in which the
-   *                                     inVMAccessControlProfile version resides.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param inVMAccessControlProfileVersionName The name of the gallery inVMAccessControlProfile version
-   *                                            to be deleted.
+   *                                            to be retrieved.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -534,33 +541,11 @@ export class GalleryInVMAccessControlProfileVersionsImpl
   }
 
   /**
-   * List gallery inVMAccessControlProfile versions in a gallery inVMAccessControlProfile
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile from which the
-   *                                     inVMAccessControlProfile versions are to be listed.
-   * @param options The options parameters.
-   */
-  private _listByGalleryInVMAccessControlProfile(
-    resourceGroupName: string,
-    galleryName: string,
-    inVMAccessControlProfileName: string,
-    options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
-  ): Promise<GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, inVMAccessControlProfileName, options },
-      listByGalleryInVMAccessControlProfileOperationSpec,
-    );
-  }
-
-  /**
    * ListByGalleryInVMAccessControlProfileNext
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the inVMAccessControlProfile
-   *                    resides.
-   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile from which the
-   *                                     inVMAccessControlProfile versions are to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param inVMAccessControlProfileName The name of the gallery inVMAccessControlProfile to be
+   *                                     retrieved.
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListByGalleryInVMAccessControlProfile method.
    * @param options The options parameters.
@@ -587,6 +572,52 @@ export class GalleryInVMAccessControlProfileVersionsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByGalleryInVMAccessControlProfileOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}/versions",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.GalleryInVMAccessControlProfileVersionList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    queryParameters: [Parameters.apiVersion3],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.galleryName,
+      Parameters.inVMAccessControlProfileName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}/versions/{inVMAccessControlProfileVersionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryInVMAccessControlProfileVersion,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.inVMAccessControlProfileName,
+    Parameters.inVMAccessControlProfileVersionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}/versions/{inVMAccessControlProfileVersionName}",
   httpMethod: "PUT",
@@ -613,7 +644,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.galleryName1,
+    Parameters.galleryName,
     Parameters.inVMAccessControlProfileName,
     Parameters.inVMAccessControlProfileVersionName,
   ],
@@ -627,15 +658,23 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.GalleryInVMAccessControlProfileVersion,
+      headersMapper:
+        Mappers.GalleryInVMAccessControlProfileVersionsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.GalleryInVMAccessControlProfileVersion,
+      headersMapper:
+        Mappers.GalleryInVMAccessControlProfileVersionsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.GalleryInVMAccessControlProfileVersion,
+      headersMapper:
+        Mappers.GalleryInVMAccessControlProfileVersionsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.GalleryInVMAccessControlProfileVersion,
+      headersMapper:
+        Mappers.GalleryInVMAccessControlProfileVersionsUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -648,34 +687,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.inVMAccessControlProfileName1,
-    Parameters.inVMAccessControlProfileVersionName1,
+    Parameters.inVMAccessControlProfileName,
+    Parameters.inVMAccessControlProfileVersionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}/versions/{inVMAccessControlProfileVersionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryInVMAccessControlProfileVersion,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
-    Parameters.inVMAccessControlProfileName1,
-    Parameters.inVMAccessControlProfileVersionName1,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -708,35 +724,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
-    Parameters.inVMAccessControlProfileName1,
-    Parameters.inVMAccessControlProfileVersionName1,
+    Parameters.inVMAccessControlProfileName,
+    Parameters.inVMAccessControlProfileVersionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByGalleryInVMAccessControlProfileOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}/versions",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.GalleryInVMAccessControlProfileVersionList,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    queryParameters: [Parameters.apiVersion3],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.galleryName1,
-      Parameters.inVMAccessControlProfileName2,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
 const listByGalleryInVMAccessControlProfileNextOperationSpec: coreClient.OperationSpec =
   {
     path: "{nextLink}",
@@ -751,11 +744,11 @@ const listByGalleryInVMAccessControlProfileNextOperationSpec: coreClient.Operati
     },
     urlParameters: [
       Parameters.$host,
-      Parameters.subscriptionId,
       Parameters.nextLink,
+      Parameters.subscriptionId,
       Parameters.resourceGroupName,
-      Parameters.galleryName1,
-      Parameters.inVMAccessControlProfileName2,
+      Parameters.galleryName,
+      Parameters.inVMAccessControlProfileName,
     ],
     headerParameters: [Parameters.accept],
     serializer,

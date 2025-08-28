@@ -7,11 +7,11 @@
 ```yaml
 package-name: "@azure/communication-phone-numbers"
 description: Phone number configuration client
-package-version: 1.4.0
+package-version: 1.5.0
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-phonenumber-2025-04-01
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/de9cb12d2840ca0915849ce6a3bf8c956a32c022/specification/communication/data-plane/PhoneNumbers/readme.md
+tag: package-phonenumber-2025-06-01
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/14800a01400c295af0bfa5886e5f4042e4f6c62e/specification/communication/data-plane/PhoneNumbers/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10

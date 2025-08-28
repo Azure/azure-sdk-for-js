@@ -49,7 +49,7 @@ describe("Agents - Run", () => {
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
-  it("should create and get run", async function () {
+  it("should create json response format run and get run details", async function () {
     // Create agent
     const agent = await projectsClient.createAgent("gpt-4o", {
       name: "my-agent",
@@ -65,11 +65,52 @@ describe("Agents - Run", () => {
     assert.isNotNull(thread.id);
     console.log(`Created Thread, thread ID:  ${thread.id}`);
 
+    // Create message
+    const message = await projectsClient.messages.create(
+      thread.id,
+      "user",
+      "Please introduce banana to me",
+    );
+    assert.isNotNull(message.id);
+    console.log(`Created message, message ID ${message.id}`);
+
+    const jsonSchema = {
+      description: "Response from the agent",
+      name: "AgentResponse",
+      schema: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            description: "Name of the fruit",
+          },
+          color: {
+            type: "string",
+            description: "Color of the fruit",
+          },
+          taste: {
+            type: "string",
+            description: "Taste of the fruit",
+          },
+        },
+        required: ["name", "color", "taste"],
+      },
+    };
+
     // Create run
-    const run = await projectsClient.runs.create(thread.id, agent.id);
+    const run = await projectsClient.runs.createAndPoll(thread.id, agent.id, {
+      responseFormat: {
+        type: "json_schema",
+        jsonSchema: jsonSchema,
+      },
+    });
     assert.isNotNull(run);
     assert.isNotNull(run.id);
     console.log(`Created Run, Run ID:  ${run.id}`);
+    assert.deepEqual(run.responseFormat, {
+      type: "json_schema",
+      jsonSchema: jsonSchema,
+    });
 
     // Get run
     const runDetails = await projectsClient.runs.get(thread.id, run.id);
