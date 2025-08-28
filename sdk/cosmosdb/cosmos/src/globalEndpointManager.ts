@@ -135,7 +135,11 @@ export class GlobalEndpointManager {
     options: SharedOptions | ChangeFeedIteratorOptions = {},
     resourceType: ResourceType,
   ): Set<string> {
-    if (!canApplyExcludedLocations(resourceType)) {
+    if (
+      this.options.connectionPolicy.enablePartitionLevelFailover ||
+      this.options.connectionPolicy.enablePartitionLevelCircuitBreaker ||
+      !canApplyExcludedLocations(resourceType)
+    ) {
       return new Set();
     }
     const excludedLocations = options?.excludedLocations;
