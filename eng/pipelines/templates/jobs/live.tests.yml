@@ -119,6 +119,8 @@ jobs:
 
       - script: |
           pnpm build --filter ${{parameters.PackageName}}...
+        env:
+          TURBO_API: https://turborepo-remote-cache-app.orangefield-d237357a.westus3.azurecontainerapps.io
         displayName: "Build libraries"
 
       - pwsh: |
