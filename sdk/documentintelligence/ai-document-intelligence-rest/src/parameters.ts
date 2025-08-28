@@ -105,6 +105,7 @@ export type GetOperationParameters = GetOperationHeaderParam & RequestParameters
 export type GetResourceDetailsParameters = RequestParameters;
 export type GetAnalyzeResultParameters = RequestParameters;
 export type GetAnalyzeResultPdfParameters = RequestParameters;
+export type GetAnalyzeResultPngParameters = RequestParameters;
 export type GetAnalyzeResultFigureParameters = RequestParameters;
 export type DeleteAnalyzeResultParameters = RequestParameters;
 
@@ -114,12 +115,7 @@ export interface AnalyzeDocumentFromStreamBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body:
-    | string
-    | Uint8Array
-    // eslint-disable-next-line n/no-unsupported-features/node-builtins
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 /** This is the wrapper object for the parameter `features` with explode set to false and style set to form. */
@@ -469,12 +465,7 @@ export interface ClassifyDocumentFromStreamBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body:
-    | string
-    | Uint8Array
-    // eslint-disable-next-line n/no-unsupported-features/node-builtins
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 export interface ClassifyDocumentFromStreamQueryParamProperties {

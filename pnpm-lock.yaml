@@ -9489,6 +9489,9 @@ importers:
       '@azure-rest/core-client':
         specifier: ^2.3.1
         version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -9511,9 +9514,6 @@ importers:
       '@azure-tools/test-recorder':
         specifier: workspace:^
         version: link:../../test-utils/recorder
-      '@azure/abort-controller':
-        specifier: ^2.1.2
-        version: link:../../core/abort-controller
       '@azure/arm-cognitiveservices':
         specifier: catalog:arm
         version: 7.6.0
