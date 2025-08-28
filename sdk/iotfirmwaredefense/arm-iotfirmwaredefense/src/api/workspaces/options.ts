@@ -13,7 +13,10 @@ export interface WorkspacesListBySubscriptionOptionalParams extends OperationOpt
 export interface WorkspacesListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkspacesDeleteOptionalParams extends OperationOptions {}
+export interface WorkspacesDeleteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface WorkspacesUpdateOptionalParams extends OperationOptions {}

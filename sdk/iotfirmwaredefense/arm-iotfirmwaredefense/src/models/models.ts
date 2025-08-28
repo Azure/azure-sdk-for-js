@@ -158,21 +158,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** Firmware definition */
@@ -1169,6 +1162,16 @@ export interface CveResult {
   severity?: string;
   /** Name of the CVE. */
   cveName?: string;
+  /** Legacy property for what is now componentName */
+  component?: CveComponent;
+  /** Legacy property for the effective CVE score. */
+  cvssScore?: string;
+  /** Legacy property for the CVE CVSS version 2 score, if one existed. */
+  cvssV2Score?: string;
+  /** Legacy property for the CVE CVSS version 3 score, if one existed. */
+  cvssV3Score?: string;
+  /** Legacy property for the what CVSS version score was stored in the cvssScore property */
+  cvssVersion?: string;
   /** The most recent CVSS score of the CVE. */
   effectiveCvssScore?: number;
   /** The version of the effectiveCvssScore property. */
@@ -1191,6 +1194,11 @@ export function cveResultDeserializer(item: any): CveResult {
     componentVersion: item["componentVersion"],
     severity: item["severity"],
     cveName: item["cveName"],
+    component: !item["component"] ? item["component"] : cveComponentDeserializer(item["component"]),
+    cvssScore: item["cvssScore"],
+    cvssV2Score: item["cvssV2Score"],
+    cvssV3Score: item["cvssV3Score"],
+    cvssVersion: item["cvssVersion"],
     effectiveCvssScore: item["effectiveCvssScore"],
     effectiveCvssVersion: item["effectiveCvssVersion"],
     cvssScores: !item["cvssScores"]
@@ -1199,6 +1207,24 @@ export function cveResultDeserializer(item: any): CveResult {
     links: !item["links"] ? item["links"] : cveLinkArrayDeserializer(item["links"]),
     description: item["description"],
     provisioningState: item["provisioningState"],
+  };
+}
+
+/** Legacy component of a CVE result. */
+export interface CveComponent {
+  /** ID of the SBOM component. */
+  componentId?: string;
+  /** Name of the SBOM component. */
+  name?: string;
+  /** Version of the SBOM component. */
+  version?: string;
+}
+
+export function cveComponentDeserializer(item: any): CveComponent {
+  return {
+    componentId: item["componentId"],
+    name: item["name"],
+    version: item["version"],
   };
 }
 
@@ -1733,6 +1759,6 @@ export function usageMetricArrayDeserializer(result: Array<UsageMetric>): any[] 
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2025-04-01 API version. */
-  V20250401Preview = "2025-04-01-preview",
+  /** The 2025-08-02 API version. */
+  V20250802 = "2025-08-02",
 }

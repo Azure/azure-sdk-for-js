@@ -4,13 +4,27 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BinaryHardeningFeatures {
@@ -170,6 +184,13 @@ export interface CryptoKeySummaryResource extends SummaryResourceProperties {
 export type CryptoKeyType = string;
 
 // @public
+export interface CveComponent {
+    componentId?: string;
+    name?: string;
+    version?: string;
+}
+
+// @public
 export interface CveLink {
     href?: string;
     label?: string;
@@ -182,12 +203,17 @@ export interface CveResource extends ProxyResource {
 
 // @public
 export interface CveResult {
+    component?: CveComponent;
     componentId?: string;
     componentName?: string;
     componentVersion?: string;
     cveId?: string;
     cveName?: string;
+    cvssScore?: string;
     cvssScores?: CvssScore[];
+    cvssV2Score?: string;
+    cvssV3Score?: string;
+    cvssVersion?: string;
     description?: string;
     effectiveCvssScore?: number;
     effectiveCvssVersion?: number;
@@ -223,7 +249,7 @@ export interface CvssScore {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -333,6 +359,7 @@ export class IoTFirmwareDefenseClient {
 // @public
 export interface IoTFirmwareDefenseClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -417,7 +444,7 @@ export enum KnownSummaryType {
 
 // @public
 export enum KnownVersions {
-    V20250401Preview = "2025-04-01-preview"
+    V20250802 = "2025-08-02"
 }
 
 // @public
@@ -506,6 +533,16 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: IoTFirmwareDefenseClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -648,6 +685,7 @@ export interface WorkspacesCreateOptionalParams extends OperationOptions {
 
 // @public
 export interface WorkspacesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -669,7 +707,7 @@ export interface WorkspacesListBySubscriptionOptionalParams extends OperationOpt
 // @public
 export interface WorkspacesOperations {
     create: (resourceGroupName: string, workspaceName: string, resource: Workspace, options?: WorkspacesCreateOptionalParams) => Promise<Workspace>;
-    delete: (resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams) => Promise<void>;
+    delete: (resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     generateUploadUrl: (resourceGroupName: string, workspaceName: string, body: GenerateUploadUrlRequest, options?: WorkspacesGenerateUploadUrlOptionalParams) => Promise<UrlToken>;
     get: (resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams) => Promise<Workspace>;
     listByResourceGroup: (resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Workspace>;

@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
-import { SummaryResource, SummaryType } from "../../models/models.js";
+import { listByFirmware, get } from "../../api/summaries/operations.js";
 import {
   SummariesListByFirmwareOptionalParams,
   SummariesGetOptionalParams,
 } from "../../api/summaries/options.js";
-import { listByFirmware, get } from "../../api/summaries/operations.js";
+import { SummaryResource, SummaryType } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Summaries operations. */
