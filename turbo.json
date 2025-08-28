@@ -2,6 +2,11 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "stream",
   "daemon": false,
+  "remoteCache": {
+    "teamSlug": "azsdkjs",
+    "enabled": true,
+    "apiUrl": "https://turborepo-remote-cache-app.orangefield-d237357a.westus3.azurecontainerapps.io"
+  },
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
