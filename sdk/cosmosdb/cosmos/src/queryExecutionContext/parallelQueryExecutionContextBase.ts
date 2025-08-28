@@ -137,7 +137,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
         if (this.requestContinuation) {
           if(!this.options.enableQueryControl){
-             throw new Error("Continuation tokens are not yet supported for cross partition queries");
+             throw new Error("Continuation tokens are supported when enableQueryControl is set true in FeedOptions");
           }
           // Determine the query type based on the context
           const queryType = this.getQueryType();

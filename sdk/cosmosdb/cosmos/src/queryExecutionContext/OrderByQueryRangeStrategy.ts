@@ -6,7 +6,8 @@ import type {
   TargetPartitionRangeStrategy,
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
-import { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
+import type { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
+import { createOrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
 import { compositeTokenFromString } from "./CompositeQueryContinuationToken.js";
 
@@ -114,9 +115,9 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     let orderByToken: OrderByQueryContinuationToken;
     try {
       const parsed = JSON.parse(continuationToken);
-      orderByToken = new OrderByQueryContinuationToken(
+      orderByToken = createOrderByQueryContinuationToken(
         parsed.compositeToken,
-        parsed.orderByItems ,
+        parsed.orderByItems,
         parsed.rid,
         parsed.skipCount,
         parsed.offset,

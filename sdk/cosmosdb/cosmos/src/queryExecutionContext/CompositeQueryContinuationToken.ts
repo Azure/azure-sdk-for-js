@@ -16,6 +16,7 @@ export interface CompositeQueryContinuationToken {
   /**
    * List of query range mappings part of the continuation token
    */
+  // TODO: either create a sperate object or just include min-max ranges while createing continuation token
   rangeMappings: QueryRangeMapping[];
 
   /**
