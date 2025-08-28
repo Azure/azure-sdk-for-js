@@ -61,7 +61,7 @@ steps:
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
     displayName: "Install library dependencies"
 
-  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
+  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
       - pwsh: |
           echo "##vso[task.setvariable variable=TURBO_CACHE;]local:,remote:w"
         displayName: "Set Turborepo Cache remote write only"
