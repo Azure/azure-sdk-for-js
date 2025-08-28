@@ -36,11 +36,12 @@ export default leafCommand(commandInfo, async (options) => {
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
-  const extraArgsString = updatedArgs?.length ? updatedArgs.join(" ") : "";
-  log.info(`running npm script "${options.script} -- ${extraArgsString}" under ${projPath}...`);
+  log.info(
+    `running npm script "${options.script} -- ${updatedArgs?.join(" ")}" under ${projPath}...`,
+  );
 
   const npmCmd = isWindows() ? "npm.cmd" : "npm";
-  const proc = spawnSync(npmCmd, ["run", `${options.script}`, ...(updatedArgs ?? [])], {
+  const proc = spawnSync(npmCmd, ["run", `${options.script}`, "--", ...(updatedArgs ?? [])], {
     cwd: projPath,
     stdio: "inherit",
     env: process.env,
