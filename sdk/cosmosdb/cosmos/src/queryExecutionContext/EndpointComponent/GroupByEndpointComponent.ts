@@ -88,10 +88,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
     }
 
     if (this.executionContext.hasMoreResults()) {
-      return {
-        result: [],
-        headers: aggregateHeaders,
-      };
+      return { result: [], headers: aggregateHeaders };
     } else {
       return this.consolidateGroupResults(aggregateHeaders);
     }

@@ -37,6 +37,9 @@ const TYPEORDCOMPARATOR: {
 export class OrderByDocumentProducerComparator {
   constructor(public sortOrder: string[]) {} // TODO: This should be an enum
 
+  /**
+   * Compares document producers based on their partition key range minInclusive values.
+   */
   private targetPartitionKeyRangeDocProdComparator(
     docProd1: DocumentProducer,
     docProd2: DocumentProducer,
@@ -75,7 +78,9 @@ export class OrderByDocumentProducerComparator {
       }
     }
 
-    return this.targetPartitionKeyRangeDocProdComparator(docProd1, docProd2);
+    // If all ORDER BY comparisons result in equality, use partition range as tie-breaker
+    const partitionRangeResult = this.targetPartitionKeyRangeDocProdComparator(docProd1, docProd2);
+    return partitionRangeResult;
   }
 
   // TODO: This smells funny

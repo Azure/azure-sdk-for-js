@@ -13,6 +13,7 @@ import type {
   QueryRange,
   Response,
 } from "../request/index.js";
+import { ErrorResponse } from "../request/ErrorResponse.js";
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult.js";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";
@@ -20,7 +21,7 @@ import type { ExecutionContext } from "./ExecutionContext.js";
 import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
-import { SqlQuerySpec } from "./SqlQuerySpec.js";
+import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -57,6 +58,16 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     private correlatedActivityId: string,
     private allPartitionsRanges: QueryRange[],
   ) {
+    // Validate continuation token usage - hybrid queries don't support continuation tokens
+    if (this.options.continuationToken) {
+      throw new ErrorResponse(
+        "Continuation tokens are not supported for hybrid search queries. " +
+        "Hybrid search queries require processing and ranking of all component query results " +
+        "to compute accurate Reciprocal Rank Fusion (RRF) scores and cannot be resumed from an intermediate state. " +
+        "Consider removing the continuation token and using fetchAll() instead for complete results."
+      );
+    }
+
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
     if (this.pageSize === undefined) {
