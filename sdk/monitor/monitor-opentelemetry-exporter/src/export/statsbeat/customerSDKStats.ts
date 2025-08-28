@@ -9,7 +9,7 @@ import type { AzureMonitorExporterOptions } from "../../index.js";
 import * as ai from "../../utils/constants/applicationinsights.js";
 import { StatsbeatMetrics } from "./statsbeatMetrics.js";
 import type { CustomerSDKStatsProperties, StatsbeatOptions } from "./types.js";
-import { CustomerSDKStats, DropCode, RetryCode, ExceptionType } from "./types.js";
+import { CustomerSDKStats, DropCode, RetryCode, ExceptionType, DropReason } from "./types.js";
 import { CustomSDKStatsCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./types.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
@@ -330,12 +330,12 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     // Handle other enum drop codes
     switch (dropCode) {
       case DropCode.CLIENT_READONLY:
-        return "Readonly mode";
+        return DropReason.CLIENT_READONLY;
       case DropCode.CLIENT_PERSISTENCE_CAPACITY:
-        return "Persistence full";
+        return DropReason.CLIENT_PERSISTENCE_CAPACITY;
       case DropCode.UNKNOWN:
       default:
-        return "Unknown reason";
+        return DropReason.UNKNOWN;
     }
   }
 

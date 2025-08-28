@@ -233,6 +233,15 @@ export enum ExceptionType {
 }
 
 /**
+ * Reasons for dropping telemetry
+ */
+export enum DropReason {
+  CLIENT_READONLY = "Client readonly",
+  CLIENT_PERSISTENCE_CAPACITY = "Client persistence capacity",
+  UNKNOWN = "Unknown",
+}
+
+/**
  * Status codes indicating that we should shutdown statsbeat
  * @internal
  */
