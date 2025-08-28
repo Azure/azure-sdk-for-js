@@ -110,7 +110,7 @@
     "@types/debug": "^4.1.4",
     "@types/is-buffer": "^2.0.0",
     "@types/node": "catalog:",
-    "@types/ws": "^7.2.4",
+    "@types/ws": "^8.18.1",
     "@vitest/browser": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "chai": "catalog:testing",

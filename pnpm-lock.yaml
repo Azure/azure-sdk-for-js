@@ -10688,8 +10688,8 @@ importers:
         specifier: ^1.3.11
         version: 1.3.14
       '@types/ws':
-        specifier: ^7.2.4
-        version: 7.4.7
+        specifier: ^8.18.1
+        version: 8.18.1
       '@vitest/browser':
         specifier: catalog:testing
         version: 3.2.4(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(playwright@1.55.0)(vite@7.1.3(@types/node@20.19.11)(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1))(vitest@3.2.4)
@@ -23508,8 +23508,8 @@ importers:
         specifier: 'catalog:'
         version: 20.19.11
       '@types/ws':
-        specifier: ^7.2.4
-        version: 7.4.7
+        specifier: ^8.18.1
+        version: 8.18.1
       '@vitest/browser':
         specifier: catalog:testing
         version: 3.2.4(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(playwright@1.55.0)(vite@7.1.3(@types/node@20.19.11)(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1))(vitest@3.2.4)
@@ -27885,8 +27885,8 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
       ws:
-        specifier: ^7.4.5
-        version: 7.5.10
+        specifier: ^8.18.0
+        version: 8.18.3
     devDependencies:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
@@ -27907,8 +27907,8 @@ importers:
         specifier: 'catalog:'
         version: 20.19.11
       '@types/ws':
-        specifier: ^7.4.5
-        version: 7.4.7
+        specifier: ^8.18.1
+        version: 8.18.1
       '@vitest/browser':
         specifier: catalog:testing
         version: 3.2.4(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(playwright@1.55.0)(vite@7.1.3(@types/node@20.19.11)(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1))(vitest@3.2.4)
@@ -29895,9 +29895,6 @@ packages:
 
   '@types/unzipper@0.10.11':
     resolution: {integrity: sha512-D25im2zjyMCcgL9ag6N46+wbtJBnXIr7SI4zHf9eJD2Dw2tEB5e+p5MYkrxKIVRscs5QV0EhtU9rgXSPx90oJg==}
-
-  '@types/ws@7.4.7':
-    resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -35286,10 +35283,6 @@ snapshots:
   '@types/trusted-types@2.0.7': {}
 
   '@types/unzipper@0.10.11':
-    dependencies:
-      '@types/node': 20.19.11
-
-  '@types/ws@7.4.7':
     dependencies:
       '@types/node': 20.19.11
 
