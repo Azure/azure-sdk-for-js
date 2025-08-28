@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0 (2025-08-28)
 
 This release marks the general availability of the `@azure/create-playwright` package.
