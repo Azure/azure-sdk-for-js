@@ -5,7 +5,7 @@
  * This sample demonstrates how to virtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary virtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteCreate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesExecuteCreate_MaximumSet_Gen.json
  */
 
 import { ComputeScheduleClient } from "@azure/arm-computeschedule";
@@ -104,7 +104,7 @@ async function scheduledActionsVirtualMachinesExecuteCreateMaximumSetGenGenerate
  * This sample demonstrates how to virtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary virtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteCreate_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesExecuteCreate_MinimumSet_Gen.json
  */
 async function scheduledActionsVirtualMachinesExecuteCreateMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
