@@ -28,6 +28,11 @@ steps:
 
   - script: |
       node eng/tools/ci-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json"
+    env:
+      TURBO_TEAM: azsdkjs
+      TURBO_TEAMID: azsdkjs
+      TURBO_CACHE: local:rw,remote:r
+      TURBO_TOKEN: faketoken
     displayName: "Build libraries"
 
   - template: ../steps/use-node-test-version.yml
