@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RequestContext } from "../../../src/index.js";
-import { CosmosClient } from "../../../src/index.js";
+import { BulkOperationType, CosmosClient } from "../../../src/index.js";
 import { masterKey } from "../common/_fakeTestSecrets.js";
 import type { CosmosClientOptions } from "../../../src/index.js";
 import { PluginOn } from "../../../src/index.js";
@@ -11,6 +11,7 @@ import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics.js";
 import { describe, it, assert } from "vitest";
 import { StatusCodes } from "../../../src/common/statusCodes.js";
 import { TimeoutErrorCode } from "../../../src/request/TimeoutError.js";
+import { addEntropy } from "../common/TestHelpers.js";
 
 const endpoint = "https://excludedregiontest.documents.azure.com/";
 
@@ -115,7 +116,7 @@ const collectionResponse = {
 
 const ServiceUnavailableResponse = {
   code: StatusCodes.ServiceUnavailable,
-  result: {},
+  result: [],
   headers: {},
   diagnostics: getEmptyCosmosDiagnostics(),
 };
@@ -129,7 +130,7 @@ const TimeoutResponse = {
 
 const SuccessCreateResponse = {
   code: StatusCodes.Created,
-  result: {},
+  result: [],
   headers: {},
   diagnostics: getEmptyCosmosDiagnostics(),
 };
@@ -916,6 +917,77 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
       iterationCount++;
     }
 
+    client.dispose();
+  });
+
+  it("Request-level excludedLocations for BULK Create/Upsert/Delete", async () => {
+    const endpointTracker = { lastEndpointCalled: "" };
+    const responses = [
+      databaseAccountResponse,
+      partitionKeyRangesResponse,
+      SuccessCreateResponse,
+      SuccessCreateResponse,
+      ServiceUnavailableResponse,
+      SuccessCreateResponse,
+    ];
+    const plugins = getPlugins(responses, endpointTracker);
+    const client = new CosmosClient({
+      ...options,
+      plugins,
+    } as any);
+    const writeEndpoint = await client.getWriteEndpoint();
+    assert.equal(
+      writeEndpoint,
+      "https://excludedregiontest-eastus.documents.azure.com:443/",
+      "Should use request-level excluded region for bulk setup",
+    );
+    const requestOptions = { excludedLocations: ["Australia East"] };
+
+    const createItemId = addEntropy("createItem");
+    const upsertItemId = addEntropy("upsertItem");
+    const deleteItemId = addEntropy("deleteItem");
+    // Use correct OperationInput types and string literal values for operationType
+    const items = [
+      {
+        operationType: BulkOperationType.Create,
+        resourceBody: {
+          id: createItemId,
+          nested: {
+            key: "A",
+          },
+        },
+        partitionKey: "pk2",
+      },
+      {
+        operationType: BulkOperationType.Upsert,
+        resourceBody: {
+          id: upsertItemId,
+          nested: {
+            key: false,
+          },
+        },
+        partitionKey: "pk2",
+      },
+      {
+        operationType: BulkOperationType.Delete,
+        id: deleteItemId,
+        partitionKey: "pk2",
+      },
+    ];
+    // First bulk call
+    await client.database("foo").container("foo").items.bulk(items, {}, requestOptions);
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-eastus.documents.azure.com:443/",
+      "Should use East US region for first bulk",
+    );
+    // Second bulk call (simulate failover)
+    await client.database("foo").container("foo").items.bulk(items, {}, requestOptions);
+    assert.equal(
+      endpointTracker.lastEndpointCalled,
+      "https://excludedregiontest-westus.documents.azure.com:443/",
+      "Should use West US region for retry after 503 in bulk",
+    );
     client.dispose();
   });
 });
