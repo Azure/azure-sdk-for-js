@@ -81,16 +81,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Edge/sites/{siteName}":
     {
       deserializer: _createOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "PUT /subscriptions/{subscriptionId}/providers/Microsoft.Edge/sites/{siteName}": {
     deserializer: _createOrUpdateDeserializeSitesBySubscription,
-    expectedStatuses: ["200", "201"],
+    expectedStatuses: ["200", "201", "202"],
   },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/sites/{siteName}":
     {
       deserializer: _createOrUpdateDeserializeSites,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
 };
 

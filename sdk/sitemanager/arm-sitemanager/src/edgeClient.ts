@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { createEdge, EdgeContext, EdgeClientOptionalParams } from "./api/index.js";
+import { SitesOperations, _getSitesOperations } from "./classic/sites/index.js";
 import {
   SitesByServiceGroupOperations,
   _getSitesByServiceGroupOperations,
@@ -10,9 +11,8 @@ import {
   SitesBySubscriptionOperations,
   _getSitesBySubscriptionOperations,
 } from "./classic/sitesBySubscription/index.js";
-import { SitesOperations, _getSitesOperations } from "./classic/sites/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { EdgeClientOptionalParams } from "./api/edgeContext.js";
 

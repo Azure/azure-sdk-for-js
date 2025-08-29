@@ -14,6 +14,7 @@ export function createEdge(credential: TokenCredential, subscriptionId: string, 
 // @public
 export interface EdgeClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
