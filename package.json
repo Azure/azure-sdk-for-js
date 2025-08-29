@@ -23,12 +23,12 @@
     "update-snippets": "turbo run update-snippets"
   },
   "devDependencies": {
-    "cspell": "^8.19.4",
+    "cspell": "^9.2.0",
     "cross-env": "^7.0.3",
     "mkdirp": "^3.0.1",
     "prettier": "^3.6.2",
     "prettier-plugin-packagejson": "^2.5.19",
-    "rimraf": "^5.0.10",
+    "rimraf": "^6.0.1",
     "turbo": "^2.5.6"
   },
   "packageManager": "pnpm@10.12.1",

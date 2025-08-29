@@ -25,12 +25,17 @@ steps:
         # Map from the symlink path to the target path (npm has issues installing into symlink dirs)
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0/node_modules/keytar
         $symlinkInfo = Get-Item $symlink
-        $targetPath = [IO.Path]::Combine($symlinkInfo.Parent, $symlinkInfo.Target)
-        Write-Host "Target of symlink : $($targetPath)"
 
-        # Need to run "npm install" at path containing "node_modules" folder
-        # Example: common/temp/node_modules/.pnpm/keytar@5.6.0
-        $packageInstallPath = Join-Path $targetPath "../.."
+        if ($symLinkInfo.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+          $targetPath = [IO.Path]::Combine($symlinkInfo.Parent, $symlinkInfo.Target)
+          Write-Host "Target of symlink : $($targetPath)"
+
+          # Need to run "npm install" at path containing "node_modules" folder
+          # Example: common/temp/node_modules/.pnpm/keytar@5.6.0
+          $packageInstallPath = Join-Path $targetPath "../.."
+        } else {
+          $packageInstallPath = $symlink
+        }
 
         # <pkg>@<version> is the leaf node of the path
         # Example: keytar@5.6.0

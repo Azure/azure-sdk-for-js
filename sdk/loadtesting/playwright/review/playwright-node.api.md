@@ -40,7 +40,7 @@ export type PlaywrightServiceAdditionalOptions = {
     exposeNetwork?: string;
     credential?: TokenCredential;
     runName?: string;
-    apiVersion?: "2025-07-01-preview";
+    apiVersion?: "2025-09-01";
 };
 
 // @public

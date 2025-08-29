@@ -39,7 +39,7 @@
     "https-proxy-agent": "^7.0.0"
   },
   "devDependencies": {
-    "@types/ws": "^7.2.4",
+    "@types/ws": "^8.18.1",
     "@types/node": "^20.0.0",
     "typescript": "~5.8.2",
     "rimraf": "latest"

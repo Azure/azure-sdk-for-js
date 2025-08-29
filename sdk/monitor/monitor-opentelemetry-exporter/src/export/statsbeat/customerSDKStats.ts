@@ -14,7 +14,7 @@ import { CustomSDKStatsCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./type
 import { getAttachType } from "../../utils/metricUtils.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { BreezePerformanceCounterNames } from "../../types.js";
-import type { MetricsData } from "../../generated/index.js";
+import type { MetricsData, RemoteDependencyData, RequestData } from "../../generated/index.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 
 /**
@@ -161,11 +161,14 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
     // For each { telemetry_type -> count } mapping, call observe, passing the count and attributes that include the telemetry_type
     for (const [telemetry_type, count] of counter.totalItemSuccessCount.entries()) {
-      attributes.telemetry_type = telemetry_type;
-      observableResult.observe(this.itemSuccessCountGauge, count, {
-        ...attributes,
-      });
-      counter.totalItemSuccessCount.set(telemetry_type, 0);
+      // Only send metrics if count is greater than zero
+      if (count > 0) {
+        attributes.telemetry_type = telemetry_type;
+        observableResult.observe(this.itemSuccessCountGauge, count, {
+          ...attributes,
+        });
+        counter.totalItemSuccessCount.set(telemetry_type, 0);
+      }
     }
   }
 
@@ -180,25 +183,39 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       telemetry_type: TelemetryType.UNKNOWN,
     };
 
-    // Iterate through the nested Map structure: telemetry_type -> drop.code -> reason -> count
+    // Iterate through the nested Map structure: telemetry_type -> drop.code -> reason -> telemetry_success -> count
     for (const [telemetryType, dropCodeMap] of counter.totalItemDropCount.entries()) {
       for (const [dropCode, reasonMap] of dropCodeMap.entries()) {
-        for (const [reason, count] of reasonMap.entries()) {
-          const attributes = { ...baseAttributes };
-          attributes.telemetry_type = telemetryType;
-          attributes["drop.code"] = dropCode;
+        for (const [reason, successMap] of reasonMap.entries()) {
+          for (const [success, count] of successMap.entries()) {
+            const attributes = { ...baseAttributes };
+            attributes.telemetry_type = telemetryType;
+            attributes["drop.code"] = dropCode;
 
-          // Include drop.reason for all case
-          if (reason) {
-            (attributes as any)["drop.reason"] = reason;
+            // Include drop.reason for all cases
+            if (reason) {
+              (attributes as any)["drop.reason"] = reason;
+            }
+
+            // Include telemetry_success only for request/dependency telemetry when success is not null
+            if (
+              (telemetryType === TelemetryType.REQUEST ||
+                telemetryType === TelemetryType.DEPENDENCY) &&
+              success !== null
+            ) {
+              (attributes as any)["telemetry_success"] = success;
+            }
+
+            // Only send metrics if count is greater than zero
+            if (count > 0) {
+              observableResult.observe(this.itemDropCountGauge, count, {
+                ...attributes,
+              });
+            }
+
+            // Reset the count to 0
+            successMap.set(success, 0);
           }
-
-          observableResult.observe(this.itemDropCountGauge, count, {
-            ...attributes,
-          });
-
-          // Reset the count to 0
-          reasonMap.set(reason, 0);
         }
       }
     }
@@ -228,9 +245,12 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
             (attributes as any)["retry.reason"] = reason;
           }
 
-          observableResult.observe(this.itemRetryCountGauge, count, {
-            ...attributes,
-          });
+          // Only send metrics if count is greater than zero
+          if (count > 0) {
+            observableResult.observe(this.itemRetryCountGauge, count, {
+              ...attributes,
+            });
+          }
 
           // Reset the count to 0
           reasonMap.set(reason, 0);
@@ -259,7 +279,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
   /**
    * Tracks dropped items
-   * @param envelopes - Number of envelopes dropped
+   * @param envelopes - Array of envelopes dropped
    * @param dropCode - The drop code indicating the reason for drop
    * @param exceptionMessage - Optional exception message when dropCode is CLIENT_EXCEPTION
    * @param exceptionType - Optional explicit exception type override when dropCode is CLIENT_EXCEPTION
@@ -275,26 +295,41 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
     for (const envelope of envelopes) {
       telemetry_type = this.getTelemetryTypeFromEnvelope(envelope);
-      // Get or create the dropCode map for this telemetry_type
+
       let dropCodeMap = counter.totalItemDropCount.get(telemetry_type);
       if (!dropCodeMap) {
-        dropCodeMap = new Map<DropCode | number, Map<string, number>>();
+        dropCodeMap = new Map<DropCode | number, Map<string, Map<boolean | null, number>>>();
         counter.totalItemDropCount.set(telemetry_type, dropCodeMap);
       }
 
       // Get or create the reason map for this dropCode
       let reasonMap = dropCodeMap.get(dropCode);
       if (!reasonMap) {
-        reasonMap = new Map<string, number>();
+        reasonMap = new Map<string, Map<boolean | null, number>>();
         dropCodeMap.set(dropCode, reasonMap);
       }
 
       // Generate a low-cardinality, informative reason description
       const reason = this.getDropReason(dropCode, exceptionMessage, exceptionType);
 
-      // Update the count for this reason
-      const currentCount = reasonMap.get(reason) || 0;
-      reasonMap.set(reason, currentCount + 1);
+      // Get or create the success map for this reason
+      let successMap = reasonMap.get(reason);
+      if (!successMap) {
+        successMap = new Map<boolean | null, number>();
+        reasonMap.set(reason, successMap);
+      }
+
+      // For non-request/dependency telemetry or when success is not provided, use null as the success key
+      const individualTelemetrySuccess = this.getTelemetrySuccessFromEnvelope(envelope);
+      const successKey =
+        (telemetry_type === TelemetryType.REQUEST || telemetry_type === TelemetryType.DEPENDENCY) &&
+        individualTelemetrySuccess !== undefined
+          ? individualTelemetrySuccess
+          : null;
+
+      // Update the count for this reason and success combination
+      const currentCount = successMap.get(successKey) || 0;
+      successMap.set(successKey, currentCount + 1);
     }
   }
 
@@ -546,6 +581,28 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       }
     }
     return TelemetryType.UNKNOWN;
+  }
+
+  /**
+   * Extract telemetry success value from an envelope for REQUEST and DEPENDENCY telemetry types
+   * @param envelope - The envelope to extract success value from
+   * @returns The success value if available, undefined otherwise
+   */
+  public getTelemetrySuccessFromEnvelope(envelope: Envelope): boolean | undefined {
+    if (!envelope.data || !envelope.data.baseData) {
+      return undefined;
+    }
+
+    const baseType = envelope.data.baseType;
+    if (baseType === "RequestData") {
+      const requestData = envelope.data.baseData as RequestData;
+      return requestData.success;
+    } else if (baseType === "RemoteDependencyData") {
+      const dependencyData = envelope.data.baseData as RemoteDependencyData;
+      return dependencyData.success;
+    }
+
+    return undefined;
   }
 
   /**
