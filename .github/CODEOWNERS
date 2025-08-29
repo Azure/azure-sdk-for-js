@@ -1636,6 +1636,9 @@ sdk/azurestackhcivm/arm-azurestackhcivm/ @qiaozha @MaryGao
 # PRLabel: %Mgmt
 sdk/containerservice/arm-containerservicesafeguards/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao
+
 ###########
 # Config
 ###########
