@@ -14,7 +14,6 @@ import {
   SEMATTRS_DB_OPERATION,
   SEMATTRS_DB_STATEMENT,
   SEMATTRS_DB_SYSTEM,
-  SEMATTRS_ENDUSER_ID,
   SEMATTRS_EXCEPTION_ESCAPED,
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_STACKTRACE,
@@ -62,6 +61,7 @@ import {
   internalMicrosoftAttributes,
   legacySemanticValues,
   MaxPropertyLengths,
+  experimentalOpenTelemetryValues,
 } from "../types.js";
 import { parseEventHubSpan } from "./eventhub.js";
 import {
@@ -88,10 +88,18 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   if (span.parentSpanContext?.spanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = span.parentSpanContext.spanId;
   }
-  const endUserId = span.attributes[SEMATTRS_ENDUSER_ID];
+
+  // Map OpenTelemetry enduser attributes to Application Insights user attributes
+  const endUserId = span.attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID];
   if (endUserId) {
-    tags[KnownContextTagKeys.AiUserId] = String(endUserId);
+    tags[KnownContextTagKeys.AiUserAuthUserId] = String(endUserId);
   }
+
+  const endUserPseudoId = span.attributes[experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID];
+  if (endUserPseudoId) {
+    tags[KnownContextTagKeys.AiUserId] = String(endUserPseudoId);
+  }
+
   const httpUserAgent = getUserAgent(span.attributes);
   if (httpUserAgent) {
     // TODO: Not exposed in Swagger, need to update def

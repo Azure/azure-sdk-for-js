@@ -567,4 +567,68 @@ describe("logUtils.ts", () => {
       expectedServiceTagsBase,
     );
   });
+
+  it("should map ATTR_ENDUSER_ID to ai.user.authUserId in log tags", () => {
+    testLogRecord.body = "Test message";
+    testLogRecord.severityLevel = "Information";
+    testLogRecord.attributes = {
+      [experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]: "test-auth-user-id",
+      "extra.attribute": "foo",
+      [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "",
+    };
+
+    const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+    // Verify the user auth ID is mapped to the correct tag
+    assert.deepStrictEqual(envelope?.tags, {
+      ...context.tags,
+      ...expectedServiceTagsBase,
+      [KnownContextTagKeys.AiUserAuthUserId]: "test-auth-user-id",
+    });
+
+    // Verify properties don't include the user ID (it should be filtered out)
+    assert.deepStrictEqual((envelope?.data?.baseData as any).properties, {
+      "extra.attribute": "foo",
+    });
+
+    // Verify that ATTR_ENDUSER_ID is not in properties
+    assert.ok(
+      envelope &&
+        !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+      "ATTR_ENDUSER_ID should not be included in properties",
+    );
+  });
+
+  it("should map ATTR_ENDUSER_PSEUDO_ID to ai.user.id in log tags", () => {
+    testLogRecord.body = "Test message";
+    testLogRecord.severityLevel = "Information";
+    testLogRecord.attributes = {
+      [experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID]: "test-pseudo-user-id",
+      "extra.attribute": "foo",
+      [experimentalOpenTelemetryValues.SYNTHETIC_TYPE]: "",
+    };
+
+    const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+
+    // Verify the pseudo user ID is mapped to the correct tag
+    assert.deepStrictEqual(envelope?.tags, {
+      ...context.tags,
+      ...expectedServiceTagsBase,
+      [KnownContextTagKeys.AiUserId]: "test-pseudo-user-id",
+    });
+
+    // Verify properties don't include the user ID (it should be filtered out)
+    assert.deepStrictEqual((envelope?.data?.baseData as any).properties, {
+      "extra.attribute": "foo",
+    });
+
+    // Verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
+    assert.ok(
+      envelope &&
+        !envelope.data?.baseData?.properties?.[
+          experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
+        ],
+      "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",
+    );
+  });
 });
