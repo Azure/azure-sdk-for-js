@@ -62,16 +62,26 @@ steps:
     displayName: "Install library dependencies"
 
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
-      - pwsh: |
-          echo "##vso[task.setvariable variable=TURBO_CACHE;]local:,remote:w"
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: "Azure SDK Artifacts"
+          scriptType: "bash"
+          scriptLocation: "inlineScript"
+          inlineScript: |
+            az account show
+            turboToken = az keyvault secret show --name js-turborepo-cache-token --vault-name AzureSDK-TestSecrets2 --query value
+            echo "##vso[task.setvariable variable=TURBO_TOKEN;issecret=true;]$turboToken"
+            echo "##vso[task.setvariable variable=TURBO_CACHE;]local:,remote:w"
         displayName: "Set Turborepo Cache remote:w"
   - ${{ elseif and(eq(variables['System.TeamProject'], 'public'), in(variables['Build.Reason'], 'PullRequest')) }}:
       - pwsh: |
           echo "##vso[task.setvariable variable=TURBO_CACHE;]local:,remote:"
+          echo "##vso[task.setvariable variable=TURBO_TOKEN;issecret=false;]faketokenForReadonly"
         displayName: "Set Turborepo Cache local:,remote:"
   - ${{ else }}:
       - pwsh: |
           echo "##vso[task.setvariable variable=TURBO_CACHE;]local:rw,remote:r"
+          echo "##vso[task.setvariable variable=TURBO_TOKEN;issecret=false;]faketokenForReadonly"
         displayName: "Set Turborepo Cache local:rw remote:w"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
@@ -85,7 +95,6 @@ steps:
     env:
       TURBO_TEAM: azsdkjs
       TURBO_TEAMID: azsdkjs
-      TURBO_TOKEN: faketoken
       TURBO_API: https://turborepo-remote-cache-app.orangefield-d237357a.westus3.azurecontainerapps.io
     displayName: "Build libraries"
 
