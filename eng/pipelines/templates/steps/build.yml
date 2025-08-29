@@ -64,7 +64,11 @@ steps:
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
       - pwsh: |
           echo "##vso[task.setvariable variable=TURBO_CACHE;]local:,remote:w"
-        displayName: "Set Turborepo Cache remote write only"
+        displayName: "Set Turborepo Cache remote:w"
+    ${{ else }}:
+      - pwsh: |
+          echo "##vso[task.setvariable variable=TURBO_CACHE;]local:rw,remote:r"
+        displayName: "Set Turborepo Cache local:rw remote:w"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
@@ -75,6 +79,9 @@ steps:
       npm install ./eng/tools/ci-runner
       node eng/tools/ci-runner/index.js build "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
     env:
+      TURBO_TEAM: azsdkjs
+      TURBO_TEAMID: azsdkjs
+      TURBO_TOKEN: faketoken
       TURBO_API: https://turborepo-remote-cache-app.orangefield-d237357a.westus3.azurecontainerapps.io
     displayName: "Build libraries"
 
