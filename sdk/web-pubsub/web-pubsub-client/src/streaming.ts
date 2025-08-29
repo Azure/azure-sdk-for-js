@@ -335,13 +335,17 @@ export class Stream {
       }
     } else {
       // Resend unacked (buffered) messages if receive InvalidSequenceId exception
-      if (autoResendStreamMessages && error && error.name === "InvalidSequenceId") {
+      if (
+        autoResendStreamMessages &&
+        error &&
+        (error.name === "InvalidSequenceId" || error.name === "InternalServerError")
+      ) {
         this._resendUnackedMessages();
       }
       this._handleError(
         error || {
-          name: "StreamError",
-          message: "Stream message failed",
+          name: "StreamAckUnknownError",
+          message: "Stream message failed to process",
         },
       );
     }
