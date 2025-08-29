@@ -186,8 +186,9 @@ export abstract class BaseSender {
           if (!this.isStatsbeatSender) {
             this.networkStatsbeatMetrics?.countFailure(duration, statusCode);
             // Count dropped items for customer SDK Stats for non-retriable status codes
+            const filteredSuccessfulEnvelopes = successfulEnvelopes.filter(Boolean);
             this.customerSDKStatsMetrics?.countDroppedItems(
-              successfulEnvelopes.filter(Boolean),
+              filteredSuccessfulEnvelopes,
               statusCode,
             );
           }
@@ -297,6 +298,11 @@ export abstract class BaseSender {
       // For non-retriable REST errors or client exceptions
       if (!this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countException(restError);
+        this.customerSDKStatsMetrics?.countDroppedItems(
+          envelopes,
+          DropCode.CLIENT_EXCEPTION,
+          restError.message,
+        );
         diag.error(
           "Envelopes could not be exported and are not retriable. Error message:",
           restError.message,

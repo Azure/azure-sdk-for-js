@@ -64,15 +64,22 @@ export class NetworkStatsbeat {
 export class CustomerSDKStats {
   public totalItemSuccessCount: Map<TelemetryType, number>;
 
-  // Nested Map structure: telemetry_type -> drop.code -> drop.reason -> count
-  public totalItemDropCount: Map<TelemetryType, Map<DropCode | number, Map<string, number>>>;
+  // telemetry_type -> drop.code -> drop.reason -> success -> count
+  // success can be true/false for request/dependency telemetry, or null for other types
+  public totalItemDropCount: Map<
+    TelemetryType,
+    Map<DropCode | number, Map<string, Map<boolean | null, number>>>
+  >;
 
   // Nested Map structure: telemetry_type -> retry.code -> retry.reason -> count
   public totalItemRetryCount: Map<TelemetryType, Map<RetryCode | number, Map<string, number>>>;
 
   constructor() {
     this.totalItemSuccessCount = new Map<TelemetryType, number>();
-    this.totalItemDropCount = new Map<TelemetryType, Map<DropCode | number, Map<string, number>>>();
+    this.totalItemDropCount = new Map<
+      TelemetryType,
+      Map<DropCode | number, Map<string, Map<boolean | null, number>>>
+    >();
     this.totalItemRetryCount = new Map<
       TelemetryType,
       Map<RetryCode | number, Map<string, number>>
