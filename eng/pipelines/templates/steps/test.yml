@@ -29,6 +29,9 @@ steps:
   - script: |
       node eng/tools/ci-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json"
     env:
+      TURBO_TEAM: azsdkjs
+      TURBO_TEAMID: azsdkjs
+      TURBO_TOKEN: faketoken
       TURBO_API: https://turborepo-remote-cache-app.orangefield-d237357a.westus3.azurecontainerapps.io
     displayName: "Build libraries"
 
