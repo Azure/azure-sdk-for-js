@@ -65,6 +65,10 @@ steps:
       - pwsh: |
           echo "##vso[task.setvariable variable=TURBO_CACHE;]local:,remote:w"
         displayName: "Set Turborepo Cache remote:w"
+  - ${{ elseif and(eq(variables['System.TeamProject'], 'public'), in(variables['Build.Reason'], 'PullRequest')) }}:
+      - pwsh: |
+          echo "##vso[task.setvariable variable=TURBO_CACHE;]local:,remote:"
+        displayName: "Set Turborepo Cache local:,remote:"
   - ${{ else }}:
       - pwsh: |
           echo "##vso[task.setvariable variable=TURBO_CACHE;]local:rw,remote:r"

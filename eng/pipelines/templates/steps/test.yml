@@ -33,7 +33,6 @@ steps:
       TURBO_TEAMID: azsdkjs
       TURBO_CACHE: local:rw,remote:r
       TURBO_TOKEN: faketoken
-      TURBO_API: https://turborepo-remote-cache-app.orangefield-d237357a.westus3.azurecontainerapps.io
     displayName: "Build libraries"
 
   - template: ../steps/use-node-test-version.yml
