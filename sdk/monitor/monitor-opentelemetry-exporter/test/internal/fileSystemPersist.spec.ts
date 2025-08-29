@@ -258,7 +258,6 @@ describe("FileSystemPersist", () => {
       expect(mockCustomerSDKStats.countDroppedItems).toHaveBeenCalledWith(
         [envelope],
         DropCode.CLIENT_READONLY,
-        undefined,
       );
 
       // Restore the spy

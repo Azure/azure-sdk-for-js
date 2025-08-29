@@ -14,7 +14,7 @@ import { CustomSDKStatsCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./type
 import { getAttachType } from "../../utils/metricUtils.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { BreezePerformanceCounterNames } from "../../types.js";
-import type { MetricsData } from "../../generated/index.js";
+import type { MetricsData, RemoteDependencyData, RequestData } from "../../generated/index.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 
 /**
@@ -584,10 +584,10 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
     const baseType = envelope.data.baseType;
     if (baseType === "RequestData") {
-      const requestData = envelope.data.baseData as any;
+      const requestData = envelope.data.baseData as RequestData;
       return requestData.success;
     } else if (baseType === "RemoteDependencyData") {
-      const dependencyData = envelope.data.baseData as any;
+      const dependencyData = envelope.data.baseData as RemoteDependencyData;
       return dependencyData.success;
     }
 
