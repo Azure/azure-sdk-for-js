@@ -64,7 +64,7 @@ steps:
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
       - task: AzureCLI@2
         inputs:
-          azureSubscription: "Azure SDK Artifacts"
+          azureSubscription: "Azure SDK Engineering System"
           scriptType: "bash"
           scriptLocation: "inlineScript"
           inlineScript: |
