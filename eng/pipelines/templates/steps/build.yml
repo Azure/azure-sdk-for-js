@@ -69,7 +69,7 @@ steps:
           scriptLocation: "inlineScript"
           inlineScript: |
             az account show
-            turboToken=($az keyvault secret show --name js-turborepo-cache-token --vault-name AzureSDK-TestSecrets2 --query value)
+            turboToken=($az keyvault secret show --name js-turborepo-cache-token --vault-name AzureSDK-TestSecrets2 --query value -o tsv)
             echo "##vso[task.setvariable variable=turboToken;issecret=true;]$turboToken"
             echo "##vso[task.setvariable variable=turboCache;issecret=false;]local:,remote:w"
         displayName: "Set Turborepo Cache remote:w"
