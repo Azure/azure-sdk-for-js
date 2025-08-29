@@ -108,9 +108,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
       // Should be categorized as "Timeout exception" instead of raw message
-      expect(reasonMap.get("Timeout exception")).toBe(5);
-      // Should be categorized as "timeout_exception" instead of raw message
-      const successMap = reasonMap.get("timeout_exception");
+      const successMap = reasonMap.get("Timeout exception");
       expect(successMap).toBeDefined();
       expect(successMap.get(null)).toBe(5);
     });
@@ -132,9 +130,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
       // Should be "Client exception" instead of "default"
-      expect(reasonMap.get("Client exception")).toBe(3);
-      // Should be "unknown_exception" instead of "default"
-      const successMap = reasonMap.get("unknown_exception");
+      const successMap = reasonMap.get("Client exception");
       expect(successMap).toBeDefined();
       expect(successMap.get(null)).toBe(3);
     });
@@ -159,9 +155,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
       // Should have "Bad request" as reason for 400 status code
-      expect(reasonMap.get("Bad request")).toBe(2);
-      // Should be "non_retryable_status" instead of "default"
-      const successMap = reasonMap.get("non_retryable_status");
+      const successMap = reasonMap.get("Bad request");
       expect(successMap).toBeDefined();
       expect(successMap.get(null)).toBe(2);
     });
@@ -191,9 +185,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
       // Should aggregate based on categorized reason "Client exception"
-      expect(reasonMap.get("Client exception")).toBe(5);
-      // Should aggregate based on categorized reason "other_exception"
-      const successMap = reasonMap.get("other_exception");
+      const successMap = reasonMap.get("Client exception");
       expect(successMap).toBeDefined();
       expect(successMap.get(null)).toBe(5);
     });
@@ -220,8 +212,7 @@ describe("CustomerSDKStatsMetrics", () => {
       const traceReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(traceReasonMap).toBeDefined();
       expect(traceReasonMap.size).toBe(1);
-      expect(traceReasonMap.get("Client exception")).toBe(2);
-      const traceSuccessMap = traceReasonMap.get("other_exception");
+      const traceSuccessMap = traceReasonMap.get("Client exception");
       expect(traceSuccessMap).toBeDefined();
       expect(traceSuccessMap.get(null)).toBe(2);
 
@@ -232,8 +223,7 @@ describe("CustomerSDKStatsMetrics", () => {
       const dependencyReasonMap = dependencyDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(dependencyReasonMap).toBeDefined();
       expect(dependencyReasonMap.size).toBe(1);
-      expect(dependencyReasonMap.get("Client exception")).toBe(3);
-      const dependencySuccessMap = dependencyReasonMap.get("other_exception");
+      const dependencySuccessMap = dependencyReasonMap.get("Client exception");
       expect(dependencySuccessMap).toBeDefined();
       expect(dependencySuccessMap.get(null)).toBe(3);
     });
@@ -420,8 +410,7 @@ describe("CustomerSDKStatsMetrics", () => {
 
       const traceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       const traceDropReasonMap = traceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
-      expect(traceDropReasonMap.get("Client exception")).toBe(5);
-      const traceDropSuccessMap = traceDropReasonMap.get("other_exception");
+      const traceDropSuccessMap = traceDropReasonMap.get("Client exception");
       expect(traceDropSuccessMap.get(null)).toBe(5);
 
       const traceRetryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
@@ -446,8 +435,7 @@ describe("CustomerSDKStatsMetrics", () => {
       // Counts should be reset to zero
       const resetTraceDropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
       const resetTraceDropReasonMap = resetTraceDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
-      expect(resetTraceDropReasonMap.get("Client exception")).toBe(0);
-      const resetTraceDropSuccessMap = resetTraceDropReasonMap.get("other_exception");
+      const resetTraceDropSuccessMap = resetTraceDropReasonMap.get("Client exception");
       expect(resetTraceDropSuccessMap.get(null)).toBe(0);
 
       const resetTraceRetryCodeMap = counter.totalItemRetryCount.get(TelemetryType.TRACE);
@@ -477,8 +465,7 @@ describe("CustomerSDKStatsMetrics", () => {
       const integrationReasonMap = integrationDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(integrationReasonMap).toBeDefined();
       expect(integrationReasonMap.size).toBe(1);
-      expect(integrationReasonMap.get("Network exception")).toBe(5);
-      const integrationSuccessMap = integrationReasonMap.get("network_exception");
+      const integrationSuccessMap = integrationReasonMap.get("Network exception");
       expect(integrationSuccessMap).toBeDefined();
       expect(integrationSuccessMap.get(null)).toBe(5);
 
@@ -571,8 +558,7 @@ describe("CustomerSDKStatsMetrics", () => {
       const nonClientExceptionReasonMap = nonClientExceptionDropCodeMap.get(500);
       expect(nonClientExceptionReasonMap).toBeDefined();
       expect(nonClientExceptionReasonMap.size).toBe(1);
-      expect(nonClientExceptionReasonMap.get("Internal server error")).toBe(2);
-      const nonClientExceptionSuccessMap = nonClientExceptionReasonMap.get("non_retryable_status");
+      const nonClientExceptionSuccessMap = nonClientExceptionReasonMap.get("Internal server error");
       expect(nonClientExceptionSuccessMap).toBeDefined();
       expect(nonClientExceptionSuccessMap.get(null)).toBe(2);
 
@@ -680,8 +666,7 @@ describe("CustomerSDKStatsMetrics", () => {
       const aggregateReasonMap = aggregateDropCodeMap.get(DropCode.CLIENT_EXCEPTION);
       expect(aggregateReasonMap).toBeDefined();
       expect(aggregateReasonMap.size).toBe(1);
-      expect(aggregateReasonMap.get("Network exception")).toBe(5); // 2 + 3
-      const aggregateSuccessMap = aggregateReasonMap.get("network_exception");
+      const aggregateSuccessMap = aggregateReasonMap.get("Network exception");
       expect(aggregateSuccessMap).toBeDefined();
       expect(aggregateSuccessMap.get(null)).toBe(5); // 2 + 3
 
@@ -991,10 +976,7 @@ describe("CustomerSDKStatsMetrics", () => {
           TelemetryType.REQUEST,
           false,
         );
-        customerSDKStatsMetrics.countDroppedItems(
-          failedRequestEnvelopes,
-          DropCode.NON_RETRYABLE_STATUS_CODE,
-        );
+        customerSDKStatsMetrics.countDroppedItems(failedRequestEnvelopes, DropCode.UNKNOWN);
 
         const mockObservableResult = {
           observe: vi.fn(),
@@ -1010,7 +992,7 @@ describe("CustomerSDKStatsMetrics", () => {
           3,
           expect.objectContaining({
             telemetry_type: TelemetryType.REQUEST,
-            "drop.code": DropCode.NON_RETRYABLE_STATUS_CODE,
+            "drop.code": DropCode.UNKNOWN,
             telemetry_success: false,
           }),
         );
@@ -1122,7 +1104,7 @@ describe("CustomerSDKStatsMetrics", () => {
         );
         customerSDKStatsMetrics.countDroppedItems(
           dependencyEnvelopesWithoutSuccess,
-          DropCode.NON_RETRYABLE_STATUS_CODE,
+          DropCode.UNKNOWN,
         );
 
         const mockObservableResult = {
@@ -1140,7 +1122,7 @@ describe("CustomerSDKStatsMetrics", () => {
           3,
           expect.objectContaining({
             telemetry_type: TelemetryType.DEPENDENCY,
-            "drop.code": DropCode.NON_RETRYABLE_STATUS_CODE,
+            "drop.code": DropCode.UNKNOWN,
           }),
         );
 
@@ -1155,10 +1137,7 @@ describe("CustomerSDKStatsMetrics", () => {
         const eventEnvelopes = createMockEnvelopes(1, TelemetryType.CUSTOM_EVENT);
 
         customerSDKStatsMetrics.countDroppedItems(traceEnvelopes, DropCode.CLIENT_EXCEPTION);
-        customerSDKStatsMetrics.countDroppedItems(
-          eventEnvelopes,
-          DropCode.NON_RETRYABLE_STATUS_CODE,
-        );
+        customerSDKStatsMetrics.countDroppedItems(eventEnvelopes, DropCode.UNKNOWN);
 
         const mockObservableResult = {
           observe: vi.fn(),
@@ -1198,10 +1177,7 @@ describe("CustomerSDKStatsMetrics", () => {
 
         // Drop them with different drop codes
         customerSDKStatsMetrics.countDroppedItems(successfulEnvelopes, DropCode.CLIENT_EXCEPTION);
-        customerSDKStatsMetrics.countDroppedItems(
-          failedEnvelopes,
-          DropCode.NON_RETRYABLE_STATUS_CODE,
-        );
+        customerSDKStatsMetrics.countDroppedItems(failedEnvelopes, DropCode.UNKNOWN);
         customerSDKStatsMetrics.countDroppedItems(
           undefinedEnvelopes,
           DropCode.CLIENT_STORAGE_DISABLED,
@@ -1232,13 +1208,13 @@ describe("CustomerSDKStatsMetrics", () => {
 
         // Find and verify failed envelopes call
         const failedCall = mockObservableResult.observe.mock.calls.find(
-          (call: any) => call[2]["drop.code"] === DropCode.NON_RETRYABLE_STATUS_CODE,
+          (call: any) => call[2]["drop.code"] === DropCode.UNKNOWN,
         );
         expect(failedCall).toBeDefined();
         expect(failedCall![1]).toBe(3); // count
         expect(failedCall![2]).toMatchObject({
           telemetry_type: TelemetryType.REQUEST,
-          "drop.code": DropCode.NON_RETRYABLE_STATUS_CODE,
+          "drop.code": DropCode.UNKNOWN,
           telemetry_success: false,
         });
 
