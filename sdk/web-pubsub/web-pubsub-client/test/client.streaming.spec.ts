@@ -90,7 +90,7 @@ describe("WebPubSubClient Streaming Integration", function () {
 
     it("should throw error for duplicate stream IDs", () => {
       client.stream("group1", "duplicateStreamId");
-      
+
       assert.throws(() => {
         client.stream("group2", "duplicateStreamId");
       }, "Stream with ID 'duplicateStreamId' already exists");
@@ -109,7 +109,7 @@ describe("WebPubSubClient Streaming Integration", function () {
     it("should support options parameter with auto-generated streamId", () => {
       const customOptions = {
         maxBufferSize: 50,
-        timeToLive: 60000
+        timeToLive: 60000,
       };
       const stream = client.stream("testGroup", undefined, customOptions);
 
@@ -124,7 +124,7 @@ describe("WebPubSubClient Streaming Integration", function () {
     it("should support options parameter with custom streamId", () => {
       const customOptions = {
         maxBufferSize: 50,
-        timeToLive: 60000
+        timeToLive: 60000,
       };
       const stream = client.stream("testGroup", "customStreamId", customOptions);
 
@@ -136,7 +136,7 @@ describe("WebPubSubClient Streaming Integration", function () {
     });
 
     it("should handle edge cases for streamId parameter", () => {
-      // Test with undefined should auto-generate  
+      // Test with undefined should auto-generate
       const stream1 = client.stream("testGroup", undefined);
       assert.isNotNull(stream1);
       assert.isString(stream1.streamId);
@@ -154,13 +154,13 @@ describe("WebPubSubClient Streaming Integration", function () {
 
     it("should preserve backward compatibility - auto-generate when only groupName provided", () => {
       const stream = client.stream("testGroup");
-      
+
       assert.isNotNull(stream);
       assert.equal(stream.groupName, "testGroup");
       assert.isString(stream.streamId);
       assert.isTrue(stream.streamId.startsWith("stream_"));
       assert.isTrue(stream.streamId.includes("_"));
-      
+
       // Verify default options are applied
       assert.equal((stream as any)._options.maxResendAttempts, 3);
       assert.equal((stream as any)._options.maxBufferSize, 100);
@@ -169,10 +169,10 @@ describe("WebPubSubClient Streaming Integration", function () {
     it("should support new API - custom streamId with options", () => {
       const customOptions = {
         maxBufferSize: 200,
-        maxResendAttempts: 5
+        maxResendAttempts: 5,
       };
       const stream = client.stream("testGroup", "myCustomStream", customOptions);
-      
+
       assert.isNotNull(stream);
       assert.equal(stream.groupName, "testGroup");
       assert.equal(stream.streamId, "myCustomStream");
@@ -183,19 +183,19 @@ describe("WebPubSubClient Streaming Integration", function () {
     it("should generate unique streamIds across multiple calls", () => {
       const streams = [];
       const streamIds = new Set();
-      
+
       // Create 10 streams with auto-generated IDs
       for (let i = 0; i < 10; i++) {
         const stream = client.stream(`group${i}`);
         streams.push(stream);
         streamIds.add(stream.streamId);
       }
-      
+
       // All streamIds should be unique
       assert.equal(streamIds.size, 10);
-      
+
       // All should follow the expected pattern
-      streams.forEach(stream => {
+      streams.forEach((stream) => {
         assert.isTrue(stream.streamId.startsWith("stream_"));
         assert.isTrue(stream.streamId.length > 10); // reasonable length check
       });
@@ -222,24 +222,24 @@ describe("WebPubSubClient Streaming Integration", function () {
 
     it("should handle concurrent stream creation without collision", () => {
       const promises = [];
-      
+
       // Create multiple streams concurrently
       for (let i = 0; i < 5; i++) {
         promises.push(Promise.resolve(client.stream(`group${i}`)));
       }
-      
-      return Promise.all(promises).then(streams => {
-        const streamIds = streams.map(s => s.streamId);
+
+      return Promise.all(promises).then((streams) => {
+        const streamIds = streams.map((s) => s.streamId);
         const uniqueIds = new Set(streamIds);
-        
+
         // All IDs should be unique
         assert.equal(uniqueIds.size, 5);
-        
+
         // All should be properly formatted
-        streams.forEach(stream => {
+        streams.forEach((stream) => {
           assert.isTrue(stream.streamId.startsWith("stream_"));
         });
-        
+
         return streams; // Return to satisfy linter
       });
     });
@@ -247,17 +247,17 @@ describe("WebPubSubClient Streaming Integration", function () {
     it("should maintain stream tracking for both auto-generated and custom streamIds", () => {
       const autoStream = client.stream("autoGroup");
       const customStream = client.stream("customGroup", "customId");
-      
+
       const internalStreams = (client as any)._streams;
-      
+
       // Both should be tracked
       assert.isTrue(internalStreams.has(autoStream.streamId));
       assert.isTrue(internalStreams.has(customStream.streamId));
-      
+
       // Should be able to retrieve them
       assert.equal(internalStreams.get(autoStream.streamId), autoStream);
       assert.equal(internalStreams.get(customStream.streamId), customStream);
-      
+
       // IDs should be different
       assert.notEqual(autoStream.streamId, customStream.streamId);
     });
