@@ -514,14 +514,26 @@ export class WebPubSubClient {
   /**
    * Create a stream for sending messages to a group
    * @param groupName - The group name
-   * @param options - Stream configuration options
+   * @param streamId - The unique identifier for the stream (optional, auto-generated if not provided)
+   * @param options - Stream configuration options (optional, use default values if not provided)
    * @returns Stream instance
    */
-  public stream(groupName: string, options?: StreamOptions): Stream {
-    const streamId = this._generateStreamId();
+  public stream(groupName: string, streamId?: string, options?: StreamOptions): Stream {
+    const actualStreamId = streamId || this._generateStreamId();
+
+    // Check if streamId is already in use
+    if (this._streams.has(actualStreamId)) {
+      throw new Error(`Stream with ID '${actualStreamId}' already exists`);
+    }
+
+    // Validate streamId if it was explicitly provided
+    if (streamId !== undefined && (!streamId || streamId.trim().length === 0)) {
+      throw new Error("Stream ID must be a non-empty string");
+    }
+
     const stream = new Stream(
       groupName,
-      streamId,
+      actualStreamId,
       (group, content, dataType, sId, sequenceId, endOfStream, abortSignal) =>
         this._sendStreamMessage(
           group,
@@ -535,7 +547,7 @@ export class WebPubSubClient {
       options,
     );
 
-    this._streams.set(streamId, stream);
+    this._streams.set(actualStreamId, stream);
     return stream;
   }
 
