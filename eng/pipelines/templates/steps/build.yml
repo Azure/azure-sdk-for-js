@@ -69,10 +69,10 @@ steps:
           scriptLocation: "inlineScript"
           inlineScript: |
             az account show
-            turboToken=($az keyvault secret show --name js-turborepo-cache-token --vault-name AzureSDK-TestSecrets2 --query value -o tsv)
+            turboToken=`az keyvault secret show --name js-turborepo-cache-token --vault-name AzureSDK-TestSecrets2 --query value -o tsv`
             echo "##vso[task.setvariable variable=turboToken;issecret=true;]$turboToken"
             echo "##vso[task.setvariable variable=turboCache;issecret=false;]local:,remote:w"
-        displayName: "Set Turborepo Cache remote:w"
+        displayName: "Set Turborepo Cache local:,remote:w"
   - ${{ elseif and(eq(variables['System.TeamProject'], 'public'), in(variables['Build.Reason'], 'PullRequest')) }}:
       - pwsh: |
           echo "##vso[task.setvariable variable=turboToken;issecret=false;]faketokenForReadonly"
@@ -82,7 +82,7 @@ steps:
       - pwsh: |
           echo "##vso[task.setvariable variable=turboToken;issecret=false;]faketokenForReadonly"
           echo "##vso[task.setvariable variable=turboCache;issecret=false;]local:rw,remote:r"
-        displayName: "Set Turborepo Cache local:rw remote:w"
+        displayName: "Set Turborepo Cache local:rw remote:r"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
@@ -97,7 +97,6 @@ steps:
       TURBO_TEAMID: azsdkjs
       TURBO_TOKEN: $(turboToken)
       TURBO_CACHE: $(turboCache)
-      TURBO_API: https://turborepo-remote-cache-app.orangefield-d237357a.westus3.azurecontainerapps.io
     displayName: "Build libraries"
 
   - script: |
