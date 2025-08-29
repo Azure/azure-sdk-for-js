@@ -924,8 +924,8 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     const endpointTracker = { lastEndpointCalled: "" };
     const responses = [
       databaseAccountResponse,
+      collectionResponse,
       partitionKeyRangesResponse,
-      SuccessCreateResponse,
       SuccessCreateResponse,
       ServiceUnavailableResponse,
       SuccessCreateResponse,
@@ -946,7 +946,6 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
     const createItemId = addEntropy("createItem");
     const upsertItemId = addEntropy("upsertItem");
     const deleteItemId = addEntropy("deleteItem");
-    // Use correct OperationInput types and string literal values for operationType
     const items = [
       {
         operationType: BulkOperationType.Create,
@@ -975,14 +974,20 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
       },
     ];
     // First bulk call
-    await client.database("foo").container("foo").items.bulk(items, {}, requestOptions);
+    await client
+      .database("foo")
+      .container("foo")
+      .items.executeBulkOperations(items, requestOptions);
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-eastus.documents.azure.com:443/",
       "Should use East US region for first bulk",
     );
     // Second bulk call (simulate failover)
-    await client.database("foo").container("foo").items.bulk(items, {}, requestOptions);
+    await client
+      .database("foo")
+      .container("foo")
+      .items.executeBulkOperations(items, requestOptions);
     assert.equal(
       endpointTracker.lastEndpointCalled,
       "https://excludedregiontest-westus.documents.azure.com:443/",
