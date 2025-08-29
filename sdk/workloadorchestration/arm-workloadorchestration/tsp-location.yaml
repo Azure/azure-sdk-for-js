@@ -1,4 +1,4 @@
 directory: specification/edge/Microsoft.Edge.ConfigurationManager.Management
-commit: 14ea090217accc05c87bbde565975c2ac4f23b85
+commit: 897f19441a4cc240eba138296f31e50841a6b57f
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

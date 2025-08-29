@@ -10,16 +10,16 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, options?: SolutionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, options?: SolutionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, resource: Solution, options?: SolutionsCreateOrUpdateOptionalParams): PollerLike<OperationState<Solution>, Solution>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, resource: Solution, options?: SolutionsCreateOrUpdateOptionalParams): PollerLike<OperationState<Solution>, Solution>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, options?: SolutionsGetOptionalParams): Promise<Solution>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, options?: SolutionsGetOptionalParams): Promise<Solution>;
 
 // @public
-export function listByTarget(context: EdgeContext, resourceGroupName: string, targetName: string, options?: SolutionsListByTargetOptionalParams): PagedAsyncIterableIterator<Solution>;
+export function listByTarget(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, options?: SolutionsListByTargetOptionalParams): PagedAsyncIterableIterator<Solution>;
 
 // @public
 export interface SolutionsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -45,7 +45,7 @@ export interface SolutionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, properties: SolutionUpdate, options?: SolutionsUpdateOptionalParams): PollerLike<OperationState<Solution>, Solution>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, properties: SolutionUpdate, options?: SolutionsUpdateOptionalParams): PollerLike<OperationState<Solution>, Solution>;
 
 // (No @packageDocumentation comment for this package)
 

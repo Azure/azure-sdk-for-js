@@ -10,10 +10,10 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, contextName: string, workflowName: string, versionName: string, executionName: string, options?: ExecutionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, workflowName: string, versionName: string, executionName: string, options?: ExecutionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, contextName: string, workflowName: string, versionName: string, executionName: string, resource: Execution, options?: ExecutionsCreateOrUpdateOptionalParams): PollerLike<OperationState<Execution>, Execution>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, workflowName: string, versionName: string, executionName: string, resource: Execution, options?: ExecutionsCreateOrUpdateOptionalParams): PollerLike<OperationState<Execution>, Execution>;
 
 // @public
 export interface ExecutionsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -39,13 +39,13 @@ export interface ExecutionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, contextName: string, workflowName: string, versionName: string, executionName: string, options?: ExecutionsGetOptionalParams): Promise<Execution>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, workflowName: string, versionName: string, executionName: string, options?: ExecutionsGetOptionalParams): Promise<Execution>;
 
 // @public
-export function listByWorkflowVersion(context: EdgeContext, resourceGroupName: string, contextName: string, workflowName: string, versionName: string, options?: ExecutionsListByWorkflowVersionOptionalParams): PagedAsyncIterableIterator<Execution>;
+export function listByWorkflowVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, workflowName: string, versionName: string, options?: ExecutionsListByWorkflowVersionOptionalParams): PagedAsyncIterableIterator<Execution>;
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, contextName: string, workflowName: string, versionName: string, executionName: string, properties: Execution, options?: ExecutionsUpdateOptionalParams): PollerLike<OperationState<Execution>, Execution>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, workflowName: string, versionName: string, executionName: string, properties: Execution, options?: ExecutionsUpdateOptionalParams): PollerLike<OperationState<Execution>, Execution>;
 
 // (No @packageDocumentation comment for this package)
 

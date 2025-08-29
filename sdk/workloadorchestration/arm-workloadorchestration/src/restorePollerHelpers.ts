@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeClient } from "./edgeClient.js";
+import { WorkloadOrchestrationManagementClient } from "./workloadOrchestrationManagementClient.js";
 import {
   _$deleteDeserialize,
   _updateDeserialize,
@@ -49,6 +49,7 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeSolutionTemplates,
 } from "./api/solutionTemplates/operations.js";
 import {
+  _bulkReviewSolutionDeserialize,
   _bulkPublishSolutionDeserialize,
   _bulkDeploySolutionDeserialize,
 } from "./api/solutionTemplateVersions/operations.js";
@@ -62,6 +63,7 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeDynamicSchemaVersions,
 } from "./api/dynamicSchemaVersions/operations.js";
 import {
+  _unstageSolutionVersionDeserialize,
   _updateExternalValidationStatusDeserialize,
   _publishSolutionVersionDeserialize,
   _reviewSolutionVersionDeserialize,
@@ -121,7 +123,7 @@ export interface RestorePollerOptions<
  * needs to be constructed after the original one is not in scope.
  */
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
-  client: EdgeClient,
+  client: WorkloadOrchestrationManagementClient,
   serializedState: string,
   sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
@@ -301,6 +303,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeSolutionTemplates,
       expectedStatuses: ["200", "201", "202"],
     },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkReviewSolution":
+    {
+      deserializer: _bulkReviewSolutionDeserialize,
+      expectedStatuses: ["202", "200"],
+    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkPublishSolution":
     {
       deserializer: _bulkPublishSolutionDeserialize,
@@ -335,6 +342,11 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     {
       deserializer: _createOrUpdateDeserializeDynamicSchemaVersions,
       expectedStatuses: ["200", "201", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/unstageSolutionVersion":
+    {
+      deserializer: _unstageSolutionVersionDeserialize,
+      expectedStatuses: ["202", "200"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/updateExternalValidationStatus":
     {

@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createEdge, EdgeContext, EdgeClientOptionalParams } from "./api/index.js";
+import {
+  createWorkloadOrchestrationManagement,
+  WorkloadOrchestrationManagementContext,
+  WorkloadOrchestrationManagementClientOptionalParams,
+} from "./api/index.js";
 import {
   ConfigTemplateVersionsOperations,
   _getConfigTemplateVersionsOperations,
@@ -62,10 +66,10 @@ import { WorkflowsOperations, _getWorkflowsOperations } from "./classic/workflow
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { EdgeClientOptionalParams } from "./api/edgeContext.js";
+export { WorkloadOrchestrationManagementClientOptionalParams } from "./api/workloadOrchestrationManagementContext.js";
 
-export class EdgeClient {
-  private _client: EdgeContext;
+export class WorkloadOrchestrationManagementClient {
+  private _client: WorkloadOrchestrationManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
@@ -73,13 +77,13 @@ export class EdgeClient {
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: EdgeClientOptionalParams = {},
+    options: WorkloadOrchestrationManagementClientOptionalParams = {},
   ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createEdge(credential, subscriptionId, {
+    this._client = createWorkloadOrchestrationManagement(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

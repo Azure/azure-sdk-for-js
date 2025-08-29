@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: EdgeContext, resourceUri: string, jobName: string, options?: JobsGetOptionalParams): Promise<Job>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceUri: string, jobName: string, options?: JobsGetOptionalParams): Promise<Job>;
 
 // @public
 export interface JobsGetOptionalParams extends OperationOptions {
@@ -19,7 +19,7 @@ export interface JobsListByTargetOptionalParams extends OperationOptions {
 }
 
 // @public
-export function listByTarget(context: EdgeContext, resourceUri: string, options?: JobsListByTargetOptionalParams): PagedAsyncIterableIterator<Job>;
+export function listByTarget(context: WorkloadOrchestrationManagementContext, resourceUri: string, options?: JobsListByTargetOptionalParams): PagedAsyncIterableIterator<Job>;
 
 // (No @packageDocumentation comment for this package)
 

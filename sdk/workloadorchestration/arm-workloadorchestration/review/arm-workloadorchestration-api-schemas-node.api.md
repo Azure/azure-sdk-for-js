@@ -10,25 +10,25 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, schemaName: string, options?: SchemasDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, options?: SchemasDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, schemaName: string, resource: Schema, options?: SchemasCreateOrUpdateOptionalParams): PollerLike<OperationState<Schema>, Schema>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, resource: Schema, options?: SchemasCreateOrUpdateOptionalParams): PollerLike<OperationState<Schema>, Schema>;
 
 // @public
-export function createVersion(context: EdgeContext, resourceGroupName: string, schemaName: string, body: SchemaVersionWithUpdateType, options?: SchemasCreateVersionOptionalParams): PollerLike<OperationState<SchemaVersion>, SchemaVersion>;
+export function createVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, body: SchemaVersionWithUpdateType, options?: SchemasCreateVersionOptionalParams): PollerLike<OperationState<SchemaVersion>, SchemaVersion>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, schemaName: string, options?: SchemasGetOptionalParams): Promise<Schema>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, options?: SchemasGetOptionalParams): Promise<Schema>;
 
 // @public
-export function listByResourceGroup(context: EdgeContext, resourceGroupName: string, options?: SchemasListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Schema>;
+export function listByResourceGroup(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, options?: SchemasListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Schema>;
 
 // @public
-export function listBySubscription(context: EdgeContext, options?: SchemasListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Schema>;
+export function listBySubscription(context: WorkloadOrchestrationManagementContext, options?: SchemasListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Schema>;
 
 // @public
-export function removeVersion(context: EdgeContext, resourceGroupName: string, schemaName: string, body: VersionParameter, options?: SchemasRemoveVersionOptionalParams): Promise<RemoveVersionResponse>;
+export function removeVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, body: VersionParameter, options?: SchemasRemoveVersionOptionalParams): Promise<RemoveVersionResponse>;
 
 // @public
 export interface SchemasCreateOrUpdateOptionalParams extends OperationOptions {
@@ -66,7 +66,7 @@ export interface SchemasUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, schemaName: string, properties: SchemaUpdate, options?: SchemasUpdateOptionalParams): Promise<Schema>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, properties: SchemaUpdate, options?: SchemasUpdateOptionalParams): Promise<Schema>;
 
 // (No @packageDocumentation comment for this package)
 

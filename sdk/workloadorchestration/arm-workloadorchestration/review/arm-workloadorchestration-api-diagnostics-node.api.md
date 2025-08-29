@@ -10,10 +10,10 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, diagnosticName: string, options?: DiagnosticsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, diagnosticName: string, options?: DiagnosticsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, diagnosticName: string, resource: Diagnostic, options?: DiagnosticsCreateOrUpdateOptionalParams): PollerLike<OperationState<Diagnostic>, Diagnostic>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, diagnosticName: string, resource: Diagnostic, options?: DiagnosticsCreateOrUpdateOptionalParams): PollerLike<OperationState<Diagnostic>, Diagnostic>;
 
 // @public
 export interface DiagnosticsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -43,16 +43,16 @@ export interface DiagnosticsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, diagnosticName: string, options?: DiagnosticsGetOptionalParams): Promise<Diagnostic>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, diagnosticName: string, options?: DiagnosticsGetOptionalParams): Promise<Diagnostic>;
 
 // @public
-export function listByResourceGroup(context: EdgeContext, resourceGroupName: string, options?: DiagnosticsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Diagnostic>;
+export function listByResourceGroup(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, options?: DiagnosticsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Diagnostic>;
 
 // @public
-export function listBySubscription(context: EdgeContext, options?: DiagnosticsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Diagnostic>;
+export function listBySubscription(context: WorkloadOrchestrationManagementContext, options?: DiagnosticsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Diagnostic>;
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, diagnosticName: string, properties: DiagnosticUpdate, options?: DiagnosticsUpdateOptionalParams): PollerLike<OperationState<Diagnostic>, Diagnostic>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, diagnosticName: string, properties: DiagnosticUpdate, options?: DiagnosticsUpdateOptionalParams): PollerLike<OperationState<Diagnostic>, Diagnostic>;
 
 // (No @packageDocumentation comment for this package)
 

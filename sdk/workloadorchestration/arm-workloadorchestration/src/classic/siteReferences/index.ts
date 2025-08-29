@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listByContext,
   $delete,
@@ -65,7 +65,7 @@ export interface SiteReferencesOperations {
   ) => Promise<SiteReference>;
 }
 
-function _getSiteReferences(context: EdgeContext) {
+function _getSiteReferences(context: WorkloadOrchestrationManagementContext) {
   return {
     listByContext: (
       resourceGroupName: string,
@@ -102,7 +102,9 @@ function _getSiteReferences(context: EdgeContext) {
   };
 }
 
-export function _getSiteReferencesOperations(context: EdgeContext): SiteReferencesOperations {
+export function _getSiteReferencesOperations(
+  context: WorkloadOrchestrationManagementContext,
+): SiteReferencesOperations {
   return {
     ..._getSiteReferences(context),
   };

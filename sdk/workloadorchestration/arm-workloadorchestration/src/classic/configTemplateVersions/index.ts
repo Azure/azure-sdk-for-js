@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import { listByConfigTemplate, get } from "../../api/configTemplateVersions/operations.js";
 import {
   ConfigTemplateVersionsListByConfigTemplateOptionalParams,
@@ -27,7 +27,7 @@ export interface ConfigTemplateVersionsOperations {
   ) => Promise<ConfigTemplateVersion>;
 }
 
-function _getConfigTemplateVersions(context: EdgeContext) {
+function _getConfigTemplateVersions(context: WorkloadOrchestrationManagementContext) {
   return {
     listByConfigTemplate: (
       resourceGroupName: string,
@@ -44,7 +44,7 @@ function _getConfigTemplateVersions(context: EdgeContext) {
 }
 
 export function _getConfigTemplateVersionsOperations(
-  context: EdgeContext,
+  context: WorkloadOrchestrationManagementContext,
 ): ConfigTemplateVersionsOperations {
   return {
     ..._getConfigTemplateVersions(context),

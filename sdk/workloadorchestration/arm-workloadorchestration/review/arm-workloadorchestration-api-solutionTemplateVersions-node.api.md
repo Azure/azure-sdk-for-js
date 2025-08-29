@@ -10,16 +10,19 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function bulkDeploySolution(context: EdgeContext, resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, body: BulkDeploySolutionParameter, options?: SolutionTemplateVersionsBulkDeploySolutionOptionalParams): PollerLike<OperationState<void>, void>;
+export function bulkDeploySolution(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, body: BulkDeploySolutionParameter, options?: SolutionTemplateVersionsBulkDeploySolutionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function bulkPublishSolution(context: EdgeContext, resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, body: BulkPublishSolutionParameter, options?: SolutionTemplateVersionsBulkPublishSolutionOptionalParams): PollerLike<OperationState<void>, void>;
+export function bulkPublishSolution(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, body: BulkPublishSolutionParameter, options?: SolutionTemplateVersionsBulkPublishSolutionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, options?: SolutionTemplateVersionsGetOptionalParams): Promise<SolutionTemplateVersion>;
+export function bulkReviewSolution(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, body: BulkReviewSolutionParameter, options?: SolutionTemplateVersionsBulkReviewSolutionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function listBySolutionTemplate(context: EdgeContext, resourceGroupName: string, solutionTemplateName: string, options?: SolutionTemplateVersionsListBySolutionTemplateOptionalParams): PagedAsyncIterableIterator<SolutionTemplateVersion>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, options?: SolutionTemplateVersionsGetOptionalParams): Promise<SolutionTemplateVersion>;
+
+// @public
+export function listBySolutionTemplate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, options?: SolutionTemplateVersionsListBySolutionTemplateOptionalParams): PagedAsyncIterableIterator<SolutionTemplateVersion>;
 
 // @public
 export interface SolutionTemplateVersionsBulkDeploySolutionOptionalParams extends OperationOptions {
@@ -28,6 +31,11 @@ export interface SolutionTemplateVersionsBulkDeploySolutionOptionalParams extend
 
 // @public
 export interface SolutionTemplateVersionsBulkPublishSolutionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SolutionTemplateVersionsBulkReviewSolutionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 

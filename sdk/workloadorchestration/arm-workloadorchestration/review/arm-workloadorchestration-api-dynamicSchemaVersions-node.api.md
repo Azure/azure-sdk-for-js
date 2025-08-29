@@ -10,10 +10,10 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, schemaName: string, dynamicSchemaName: string, dynamicSchemaVersionName: string, options?: DynamicSchemaVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, dynamicSchemaName: string, dynamicSchemaVersionName: string, options?: DynamicSchemaVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, schemaName: string, dynamicSchemaName: string, dynamicSchemaVersionName: string, resource: DynamicSchemaVersion, options?: DynamicSchemaVersionsCreateOrUpdateOptionalParams): PollerLike<OperationState<DynamicSchemaVersion>, DynamicSchemaVersion>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, dynamicSchemaName: string, dynamicSchemaVersionName: string, resource: DynamicSchemaVersion, options?: DynamicSchemaVersionsCreateOrUpdateOptionalParams): PollerLike<OperationState<DynamicSchemaVersion>, DynamicSchemaVersion>;
 
 // @public
 export interface DynamicSchemaVersionsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -38,13 +38,13 @@ export interface DynamicSchemaVersionsUpdateOptionalParams extends OperationOpti
 }
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, schemaName: string, dynamicSchemaName: string, dynamicSchemaVersionName: string, options?: DynamicSchemaVersionsGetOptionalParams): Promise<DynamicSchemaVersion>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, dynamicSchemaName: string, dynamicSchemaVersionName: string, options?: DynamicSchemaVersionsGetOptionalParams): Promise<DynamicSchemaVersion>;
 
 // @public
-export function listByDynamicSchema(context: EdgeContext, resourceGroupName: string, schemaName: string, dynamicSchemaName: string, options?: DynamicSchemaVersionsListByDynamicSchemaOptionalParams): PagedAsyncIterableIterator<DynamicSchemaVersion>;
+export function listByDynamicSchema(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, dynamicSchemaName: string, options?: DynamicSchemaVersionsListByDynamicSchemaOptionalParams): PagedAsyncIterableIterator<DynamicSchemaVersion>;
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, schemaName: string, dynamicSchemaName: string, dynamicSchemaVersionName: string, properties: DynamicSchemaVersion, options?: DynamicSchemaVersionsUpdateOptionalParams): Promise<DynamicSchemaVersion>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, dynamicSchemaName: string, dynamicSchemaVersionName: string, properties: DynamicSchemaVersion, options?: DynamicSchemaVersionsUpdateOptionalParams): Promise<DynamicSchemaVersion>;
 
 // (No @packageDocumentation comment for this package)
 

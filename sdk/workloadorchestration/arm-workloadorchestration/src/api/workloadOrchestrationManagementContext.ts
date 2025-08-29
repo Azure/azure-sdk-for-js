@@ -8,7 +8,7 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 /** Microsoft.Edge Resource Provider management API. */
-export interface EdgeContext extends Client {
+export interface WorkloadOrchestrationManagementContext extends Client {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion: string;
@@ -17,7 +17,7 @@ export interface EdgeContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface EdgeClientOptionalParams extends ClientOptions {
+export interface WorkloadOrchestrationManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -26,11 +26,11 @@ export interface EdgeClientOptionalParams extends ClientOptions {
 }
 
 /** Microsoft.Edge Resource Provider management API. */
-export function createEdge(
+export function createWorkloadOrchestrationManagement(
   credential: TokenCredential,
   subscriptionId: string,
-  options: EdgeClientOptionalParams = {},
-): EdgeContext {
+  options: WorkloadOrchestrationManagementClientOptionalParams = {},
+): WorkloadOrchestrationManagementContext {
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
@@ -48,7 +48,7 @@ export function createEdge(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-06-01";
+  const apiVersion = options.apiVersion ?? "2025-08-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
@@ -64,5 +64,9 @@ export function createEdge(
       return next(req);
     },
   });
-  return { ...clientContext, apiVersion, subscriptionId } as EdgeContext;
+  return {
+    ...clientContext,
+    apiVersion,
+    subscriptionId,
+  } as WorkloadOrchestrationManagementContext;
 }

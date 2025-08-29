@@ -8,10 +8,10 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: EdgeContext, resourceUri: string, schemaReferenceName: string, options?: SchemaReferencesGetOptionalParams): Promise<SchemaReference>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceUri: string, schemaReferenceName: string, options?: SchemaReferencesGetOptionalParams): Promise<SchemaReference>;
 
 // @public
-export function listByResourceGroup(context: EdgeContext, resourceUri: string, options?: SchemaReferencesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SchemaReference>;
+export function listByResourceGroup(context: WorkloadOrchestrationManagementContext, resourceUri: string, options?: SchemaReferencesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SchemaReference>;
 
 // @public
 export interface SchemaReferencesGetOptionalParams extends OperationOptions {

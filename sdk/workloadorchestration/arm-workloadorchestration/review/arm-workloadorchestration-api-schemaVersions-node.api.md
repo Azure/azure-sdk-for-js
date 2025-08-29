@@ -10,16 +10,16 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, schemaName: string, schemaVersionName: string, resource: SchemaVersion, options?: SchemaVersionsCreateOrUpdateOptionalParams): PollerLike<OperationState<SchemaVersion>, SchemaVersion>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, schemaVersionName: string, resource: SchemaVersion, options?: SchemaVersionsCreateOrUpdateOptionalParams): PollerLike<OperationState<SchemaVersion>, SchemaVersion>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsGetOptionalParams): Promise<SchemaVersion>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsGetOptionalParams): Promise<SchemaVersion>;
 
 // @public
-export function listBySchema(context: EdgeContext, resourceGroupName: string, schemaName: string, options?: SchemaVersionsListBySchemaOptionalParams): PagedAsyncIterableIterator<SchemaVersion>;
+export function listBySchema(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, options?: SchemaVersionsListBySchemaOptionalParams): PagedAsyncIterableIterator<SchemaVersion>;
 
 // @public
 export interface SchemaVersionsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -44,7 +44,7 @@ export interface SchemaVersionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, schemaName: string, schemaVersionName: string, properties: SchemaVersion, options?: SchemaVersionsUpdateOptionalParams): Promise<SchemaVersion>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, schemaName: string, schemaVersionName: string, properties: SchemaVersion, options?: SchemaVersionsUpdateOptionalParams): Promise<SchemaVersion>;
 
 // (No @packageDocumentation comment for this package)
 

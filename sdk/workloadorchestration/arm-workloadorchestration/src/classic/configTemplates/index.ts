@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -91,7 +91,7 @@ export interface ConfigTemplatesOperations {
   ) => Promise<ConfigTemplate>;
 }
 
-function _getConfigTemplates(context: EdgeContext) {
+function _getConfigTemplates(context: WorkloadOrchestrationManagementContext) {
   return {
     listBySubscription: (options?: ConfigTemplatesListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -136,7 +136,9 @@ function _getConfigTemplates(context: EdgeContext) {
   };
 }
 
-export function _getConfigTemplatesOperations(context: EdgeContext): ConfigTemplatesOperations {
+export function _getConfigTemplatesOperations(
+  context: WorkloadOrchestrationManagementContext,
+): ConfigTemplatesOperations {
   return {
     ..._getConfigTemplates(context),
   };

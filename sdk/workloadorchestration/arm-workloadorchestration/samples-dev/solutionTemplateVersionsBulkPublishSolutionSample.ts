@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeClient } from "@azure/arm-workloadorchestration";
+import { WorkloadOrchestrationManagementClient } from "@azure/arm-workloadorchestration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to post request for bulk publish
  *
  * @summary post request for bulk publish
- * x-ms-original-file: 2025-06-01/SolutionTemplateVersions_BulkPublishSolution_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-08-01/SolutionTemplateVersions_BulkPublishSolution_MaximumSet_Gen.json
  */
-async function solutionTemplateVersionsBulkPublishSolutionMaximumSet(): Promise<void> {
+async function solutionTemplateVersionsBulkPublishSolutionMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   await client.solutionTemplateVersions.bulkPublishSolution(
     "rgconfigurationmanager",
-    "testname",
+    "solution",
     "1.0.0",
     {
       targets: [
@@ -24,6 +24,9 @@ async function solutionTemplateVersionsBulkPublishSolutionMaximumSet(): Promise<
           targetId:
             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/Targets/target",
           solutionInstanceName: "test-instance",
+          solutionVersionId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/Targets/target/Solutions/solution/Versions/solution-1.0.0.1",
+          solutionConfiguration: "fbxxcuw",
         },
       ],
       solutionInstanceName: "test-instance",
@@ -40,12 +43,13 @@ async function solutionTemplateVersionsBulkPublishSolutionMaximumSet(): Promise<
           dependencies: [],
         },
       ],
+      solutionConfiguration: "mnorjkvwcxuwbkgmcbumw",
     },
   );
 }
 
 async function main(): Promise<void> {
-  await solutionTemplateVersionsBulkPublishSolutionMaximumSet();
+  await solutionTemplateVersionsBulkPublishSolutionMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

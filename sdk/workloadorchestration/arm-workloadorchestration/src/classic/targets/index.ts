@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
+  unstageSolutionVersion,
   updateExternalValidationStatus,
   publishSolutionVersion,
   reviewSolutionVersion,
@@ -18,6 +19,7 @@ import {
   get,
 } from "../../api/targets/operations.js";
 import {
+  TargetsUnstageSolutionVersionOptionalParams,
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,
@@ -49,6 +51,13 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Targets operations. */
 export interface TargetsOperations {
+  /** Post request to unstage solution version */
+  unstageSolutionVersion: (
+    resourceGroupName: string,
+    targetName: string,
+    body: SolutionVersionParameter,
+    options?: TargetsUnstageSolutionVersionOptionalParams,
+  ) => PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
   /** Post request to update external validation status */
   updateExternalValidationStatus: (
     resourceGroupName: string,
@@ -140,8 +149,14 @@ export interface TargetsOperations {
   ) => Promise<Target>;
 }
 
-function _getTargets(context: EdgeContext) {
+function _getTargets(context: WorkloadOrchestrationManagementContext) {
   return {
+    unstageSolutionVersion: (
+      resourceGroupName: string,
+      targetName: string,
+      body: SolutionVersionParameter,
+      options?: TargetsUnstageSolutionVersionOptionalParams,
+    ) => unstageSolutionVersion(context, resourceGroupName, targetName, body, options),
     updateExternalValidationStatus: (
       resourceGroupName: string,
       targetName: string,
@@ -212,7 +227,9 @@ function _getTargets(context: EdgeContext) {
   };
 }
 
-export function _getTargetsOperations(context: EdgeContext): TargetsOperations {
+export function _getTargetsOperations(
+  context: WorkloadOrchestrationManagementContext,
+): TargetsOperations {
   return {
     ..._getTargets(context),
   };

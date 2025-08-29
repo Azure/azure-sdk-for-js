@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext as Client } from "../index.js";
+import { WorkloadOrchestrationManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
   SolutionVersion,
@@ -35,6 +35,7 @@ import {
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
+  TargetsUnstageSolutionVersionOptionalParams,
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,
@@ -56,6 +57,66 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _unstageSolutionVersionSend(
+  context: Client,
+  resourceGroupName: string,
+  targetName: string,
+  body: SolutionVersionParameter,
+  options: TargetsUnstageSolutionVersionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/unstageSolutionVersion{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      targetName: targetName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: solutionVersionParameterSerializer(body),
+  });
+}
+
+export async function _unstageSolutionVersionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SolutionVersion> {
+  const expectedStatuses = ["202", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return solutionVersionDeserializer(result.body);
+}
+
+/** Post request to unstage solution version */
+export function unstageSolutionVersion(
+  context: Client,
+  resourceGroupName: string,
+  targetName: string,
+  body: SolutionVersionParameter,
+  options: TargetsUnstageSolutionVersionOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<SolutionVersion>, SolutionVersion> {
+  return getLongRunningPoller(context, _unstageSolutionVersionDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _unstageSolutionVersionSend(context, resourceGroupName, targetName, body, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
+}
 
 export function _updateExternalValidationStatusSend(
   context: Client,

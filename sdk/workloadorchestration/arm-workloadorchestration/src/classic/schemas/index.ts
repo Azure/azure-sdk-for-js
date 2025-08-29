@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -91,7 +91,7 @@ export interface SchemasOperations {
   ) => Promise<Schema>;
 }
 
-function _getSchemas(context: EdgeContext) {
+function _getSchemas(context: WorkloadOrchestrationManagementContext) {
   return {
     listBySubscription: (options?: SchemasListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -133,7 +133,9 @@ function _getSchemas(context: EdgeContext) {
   };
 }
 
-export function _getSchemasOperations(context: EdgeContext): SchemasOperations {
+export function _getSchemasOperations(
+  context: WorkloadOrchestrationManagementContext,
+): SchemasOperations {
   return {
     ..._getSchemas(context),
   };

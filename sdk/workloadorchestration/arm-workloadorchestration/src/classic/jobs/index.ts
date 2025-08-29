@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import { listByTarget, get } from "../../api/jobs/operations.js";
 import { JobsListByTargetOptionalParams, JobsGetOptionalParams } from "../../api/jobs/options.js";
 import { Job } from "../../models/models.js";
@@ -18,7 +18,7 @@ export interface JobsOperations {
   get: (resourceUri: string, jobName: string, options?: JobsGetOptionalParams) => Promise<Job>;
 }
 
-function _getJobs(context: EdgeContext) {
+function _getJobs(context: WorkloadOrchestrationManagementContext) {
   return {
     listByTarget: (resourceUri: string, options?: JobsListByTargetOptionalParams) =>
       listByTarget(context, resourceUri, options),
@@ -27,7 +27,9 @@ function _getJobs(context: EdgeContext) {
   };
 }
 
-export function _getJobsOperations(context: EdgeContext): JobsOperations {
+export function _getJobsOperations(
+  context: WorkloadOrchestrationManagementContext,
+): JobsOperations {
   return {
     ..._getJobs(context),
   };

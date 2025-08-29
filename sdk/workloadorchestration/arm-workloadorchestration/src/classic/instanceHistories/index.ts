@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import { listByInstance, get } from "../../api/instanceHistories/operations.js";
 import {
   InstanceHistoriesListByInstanceOptionalParams,
@@ -31,7 +31,7 @@ export interface InstanceHistoriesOperations {
   ) => Promise<InstanceHistory>;
 }
 
-function _getInstanceHistories(context: EdgeContext) {
+function _getInstanceHistories(context: WorkloadOrchestrationManagementContext) {
   return {
     listByInstance: (
       resourceGroupName: string,
@@ -61,7 +61,9 @@ function _getInstanceHistories(context: EdgeContext) {
   };
 }
 
-export function _getInstanceHistoriesOperations(context: EdgeContext): InstanceHistoriesOperations {
+export function _getInstanceHistoriesOperations(
+  context: WorkloadOrchestrationManagementContext,
+): InstanceHistoriesOperations {
   return {
     ..._getInstanceHistories(context),
   };

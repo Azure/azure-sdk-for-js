@@ -10,7 +10,7 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, configTemplateName: string, options?: ConfigTemplatesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, configTemplateName: string, options?: ConfigTemplatesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface ConfigTemplatesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -48,25 +48,25 @@ export interface ConfigTemplatesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, configTemplateName: string, resource: ConfigTemplate, options?: ConfigTemplatesCreateOrUpdateOptionalParams): PollerLike<OperationState<ConfigTemplate>, ConfigTemplate>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, configTemplateName: string, resource: ConfigTemplate, options?: ConfigTemplatesCreateOrUpdateOptionalParams): PollerLike<OperationState<ConfigTemplate>, ConfigTemplate>;
 
 // @public
-export function createVersion(context: EdgeContext, resourceGroupName: string, configTemplateName: string, body: ConfigTemplateVersionWithUpdateType, options?: ConfigTemplatesCreateVersionOptionalParams): PollerLike<OperationState<ConfigTemplateVersion>, ConfigTemplateVersion>;
+export function createVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, configTemplateName: string, body: ConfigTemplateVersionWithUpdateType, options?: ConfigTemplatesCreateVersionOptionalParams): PollerLike<OperationState<ConfigTemplateVersion>, ConfigTemplateVersion>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, configTemplateName: string, options?: ConfigTemplatesGetOptionalParams): Promise<ConfigTemplate>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, configTemplateName: string, options?: ConfigTemplatesGetOptionalParams): Promise<ConfigTemplate>;
 
 // @public
-export function listByResourceGroup(context: EdgeContext, resourceGroupName: string, options?: ConfigTemplatesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ConfigTemplate>;
+export function listByResourceGroup(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, options?: ConfigTemplatesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ConfigTemplate>;
 
 // @public
-export function listBySubscription(context: EdgeContext, options?: ConfigTemplatesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ConfigTemplate>;
+export function listBySubscription(context: WorkloadOrchestrationManagementContext, options?: ConfigTemplatesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ConfigTemplate>;
 
 // @public
-export function removeVersion(context: EdgeContext, resourceGroupName: string, configTemplateName: string, body: VersionParameter, options?: ConfigTemplatesRemoveVersionOptionalParams): Promise<RemoveVersionResponse>;
+export function removeVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, configTemplateName: string, body: VersionParameter, options?: ConfigTemplatesRemoveVersionOptionalParams): Promise<RemoveVersionResponse>;
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, configTemplateName: string, properties: ConfigTemplateUpdate, options?: ConfigTemplatesUpdateOptionalParams): Promise<ConfigTemplate>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, configTemplateName: string, properties: ConfigTemplateUpdate, options?: ConfigTemplatesUpdateOptionalParams): Promise<ConfigTemplate>;
 
 // (No @packageDocumentation comment for this package)
 

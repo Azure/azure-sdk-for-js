@@ -10,13 +10,13 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, options?: InstancesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, options?: InstancesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, resource: Instance, options?: InstancesCreateOrUpdateOptionalParams): PollerLike<OperationState<Instance>, Instance>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, resource: Instance, options?: InstancesCreateOrUpdateOptionalParams): PollerLike<OperationState<Instance>, Instance>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, options?: InstancesGetOptionalParams): Promise<Instance>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, options?: InstancesGetOptionalParams): Promise<Instance>;
 
 // @public
 export interface InstancesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -42,10 +42,10 @@ export interface InstancesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function listBySolution(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, options?: InstancesListBySolutionOptionalParams): PagedAsyncIterableIterator<Instance>;
+export function listBySolution(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, options?: InstancesListBySolutionOptionalParams): PagedAsyncIterableIterator<Instance>;
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, properties: Instance, options?: InstancesUpdateOptionalParams): PollerLike<OperationState<Instance>, Instance>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, properties: Instance, options?: InstancesUpdateOptionalParams): PollerLike<OperationState<Instance>, Instance>;
 
 // (No @packageDocumentation comment for this package)
 

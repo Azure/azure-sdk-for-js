@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, instanceHistoryName: string, options?: InstanceHistoriesGetOptionalParams): Promise<InstanceHistory>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, instanceHistoryName: string, options?: InstanceHistoriesGetOptionalParams): Promise<InstanceHistory>;
 
 // @public
 export interface InstanceHistoriesGetOptionalParams extends OperationOptions {
@@ -19,7 +19,7 @@ export interface InstanceHistoriesListByInstanceOptionalParams extends Operation
 }
 
 // @public
-export function listByInstance(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, options?: InstanceHistoriesListByInstanceOptionalParams): PagedAsyncIterableIterator<InstanceHistory>;
+export function listByInstance(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, instanceName: string, options?: InstanceHistoriesListByInstanceOptionalParams): PagedAsyncIterableIterator<InstanceHistory>;
 
 // (No @packageDocumentation comment for this package)
 

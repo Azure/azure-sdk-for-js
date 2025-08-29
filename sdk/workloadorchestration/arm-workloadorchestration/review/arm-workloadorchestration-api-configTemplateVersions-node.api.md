@@ -16,10 +16,10 @@ export interface ConfigTemplateVersionsListByConfigTemplateOptionalParams extend
 }
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, configTemplateName: string, configTemplateVersionName: string, options?: ConfigTemplateVersionsGetOptionalParams): Promise<ConfigTemplateVersion>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, configTemplateName: string, configTemplateVersionName: string, options?: ConfigTemplateVersionsGetOptionalParams): Promise<ConfigTemplateVersion>;
 
 // @public
-export function listByConfigTemplate(context: EdgeContext, resourceGroupName: string, configTemplateName: string, options?: ConfigTemplateVersionsListByConfigTemplateOptionalParams): PagedAsyncIterableIterator<ConfigTemplateVersion>;
+export function listByConfigTemplate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, configTemplateName: string, options?: ConfigTemplateVersionsListByConfigTemplateOptionalParams): PagedAsyncIterableIterator<ConfigTemplateVersion>;
 
 // (No @packageDocumentation comment for this package)
 

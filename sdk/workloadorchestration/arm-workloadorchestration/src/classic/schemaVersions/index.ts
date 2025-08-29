@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySchema,
   $delete,
@@ -65,7 +65,7 @@ export interface SchemaVersionsOperations {
   ) => Promise<SchemaVersion>;
 }
 
-function _getSchemaVersions(context: EdgeContext) {
+function _getSchemaVersions(context: WorkloadOrchestrationManagementContext) {
   return {
     listBySchema: (
       resourceGroupName: string,
@@ -102,7 +102,9 @@ function _getSchemaVersions(context: EdgeContext) {
   };
 }
 
-export function _getSchemaVersionsOperations(context: EdgeContext): SchemaVersionsOperations {
+export function _getSchemaVersionsOperations(
+  context: WorkloadOrchestrationManagementContext,
+): SchemaVersionsOperations {
   return {
     ..._getSchemaVersions(context),
   };

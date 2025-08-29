@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import { listByResourceGroup, get } from "../../api/schemaReferences/operations.js";
 import {
   SchemaReferencesListByResourceGroupOptionalParams,
@@ -25,7 +25,7 @@ export interface SchemaReferencesOperations {
   ) => Promise<SchemaReference>;
 }
 
-function _getSchemaReferences(context: EdgeContext) {
+function _getSchemaReferences(context: WorkloadOrchestrationManagementContext) {
   return {
     listByResourceGroup: (
       resourceUri: string,
@@ -39,7 +39,9 @@ function _getSchemaReferences(context: EdgeContext) {
   };
 }
 
-export function _getSchemaReferencesOperations(context: EdgeContext): SchemaReferencesOperations {
+export function _getSchemaReferencesOperations(
+  context: WorkloadOrchestrationManagementContext,
+): SchemaReferencesOperations {
   return {
     ..._getSchemaReferences(context),
   };

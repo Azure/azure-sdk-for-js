@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext as Client } from "../index.js";
+import { WorkloadOrchestrationManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
   SchemaReference,

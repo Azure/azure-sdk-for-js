@@ -34,6 +34,8 @@ export function dynamicSchemaDeserializer(item: any): DynamicSchema {
 
 /** DynamicSchema Properties */
 export interface DynamicSchemaProperties {
+  /** Display name of the dynamic schema */
+  readonly displayName?: string;
   /** Type of configuration */
   readonly configurationType?: ConfigurationType;
   /** Type of configuration model */
@@ -48,6 +50,7 @@ export function dynamicSchemaPropertiesSerializer(item: DynamicSchemaProperties)
 
 export function dynamicSchemaPropertiesDeserializer(item: any): DynamicSchemaProperties {
   return {
+    displayName: item["displayName"],
     configurationType: item["configurationType"],
     configurationModel: item["configurationModel"],
     provisioningState: item["provisioningState"],
@@ -646,6 +649,10 @@ export interface SolutionVersionProperties {
   readonly externalValidationId?: string;
   /** State of solution instance */
   readonly state?: State;
+  /** Current Stage of revision */
+  readonly currentStage?: StageMap;
+  /** Stages of revision */
+  readonly stages?: StageMap[];
   /** Solution instance name */
   readonly solutionInstanceName?: string;
   /** Solution Dependency Context */
@@ -654,6 +661,8 @@ export interface SolutionVersionProperties {
   readonly errorDetails?: ErrorDetail;
   /** The URI for tracking the latest action performed on this solution version. */
   readonly latestActionTrackingUri?: string;
+  /** Object Id of user who triggered the latest action on this solution version. */
+  readonly lastestActionTriggeredBy?: string;
   /** The type of the latest action performed on this solution version. */
   readonly actionType?: JobType;
   /** Provisioning state of resource */
@@ -675,6 +684,10 @@ export function solutionVersionPropertiesDeserializer(item: any): SolutionVersio
     reviewId: item["reviewId"],
     externalValidationId: item["externalValidationId"],
     state: item["state"],
+    currentStage: !item["currentStage"]
+      ? item["currentStage"]
+      : stageMapDeserializer(item["currentStage"]),
+    stages: !item["stages"] ? item["stages"] : stageMapArrayDeserializer(item["stages"]),
     solutionInstanceName: item["solutionInstanceName"],
     solutionDependencies: !item["solutionDependencies"]
       ? item["solutionDependencies"]
@@ -683,6 +696,7 @@ export function solutionVersionPropertiesDeserializer(item: any): SolutionVersio
       ? item["errorDetails"]
       : errorDetailDeserializer(item["errorDetails"]),
     latestActionTrackingUri: item["latestActionTrackingUri"],
+    lastestActionTriggeredBy: item["lastestActionTriggeredBy"],
     actionType: item["actionType"],
     provisioningState: item["provisioningState"],
   };
@@ -712,6 +726,8 @@ export enum KnownState {
   ExternalValidationFailed = "ExternalValidationFailed",
   /** Solution Instance is staging the images */
   Staging = "Staging",
+  /** State is not applicable */
+  NotApplicable = "NotApplicable",
 }
 
 /**
@@ -729,9 +745,105 @@ export enum KnownState {
  * **Undeployed**: Solution Instance is undeployed \
  * **PendingExternalValidation**: Solution Instance is pending external validation \
  * **ExternalValidationFailed**: Solution Instance failed external validation \
- * **Staging**: Solution Instance is staging the images
+ * **Staging**: Solution Instance is staging the images \
+ * **NotApplicable**: State is not applicable
  */
 export type State = string;
+
+/** Stage Map for Solution Version */
+export interface StageMap {
+  /** Display State */
+  readonly displayState: string;
+  /** Stage name */
+  readonly stage: CMStages;
+  /** Stage status */
+  readonly status: StateCategory;
+  /** Stage start time */
+  readonly startTime?: Date;
+  /** Stage end time */
+  readonly endTime?: Date;
+  /** Child stages which represents more granular level stage status if any */
+  readonly childStages?: StageMap[];
+}
+
+export function stageMapDeserializer(item: any): StageMap {
+  return {
+    displayState: item["displayState"],
+    stage: item["stage"],
+    status: item["status"],
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    childStages: !item["childStages"]
+      ? item["childStages"]
+      : stageMapArrayDeserializer(item["childStages"]),
+  };
+}
+
+/** Stages for Solution Version */
+export enum KnownCMStages {
+  /** Configuration stage */
+  Configuration = "Configuration",
+  /** Publish stage */
+  Publish = "Publish",
+  /** Deployment stage */
+  Deployment = "Deployment",
+  /** Uninstallation stage */
+  Uninstallation = "Uninstallation",
+  /** External Validation stage */
+  ExternalValidation = "ExternalValidation",
+  /** Staging stage */
+  Staging = "Staging",
+  /** Unstaging stage */
+  Unstaging = "Unstaging",
+}
+
+/**
+ * Stages for Solution Version \
+ * {@link KnownCMStages} can be used interchangeably with CMStages,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Configuration**: Configuration stage \
+ * **Publish**: Publish stage \
+ * **Deployment**: Deployment stage \
+ * **Uninstallation**: Uninstallation stage \
+ * **ExternalValidation**: External Validation stage \
+ * **Staging**: Staging stage \
+ * **Unstaging**: Unstaging stage
+ */
+export type CMStages = string;
+
+/** State Category for Solution Version */
+export enum KnownStateCategory {
+  /** Pending state [Non-Terminal] */
+  Pending = "Pending",
+  /** InProgress state [Non-Terminal] */
+  InProgress = "InProgress",
+  /** Completed state [Terminal] */
+  Completed = "Completed",
+  /** Failed state [Terminal] */
+  Failed = "Failed",
+  /** None state [Terminal] */
+  None = "None",
+}
+
+/**
+ * State Category for Solution Version \
+ * {@link KnownStateCategory} can be used interchangeably with StateCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending**: Pending state [Non-Terminal] \
+ * **InProgress**: InProgress state [Non-Terminal] \
+ * **Completed**: Completed state [Terminal] \
+ * **Failed**: Failed state [Terminal] \
+ * **None**: None state [Terminal]
+ */
+export type StateCategory = string;
+
+export function stageMapArrayDeserializer(result: Array<StageMap>): any[] {
+  return result.map((item) => {
+    return stageMapDeserializer(item);
+  });
+}
 
 export function solutionDependencyArrayDeserializer(result: Array<SolutionDependency>): any[] {
   return result.map((item) => {
@@ -1715,6 +1827,8 @@ export function solutionDeserializer(item: any): Solution {
 export interface SolutionProperties {
   /** Solution template Id */
   readonly solutionTemplateId?: string;
+  /** Display name of the solution */
+  readonly displayName?: string;
   /** List of latest revisions for available solution template versions */
   readonly availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
   /** Provisioning state of resource */
@@ -1728,6 +1842,7 @@ export function solutionPropertiesSerializer(item: SolutionProperties): any {
 export function solutionPropertiesDeserializer(item: any): SolutionProperties {
   return {
     solutionTemplateId: item["solutionTemplateId"],
+    displayName: item["displayName"],
     availableSolutionTemplateVersions: !item["availableSolutionTemplateVersions"]
       ? item["availableSolutionTemplateVersions"]
       : availableSolutionTemplateVersionArrayDeserializer(
@@ -1961,6 +2076,8 @@ export interface BulkPublishSolutionParameter {
   solutionInstanceName?: string;
   /** Solution dependencies */
   solutionDependencies?: SolutionDependencyParameter[];
+  /** Configuration of solution */
+  solutionConfiguration?: string;
 }
 
 export function bulkPublishSolutionParameterSerializer(item: BulkPublishSolutionParameter): any {
@@ -1970,6 +2087,7 @@ export function bulkPublishSolutionParameterSerializer(item: BulkPublishSolution
     solutionDependencies: !item["solutionDependencies"]
       ? item["solutionDependencies"]
       : solutionDependencyParameterArraySerializer(item["solutionDependencies"]),
+    solutionConfiguration: item["solutionConfiguration"],
   };
 }
 
@@ -1987,12 +2105,67 @@ export interface BulkPublishTargetDetails {
   targetId: string;
   /** Name of the solution instance */
   solutionInstanceName?: string;
+  /** ArmId of Target Solution Version */
+  solutionVersionId?: string;
+  /** Configuration of solution */
+  solutionConfiguration?: string;
 }
 
 export function bulkPublishTargetDetailsSerializer(item: BulkPublishTargetDetails): any {
   return {
     targetId: item["targetId"],
     solutionInstanceName: item["solutionInstanceName"],
+    solutionVersionId: item["solutionVersionId"],
+    solutionConfiguration: item["solutionConfiguration"],
+  };
+}
+
+/** Bulk publish solution parameter */
+export interface BulkReviewSolutionParameter {
+  /** Targets to which solution needs to be published */
+  targets: BulkReviewTargetDetails[];
+  /** Name of the solution instance */
+  solutionInstanceName?: string;
+  /** Solution dependencies */
+  solutionDependencies?: SolutionDependencyParameter[];
+  /** Configuration of solution */
+  solutionConfiguration?: string;
+}
+
+export function bulkReviewSolutionParameterSerializer(item: BulkReviewSolutionParameter): any {
+  return {
+    targets: bulkReviewTargetDetailsArraySerializer(item["targets"]),
+    solutionInstanceName: item["solutionInstanceName"],
+    solutionDependencies: !item["solutionDependencies"]
+      ? item["solutionDependencies"]
+      : solutionDependencyParameterArraySerializer(item["solutionDependencies"]),
+    solutionConfiguration: item["solutionConfiguration"],
+  };
+}
+
+export function bulkReviewTargetDetailsArraySerializer(
+  result: Array<BulkReviewTargetDetails>,
+): any[] {
+  return result.map((item) => {
+    return bulkReviewTargetDetailsSerializer(item);
+  });
+}
+
+/** Bulk publish target details */
+export interface BulkReviewTargetDetails {
+  /** ArmId of Target */
+  targetId: string;
+  /** Name of the solution instance */
+  solutionInstanceName?: string;
+  /** Configuration of solution */
+  solutionConfiguration?: string;
+}
+
+export function bulkReviewTargetDetailsSerializer(item: BulkReviewTargetDetails): any {
+  return {
+    targetId: item["targetId"],
+    solutionInstanceName: item["solutionInstanceName"],
+    solutionConfiguration: item["solutionConfiguration"],
   };
 }
 
@@ -2033,6 +2206,8 @@ export function solutionTemplateDeserializer(item: any): SolutionTemplate {
 
 /** Solution Template Properties */
 export interface SolutionTemplateProperties {
+  /** A unique identifier for the solution template, generated by the system */
+  readonly uniqueIdentifier?: string;
   /** Description of Solution template */
   description: string;
   /** List of capabilities */
@@ -2060,6 +2235,7 @@ export function solutionTemplatePropertiesSerializer(item: SolutionTemplatePrope
 
 export function solutionTemplatePropertiesDeserializer(item: any): SolutionTemplateProperties {
   return {
+    uniqueIdentifier: item["uniqueIdentifier"],
     description: item["description"],
     capabilities: item["capabilities"].map((p: any) => {
       return p;
@@ -3531,4 +3707,5 @@ export function siteReferenceArrayDeserializer(result: Array<SiteReference>): an
 /** The available API versions. */
 export enum KnownVersions {
   V20250601 = "2025-06-01",
+  V20250801 = "2025-08-01",
 }

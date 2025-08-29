@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeClient } from "@azure/arm-workloadorchestration";
+import { WorkloadOrchestrationManagementClient } from "@azure/arm-workloadorchestration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to create or update Execution Resource
  *
  * @summary create or update Execution Resource
- * x-ms-original-file: 2025-06-01/Executions_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-08-01/Executions_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function executionsCreateOrUpdateMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "EE6D9590-0D52-4B1C-935C-FE49DBF838EB";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   const result = await client.executions.createOrUpdate(
     "rgconfigurationmanager",
     "abcde",

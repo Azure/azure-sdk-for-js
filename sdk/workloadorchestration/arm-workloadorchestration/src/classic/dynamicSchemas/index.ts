@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySchema,
   $delete,
@@ -65,7 +65,7 @@ export interface DynamicSchemasOperations {
   ) => Promise<DynamicSchema>;
 }
 
-function _getDynamicSchemas(context: EdgeContext) {
+function _getDynamicSchemas(context: WorkloadOrchestrationManagementContext) {
   return {
     listBySchema: (
       resourceGroupName: string,
@@ -102,7 +102,9 @@ function _getDynamicSchemas(context: EdgeContext) {
   };
 }
 
-export function _getDynamicSchemasOperations(context: EdgeContext): DynamicSchemasOperations {
+export function _getDynamicSchemasOperations(
+  context: WorkloadOrchestrationManagementContext,
+): DynamicSchemasOperations {
   return {
     ..._getDynamicSchemas(context),
   };

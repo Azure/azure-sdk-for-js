@@ -8,7 +8,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { EdgeClient } from "./edgeClient.js";
+export { WorkloadOrchestrationManagementClient } from "./workloadOrchestrationManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   DynamicSchema,
@@ -43,6 +43,11 @@ export {
   SolutionVersionProperties,
   KnownState,
   State,
+  StageMap,
+  KnownCMStages,
+  CMStages,
+  KnownStateCategory,
+  StateCategory,
   SolutionDependency,
   KnownJobType,
   JobType,
@@ -96,6 +101,8 @@ export {
   BulkDeployTargetDetails,
   BulkPublishSolutionParameter,
   BulkPublishTargetDetails,
+  BulkReviewSolutionParameter,
+  BulkReviewTargetDetails,
   SolutionTemplate,
   SolutionTemplateProperties,
   SolutionTemplateUpdate,
@@ -147,7 +154,7 @@ export {
   SiteReferenceProperties,
   KnownVersions,
 } from "./models/index.js";
-export { EdgeClientOptionalParams } from "./api/index.js";
+export { WorkloadOrchestrationManagementClientOptionalParams } from "./api/index.js";
 export {
   ConfigTemplatesListBySubscriptionOptionalParams,
   ConfigTemplatesListByResourceGroupOptionalParams,
@@ -257,6 +264,7 @@ export {
   SolutionTemplatesGetOptionalParams,
 } from "./api/solutionTemplates/index.js";
 export {
+  SolutionTemplateVersionsBulkReviewSolutionOptionalParams,
   SolutionTemplateVersionsBulkPublishSolutionOptionalParams,
   SolutionTemplateVersionsBulkDeploySolutionOptionalParams,
   SolutionTemplateVersionsListBySolutionTemplateOptionalParams,
@@ -270,6 +278,7 @@ export {
   SolutionVersionsGetOptionalParams,
 } from "./api/solutionVersions/index.js";
 export {
+  TargetsUnstageSolutionVersionOptionalParams,
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,

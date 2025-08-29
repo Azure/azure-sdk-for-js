@@ -10,19 +10,19 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, contextName: string, workflowName: string, options?: WorkflowsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, workflowName: string, options?: WorkflowsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, contextName: string, workflowName: string, resource: Workflow, options?: WorkflowsCreateOrUpdateOptionalParams): PollerLike<OperationState<Workflow>, Workflow>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, workflowName: string, resource: Workflow, options?: WorkflowsCreateOrUpdateOptionalParams): PollerLike<OperationState<Workflow>, Workflow>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, contextName: string, workflowName: string, options?: WorkflowsGetOptionalParams): Promise<Workflow>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, workflowName: string, options?: WorkflowsGetOptionalParams): Promise<Workflow>;
 
 // @public
-export function listByContext(context: EdgeContext, resourceGroupName: string, contextName: string, options?: WorkflowsListByContextOptionalParams): PagedAsyncIterableIterator<Workflow>;
+export function listByContext(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, options?: WorkflowsListByContextOptionalParams): PagedAsyncIterableIterator<Workflow>;
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, contextName: string, workflowName: string, properties: Workflow, options?: WorkflowsUpdateOptionalParams): PollerLike<OperationState<Workflow>, Workflow>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, workflowName: string, properties: Workflow, options?: WorkflowsUpdateOptionalParams): PollerLike<OperationState<Workflow>, Workflow>;
 
 // @public
 export interface WorkflowsCreateOrUpdateOptionalParams extends OperationOptions {

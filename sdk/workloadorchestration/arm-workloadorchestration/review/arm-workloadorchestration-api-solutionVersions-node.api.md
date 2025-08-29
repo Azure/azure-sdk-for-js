@@ -10,16 +10,16 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, solutionVersionName: string, options?: SolutionVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, solutionVersionName: string, options?: SolutionVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, solutionVersionName: string, resource: SolutionVersion, options?: SolutionVersionsCreateOrUpdateOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, solutionVersionName: string, resource: SolutionVersion, options?: SolutionVersionsCreateOrUpdateOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, solutionVersionName: string, options?: SolutionVersionsGetOptionalParams): Promise<SolutionVersion>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, solutionVersionName: string, options?: SolutionVersionsGetOptionalParams): Promise<SolutionVersion>;
 
 // @public
-export function listBySolution(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, options?: SolutionVersionsListBySolutionOptionalParams): PagedAsyncIterableIterator<SolutionVersion>;
+export function listBySolution(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, options?: SolutionVersionsListBySolutionOptionalParams): PagedAsyncIterableIterator<SolutionVersion>;
 
 // @public
 export interface SolutionVersionsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -45,7 +45,7 @@ export interface SolutionVersionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, targetName: string, solutionName: string, solutionVersionName: string, properties: SolutionVersion, options?: SolutionVersionsUpdateOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, solutionName: string, solutionVersionName: string, properties: SolutionVersion, options?: SolutionVersionsUpdateOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 
 // (No @packageDocumentation comment for this package)
 

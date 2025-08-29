@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listByWorkflow,
   $delete,
@@ -70,7 +70,7 @@ export interface WorkflowVersionsOperations {
   ) => Promise<WorkflowVersion>;
 }
 
-function _getWorkflowVersions(context: EdgeContext) {
+function _getWorkflowVersions(context: WorkloadOrchestrationManagementContext) {
   return {
     listByWorkflow: (
       resourceGroupName: string,
@@ -129,7 +129,9 @@ function _getWorkflowVersions(context: EdgeContext) {
   };
 }
 
-export function _getWorkflowVersionsOperations(context: EdgeContext): WorkflowVersionsOperations {
+export function _getWorkflowVersionsOperations(
+  context: WorkloadOrchestrationManagementContext,
+): WorkflowVersionsOperations {
   return {
     ..._getWorkflowVersions(context),
   };

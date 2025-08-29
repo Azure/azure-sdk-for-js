@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext as Client } from "../index.js";
+import { WorkloadOrchestrationManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
   SolutionTemplateVersion,
@@ -12,6 +12,8 @@ import {
   bulkDeploySolutionParameterSerializer,
   BulkPublishSolutionParameter,
   bulkPublishSolutionParameterSerializer,
+  BulkReviewSolutionParameter,
+  bulkReviewSolutionParameterSerializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -20,6 +22,7 @@ import {
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
+  SolutionTemplateVersionsBulkReviewSolutionOptionalParams,
   SolutionTemplateVersionsBulkPublishSolutionOptionalParams,
   SolutionTemplateVersionsBulkDeploySolutionOptionalParams,
   SolutionTemplateVersionsListBySolutionTemplateOptionalParams,
@@ -32,6 +35,74 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _bulkReviewSolutionSend(
+  context: Client,
+  resourceGroupName: string,
+  solutionTemplateName: string,
+  solutionTemplateVersionName: string,
+  body: BulkReviewSolutionParameter,
+  options: SolutionTemplateVersionsBulkReviewSolutionOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkReviewSolution{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      solutionTemplateName: solutionTemplateName,
+      solutionTemplateVersionName: solutionTemplateVersionName,
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    body: bulkReviewSolutionParameterSerializer(body),
+  });
+}
+
+export async function _bulkReviewSolutionDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = errorResponseDeserializer(result.body);
+    throw error;
+  }
+
+  return;
+}
+
+/** Post request for bulk review */
+export function bulkReviewSolution(
+  context: Client,
+  resourceGroupName: string,
+  solutionTemplateName: string,
+  solutionTemplateVersionName: string,
+  body: BulkReviewSolutionParameter,
+  options: SolutionTemplateVersionsBulkReviewSolutionOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _bulkReviewSolutionDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _bulkReviewSolutionSend(
+        context,
+        resourceGroupName,
+        solutionTemplateName,
+        solutionTemplateVersionName,
+        body,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
+}
 
 export function _bulkPublishSolutionSend(
   context: Client,

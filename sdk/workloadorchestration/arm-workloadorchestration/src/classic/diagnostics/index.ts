@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -66,7 +66,7 @@ export interface DiagnosticsOperations {
   ) => Promise<Diagnostic>;
 }
 
-function _getDiagnostics(context: EdgeContext) {
+function _getDiagnostics(context: WorkloadOrchestrationManagementContext) {
   return {
     listBySubscription: (options?: DiagnosticsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -99,7 +99,9 @@ function _getDiagnostics(context: EdgeContext) {
   };
 }
 
-export function _getDiagnosticsOperations(context: EdgeContext): DiagnosticsOperations {
+export function _getDiagnosticsOperations(
+  context: WorkloadOrchestrationManagementContext,
+): DiagnosticsOperations {
   return {
     ..._getDiagnostics(context),
   };

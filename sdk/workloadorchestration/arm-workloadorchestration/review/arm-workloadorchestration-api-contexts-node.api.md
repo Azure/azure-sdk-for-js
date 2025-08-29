@@ -10,7 +10,7 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, contextName: string, options?: ContextsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, options?: ContextsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface ContextsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -40,19 +40,19 @@ export interface ContextsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, contextName: string, resource: Context, options?: ContextsCreateOrUpdateOptionalParams): PollerLike<OperationState<Context>, Context>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, resource: Context, options?: ContextsCreateOrUpdateOptionalParams): PollerLike<OperationState<Context>, Context>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, contextName: string, options?: ContextsGetOptionalParams): Promise<Context>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, options?: ContextsGetOptionalParams): Promise<Context>;
 
 // @public
-export function listByResourceGroup(context: EdgeContext, resourceGroupName: string, options?: ContextsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Context>;
+export function listByResourceGroup(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, options?: ContextsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Context>;
 
 // @public
-export function listBySubscription(context: EdgeContext, options?: ContextsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Context>;
+export function listBySubscription(context: WorkloadOrchestrationManagementContext, options?: ContextsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Context>;
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, contextName: string, properties: ContextUpdate, options?: ContextsUpdateOptionalParams): PollerLike<OperationState<Context>, Context>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, properties: ContextUpdate, options?: ContextsUpdateOptionalParams): PollerLike<OperationState<Context>, Context>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -10,25 +10,25 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, solutionTemplateName: string, options?: SolutionTemplatesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, options?: SolutionTemplatesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, solutionTemplateName: string, resource: SolutionTemplate, options?: SolutionTemplatesCreateOrUpdateOptionalParams): PollerLike<OperationState<SolutionTemplate>, SolutionTemplate>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, resource: SolutionTemplate, options?: SolutionTemplatesCreateOrUpdateOptionalParams): PollerLike<OperationState<SolutionTemplate>, SolutionTemplate>;
 
 // @public
-export function createVersion(context: EdgeContext, resourceGroupName: string, solutionTemplateName: string, body: SolutionTemplateVersionWithUpdateType, options?: SolutionTemplatesCreateVersionOptionalParams): PollerLike<OperationState<SolutionTemplateVersion>, SolutionTemplateVersion>;
+export function createVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, body: SolutionTemplateVersionWithUpdateType, options?: SolutionTemplatesCreateVersionOptionalParams): PollerLike<OperationState<SolutionTemplateVersion>, SolutionTemplateVersion>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, solutionTemplateName: string, options?: SolutionTemplatesGetOptionalParams): Promise<SolutionTemplate>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, options?: SolutionTemplatesGetOptionalParams): Promise<SolutionTemplate>;
 
 // @public
-export function listByResourceGroup(context: EdgeContext, resourceGroupName: string, options?: SolutionTemplatesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SolutionTemplate>;
+export function listByResourceGroup(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, options?: SolutionTemplatesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SolutionTemplate>;
 
 // @public
-export function listBySubscription(context: EdgeContext, options?: SolutionTemplatesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SolutionTemplate>;
+export function listBySubscription(context: WorkloadOrchestrationManagementContext, options?: SolutionTemplatesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SolutionTemplate>;
 
 // @public
-export function removeVersion(context: EdgeContext, resourceGroupName: string, solutionTemplateName: string, body: VersionParameter, options?: SolutionTemplatesRemoveVersionOptionalParams): PollerLike<OperationState<void>, void>;
+export function removeVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, body: VersionParameter, options?: SolutionTemplatesRemoveVersionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
 export interface SolutionTemplatesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -67,7 +67,7 @@ export interface SolutionTemplatesUpdateOptionalParams extends OperationOptions 
 }
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, solutionTemplateName: string, properties: SolutionTemplateUpdate, options?: SolutionTemplatesUpdateOptionalParams): Promise<SolutionTemplate>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, properties: SolutionTemplateUpdate, options?: SolutionTemplatesUpdateOptionalParams): Promise<SolutionTemplate>;
 
 // (No @packageDocumentation comment for this package)
 

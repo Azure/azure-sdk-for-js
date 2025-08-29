@@ -9,16 +9,16 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createEdge(credential: TokenCredential, subscriptionId: string, options?: EdgeClientOptionalParams): EdgeContext;
+export function createWorkloadOrchestrationManagement(credential: TokenCredential, subscriptionId: string, options?: WorkloadOrchestrationManagementClientOptionalParams): WorkloadOrchestrationManagementContext;
 
 // @public
-export interface EdgeClientOptionalParams extends ClientOptions {
+export interface WorkloadOrchestrationManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface EdgeContext extends Client {
+export interface WorkloadOrchestrationManagementContext extends Client {
     apiVersion: string;
     subscriptionId: string;
 }

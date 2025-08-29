@@ -10,34 +10,34 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, targetName: string, options?: TargetsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, options?: TargetsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, targetName: string, resource: Target, options?: TargetsCreateOrUpdateOptionalParams): PollerLike<OperationState<Target>, Target>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, resource: Target, options?: TargetsCreateOrUpdateOptionalParams): PollerLike<OperationState<Target>, Target>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, targetName: string, options?: TargetsGetOptionalParams): Promise<Target>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, options?: TargetsGetOptionalParams): Promise<Target>;
 
 // @public
-export function installSolution(context: EdgeContext, resourceGroupName: string, targetName: string, body: InstallSolutionParameter, options?: TargetsInstallSolutionOptionalParams): PollerLike<OperationState<void>, void>;
+export function installSolution(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, body: InstallSolutionParameter, options?: TargetsInstallSolutionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function listByResourceGroup(context: EdgeContext, resourceGroupName: string, options?: TargetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Target>;
+export function listByResourceGroup(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, options?: TargetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Target>;
 
 // @public
-export function listBySubscription(context: EdgeContext, options?: TargetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Target>;
+export function listBySubscription(context: WorkloadOrchestrationManagementContext, options?: TargetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Target>;
 
 // @public
-export function publishSolutionVersion(context: EdgeContext, resourceGroupName: string, targetName: string, body: SolutionVersionParameter, options?: TargetsPublishSolutionVersionOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
+export function publishSolutionVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, body: SolutionVersionParameter, options?: TargetsPublishSolutionVersionOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 
 // @public
-export function removeRevision(context: EdgeContext, resourceGroupName: string, targetName: string, body: RemoveRevisionParameter, options?: TargetsRemoveRevisionOptionalParams): PollerLike<OperationState<void>, void>;
+export function removeRevision(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, body: RemoveRevisionParameter, options?: TargetsRemoveRevisionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function resolveConfiguration(context: EdgeContext, resourceGroupName: string, targetName: string, body: SolutionTemplateParameter, options?: TargetsResolveConfigurationOptionalParams): PollerLike<OperationState<ResolvedConfiguration>, ResolvedConfiguration>;
+export function resolveConfiguration(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, body: SolutionTemplateParameter, options?: TargetsResolveConfigurationOptionalParams): PollerLike<OperationState<ResolvedConfiguration>, ResolvedConfiguration>;
 
 // @public
-export function reviewSolutionVersion(context: EdgeContext, resourceGroupName: string, targetName: string, body: SolutionTemplateParameter, options?: TargetsReviewSolutionVersionOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
+export function reviewSolutionVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, body: SolutionTemplateParameter, options?: TargetsReviewSolutionVersionOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 
 // @public
 export interface TargetsCreateOrUpdateOptionalParams extends OperationOptions {
@@ -93,6 +93,11 @@ export interface TargetsUninstallSolutionOptionalParams extends OperationOptions
 }
 
 // @public
+export interface TargetsUnstageSolutionVersionOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface TargetsUpdateExternalValidationStatusOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -103,13 +108,16 @@ export interface TargetsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function uninstallSolution(context: EdgeContext, resourceGroupName: string, targetName: string, body: UninstallSolutionParameter, options?: TargetsUninstallSolutionOptionalParams): PollerLike<OperationState<void>, void>;
+export function uninstallSolution(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, body: UninstallSolutionParameter, options?: TargetsUninstallSolutionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, targetName: string, properties: TargetUpdate, options?: TargetsUpdateOptionalParams): PollerLike<OperationState<Target>, Target>;
+export function unstageSolutionVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, body: SolutionVersionParameter, options?: TargetsUnstageSolutionVersionOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 
 // @public
-export function updateExternalValidationStatus(context: EdgeContext, resourceGroupName: string, targetName: string, body: UpdateExternalValidationStatusParameter, options?: TargetsUpdateExternalValidationStatusOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, properties: TargetUpdate, options?: TargetsUpdateOptionalParams): PollerLike<OperationState<Target>, Target>;
+
+// @public
+export function updateExternalValidationStatus(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, body: UpdateExternalValidationStatusParameter, options?: TargetsUpdateExternalValidationStatusOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -10,16 +10,16 @@ import { OperationState } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: EdgeContext, resourceGroupName: string, contextName: string, siteReferenceName: string, options?: SiteReferencesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, siteReferenceName: string, options?: SiteReferencesDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function createOrUpdate(context: EdgeContext, resourceGroupName: string, contextName: string, siteReferenceName: string, resource: SiteReference, options?: SiteReferencesCreateOrUpdateOptionalParams): PollerLike<OperationState<SiteReference>, SiteReference>;
+export function createOrUpdate(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, siteReferenceName: string, resource: SiteReference, options?: SiteReferencesCreateOrUpdateOptionalParams): PollerLike<OperationState<SiteReference>, SiteReference>;
 
 // @public
-export function get(context: EdgeContext, resourceGroupName: string, contextName: string, siteReferenceName: string, options?: SiteReferencesGetOptionalParams): Promise<SiteReference>;
+export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, siteReferenceName: string, options?: SiteReferencesGetOptionalParams): Promise<SiteReference>;
 
 // @public
-export function listByContext(context: EdgeContext, resourceGroupName: string, contextName: string, options?: SiteReferencesListByContextOptionalParams): PagedAsyncIterableIterator<SiteReference>;
+export function listByContext(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, options?: SiteReferencesListByContextOptionalParams): PagedAsyncIterableIterator<SiteReference>;
 
 // @public
 export interface SiteReferencesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -45,7 +45,7 @@ export interface SiteReferencesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function update(context: EdgeContext, resourceGroupName: string, contextName: string, siteReferenceName: string, properties: SiteReference, options?: SiteReferencesUpdateOptionalParams): PollerLike<OperationState<SiteReference>, SiteReference>;
+export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, contextName: string, siteReferenceName: string, properties: SiteReference, options?: SiteReferencesUpdateOptionalParams): PollerLike<OperationState<SiteReference>, SiteReference>;
 
 // (No @packageDocumentation comment for this package)
 

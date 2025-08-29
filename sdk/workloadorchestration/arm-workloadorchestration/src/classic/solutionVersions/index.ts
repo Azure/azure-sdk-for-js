@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EdgeContext } from "../../api/edgeContext.js";
+import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
   listBySolution,
   $delete,
@@ -70,7 +70,7 @@ export interface SolutionVersionsOperations {
   ) => Promise<SolutionVersion>;
 }
 
-function _getSolutionVersions(context: EdgeContext) {
+function _getSolutionVersions(context: WorkloadOrchestrationManagementContext) {
   return {
     listBySolution: (
       resourceGroupName: string,
@@ -130,7 +130,9 @@ function _getSolutionVersions(context: EdgeContext) {
   };
 }
 
-export function _getSolutionVersionsOperations(context: EdgeContext): SolutionVersionsOperations {
+export function _getSolutionVersionsOperations(
+  context: WorkloadOrchestrationManagementContext,
+): SolutionVersionsOperations {
   return {
     ..._getSolutionVersions(context),
   };
