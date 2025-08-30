@@ -8,6 +8,7 @@ import type { TranscriptionResultState } from "../generated/src/index.js";
  * Audio streaming data.
  */
 export interface AudioData {
+  kind: 'AudioData',
   /** A unique identifier for the media subscription.*/
   data: string;
   /** The timestamp indicating when the media content was received by the bot,
@@ -24,6 +25,7 @@ export interface AudioData {
  * Audio streaming metadata.
  */
 export interface AudioMetadata {
+  kind: 'AudioMetadata',
   /** Audio streaming subscription id.*/
   subscriptionId: string;
   /** The format used to encode the audio. Currently, only "pcm" (Pulse Code Modulation) is supported.*/
@@ -59,6 +61,7 @@ export interface WordData {
  * Metadata for Transcription Streaming.
  */
 export interface TranscriptionMetadata {
+  kind: 'TranscriptionMetadata',
   /** Transcription Subscription Id.*/
   subscriptionId: string;
   /** The target locale in which the translated text needs to be.*/
@@ -75,6 +78,7 @@ export interface TranscriptionMetadata {
  * Streaming Transcription.
  */
 export interface TranscriptionData {
+  kind: 'TranscriptionData',
   /** The display form of the recognized word.*/
   text: string;
   /** The format of text.*/
@@ -97,6 +101,7 @@ export interface TranscriptionData {
  * Dtmf streaming data.
  */
 export interface DtmfData {
+  kind: 'DtmfData',
   /** A unique identifier for the media subscription.*/
   data: string;
 }
