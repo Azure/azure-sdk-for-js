@@ -11,6 +11,7 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export interface AtlasClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public (undocumented)
