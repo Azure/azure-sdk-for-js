@@ -6,7 +6,9 @@ import type {
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
+  SendToStreamMessage,
   ServerDataMessage,
+  StreamAckMessage,
   WebPubSubDataType,
   WebPubSubMessage,
 } from "../models/messages.js";
@@ -59,6 +61,8 @@ export function parseMessages(input: string): WebPubSubMessage | null {
     }
   } else if (typedMessage.type === "ack") {
     returnMessage = { ...parsedMessage, kind: "ack" } as AckMessage;
+  } else if (typedMessage.type === "streamAck") {
+    returnMessage = { ...parsedMessage, kind: "streamAck" } as StreamAckMessage;
   } else {
     // Forward compatible
     return null;
@@ -98,6 +102,19 @@ export function writeMessage(message: WebPubSubMessage): string {
       } as SendToGroupData;
       break;
     }
+    case "sendToStream": {
+      const streamMessage = message as SendToStreamMessage;
+      data = {
+        type: "sendToGroup",
+        group: streamMessage.group,
+        streamId: streamMessage.streamId,
+        streamSequenceId: streamMessage.streamSequenceId,
+        endOfStream: streamMessage.endOfStream,
+        dataType: streamMessage.dataType,
+        data: getPayload(streamMessage.data, streamMessage.dataType),
+      } as SendToStreamData;
+      break;
+    }
     case "sequenceAck": {
       data = { type: "sequenceAck", sequenceId: message.sequenceId } as SequenceAckData;
       break;
@@ -129,6 +146,16 @@ interface SendToGroupData {
   dataType: WebPubSubDataType;
   data: any;
   noEcho: boolean;
+}
+
+interface SendToStreamData {
+  readonly type: "sendToGroup";
+  group: string;
+  streamId: string;
+  streamSequenceId: number;
+  endOfStream: boolean;
+  dataType: WebPubSubDataType;
+  data: any;
 }
 
 interface SendEventData {
