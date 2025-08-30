@@ -76,4 +76,9 @@ export interface SharedOptions {
    * to serve the request if regular provisioned RUs/second is exhausted.
    */
   disableRUPerMinuteUsage?: boolean;
+
+  /**
+   * Excludes one or more Azure regions for the operation.
+   */
+  excludedLocations?: string[];
 }

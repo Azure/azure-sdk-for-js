@@ -19,4 +19,6 @@ export interface InternalChangeFeedIteratorOptions {
   changeFeedMode?: ChangeFeedMode;
 
   startFromNow?: boolean;
+
+  excludedLocations?: string[];
 }
