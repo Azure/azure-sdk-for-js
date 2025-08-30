@@ -3,6 +3,7 @@
 
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage, SenderResult } from "../../types.js";
+import { ExceptionType } from "../../export/statsbeat/types.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
@@ -247,6 +248,7 @@ export abstract class BaseSender {
               envelopes,
               DropCode.CLIENT_EXCEPTION,
               redirectError.message,
+              ExceptionType.CLIENT_EXCEPTION,
             );
           }
           return { code: ExportResultCode.FAILED, error: redirectError };
@@ -283,6 +285,7 @@ export abstract class BaseSender {
             envelopes,
             RetryCode.CLIENT_TIMEOUT,
             "timeout_exception",
+            ExceptionType.TIMEOUT_EXCEPTION,
           );
           diag.error("Request timed out. Error message:", restError.message);
         } else if (restError.statusCode) {

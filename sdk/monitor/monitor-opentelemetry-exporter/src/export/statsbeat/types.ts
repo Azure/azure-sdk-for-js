@@ -187,11 +187,8 @@ export enum TelemetryType {
 
 export enum DropCode {
   CLIENT_EXCEPTION = "CLIENT_EXCEPTION",
-  CLIENT_EXPIRED_DATA = "CLIENT_EXPIRED_DATA",
   CLIENT_READONLY = "CLIENT_READONLY",
-  CLIENT_STALE_DATA = "CLIENT_STALE_DATA",
   CLIENT_PERSISTENCE_CAPACITY = "CLIENT_PERSISTENCE_CAPACITY",
-  NON_RETRYABLE_STATUS_CODE = "NON_RETRYABLE_STATUS_CODE",
   CLIENT_STORAGE_DISABLED = "CLIENT_STORAGE_DISABLED",
   UNKNOWN = "UNKNOWN",
 }
@@ -199,7 +196,6 @@ export enum DropCode {
 export enum RetryCode {
   CLIENT_EXCEPTION = "CLIENT_EXCEPTION",
   CLIENT_TIMEOUT = "CLIENT_TIMEOUT",
-  RETRYABLE_STATUS_CODE = "RETRYABLE_STATUS_CODE",
   UNKNOWN = "UNKNOWN",
 }
 
@@ -230,6 +226,26 @@ export interface VirtualMachineInfo {
 export enum StatsbeatFeatureType {
   FEATURE = 0,
   INSTRUMENTATION = 1,
+}
+
+/**
+ * Exception types for client exceptions
+ * @internal
+ */
+export enum ExceptionType {
+  CLIENT_EXCEPTION = "Client exception",
+  NETWORK_EXCEPTION = "Network exception",
+  STORAGE_EXCEPTION = "Storage exception",
+  TIMEOUT_EXCEPTION = "Timeout exception",
+}
+
+/**
+ * Reasons for dropping telemetry
+ */
+export enum DropReason {
+  CLIENT_READONLY = "Client readonly",
+  CLIENT_PERSISTENCE_CAPACITY = "Client persistence capacity",
+  UNKNOWN = "Unknown",
 }
 
 /**

@@ -9,7 +9,7 @@ import type { AzureMonitorExporterOptions } from "../../index.js";
 import * as ai from "../../utils/constants/applicationinsights.js";
 import { StatsbeatMetrics } from "./statsbeatMetrics.js";
 import type { CustomerSDKStatsProperties, StatsbeatOptions } from "./types.js";
-import { CustomerSDKStats, DropCode, RetryCode } from "./types.js";
+import { CustomerSDKStats, DropCode, RetryCode, ExceptionType, DropReason } from "./types.js";
 import { CustomSDKStatsCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./types.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
@@ -282,11 +282,13 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * @param envelopes - Array of envelopes dropped
    * @param dropCode - The drop code indicating the reason for drop
    * @param exceptionMessage - Optional exception message when dropCode is CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override when dropCode is CLIENT_EXCEPTION
    */
   public countDroppedItems(
     envelopes: Envelope[],
     dropCode: DropCode | number,
     exceptionMessage?: string,
+    exceptionType?: ExceptionType,
   ): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
@@ -308,7 +310,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       }
 
       // Generate a low-cardinality, informative reason description
-      const reason = this.getDropReason(dropCode, exceptionMessage);
+      const reason = this.getDropReason(dropCode, exceptionMessage, exceptionType);
 
       // Get or create the success map for this reason
       let successMap = reasonMap.get(reason);
@@ -335,15 +337,24 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Generates a low-cardinality, informative description for drop reasons
    * @param dropCode - The drop code (enum value or status code number)
    * @param exceptionMessage - Optional exception message for CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override for CLIENT_EXCEPTION
    * @returns A descriptive reason string with low cardinality
    */
-  private getDropReason(dropCode: DropCode | number, exceptionMessage?: string): string {
+  private getDropReason(
+    dropCode: DropCode | number,
+    exceptionMessage?: string,
+    exceptionType?: ExceptionType,
+  ): string {
     if (dropCode === DropCode.CLIENT_EXCEPTION) {
-      // For client exceptions, derive a low-cardinality reason from the exception message
+      // If an explicit exception type is provided, use it
+      if (exceptionType) {
+        return exceptionType;
+      }
+      // For client exceptions, derive a well-known exception category from the exception message
       if (exceptionMessage) {
         return this.categorizeExceptionMessage(exceptionMessage);
       }
-      return "unknown_exception";
+      return ExceptionType.CLIENT_EXCEPTION; // Default to "Client exception" if no message provided
     }
 
     // Handle status code drop codes (numeric values)
@@ -353,54 +364,46 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
 
     // Handle other enum drop codes
     switch (dropCode) {
-      case DropCode.CLIENT_EXPIRED_DATA:
-        return "expired_data";
       case DropCode.CLIENT_READONLY:
-        return "readonly_mode";
-      case DropCode.CLIENT_STALE_DATA:
-        return "stale_data";
+        return DropReason.CLIENT_READONLY;
       case DropCode.CLIENT_PERSISTENCE_CAPACITY:
-        return "persistence_full";
-      case DropCode.NON_RETRYABLE_STATUS_CODE:
-        return "non_retryable_status";
+        return DropReason.CLIENT_PERSISTENCE_CAPACITY;
       case DropCode.UNKNOWN:
       default:
-        return "unknown_reason";
+        return DropReason.UNKNOWN;
     }
   }
 
   /**
-   * Categorizes exception messages into low-cardinality groups
+   * Categorizes exception messages into well-known exception categories
    * @param exceptionMessage - The exception message to categorize
-   * @returns A low-cardinality category string
+   * @returns A well-known exception category string
    */
-  private categorizeExceptionMessage(exceptionMessage: string): string {
+  private categorizeExceptionMessage(exceptionMessage: string): ExceptionType {
     const message = exceptionMessage.toLowerCase();
 
     if (message.includes("timeout") || message.includes("timed out")) {
-      return "timeout_exception";
-    }
-    if (message.includes("network") || message.includes("connection")) {
-      return "network_exception";
+      return ExceptionType.TIMEOUT_EXCEPTION;
     }
     if (
-      message.includes("auth") ||
-      message.includes("unauthorized") ||
-      message.includes("forbidden")
+      message.includes("network") ||
+      message.includes("connection") ||
+      message.includes("dns") ||
+      message.includes("socket")
     ) {
-      return "auth_exception";
+      return ExceptionType.NETWORK_EXCEPTION;
     }
-    if (message.includes("parsing") || message.includes("parse") || message.includes("invalid")) {
-      return "parsing_exception";
-    }
-    if (message.includes("disk") || message.includes("storage") || message.includes("file")) {
-      return "storage_exception";
-    }
-    if (message.includes("memory") || message.includes("out of memory")) {
-      return "memory_exception";
+    if (
+      message.includes("disk") ||
+      message.includes("storage") ||
+      message.includes("file") ||
+      message.includes("persist")
+    ) {
+      return ExceptionType.STORAGE_EXCEPTION;
     }
 
-    return "other_exception";
+    // Default to Client exception for any other cases
+    return ExceptionType.CLIENT_EXCEPTION;
   }
 
   /**
@@ -412,36 +415,36 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     if (statusCode >= 400 && statusCode < 500) {
       switch (statusCode) {
         case 400:
-          return "bad_request";
+          return "Bad request";
         case 401:
-          return "unauthorized";
+          return "Unauthorized";
         case 403:
-          return "forbidden";
+          return "Forbidden";
         case 404:
-          return "not_found";
+          return "Not found";
         case 408:
-          return "request_timeout";
+          return "Request timeout";
         case 413:
-          return "payload_too_large";
+          return "Payload too large";
         case 429:
-          return "too_many_requests";
+          return "Too many requests";
         default:
-          return "client_error_4xx";
+          return "Client error 4xx";
       }
     }
 
     if (statusCode >= 500 && statusCode < 600) {
       switch (statusCode) {
         case 500:
-          return "internal_server_error";
+          return "Internal server error";
         case 502:
-          return "bad_gateway";
+          return "Bad gateway";
         case 503:
-          return "service_unavailable";
+          return "Service unavailable";
         case 504:
-          return "gateway_timeout";
+          return "Gateway timeout";
         default:
-          return "server_error_5xx";
+          return "Server error 5xx";
       }
     }
 
@@ -451,13 +454,14 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Tracks retried envelopes
    * @param envelopes - Number of envelopes retried
    * @param retryCode - The retry code indicating the reason for retry
-   * @param telemetry_type - The type of telemetry being tracked
    * @param exceptionMessage - Optional exception message when retryCode is CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override when retryCode is CLIENT_EXCEPTION
    */
   public countRetryItems(
     envelopes: Envelope[],
     retryCode: RetryCode | number,
     exceptionMessage?: string,
+    exceptionType?: ExceptionType,
   ): void {
     const counter: CustomerSDKStats = this.customerSDKStatsCounter;
     let telemetry_type: TelemetryType;
@@ -479,7 +483,7 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
       }
 
       // Generate a low-cardinality, informative reason description
-      const reason = this.getRetryReason(retryCode, exceptionMessage);
+      const reason = this.getRetryReason(retryCode, exceptionMessage, exceptionType);
 
       // Update the count for this reason
       const currentCount = reasonMap.get(reason) || 0;
@@ -491,15 +495,24 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
    * Generates a low-cardinality, informative description for retry reasons
    * @param retryCode - The retry code (enum value or status code number)
    * @param exceptionMessage - Optional exception message for CLIENT_EXCEPTION
+   * @param exceptionType - Optional explicit exception type override for CLIENT_EXCEPTION
    * @returns A descriptive reason string with low cardinality
    */
-  private getRetryReason(retryCode: RetryCode | number, exceptionMessage?: string): string {
+  private getRetryReason(
+    retryCode: RetryCode | number,
+    exceptionMessage?: string,
+    exceptionType?: ExceptionType,
+  ): string {
     if (retryCode === RetryCode.CLIENT_EXCEPTION) {
+      // If an explicit exception type is provided, use it
+      if (exceptionType) {
+        return exceptionType;
+      }
       // For client exceptions, derive a low-cardinality reason from the exception message
       if (exceptionMessage) {
         return this.categorizeExceptionMessage(exceptionMessage);
       }
-      return "unknown_exception";
+      return ExceptionType.CLIENT_EXCEPTION;
     }
 
     // Handle status code retry codes (numeric values)
@@ -510,12 +523,10 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     // Handle other enum retry codes
     switch (retryCode) {
       case RetryCode.CLIENT_TIMEOUT:
-        return "client_timeout";
-      case RetryCode.RETRYABLE_STATUS_CODE:
-        return "retryable_status";
+        return "Client timeout";
       case RetryCode.UNKNOWN:
       default:
-        return "unknown_reason";
+        return "Unknown reason";
     }
   }
 
