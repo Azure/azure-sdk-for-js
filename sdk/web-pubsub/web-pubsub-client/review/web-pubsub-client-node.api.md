@@ -329,7 +329,7 @@ export class WebPubSubClient {
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
     stop(): void;
-    stream(groupName: string, options?: StreamOptions): Stream;
+    stream(groupName: string, streamId?: string, options?: StreamOptions): Stream;
 }
 
 // @public
