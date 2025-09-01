@@ -214,7 +214,7 @@ const CONTINUATION_TOKEN_TEST_CASES: ContinuationTokenTestCase[] = [
     },
     expectedTokenValues: {
       offsetValue: 0,
-      limitValue: 6,
+      limitValue: 7,
       ridType: "string",
       rangeMappingsMinCount: 1
     },

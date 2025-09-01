@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PartitionKeyRange } from "../index.js";
+import type { PartitionRangeWithContinuationToken } from "./TargetPartitionRangeManager.js";
 
 /**
  * Represents the result of partition range filtering
@@ -9,20 +10,9 @@ import type { PartitionKeyRange } from "../index.js";
  */
 export interface PartitionRangeFilterResult {
   /**
-   * The filtered partition key ranges ready for query execution
+   * The filtered partition ranges with their associated continuation tokens and filtering conditions
    */
-  filteredRanges: PartitionKeyRange[];
-
-  /**
-   * continuation token for resuming query execution
-   */
-  continuationToken?: string[];
-
-  /**
-   * Optional filtering conditions applied to the ranges
-   * This can include conditions based on ORDER BY items, sort orders, or other query-specific
-   */
-  filteringConditions?: string[];
+  rangeTokenPairs: PartitionRangeWithContinuationToken[];
 }
 
 /**
@@ -44,14 +34,7 @@ export interface TargetPartitionRangeStrategy {
    */
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
-    continuationToken?: string,
+    continuationRanges?: PartitionRangeWithContinuationToken[],
     queryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult;
-
-  /**
-   * Validates if the continuation token is compatible with this strategy
-   * @param continuationToken - The continuation token to validate
-   * @returns true if the token is valid for this strategy
-   */
-  validateContinuationToken(continuationToken: string): boolean;
 }

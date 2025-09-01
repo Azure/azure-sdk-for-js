@@ -346,16 +346,22 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       console.log("Fetched more results from endpoint", JSON.stringify(response));
 
       // Handle case where there are no more results from endpoint
-      if (!response || !response.result) {
+      if (!response || !response.result || !response.result.buffer || response.result.buffer.length === 0) {
         return this.createEmptyResultWithHeaders(response?.headers);
       }
 
       // Process response and update continuation token manager
-      this.fetchBuffer = response.result;
-      if (this.fetchBuffer.length === 0) {
-        return this.createEmptyResultWithHeaders(this.fetchMoreRespHeaders);
+      this.fetchBuffer = response.result.buffer;
+      this.continuationTokenManager.setPartitionKeyRangeMap(response.result.partitionKeyRangeMap);
+      
+      // Handle partition range changes (splits/merges) if they occurred
+      if(response.result.updatedContinuationRanges) {
+        console.log("Processing updated continuation ranges from response");
+        this.continuationTokenManager.handlePartitionRangeChanges(
+          response.result.updatedContinuationRanges,
+          this.options.continuationToken
+        );
       }
-
       const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
 
       const temp = this.fetchBuffer.slice(0, endIndex);

@@ -6,14 +6,11 @@ import type {
   TargetPartitionRangeStrategy,
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
-import type { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
-import { createOrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
-import type { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
-import { compositeTokenFromString } from "./CompositeQueryContinuationToken.js";
+import type { PartitionRangeWithContinuationToken } from "./TargetPartitionRangeManager.js";
 
 /**
  * Strategy for filtering partition ranges in ORDER BY query execution context
- * Supports resuming from ORDER BY continuation tokens with sequential processing
+ * Supports resuming from continuation tokens with proper range-token pair management
  * @hidden
  */
 export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
@@ -21,184 +18,51 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     return "OrderByQuery";
   }
 
-  validateContinuationToken(continuationToken: string): boolean {
-    if (!continuationToken) {
-      return false;
-    }
-
-    try {
-      const orderByToken = JSON.parse(continuationToken);
-      
-      // Basic validation - must have required properties
-      if (!orderByToken || typeof orderByToken !== "object") {
-        return false;
-      }
-
-      // Must have order by items array
-      if (!Array.isArray(orderByToken.orderByItems) || orderByToken.orderByItems.length === 0) {
-        return false;
-      }
-
-      // For ORDER BY queries, compositeToken is REQUIRED
-      if (!orderByToken.compositeToken || typeof orderByToken.compositeToken !== "string") {
-        console.warn("ORDER BY continuation token must have a valid compositeToken");
-        return false;
-      }
-
-      // Validate the compositeToken structure
-      try {
-        const composite = compositeTokenFromString(orderByToken.compositeToken);
-        
-        // Additional validation for composite token structure
-        if (!composite.rangeMappings || !Array.isArray(composite.rangeMappings)) {
-          return false;
-        }
-
-        // Empty range mappings indicate an incorrect continuation token
-        if (composite.rangeMappings.length === 0) {
-          console.warn("Empty range mappings detected - invalid ORDER BY continuation token");
-          return false;
-        }
-
-    // Validate each range mapping has required properties
-    for (const mapping of composite.rangeMappings) {
-      if (!mapping.partitionKeyRange) {
-        return false;
-      }
-    }
-  } catch (compositeError) {
-        return false;
-      }
-
-      return true;
-    } catch (error) {
-      console.warn(`Invalid ORDER BY continuation token: ${error.message}`);
-      return false;
-    }
-  }
-
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
-    continuationToken?: string,
+    continuationRanges?: PartitionRangeWithContinuationToken[],
     queryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
     console.log("=== OrderByQueryRangeStrategy.filterPartitionRanges START ===");
 
-    if (!targetRanges || targetRanges.length === 0) {
+    if (!targetRanges || targetRanges.length === 0 || !continuationRanges || continuationRanges.length === 0) {
       return {
-        filteredRanges: [],
+        rangeTokenPairs: []
       };
     }
 
     // create a PartitionRangeFilterResult object empty
     const result: PartitionRangeFilterResult = {
-      filteredRanges: [],
-      continuationToken: [],
-      filteringConditions: [],
+      rangeTokenPairs: [],
     };
-
-    // If no continuation token, return all ranges for initial query
-    if (!continuationToken) {
-      console.log("No continuation token - returning all ranges for ORDER BY query");
-      return {
-        filteredRanges: targetRanges,
-      };
-    }
-
-    // Validate and parse ORDER BY continuation token
-    if (!this.validateContinuationToken(continuationToken)) {
-      throw new Error(
-        `Invalid continuation token format for ORDER BY query strategy: ${continuationToken}`,
-      );
-    }
-
-    let orderByToken: OrderByQueryContinuationToken;
-    try {
-      const parsed = JSON.parse(continuationToken);
-      orderByToken = createOrderByQueryContinuationToken(
-        parsed.compositeToken,
-        parsed.orderByItems,
-        parsed.rid,
-        parsed.skipCount,
-        parsed.offset,
-        parsed.limit,
-        parsed.hashedLastResult,
-      );
-    } catch (error) {
-      throw new Error(`Failed to parse ORDER BY continuation token: ${error.message}`);
-    }
-
-    console.log(
-      `Parsed ORDER BY continuation token with ${orderByToken.orderByItems.length} order by items`,
-    );
-    console.log(`Skip count: ${orderByToken.skipCount}, RID: ${orderByToken.rid}`);
-
-    // Parse the inner composite token to understand which ranges to resume from
-    let compositeContinuationToken: CompositeQueryContinuationToken;
-
-    if (orderByToken.compositeToken) {
-      try {
-        compositeContinuationToken = compositeTokenFromString(
-          orderByToken.compositeToken,
-        );
-        console.log(
-          `Inner composite token has ${compositeContinuationToken.rangeMappings.length} range mappings`,
-        );
-      } catch (error) {
-        console.warn(`Could not parse inner composite token: ${error.message}`);
-      }
-    }
 
     let filteredRanges: PartitionKeyRange[] = [];
     let resumeRangeFound = false;
 
-    if (compositeContinuationToken && compositeContinuationToken.rangeMappings.length > 0) {
+    if (continuationRanges && continuationRanges.length > 0) {
       resumeRangeFound = true;
       // Find the range to resume from based on the composite token
       const targetRangeMapping =
-        compositeContinuationToken.rangeMappings[
-          compositeContinuationToken.rangeMappings.length - 1
-        ].partitionKeyRange;
+        continuationRanges[continuationRanges.length - 1].range;
       // It is assumed that range mapping array is going to contain only range
-      const targetRange: PartitionKeyRange = {
-        id: targetRangeMapping.id,
-        minInclusive: targetRangeMapping.minInclusive,
-        maxExclusive: targetRangeMapping.maxExclusive,
-        ridPrefix: targetRangeMapping.ridPrefix,
-        throughputFraction: targetRangeMapping.throughputFraction,
-        status: targetRangeMapping.status,
-        parents: targetRangeMapping.parents,
-        // Preserve EPK boundaries from continuation token if available
-        ...(targetRangeMapping.epkMin && { epkMin: targetRangeMapping.epkMin }),
-        ...(targetRangeMapping.epkMax && { epkMax: targetRangeMapping.epkMax }),
-      };
-
-      console.log(
-        `Target range from ORDER BY continuation token: ${targetRange.id} [${targetRange.minInclusive}, ${targetRange.maxExclusive})` +
-        (targetRangeMapping.epkMin && targetRangeMapping.epkMax ? ` with EPK [${targetRangeMapping.epkMin}, ${targetRangeMapping.epkMax})` : '')
-      );
+      const targetRange: PartitionKeyRange = targetRangeMapping;
 
       const targetContinuationToken =
-        compositeContinuationToken.rangeMappings[
-          compositeContinuationToken.rangeMappings.length - 1
-        ].continuationToken;
+        continuationRanges[continuationRanges.length - 1].continuationToken;
 
       const leftRanges = targetRanges.filter(
         (mapping) => this.isRangeBeforeAnother(mapping.maxExclusive, targetRangeMapping.minInclusive),
       );
+      // TODO: add units
       let queryPlanInfo: Record<string, unknown> = {};
-      if (
-        queryInfo && queryInfo.queryInfo && queryInfo.queryInfo.queryInfo
-      ) {
-        queryPlanInfo = queryInfoObj.queryInfo.queryInfo;
+      if (queryInfo && queryInfo.queryInfo) {
+        queryPlanInfo = queryInfo.queryInfo as Record<string, unknown>;
       }
-      console.log(
-        `queryInfo, queryPlanInfo:${JSON.stringify(queryInfo, null, 2)}, ${JSON.stringify(queryPlanInfo, null, 2)}`,
-      );
+      
 
       // Create filtering condition for left ranges based on ORDER BY items and sort orders
       const leftFilter = this.createRangeFilterCondition(
-        orderByToken.orderByItems,
+        (queryInfo?.orderByItems as any[]) || [], // TODO: improve
         queryPlanInfo,
         "left",
       );
@@ -209,7 +73,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
 
       // Create filtering condition for right ranges based on ORDER BY items and sort orders
       const rightFilter = this.createRangeFilterCondition(
-        orderByToken.orderByItems,
+        (queryInfo?.orderByItems as any[]) || [], // TODO: improve
         queryPlanInfo,
         "right",
       );
@@ -218,29 +82,36 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       if (leftRanges.length > 0) {
         console.log(`Applying filter condition to ${leftRanges.length} left ranges`);
 
-        result.filteredRanges.push(...leftRanges);
-        // push undefined leftRanges count times
-        result.continuationToken.push(...Array(leftRanges.length).fill(undefined));
-        result.filteringConditions.push(...Array(leftRanges.length).fill(leftFilter));
+        leftRanges.forEach(range => {
+          result.rangeTokenPairs.push({
+            range: range,
+            continuationToken: undefined,
+            filteringCondition: leftFilter
+          });
+        });
       }
-
-      result.filteredRanges.push(targetRange);
-      result.continuationToken.push(targetContinuationToken);
-      // Create filter condition for target range - includes right filter + _rid check
       const targetFilter = this.createTargetRangeFilterCondition(
-        orderByToken.orderByItems,
-        orderByToken.rid,
-        queryPlanInfo
+        (queryInfo?.orderByItems as any[]) || [],
+        queryInfo?.rid as string,
+        queryInfo
       );
-      result.filteringConditions.push(targetFilter);
+
+      // Add the target range with its continuation token
+      result.rangeTokenPairs.push({
+        range: targetRange,
+        continuationToken: targetContinuationToken,
+        filteringCondition: targetFilter
+      });
 
       // Apply filtering logic for right ranges
       if (rightRanges.length > 0) {
-        console.log(`Applying filter condition to ${rightRanges.length} right ranges`);
-        result.filteredRanges.push(...rightRanges);
-        // push undefined rightRanges count times
-        result.continuationToken.push(...Array(rightRanges.length).fill(undefined));
-        result.filteringConditions.push(...Array(rightRanges.length).fill(rightFilter));
+        rightRanges.forEach(range => {
+          result.rangeTokenPairs.push({
+            range: range,
+            continuationToken: undefined,
+            filteringCondition: rightFilter
+          });
+        });
       }
     }
 
@@ -248,7 +119,13 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     // This can happen with certain types of ORDER BY continuation tokens
     if (!resumeRangeFound) {
       filteredRanges = [...targetRanges];
-      result.filteredRanges = filteredRanges;
+      filteredRanges.forEach(range => {
+        result.rangeTokenPairs.push({
+          range: range,
+          continuationToken: undefined,
+          filteringCondition: undefined
+        });
+      });
     }
 
     return result;

@@ -544,4 +544,108 @@ export class ContinuationTokenManager {
   ): Promise<void> {
     await this.partitionRangeManager.processDistinctQueryAndUpdateRangeMap(originalBuffer, hashObject);
   }
+
+  /**
+   * Handles partition range changes (splits/merges) by updating the composite continuation token.
+   * Creates new range mappings for split scenarios and updates existing mappings for merge scenarios.
+   * 
+   * @param updatedContinuationRanges - Map of range changes from parallel query execution context
+   * @param requestContinuationToken - The original continuation token from the request
+   */
+  public handlePartitionRangeChanges(
+    updatedContinuationRanges: Record<string, { oldRange: any; newRanges: any[]; continuationToken: string }>,
+  ): void {
+    console.log("Processing partition range changes:", Object.keys(updatedContinuationRanges).length, "changes");
+
+    if (updatedContinuationRanges && Object.keys(updatedContinuationRanges).length === 0) {
+      return; // No range changes to process
+    }
+
+    // Process each range change
+    Object.entries(updatedContinuationRanges).forEach(([rangeKey, rangeChange]) => {
+      this.processRangeChange(rangeKey, rangeChange);
+    });
+
+    console.log("Completed processing partition range changes");
+  }
+
+  /**
+   * Processes a single range change (split or merge scenario).
+   * Updates the composite continuation token structure accordingly.
+   */
+  private processRangeChange(
+    _rangeKey: string, 
+    rangeChange: { oldRange: any; newRanges: any[]; continuationToken: string }
+  ): void {
+    const { oldRange, newRanges, continuationToken } = rangeChange;
+    if (newRanges.length === 1) {
+      // Merge scenario: update existing range mapping
+      this.handleRangeMerge(oldRange, newRanges[0], continuationToken);
+    } else {
+      // Split scenario: replace one range with multiple ranges
+      this.handleRangeSplit(oldRange, newRanges, continuationToken);
+    }
+  }
+
+  /**
+   * Handles range merge scenario by updating the existing range mapping.
+   */
+  private handleRangeMerge(oldRange: any, newRange: any, continuationToken: string): void {
+    
+    // Find existing range mapping to update
+    const existingMappingIndex = this.compositeContinuationToken.rangeMappings.findIndex(
+      mapping => mapping.partitionKeyRange?.id === oldRange.id ||
+                 (mapping.partitionKeyRange?.minInclusive === oldRange.minInclusive &&
+                  mapping.partitionKeyRange?.maxExclusive === oldRange.maxExclusive)
+    );
+
+    if(existingMappingIndex < 0) {
+     return;
+    }
+
+    // Update existing mapping with new range properties
+    const existingMapping = this.compositeContinuationToken.rangeMappings[existingMappingIndex];
+    
+    // Preserve EPK boundaries while updating logical boundaries
+    const updatedRange = {
+      ...newRange,
+      epkMin:  oldRange.minInclusive,
+      epkMax:  oldRange.maxExclusive
+    };
+
+    existingMapping.partitionKeyRange = updatedRange;
+    existingMapping.continuationToken = continuationToken;
+      
+  }
+
+  /**
+   * Handles range split scenario by replacing one range with multiple ranges.
+   */
+  private handleRangeSplit(oldRange: any, newRanges: any[], continuationToken: string): void {
+    
+    // Remove the old range mapping
+    this.compositeContinuationToken.rangeMappings = this.compositeContinuationToken.rangeMappings.filter(
+      mapping => mapping.partitionKeyRange?.id !== oldRange.id &&
+                 !(mapping.partitionKeyRange?.minInclusive === oldRange.minInclusive &&
+                   mapping.partitionKeyRange?.maxExclusive === oldRange.maxExclusive)
+    );
+
+    // Add new range mappings for each split range
+    newRanges.forEach(newRange => {
+      this.createNewRangeMapping(newRange, continuationToken);
+    });
+  }
+
+  /**
+   * Creates a new range mapping for the composite continuation token.
+   */
+  private createNewRangeMapping(partitionKeyRange: any, continuationToken: string): void {
+    const rangeMapping: QueryRangeMapping = {
+      partitionKeyRange: partitionKeyRange,
+      continuationToken: continuationToken,
+      itemCount: 0 // Will be updated by partition key range map processing
+    };
+
+    addRangeMappingToCompositeToken(this.compositeContinuationToken, rangeMapping);
+  }
 }

@@ -277,7 +277,6 @@ export class QueryIterator<T> {
     }
     console.log("=== QUERYITERATOR DEBUG ===");
     console.log("response.headers:", response.headers);
-    console.log("response.headers.continuationToken:", response.headers.continuationToken);
     console.log("=== END QUERYITERATOR DEBUG ===");
     return new FeedResponse<T>(
       response.result,

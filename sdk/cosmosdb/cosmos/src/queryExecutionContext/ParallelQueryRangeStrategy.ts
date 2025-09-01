@@ -6,8 +6,7 @@ import type {
   TargetPartitionRangeStrategy,
   PartitionRangeFilterResult,
 } from "./TargetPartitionRangeStrategy.js";
-import type { CompositeQueryContinuationToken } from "./CompositeQueryContinuationToken.js";
-import { compositeTokenFromString } from "./CompositeQueryContinuationToken.js";
+import type { PartitionRangeWithContinuationToken } from "./TargetPartitionRangeManager.js";
 
 /**
  * Strategy for filtering partition ranges in parallel query execution context
@@ -47,82 +46,45 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
 
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
-    continuationToken?: string
+    continuationRanges?: PartitionRangeWithContinuationToken[],
+    queryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
     console.log("=== ParallelQueryRangeStrategy.filterPartitionRanges START ===")
 
     if(!targetRanges || targetRanges.length === 0) {
-      return { filteredRanges: [] };
+      return { rangeTokenPairs: [] };
     }
 
-    // If no continuation token, return all ranges
-    if (!continuationToken) {
-      return {
-        filteredRanges: targetRanges,
-      };
+    // If no continuation ranges, return all ranges as range-token pairs
+    if (!continuationRanges || continuationRanges.length === 0) {
+      const rangeTokenPairs = targetRanges.map(range => ({
+        range,
+        continuationToken: undefined as string | undefined,
+        filteringCondition: undefined as string | undefined
+      }));
+      return { rangeTokenPairs };
     }
 
-    // Validate and parse continuation token
-    if (!this.validateContinuationToken(continuationToken)) {
-      throw new Error(
-        `Invalid continuation token format for parallel query strategy: ${continuationToken}`,
-      );
-    }
-
-    let compositeContinuationToken: CompositeQueryContinuationToken;
-    try {
-      compositeContinuationToken = compositeTokenFromString(continuationToken);
-    } catch (error) {
-      throw new Error(`Failed to parse composite continuation token: ${error.message}`);
-    }
-
-    console.log(
-      `Parsed composite continuation token with ${compositeContinuationToken.rangeMappings.length} range mappings`,
-    );
-
-    const filteredRanges: PartitionKeyRange[] = [];
-    const continuationTokens: string[] = [];
+    const rangeTokenPairs: PartitionRangeWithContinuationToken[] = [];
     let lastProcessedRange: PartitionKeyRange | null = null;
-    
-    // sort compositeContinuationToken.rangeMappings in ascending order using their minInclusive values
-    compositeContinuationToken.rangeMappings = compositeContinuationToken.rangeMappings.sort(
+
+    // sort continuationRanges in ascending order using their minInclusive values
+    continuationRanges.sort(
       (a, b) => {
-        return a.partitionKeyRange.minInclusive.localeCompare(b.partitionKeyRange.minInclusive);
+        return a.range.minInclusive.localeCompare(b.range.minInclusive);
       },
     );
 
-    for (const rangeMapping of compositeContinuationToken.rangeMappings) {
-      const { partitionKeyRange, continuationToken: rangeContinuationToken } = rangeMapping;
+    for (const range of continuationRanges) {
       // Always track the last processed range, even if it's exhausted
-      lastProcessedRange = partitionKeyRange;
-      
-      if (partitionKeyRange && !this.isPartitionExhausted(rangeContinuationToken)) {
-        // Create a partition range structure similar to target ranges using the continuation token data
-        // Preserve EPK boundaries if they exist in the extended partition key range
-        const partitionRangeFromToken: PartitionKeyRange = {
-          id: partitionKeyRange.id,
-          minInclusive: partitionKeyRange.minInclusive,
-          maxExclusive: partitionKeyRange.maxExclusive,
-          ridPrefix: partitionKeyRange.ridPrefix ,
-          throughputFraction: partitionKeyRange.throughputFraction ,
-          status: partitionKeyRange.status ,
-          parents: partitionKeyRange.parents ,
-          // Preserve EPK boundaries from continuation token if available
-          ...(partitionKeyRange.epkMin && { epkMin: partitionKeyRange.epkMin }),
-          ...(partitionKeyRange.epkMax && { epkMax: partitionKeyRange.epkMax }),
-        };
-        
-        filteredRanges.push(partitionRangeFromToken);
-        continuationTokens.push(rangeContinuationToken);
-        
-        console.log(
-          `Added range from continuation token: ${partitionKeyRange.id} [${partitionKeyRange.minInclusive}, ${partitionKeyRange.maxExclusive})` +
-          (partitionKeyRange.epkMin && partitionKeyRange.epkMax ? ` with EPK [${partitionKeyRange.epkMin}, ${partitionKeyRange.epkMax})` : '')
-        );
-      } else {
-        console.log(
-          `Skipping exhausted range: ${partitionKeyRange?.id} [${partitionKeyRange?.minInclusive}, ${partitionKeyRange?.maxExclusive})`
-        );
+      lastProcessedRange = range.range;
+
+      if (range && !this.isPartitionExhausted(range.continuationToken)) {
+        rangeTokenPairs.push({
+          range: range.range,
+          continuationToken: range.continuationToken,
+          filteringCondition: range.filteringCondition
+        });
       }
     }
 
@@ -131,27 +93,26 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
       for (const targetRange of targetRanges) {
         // Only include ranges whose minInclusive value is greater than or equal to maxExclusive of lastProcessedRange
         if (targetRange.minInclusive >= lastProcessedRange.maxExclusive) {
-          filteredRanges.push(targetRange);
-          continuationTokens.push(undefined);
-          console.log(
-            `Added new range (after last processed range): ${targetRange.id} [${targetRange.minInclusive}, ${targetRange.maxExclusive})`,
-          );
+          rangeTokenPairs.push({
+            range: targetRange,
+            continuationToken: undefined as string | undefined,
+            filteringCondition: undefined as string | undefined
+          });
         }
       }
     } else {
       // If no ranges were processed from continuation token, add all target ranges
-      filteredRanges.push(...targetRanges);
-      continuationTokens.push(...targetRanges.map((): undefined => undefined));
-      console.log("No ranges found in continuation token - returning all target ranges");
+      for (const targetRange of targetRanges) {
+        rangeTokenPairs.push({
+          range: targetRange,
+          continuationToken: undefined as string | undefined,
+          filteringCondition: undefined as string | undefined
+        });
+      }
     }
 
-    console.log(`=== ParallelQueryRangeStrategy Summary ===`);
-    console.log(`Total filtered ranges: ${filteredRanges.length}`);
-    console.log("=== ParallelQueryRangeStrategy.filterPartitionRanges END ===");
-
     return {
-      filteredRanges,
-      continuationToken: continuationTokens,
+      rangeTokenPairs,
     };
   }
 

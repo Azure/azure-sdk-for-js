@@ -20,11 +20,12 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ClientContext } from "../ClientContext.js";
 import type { QueryRangeMapping } from "./QueryRangeMapping.js";
+import type { CompositeQueryContinuationToken, QueryRangeWithContinuationToken } from "./CompositeQueryContinuationToken.js";
+import { compositeTokenFromString } from "./CompositeQueryContinuationToken.js";
 import {
   TargetPartitionRangeManager,
   QueryExecutionContextType,
 } from "./TargetPartitionRangeManager.js";
-import { ContinuationTokenManager } from "./ContinuationTokenManager.js";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -51,8 +52,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private buffer: any[];
   private partitionDataPatchMap: Map<string, QueryRangeMapping> = new Map();
   private patchCounter: number = 0;
+  private updatedContinuationRanges: Map<string, { oldRange: any; newRanges: any[], continuationToken: string }> = new Map();
   private sem: any;
-  protected continuationTokenManager: ContinuationTokenManager;
+  // protected continuationTokenManager: ContinuationTokenManager;
   private diagnosticNodeWrapper: {
     consumed: boolean;
     diagnosticNode: DiagnosticNodeInternal;
@@ -98,7 +100,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
     this.buffer = [];
-    this.continuationTokenManager = this.options.continuationTokenManager;
+    // this.continuationTokenManager = this.options.continuationTokenManager;
 
     this.requestContinuation = options ? options.continuationToken || options.continuation : null;
     // response headers of undergoing operation
@@ -131,7 +133,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         );
 
         let filteredPartitionKeyRanges = [];
-        let continuationTokens: string[] = [];
         // The document producers generated from filteredPartitionKeyRanges
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
 
@@ -154,30 +155,41 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               quereyInfo: this.partitionedQueryExecutionInfo,
             });
           }
+          // Parse continuation token to get range mappings and check for split/merge scenarios
+          const continuationResult = await this._detectAndHandlePartitionChanges(
+            this.requestContinuation
+          );
+          
+          const continuationRanges = continuationResult.ranges;
+          const orderByItems = continuationResult.orderByItems;
+          const rid = continuationResult.rid;
 
-          console.log("Filtering partition ranges using continuation token");
+          // Create additional query info containing orderByItems and rid for ORDER BY queries
+          const additionalQueryInfo: any = {};
+          if (orderByItems) {
+            additionalQueryInfo.orderByItems = orderByItems;
+          }
+          if (rid) {
+            additionalQueryInfo.rid = rid;
+          }
+          
           const filterResult = rangeManager.filterPartitionRanges(
             targetPartitionRanges,
-            this.requestContinuation,
+            continuationRanges,
+            Object.keys(additionalQueryInfo).length > 0 ? additionalQueryInfo : undefined,
           );
 
-          filteredPartitionKeyRanges = filterResult.filteredRanges;
-          continuationTokens = filterResult.continuationToken;
-          const filteringConditions = filterResult.filteringConditions;
+          // Extract ranges and tokens from the combined result
+          const rangeTokenPairs = filterResult.rangeTokenPairs;
 
-          filteredPartitionKeyRanges.forEach((partitionTargetRange: any, index: number) => {
-            const continuationToken = continuationTokens ? continuationTokens[index] : undefined;
-            const filterCondition = filteringConditions ? filteringConditions[index] : undefined;
-
+          rangeTokenPairs.forEach((rangeTokenPair) => {
+            const partitionTargetRange = rangeTokenPair.range;
+            const continuationToken = rangeTokenPair.continuationToken;
+            const filterCondition = rangeTokenPair.filteringCondition ? rangeTokenPair.filteringCondition : undefined;
+            // TODO: add un it test for this
             // Extract EPK values from the partition range if available
             const startEpk = partitionTargetRange.epkMin;
             const endEpk = partitionTargetRange.epkMax;
-
-            console.log(
-              `Creating document producer for range ${partitionTargetRange.id}: ` +
-              `logical=[${partitionTargetRange.minInclusive}, ${partitionTargetRange.maxExclusive})` +
-              (startEpk && endEpk ? `, EPK=[${startEpk}, ${endEpk})` : ', EPK=none')
-            );
 
             targetPartitionQueryExecutionContextList.push(
               this._createTargetPartitionQueryExecutionContext(
@@ -264,7 +276,177 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return queryType;
   }
 
-  private _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
+  /**
+   * Detects partition splits/merges by parsing continuation token ranges and comparing with current topology
+   * @param continuationToken - The continuation token containing range mappings to analyze
+   * @returns Object containing processed ranges and optional orderByItems and rid for ORDER BY queries
+   */
+  private async _detectAndHandlePartitionChanges(
+    continuationToken?: string
+  ): Promise<{ ranges: { range: any; continuationToken?: string }[]; orderByItems?: any[]; rid?: string }> {
+    if (!continuationToken) {
+      console.log("No continuation token provided, returning empty processed ranges");
+      return { ranges: [] };
+    }
+
+    const processedRanges: { range: any; continuationToken?: string }[] = [];
+    let orderByItems: any[] | undefined;
+    let rid: string | undefined;
+
+    try {
+      // Parse the continuation token to get range mappings and orderByItems
+      const parsedTokenRanges = this._parseRanges(continuationToken);
+      if (!parsedTokenRanges) {
+        return { ranges: [] };
+      }
+
+      // Extract orderByItems and rid for ORDER BY queries
+      const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
+      if (isOrderByQuery) {
+        // For ORDER BY queries, parse the outer structure to get orderByItems and rid
+        const outerParsed = JSON.parse(continuationToken);
+        if (outerParsed) {
+          if (outerParsed.orderByItems) {
+            orderByItems = outerParsed.orderByItems;
+          }
+          if (outerParsed.rid) {
+            rid = outerParsed.rid;
+          }
+        }
+      }
+
+      const compositeContinuationToken = parsedTokenRanges;
+      if (!compositeContinuationToken || !compositeContinuationToken.rangeMappings) {
+        return { ranges: [], orderByItems, rid };
+      }
+
+      // Check each range mapping for potential splits/merges
+      for (const rangeWithToken of compositeContinuationToken.rangeMappings) {
+        const queryRange = rangeWithToken.queryRange;
+        const rangeMin = queryRange.min;
+        const rangeMax = queryRange.max;
+
+
+        // Get current overlapping ranges for this continuation token range
+        const overlappingRanges = await this.routingProvider.getOverlappingRanges(
+          this.collectionLink,
+          [queryRange],
+          this.getDiagnosticNode()
+        );
+        // Detect split/merge scenario based on the number of overlapping ranges
+        if (overlappingRanges.length === 0) {
+          continue;
+        } else if (overlappingRanges.length === 1) {
+          // Check if it's the same range (no change) or a merge scenario
+          const currentRange = overlappingRanges[0];
+          if (currentRange.minInclusive !== rangeMin || currentRange.maxExclusive !== rangeMax) {
+            await this._handleContinuationTokenMerge(rangeWithToken, currentRange);
+            // add epk ranges to current range
+            currentRange.epkMin = rangeMin;
+            currentRange.epkMax = rangeMax;
+          }
+          // Add the current overlapping range with its continuation token to processed ranges
+          processedRanges.push({
+            range: currentRange,
+            continuationToken: rangeWithToken.continuationToken
+          });
+        } else {
+          // Split scenario - one range from continuation token now maps to multiple ranges
+          await this._handleContinuationTokenSplit(rangeWithToken, overlappingRanges); 
+          // Add all overlapping ranges with the same continuation token to processed ranges
+          overlappingRanges.forEach(range => {
+            processedRanges.push({
+              range: range,
+              continuationToken: rangeWithToken.continuationToken
+            });
+          });
+        }
+      }
+
+      return { ranges: processedRanges, orderByItems, rid };
+    } catch (error) {
+      console.error("Error detecting partition changes:", error);
+      // Fall back to empty array if detection fails
+      return { ranges: [] };
+    }
+  }
+
+  /**
+   * Parses the continuation token to extract range mappings
+   */
+  private _parseRanges(continuationToken: string): CompositeQueryContinuationToken | null {
+    try {
+      // Handle both ORDER BY and parallel query continuation tokens
+      const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
+      
+      if (isOrderByQuery) {
+        // For ORDER BY queries, the continuation token has a compositeToken property
+        const parsed = JSON.parse(continuationToken);
+        if (parsed && parsed.compositeToken) {
+          // The compositeToken is itself a string that needs to be parsed
+          return compositeTokenFromString(parsed.compositeToken);
+        }
+      } else {
+        // For parallel queries, parse directly
+        return compositeTokenFromString(continuationToken);
+      }
+      
+      return null;
+    } catch (error) {
+      console.error("Failed to parse continuation token:", error);
+      return null;
+    }
+  }
+
+  /**
+   * Handles partition merge scenario for continuation token ranges
+   */
+  private async _handleContinuationTokenMerge(
+    rangeWithToken: QueryRangeWithContinuationToken,
+    newMergedRange: any
+  ): Promise<void> {
+    // Track this merge for later continuation token updates
+    const rangeKey = `${rangeWithToken.queryRange.min}-${rangeWithToken.queryRange.max}`;
+    this.updatedContinuationRanges.set(rangeKey, {
+      oldRange: {
+        minInclusive: rangeWithToken.queryRange.min,
+        maxExclusive: rangeWithToken.queryRange.max,
+      },
+      newRanges: [{
+        minInclusive: rangeWithToken.queryRange.min,
+        maxExclusive: rangeWithToken.queryRange.max,
+      }],
+      continuationToken: rangeWithToken.continuationToken 
+    });
+  }
+
+  /**
+   * Handles partition split scenario for continuation token ranges
+   */
+  private async _handleContinuationTokenSplit(
+    rangeWithToken: QueryRangeWithContinuationToken,
+    overlappingRanges: any[]
+  ): Promise<void> {
+    // Track this split for later continuation token updates
+    const rangeKey = `${rangeWithToken.queryRange.min}-${rangeWithToken.queryRange.max}`;
+    this.updatedContinuationRanges.set(rangeKey, {
+      oldRange: {
+        minInclusive: rangeWithToken.queryRange.min,
+        maxExclusive: rangeWithToken.queryRange.max,
+        id: `continuation-token-range-${rangeKey}`
+      },
+      newRanges: overlappingRanges.map(range => ({
+        minInclusive: range.minInclusive,
+        maxExclusive: range.maxExclusive,
+        id: range.id
+      })),
+      continuationToken: rangeWithToken.continuationToken 
+    });
+  }
+
+  /**
+   * Handles partition merge scenario for continuation token ranges
+   */  private _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
     mergeHeaders(this.respHeaders, headers);
   }
 
@@ -387,25 +569,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     replacementPartitionKeyRanges: any[],
   ): void {
     // Skip continuation token update if manager is not available (e.g: non-streaming queries)
-    if (!this.continuationTokenManager) {
-      return;
-    }
-
-    // Get the composite continuation token from the continuation token manager
-    const compositeContinuationToken = this.continuationTokenManager.getCompositeContinuationToken();
-    if (!compositeContinuationToken || !compositeContinuationToken.rangeMappings) {
-      return;
-    }
-
     const originalPartitionKeyRange = originalDocumentProducer.targetPartitionKeyRange;
     console.log(
       `Processing ${replacementPartitionKeyRanges.length === 1 ? 'merge' : 'split'} scenario for partition ${originalPartitionKeyRange.id}`
     );
 
     if (replacementPartitionKeyRanges.length === 1) {
-      this._handlePartitionMerge(compositeContinuationToken, originalDocumentProducer, replacementPartitionKeyRanges[0]);
+      this._handlePartitionMerge(originalDocumentProducer, replacementPartitionKeyRanges[0]);
     } else {
-      this._handlePartitionSplit(compositeContinuationToken, originalDocumentProducer, replacementPartitionKeyRanges);
+      this._handlePartitionSplit(originalDocumentProducer, replacementPartitionKeyRanges);
     }
   }
 
@@ -414,45 +586,25 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Finds matching range, preserves EPK boundaries, and updates to new merged range properties.
    */
   private _handlePartitionMerge(
-    compositeContinuationToken: any,
     documentProducer: DocumentProducer,
     newMergedRange: any,
   ): void {
-    const documentProducerRange = documentProducer.targetPartitionKeyRange;
-    console.log(`Processing merge scenario for document producer range ${documentProducerRange.id} -> merged range ${newMergedRange.id}`);
-    
-    const matchingMapping = compositeContinuationToken.rangeMappings.find((mapping: any) => {
-      const existingRange = mapping?.partitionKeyRange;
-      return existingRange && 
-             documentProducerRange.minInclusive === existingRange.minInclusive &&
-             existingRange.maxExclusive === documentProducerRange.maxExclusive;
-    });
-
-    if (matchingMapping) {
-      const existingRange = matchingMapping.partitionKeyRange;
-      console.log(`Found overlapping range ${existingRange.id} [${existingRange.minInclusive}, ${existingRange.maxExclusive})`);
-
-      // Preserve current boundaries as EPK boundaries
-      existingRange.epkMin = existingRange.minInclusive;
-      existingRange.epkMax = existingRange.maxExclusive;
-      console.log(`Set EPK boundaries for range ${existingRange.id}: epkMin=${existingRange.epkMin}, epkMax=${existingRange.epkMax}`);
-
-      // Update range properties from new merged range
-      Object.assign(existingRange, {
+    const documentProducerRange = documentProducer.getTargetPartitionKeyRange();
+    // Track the range update for continuation token management (merge scenario)
+    const rangeKey = `${documentProducerRange.minInclusive}-${documentProducerRange.maxExclusive}`;
+    this.updatedContinuationRanges.set(rangeKey, {
+      oldRange: {
+        minInclusive: documentProducerRange.minInclusive,
+        maxExclusive: documentProducerRange.maxExclusive,
+        id: documentProducerRange.id
+      },
+      newRanges: [{
         minInclusive: newMergedRange.minInclusive,
         maxExclusive: newMergedRange.maxExclusive,
-        id: newMergedRange.id,
-        ridPrefix: newMergedRange.ridPrefix,
-        throughputFraction: newMergedRange.throughputFraction,
-        status: newMergedRange.status,
-        parents: newMergedRange.parents
-      });
-
-      console.log(
-        `Updated range ${newMergedRange.id} logical boundaries to [${newMergedRange.minInclusive}, ${newMergedRange.maxExclusive}) ` +
-        `while preserving EPK boundaries [${existingRange.epkMin}, ${existingRange.epkMax})`
-      );
-    }
+        id: newMergedRange.id
+      }],
+      continuationToken: documentProducer.continuationToken
+    });
   }
 
   /**
@@ -460,39 +612,25 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * preserving EPK boundaries from the original range.
    */
   private _handlePartitionSplit(
-    compositeContinuationToken: any,
     originalDocumentProducer: DocumentProducer,
     replacementPartitionKeyRanges: any[],
   ): void {
-    const originalPartitionKeyRange = originalDocumentProducer.targetPartitionKeyRange;
-    
-    // Find and remove the original partition range from the continuation token
-    const originalRangeIndex = compositeContinuationToken.rangeMappings.findIndex(
-      (mapping: any) =>
-        mapping?.partitionKeyRange?.minInclusive === originalPartitionKeyRange.minInclusive &&
-        mapping?.partitionKeyRange?.maxExclusive === originalPartitionKeyRange.maxExclusive
-    );
-
-    if (originalRangeIndex === -1) return;
-
-    // Remove original range and add replacement ranges
-    compositeContinuationToken.rangeMappings.splice(originalRangeIndex, 1);
-    console.log(`Removed original partition range ${originalPartitionKeyRange.id} from continuation token for split`);
-
-    // Add new range mappings for each replacement partition
-    replacementPartitionKeyRanges.forEach((newPartitionKeyRange) => {
-      compositeContinuationToken.addRangeMapping({
-        partitionKeyRange: newPartitionKeyRange,
-        continuationToken: originalDocumentProducer.continuationToken,
-        itemCount: 0, // Start with 0 items for new partition
-      } as QueryRangeMapping);
-      console.log(`Added new partition range ${newPartitionKeyRange.id} to continuation token`);
+    const originalRange = originalDocumentProducer.targetPartitionKeyRange;
+    // Track the range update for continuation token management
+    const rangeKey = `${originalRange.minInclusive}-${originalRange.maxExclusive}`;
+    this.updatedContinuationRanges.set(rangeKey, {
+      oldRange: {
+        minInclusive: originalRange.minInclusive,
+        maxExclusive: originalRange.maxExclusive,
+        id: originalRange.id
+      },
+      newRanges: replacementPartitionKeyRanges.map(range => ({
+        minInclusive: range.minInclusive,
+        maxExclusive: range.maxExclusive,
+        id: range.id
+      })),
+      continuationToken: originalDocumentProducer.continuationToken
     });
-
-    console.log(
-      `Successfully updated continuation token for partition split: ` +
-      `${originalPartitionKeyRange.id} -> [${replacementPartitionKeyRanges.map(r => r.id).join(', ')}]`
-    );
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
@@ -502,14 +640,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       "substatus" in error &&
       error["substatus"] === SubStatusCodes.PartitionKeyRangeGone
     );
-  }
-
-  private getContinuationTokenManager(): ContinuationTokenManager | undefined {
-    return this.continuationTokenManager;
-  }
-
-  private getCurrentContinuationToken(): string | undefined {
-    return this.continuationTokenManager?.getTokenString();
   }
 
   /**
@@ -596,14 +726,20 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         this.partitionDataPatchMap = new Map<string, QueryRangeMapping>();
         this.patchCounter = 0;
         
+        // Get and reset updated continuation ranges
+        const updatedContinuationRanges = Object.fromEntries(this.updatedContinuationRanges);
+        this.updatedContinuationRanges.clear();
+        
         // Update continuation token manager with the current partition mappings
-        this.continuationTokenManager?.setPartitionKeyRangeMap(partitionDataPatchMap);
+        // this.continuationTokenManager?.setPartitionKeyRangeMap(partitionDataPatchMap);
 
         // release the lock before returning
         this.sem.leave();
 
         return resolve({
-          result: bufferedResults,
+          result: { buffer: bufferedResults, 
+            partitionKeyRangeMap: partitionDataPatchMap, 
+            updatedContinuationRanges: updatedContinuationRanges}, 
           headers: this._getAndResetActiveResponseHeaders(),
         });
       });

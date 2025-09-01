@@ -10,6 +10,16 @@ import { ParallelQueryRangeStrategy } from "./ParallelQueryRangeStrategy.js";
 import { OrderByQueryRangeStrategy } from "./OrderByQueryRangeStrategy.js";
 
 /**
+ * Interface representing a partition key range with its associated continuation token and filtering condition
+ * @hidden
+ */
+export interface PartitionRangeWithContinuationToken {
+  range: PartitionKeyRange;
+  continuationToken?: string;
+  filteringCondition?: string;
+}
+
+/**
  * Query execution context types
  * @hidden
  */
@@ -79,48 +89,33 @@ export class TargetPartitionRangeManager {
   }
 
   /**
-   * Filters target partition ranges based on the continuation token and query-specific logic
-   * @param targetRanges - All available target partition ranges
-   * @param continuationToken - The continuation token to resume from (if any)
+   * Filters target partition ranges based on range-token pairs from partition split/merge detection
+   * @param targetRanges - All available target partition ranges (fallback if no range-token pairs)
+   * @param rangeTokenPairs - Pre-processed range-token pairs after split/merge detection
+   * @param additionalQueryInfo - Additional query information to merge with existing queryInfo
    * @returns Filtered partition ranges and metadata
    */
   public filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
-    continuationToken?: string,
+    rangeTokenPairs?: PartitionRangeWithContinuationToken[],
+    additionalQueryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
-    console.log("=== TargetPartitionRangeManager.filterPartitionRanges START ===");
-    console.log(
-      `Query type: ${this.config.queryType}, Strategy: ${this.strategy.getStrategyType()}`,
-    );
-
+    
     // Validate inputs
     if (!targetRanges || targetRanges.length === 0) {
-      return { filteredRanges: [], continuationToken: null };
+      return { rangeTokenPairs: [] };
     }
-    console.log(
-      `Input ranges: ${targetRanges.length}, Continuation token: ${continuationToken ? "Present" : "None"}`,
+    
+    // Merge base queryInfo with additional queryInfo (additional takes precedence)
+    const mergedQueryInfo = { ...this.config.queryInfo, ...additionalQueryInfo };
+
+    const result = this.strategy.filterPartitionRanges(
+      targetRanges,
+      rangeTokenPairs,
+      mergedQueryInfo,
     );
 
-    // Validate continuation token if provided
-    if (continuationToken && !this.strategy.validateContinuationToken(continuationToken)) {
-      throw new Error(`Invalid continuation token for ${this.strategy.getStrategyType()} strategy`);
-    }
-
-    try {
-      const result = this.strategy.filterPartitionRanges(
-        targetRanges,
-        continuationToken,
-        this.config.queryInfo,
-      );
-
-      console.log(`=== TargetPartitionRangeManager Result ===`);
-      console.log("=== TargetPartitionRangeManager.filterPartitionRanges END ===");
-
-      return result;
-    } catch (error) {
-      console.error(`Error in TargetPartitionRangeManager.filterPartitionRanges: ${error.message}`);
-      throw error;
-    }
+    return result;
   }
 
   /**
@@ -136,13 +131,6 @@ export class TargetPartitionRangeManager {
   public updateStrategy(newConfig: TargetPartitionRangeManagerConfig): void {
     this.config = newConfig;
     this.strategy = this.createStrategy(newConfig);
-  }
-
-  /**
-   * Validates if a continuation token is compatible with the current strategy
-   */
-  public validateContinuationToken(continuationToken: string): boolean {
-    return this.strategy.validateContinuationToken(continuationToken);
   }
 
   /**
