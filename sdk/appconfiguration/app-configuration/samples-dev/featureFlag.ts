@@ -11,13 +11,17 @@ import {
   ConfigurationSetting,
   featureFlagContentType,
   featureFlagPrefix,
-  FeatureFlagValue
+  FeatureFlagValue,
 } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Use configuration provider and feature management library to consume feature flags
 import { load } from "@azure/app-configuration-provider";
-import { ConfigurationMapFeatureFlagProvider, FeatureManager, ITargetingContext } from "@microsoft/feature-management";
+import {
+  ConfigurationMapFeatureFlagProvider,
+  FeatureManager,
+  ITargetingContext,
+} from "@microsoft/feature-management";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -78,14 +82,15 @@ export async function main() {
       enabled: true,
       refresh: {
         enabled: true,
-        refreshIntervalInMs: 5000
-      }
-    }
+        refreshIntervalInMs: 5000,
+      },
+    },
   });
 
   console.log(`Use feature management library to consume feature flags`);
   const featureManager = new FeatureManager(
-    new ConfigurationMapFeatureFlagProvider(appConfigProvider));
+    new ConfigurationMapFeatureFlagProvider(appConfigProvider),
+  );
 
   let isEnabled = await featureManager.isEnabled(featureFlagName);
   console.log(`Is featureFlag enabled? ${isEnabled}`);
@@ -98,14 +103,14 @@ export async function main() {
   await appConfigClient.setConfigurationSetting(sampleFeatureFlag);
 
   // Wait for refresh interval to elapse
-  await new Promise(resolve => setTimeout(resolve, 5000));
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 
-  await appConfigProvider.refresh();  
+  await appConfigProvider.refresh();
 
   isEnabled = await featureManager.isEnabled(featureFlagName);
   console.log(`Is featureFlag enabled? ${isEnabled}`);
 
-  const targetingContext : ITargetingContext = { userId: "test@contoso.com" };
+  const targetingContext: ITargetingContext = { userId: "test@contoso.com" };
   isEnabled = await featureManager.isEnabled(featureFlagName, targetingContext);
   console.log(`Is featureFlag enabled for test@contoso.com? ${isEnabled}`);
 
