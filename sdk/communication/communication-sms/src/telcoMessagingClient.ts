@@ -9,15 +9,13 @@ import {
 } from "@azure/communication-common";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { CommonClientOptions } from "@azure/core-client";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { SmsApiClient } from "./generated/src/smsApiClient.js";
 import { logger } from "./logger.js";
 import { OptOutsClientImpl, type OptOutsClient } from "./optOutsClient.js";
 import { SmsClientImpl, type SmsClient } from "./smsSubClient.js";
-
-import { tracingClient } from "./generated/src/tracing.js";
-import { extractOperationOptions } from "./extractOperationOptions.js";
+import { DeliveryReportsClientImpl, type DeliveryReportsClient } from "./deliveryReportsClient.js";
 
 /**
  * Client options used to configure the TelcoMessaging Client.
@@ -124,6 +122,13 @@ export type {
   OptOutAddResult,
   OptOutRemoveResult,
 } from "./optOutsClient.js";
+
+// Re-export DeliveryReports-related types and interfaces from deliveryReportsClient
+export type {
+  DeliveryReportsClient,
+  DeliveryReportGetOptions,
+  DeliveryReportGetResult,
+} from "./deliveryReportsClient.js";
 
 // Re-export generated types for convenience
 export type { 
