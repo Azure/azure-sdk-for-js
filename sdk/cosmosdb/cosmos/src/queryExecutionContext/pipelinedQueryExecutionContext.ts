@@ -358,8 +358,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if(response.result.updatedContinuationRanges) {
         console.log("Processing updated continuation ranges from response");
         this.continuationTokenManager.handlePartitionRangeChanges(
-          response.result.updatedContinuationRanges,
-          this.options.continuationToken
+          response.result.updatedContinuationRanges
         );
       }
       const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
