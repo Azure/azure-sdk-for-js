@@ -1,4 +1,8 @@
 # Release History
+## 4.5.1 (2025-09-01)
+
+### Bugs Fixed
+- [#35379](https://github.com/Azure/azure-sdk-for-js/issues/35739) Fixed an issue with SDK keeping unavailable regions in readable and writeable locations. 
 
 ## 4.5.0 (2025-07-21)
 
