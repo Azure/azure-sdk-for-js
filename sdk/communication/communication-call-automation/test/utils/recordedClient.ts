@@ -317,9 +317,17 @@ export function persistEvents(testName: string): void {
     }
 
     const jsonArrayString = JSON.stringify(sanitizedEvents, null, 2);
-    fs.writeFile(`recordings\\${testName}.json`, jsonArrayString, (err) => {
-      if (err) throw err;
-    });
+
+    const dynamicAssetsPath = getDynamicAssetsPath();
+    console.log("Dynamic assets path:", dynamicAssetsPath);
+
+    if (dynamicAssetsPath) {
+      const finalPath = `${dynamicAssetsPath}\\js\\sdk\\communication\\communication-call-automation\\recordings\\${testName}.json`;
+      fs.writeFile(finalPath, jsonArrayString, (err) => {
+        if (err) throw err;
+      });
+    }
+
     // Clear the array for next test to use
     while (eventsToPersist.length > 0) {
       eventsToPersist.pop();
@@ -331,11 +339,19 @@ export async function loadPersistedEvents(testName: string): Promise<void> {
   if (isPlaybackMode()) {
     let data: string = "";
     // Different OS has different file system path format.
+    const dynamicAssetsPath = getDynamicAssetsPath();
     try {
-      data = fs.readFileSync(`recordings\\${testName}.json`, "utf-8");
+      if (dynamicAssetsPath) {
+        const finalPath = `${dynamicAssetsPath}\\js\\sdk\\communication\\communication-call-automation\\recordings\\${testName}.json`;
+        data = fs.readFileSync(finalPath, "utf-8");
+      }
     } catch {
       console.log("original path doesn't work");
-      data = fs.readFileSync(`recordings/${testName}.json`, "utf-8");
+      if (dynamicAssetsPath) {
+        const normalizedPath = dynamicAssetsPath.replace(/\\/g, "/");
+        const finalPath = `${normalizedPath}/js/sdk/communication/communication-call-automation/recordings/${testName}.json`;
+        data = fs.readFileSync(finalPath, "utf-8");
+      }
     }
     const loadedEvents = JSON.parse(data);
 
@@ -369,4 +385,37 @@ function sanitizeObject(obj: any, keysToSanitize: string[]): void {
       }
     }
   }
+}
+
+/**
+ * Resolves the dynamic folder path inside `.assets` for azure-sdk-for-js.
+ * Returns the resolved folder path or undefine if not found.
+ */
+function getDynamicAssetsPath(): string | undefined {
+  const currentDir = process.cwd();
+  const parts = currentDir.split("\\");
+  const sdkIndex = parts.indexOf("azure-sdk-for-js");
+
+  if (sdkIndex === -1) {
+    console.error("azure-sdk-for-js not found in path");
+    return undefined;
+  }
+
+  const basePath = parts.slice(0, sdkIndex + 1).join("\\");
+  const assetsPath = `${basePath}\\.assets`;
+
+  try {
+    const folders = fs.readdirSync(assetsPath).filter((name) => {
+      const fullPath = `${assetsPath}\\${name}`;
+      return fs.statSync(fullPath).isDirectory() && name !== "breadcrumb";
+    });
+
+    if (folders.length > 0) {
+      return `${assetsPath}\\${folders[0]}`;
+    }
+  } catch (err) {
+    console.error("Error accessing .assets directory:", err);
+  }
+
+  return undefined;
 }
