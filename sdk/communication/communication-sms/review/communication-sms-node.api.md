@@ -95,19 +95,24 @@ export interface OptOutsClient {
 export interface RemoveOptions extends OperationOptions {
 }
 
-// @public
+// @public @deprecated
 export class SmsClient {
+    // @deprecated
     constructor(connectionString: string, options?: SmsClientOptions);
+    // @deprecated
     constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
+    // @deprecated
     constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
     optOuts: OptOutsClient;
     // Warning: (ae-forgotten-export) The symbol "SmsSendRequest_2" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "SmsSendOptions_2" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "SmsSendResult_2" needs to be exported by the entry point index.d.ts
+    //
+    // @deprecated
     send(sendRequest: SmsSendRequest_2, options?: SmsSendOptions_2): Promise<SmsSendResult_2[]>;
 }
 
-// @public
+// @public @deprecated
 export interface SmsClientOptions extends CommonClientOptions {
 }
 

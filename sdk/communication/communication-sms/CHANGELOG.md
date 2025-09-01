@@ -1,24 +1,42 @@
 # Release History
 
+## 1.2.0-beta.5 (2025-09-01)
+
+### Features Added
+
+- Introduced `TelcoMessagingClient` as the recommended replacement for `SmsClient`
+  - Provides modular sub-client architecture with `sms`, `optOuts`, and `deliveryReports` sub-clients
+  - Enhanced test coverage with comprehensive mocked and internal test suites
+  - All existing SMS functionality available through the `sms` sub-client
+
+### Deprecation Notice
+
+- Marked `SmsClient` class as deprecated with clear migration guidance to `TelcoMessagingClient`
+- Added deprecation warnings to `SmsClient` constructors, methods, and `SmsClientOptions` interface
+- Updated documentation with migration examples and guidance
+
+### Breaking Changes
+
+- None - all existing `SmsClient` functionality remains fully compatible
+
 ## 1.2.0-beta.4 (2025-06-16)
 
 ### Features Added
 
 - Introduced Messaging Connect support:
-    - Added a new MessagingConnect field to the SmsSendOptions model.
-    - The MessagingConnect structure includes:
-        - apiKey: used for authenticating Messaging Connect requests.
-        - partner: identifies the Messaging Connect partner.
-    - Supports:
-        - Incoming and outgoing flows for long codes.
-        - Outgoing flow for Dynamic Alpha Sender IDs (DASID).
+  - Added a new MessagingConnect field to the SmsSendOptions model.
+  - The MessagingConnect structure includes:
+    - apiKey: used for authenticating Messaging Connect requests.
+    - partner: identifies the Messaging Connect partner.
+  - Supports:
+    - Incoming and outgoing flows for long codes.
+    - Outgoing flow for Dynamic Alpha Sender IDs (DASID).
 
 ## 1.2.0-beta.3 (2024-12-19)
 
 ### Bugs Fixed
 
 - Fixed Opt Out Remove action
-
 
 ## 1.2.0-beta.2 (2024-12-10)
 

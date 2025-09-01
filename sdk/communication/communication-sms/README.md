@@ -2,6 +2,8 @@
 
 Azure Communication SMS services gives developers the ability to send SMS messages from a phone number that can be purchased through Communication Services.
 
+> **⚠️ Migration Notice**: The `SmsClient` in this library will be deprecated in the future. We recommend migrating to the `TelcoMessagingClient` from the [`@azure/communication-messages`](https://www.npmjs.com/package/@azure/communication-messages) package, which provides enhanced functionality and better support for SMS messaging.
+
 ## Getting started
 
 ### Prerequisites
@@ -201,6 +203,100 @@ for (const optOutRemoveResult of optOutRemoveResults) {
   }
 }
 ```
+
+## Migration to TelcoMessagingClient (Recommended)
+
+**Note**: While `SmsClient` continues to work, we recommend migrating to `TelcoMessagingClient` for enhanced functionality and better long-term support. The `TelcoMessagingClient` provides a modular architecture with dedicated sub-clients for different operations.
+
+### Creating TelcoMessagingClient
+
+```ts
+import { DefaultAzureCredential } from "@azure/identity";
+import { TelcoMessagingClient } from "@azure/communication-sms";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+const credential = new DefaultAzureCredential();
+const client = new TelcoMessagingClient(endpoint, credential);
+```
+
+### Sending SMS with TelcoMessagingClient
+
+```ts
+// Using the sms sub-client
+const sendResults = await client.sms.send(
+  {
+    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
+    message: "Weekly Promotion!", // The message being sent
+  },
+  {
+    enableDeliveryReport: true,
+    tag: "marketing",
+  },
+);
+
+for (const sendResult of sendResults) {
+  if (sendResult.successful) {
+    console.log("Success: ", sendResult);
+  } else {
+    console.error("Something went wrong when trying to send this message: ", sendResult);
+  }
+}
+```
+
+### Opt-Out Management with TelcoMessagingClient
+
+```ts
+// Check opt-out status using the optOuts sub-client
+const optOutCheckResults = await client.optOuts.check(
+  "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+  ["<to-phone-number-1>", "<to-phone-number-2>"],
+);
+
+// Add recipients to opt-out list
+const optOutAddResults = await client.optOuts.add("<from-phone-number>", [
+  "<to-phone-number-1>",
+  "<to-phone-number-2>",
+]);
+
+// Remove recipients from opt-out list
+const optOutRemoveResults = await client.optOuts.remove("<from-phone-number>", [
+  "<to-phone-number-1>",
+  "<to-phone-number-2>",
+]);
+```
+
+### Delivery Reports with TelcoMessagingClient
+
+```ts
+// Send SMS with delivery reports enabled
+const sendResults = await client.sms.send(
+  {
+    from: "<from-phone-number>",
+    to: ["<to-phone-number>"],
+    message: "Hello with delivery report!",
+  },
+  {
+    enableDeliveryReport: true,
+  },
+);
+
+// Get delivery report using the deliveryReports sub-client
+if (sendResults[0].successful && sendResults[0].messageId) {
+  const deliveryReport = await client.deliveryReports.get(sendResults[0].messageId);
+  console.log("Delivery report:", deliveryReport);
+}
+```
+
+### Migration Summary
+
+| SmsClient                    | TelcoMessagingClient              |
+| ---------------------------- | --------------------------------- |
+| `client.send(...)`           | `client.sms.send(...)`            |
+| `client.optOuts.check(...)`  | `client.optOuts.check(...)`       |
+| `client.optOuts.add(...)`    | `client.optOuts.add(...)`         |
+| `client.optOuts.remove(...)` | `client.optOuts.remove(...)`      |
+| Not available                | `client.deliveryReports.get(...)` |
 
 ## Troubleshooting
 
