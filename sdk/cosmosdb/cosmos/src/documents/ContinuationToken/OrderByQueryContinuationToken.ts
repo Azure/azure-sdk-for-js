@@ -1,15 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { QueryRangeWithContinuationToken } from "./CompositeQueryContinuationToken.js";
+import type { QueryRangeMapping } from "../../queryExecutionContext/QueryRangeMapping.js";
+
 /**
  * Continuation token for order by queries.
  * @internal
  */
 export interface OrderByQueryContinuationToken {
   /**
-   * Composite token for the query continuation
+   * List of query ranges with their continuation tokens
    */
-  compositeToken: string;
+  rangeMappings: QueryRangeWithContinuationToken[];
 
   /**
    * Order by items for the query
@@ -48,7 +51,7 @@ export interface OrderByQueryContinuationToken {
  * @internal
  */
 export function createOrderByQueryContinuationToken(
-  compositeToken: string,
+  rangeMappings: QueryRangeWithContinuationToken[],
   orderByItems: any[],
   rid: string,
   skipCount: number,
@@ -57,7 +60,7 @@ export function createOrderByQueryContinuationToken(
   hashedLastResult?: string
 ): OrderByQueryContinuationToken {
   return {
-    compositeToken,
+    rangeMappings,
     orderByItems,
     rid,
     skipCount,
@@ -81,4 +84,14 @@ export function serializeOrderByQueryContinuationToken(token: OrderByQueryContin
  */
 export function parseOrderByQueryContinuationToken(tokenString: string): OrderByQueryContinuationToken {
   return JSON.parse(tokenString);
+}
+
+/**
+ * Gets all range mappings from the OrderBy continuation token
+ * @param token - The OrderBy continuation token
+ * @returns Array of QueryRangeWithContinuationToken
+ * @internal
+ */
+export function getRangeMappingsFromOrderByToken(token: OrderByQueryContinuationToken): QueryRangeWithContinuationToken[] {
+  return token.rangeMappings || [];
 }

@@ -176,7 +176,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         this.finalResultArray,
         new Map(),
         {},
-        orderByItems
+        undefined
       );
       
       return {
@@ -189,7 +189,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       [],
       new Map(),
       {},
-      orderByItems
+      undefined
     );
     
     return {

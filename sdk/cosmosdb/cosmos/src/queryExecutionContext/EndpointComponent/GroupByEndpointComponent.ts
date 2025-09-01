@@ -53,7 +53,6 @@ export class GroupByEndpointComponent implements ExecutionContext {
       return { result: undefined, headers: aggregateHeaders };
     }
     
-    // New structure: { result: { buffer: bufferedResults, partitionKeyRangeMap: ..., updatedContinuationRanges: ... } }
     const parallelResult = response.result as ParallelQueryResult;
     const dataToProcess: GroupByResult[] = parallelResult.buffer as GroupByResult[];
     const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;

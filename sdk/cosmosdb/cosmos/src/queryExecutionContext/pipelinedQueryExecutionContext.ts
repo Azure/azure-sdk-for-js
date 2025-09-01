@@ -200,7 +200,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       // If distinct then add that to the pipeline
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       if (distinctType === "Ordered") {
-        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint, this.options);
+        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint);
       }
       if (distinctType === "Unordered") {
         this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
@@ -209,14 +209,28 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
       const top = partitionedQueryExecutionInfo.queryInfo.top;
       if (typeof top === "number") {
-        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top, this.options);
+        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top);
       }
       
       // If offset+limit then add that to the pipeline
-      const limit = partitionedQueryExecutionInfo.queryInfo.limit;
-      const offset = partitionedQueryExecutionInfo.queryInfo.offset;
+      // Check continuation token manager first, then fall back to query info
+      let limit = partitionedQueryExecutionInfo.queryInfo.limit;
+      let offset = partitionedQueryExecutionInfo.queryInfo.offset;
+      
+      if (this.continuationTokenManager) {
+        const tokenLimit = this.continuationTokenManager.getLimit();
+        const tokenOffset = this.continuationTokenManager.getOffset();
+        
+        if (tokenLimit !== undefined) {
+          limit = tokenLimit;
+        }
+        if (tokenOffset !== undefined) {
+          offset = tokenOffset;
+        }
+      }
+      
       if (typeof limit === "number" && typeof offset === "number") {
-        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit, this.options);
+        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
       }
     }
     this.fetchBuffer = [];
@@ -359,7 +373,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if(response.result.orderByItems){
         this.continuationTokenManager.setOrderByItemsArray(response.result.orderByItems);
       }
-      
+
       const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
 
       const temp = this.fetchBuffer.slice(0, endIndex);

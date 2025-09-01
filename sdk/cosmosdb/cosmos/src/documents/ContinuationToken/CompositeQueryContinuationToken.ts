@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QueryRange } from "../routing/QueryRange.js";
-import type { QueryRangeMapping } from "./QueryRangeMapping.js";
+import { QueryRange } from "../../routing/QueryRange.js";
+import type { QueryRangeMapping } from "../../queryExecutionContext/QueryRangeMapping.js";
 
 /**
  * @hidden
@@ -12,7 +12,7 @@ export interface CompositeQueryContinuationToken {
   /**
    * Resource ID of the container for which the continuation token is issued
    */
-  readonly rid: string;
+  rid: string;
 
   /**
    * List of query ranges with their continuation tokens
@@ -36,15 +36,15 @@ export interface CompositeQueryContinuationToken {
  */
 export function createCompositeQueryContinuationToken(
   rid: string, 
-  rangeMappings: QueryRangeMapping[], 
+  rangeMappings: QueryRangeWithContinuationToken[], 
   offset?: number,
   limit?: number
 ): CompositeQueryContinuationToken {
-  const queryRanges = convertRangeMappingsToQueryRangesWithTokens(rangeMappings);
+  // const queryRanges = convertRangeMappingsToQueryRangesWithTokens(rangeMappings);
   
   return {
     rid,
-    rangeMappings: queryRanges,
+    rangeMappings: rangeMappings,
     offset,
     limit,
   };
@@ -62,7 +62,7 @@ export function addRangeMappingToCompositeToken(token: CompositeQueryContinuatio
  * Serializes the composite continuation token to a JSON string
  * @hidden
  */
-export function compositeTokenToString(token: CompositeQueryContinuationToken): string {
+export function serializeCompositeToken(token: CompositeQueryContinuationToken): string {
   return JSON.stringify(token);
 }
 
@@ -70,30 +70,8 @@ export function compositeTokenToString(token: CompositeQueryContinuationToken): 
  * Deserializes a JSON string to a CompositeQueryContinuationToken
  * @hidden
  */
-export function compositeTokenFromString(tokenString: string): CompositeQueryContinuationToken {
-  const parsed = JSON.parse(tokenString);
-  
-  // Convert the parsed rangeMappings back to QueryRangeWithContinuationToken objects
-  const queryRanges = (parsed.rangeMappings || []).map((rangeData: any) => {
-    const queryRange = new QueryRange(
-      rangeData.queryRange?.min , // Handle both new and old format
-      rangeData.queryRange?.max ,
-      rangeData.queryRange?.isMinInclusive  || true,
-      rangeData.queryRange?.isMaxInclusive  || false
-    );
-
-    return {
-      queryRange,
-      continuationToken: rangeData.continuationToken || null,  
-    } as QueryRangeWithContinuationToken;
-  });
-  
-  return {
-    rid: parsed.rid,
-    rangeMappings: queryRanges,
-    offset: parsed.offset,
-    limit: parsed.limit,
-  };
+export function parseCompositeQueryContinuationToken(tokenString: string): CompositeQueryContinuationToken {
+  return JSON.parse(tokenString);
 }
 
 

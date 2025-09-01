@@ -126,14 +126,15 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       return { result, headers: aggregateHeaders };
     } else {
       // If no results are left in the underlying execution context, convert our aggregate results to an array
-      return this.generateAggregateResponse(aggregateHeaders, partitionKeyRangeMap, updatedContinuationRanges);
+      return this.generateAggregateResponse(aggregateHeaders, partitionKeyRangeMap, updatedContinuationRanges, orderByItems);
     }
   }
 
   private generateAggregateResponse(
     aggregateHeaders: CosmosHeaders,
     partitionKeyRangeMap?: Map<string, QueryRangeMapping>,
-    updatedContinuationRanges?: Record<string, any>
+    updatedContinuationRanges?: Record<string, any>,
+    orderByItems?: any[]
   ): Response<any> {
     for (const aggregator of this.aggregators.values()) {
       const result = aggregator.getResult();

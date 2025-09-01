@@ -20,13 +20,15 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ClientContext } from "../ClientContext.js";
 import type { QueryRangeMapping } from "./QueryRangeMapping.js";
-import type { CompositeQueryContinuationToken, QueryRangeWithContinuationToken } from "./CompositeQueryContinuationToken.js";
-import { compositeTokenFromString } from "./CompositeQueryContinuationToken.js";
+import type { CompositeQueryContinuationToken, QueryRangeWithContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import { parseCompositeQueryContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import {
   TargetPartitionRangeManager,
   QueryExecutionContextType,
 } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import { createParallelQueryResult } from "./ParallelQueryResult.js";
+import { parse } from "path";
+import { parseOrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -305,7 +307,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
       if (isOrderByQuery) {
         // For ORDER BY queries, parse the outer structure to get orderByItems and rid
-        const outerParsed = JSON.parse(continuationToken);
+        const outerParsed = parseOrderByQueryContinuationToken(continuationToken);
         if (outerParsed) {
           if (outerParsed.orderByItems) {
             orderByItems = outerParsed.orderByItems;
@@ -381,15 +383,18 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
       
       if (isOrderByQuery) {
-        // For ORDER BY queries, the continuation token has a compositeToken property
+        // For ORDER BY queries, the continuation token has rangeMappings property
         const parsed = JSON.parse(continuationToken);
-        if (parsed && parsed.compositeToken) {
-          // The compositeToken is itself a string that needs to be parsed
-          return compositeTokenFromString(parsed.compositeToken);
+        if (parsed && parsed.rangeMappings) {
+          // Convert rangeMappings directly to composite token structure
+          return {
+            rid: parsed.rid,
+            rangeMappings: parsed.rangeMappings
+          };
         }
       } else {
         // For parallel queries, parse directly
-        return compositeTokenFromString(continuationToken);
+        return parseCompositeQueryContinuationToken(continuationToken);
       }
       
       return null;
@@ -731,9 +736,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const updatedContinuationRanges = Object.fromEntries(this.updatedContinuationRanges);
         this.updatedContinuationRanges.clear();
         
-        // Update continuation token manager with the current partition mappings
-        // this.continuationTokenManager?.setPartitionKeyRangeMap(partitionDataPatchMap);
-
         // release the lock before returning
         this.sem.leave();
 

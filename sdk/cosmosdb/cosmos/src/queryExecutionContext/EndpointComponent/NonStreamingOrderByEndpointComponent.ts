@@ -98,9 +98,6 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       // New structure: { result: { buffer: bufferedResults, partitionKeyRangeMap: ..., updatedContinuationRanges: ... } }
       const parallelResult = response.result as ParallelQueryResult;
       const dataToProcess: NonStreamingOrderByResult[] = parallelResult.buffer as NonStreamingOrderByResult[];
-      partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
-      updatedContinuationRanges = parallelResult.updatedContinuationRanges;
-      const orderByItems = parallelResult.orderByItems;
 
       for (const item of dataToProcess) {
         if (item !== undefined) {
@@ -114,8 +111,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       const result = createParallelQueryResult(
         [], // empty buffer
         partitionKeyRangeMap || new Map(),
-        updatedContinuationRanges || {},
-        orderByItems
+        updatedContinuationRanges || {}
       );
       
       return {
@@ -134,8 +130,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     const result = createParallelQueryResult(
       [],
       new Map(),
-      {},
-      orderByItems
+      {}
     );
     
     return {
@@ -180,7 +175,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         buffer,
         partitionKeyRangeMap || new Map(),
         updatedContinuationRanges || {},
-        orderByItems
+        undefined
       );
       
       return {

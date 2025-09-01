@@ -3,7 +3,6 @@
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import type { Response } from "../../request/index.js";
 import type { ExecutionContext } from "../ExecutionContext.js";
-import type { FeedOptions } from "../../request/index.js";
 import { getInitialHeader, mergeHeaders } from "../headerUtils.js";
 import type { ParallelQueryResult } from "../ParallelQueryResult.js";
 import { createParallelQueryResult } from "../ParallelQueryResult.js";
@@ -14,25 +13,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     private executionContext: ExecutionContext,
     private offset: number,
     private limit: number,
-    options?: FeedOptions,
   ) {
-    // Check continuation token for offset/limit values during initialization
-    if (options?.continuationToken) {
-      try {
-        const parsedToken = JSON.parse(options.continuationToken);    
-        // Use continuation token values if available, otherwise keep provided values
-        if (parsedToken.offset) {
-          this.offset = parsedToken.offset;
-        }
-        if (parsedToken.limit) {
-          this.limit = parsedToken.limit;
-        }
-      } catch (error) {
-        throw new Error(
-          `Failed to parse Continuation token: ${options.continuationToken}`
-        );
-      }
-    }
   }
 
   public hasMoreResults(): boolean {

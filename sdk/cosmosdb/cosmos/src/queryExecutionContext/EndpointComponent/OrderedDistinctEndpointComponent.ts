@@ -4,7 +4,6 @@ import type { Response } from "../../request/index.js";
 import type { ExecutionContext } from "../ExecutionContext.js";
 import { hashObject } from "../../utils/hashObject.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
-import type { FeedOptions } from "../../request/index.js";
 import { createParallelQueryResult, type ParallelQueryResult } from "../ParallelQueryResult.js";
 
 /** @hidden */
@@ -14,7 +13,6 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
 
   constructor(
     private executionContext: ExecutionContext,
-    options?: FeedOptions
   ) {
     
   }
