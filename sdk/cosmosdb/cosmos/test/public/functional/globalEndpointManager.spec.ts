@@ -267,7 +267,7 @@ describe("GlobalEndpointManager", () => {
         return new ResourceResponse(account, headers, 200, getEmptyCosmosDiagnostics());
       };
 
-      let gem = new GlobalEndpointManager(
+      const gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
           key: masterKey,
@@ -279,8 +279,8 @@ describe("GlobalEndpointManager", () => {
       );
       await gem.refreshEndpointList(createDummyDiagnosticNode());
 
-      const writableLocations = await gem.getWriteEndpoints(createDummyDiagnosticNode());
-      const readableLocations = await gem.getReadEndpoints(createDummyDiagnosticNode());
+      const writableLocations = await gem.getWriteEndpoints();
+      const readableLocations = await gem.getReadEndpoints();
 
       assert.deepEqual(writableLocations, ["https://test-westus2.documents.azure.com:443/"]);
       assert.deepEqual(readableLocations, [
@@ -290,8 +290,8 @@ describe("GlobalEndpointManager", () => {
 
       await gem.refreshEndpointList(createDummyDiagnosticNode());
 
-      const newWritableLocations = await gem.getWriteEndpoints(createDummyDiagnosticNode());
-      const newReadableLocations = await gem.getReadEndpoints(createDummyDiagnosticNode());
+      const newWritableLocations = await gem.getWriteEndpoints();
+      const newReadableLocations = await gem.getReadEndpoints();
 
       assert.deepEqual(newWritableLocations, ["https://test-eastus2.documents.azure.com:443/"]);
       assert.deepEqual(newReadableLocations, ["https://test-eastus2.documents.azure.com:443/"]);
@@ -360,7 +360,7 @@ describe("GlobalEndpointManager", () => {
         return new ResourceResponse(account, headers, 200, getEmptyCosmosDiagnostics());
       };
 
-      let gem = new GlobalEndpointManager(
+      const gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
           key: masterKey,
@@ -372,8 +372,8 @@ describe("GlobalEndpointManager", () => {
       );
       await gem.refreshEndpointList(createDummyDiagnosticNode());
 
-      const writableLocations = await gem.getWriteEndpoints(createDummyDiagnosticNode());
-      const readableLocations = await gem.getReadEndpoints(createDummyDiagnosticNode());
+      const writableLocations = await gem.getWriteEndpoints();
+      const readableLocations = await gem.getReadEndpoints();
 
       assert.deepEqual(writableLocations, ["https://test-westus2.documents.azure.com:443/"]);
       assert.deepEqual(readableLocations, [
@@ -387,7 +387,7 @@ describe("GlobalEndpointManager", () => {
       );
 
       const newWritableLocation1 = await gem.getWriteEndpoint(createDummyDiagnosticNode());
-      const newReadableLocations1 = await gem.getReadEndpoints(createDummyDiagnosticNode());
+      const newReadableLocations1 = await gem.getReadEndpoints();
       assert.equal(newWritableLocation1, "https://test-eastus2.documents.azure.com:443/");
       assert.deepEqual(newReadableLocations1, [
         "https://test-westus2.documents.azure.com:443/",
@@ -396,7 +396,7 @@ describe("GlobalEndpointManager", () => {
 
       await gem.refreshEndpointList(createDummyDiagnosticNode());
       const newWritableLocation2 = await gem.getWriteEndpoint(createDummyDiagnosticNode());
-      const newReadableLocations2 = await gem.getReadEndpoints(createDummyDiagnosticNode());
+      const newReadableLocations2 = await gem.getReadEndpoints();
 
       assert.equal(newWritableLocation2, "https://test-westus3.documents.azure.com:443/");
       assert.deepEqual(newReadableLocations2, [
