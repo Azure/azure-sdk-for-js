@@ -99,6 +99,48 @@ export interface OptOutResponseItem {
   errorMessage?: string;
 }
 
+/** Delivery report for an outgoing SMS message. */
+export interface DeliveryReport {
+  /** The delivery status of the message. */
+  deliveryStatus: DeliveryReportDeliveryStatus;
+  /** Detailed information about the delivery status. */
+  deliveryStatusDetails?: string;
+  /** Array of delivery attempts made for this message. */
+  deliveryAttempts?: DeliveryAttempt[];
+  /** The timestamp when the delivery report was received. */
+  receivedTimestamp?: Date;
+  /** Custom tag provided when sending the message. */
+  tag?: string;
+  /** The identifier of the outgoing message. */
+  messageId: string;
+  /** The sender's phone number in E.164 format. */
+  from: string;
+  /** The recipient's phone number in E.164 format. */
+  to: string;
+}
+
+/** Details of a delivery attempt. */
+export interface DeliveryAttempt {
+  /** The timestamp of the delivery attempt. */
+  timestamp: Date;
+  /** Number of message segments that were successfully delivered. */
+  segmentsSucceeded: number;
+  /** Number of message segments that failed to be delivered. */
+  segmentsFailed: number;
+}
+
+/** Error response for failed requests. */
+export interface ErrorResponse {
+  /** A URI reference that identifies the problem type. */
+  type: string;
+  /** A short, human-readable summary of the problem type. */
+  title: string;
+  /** The HTTP status code. */
+  status: number;
+  /** The trace identifier for the request. */
+  traceId?: string;
+}
+
 /** Known values of {@link SmsSendResponseItemRepeatabilityResult} that the service accepts. */
 export enum KnownSmsSendResponseItemRepeatabilityResult {
   /** Accepted */
@@ -116,6 +158,24 @@ export enum KnownSmsSendResponseItemRepeatabilityResult {
  * **rejected**
  */
 export type SmsSendResponseItemRepeatabilityResult = string;
+
+/** Known values of {@link DeliveryReportDeliveryStatus} that the service accepts. */
+export enum KnownDeliveryReportDeliveryStatus {
+  /** Delivered */
+  Delivered = "Delivered",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for DeliveryReportDeliveryStatus. \
+ * {@link KnownDeliveryReportDeliveryStatus} can be used interchangeably with DeliveryReportDeliveryStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Delivered** \
+ * **Failed**
+ */
+export type DeliveryReportDeliveryStatus = string;
 
 /** Optional parameters. */
 export interface SmsSendOptionalParams extends coreClient.OperationOptions {}
@@ -142,6 +202,13 @@ export interface OptOutsCheckOptionalParams
 
 /** Contains response data for the check operation. */
 export type OptOutsCheckResponse = OptOutResponse;
+
+/** Optional parameters. */
+export interface DeliveryReportsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DeliveryReportsGetResponse = DeliveryReport;
 
 /** Optional parameters. */
 export interface SmsApiClientOptionalParams

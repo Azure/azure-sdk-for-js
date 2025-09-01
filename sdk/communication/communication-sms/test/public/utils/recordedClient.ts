@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { SmsClient } from "../../../src/index.js";
+import { SmsClient, TelcoMessagingClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -109,6 +109,46 @@ export async function createRecordedSmsClientWithToken(
   }
 
   const client = new SmsClient(endpoint, credential, recorder.configureClientOptions({}));
+
+  return { client, recorder };
+}
+
+export async function createRecordedTelcoMessagingClient(
+  context: TestInfo,
+): Promise<RecordedClient<TelcoMessagingClient>> {
+  const recorder = await createRecorder(context);
+
+  const client = new TelcoMessagingClient(
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+    recorder.configureClientOptions({}),
+  );
+  return {
+    client,
+    recorder,
+  };
+}
+
+export async function createRecordedTelcoMessagingClientWithToken(
+  context: TestInfo,
+): Promise<RecordedClient<TelcoMessagingClient>> {
+  const recorder = await createRecorder(context);
+
+  let credential: TokenCredential;
+  const endpoint = parseConnectionString(
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+  ).endpoint;
+
+  if (isPlaybackMode()) {
+    credential = {
+      getToken: async (_scopes: any) => {
+        return { token: "testToken", expiresOnTimestamp: 11111 };
+      },
+    };
+  } else {
+    credential = createTestCredential();
+  }
+
+  const client = new TelcoMessagingClient(endpoint, credential, recorder.configureClientOptions({}));
 
   return { client, recorder };
 }

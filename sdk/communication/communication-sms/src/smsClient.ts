@@ -16,7 +16,7 @@ import { extractOperationOptions } from "./extractOperationOptions.js";
 import { generateSendMessageRequest } from "./utils/smsUtils.js";
 import { logger } from "./logger.js";
 import { tracingClient } from "./generated/src/tracing.js";
-import { OptOutsClient as OptOutsClientImpl } from "./optOutsClient.js";
+import { OptOutsClientImpl, type OptOutsClient } from "./optOutsClient.js";
 
 /**
  * Client options used to configure SMS Client API requests.
@@ -91,110 +91,6 @@ export interface SmsSendResult {
    * Indicates if the message is processed successfully or not.
    */
   successful: boolean;
-  /**
-   * Optional error message in case of 4xx/5xx/repeatable errors.
-   */
-  errorMessage?: string;
-}
-
-/**
- * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
- * to call Opt Out Management Api methods.
- */
-export interface OptOutsClient {
-  /**
-   * Adds phone numbers to the optouts list.
-   *
-   * @param from - The sender's phone number
-   * @param to - The recipient's phone numbers
-   * @param options - Additional request options
-   */
-  add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
-  /**
-   * Checks if phone numbers are in the optouts list.
-   *
-   * @param from - The sender's phone number
-   * @param to - The recipient's phone numbers
-   * @param options - Additional request options
-   */
-  check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
-  /**
-   * Removes phone numbers from the optouts list.
-   *
-   * @param from - The sender's phone number
-   * @param to - The recipient's phone numbers
-   * @param options - Additional request options
-   */
-  remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
-}
-
-/**
- * Client options used to configure OptOuts Client API Add requests.
- */
-export interface AddOptions extends OperationOptions {}
-
-/**
- * Client options used to configure OptOuts Client API Check requests.
- */
-export interface CheckOptions extends OperationOptions {}
-
-/**
- * Client options used to configure OptOuts Client API Remove requests.
- */
-export interface RemoveOptions extends OperationOptions {}
-
-/**
- * The result of Opt Out Check request.
- */
-export interface OptOutCheckResult {
-  /**
-   * The recipient's phone number in E.164 format.
-   */
-  to: string;
-  /**
-   * Indicates if the recipient's phone number in opted out from receiving messages or not.
-   */
-  isOptedOut: boolean;
-  /**
-   * HTTP Status code.
-   */
-  httpStatusCode: number;
-  /**
-   * Optional error message in case of 4xx/5xx/repeatable errors.
-   */
-  errorMessage?: string;
-}
-
-/**
- * The result of Opt Out Add request.
- */
-export interface OptOutAddResult {
-  /**
-   * The recipient's phone number in E.164 format.
-   */
-  to: string;
-  /**
-   * HTTP Status code.
-   */
-  httpStatusCode: number;
-  /**
-   * Optional error message in case of 4xx/5xx/repeatable errors.
-   */
-  errorMessage?: string;
-}
-
-/**
- * The result of Opt Out Remove request.
- */
-export interface OptOutRemoveResult {
-  /**
-   * The recipient's phone number in E.164 format.
-   */
-  to: string;
-  /**
-   * HTTP Status code.
-   */
-  httpStatusCode: number;
   /**
    * Optional error message in case of 4xx/5xx/repeatable errors.
    */

@@ -85,9 +85,41 @@ export interface RemoveOptions extends OperationOptions {}
  * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
  * to call Opt Out Management Api methods.
  */
-export class OptOutsClient {
+export interface OptOutsClient {
+  /**
+   * Adds phone numbers to the optouts list.
+   *
+   * @param from - The sender's phone number
+   * @param to - The recipient's phone numbers
+   * @param options - Additional request options
+   */
+  add(from: string, to: string[], options?: AddOptions): Promise<OptOutAddResult[]>;
+  /**
+   * Checks if phone numbers are in the optouts list.
+   *
+   * @param from - The sender's phone number
+   * @param to - The recipient's phone numbers
+   * @param options - Additional request options
+   */
+  check(from: string, to: string[], options?: CheckOptions): Promise<OptOutCheckResult[]>;
+  /**
+   * Removes phone numbers from the optouts list.
+   *
+   * @param from - The sender's phone number
+   * @param to - The recipient's phone numbers
+   * @param options - Additional request options
+   */
+  remove(from: string, to: string[], options?: RemoveOptions): Promise<OptOutRemoveResult[]>;
+}
+
+/**
+ * A OptOutsClient represents a Client to the Azure Communication Sms service allowing you
+ * to call Opt Out Management Api methods.
+ */
+export class OptOutsClientImpl implements OptOutsClient {
   private readonly api: SmsApiClient;
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(api: SmsApiClient) {
     this.api = api;
   }

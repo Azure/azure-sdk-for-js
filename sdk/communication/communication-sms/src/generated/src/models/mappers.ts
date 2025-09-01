@@ -328,3 +328,142 @@ export const OptOutResponseItem: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const DeliveryReport: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeliveryReport",
+    modelProperties: {
+      deliveryStatus: {
+        serializedName: "deliveryStatus",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      deliveryStatusDetails: {
+        serializedName: "deliveryStatusDetails",
+        type: {
+          name: "String",
+        },
+      },
+      deliveryAttempts: {
+        serializedName: "deliveryAttempts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeliveryAttempt",
+            },
+          },
+        },
+      },
+      receivedTimestamp: {
+        serializedName: "receivedTimestamp",
+        type: {
+          name: "DateTime",
+        },
+      },
+      tag: {
+        serializedName: "tag",
+        type: {
+          name: "String",
+        },
+      },
+      messageId: {
+        serializedName: "messageId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      from: {
+        serializedName: "from",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      to: {
+        serializedName: "to",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeliveryAttempt: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeliveryAttempt",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      segmentsSucceeded: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "segmentsSucceeded",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      segmentsFailed: {
+        constraints: {
+          InclusiveMinimum: 0,
+        },
+        serializedName: "segmentsFailed",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      title: {
+        serializedName: "title",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      traceId: {
+        serializedName: "traceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};

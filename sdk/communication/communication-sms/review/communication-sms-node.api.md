@@ -18,6 +18,45 @@ export interface CheckOptions extends OperationOptions {
 }
 
 // @public
+export interface DeliveryAttempt {
+    segmentsFailed: number;
+    segmentsSucceeded: number;
+    timestamp: Date;
+}
+
+// @public
+export type DeliveryReportDeliveryStatus = string;
+
+// @public
+export interface DeliveryReportGetOptions extends OperationOptions {
+}
+
+// @public
+export interface DeliveryReportGetResult {
+    deliveryAttempts?: DeliveryAttempt[];
+    deliveryStatus: DeliveryReportDeliveryStatus;
+    deliveryStatusDetails?: string;
+    errorMessage?: string | null;
+    from: string;
+    httpStatusCode?: number;
+    messageId: string;
+    receivedTimestamp?: Date;
+    tag?: string;
+    to: string;
+}
+
+// @public
+export interface DeliveryReportsClient {
+    get(messageId: string, options?: DeliveryReportGetOptions): Promise<DeliveryReportGetResult>;
+}
+
+// @public
+export enum KnownDeliveryReportDeliveryStatus {
+    Delivered = "Delivered",
+    Failed = "Failed"
+}
+
+// @public
 export interface MessagingConnectOptions {
     apiKey: string;
     partner: string;
@@ -62,7 +101,10 @@ export class SmsClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
     optOuts: OptOutsClient;
-    send(sendRequest: SmsSendRequest, options?: SmsSendOptions): Promise<SmsSendResult[]>;
+    // Warning: (ae-forgotten-export) The symbol "SmsSendRequest_2" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "SmsSendOptions_2" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "SmsSendResult_2" needs to be exported by the entry point index.d.ts
+    send(sendRequest: SmsSendRequest_2, options?: SmsSendOptions_2): Promise<SmsSendResult_2[]>;
 }
 
 // @public
@@ -91,6 +133,21 @@ export interface SmsSendResult {
     messageId?: string;
     successful: boolean;
     to: string;
+}
+
+// @public
+export class TelcoMessagingClient {
+    constructor(connectionString: string, options?: TelcoMessagingClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: TelcoMessagingClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: TelcoMessagingClientOptions);
+    deliveryReports: DeliveryReportsClient;
+    optOuts: OptOutsClient;
+    // Warning: (ae-forgotten-export) The symbol "SmsClient_2" needs to be exported by the entry point index.d.ts
+    sms: SmsClient_2;
+}
+
+// @public
+export interface TelcoMessagingClientOptions extends CommonClientOptions {
 }
 
 // (No @packageDocumentation comment for this package)
