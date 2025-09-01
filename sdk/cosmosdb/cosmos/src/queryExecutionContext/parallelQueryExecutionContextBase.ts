@@ -25,7 +25,8 @@ import { compositeTokenFromString } from "./CompositeQueryContinuationToken.js";
 import {
   TargetPartitionRangeManager,
   QueryExecutionContextType,
-} from "./TargetPartitionRangeManager.js";
+} from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+import { createParallelQueryResult } from "./ParallelQueryResult.js";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -188,8 +189,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             const filterCondition = rangeTokenPair.filteringCondition ? rangeTokenPair.filteringCondition : undefined;
             // TODO: add un it test for this
             // Extract EPK values from the partition range if available
-            const startEpk = partitionTargetRange.epkMin;
-            const endEpk = partitionTargetRange.epkMax;
+            const startEpk = (partitionTargetRange as any).epkMin;
+            const endEpk = (partitionTargetRange as any).epkMax;
 
             targetPartitionQueryExecutionContextList.push(
               this._createTargetPartitionQueryExecutionContext(
@@ -403,7 +404,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   private async _handleContinuationTokenMerge(
     rangeWithToken: QueryRangeWithContinuationToken,
-    newMergedRange: any
+    _newMergedRange: any
   ): Promise<void> {
     // Track this merge for later continuation token updates
     const rangeKey = `${rangeWithToken.queryRange.min}-${rangeWithToken.queryRange.max}`;
@@ -736,10 +737,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         // release the lock before returning
         this.sem.leave();
 
+        const result = createParallelQueryResult(
+          bufferedResults,
+          partitionDataPatchMap,
+          updatedContinuationRanges
+        );
+
         return resolve({
-          result: { buffer: bufferedResults, 
-            partitionKeyRangeMap: partitionDataPatchMap, 
-            updatedContinuationRanges: updatedContinuationRanges}, 
+          result, 
           headers: this._getAndResetActiveResponseHeaders(),
         });
       });

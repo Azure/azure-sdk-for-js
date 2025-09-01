@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, beforeEach } from "vitest";
-import { ParallelQueryRangeStrategy } from "../../../../src/queryExecutionContext/ParallelQueryRangeStrategy.js";
+import { ParallelQueryRangeStrategy } from "../../../../src/queryExecutionContext/queryFilteringStrategy/ParallelQueryRangeStrategy.js";
 import type { PartitionKeyRange } from "../../../../src/index.js";
 
 describe("ParallelQueryRangeStrategy", () => {

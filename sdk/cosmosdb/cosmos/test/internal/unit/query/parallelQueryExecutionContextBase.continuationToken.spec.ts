@@ -3,7 +3,7 @@
 
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { ParallelQueryExecutionContextBase } from "../../../../src/queryExecutionContext/parallelQueryExecutionContextBase.js";
-import { TargetPartitionRangeManager, QueryExecutionContextType } from "../../../../src/queryExecutionContext/TargetPartitionRangeManager.js";
+import { TargetPartitionRangeManager, QueryExecutionContextType } from "../../../../src/queryExecutionContext/queryFilteringStrategy/TargetPartitionRangeManager.js";
 import type { FeedOptions } from "../../../../src/request/index.js";
 import type { PartitionedQueryExecutionInfo } from "../../../../src/request/ErrorResponse.js";
 import type { ClientContext } from "../../../../src/ClientContext.js";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, beforeEach } from "vitest";
-import { OrderByQueryRangeStrategy } from "../../../../src/queryExecutionContext/OrderByQueryRangeStrategy.js";
+import { OrderByQueryRangeStrategy } from "../../../../src/queryExecutionContext/queryFilteringStrategy/OrderByQueryRangeStrategy.js";
 import type { PartitionKeyRange } from "../../../../src/index.js";
 
 describe("OrderByQueryRangeStrategy", () => {

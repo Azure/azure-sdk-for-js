@@ -5,14 +5,14 @@ import { describe, it, assert, expect, beforeEach, vi } from "vitest";
 import {
   TargetPartitionRangeManager,
   QueryExecutionContextType,
-} from "../../../../src/queryExecutionContext/TargetPartitionRangeManager.js";
+} from "../../../../src/queryExecutionContext/queryFilteringStrategy/TargetPartitionRangeManager.js";
 import type {
   TargetPartitionRangeManagerConfig,
-} from "../../../../src/queryExecutionContext/TargetPartitionRangeManager.js";
+} from "../../../../src/queryExecutionContext/queryFilteringStrategy/TargetPartitionRangeManager.js";
 import type {
   TargetPartitionRangeStrategy,
   PartitionRangeFilterResult,
-} from "../../../../src/queryExecutionContext/TargetPartitionRangeStrategy.js";
+} from "../../../../src/queryExecutionContext/queryFilteringStrategy/TargetPartitionRangeStrategy.js";
 import type { PartitionKeyRange } from "../../../../src/index.js";
 
 // Mock strategy implementation for testing

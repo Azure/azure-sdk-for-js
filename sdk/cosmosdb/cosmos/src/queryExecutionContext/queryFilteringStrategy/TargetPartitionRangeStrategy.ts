@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PartitionKeyRange } from "../index.js";
+import type { PartitionKeyRange } from "../../index.js";
 import type { PartitionRangeWithContinuationToken } from "./TargetPartitionRangeManager.js";
 
 /**

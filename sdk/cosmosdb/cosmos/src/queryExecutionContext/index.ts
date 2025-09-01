@@ -18,11 +18,11 @@ export * from "./orderByComparator.js";
 export {
   TargetPartitionRangeManager,
   QueryExecutionContextType,
-} from "./TargetPartitionRangeManager.js";
-export type { TargetPartitionRangeManagerConfig } from "./TargetPartitionRangeManager.js";
+} from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
+export type { TargetPartitionRangeManagerConfig } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 export type {
   TargetPartitionRangeStrategy,
   PartitionRangeFilterResult,
-} from "./TargetPartitionRangeStrategy.js";
-export { ParallelQueryRangeStrategy } from "./ParallelQueryRangeStrategy.js";
-export { OrderByQueryRangeStrategy } from "./OrderByQueryRangeStrategy.js";
+} from "./queryFilteringStrategy/TargetPartitionRangeStrategy.js";
+export { ParallelQueryRangeStrategy } from "./queryFilteringStrategy/ParallelQueryRangeStrategy.js";
+export { OrderByQueryRangeStrategy } from "./queryFilteringStrategy/OrderByQueryRangeStrategy.js";
