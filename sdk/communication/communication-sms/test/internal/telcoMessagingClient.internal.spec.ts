@@ -234,5 +234,135 @@ matrix([[false, true]], async function (useAad: boolean) {
         assert.isFalse(results[0].isOptedOut);
       });
     });
+
+    describe("DeliveryReports Client", { sequential: true }, async () => {
+      let messageId: string;
+
+      it("can send SMS with delivery report enabled and get message ID", { timeout: 5000 }, async () => {
+        const fromNumber = env.AZURE_PHONE_NUMBER as string;
+        const validToNumber = env.AZURE_PHONE_NUMBER as string;
+
+        const results = await client.sms.send(
+          {
+            from: fromNumber,
+            to: [validToNumber],
+            message: "test message for delivery report",
+          },
+          {
+            enableDeliveryReport: true,
+            tag: "TELCO_DELIVERY_REPORT_TEST",
+          },
+        );
+
+        assert.lengthOf(results, 1, "must return as many results as there were recipients");
+        assertIsSuccessResult(results[0], validToNumber);
+        
+        if (results[0].messageId) {
+          messageId = results[0].messageId;
+          assert.isString(messageId);
+          assert.isNotEmpty(messageId);
+        } else {
+          assert.fail("Expected messageId to be present in successful SMS result");
+        }
+      });
+
+      it("can get delivery report for sent message", { timeout: 10000 }, async () => {
+        // Note: In live tests, delivery reports may not be immediately available
+        // This test verifies the API call works, but may get a "pending" or "not found" status
+        
+        if (!messageId) {
+          // Skip if no message ID from previous test
+          assert.fail("No message ID available from previous test");
+          return;
+        }
+
+        try {
+          const deliveryReport = await client.deliveryReports.get(messageId);
+          
+          // Verify the structure regardless of delivery status
+          assert.equal(deliveryReport.messageId, messageId);
+          assert.isString(deliveryReport.deliveryStatus);
+          assert.isNumber(deliveryReport.httpStatusCode);
+          
+          // The actual delivery status might be "Delivered" or "Failed", etc.
+          // depending on timing and external factors in live tests
+          
+        } catch (error: any) {
+          // If the delivery report is not yet available, that's acceptable in live tests
+          // The important thing is that the API call structure is correct
+          if (error.statusCode === 404) {
+            console.log("Delivery report not yet available (404) - this is acceptable in live tests");
+          } else {
+            throw error;
+          }
+        }
+      });
+
+      it("handles delivery report for non-existent message", { timeout: 4000 }, async () => {
+        const nonExistentMessageId = "non-existent-message-id-12345";
+        
+        try {
+          await client.deliveryReports.get(nonExistentMessageId);
+          assert.fail("Should have thrown an error for non-existent message");
+        } catch (error: any) {
+          // Should get a 404 or similar error for non-existent message
+          // Handle the case where error.statusCode might be undefined
+          const statusCode = error.statusCode || error.status || 0;
+          assert.isTrue(404 === statusCode, 
+            `Expected 404 status code, got ${statusCode}`);
+        }
+      });
+    });
+
+    describe("Cross-functional integration tests", async () => {
+      it("can use all three sub-clients in sequence", { timeout: 15000 }, async () => {
+        const fromNumber = env.AZURE_PHONE_NUMBER as string;
+        const validToNumber = env.AZURE_PHONE_NUMBER as string;
+
+        // 1. Send SMS with delivery report
+        const smsResults = await client.sms.send(
+          {
+            from: fromNumber,
+            to: [validToNumber],
+            message: "integration test message",
+          },
+          {
+            enableDeliveryReport: true,
+            tag: "TELCO_INTEGRATION_TEST",
+          },
+        );
+        
+        assertIsSuccessResult(smsResults[0], validToNumber);
+        const messageId = smsResults[0].messageId;
+        
+        if (!messageId) {
+          assert.fail("Expected messageId to be present in successful SMS result");
+          return;
+        }
+
+        // 2. Check opt-out status
+        const optOutCheckResults = await client.optOuts.check(fromNumber, [validToNumber]);
+        assert.lengthOf(optOutCheckResults, 1);
+        assert.equal(optOutCheckResults[0].httpStatusCode, 200);
+
+        // 3. Attempt to get delivery report (may not be available immediately)
+        try {
+          const deliveryReport = await client.deliveryReports.get(messageId);
+          assert.equal(deliveryReport.messageId, messageId);
+        } catch (error: any) {
+          // Delivery report may not be available yet in live tests
+          if (error.statusCode === 404) {
+            console.log("Delivery report not yet available - acceptable in integration test");
+          } else {
+            throw error;
+          }
+        }
+
+        // Verify all sub-clients are working
+        assert.isDefined(client.sms);
+        assert.isDefined(client.optOuts);
+        assert.isDefined(client.deliveryReports);
+      });
+    });
   });
 });

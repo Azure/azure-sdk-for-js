@@ -287,7 +287,7 @@ matrix([[false, true]], async function (useAad: boolean) {
             assert.isString(deliveryReport.deliveryStatus);
             assert.isNumber(deliveryReport.httpStatusCode);
             
-            // The actual delivery status might be "Pending", "Delivered", "Failed", etc.
+            // The actual delivery status might be "Delivered" or "Failed", etc.
             // depending on timing and external factors in live tests
             
           } catch (error: any) {
@@ -311,8 +311,8 @@ matrix([[false, true]], async function (useAad: boolean) {
             // Should get a 404 or similar error for non-existent message
             // Handle the case where error.statusCode might be undefined
             const statusCode = error.statusCode || error.status || 0;
-            assert.isTrue([404, 400].includes(statusCode), 
-              `Expected 404 or 400 status code, got ${statusCode}`);
+            assert.isTrue(404 === statusCode, 
+              `Expected 404 status code, got ${statusCode}`);
           }
         });
       });
