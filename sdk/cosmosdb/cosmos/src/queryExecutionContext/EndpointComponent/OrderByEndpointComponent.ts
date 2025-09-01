@@ -3,31 +3,23 @@
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import type { Response } from "../../request/index.js";
 import type { ExecutionContext } from "../ExecutionContext.js";
-import type { ContinuationTokenManager } from "../ContinuationTokenManager.js";
-import type { FeedOptions } from "../../request/index.js";
 import type { ParallelQueryResult } from "../ParallelQueryResult.js";
 import { createParallelQueryResult } from "../ParallelQueryResult.js";
 
 /** @hidden */
 export class OrderByEndpointComponent implements ExecutionContext {
-  private continuationTokenManager: ContinuationTokenManager | undefined;
-
   /**
    * Represents an endpoint in handling an order by query. For each processed orderby
    * result it returns 'payload' item of the result
    *
    * @param executionContext - Underlying Execution Context
    * @param emitRawOrderByPayload - Whether to emit raw order by payload
-   * @param options - Feed options that may contain continuation token manager
    * @hidden
    */
   constructor(
     private executionContext: ExecutionContext,
     private emitRawOrderByPayload: boolean = false,
-    options?: FeedOptions,
   ) {
-    // Get the continuation token manager from options if available
-    this.continuationTokenManager = (options as any)?.continuationTokenManager;
   }
   /**
    * Determine if there are still remaining resources to processs.
@@ -51,7 +43,8 @@ export class OrderByEndpointComponent implements ExecutionContext {
       const result = createParallelQueryResult(
         [],
         new Map(),
-        {}
+        {},
+        []
       );
       
       return { result, headers: response.headers };
@@ -75,16 +68,12 @@ export class OrderByEndpointComponent implements ExecutionContext {
       orderByItemsArray.push(item.orderByItems);
     }
 
-    // Set the orderByItemsArray directly in the continuation token manager
-    if (this.continuationTokenManager && orderByItemsArray.length > 0) {
-      this.continuationTokenManager.setOrderByItemsArray(orderByItemsArray);
-    }
-
-    // Return in the new structure format using the utility function
+    // Return in the new structure format using the utility function with orderByItems
     const result = createParallelQueryResult(
       buffer,
       partitionKeyRangeMap,
-      updatedContinuationRanges
+      updatedContinuationRanges,
+      orderByItemsArray
     );
 
     return { result, headers: response.headers };

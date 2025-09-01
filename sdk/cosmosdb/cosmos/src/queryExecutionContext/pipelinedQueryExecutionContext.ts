@@ -155,11 +155,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         );
       }
     } else {    
-      // Pass shared continuation token manager via options
-      const optionsWithSharedManager = {
-        ...this.options,
-        continuationTokenManager: this.continuationTokenManager
-      };
+     
 
       if (Array.isArray(sortOrders) && sortOrders.length > 0) {
         // Need to wrap orderby execution context in endpoint component, since the data is nested as a
@@ -170,19 +166,18 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             this.clientContext,
             this.collectionLink,
             this.query,
-            optionsWithSharedManager,
+            this.options,
             this.partitionedQueryExecutionInfo,
             correlatedActivityId,
           ),
           this.emitRawOrderByPayload,
-          optionsWithSharedManager,
         );
       } else {
         this.endpoint = new ParallelQueryExecutionContext(
           this.clientContext,
           this.collectionLink,
           this.query,
-          optionsWithSharedManager,
+          this.options,
           this.partitionedQueryExecutionInfo,
           correlatedActivityId,
         );
@@ -205,7 +200,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       // If distinct then add that to the pipeline
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       if (distinctType === "Ordered") {
-        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint, optionsWithSharedManager);
+        this.endpoint = new OrderedDistinctEndpointComponent(this.endpoint, this.options);
       }
       if (distinctType === "Unordered") {
         this.endpoint = new UnorderedDistinctEndpointComponent(this.endpoint);
@@ -214,14 +209,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       // If top then add that to the pipeline. TOP N is effectively OFFSET 0 LIMIT N
       const top = partitionedQueryExecutionInfo.queryInfo.top;
       if (typeof top === "number") {
-        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top, optionsWithSharedManager);
+        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top, this.options);
       }
       
       // If offset+limit then add that to the pipeline
       const limit = partitionedQueryExecutionInfo.queryInfo.limit;
       const offset = partitionedQueryExecutionInfo.queryInfo.offset;
       if (typeof limit === "number" && typeof offset === "number") {
-        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit, optionsWithSharedManager);
+        this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit, this.options);
       }
     }
     this.fetchBuffer = [];
@@ -356,11 +351,15 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       
       // Handle partition range changes (splits/merges) if they occurred
       if(response.result.updatedContinuationRanges) {
-        console.log("Processing updated continuation ranges from response");
         this.continuationTokenManager.handlePartitionRangeChanges(
           response.result.updatedContinuationRanges
         );
       }
+
+      if(response.result.orderByItems){
+        this.continuationTokenManager.setOrderByItemsArray(response.result.orderByItems);
+      }
+      
       const { endIndex, processedRanges } = this.fetchBufferEndIndexForCurrentPage();
 
       const temp = this.fetchBuffer.slice(0, endIndex);

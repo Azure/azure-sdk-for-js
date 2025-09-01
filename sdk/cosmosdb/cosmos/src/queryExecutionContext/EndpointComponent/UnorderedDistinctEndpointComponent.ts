@@ -31,7 +31,8 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
       const result = createParallelQueryResult(
         [],
         new Map(),
-        {}
+        {},
+        undefined
       );
       
       return { result, headers: response.headers };
@@ -42,6 +43,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     const dataToProcess: any[] = parallelResult.buffer;
     const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
     const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
+    const orderByItems = parallelResult.orderByItems;
 
     for (const item of dataToProcess) {
       if (item) {
@@ -57,7 +59,8 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     const result = createParallelQueryResult(
       buffer,
       partitionKeyRangeMap,
-      updatedContinuationRanges
+      updatedContinuationRanges,
+      orderByItems
     );
 
     return { result, headers: response.headers };

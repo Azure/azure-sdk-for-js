@@ -35,7 +35,8 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
       const result = createParallelQueryResult(
         [],
         new Map(),
-        {}
+        {},
+        undefined
       );
       
       return { result, headers: response.headers };
@@ -46,6 +47,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
     const dataToProcess: any[] = parallelResult.buffer;
     const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
     const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
+    const orderByItems = parallelResult.orderByItems;
 
     // Process each item and maintain hashedLastResult for distinct filtering
     for (const item of dataToProcess) {
@@ -69,7 +71,8 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
     const result = createParallelQueryResult(
       buffer,
       updatedPartitionKeyRangeMap,
-      updatedContinuationRanges
+      updatedContinuationRanges,
+      orderByItems
     );
 
     return {

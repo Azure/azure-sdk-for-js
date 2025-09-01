@@ -53,7 +53,8 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       const result = createParallelQueryResult(
         [],
         new Map(),
-        {}
+        {},
+        undefined
       );
       
       return { result, headers: response.headers };
@@ -64,7 +65,8 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     const dataToProcess: any[] = parallelResult.buffer;
     const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
     const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
-    
+    const orderByItems = parallelResult.orderByItems;
+
     const initialOffset = this.offset;
     const initialLimit = this.limit;
 
@@ -88,7 +90,8 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     const result = createParallelQueryResult(
       buffer,
       updatedPartitionKeyRangeMap,
-      updatedContinuationRanges
+      updatedContinuationRanges,
+      orderByItems
     );
 
     return {

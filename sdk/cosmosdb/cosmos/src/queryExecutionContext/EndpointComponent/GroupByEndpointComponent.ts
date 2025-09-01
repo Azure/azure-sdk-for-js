@@ -102,7 +102,8 @@ export class GroupByEndpointComponent implements ExecutionContext {
       const result = createParallelQueryResult(
         [], // empty buffer
         partitionKeyRangeMap,
-        updatedContinuationRanges
+        updatedContinuationRanges,
+        undefined
       );
       
       return { result, headers: aggregateHeaders };
@@ -129,7 +130,8 @@ export class GroupByEndpointComponent implements ExecutionContext {
     const result = createParallelQueryResult(
       this.aggregateResultArray,
       partitionKeyRangeMap || new Map(),
-      updatedContinuationRanges || {}
+      updatedContinuationRanges || {},
+      undefined
     );
     
     return { result, headers: aggregateHeaders };

@@ -22,6 +22,12 @@ export interface ParallelQueryResult {
    * Updated continuation ranges after partition split/merge operations
    */
   updatedContinuationRanges: Record<string, any>;
+  
+  /**
+   * Optional array of orderBy items corresponding to each item in the buffer
+   * Used for ORDER BY queries to track sorting criteria
+   */
+  orderByItems?: any[][];
 }
 
 /**
@@ -29,19 +35,27 @@ export interface ParallelQueryResult {
  * @param buffer - The query result data
  * @param partitionKeyRangeMap - Partition key range mappings
  * @param updatedContinuationRanges - Updated continuation ranges
+ * @param orderByItems - Optional array of orderBy items for each buffer item
  * @returns A new ParallelQueryResult instance
  * @hidden
  */
 export function createParallelQueryResult(
   buffer: any[],
   partitionKeyRangeMap: Map<string, QueryRangeMapping>,
-  updatedContinuationRanges: Record<string, any>
+  updatedContinuationRanges: Record<string, any>,
+  orderByItems?: any[][]
 ): ParallelQueryResult {
-  return {
+  const result: ParallelQueryResult = {
     buffer,
     partitionKeyRangeMap,
     updatedContinuationRanges
   };
+  
+  if (orderByItems !== undefined) {
+    result.orderByItems = orderByItems;
+  }
+  
+  return result;
 }
 
 /**

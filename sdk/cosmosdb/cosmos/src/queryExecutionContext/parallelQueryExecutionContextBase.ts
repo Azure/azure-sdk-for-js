@@ -740,7 +740,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const result = createParallelQueryResult(
           bufferedResults,
           partitionDataPatchMap,
-          updatedContinuationRanges
+          updatedContinuationRanges,
+          undefined
         );
 
         return resolve({

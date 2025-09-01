@@ -66,6 +66,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     const dataToProcess: GroupByResult[] = parallelResult.buffer as GroupByResult[];
     const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
     const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
+    const orderByItems = parallelResult.orderByItems;
 
     for (const item of dataToProcess) {
       if (item) {
@@ -103,7 +104,8 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       const result = createParallelQueryResult(
         [],
         partitionKeyRangeMap,
-        updatedContinuationRanges
+        updatedContinuationRanges,
+        orderByItems
       );
       
       return {
@@ -117,7 +119,8 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       const result = createParallelQueryResult(
         [], // empty buffer
         partitionKeyRangeMap,
-        updatedContinuationRanges
+        updatedContinuationRanges,
+        orderByItems
       );
       
       return { result, headers: aggregateHeaders };
@@ -144,7 +147,8 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     const result = createParallelQueryResult(
       this.aggregateResultArray,
       partitionKeyRangeMap || new Map(),
-      updatedContinuationRanges || {}
+      updatedContinuationRanges || {},
+      orderByItems
     );
     
     return {

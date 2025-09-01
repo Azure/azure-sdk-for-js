@@ -125,7 +125,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
           const result = createParallelQueryResult(
             this.finalResultArray,
             new Map(),
-            {}
+            {},
+            undefined
           );
           
           return {
@@ -142,7 +143,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       const dataToProcess: NonStreamingOrderByResult[] = parallelResult.buffer as NonStreamingOrderByResult[];
       const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
       const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
-      
+      const orderByItems = parallelResult.orderByItems;
+
       for (const item of dataToProcess) {
         if (item) {
           const key = await hashObject(item?.payload);
@@ -155,7 +157,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         const result = createParallelQueryResult(
           [], // empty buffer
           partitionKeyRangeMap,
-          updatedContinuationRanges
+          updatedContinuationRanges,
+          orderByItems
         );
         
         return {
@@ -172,7 +175,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       const result = createParallelQueryResult(
         this.finalResultArray,
         new Map(),
-        {}
+        {},
+        orderByItems
       );
       
       return {
@@ -184,7 +188,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     const result = createParallelQueryResult(
       [],
       new Map(),
-      {}
+      {},
+      orderByItems
     );
     
     return {
