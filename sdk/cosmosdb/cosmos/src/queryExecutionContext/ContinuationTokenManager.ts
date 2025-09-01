@@ -214,11 +214,6 @@ export class ContinuationTokenManager {
       const lastItemIndexOnPage = result.endIndex - 1;
       if (lastItemIndexOnPage < this.orderByItemsArray.length) {
         lastOrderByItems = this.orderByItemsArray[lastItemIndexOnPage];
-      } else {
-        throw new Error(
-          `ORDER BY processing error: orderByItemsArray length (${this.orderByItemsArray.length}) ` +
-          `is insufficient for the processed page size (${result.endIndex} items)`
-        );
       }
     }
 
