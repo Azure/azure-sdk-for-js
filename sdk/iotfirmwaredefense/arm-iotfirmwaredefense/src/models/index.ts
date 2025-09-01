@@ -49,6 +49,7 @@ export {
   CryptoKeyType,
   CveResource,
   CveResult,
+  CveComponent,
   CvssScore,
   CveLink,
   PasswordHashResource,

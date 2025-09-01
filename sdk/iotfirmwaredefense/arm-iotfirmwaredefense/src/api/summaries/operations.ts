@@ -10,12 +10,12 @@ import {
   _SummaryResourceListResult,
   _summaryResourceListResultDeserializer,
 } from "../../models/models.js";
-import { SummariesListByFirmwareOptionalParams, SummariesGetOptionalParams } from "./options.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { SummariesListByFirmwareOptionalParams, SummariesGetOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
