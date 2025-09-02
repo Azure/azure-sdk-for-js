@@ -33,7 +33,7 @@ describe("AzureFleet test", () => {
     const credential = createTestCredential();
     client = new AzureFleetClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus2euap";
-    resourceGroup = "myjstest";
+    resourceGroup = "SSS3PT_myjstest";
     resourcename = "resourcetest";
   });
 
@@ -41,6 +41,14 @@ describe("AzureFleet test", () => {
     if (recorder?.recordingId) {
       await recorder.stop();
     }
+  });
+
+  it.only("operations list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
   });
 
   // first create a networkSecurityGroups named "testnsg" with eastus2euap on portal
@@ -114,7 +122,7 @@ describe("AzureFleet test", () => {
                         id:
                           "/subscriptions/" +
                           subscriptionId +
-                          "/resourceGroups/myjstest/providers/Microsoft.Network/networkSecurityGroups/testnsg",
+                          "/resourceGroups/SSS3PT_myjstest/providers/Microsoft.Network/networkSecurityGroups/testnsg",
                       },
                       ipConfigurations: [
                         {
@@ -125,7 +133,7 @@ describe("AzureFleet test", () => {
                               id:
                                 "/subscriptions/" +
                                 subscriptionId +
-                                "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/czwtestvn/subnets/testsub",
+                                "/resourceGroups/SSS3PT_myjstest/providers/Microsoft.Network/virtualNetworks/czwtestvn/subnets/testsub",
                             },
                           },
                         },
