@@ -31,7 +31,7 @@ describe("EndpointDiscoveryRetryPolicy", () => {
     assert.isFalse(result as boolean);
   });
 
-  it("returns false if retryCount exceed maxRetries", async () => {
+  it("returns false if retryCount exceeds maxRetries", async () => {
     const policy = new EndpointDiscoveryRetryPolicy(gemStub, ResourceType.none, OperationType.Read);
     (policy as any).currentRetryAttemptCount = 121;
     const result = await policy.shouldRetry(
