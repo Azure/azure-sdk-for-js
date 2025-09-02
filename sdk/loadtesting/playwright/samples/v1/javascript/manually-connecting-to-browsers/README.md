@@ -20,7 +20,7 @@ Make sure you have set up your Playwright Workspace in Azure App Testing by foll
 1. Run this command to install the service package
 
     ```sh
-    npm init @azure/playwright
+    npm init @azure/playwright@latest
     ```
 
 Installing the service package will create a service config file named `playwright.service.config.ts`
