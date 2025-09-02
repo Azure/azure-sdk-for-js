@@ -1,4 +1,12 @@
 # Release History
+
+## 1.1.0 (2025-08-26)
+
+### Features Added
+  - Interface ObservabilityEvalClientOptionalParams has a new optional parameter cloudSetting
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
+
     
 ## 1.0.0 (2025-06-06)
 
