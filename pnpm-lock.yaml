@@ -5241,19 +5241,25 @@ importers:
   sdk/computeschedule/arm-computeschedule:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.1.0
+        specifier: ^2.3.1
         version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.18.2
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
       '@azure/core-util':
-        specifier: ^1.11.0
+        specifier: ^1.12.0
         version: link:../../core/core-util
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
@@ -10682,8 +10688,8 @@ importers:
         specifier: ^1.3.11
         version: 1.3.14
       '@types/ws':
-        specifier: ^7.2.4
-        version: 7.4.7
+        specifier: ^8.18.1
+        version: 8.18.1
       '@vitest/browser':
         specifier: catalog:testing
         version: 3.2.4(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(playwright@1.55.0)(vite@7.1.3(@types/node@20.19.11)(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1))(vitest@3.2.4)
@@ -23502,8 +23508,8 @@ importers:
         specifier: 'catalog:'
         version: 20.19.11
       '@types/ws':
-        specifier: ^7.2.4
-        version: 7.4.7
+        specifier: ^8.18.1
+        version: 8.18.1
       '@vitest/browser':
         specifier: catalog:testing
         version: 3.2.4(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(playwright@1.55.0)(vite@7.1.3(@types/node@20.19.11)(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1))(vitest@3.2.4)
@@ -27879,8 +27885,8 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
       ws:
-        specifier: ^7.4.5
-        version: 7.5.10
+        specifier: ^8.18.0
+        version: 8.18.3
     devDependencies:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
@@ -27901,8 +27907,8 @@ importers:
         specifier: 'catalog:'
         version: 20.19.11
       '@types/ws':
-        specifier: ^7.4.5
-        version: 7.4.7
+        specifier: ^8.18.1
+        version: 8.18.1
       '@vitest/browser':
         specifier: catalog:testing
         version: 3.2.4(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(playwright@1.55.0)(vite@7.1.3(@types/node@20.19.11)(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1))(vitest@3.2.4)
@@ -28045,6 +28051,76 @@ importers:
         version: 5.8.3
       vitest:
         specifier: catalog:testing
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.11)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
+
+  sdk/workloadorchestration/arm-workloadorchestration:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: ^1.20.0
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: ^2.0.0
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: ^4.1.0
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: ^1.0.0
+        version: 1.0.0(@types/debug@4.1.12)(@types/node@20.19.11)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
+      '@azure/dev-tool':
+        specifier: ^1.0.0
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: ^3.0.0
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: ^4.9.0
+        version: link:../../identity/identity
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.11
+      '@vitest/browser':
+        specifier: ^3.0.9
+        version: 3.2.4(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(playwright@1.55.0)(vite@7.1.3(@types/node@20.19.11)(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1))(vitest@3.2.4)
+      '@vitest/coverage-istanbul':
+        specifier: ^3.0.9
+        version: 3.2.4(vitest@3.2.4)
+      dotenv:
+        specifier: ^16.0.0
+        version: 16.6.1
+      eslint:
+        specifier: ^9.9.0
+        version: 9.34.0
+      playwright:
+        specifier: ^1.52.0
+        version: 1.55.0
+      typescript:
+        specifier: ~5.8.2
+        version: 5.8.3
+      vitest:
+        specifier: ^3.0.9
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.11)(@vitest/browser@3.2.4)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.11)(typescript@5.8.3))(terser@5.39.0)(tsx@4.20.5)(yaml@2.8.1)
 
   sdk/workloads/arm-workloads:
@@ -29889,9 +29965,6 @@ packages:
 
   '@types/unzipper@0.10.11':
     resolution: {integrity: sha512-D25im2zjyMCcgL9ag6N46+wbtJBnXIr7SI4zHf9eJD2Dw2tEB5e+p5MYkrxKIVRscs5QV0EhtU9rgXSPx90oJg==}
-
-  '@types/ws@7.4.7':
-    resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -35280,10 +35353,6 @@ snapshots:
   '@types/trusted-types@2.0.7': {}
 
   '@types/unzipper@0.10.11':
-    dependencies:
-      '@types/node': 20.19.11
-
-  '@types/ws@7.4.7':
     dependencies:
       '@types/node': 20.19.11
 

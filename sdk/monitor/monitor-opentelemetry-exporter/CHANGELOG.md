@@ -6,9 +6,12 @@
 
 - Added support for configuring customer SDK Stats export interval using the `APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL` environment variable (specified in seconds).
 
+- Added support for the `telemetry_success` field on customer SDK Stats to track if dropped request and dependency telemetry succeeded or failed.
+
 ### Other Changes
 
 - Renamed Customer Statsbeat feature to customer SDK Stats.
+- Update drop.reason values for customer SDK Stats.
 - Update logic setting ai.location.ip to use the microsoft.client.ip value by default.
 
 ## 1.0.0-beta.33 (2025-08-04)
