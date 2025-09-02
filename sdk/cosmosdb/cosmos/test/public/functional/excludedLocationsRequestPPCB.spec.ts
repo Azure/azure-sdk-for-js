@@ -228,14 +228,14 @@ describe("Excluded Regions with PPCB", { timeout: 30000 }, () => {
     // Initially, the read region is set to East US.
     assert.equal(readEndpoint, "https://ppcb-eastus.documents.azure.com:443/");
 
-    const requestOptions = { excludedLocations: ["Australia East", "East US"] };
+    const requestOptions = { excludedLocations: ["Australia East"] };
 
     // Now, let's say East US goes down. In this case, we will receive a 503 error from the East US region.
     // We will not trigger a partition-level failover immediately. The failover will only be triggered if we receive more than 10 read failures within a 1-minute window.
-    // The first 10 failed read requests will be retried according to our timeout retry policy.
+    // The first 10 failed read requests will be retried according to our timeout retry policy and excluded regions.
     for (let i = 1; i <= 10; i++) {
       await client.database("foo").container("foo").item("id", "sample1").read(requestOptions);
-      assert.equal(lastEndpointCalled, "https://ppcb-australiaeast.documents.azure.com:443/");
+      assert.equal(lastEndpointCalled, "https://ppcb-westus.documents.azure.com:443/");
     }
 
     // Once we receive the 11th read failure within the 1-minute window, we will trigger a partition-level failover.

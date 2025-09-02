@@ -227,7 +227,7 @@ describe("Excluded Regions with Per Partition Automatic Failover(PPAF)", { timeo
       plugins,
     } as any);
     const writeEndpoint = await client.getWriteEndpoint();
-    const requestOptions = { excludedLocations: ["Australia East", "East US"] };
+    const requestOptions = { excludedLocations: ["Australia East"] };
 
     // Lets say we have three regions East US, Australia East and West US. Here we have a single master account.
     // Initially the write region is East US. So the write endpoint will be East US.
