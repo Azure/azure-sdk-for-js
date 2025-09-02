@@ -93,11 +93,6 @@ export interface TargetsUninstallSolutionOptionalParams extends OperationOptions
 }
 
 // @public
-export interface TargetsUnstageSolutionVersionOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface TargetsUpdateExternalValidationStatusOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -109,9 +104,6 @@ export interface TargetsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export function uninstallSolution(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, body: UninstallSolutionParameter, options?: TargetsUninstallSolutionOptionalParams): PollerLike<OperationState<void>, void>;
-
-// @public
-export function unstageSolutionVersion(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, body: SolutionVersionParameter, options?: TargetsUnstageSolutionVersionOptionalParams): PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
 
 // @public
 export function update(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, targetName: string, properties: TargetUpdate, options?: TargetsUpdateOptionalParams): PollerLike<OperationState<Target>, Target>;

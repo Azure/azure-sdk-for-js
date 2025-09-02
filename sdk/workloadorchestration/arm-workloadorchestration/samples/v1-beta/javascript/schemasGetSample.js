@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Schema Resource
  *
  * @summary get a Schema Resource
- * x-ms-original-file: 2025-08-01/Schemas_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Schemas_Get_MaximumSet_Gen.json
  */
 async function schemasGetMaximumSet() {
   const credential = new DefaultAzureCredential();

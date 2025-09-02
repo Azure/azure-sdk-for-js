@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to post request for bulk deploy
  *
  * @summary post request for bulk deploy
- * x-ms-original-file: 2025-08-01/SolutionTemplateVersions_BulkDeploySolution_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/SolutionTemplateVersions_BulkDeploySolution_MaximumSet_Gen.json
  */
 async function solutionTemplateVersionsBulkDeploySolutionMaximumSet() {
   const credential = new DefaultAzureCredential();

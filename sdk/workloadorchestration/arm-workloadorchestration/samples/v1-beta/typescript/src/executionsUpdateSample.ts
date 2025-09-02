@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update an Execution Resource
  *
  * @summary update an Execution Resource
- * x-ms-original-file: 2025-08-01/Executions_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Executions_Update_MaximumSet_Gen.json
  */
 async function executionsUpdateMaximumSetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

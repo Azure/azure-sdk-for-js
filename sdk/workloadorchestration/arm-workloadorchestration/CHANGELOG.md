@@ -1,7 +1,281 @@
 # Release History
-    
-## 1.0.0-beta.1 (2025-08-29)
+
+## 1.0.0-beta.1 (2025-09-02)
+Compared with version 1.0.0-alpha.20250901.1
 
 ### Features Added
+  - Added operation group ConfigTemplatesOperations
+  - Added operation group ConfigTemplateVersionsOperations
+  - Added operation group ContextsOperations
+  - Added operation group DiagnosticsOperations
+  - Added operation group DynamicSchemasOperations
+  - Added operation group DynamicSchemaVersionsOperations
+  - Added operation group ExecutionsOperations
+  - Added operation group InstanceHistoriesOperations
+  - Added operation group InstancesOperations
+  - Added operation group JobsOperations
+  - Added operation group SchemaReferencesOperations
+  - Added operation group SchemasOperations
+  - Added operation group SchemaVersionsOperations
+  - Added operation group SiteReferencesOperations
+  - Added operation group SolutionsOperations
+  - Added operation group SolutionTemplatesOperations
+  - Added operation group SolutionTemplateVersionsOperations
+  - Added operation group SolutionVersionsOperations
+  - Added operation group TargetsOperations
+  - Added operation group WorkflowsOperations
+  - Added operation group WorkflowVersionsOperations
+  - Added Class WorkloadOrchestrationManagementClient
+  - Added Interface AvailableSolutionTemplateVersion
+  - Added Interface BulkDeploySolutionParameter
+  - Added Interface BulkDeployTargetDetails
+  - Added Interface BulkPublishSolutionParameter
+  - Added Interface BulkPublishTargetDetails
+  - Added Interface Capability
+  - Added Interface ComponentStatus
+  - Added Interface ConfigTemplate
+  - Added Interface ConfigTemplateProperties
+  - Added Interface ConfigTemplatesCreateOrUpdateOptionalParams
+  - Added Interface ConfigTemplatesCreateVersionOptionalParams
+  - Added Interface ConfigTemplatesDeleteOptionalParams
+  - Added Interface ConfigTemplatesGetOptionalParams
+  - Added Interface ConfigTemplatesListByResourceGroupOptionalParams
+  - Added Interface ConfigTemplatesListBySubscriptionOptionalParams
+  - Added Interface ConfigTemplatesRemoveVersionOptionalParams
+  - Added Interface ConfigTemplatesUpdateOptionalParams
+  - Added Interface ConfigTemplateUpdate
+  - Added Interface ConfigTemplateUpdateProperties
+  - Added Interface ConfigTemplateVersion
+  - Added Interface ConfigTemplateVersionProperties
+  - Added Interface ConfigTemplateVersionsGetOptionalParams
+  - Added Interface ConfigTemplateVersionsListByConfigTemplateOptionalParams
+  - Added Interface ConfigTemplateVersionWithUpdateType
+  - Added Interface Context
+  - Added Interface ContextProperties
+  - Added Interface ContextsCreateOrUpdateOptionalParams
+  - Added Interface ContextsDeleteOptionalParams
+  - Added Interface ContextsGetOptionalParams
+  - Added Interface ContextsListByResourceGroupOptionalParams
+  - Added Interface ContextsListBySubscriptionOptionalParams
+  - Added Interface ContextsUpdateOptionalParams
+  - Added Interface ContextUpdate
+  - Added Interface ContextUpdateProperties
+  - Added Interface DeployJobParameter
+  - Added Interface DeployJobStepStatistics
+  - Added Interface DeploymentStatus
+  - Added Interface Diagnostic
+  - Added Interface DiagnosticProperties
+  - Added Interface DiagnosticsCreateOrUpdateOptionalParams
+  - Added Interface DiagnosticsDeleteOptionalParams
+  - Added Interface DiagnosticsGetOptionalParams
+  - Added Interface DiagnosticsListByResourceGroupOptionalParams
+  - Added Interface DiagnosticsListBySubscriptionOptionalParams
+  - Added Interface DiagnosticsUpdateOptionalParams
+  - Added Interface DiagnosticUpdate
+  - Added Interface DiagnosticUpdateProperties
+  - Added Interface DynamicSchema
+  - Added Interface DynamicSchemaProperties
+  - Added Interface DynamicSchemasCreateOrUpdateOptionalParams
+  - Added Interface DynamicSchemasDeleteOptionalParams
+  - Added Interface DynamicSchemasGetOptionalParams
+  - Added Interface DynamicSchemasListBySchemaOptionalParams
+  - Added Interface DynamicSchemasUpdateOptionalParams
+  - Added Interface DynamicSchemaVersion
+  - Added Interface DynamicSchemaVersionsCreateOrUpdateOptionalParams
+  - Added Interface DynamicSchemaVersionsDeleteOptionalParams
+  - Added Interface DynamicSchemaVersionsGetOptionalParams
+  - Added Interface DynamicSchemaVersionsListByDynamicSchemaOptionalParams
+  - Added Interface DynamicSchemaVersionsUpdateOptionalParams
+  - Added Interface ErrorAction
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface Execution
+  - Added Interface ExecutionProperties
+  - Added Interface ExecutionsCreateOrUpdateOptionalParams
+  - Added Interface ExecutionsDeleteOptionalParams
+  - Added Interface ExecutionsGetOptionalParams
+  - Added Interface ExecutionsListByWorkflowVersionOptionalParams
+  - Added Interface ExecutionStatus
+  - Added Interface ExecutionsUpdateOptionalParams
+  - Added Interface ExtendedLocation
+  - Added Interface ExtensionResource
+  - Added Interface Hierarchy
+  - Added Interface InstallSolutionParameter
+  - Added Interface Instance
+  - Added Interface InstanceHistoriesGetOptionalParams
+  - Added Interface InstanceHistoriesListByInstanceOptionalParams
+  - Added Interface InstanceHistory
+  - Added Interface InstanceHistoryProperties
+  - Added Interface InstanceProperties
+  - Added Interface InstancesCreateOrUpdateOptionalParams
+  - Added Interface InstancesDeleteOptionalParams
+  - Added Interface InstancesGetOptionalParams
+  - Added Interface InstancesListBySolutionOptionalParams
+  - Added Interface InstancesUpdateOptionalParams
+  - Added Interface Job
+  - Added Interface JobParameterBase
+  - Added Interface JobProperties
+  - Added Interface JobsGetOptionalParams
+  - Added Interface JobsListByTargetOptionalParams
+  - Added Interface JobStep
+  - Added Interface JobStepStatisticsBase
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface ReconciliationPolicyProperties
+  - Added Interface RemoveRevisionParameter
+  - Added Interface RemoveVersionResponse
+  - Added Interface ResolvedConfiguration
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface Schema
+  - Added Interface SchemaProperties
+  - Added Interface SchemaReference
+  - Added Interface SchemaReferenceProperties
+  - Added Interface SchemaReferencesGetOptionalParams
+  - Added Interface SchemaReferencesListByResourceGroupOptionalParams
+  - Added Interface SchemasCreateOrUpdateOptionalParams
+  - Added Interface SchemasCreateVersionOptionalParams
+  - Added Interface SchemasDeleteOptionalParams
+  - Added Interface SchemasGetOptionalParams
+  - Added Interface SchemasListByResourceGroupOptionalParams
+  - Added Interface SchemasListBySubscriptionOptionalParams
+  - Added Interface SchemasRemoveVersionOptionalParams
+  - Added Interface SchemasUpdateOptionalParams
+  - Added Interface SchemaUpdate
+  - Added Interface SchemaUpdateProperties
+  - Added Interface SchemaVersion
+  - Added Interface SchemaVersionProperties
+  - Added Interface SchemaVersionsCreateOrUpdateOptionalParams
+  - Added Interface SchemaVersionsDeleteOptionalParams
+  - Added Interface SchemaVersionsGetOptionalParams
+  - Added Interface SchemaVersionsListBySchemaOptionalParams
+  - Added Interface SchemaVersionsUpdateOptionalParams
+  - Added Interface SchemaVersionWithUpdateType
+  - Added Interface SiteReference
+  - Added Interface SiteReferenceProperties
+  - Added Interface SiteReferencesCreateOrUpdateOptionalParams
+  - Added Interface SiteReferencesDeleteOptionalParams
+  - Added Interface SiteReferencesGetOptionalParams
+  - Added Interface SiteReferencesListByContextOptionalParams
+  - Added Interface SiteReferencesUpdateOptionalParams
+  - Added Interface Solution
+  - Added Interface SolutionDependency
+  - Added Interface SolutionDependencyParameter
+  - Added Interface SolutionProperties
+  - Added Interface SolutionsCreateOrUpdateOptionalParams
+  - Added Interface SolutionsDeleteOptionalParams
+  - Added Interface SolutionsGetOptionalParams
+  - Added Interface SolutionsListByTargetOptionalParams
+  - Added Interface SolutionsUpdateOptionalParams
+  - Added Interface SolutionTemplate
+  - Added Interface SolutionTemplateParameter
+  - Added Interface SolutionTemplateProperties
+  - Added Interface SolutionTemplatesCreateOrUpdateOptionalParams
+  - Added Interface SolutionTemplatesCreateVersionOptionalParams
+  - Added Interface SolutionTemplatesDeleteOptionalParams
+  - Added Interface SolutionTemplatesGetOptionalParams
+  - Added Interface SolutionTemplatesListByResourceGroupOptionalParams
+  - Added Interface SolutionTemplatesListBySubscriptionOptionalParams
+  - Added Interface SolutionTemplatesRemoveVersionOptionalParams
+  - Added Interface SolutionTemplatesUpdateOptionalParams
+  - Added Interface SolutionTemplateUpdate
+  - Added Interface SolutionTemplateUpdateProperties
+  - Added Interface SolutionTemplateVersion
+  - Added Interface SolutionTemplateVersionProperties
+  - Added Interface SolutionTemplateVersionsBulkDeploySolutionOptionalParams
+  - Added Interface SolutionTemplateVersionsBulkPublishSolutionOptionalParams
+  - Added Interface SolutionTemplateVersionsGetOptionalParams
+  - Added Interface SolutionTemplateVersionsListBySolutionTemplateOptionalParams
+  - Added Interface SolutionTemplateVersionWithUpdateType
+  - Added Interface SolutionUpdate
+  - Added Interface SolutionUpdateProperties
+  - Added Interface SolutionVersion
+  - Added Interface SolutionVersionParameter
+  - Added Interface SolutionVersionProperties
+  - Added Interface SolutionVersionsCreateOrUpdateOptionalParams
+  - Added Interface SolutionVersionsDeleteOptionalParams
+  - Added Interface SolutionVersionsGetOptionalParams
+  - Added Interface SolutionVersionsListBySolutionOptionalParams
+  - Added Interface SolutionVersionSnapshot
+  - Added Interface SolutionVersionsUpdateOptionalParams
+  - Added Interface StageSpec
+  - Added Interface StageStatus
+  - Added Interface SystemData
+  - Added Interface Target
+  - Added Interface TargetProperties
+  - Added Interface TargetsCreateOrUpdateOptionalParams
+  - Added Interface TargetsDeleteOptionalParams
+  - Added Interface TargetsGetOptionalParams
+  - Added Interface TargetsInstallSolutionOptionalParams
+  - Added Interface TargetsListByResourceGroupOptionalParams
+  - Added Interface TargetsListBySubscriptionOptionalParams
+  - Added Interface TargetSnapshot
+  - Added Interface TargetsPublishSolutionVersionOptionalParams
+  - Added Interface TargetsRemoveRevisionOptionalParams
+  - Added Interface TargetsResolveConfigurationOptionalParams
+  - Added Interface TargetsReviewSolutionVersionOptionalParams
+  - Added Interface TargetStatus
+  - Added Interface TargetsUninstallSolutionOptionalParams
+  - Added Interface TargetsUpdateExternalValidationStatusOptionalParams
+  - Added Interface TargetsUpdateOptionalParams
+  - Added Interface TargetUpdate
+  - Added Interface TargetUpdateProperties
+  - Added Interface TaskOption
+  - Added Interface TaskSpec
+  - Added Interface TrackedResource
+  - Added Interface UninstallSolutionParameter
+  - Added Interface UpdateExternalValidationStatusParameter
+  - Added Interface VersionParameter
+  - Added Interface Workflow
+  - Added Interface WorkflowProperties
+  - Added Interface WorkflowsCreateOrUpdateOptionalParams
+  - Added Interface WorkflowsDeleteOptionalParams
+  - Added Interface WorkflowsGetOptionalParams
+  - Added Interface WorkflowsListByContextOptionalParams
+  - Added Interface WorkflowsUpdateOptionalParams
+  - Added Interface WorkflowVersion
+  - Added Interface WorkflowVersionProperties
+  - Added Interface WorkflowVersionsCreateOrUpdateOptionalParams
+  - Added Interface WorkflowVersionsDeleteOptionalParams
+  - Added Interface WorkflowVersionsGetOptionalParams
+  - Added Interface WorkflowVersionsListByWorkflowOptionalParams
+  - Added Interface WorkflowVersionsUpdateOptionalParams
+  - Added Interface WorkloadOrchestrationManagementClientOptionalParams
+  - Added Type Alias ActiveState
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ConfigurationModel
+  - Added Type Alias ConfigurationType
+  - Added Type Alias CreatedByType
+  - Added Type Alias ErrorActionMode
+  - Added Type Alias ExtendedLocationType
+  - Added Type Alias JobParameterBaseUnion
+  - Added Type Alias JobStatus
+  - Added Type Alias JobStepStatisticsBaseUnion
+  - Added Type Alias JobType
+  - Added Type Alias OrchestratorType
+  - Added Type Alias ProvisioningState
+  - Added Type Alias ReconciliationState
+  - Added Type Alias ResourceState
+  - Added Type Alias State
+  - Added Type Alias UpdateType
+  - Added Type Alias ValidationStatus
+  - Added Enum AzureClouds
+  - Added Enum KnownActiveState
+  - Added Enum KnownConfigurationModel
+  - Added Enum KnownConfigurationType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownErrorActionMode
+  - Added Enum KnownExtendedLocationType
+  - Added Enum KnownJobStatus
+  - Added Enum KnownJobType
+  - Added Enum KnownOrchestratorType
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownReconciliationState
+  - Added Enum KnownResourceState
+  - Added Enum KnownState
+  - Added Enum KnownUpdateType
+  - Added Enum KnownValidationStatus
+  - Added Enum KnownVersions
 
-This is the first stable version with the package of @azure/arm-workloadorchestration

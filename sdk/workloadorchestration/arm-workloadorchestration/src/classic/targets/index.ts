@@ -3,7 +3,6 @@
 
 import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
-  unstageSolutionVersion,
   updateExternalValidationStatus,
   publishSolutionVersion,
   reviewSolutionVersion,
@@ -19,7 +18,6 @@ import {
   get,
 } from "../../api/targets/operations.js";
 import {
-  TargetsUnstageSolutionVersionOptionalParams,
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,
@@ -51,13 +49,6 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Targets operations. */
 export interface TargetsOperations {
-  /** Post request to unstage solution version */
-  unstageSolutionVersion: (
-    resourceGroupName: string,
-    targetName: string,
-    body: SolutionVersionParameter,
-    options?: TargetsUnstageSolutionVersionOptionalParams,
-  ) => PollerLike<OperationState<SolutionVersion>, SolutionVersion>;
   /** Post request to update external validation status */
   updateExternalValidationStatus: (
     resourceGroupName: string,
@@ -151,12 +142,6 @@ export interface TargetsOperations {
 
 function _getTargets(context: WorkloadOrchestrationManagementContext) {
   return {
-    unstageSolutionVersion: (
-      resourceGroupName: string,
-      targetName: string,
-      body: SolutionVersionParameter,
-      options?: TargetsUnstageSolutionVersionOptionalParams,
-    ) => unstageSolutionVersion(context, resourceGroupName, targetName, body, options),
     updateExternalValidationStatus: (
       resourceGroupName: string,
       targetName: string,

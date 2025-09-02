@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a Solution Template Resource
  *
  * @summary update a Solution Template Resource
- * x-ms-original-file: 2025-08-01/SolutionTemplates_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/SolutionTemplates_Update_MaximumSet_Gen.json
  */
 async function solutionTemplatesUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();

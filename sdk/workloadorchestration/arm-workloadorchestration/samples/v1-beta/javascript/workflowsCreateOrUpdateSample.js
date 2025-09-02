@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update a Workflow resource
  *
  * @summary create or update a Workflow resource
- * x-ms-original-file: 2025-08-01/Workflows_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Workflows_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function workflowsCreateOrUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();

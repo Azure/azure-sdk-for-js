@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Solution resources
  *
  * @summary list Solution resources
- * x-ms-original-file: 2025-08-01/Solutions_ListByTarget_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Solutions_ListByTarget_MaximumSet_Gen.json
  */
 async function solutionsListByTargetMaximumSet() {
   const credential = new DefaultAzureCredential();

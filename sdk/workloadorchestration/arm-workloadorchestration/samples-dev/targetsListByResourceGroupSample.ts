@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list by specified resource group
  *
  * @summary list by specified resource group
- * x-ms-original-file: 2025-08-01/Targets_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Targets_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function targetsListByResourceGroupMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

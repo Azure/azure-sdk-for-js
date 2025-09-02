@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a Schema Version Resource
  *
  * @summary create a Schema Version Resource
- * x-ms-original-file: 2025-08-01/Schemas_CreateVersion_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Schemas_CreateVersion_MaximumSet_Gen.json
  */
 async function schemasCreateVersionMaximumSet() {
   const credential = new DefaultAzureCredential();

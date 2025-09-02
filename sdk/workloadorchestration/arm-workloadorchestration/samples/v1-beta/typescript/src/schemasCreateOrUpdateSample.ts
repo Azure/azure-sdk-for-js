@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Schema Resource
  *
  * @summary create or update a Schema Resource
- * x-ms-original-file: 2025-08-01/Schemas_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Schemas_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function schemasCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Config Template Resource
  *
  * @summary delete a Config Template Resource
- * x-ms-original-file: 2025-08-01/ConfigTemplates_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/ConfigTemplates_Delete_MaximumSet_Gen.json
  */
 async function configTemplatesDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

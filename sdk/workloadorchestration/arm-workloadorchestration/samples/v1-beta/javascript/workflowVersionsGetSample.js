@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Workflow Version Resource
  *
  * @summary get a Workflow Version Resource
- * x-ms-original-file: 2025-08-01/WorkflowVersions_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/WorkflowVersions_Get_MaximumSet_Gen.json
  */
 async function workflowVersionsGetMaximumSet() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Workflow resource
  *
  * @summary delete a Workflow resource
- * x-ms-original-file: 2025-08-01/Workflows_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Workflows_Delete_MaximumSet_Gen.json
  */
 async function workflowsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Jobs by parent resource
  *
  * @summary list Jobs by parent resource
- * x-ms-original-file: 2025-08-01/Jobs_ListByTarget_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Jobs_ListByTarget_MaximumSet_Gen.json
  */
 async function jobsListByTargetMaximumSet() {
   const credential = new DefaultAzureCredential();

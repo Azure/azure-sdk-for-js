@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Solution Template Version Resource
  *
  * @summary get a Solution Template Version Resource
- * x-ms-original-file: 2025-08-01/SolutionTemplateVersions_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/SolutionTemplateVersions_Get_MaximumSet_Gen.json
  */
 async function solutionTemplateVersionsGetMaximumSet() {
   const credential = new DefaultAzureCredential();

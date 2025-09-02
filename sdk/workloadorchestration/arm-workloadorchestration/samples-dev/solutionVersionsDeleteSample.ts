@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a Solution Version Resource
  *
  * @summary delete a Solution Version Resource
- * x-ms-original-file: 2025-08-01/SolutionVersions_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/SolutionVersions_Delete_MaximumSet_Gen.json
  */
 async function solutionVersionsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -16,9 +16,6 @@ export function bulkDeploySolution(context: WorkloadOrchestrationManagementConte
 export function bulkPublishSolution(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, body: BulkPublishSolutionParameter, options?: SolutionTemplateVersionsBulkPublishSolutionOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function bulkReviewSolution(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, body: BulkReviewSolutionParameter, options?: SolutionTemplateVersionsBulkReviewSolutionOptionalParams): PollerLike<OperationState<void>, void>;
-
-// @public
 export function get(context: WorkloadOrchestrationManagementContext, resourceGroupName: string, solutionTemplateName: string, solutionTemplateVersionName: string, options?: SolutionTemplateVersionsGetOptionalParams): Promise<SolutionTemplateVersion>;
 
 // @public
@@ -31,11 +28,6 @@ export interface SolutionTemplateVersionsBulkDeploySolutionOptionalParams extend
 
 // @public
 export interface SolutionTemplateVersionsBulkPublishSolutionOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SolutionTemplateVersionsBulkReviewSolutionOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 

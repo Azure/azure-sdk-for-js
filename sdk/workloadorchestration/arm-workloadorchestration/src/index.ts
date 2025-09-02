@@ -43,11 +43,6 @@ export {
   SolutionVersionProperties,
   KnownState,
   State,
-  StageMap,
-  KnownCMStages,
-  CMStages,
-  KnownStateCategory,
-  StateCategory,
   SolutionDependency,
   KnownJobType,
   JobType,
@@ -101,8 +96,6 @@ export {
   BulkDeployTargetDetails,
   BulkPublishSolutionParameter,
   BulkPublishTargetDetails,
-  BulkReviewSolutionParameter,
-  BulkReviewTargetDetails,
   SolutionTemplate,
   SolutionTemplateProperties,
   SolutionTemplateUpdate,
@@ -264,7 +257,6 @@ export {
   SolutionTemplatesGetOptionalParams,
 } from "./api/solutionTemplates/index.js";
 export {
-  SolutionTemplateVersionsBulkReviewSolutionOptionalParams,
   SolutionTemplateVersionsBulkPublishSolutionOptionalParams,
   SolutionTemplateVersionsBulkDeploySolutionOptionalParams,
   SolutionTemplateVersionsListBySolutionTemplateOptionalParams,
@@ -278,7 +270,6 @@ export {
   SolutionVersionsGetOptionalParams,
 } from "./api/solutionVersions/index.js";
 export {
-  TargetsUnstageSolutionVersionOptionalParams,
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete Instance Resource
  *
  * @summary delete Instance Resource
- * x-ms-original-file: 2025-08-01/Instances_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Instances_Delete_MaximumSet_Gen.json
  */
 async function instancesDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

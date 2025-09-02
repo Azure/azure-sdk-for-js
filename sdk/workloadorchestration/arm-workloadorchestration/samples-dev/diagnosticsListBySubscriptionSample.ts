@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists Diagnostics resources within an Azure subscription.
  *
  * @summary lists Diagnostics resources within an Azure subscription.
- * x-ms-original-file: 2025-08-01/Diagnostics_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Diagnostics_ListBySubscription_MaximumSet_Gen.json
  */
 async function diagnosticsListBySubscriptionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

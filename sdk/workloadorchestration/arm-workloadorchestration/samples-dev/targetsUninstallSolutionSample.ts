@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to post request to uninstall
  *
  * @summary post request to uninstall
- * x-ms-original-file: 2025-08-01/Targets_UninstallSolution_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Targets_UninstallSolution_MaximumSet_Gen.json
  */
 async function targetsUninstallSolutionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

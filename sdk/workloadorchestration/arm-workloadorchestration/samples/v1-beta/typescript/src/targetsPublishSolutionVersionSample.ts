@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to post request to publish
  *
  * @summary post request to publish
- * x-ms-original-file: 2025-08-01/Targets_PublishSolutionVersion_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Targets_PublishSolutionVersion_MaximumSet_Gen.json
  */
 async function targetsPublishSolutionVersionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

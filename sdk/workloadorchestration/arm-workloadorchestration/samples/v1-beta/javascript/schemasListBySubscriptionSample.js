@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list by subscription
  *
  * @summary list by subscription
- * x-ms-original-file: 2025-08-01/Schemas_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Schemas_ListBySubscription_MaximumSet_Gen.json
  */
 async function schemasListBySubscriptionMaximumSet() {
   const credential = new DefaultAzureCredential();

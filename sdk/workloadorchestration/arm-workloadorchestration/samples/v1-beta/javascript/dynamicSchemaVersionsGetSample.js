@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Dynamic Schema Version Resource
  *
  * @summary get a Dynamic Schema Version Resource
- * x-ms-original-file: 2025-08-01/DynamicSchemaVersions_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/DynamicSchemaVersions_Get_MaximumSet_Gen.json
  */
 async function dynamicSchemaVersionsGetMaximumSet() {
   const credential = new DefaultAzureCredential();

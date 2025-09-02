@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get InstanceHistory Resource
  *
  * @summary get InstanceHistory Resource
- * x-ms-original-file: 2025-08-01/InstanceHistories_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/InstanceHistories_Get_MaximumSet_Gen.json
  */
 async function instanceHistoriesGetMaximumSet() {
   const credential = new DefaultAzureCredential();

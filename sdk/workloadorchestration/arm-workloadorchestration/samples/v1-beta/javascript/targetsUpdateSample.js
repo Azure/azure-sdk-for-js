@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a Target Resource
  *
  * @summary update a Target Resource
- * x-ms-original-file: 2025-08-01/Targets_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Targets_Update_MaximumSet_Gen.json
  */
 async function targetsUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();

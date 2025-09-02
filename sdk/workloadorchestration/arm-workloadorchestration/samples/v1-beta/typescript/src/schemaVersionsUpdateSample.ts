@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Schema Version Resource
  *
  * @summary update a Schema Version Resource
- * x-ms-original-file: 2025-08-01/SchemaVersions_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/SchemaVersions_Update_MaximumSet_Gen.json
  */
 async function schemaVersionsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes specified Diagnostic resource.
  *
  * @summary deletes specified Diagnostic resource.
- * x-ms-original-file: 2025-08-01/Diagnostics_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Diagnostics_Delete_MaximumSet_Gen.json
  */
 async function diagnosticsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

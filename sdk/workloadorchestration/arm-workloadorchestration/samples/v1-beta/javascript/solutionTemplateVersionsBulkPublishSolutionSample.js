@@ -8,15 +8,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to post request for bulk publish
  *
  * @summary post request for bulk publish
- * x-ms-original-file: 2025-08-01/SolutionTemplateVersions_BulkPublishSolution_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/SolutionTemplateVersions_BulkPublishSolution_MaximumSet_Gen.json
  */
-async function solutionTemplateVersionsBulkPublishSolutionMaximumSetGeneratedByMaximumSetRule() {
+async function solutionTemplateVersionsBulkPublishSolutionMaximumSet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
   await client.solutionTemplateVersions.bulkPublishSolution(
     "rgconfigurationmanager",
-    "solution",
+    "testname",
     "1.0.0",
     {
       targets: [
@@ -24,9 +24,6 @@ async function solutionTemplateVersionsBulkPublishSolutionMaximumSetGeneratedByM
           targetId:
             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/Targets/target",
           solutionInstanceName: "test-instance",
-          solutionVersionId:
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Edge/Targets/target/Solutions/solution/Versions/solution-1.0.0.1",
-          solutionConfiguration: "fbxxcuw",
         },
       ],
       solutionInstanceName: "test-instance",
@@ -43,13 +40,12 @@ async function solutionTemplateVersionsBulkPublishSolutionMaximumSetGeneratedByM
           dependencies: [],
         },
       ],
-      solutionConfiguration: "mnorjkvwcxuwbkgmcbumw",
     },
   );
 }
 
 async function main() {
-  await solutionTemplateVersionsBulkPublishSolutionMaximumSetGeneratedByMaximumSetRule();
+  await solutionTemplateVersionsBulkPublishSolutionMaximumSet();
 }
 
 main().catch(console.error);

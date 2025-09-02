@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  unstageSolutionVersion,
   updateExternalValidationStatus,
   publishSolutionVersion,
   reviewSolutionVersion,
@@ -18,7 +17,6 @@ export {
   get,
 } from "./operations.js";
 export {
-  TargetsUnstageSolutionVersionOptionalParams,
   TargetsUpdateExternalValidationStatusOptionalParams,
   TargetsPublishSolutionVersionOptionalParams,
   TargetsReviewSolutionVersionOptionalParams,
