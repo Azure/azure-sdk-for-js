@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, describe, expect, it } from "vitest";
+import { assert, describe, it } from "vitest";
 import { DefaultRetryPolicy } from "../../../../src/retry/defaultRetryPolicy.js";
 import {
   DiagnosticNodeInternal,
