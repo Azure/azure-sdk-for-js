@@ -34,11 +34,11 @@
     "@azure/core-util": "^1.11.0",
     "@azure/identity": "^4.3.0",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
+    "express": "^5.1.0",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
+    "@types/express": "^5.0.3",
     "@types/node": "^20.0.0",
     "rimraf": "^5.0.5",
     "typescript": "~5.8.2"

@@ -53,11 +53,11 @@
   "devDependencies": {
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
-    "@types/express": "^4.17.13",
+    "@types/express": "^5.0.3",
     "@types/node": "catalog:",
     "concurrently": "^9.2.1",
     "eslint": "catalog:",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "typescript": "catalog:"
   },
   "scripts": {
