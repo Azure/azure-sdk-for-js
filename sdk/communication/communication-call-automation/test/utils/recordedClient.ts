@@ -395,6 +395,7 @@ function getDynamicAssetsPath(): string | undefined {
   const currentDir = process.cwd();
   const parts = currentDir.split("\\");
   const sdkIndex = parts.indexOf("azure-sdk-for-js");
+  console.log("Current Directory -> " + currentDir);
 
   if (sdkIndex === -1) {
     console.error("azure-sdk-for-js not found in path");
