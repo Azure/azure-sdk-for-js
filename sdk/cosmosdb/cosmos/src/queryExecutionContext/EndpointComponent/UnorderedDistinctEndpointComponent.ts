@@ -37,7 +37,6 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
       return { result, headers: response.headers };
     }
 
-    // New structure: { result: { buffer: bufferedResults, partitionKeyRangeMap: ..., updatedContinuationRanges: ... } }
     const parallelResult = response.result as ParallelQueryResult;
     const dataToProcess: any[] = parallelResult.buffer;
     const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;

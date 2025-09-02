@@ -22,6 +22,7 @@ import { getInitialHeader, mergeHeaders } from "./headerUtils.js";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext.js";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
+import { type ParallelQueryResult } from "./ParallelQueryResult.js";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -177,7 +178,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         const result = await this.globalStatisticsExecutionContext.fetchMore(diagnosticNode);
         mergeHeaders(fetchMoreRespHeaders, result.headers);
         if (result && result.result) {
-          for (const item of result.result) {
+          // Handle both old array format and new ParallelQueryResult format
+          const resultData = Array.isArray(result.result) ? result.result : (result.result as ParallelQueryResult).buffer;
+          for (const item of resultData) {
             const globalStatistics: GlobalStatistics = item;
             if (globalStatistics) {
               // iterate over the components update placeholders from globalStatistics
@@ -211,10 +214,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           const componentExecutionContext = this.componentsExecutionContext.pop();
           if (componentExecutionContext.hasMoreResults()) {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
-            const response = result.result;
             mergeHeaders(fetchMoreRespHeaders, result.headers);
-            if (response) {
-              response.forEach((item: any) => {
+            
+            // Handle both old array format and new ParallelQueryResult format
+            const resultData = Array.isArray(result.result) ? result.result : (result.result as ParallelQueryResult).buffer;
+            if (resultData) {
+              resultData.forEach((item: any) => {
                 const hybridItem = HybridSearchQueryResult.create(item);
                 if (!this.uniqueItems.has(hybridItem.rid)) {
                   this.uniqueItems.set(hybridItem.rid, hybridItem);
@@ -233,10 +238,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         for (const componentExecutionContext of this.componentsExecutionContext) {
           while (componentExecutionContext.hasMoreResults()) {
             const result = await componentExecutionContext.fetchMore(diagnosticNode);
-            const response = result.result;
             mergeHeaders(fetchMoreRespHeaders, result.headers);
-            if (response) {
-              response.forEach((item: any) => {
+            
+            // Handle both old array format and new ParallelQueryResult format
+            const resultData = Array.isArray(result.result) ? result.result : (result.result as ParallelQueryResult).buffer;
+            if (resultData) {
+              resultData.forEach((item: any) => {
                 const hybridItem = HybridSearchQueryResult.create(item);
                 if (!this.uniqueItems.has(hybridItem.rid)) {
                   this.uniqueItems.set(hybridItem.rid, hybridItem);
@@ -395,10 +402,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         const componentExecutionContext = this.componentsExecutionContext[0];
         if (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagNode);
-          const response = result.result;
           mergeHeaders(fetchMoreRespHeaders, result.headers);
-          if (response) {
-            response.forEach((item: any) => {
+          
+          // Handle both old array format and new ParallelQueryResult format
+          const resultData = Array.isArray(result.result) ? result.result : (result.result as ParallelQueryResult).buffer;
+          if (resultData) {
+            resultData.forEach((item: any) => {
               this.hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });
           }
@@ -416,10 +425,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         // add check for enable query control
         while (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagNode);
-          const response = result.result;
           mergeHeaders(fetchMoreRespHeaders, result.headers);
-          if (response) {
-            response.forEach((item: any) => {
+          
+          // Handle both old array format and new ParallelQueryResult format
+          const resultData = Array.isArray(result.result) ? result.result : (result.result as ParallelQueryResult).buffer;
+          if (resultData) {
+            resultData.forEach((item: any) => {
               hybridSearchResult.push(HybridSearchQueryResult.create(item));
             });
           }

@@ -54,19 +54,5 @@ export function createParallelQueryResult(
   if (orderByItems !== undefined) {
     result.orderByItems = orderByItems;
   }
-  
   return result;
-}
-
-/**
- * Creates an empty ParallelQueryResult
- * @returns An empty ParallelQueryResult instance
- * @hidden
- */
-export function createEmptyParallelQueryResult(): ParallelQueryResult {
-  return {
-    buffer: [],
-    partitionKeyRangeMap: new Map(),
-    updatedContinuationRanges: {}
-  };
 }

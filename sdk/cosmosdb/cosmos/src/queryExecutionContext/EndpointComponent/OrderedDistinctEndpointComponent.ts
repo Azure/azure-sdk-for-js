@@ -5,6 +5,7 @@ import type { ExecutionContext } from "../ExecutionContext.js";
 import { hashObject } from "../../utils/hashObject.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
 import { createParallelQueryResult, type ParallelQueryResult } from "../ParallelQueryResult.js";
+import { processDistinctQueryAndUpdateRangeMap } from "../PartitionRangeUtils.js";
 
 /** @hidden */
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
@@ -59,7 +60,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
     }
 
     // Process distinct query logic and update partition key range map with hashedLastResult
-    const updatedPartitionKeyRangeMap = await OrderedDistinctEndpointComponent.processDistinctQueryAndUpdateRangeMap(
+    const updatedPartitionKeyRangeMap = await processDistinctQueryAndUpdateRangeMap(
       dataToProcess,
       partitionKeyRangeMap,
       hashObject
@@ -77,57 +78,5 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
       result,
       headers: response.headers
     };
-  }
-
-  /**
-   * Static method to process distinct query and update partition range map
-   * @param originalBuffer - Original buffer containing query results
-   * @param partitionKeyRangeMap - Map of partition key ranges  
-   * @param hashFunction - Hash function for items
-   * @returns Updated partition key range map
-   */
-  public static async processDistinctQueryAndUpdateRangeMap(
-    originalBuffer: any[],
-    partitionKeyRangeMap: Map<string, any>,
-    hashFunction: (item: any) => Promise<string>
-  ): Promise<Map<string, any>> {
-    if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0) {
-      return partitionKeyRangeMap;
-    }
-
-    // Create a new map to avoid mutating the original
-    const updatedMap = new Map<string, any>();
-
-    // Update partition key range map with hashedLastResult for each range
-    let bufferIndex = 0;
-    for (const [rangeId, rangeMapping] of partitionKeyRangeMap) {
-      const { itemCount } = rangeMapping;
-      
-      // Find the last document in this partition range that made it to the final buffer
-      let lastHashForThisRange: string | undefined;
-      
-      if (itemCount > 0 && bufferIndex < originalBuffer.length) {
-        // Calculate the index of the last item from this range
-        const rangeEndIndex = Math.min(bufferIndex + itemCount, originalBuffer.length);
-        const lastItemIndex = rangeEndIndex - 1;
-        
-        // Get the hash of the last item from this range
-        const lastItem = originalBuffer[lastItemIndex];
-        if (lastItem) {
-          lastHashForThisRange = await hashFunction(lastItem);
-        }
-        // Move buffer index to start of next range
-        bufferIndex = rangeEndIndex;
-      }
-      
-      // Update the range mapping with hashedLastResult
-      const updatedMapping = {
-        ...rangeMapping,
-        hashedLastResult: lastHashForThisRange,
-      };
-      updatedMap.set(rangeId, updatedMapping);
-    }
-
-    return updatedMap;
   }
 }
