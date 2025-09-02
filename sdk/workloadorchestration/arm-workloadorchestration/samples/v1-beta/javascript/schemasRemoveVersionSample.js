@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to remove Schema Version Resource
  *
  * @summary remove Schema Version Resource
- * x-ms-original-file: 2025-08-01/Schemas_RemoveVersion_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Schemas_RemoveVersion_MaximumSet_Gen.json
  */
 async function schemasRemoveVersionMaximumSet() {
   const credential = new DefaultAzureCredential();

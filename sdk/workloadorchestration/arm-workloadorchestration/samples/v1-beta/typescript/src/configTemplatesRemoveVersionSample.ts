@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to remove Config Template Version Resource
  *
  * @summary remove Config Template Version Resource
- * x-ms-original-file: 2025-08-01/ConfigTemplates_RemoveVersion_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/ConfigTemplates_RemoveVersion_MaximumSet_Gen.json
  */
 async function configTemplatesRemoveVersionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

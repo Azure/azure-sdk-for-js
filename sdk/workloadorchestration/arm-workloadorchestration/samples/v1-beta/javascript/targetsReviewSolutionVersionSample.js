@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to post request to review configuration
  *
  * @summary post request to review configuration
- * x-ms-original-file: 2025-08-01/Targets_ReviewSolutionVersion_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Targets_ReviewSolutionVersion_MaximumSet_Gen.json
  */
 async function targetsReviewSolutionVersionMaximumSet() {
   const credential = new DefaultAzureCredential();

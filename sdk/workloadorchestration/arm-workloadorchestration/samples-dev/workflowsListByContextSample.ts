@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Workflow resources
  *
  * @summary list Workflow resources
- * x-ms-original-file: 2025-08-01/Workflows_ListByContext_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Workflows_ListByContext_MaximumSet_Gen.json
  */
 async function workflowsListByContextMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

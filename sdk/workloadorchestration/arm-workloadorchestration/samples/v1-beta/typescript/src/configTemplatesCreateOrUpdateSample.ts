@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Config Template Resource
  *
  * @summary create or update a Config Template Resource
- * x-ms-original-file: 2025-08-01/ConfigTemplates_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/ConfigTemplates_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function configTemplatesCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

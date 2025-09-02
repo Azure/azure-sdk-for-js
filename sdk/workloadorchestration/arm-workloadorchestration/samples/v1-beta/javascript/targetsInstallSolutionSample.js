@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to post request to deploy
  *
  * @summary post request to deploy
- * x-ms-original-file: 2025-08-01/Targets_InstallSolution_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Targets_InstallSolution_MaximumSet_Gen.json
  */
 async function targetsInstallSolutionMaximumSet() {
   const credential = new DefaultAzureCredential();

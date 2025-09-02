@@ -3,14 +3,12 @@
 
 import { WorkloadOrchestrationManagementContext } from "../../api/workloadOrchestrationManagementContext.js";
 import {
-  bulkReviewSolution,
   bulkPublishSolution,
   bulkDeploySolution,
   listBySolutionTemplate,
   get,
 } from "../../api/solutionTemplateVersions/operations.js";
 import {
-  SolutionTemplateVersionsBulkReviewSolutionOptionalParams,
   SolutionTemplateVersionsBulkPublishSolutionOptionalParams,
   SolutionTemplateVersionsBulkDeploySolutionOptionalParams,
   SolutionTemplateVersionsListBySolutionTemplateOptionalParams,
@@ -20,21 +18,12 @@ import {
   SolutionTemplateVersion,
   BulkDeploySolutionParameter,
   BulkPublishSolutionParameter,
-  BulkReviewSolutionParameter,
 } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SolutionTemplateVersions operations. */
 export interface SolutionTemplateVersionsOperations {
-  /** Post request for bulk review */
-  bulkReviewSolution: (
-    resourceGroupName: string,
-    solutionTemplateName: string,
-    solutionTemplateVersionName: string,
-    body: BulkReviewSolutionParameter,
-    options?: SolutionTemplateVersionsBulkReviewSolutionOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
   /** Post request for bulk publish */
   bulkPublishSolution: (
     resourceGroupName: string,
@@ -68,21 +57,6 @@ export interface SolutionTemplateVersionsOperations {
 
 function _getSolutionTemplateVersions(context: WorkloadOrchestrationManagementContext) {
   return {
-    bulkReviewSolution: (
-      resourceGroupName: string,
-      solutionTemplateName: string,
-      solutionTemplateVersionName: string,
-      body: BulkReviewSolutionParameter,
-      options?: SolutionTemplateVersionsBulkReviewSolutionOptionalParams,
-    ) =>
-      bulkReviewSolution(
-        context,
-        resourceGroupName,
-        solutionTemplateName,
-        solutionTemplateVersionName,
-        body,
-        options,
-      ),
     bulkPublishSolution: (
       resourceGroupName: string,
       solutionTemplateName: string,

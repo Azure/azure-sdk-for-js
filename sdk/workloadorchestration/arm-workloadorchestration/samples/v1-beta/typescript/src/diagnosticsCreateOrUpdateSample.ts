@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates new or updates existing Diagnostic resource.
  *
  * @summary creates new or updates existing Diagnostic resource.
- * x-ms-original-file: 2025-08-01/Diagnostics_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Diagnostics_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function diagnosticsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

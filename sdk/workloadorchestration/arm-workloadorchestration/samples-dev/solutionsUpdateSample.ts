@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Solution Resource
  *
  * @summary update a Solution Resource
- * x-ms-original-file: 2025-08-01/Solutions_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Solutions_Update_MaximumSet_Gen.json
  */
 async function solutionsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

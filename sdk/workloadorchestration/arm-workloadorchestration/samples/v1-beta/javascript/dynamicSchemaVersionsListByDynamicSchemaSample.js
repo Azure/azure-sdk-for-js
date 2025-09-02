@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list by Dynamic Schema
  *
  * @summary list by Dynamic Schema
- * x-ms-original-file: 2025-08-01/DynamicSchemaVersions_ListByDynamicSchema_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/DynamicSchemaVersions_ListByDynamicSchema_MaximumSet_Gen.json
  */
 async function dynamicSchemaVersionsListByDynamicSchemaMaximumSet() {
   const credential = new DefaultAzureCredential();

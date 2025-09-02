@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update Execution Resource
  *
  * @summary create or update Execution Resource
- * x-ms-original-file: 2025-08-01/Executions_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Executions_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function executionsCreateOrUpdateMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

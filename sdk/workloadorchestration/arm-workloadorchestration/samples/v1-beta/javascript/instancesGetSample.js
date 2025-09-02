@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get Instance Resource
  *
  * @summary get Instance Resource
- * x-ms-original-file: 2025-08-01/Instances_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Instances_Get_MaximumSet_Gen.json
  */
 async function instancesGetMaximumSet() {
   const credential = new DefaultAzureCredential();

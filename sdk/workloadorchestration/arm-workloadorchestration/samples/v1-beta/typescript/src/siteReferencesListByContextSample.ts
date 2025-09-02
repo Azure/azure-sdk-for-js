@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Site Reference Resources
  *
  * @summary list Site Reference Resources
- * x-ms-original-file: 2025-08-01/SiteReferences_ListByContext_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/SiteReferences_ListByContext_MaximumSet_Gen.json
  */
 async function siteReferencesListByContextMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

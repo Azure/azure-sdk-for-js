@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Dynamic Schema Version Resource
  *
  * @summary create or update a Dynamic Schema Version Resource
- * x-ms-original-file: 2025-08-01/DynamicSchemaVersions_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/DynamicSchemaVersions_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function dynamicSchemaVersionsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

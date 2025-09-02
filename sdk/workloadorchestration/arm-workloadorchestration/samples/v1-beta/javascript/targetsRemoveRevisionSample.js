@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to post request to remove solution version revision
  *
  * @summary post request to remove solution version revision
- * x-ms-original-file: 2025-08-01/Targets_RemoveRevision_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Targets_RemoveRevision_MaximumSet_Gen.json
  */
 async function targetsRemoveRevisionMaximumSet() {
   const credential = new DefaultAzureCredential();

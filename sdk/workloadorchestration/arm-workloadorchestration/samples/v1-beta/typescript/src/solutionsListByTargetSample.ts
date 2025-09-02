@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Solution resources
  *
  * @summary list Solution resources
- * x-ms-original-file: 2025-08-01/Solutions_ListByTarget_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Solutions_ListByTarget_MaximumSet_Gen.json
  */
 async function solutionsListByTargetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns a collection of Diagnostic resources within the resource group.
  *
  * @summary returns a collection of Diagnostic resources within the resource group.
- * x-ms-original-file: 2025-08-01/Diagnostics_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Diagnostics_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function diagnosticsListByResourceGroupMaximumSet() {
   const credential = new DefaultAzureCredential();

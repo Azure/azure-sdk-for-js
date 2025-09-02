@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a Workflow resource
  *
  * @summary update a Workflow resource
- * x-ms-original-file: 2025-08-01/Workflows_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Workflows_Update_MaximumSet_Gen.json
  */
 async function workflowsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

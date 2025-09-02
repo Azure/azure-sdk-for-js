@@ -48,7 +48,7 @@ export function createWorkloadOrchestrationManagement(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2025-08-01";
+  const apiVersion = options.apiVersion ?? "2025-06-01";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

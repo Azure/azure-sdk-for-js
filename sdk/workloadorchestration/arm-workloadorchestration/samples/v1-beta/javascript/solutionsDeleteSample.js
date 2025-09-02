@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Solution Resource
  *
  * @summary delete a Solution Resource
- * x-ms-original-file: 2025-08-01/Solutions_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Solutions_Delete_MaximumSet_Gen.json
  */
 async function solutionsDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();

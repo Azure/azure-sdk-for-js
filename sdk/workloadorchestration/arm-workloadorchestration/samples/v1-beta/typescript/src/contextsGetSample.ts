@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Context Resource
  *
  * @summary get Context Resource
- * x-ms-original-file: 2025-08-01/Contexts_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Contexts_Get_MaximumSet_Gen.json
  */
 async function contextsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

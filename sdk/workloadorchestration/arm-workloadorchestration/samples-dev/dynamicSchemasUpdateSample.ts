@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a DynamicSchema Resource
  *
  * @summary update a DynamicSchema Resource
- * x-ms-original-file: 2025-08-01/DynamicSchemas_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/DynamicSchemas_Update_MaximumSet_Gen.json
  */
 async function dynamicSchemasUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

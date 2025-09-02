@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns details of specified Diagnostic resource.
  *
  * @summary returns details of specified Diagnostic resource.
- * x-ms-original-file: 2025-08-01/Diagnostics_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Diagnostics_Get_MaximumSet_Gen.json
  */
 async function diagnosticsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

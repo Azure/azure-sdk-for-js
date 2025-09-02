@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list by subscription
  *
  * @summary list by subscription
- * x-ms-original-file: 2025-08-01/Targets_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Targets_ListBySubscription_MaximumSet_Gen.json
  */
 async function targetsListBySubscriptionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

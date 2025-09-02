@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update Context Resource
  *
  * @summary create or update Context Resource
- * x-ms-original-file: 2025-08-01/Contexts_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Contexts_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function contextsCreateOrUpdateMaximumSet() {
   const credential = new DefaultAzureCredential();

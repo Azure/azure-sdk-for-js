@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Config Template Version Resources
  *
  * @summary list Config Template Version Resources
- * x-ms-original-file: 2025-08-01/ConfigTemplateVersions_ListByConfigTemplate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/ConfigTemplateVersions_ListByConfigTemplate_MaximumSet_Gen.json
  */
 async function configTemplateVersionsListByConfigTemplateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

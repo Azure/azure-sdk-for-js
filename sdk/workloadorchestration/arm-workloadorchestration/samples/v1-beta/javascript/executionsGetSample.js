@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get Execution Resource
  *
  * @summary get Execution Resource
- * x-ms-original-file: 2025-08-01/Executions_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-06-01/Executions_Get_MaximumSet_Gen.json
  */
 async function executionsGetMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
