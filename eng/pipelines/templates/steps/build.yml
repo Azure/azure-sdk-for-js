@@ -64,10 +64,11 @@ steps:
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual')) }}:
       - task: AzureCLI@2
         inputs:
-          azureSubscription: "Azure SDK Engineering System"
+          azureSubscription: azure-sdk-tests
           scriptType: "bash"
           scriptLocation: "inlineScript"
           inlineScript: |
+            az account set --name "Azure SDK Engineering System"
             az account show
             turboToken=`az keyvault secret show --name js-turborepo-cache-token --vault-name AzureSDK-TestSecrets2 --query value -o tsv`
             echo "##vso[task.setvariable variable=turboToken;issecret=true;]$turboToken"
