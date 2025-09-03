@@ -3,6 +3,7 @@
 
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import type { TranscriptionResultState } from "../generated/src/index.js";
+import { PiiRedactionOptions } from "./models.js";
 
 /**
  * Audio streaming data.
@@ -79,6 +80,10 @@ export interface TranscriptionMetadata {
   callConnectionId: string;
   /** correlation Id.*/
   correlationId: string;
+  /** Enable sentiment analysis.*/
+  enableSentimentAnalysis?: boolean;
+  /** PII Redaction options. */
+  piiRedactionOptions?: PiiRedactionOptions;
 }
 
 /**
@@ -101,6 +106,8 @@ export interface TranscriptionData {
   participant: CommunicationIdentifier;
   /** State of the result of transcription. */
   resultState: TranscriptionResultState;
+  /** The identified language for a spoken phrase. */
+  languageIdentified: string;
 }
 
 // StreamingDataResult type  | TranscriptionMetadata| TranscriptionData| AudioData| AudioMetadata;

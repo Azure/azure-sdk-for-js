@@ -31,6 +31,7 @@ import {
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
   UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
+  SummarizeCallRequest as SummarizeCallRequestMapper,
   HoldRequest as HoldRequestMapper,
   UnholdRequest as UnholdRequestMapper,
   StartMediaStreamingRequest as StartMediaStreamingRequestMapper,
@@ -236,6 +237,11 @@ export const sendDtmfTonesRequest: OperationParameter = {
 export const updateTranscriptionRequest: OperationParameter = {
   parameterPath: "updateTranscriptionRequest",
   mapper: UpdateTranscriptionRequestMapper,
+};
+
+export const summarizeCallRequest: OperationParameter = {
+  parameterPath: "summarizeCallRequest",
+  mapper: SummarizeCallRequestMapper,
 };
 
 export const holdRequest: OperationParameter = {

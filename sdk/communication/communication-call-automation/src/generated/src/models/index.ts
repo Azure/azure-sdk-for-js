@@ -41,6 +41,8 @@ export interface CreateCallRequest {
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Transcription Options. */
   transcriptionOptions?: TranscriptionOptionsInternal;
+  /** Enables loopback audio functionality for the call. */
+  enableLoopbackAudio?: boolean;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
@@ -193,6 +195,8 @@ export interface MediaStreamingOptions {
   enableBidirectional?: boolean;
   /** Specifies the audio format used for encoding, including sample rate and channel type. */
   audioFormat?: AudioFormat;
+  /** A value that indicates whether to stream the DTMF tones. */
+  enableDtmfTones?: boolean;
 }
 
 /** Configuration of live transcription. */
@@ -202,13 +206,37 @@ export interface TranscriptionOptionsInternal {
   /** The type of transport to be used for live transcription, eg. Websocket */
   transportType: TranscriptionTransportType;
   /** Defines the locale for the data e.g en-CA, en-AU */
-  locale: string;
+  locale?: string;
   /** Endpoint where the custom model was deployed. */
   speechModelEndpointId?: string;
   /** Determines if the transcription should be started immediately after call is answered or not. */
   startTranscription: boolean;
   /** Enables intermediate results for the transcribed speech. */
   enableIntermediateResults?: boolean;
+  /** PII redaction configuration options. */
+  piiRedactionOptions?: PiiRedactionOptionsInternal;
+  /** Indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
+  /** List of languages for Language Identification. */
+  locales?: string[];
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptionsInternal;
+}
+
+/** PII redaction configuration options. */
+export interface PiiRedactionOptionsInternal {
+  /** Gets or sets a value indicating whether PII redaction is enabled. */
+  enable?: boolean;
+  /** Gets or sets the type of PII redaction to be used. */
+  redactionType?: RedactionType;
+}
+
+/** Configuration options for call summarization. */
+export interface SummarizationOptionsInternal {
+  /** Indicating whether end call summary should be enabled. */
+  enableEndCallSummary?: boolean;
+  /** Locale for summarization (e.g., en-US). */
+  locale?: string;
 }
 
 /** Properties of a call connection */
@@ -315,6 +343,8 @@ export interface AnswerCallRequest {
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Transcription Options. */
   transcriptionOptions?: TranscriptionOptionsInternal;
+  /** Enables loopback audio functionality for the call. */
+  enableLoopbackAudio?: boolean;
 }
 
 /** The request payload for redirecting the call. */
@@ -349,6 +379,8 @@ export interface ConnectRequest {
   mediaStreamingOptions?: MediaStreamingOptions;
   /** Transcription Options. */
   transcriptionOptions?: TranscriptionOptionsInternal;
+  /** Enables loopback audio functionality for the call. */
+  enableLoopbackAudio?: boolean;
 }
 
 /** The locator used for joining or taking action on a call */
@@ -472,6 +504,14 @@ export interface StartTranscriptionRequest {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
+  /** PII redaction configuration options. */
+  piiRedactionOptions?: PiiRedactionOptionsInternal;
+  /** Indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
+  /** List of languages for Language Identification. */
+  locales?: string[];
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptionsInternal;
 }
 
 export interface StopTranscriptionRequest {
@@ -513,6 +553,10 @@ export interface RecognizeOptions {
   targetParticipant: CommunicationIdentifierModel;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
+  /** Speech languages for language identification and recognition. Example: ["en-us", "fr-fr", "hi-in"] etc. */
+  speechLanguages?: string[];
+  /** Value indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
   /** Defines configurations for DTMF. */
@@ -590,6 +634,24 @@ export interface UpdateTranscriptionRequest {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
+  /** PII redaction configuration options. */
+  piiRedactionOptions?: PiiRedactionOptionsInternal;
+  /** Indicating if sentiment analysis should be used. */
+  enableSentimentAnalysis?: boolean;
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptionsInternal;
+}
+
+export interface SummarizeCallRequest {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptionsInternal;
 }
 
 /** The request payload for holding participant from the call. */
@@ -910,7 +972,7 @@ export interface RecordingStorage {
 
 export interface PostProcessingOptions {
   /**
-   * The identifier of the Cognitive Service resource assigned to the post recording processing.
+   * The endpoint of the Cognitive Service resource assigned to the post recording processing.
    * The Cognitive Service resource will be used by the summarization feature.
    */
   cognitiveServicesEndpoint?: string;
@@ -989,6 +1051,13 @@ export interface ErrorModel {
   innerError?: ErrorModel;
 }
 
+export interface SipDiagnosticInfo {
+  /** Represents the diagnostic code returned by the SIP service, used for identifying specific issues or statuses. */
+  code?: number;
+  /** Message associated with the code for diagnosing. */
+  message?: string;
+}
+
 export interface DtmfResult {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly tones?: Tone[];
@@ -1002,14 +1071,29 @@ export interface ChoiceResult {
    * If Dtmf input is recognized, then Label will be the identifier for the choice detected and phrases will be set to null
    */
   recognizedPhrase?: string;
+  /** The identified language for a spoken phrase. */
+  languageIdentified?: string;
+  /** Gets or sets the sentiment analysis result. */
+  sentimentAnalysisResult?: SentimentAnalysisResult;
+  /** The confidence level of the recognized speech, if available, ranges from 0.0 to 1.0 */
+  confidence?: number;
+}
+
+export interface SentimentAnalysisResult {
+  /** Gets or sets the value of the sentiment detected (positive, negative, neutral, mixed). */
+  sentiment?: string;
 }
 
 /** The speech status as a result. */
 export interface SpeechResult {
   /** The recognized speech in string. */
   speech?: string;
-  /** The confidence of the recognized speech. */
+  /** The confidence level of the recognized speech, if available, ranges from 0.0 to 1.0 */
   confidence?: number;
+  /** The identified language. */
+  languageIdentified?: string;
+  /** Gets or sets the sentiment analysis result. */
+  sentimentAnalysisResult?: SentimentAnalysisResult;
 }
 
 export interface DialogCompleted {
@@ -1039,6 +1123,18 @@ export interface RestResultInformation {
   subCode?: number;
   /** Detail message that describes the current result. */
   message?: string;
+  /**
+   * Sip response from SBC. This can be helpful to troubleshoot PSTN call if this result was unexpected.
+   * This is only applicable for PSTN calls and will be null if SBC/Carrier does not provide this information.
+   * Do not solely rely on this information for troubleshooting, as it may not always be available.
+   */
+  sipDetails?: SipDiagnosticInfo;
+  /**
+   * Q850 cause from SBC. This can be helpful to troubleshoot call issues if this result was unexpected.
+   * This is only applicable for PSTN calls and will be null if SBC/Carrier does not provide this information.
+   * Do not solely rely on this information for troubleshooting, as it may not always be available.
+   */
+  q850Details?: SipDiagnosticInfo;
 }
 
 export interface DialogFailed {
@@ -1253,6 +1349,26 @@ export interface DialogUpdated {
 export interface TranscriptionUpdate {
   transcriptionStatus?: TranscriptionStatus;
   transcriptionStatusDetails?: TranscriptionStatusDetails;
+  /** Optional message providing additional context about the transcription update. */
+  transcriptionMessage?: string;
+}
+
+export interface TranscriptionCallSummaryUpdated {
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
 }
 
 export interface MediaStreamingUpdate {
@@ -2149,6 +2265,21 @@ export enum KnownTranscriptionTransportType {
  */
 export type TranscriptionTransportType = string;
 
+/** Known values of {@link RedactionType} that the service accepts. */
+export enum KnownRedactionType {
+  /** MaskWithCharacter */
+  MaskWithCharacter = "maskWithCharacter",
+}
+
+/**
+ * Defines values for RedactionType. \
+ * {@link KnownRedactionType} can be used interchangeably with RedactionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **maskWithCharacter**
+ */
+export type RedactionType = string;
+
 /** Known values of {@link CallConnectionStateModel} that the service accepts. */
 export enum KnownCallConnectionStateModel {
   /** Unknown */
@@ -2668,6 +2799,8 @@ export enum KnownTranscriptionStatus {
   TranscriptionUpdated = "transcriptionUpdated",
   /** TranscriptionStopped */
   TranscriptionStopped = "transcriptionStopped",
+  /** CallSummaryUpdated */
+  CallSummaryUpdated = "callSummaryUpdated",
   /** UnspecifiedError */
   UnspecifiedError = "unspecifiedError",
 }
@@ -2682,6 +2815,7 @@ export enum KnownTranscriptionStatus {
  * **transcriptionResumed** \
  * **transcriptionUpdated** \
  * **transcriptionStopped** \
+ * **callSummaryUpdated** \
  * **unspecifiedError**
  */
 export type TranscriptionStatus = string;
@@ -2718,6 +2852,10 @@ export enum KnownTranscriptionStatusDetails {
   ServiceTimeout = "serviceTimeout",
   /** TranscriptionLocaleUpdated */
   TranscriptionLocaleUpdated = "transcriptionLocaleUpdated",
+  /** CallSummarySuccess */
+  CallSummarySuccess = "callSummarySuccess",
+  /** CallSummaryFailure */
+  CallSummaryFailure = "callSummaryFailure",
 }
 
 /**
@@ -2739,7 +2877,9 @@ export enum KnownTranscriptionStatusDetails {
  * **tooManyRequests** \
  * **forbidden** \
  * **serviceTimeout** \
- * **transcriptionLocaleUpdated**
+ * **transcriptionLocaleUpdated** \
+ * **callSummarySuccess** \
+ * **callSummaryFailure**
  */
 export type TranscriptionStatusDetails = string;
 
@@ -3063,6 +3203,10 @@ export type CallMediaSendDtmfTonesResponse = SendDtmfTonesResult;
 
 /** Optional parameters. */
 export interface CallMediaUpdateTranscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaSummarizeCallOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */

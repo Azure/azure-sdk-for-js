@@ -12,6 +12,7 @@ import type {
   MediaStreamingUpdate,
   TranscriptionUpdate,
   RecordingKind,
+  SipDiagnosticInfo,
 } from "../generated/src/models/index.js";
 
 import type { CallParticipant, RecordingState, CustomCallingContext } from "./models.js";
@@ -62,7 +63,8 @@ export type CallAutomationEvent =
   | HoldAudioPaused
   | HoldAudioResumed
   | HoldAudioCompleted
-  | IncomingCall;
+  | IncomingCall
+  | TranscriptionCallSummaryUpdated;
 
 export interface ResultInformation {
   /** The error code. */
@@ -71,6 +73,18 @@ export interface ResultInformation {
   subCode: number;
   /** The detailed message of the error. */
   message: string;
+  /**
+   * Sip response from SBC. This can be helpful to troubleshoot PSTN call if this result was unexpected.
+   * This is only applicable for PSTN calls and will be null if SBC/Carrier does not provide this information.
+   * Do not solely rely on this information for troubleshooting, as it may not always be available.
+   */
+  sipDetails?: SipDiagnosticInfo;
+  /**
+   * Q850 cause from SBC. This can be helpful to troubleshoot call issues if this result was unexpected.
+   * This is only applicable for PSTN calls and will be null if SBC/Carrier does not provide this information.
+   * Do not solely rely on this information for troubleshooting, as it may not always be available.
+   */
+  q850Details?: SipDiagnosticInfo;
 }
 
 /** The participant successfully added event. */
@@ -850,4 +864,24 @@ export interface HoldAudioCompleted {
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "HoldAudioCompleted";
+}
+
+export interface TranscriptionCallSummaryUpdated {
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  transcriptionUpdate?: TranscriptionUpdate;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "TranscriptionCallSummaryUpdated";
 }

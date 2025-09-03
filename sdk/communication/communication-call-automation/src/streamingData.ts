@@ -49,6 +49,8 @@ export class StreamingData {
           locale: jsonObject.transcriptionMetadata.locale,
           callConnectionId: jsonObject.transcriptionMetadata.callConnectionId,
           correlationId: jsonObject.transcriptionMetadata.correlationId,
+          enableSentimentAnalysis: jsonObject.transcriptionMetadata.enableSentimentAnalysis,
+          piiRedactionOptions: jsonObject.transcriptionMetadata.piiRedactionOptions,
         };
         StreamingData.streamingKind = kind;
         return transcriptionMetadata;
@@ -69,6 +71,7 @@ export class StreamingData {
           ),
           participant: createIdentifierFromRawId(jsonObject.transcriptionData.participantRawID),
           resultState: jsonObject.transcriptionData.resultStatus,
+          languageIdentified: jsonObject.transcriptionData.languageIdentified,
         };
         StreamingData.streamingKind = kind;
         return transcriptionData;

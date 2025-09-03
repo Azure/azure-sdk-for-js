@@ -54,6 +54,7 @@ import type {
   HoldAudioResumed,
   HoldAudioCompleted,
   IncomingCall,
+  TranscriptionCallSummaryUpdated,
 } from "./models/events.js";
 
 import { CloudEventMapper } from "./models/mapper.js";
@@ -203,6 +204,11 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.TranscriptionFailed":
       callbackEvent = { kind: "TranscriptionFailed" } as TranscriptionFailed;
+      break;
+    case "Microsoft.Communication.TranscriptionCallSummaryUpdated":
+      callbackEvent = {
+        kind: "TranscriptionCallSummaryUpdated",
+      } as TranscriptionCallSummaryUpdated;
       break;
     case "Microsoft.Communication.CreateCallFailed":
       callbackEvent = { kind: "CreateCallFailed" } as CreateCallFailed;
