@@ -87,7 +87,6 @@ steps:
       TURBO_TEAMID: azsdkjs
       TURBO_TOKEN: $(js-turborepo-cache-token)
       TURBO_CACHE: $(turboCache)
-      TURBO_API: https://turborepo-remote-cache-app.orangefield-d237357a.westus3.azurecontainerapps.io
     displayName: "Build libraries"
 
   - script: |
