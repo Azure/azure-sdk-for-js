@@ -11,6 +11,7 @@ import type {
 import type {
   CallConnectionStateModel,
   MediaStreamingSubscription,
+  RedactionType,
   TranscriptionSubscription,
   TranscriptionTransportType,
 } from "../generated/src/index.js";
@@ -359,11 +360,38 @@ export interface TranscriptionOptions {
   /** The type of transport to be used for live transcription, eg. Websocket */
   transportType: TranscriptionTransportType;
   /** Defines the locale for the data e.g en-CA, en-AU */
-  locale: string;
+  locale?: string;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
   /** Determines if the transcription should be started immediately after call is answered or not. */
   startTranscription: boolean;
   /** Enables intermediate results for the transcribed speech. */
   enableIntermediateResults?: boolean;
+  /** PII redaction configuration options. */
+  piiRedactionOptions?: PiiRedactionOptions;
+  /** Indicating if sentiment analysis should be enabled. */
+  enableSentimentAnalysis?: boolean;
+  /**
+   * List of locales for Language Identification.
+   * Supports upto 4 locales in the format: ["en-us", "fr-fr", "hi-in"] etc.
+   */
+  locales?: string[];
+  /** Summarization configuration options. */
+  summarizationOptions?: SummarizationOptions;
+}
+
+/** PII redaction configuration options. */
+export interface PiiRedactionOptions {
+  /** Value indicating if PII redaction is enabled. */
+  enable?: boolean;
+  /** Value indicating the PII redaction type to be used. */
+  redactionType?: RedactionType;
+}
+
+/** Configuration options for call summarization. */
+export interface SummarizationOptions {
+  /** Indicating whether end call summary should be enabled. */
+  enableEndCallSummary?: boolean;
+  /** Locale for summarization (e.g., en-US). */
+  locale?: string;
 }

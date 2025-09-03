@@ -1,0 +1,296 @@
+[
+  {
+    "to": {
+      "kind": "communicationUser",
+      "rawId": "sanitized",
+      "communicationUser": {
+        "id": "sanitized"
+      }
+    },
+    "from": {
+      "kind": "communicationUser",
+      "rawId": "sanitized",
+      "communicationUser": {
+        "id": "sanitized"
+      }
+    },
+    "serverCallId": "sanitized",
+    "callerDisplayName": "",
+    "incomingCallContext": "sanitized",
+    "correlationId": "e3a27563-1484-4847-bb0d-3953895ffffc"
+  },
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/08002680-ce34-4a26-b5ac-f0456b8f4c2b",
+      "type": "Microsoft.Communication.ParticipantsUpdated",
+      "data": {
+        "participants": [
+          {
+            "identifier": {
+              "rawId": "sanitized",
+              "kind": "communicationUser",
+              "communicationUser": {
+                "id": "sanitized"
+              }
+            },
+            "isMuted": false,
+            "isOnHold": false
+          },
+          {
+            "identifier": {
+              "rawId": "sanitized",
+              "kind": "communicationUser",
+              "communicationUser": {
+                "id": "sanitized"
+              }
+            },
+            "isMuted": false,
+            "isOnHold": false
+          }
+        ],
+        "sequenceNumber": 1,
+        "resultInformation": {
+          "code": 200,
+          "subCode": 0,
+          "message": ""
+        },
+        "version": "2024-09-01-preview",
+        "callConnectionId": "08002680-ce34-4a26-b5ac-f0456b8f4c2b",
+        "serverCallId": "sanitized",
+        "correlationId": "e3a27563-1484-4847-bb0d-3953895ffffc",
+        "publicEventType": "Microsoft.Communication.ParticipantsUpdated"
+      },
+      "time": "2025-09-03T11:04:27.1997781+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/08002680-ce34-4a26-b5ac-f0456b8f4c2b"
+    }
+  ],
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7",
+      "type": "Microsoft.Communication.CallConnected",
+      "data": {
+        "version": "2024-09-01-preview",
+        "resultInformation": {
+          "code": 200,
+          "subCode": 0,
+          "message": ""
+        },
+        "callConnectionId": "08002680-aba4-43d5-ac34-1ee5460ad9a7",
+        "serverCallId": "sanitized",
+        "correlationId": "e3a27563-1484-4847-bb0d-3953895ffffc",
+        "publicEventType": "Microsoft.Communication.CallConnected"
+      },
+      "time": "2025-09-03T11:04:27.2301349+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7"
+    }
+  ],
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7",
+      "type": "Microsoft.Communication.ParticipantsUpdated",
+      "data": {
+        "participants": [
+          {
+            "identifier": {
+              "rawId": "sanitized",
+              "kind": "communicationUser",
+              "communicationUser": {
+                "id": "sanitized"
+              }
+            },
+            "isMuted": false,
+            "isOnHold": false
+          },
+          {
+            "identifier": {
+              "rawId": "sanitized",
+              "kind": "communicationUser",
+              "communicationUser": {
+                "id": "sanitized"
+              }
+            },
+            "isMuted": false,
+            "isOnHold": false
+          }
+        ],
+        "sequenceNumber": 1,
+        "resultInformation": {
+          "code": 200,
+          "subCode": 0,
+          "message": ""
+        },
+        "version": "2024-09-01-preview",
+        "callConnectionId": "08002680-aba4-43d5-ac34-1ee5460ad9a7",
+        "serverCallId": "sanitized",
+        "correlationId": "e3a27563-1484-4847-bb0d-3953895ffffc",
+        "publicEventType": "Microsoft.Communication.ParticipantsUpdated"
+      },
+      "time": "2025-09-03T11:04:27.1873423+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7"
+    }
+  ],
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/08002680-ce34-4a26-b5ac-f0456b8f4c2b",
+      "type": "Microsoft.Communication.CallConnected",
+      "data": {
+        "version": "2024-09-01-preview",
+        "resultInformation": {
+          "code": 200,
+          "subCode": 0,
+          "message": ""
+        },
+        "callConnectionId": "08002680-ce34-4a26-b5ac-f0456b8f4c2b",
+        "serverCallId": "sanitized",
+        "correlationId": "e3a27563-1484-4847-bb0d-3953895ffffc",
+        "publicEventType": "Microsoft.Communication.CallConnected"
+      },
+      "time": "2025-09-03T11:04:27.2728361+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/08002680-ce34-4a26-b5ac-f0456b8f4c2b"
+    }
+  ],
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7",
+      "type": "Microsoft.Communication.TranscriptionStarted",
+      "data": {
+        "transcriptionUpdate": {
+          "transcriptionStatus": "transcriptionStarted",
+          "transcriptionStatusDetails": "subscriptionStarted"
+        },
+        "version": "2024-09-01-preview",
+        "operationContext": "startTranscriptionContext",
+        "resultInformation": {
+          "code": 200,
+          "subCode": 0,
+          "message": "Action completed successfully."
+        },
+        "callConnectionId": "08002680-aba4-43d5-ac34-1ee5460ad9a7",
+        "serverCallId": "sanitized",
+        "correlationId": "e3a27563-1484-4847-bb0d-3953895ffffc",
+        "publicEventType": "Microsoft.Communication.TranscriptionStarted"
+      },
+      "time": "2025-09-03T11:04:30.4965494+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7"
+    }
+  ],
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7",
+      "type": "Microsoft.Communication.TranscriptionCallSummaryUpdated",
+      "data": {
+        "transcriptionUpdate": {
+          "transcriptionStatus": "callSummaryUpdated",
+          "transcriptionStatusDetails": "callSummaryFailure",
+          "transcriptionMessage": "SummarizationFailed Cannot summarize conversation: no transcripts available."
+        },
+        "version": "2024-09-01-preview",
+        "operationContext": "startTranscriptionContext",
+        "resultInformation": {
+          "code": 500,
+          "subCode": 8626,
+          "message": "Action failed, unable to summarize the call transcripts."
+        },
+        "callConnectionId": "08002680-aba4-43d5-ac34-1ee5460ad9a7",
+        "serverCallId": "sanitized",
+        "correlationId": "e3a27563-1484-4847-bb0d-3953895ffffc",
+        "publicEventType": "Microsoft.Communication.TranscriptionCallSummaryUpdated"
+      },
+      "time": "2025-09-03T11:04:31.3307854+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7"
+    }
+  ],
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7",
+      "type": "Microsoft.Communication.TranscriptionCallSummaryUpdated",
+      "data": {
+        "transcriptionUpdate": {
+          "transcriptionStatus": "callSummaryUpdated",
+          "transcriptionStatusDetails": "callSummaryFailure",
+          "transcriptionMessage": "SummarizationFailed Cannot summarize conversation: no transcripts available."
+        },
+        "version": "2024-09-01-preview",
+        "operationContext": "startTranscriptionContext",
+        "resultInformation": {
+          "code": 500,
+          "subCode": 8626,
+          "message": "Action failed, unable to summarize the call transcripts."
+        },
+        "callConnectionId": "08002680-aba4-43d5-ac34-1ee5460ad9a7",
+        "serverCallId": "sanitized",
+        "correlationId": "e3a27563-1484-4847-bb0d-3953895ffffc",
+        "publicEventType": "Microsoft.Communication.TranscriptionCallSummaryUpdated"
+      },
+      "time": "2025-09-03T11:04:31.349647+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7"
+    }
+  ],
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7",
+      "type": "Microsoft.Communication.CallDisconnected",
+      "data": {
+        "version": "2024-09-01-preview",
+        "resultInformation": {
+          "code": 200,
+          "subCode": 7000,
+          "message": "Call was ended by Azure Communication Service Call Automation API or a server bot. DiagCode: 0#7000.@"
+        },
+        "callConnectionId": "08002680-aba4-43d5-ac34-1ee5460ad9a7",
+        "serverCallId": "sanitized",
+        "correlationId": "e3a27563-1484-4847-bb0d-3953895ffffc",
+        "publicEventType": "Microsoft.Communication.CallDisconnected"
+      },
+      "time": "2025-09-03T11:04:32.8366885+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/08002680-aba4-43d5-ac34-1ee5460ad9a7"
+    }
+  ],
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/08002680-ce34-4a26-b5ac-f0456b8f4c2b",
+      "type": "Microsoft.Communication.CallDisconnected",
+      "data": {
+        "version": "2024-09-01-preview",
+        "resultInformation": {
+          "code": 200,
+          "subCode": 5001,
+          "message": "This conversation has ended.. DiagCode: 0#5001.@"
+        },
+        "callConnectionId": "08002680-ce34-4a26-b5ac-f0456b8f4c2b",
+        "serverCallId": "sanitized",
+        "correlationId": "e3a27563-1484-4847-bb0d-3953895ffffc",
+        "publicEventType": "Microsoft.Communication.CallDisconnected"
+      },
+      "time": "2025-09-03T11:04:32.9470795+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/08002680-ce34-4a26-b5ac-f0456b8f4c2b"
+    }
+  ]
+]

@@ -71,6 +71,7 @@ export interface AnswerCallEventResult {
 export interface AnswerCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
     customCallingContext?: CustomCallingContext;
+    enableLoopbackAudio?: boolean;
     mediaStreamingOptions?: MediaStreamingOptions;
     operationContext?: string;
     transcriptionOptions?: TranscriptionOptions;
@@ -135,7 +136,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | MoveParticipantSucceeded | MoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | StartRecordingFailed | PlayStarted | PlayPaused | PlayResumed | HoldAudioStarted | HoldAudioPaused | HoldAudioResumed | HoldAudioCompleted | IncomingCall;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | MoveParticipantSucceeded | MoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | StartRecordingFailed | PlayStarted | PlayPaused | PlayResumed | HoldAudioStarted | HoldAudioPaused | HoldAudioResumed | HoldAudioCompleted | IncomingCall | TranscriptionCallSummaryUpdated;
 
 // @public
 export class CallAutomationEventProcessor {
@@ -246,6 +247,7 @@ export class CallMedia {
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
     stopMediaStreaming(options?: StopMediaStreamingOptions): Promise<void>;
     stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
+    summarizeCall(options?: SummarizeCallOptions): Promise<void>;
     unhold(targetParticipant: CommunicationIdentifier, options?: UnholdOptions): Promise<void>;
     updateTranscription(locale: string, options?: UpdateTranscriptionOptions): Promise<void>;
 }
@@ -253,9 +255,11 @@ export class CallMedia {
 // @public
 export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
     choices: RecognitionChoice[];
+    enableSentimentAnalysis?: boolean;
     // (undocumented)
     readonly kind: "callMediaRecognizeChoiceOptions";
     speechLanguage?: string;
+    speechLanguages?: string[];
     speechRecognitionModelEndpointId?: string;
 }
 
@@ -284,21 +288,25 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
 
 // @public
 export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
+    enableSentimentAnalysis?: boolean;
     endSilenceTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind: "callMediaRecognizeSpeechOptions";
     speechLanguage?: string;
+    speechLanguages?: string[];
     speechRecognitionModelEndpointId?: string;
 }
 
 // @public
 export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
+    enableSentimentAnalysis?: boolean;
     endSilenceTimeoutInSeconds?: number;
     interToneTimeoutInSeconds?: number;
     // (undocumented)
     readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
     maxTonesToCollect?: number;
     speechLanguage?: string;
+    speechLanguages?: string[];
     speechRecognitionModelEndpointId?: string;
     stopDtmfTones?: DtmfTone[];
 }
@@ -423,8 +431,12 @@ export interface ChannelAffinity {
 
 // @public (undocumented)
 export interface ChoiceResult {
+    confidence?: number;
     label?: string;
+    languageIdentified?: string;
     recognizedPhrase?: string;
+    // Warning: (ae-forgotten-export) The symbol "SentimentAnalysisResult" needs to be exported by the entry point index.d.ts
+    sentimentAnalysisResult?: SentimentAnalysisResult;
 }
 
 // @public
@@ -440,6 +452,7 @@ export interface ConnectCallEventResult {
 // @public
 export interface ConnectCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
+    enableLoopbackAudio?: boolean;
     mediaStreamingOptions?: MediaStreamingOptions;
     operationContext?: string;
     transcriptionOptions?: TranscriptionOptions;
@@ -521,6 +534,7 @@ export interface CreateCallFailed {
 export interface CreateCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
     customCallingContext?: CustomCallingContext;
+    enableLoopbackAudio?: boolean;
     mediaStreamingOptions?: MediaStreamingOptions;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
@@ -843,6 +857,7 @@ export enum KnownTranscriptionResultState {
 
 // @public
 export enum KnownTranscriptionStatus {
+    CallSummaryUpdated = "callSummaryUpdated",
     TranscriptionFailed = "transcriptionFailed",
     TranscriptionResumed = "transcriptionResumed",
     TranscriptionStarted = "transcriptionStarted",
@@ -855,6 +870,8 @@ export enum KnownTranscriptionStatus {
 export enum KnownTranscriptionStatusDetails {
     AuthenticationFailure = "authenticationFailure",
     BadRequest = "badRequest",
+    CallSummaryFailure = "callSummaryFailure",
+    CallSummarySuccess = "callSummarySuccess",
     Forbidden = "forbidden",
     ServiceShutdown = "serviceShutdown",
     ServiceTimeout = "serviceTimeout",
@@ -917,6 +934,7 @@ export interface MediaStreamingOptions {
     audioFormat?: AudioFormat;
     contentType: MediaStreamingContentType;
     enableBidirectional?: boolean;
+    enableDtmfTones?: boolean;
     startMediaStreaming?: boolean;
     transportType: MediaStreamingTransportType;
     transportUrl: string;
@@ -1054,6 +1072,13 @@ export interface ParticipantsUpdated {
 
 // @public
 export type PauseRecordingOptions = OperationOptions;
+
+// @public
+export interface PiiRedactionOptions {
+    enable?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "RedactionType" needs to be exported by the entry point index.d.ts
+    redactionType?: RedactionType;
+}
 
 // @public
 export interface PlayCanceled {
@@ -1327,6 +1352,9 @@ export interface RemoveParticipantSucceeded {
 export interface ResultInformation {
     code: number;
     message: string;
+    q850Details?: SipDiagnosticInfo;
+    // Warning: (ae-forgotten-export) The symbol "SipDiagnosticInfo" needs to be exported by the entry point index.d.ts
+    sipDetails?: SipDiagnosticInfo;
     subCode: number;
 }
 
@@ -1392,6 +1420,8 @@ export interface SipUserToUserHeader extends CustomCallingContextHeader {
 // @public
 export interface SpeechResult {
     confidence?: number;
+    languageIdentified?: string;
+    sentimentAnalysisResult?: SentimentAnalysisResult;
     speech?: string;
 }
 
@@ -1449,10 +1479,14 @@ export interface StartRecordingOptions extends OperationOptions {
 
 // @public
 export interface StartTranscriptionOptions extends OperationOptions {
+    enableSentimentAnalysis?: boolean;
     locale?: string;
+    locales?: string[];
     operationCallbackUrl?: string;
     operationContext?: string;
+    piiRedactionOptions?: PiiRedactionOptions;
     speechRecognitionModelEndpointId?: string;
+    summarizationOptions?: SummarizationOptions;
 }
 
 // @public (undocumented)
@@ -1495,6 +1529,19 @@ export enum StreamingDataKind {
 
 // @public (undocumented)
 export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata;
+
+// @public
+export interface SummarizationOptions {
+    enableEndCallSummary?: boolean;
+    locale?: string;
+}
+
+// @public
+export interface SummarizeCallOptions extends OperationOptions {
+    operationCallbackUrl?: string;
+    operationContext?: string;
+    summarizationOptions?: SummarizationOptions;
+}
 
 // @public
 export interface TeamsPhoneCallDetails {
@@ -1558,11 +1605,23 @@ export interface TextSource extends PlaySource {
 // @public
 export type Tone = string;
 
+// @public (undocumented)
+export interface TranscriptionCallSummaryUpdated {
+    callConnectionId?: string;
+    correlationId?: string;
+    kind: "TranscriptionCallSummaryUpdated";
+    operationContext?: string;
+    resultInformation?: ResultInformation;
+    serverCallId?: string;
+    transcriptionUpdate?: TranscriptionUpdate;
+}
+
 // @public
 export interface TranscriptionData {
     confidence: number;
     durationInTicks: number;
     format: TextFormat;
+    languageIdentified: string;
     offsetInTicks: number;
     participant: CommunicationIdentifier;
     resultState: TranscriptionResultState;
@@ -1585,16 +1644,22 @@ export interface TranscriptionFailed {
 export interface TranscriptionMetadata {
     callConnectionId: string;
     correlationId: string;
+    enableSentimentAnalysis?: boolean;
     locale: string;
+    piiRedactionOptions?: PiiRedactionOptions;
     subscriptionId: string;
 }
 
 // @public
 export interface TranscriptionOptions {
     enableIntermediateResults?: boolean;
-    locale: string;
+    enableSentimentAnalysis?: boolean;
+    locale?: string;
+    locales?: string[];
+    piiRedactionOptions?: PiiRedactionOptions;
     speechRecognitionModelEndpointId?: string;
     startTranscription: boolean;
+    summarizationOptions?: SummarizationOptions;
     transportType: TranscriptionTransportType;
     transportUrl: string;
 }
@@ -1645,6 +1710,7 @@ export type TranscriptionTransportType = string;
 
 // @public (undocumented)
 export interface TranscriptionUpdate {
+    transcriptionMessage?: string;
     // (undocumented)
     transcriptionStatus?: TranscriptionStatus;
     // (undocumented)
@@ -1691,9 +1757,12 @@ export interface UnholdOptions extends OperationOptions {
 
 // @public
 export interface UpdateTranscriptionOptions extends OperationOptions {
+    enableSentimentAnalysis?: boolean;
     operationCallbackUrl?: string;
     operationContext?: string;
+    piiRedactionOptions?: PiiRedactionOptions;
     speechRecognitionModelEndpointId?: string;
+    summarizationOptions?: SummarizationOptions;
 }
 
 // @public

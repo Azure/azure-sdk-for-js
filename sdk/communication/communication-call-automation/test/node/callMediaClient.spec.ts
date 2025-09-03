@@ -20,6 +20,7 @@ import type {
   MediaStreamingOptions,
   CallParticipant,
   TranscriptionOptions,
+  SummarizationOptions,
 } from "../../src/models/models.js";
 import { DtmfTone } from "../../src/models/models.js";
 import type {
@@ -43,6 +44,7 @@ import type {
   CallMediaRecognizeSpeechOrDtmfOptions,
   PlayToAllOptions,
   InterruptAudioAndAnnounceOptions,
+  SummarizeCallOptions,
 } from "../../src/index.js";
 import { CallAutomationEventProcessor } from "../../src/index.js";
 
@@ -227,6 +229,7 @@ describe("CallMedia Unit Tests", async function () {
     };
     const recognizeOptions: CallMediaRecognizeChoiceOptions = {
       choices: [choice],
+      speechLanguages: ["en-us", "en-au"],
       kind: "callMediaRecognizeChoiceOptions",
     };
 
@@ -248,6 +251,7 @@ describe("CallMedia Unit Tests", async function () {
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       kind: "callMediaRecognizeSpeechOptions",
       speechModelEndpointId: "customModelEndpointId",
+      speechLanguages: ["en-us", "en-au"],
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
@@ -554,6 +558,7 @@ describe("CallMedia Unit Tests", async function () {
     const recognizeOptions: CallMediaRecognizeChoiceOptions = {
       playPrompts: prompts,
       choices: [choice],
+      speechLanguages: ["en-us", "en-au"],
       kind: "callMediaRecognizeChoiceOptions",
     };
 
@@ -586,6 +591,7 @@ describe("CallMedia Unit Tests", async function () {
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       playPrompts: prompts,
       kind: "callMediaRecognizeSpeechOptions",
+      speechLanguages: ["en-us", "en-au"],
       speechRecognitionModelEndpointId: "customModelEndpointId",
     };
 
@@ -620,6 +626,7 @@ describe("CallMedia Unit Tests", async function () {
       maxTonesToCollect: 5,
       kind: "callMediaRecognizeSpeechOrDtmfOptions",
       speechRecognitionModelEndpointId: "customModelEndpointId",
+      speechLanguages: ["en-us", "en-au"],
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
@@ -718,6 +725,54 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
     assert.equal(data.operationContext, options.operationContext);
     assert.equal(data.playTo.rawId, CALL_TARGET_ID);
+  });
+
+  it("makes successful summarize call request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+    const summarizeCallOptions: SummarizeCallOptions = {
+      operationContext: "summarizationOperationContext",
+      operationCallbackUrl: "https://test.com",
+      summarizationOptions: {
+        enableEndCallSummary: true,
+        locale: "en-US",
+      },
+    };
+
+    await callMedia.summarizeCall(summarizeCallOptions);
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.operationContext, summarizeCallOptions.operationContext);
+    assert.equal(data.operationCallbackUri, summarizeCallOptions.operationCallbackUrl);
+    assert.equal(
+      data.summarizationOptions.enableEndCallSummary,
+      summarizeCallOptions.summarizationOptions?.enableEndCallSummary,
+    );
+    assert.equal(
+      data.summarizationOptions.locale,
+      summarizeCallOptions.summarizationOptions?.locale,
+    );
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful summarize call request without options.", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
+
+    await callMedia.summarizeCall();
+    const request = spy.mock.calls[0][0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.isUndefined(data.operationContext);
+    assert.isUndefined(data.operationCallbackUri);
+    assert.isUndefined(data.summarizationOptions.enableEndCallSummary);
+    assert.isUndefined(data.summarizationOptions.locale);
+    assert.equal(request.method, "POST");
   });
 });
 
@@ -1766,6 +1821,7 @@ describe("Call Media Client Live Tests", function () {
         playPrompts: playMultipleTextSources,
         kind: "callMediaRecognizeSpeechOptions",
         initialSilenceTimeoutInSeconds: 5,
+        speechLanguages: ["en-us", "en-au"],
       };
 
       await callConnection
@@ -1788,6 +1844,7 @@ describe("Call Media Client Live Tests", function () {
         playPrompts: multiplePlaySources,
         kind: "callMediaRecognizeSpeechOptions",
         initialSilenceTimeoutInSeconds: 5,
+        speechLanguages: ["en-us", "en-au"],
       };
 
       await callConnection
@@ -1810,6 +1867,7 @@ describe("Call Media Client Live Tests", function () {
         playPrompts: multiplePrompts,
         kind: "callMediaRecognizeSpeechOptions",
         initialSilenceTimeoutInSeconds: 5,
+        speechLanguages: ["en-us", "en-au"],
       };
 
       await callConnection
@@ -1897,6 +1955,7 @@ describe("Call Media Client Live Tests", function () {
         initialSilenceTimeoutInSeconds: 5,
         playPrompts: playMultipleTextSources,
         kind: "callMediaRecognizeChoiceOptions",
+        speechLanguages: ["en-us", "en-au"],
       };
 
       await callConnection
@@ -1920,6 +1979,7 @@ describe("Call Media Client Live Tests", function () {
         initialSilenceTimeoutInSeconds: 10,
         playPrompts: multiplePlaySources,
         kind: "callMediaRecognizeChoiceOptions",
+        speechLanguages: ["en-us", "en-au"],
       };
 
       await callConnection
@@ -1943,6 +2003,7 @@ describe("Call Media Client Live Tests", function () {
         initialSilenceTimeoutInSeconds: 5,
         playPrompts: multiplePrompts,
         kind: "callMediaRecognizeChoiceOptions",
+        speechLanguages: ["en-us", "en-au"],
       };
 
       await callConnection
@@ -2017,6 +2078,7 @@ describe("Call Media Client Live Tests", function () {
         playPrompts: playMultipleTextSources,
         initialSilenceTimeoutInSeconds: 5,
         interruptPrompt: true,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeSpeechOrDtmfOptions",
       };
 
@@ -2042,6 +2104,7 @@ describe("Call Media Client Live Tests", function () {
         playPrompts: multiplePlaySources,
         initialSilenceTimeoutInSeconds: 5,
         interruptPrompt: true,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeSpeechOrDtmfOptions",
       };
 
@@ -2066,6 +2129,7 @@ describe("Call Media Client Live Tests", function () {
         playPrompts: multiplePrompts,
         initialSilenceTimeoutInSeconds: 5,
         interruptPrompt: true,
+        speechLanguages: ["en-us", "en-au"],
         kind: "callMediaRecognizeSpeechOrDtmfOptions",
       };
 
@@ -2452,4 +2516,277 @@ describe("Call Media Client Live Tests", function () {
       assert.isDefined(callDisconnectedEvent);
     },
   );
+
+  it.skip(
+    "Creates a call, start transcription with semantic analysis and redaction, and hangs up.",
+    { timeout: 60000 },
+    async function (ctx) {
+      const fullTitle: string | undefined =
+        ctx.task.suite && ctx.task.suite.name && ctx.task.name
+          ? `${ctx.task.suite.name} ${ctx.task.name}`
+          : undefined;
+      testName = fullTitle
+        ? fullTitle.replace(/ /g, "_")
+        : "create_call_start_transcription_with_semantic_analysis_redcation_and_hang_up";
+      await loadPersistedEvents(testName);
+
+      const phoneNumbers = await getPhoneNumbers(recorder);
+      assert.isAtLeast(
+        phoneNumbers.length,
+        2,
+        "Invalid PSTN setup, test needs at least 2 phone numbers",
+      );
+      callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+      receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
+
+      const callInvite: CallInvite = {
+        targetParticipant: receiverPhoneUser,
+        sourceCallIdNumber: callerPhoneUser,
+      };
+      const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+      const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+      const transcriptionOptions: TranscriptionOptions = {
+        transportUrl: transportUrl,
+        transportType: "websocket",
+        locale: "en-US",
+        locales: ["en-us", "en-au"],
+        startTranscription: false,
+        enableIntermediateResults: false,
+        enableSentimentAnalysis: true,
+        piiRedactionOptions: {
+          enable: true,
+          redactionType: "maskWithCharacter",
+        },
+        summarizationOptions: {
+          enableEndCallSummary: true,
+          locale: "en-us",
+        },
+      };
+
+      const createCallOptions: CreateCallOptions = {
+        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+        transcriptionOptions: transcriptionOptions,
+      };
+
+      const result = await callerCallAutomationClient.createCall(
+        callInvite,
+        callBackUrl,
+        createCallOptions,
+      );
+      const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
+      const callConnectionId: string = result.callConnectionProperties.callConnectionId
+        ? result.callConnectionProperties.callConnectionId
+        : "";
+      assert.isDefined(incomingCallContext);
+
+      if (incomingCallContext) {
+        await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      }
+      const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+      assert.isDefined(callConnectedEvent);
+      callConnection = result.callConnection;
+
+      const startTranscriptionOptions: StartTranscriptionOptions = {
+        operationContext: "startTranscriptionContext",
+        locales: ["en-us", "en-au"],
+      };
+      await callConnection.getCallMedia().startTranscription(startTranscriptionOptions);
+      const transcriptionStarted = await waitForEvent(
+        "TranscriptionStarted",
+        callConnectionId,
+        8000,
+      );
+      assert.isDefined(transcriptionStarted);
+
+      await callConnection.getCallMedia().stopTranscription();
+      const transcriptionStopped = waitForEvent("TranscriptionStopped", callConnectionId, 8000);
+      assert.isDefined(transcriptionStopped);
+
+      await callConnection.hangUp(true);
+      const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
+      assert.isDefined(callDisconnectedEvent);
+    },
+  );
+
+  it("Answers a call, start transcription, and hangs up", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_")
+      : "answer_call_start_transcription_and_hang_up";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      const transcriptionOptions: TranscriptionOptions = {
+        transportUrl: transportUrl,
+        transportType: "websocket",
+        locale: "en-US",
+        locales: ["en-us", "en-au"],
+        startTranscription: false,
+        enableIntermediateResults: false,
+      };
+      const answerCallOptions: AnswerCallOptions = {
+        transcriptionOptions: transcriptionOptions,
+        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+      };
+      const answerCallResult = await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions,
+      );
+
+      const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+      assert.isDefined(callConnectedEvent);
+
+      const answerCallConnection = answerCallResult.callConnection;
+      const answerCallConnectionId: string = answerCallResult.callConnectionProperties
+        .callConnectionId
+        ? answerCallResult.callConnectionProperties.callConnectionId
+        : "";
+
+      const startTranscriptionOptions: StartTranscriptionOptions = {
+        operationContext: "startTranscriptionContext",
+        locales: ["en-us", "en-au"],
+      };
+      await answerCallConnection.getCallMedia().startTranscription(startTranscriptionOptions);
+      const transcriptionStarted = await waitForEvent(
+        "TranscriptionStarted",
+        answerCallConnectionId,
+        8000,
+      );
+      assert.isDefined(transcriptionStarted);
+
+      await answerCallConnection.getCallMedia().stopTranscription();
+      const transcriptionStopped = waitForEvent(
+        "TranscriptionStopped",
+        answerCallConnectionId,
+        8000,
+      );
+      assert.isDefined(transcriptionStopped);
+
+      await answerCallConnection.hangUp(true);
+      const callDisconnectedEvent = await waitForEvent(
+        "CallDisconnected",
+        answerCallConnectionId,
+        8000,
+      );
+      assert.isDefined(callDisconnectedEvent);
+    }
+  });
+
+  it("Answers a call, summerize call, and hangs up", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle ? fullTitle.replace(/ /g, "_") : "answer_call_summerize_call_and_hang_up";
+    await loadPersistedEvents(testName);
+
+    const callInvite: CallInvite = { targetParticipant: testUser2 };
+    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
+    const callConnectionId: string = result.callConnectionProperties.callConnectionId
+      ? result.callConnectionProperties.callConnectionId
+      : "";
+    assert.isDefined(incomingCallContext);
+
+    if (incomingCallContext) {
+      const transcriptionOptions: TranscriptionOptions = {
+        transportUrl: transportUrl,
+        transportType: "websocket",
+        locale: "en-US",
+        locales: ["en-us", "en-au"],
+        startTranscription: false,
+        enableIntermediateResults: false,
+        enableSentimentAnalysis: true,
+        piiRedactionOptions: {
+          enable: true,
+          redactionType: "maskWithCharacter",
+        },
+        summarizationOptions: {
+          enableEndCallSummary: true,
+          locale: "en-us",
+        },
+      };
+      const answerCallOptions: AnswerCallOptions = {
+        transcriptionOptions: transcriptionOptions,
+        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
+      };
+      const answerCallResult = await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions,
+      );
+
+      const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+      assert.isDefined(callConnectedEvent);
+
+      const answerCallConnection = answerCallResult.callConnection;
+      const answerCallConnectionId: string = answerCallResult.callConnectionProperties
+        .callConnectionId
+        ? answerCallResult.callConnectionProperties.callConnectionId
+        : "";
+
+      const startTranscriptionOptions: StartTranscriptionOptions = {
+        operationContext: "startTranscriptionContext",
+        locales: ["en-us", "en-au"],
+      };
+      await answerCallConnection.getCallMedia().startTranscription(startTranscriptionOptions);
+      const transcriptionStarted = await waitForEvent(
+        "TranscriptionStarted",
+        answerCallConnectionId,
+        8000,
+      );
+      assert.isDefined(transcriptionStarted);
+
+      const summerizeOption: SummarizationOptions = {
+        locale: "en-us",
+      };
+      const summarizeCallOptions: SummarizeCallOptions = {
+        operationContext: "startTranscriptionContext",
+        operationCallbackUrl: callBackUrl,
+        summarizationOptions: summerizeOption,
+      };
+      await answerCallConnection.getCallMedia().summarizeCall(summarizeCallOptions);
+      const transcriptionCallSummaryUpdated = await waitForEvent(
+        "TranscriptionCallSummaryUpdated",
+        answerCallConnectionId,
+        8000,
+      );
+      assert.isDefined(transcriptionCallSummaryUpdated);
+
+      await answerCallConnection.getCallMedia().stopTranscription();
+      const transcriptionStopped = waitForEvent(
+        "TranscriptionStopped",
+        answerCallConnectionId,
+        8000,
+      );
+      assert.isDefined(transcriptionStopped);
+
+      await answerCallConnection.hangUp(true);
+      const callDisconnectedEvent = await waitForEvent(
+        "CallDisconnected",
+        answerCallConnectionId,
+        8000,
+      );
+      assert.isDefined(callDisconnectedEvent);
+    }
+  });
 });

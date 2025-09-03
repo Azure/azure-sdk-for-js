@@ -280,6 +280,7 @@ export class CallAutomationClient {
         targetParticipant.sourceCallIdNumber,
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
+      enableLoopbackAudio: options.enableLoopbackAudio,
     };
 
     return this.createCallInternal(request, options);
@@ -308,6 +309,7 @@ export class CallAutomationClient {
       transcriptionOptions: options.transcriptionOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
+      enableLoopbackAudio: options.enableLoopbackAudio,
     };
 
     return this.createCallInternal(request, options);
@@ -340,6 +342,7 @@ export class CallAutomationClient {
       operationContext: operationContext,
       callbackUri: callbackUrl,
       answeredBy: this.sourceIdentity,
+      enableLoopbackAudio: options.enableLoopbackAudio,
     };
     const optionsInternal = {
       ...operationOptions,
@@ -508,6 +511,7 @@ export class CallAutomationClient {
       callIntelligenceOptions: options.callIntelligenceOptions,
       mediaStreamingOptions: options.mediaStreamingOptions,
       transcriptionOptions: options.transcriptionOptions,
+      enableLoopbackAudio: options.enableLoopbackAudio,
     };
 
     if (callLocator.kind === "groupCallLocator") {
