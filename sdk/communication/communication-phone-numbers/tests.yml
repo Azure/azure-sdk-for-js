@@ -5,6 +5,7 @@ extends:
     parameters:
       PackageName: "@azure/communication-phone-numbers"
       ServiceDirectory: communication
+      UseFederatedAuth: true
       CloudConfig:
         Public:
           SubscriptionConfigurations:
