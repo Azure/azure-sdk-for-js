@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added a new `requiredEnvVars` option to `DefaultAzureCredential` to require a specific environment variable (`AZURE_TOKEN_CREDENTIALS`) to be set (and non-empty) before credential instantiation. If the variable is missing or empty, an error is thrown.
+- Introduced a new `DefaultEnvVars` enum-like type for environment variables that can be required by `DefaultAzureCredential` via the `requiredEnvVars` option.
+
 ### Breaking Changes
 
 ### Bugs Fixed

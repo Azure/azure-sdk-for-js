@@ -26,6 +26,22 @@ describe("DefaultAzureCredential", () => {
     process.env.AZURE_TOKEN_CREDENTIALS = "dev";
     expect(() => new DefaultAzureCredential()).not.toThrowError();
   });
+
+    it("should throw if requiredEnvVar is missing", () => {
+      delete process.env.AZURE_TOKEN_CREDENTIALS;
+      expect(() => new DefaultAzureCredential({ requiredEnvVars: "AZURE_TOKEN_CREDENTIALS" })).toThrowError(
+        /Required environment variable 'AZURE_TOKEN_CREDENTIALS' for DefaultAzureCredential is not set or empty\./
+      );
+    });
+
+    it("should not throw if requiredEnvVar is present", () => {
+      process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
+      expect(() => new DefaultAzureCredential({ requiredEnvVars: "AZURE_TOKEN_CREDENTIALS" })).not.toThrowError();
+      delete process.env.AZURE_TOKEN_CREDENTIALS;
+    });
+
+
+
 });
 
 describe("create functions", () => {

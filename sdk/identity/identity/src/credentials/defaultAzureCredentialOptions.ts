@@ -37,6 +37,10 @@ export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCre
 }
 
 /**
+ * The commonly supported environment variables for the {@link DefaultAzureCredential} class.
+ */
+export type DefaultEnvVars = "AZURE_TOKEN_CREDENTIALS";
+/**
  * Provides options to configure the {@link DefaultAzureCredential} class.
  */
 export interface DefaultAzureCredentialOptions
@@ -54,4 +58,8 @@ export interface DefaultAzureCredentialOptions
    * Process timeout for credentials should be provided in milliseconds.
    */
   processTimeoutInMs?: number;
+  /**
+   * The environment variable(s) required for the {@link DefaultAzureCredential} class.
+   */
+  requiredEnvVars?: DefaultEnvVars;
 }
