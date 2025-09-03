@@ -5,29 +5,29 @@
  * This sample demonstrates how to virtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary virtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteDeallocate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesExecuteDeallocate_MaximumSet_Gen.json
  */
 
 import { ComputeScheduleClient } from "@azure/arm-computeschedule";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function scheduledActionsVirtualMachinesExecuteDeallocateMaximumSetGenGeneratedByMaximumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesExecuteDeallocateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
+  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeScheduleClient(credential, subscriptionId);
   const result = await client.scheduledActions.virtualMachinesExecuteDeallocate(
-    "ulufmolrrcxpcelsgffd",
+    "ykcaptgboliddcfyaiuimj",
     {
       executionParameters: {
         optimizationPreference: "Cost",
-        retryPolicy: { retryCount: 25, retryWindowInMinutes: 4 },
+        retryPolicy: { retryCount: 17, retryWindowInMinutes: 29 },
       },
       resources: {
         ids: [
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
+          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4",
         ],
       },
-      correlationId: "dsszhmrdsczkv",
+      correlationId: "b211f086-4b91-4686-a453-2f5c012e4d80",
     },
   );
   console.log(result);
@@ -37,30 +37,27 @@ async function scheduledActionsVirtualMachinesExecuteDeallocateMaximumSetGenGene
  * This sample demonstrates how to virtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary virtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteDeallocate_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesExecuteDeallocate_MinimumSet_Gen.json
  */
-async function scheduledActionsVirtualMachinesExecuteDeallocateMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
+async function scheduledActionsVirtualMachinesExecuteDeallocateMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "0505D8E4-D41A-48FB-9CA5-4AF8D93BE75F";
+  const subscriptionId = "CB26D7CB-3E27-465F-99C8-EAF7A4118245";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result = await client.scheduledActions.virtualMachinesExecuteDeallocate(
-    "jgmtnwynsoyyasulddbcgfoqzp",
-    {
-      executionParameters: {},
-      resources: {
-        ids: [
-          "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3",
-        ],
-      },
-      correlationId: "dsszhmrdsczkv",
+  const result = await client.scheduledActions.virtualMachinesExecuteDeallocate("qqfrkswrovcice", {
+    executionParameters: {},
+    resources: {
+      ids: [
+        "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4",
+      ],
     },
-  );
+    correlationId: "b211f086-4b91-4686-a453-2f5c012e4d80",
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await scheduledActionsVirtualMachinesExecuteDeallocateMaximumSetGenGeneratedByMaximumSetRule();
-  await scheduledActionsVirtualMachinesExecuteDeallocateMinimumSetGenGeneratedByMinimumSetRule();
+  await scheduledActionsVirtualMachinesExecuteDeallocateMaximumSet();
+  await scheduledActionsVirtualMachinesExecuteDeallocateMinimumSet();
 }
 
 main().catch(console.error);

@@ -8,12 +8,12 @@ import {
   _cryptoCertificateResourceListResultDeserializer,
   CryptoCertificateResource,
 } from "../../models/models.js";
-import { CryptoCertificatesListByFirmwareOptionalParams } from "./options.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import { CryptoCertificatesListByFirmwareOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
