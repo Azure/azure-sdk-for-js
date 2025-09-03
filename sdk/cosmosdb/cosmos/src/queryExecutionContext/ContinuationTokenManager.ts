@@ -9,6 +9,7 @@ import {
   parseCompositeQueryContinuationToken
 } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
+import type { PartitionRangeUpdate, PartitionRangeUpdates } from "../documents/ContinuationToken/PartitionRangeUpdate.js";
 import { 
   createOrderByQueryContinuationToken,
   parseOrderByQueryContinuationToken,
@@ -363,7 +364,7 @@ export class ContinuationTokenManager {
    * @param requestContinuationToken - The original continuation token from the request
    */
   public handlePartitionRangeChanges(
-    updatedContinuationRanges: Record<string, { oldRange: any; newRanges: any[]; continuationToken: string }>,
+    updatedContinuationRanges: PartitionRangeUpdates,
   ): void {
     if (updatedContinuationRanges && Object.keys(updatedContinuationRanges).length === 0) {
       return; // No range changes to process
@@ -381,7 +382,7 @@ export class ContinuationTokenManager {
    */
   private processRangeChange(
     _rangeKey: string, 
-    rangeChange: { oldRange: any; newRanges: any[]; continuationToken: string }
+    rangeChange: PartitionRangeUpdate
   ): void {
     const { oldRange, newRanges, continuationToken } = rangeChange;
     if (newRanges.length === 1) {
