@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
-import { BinaryHardeningResource } from "../../models/models.js";
-import { BinaryHardeningListByFirmwareOptionalParams } from "../../api/binaryHardening/options.js";
 import { listByFirmware } from "../../api/binaryHardening/operations.js";
+import { BinaryHardeningListByFirmwareOptionalParams } from "../../api/binaryHardening/options.js";
+import { BinaryHardeningResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BinaryHardening operations. */
