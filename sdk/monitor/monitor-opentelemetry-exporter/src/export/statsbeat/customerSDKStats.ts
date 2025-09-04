@@ -9,7 +9,14 @@ import type { AzureMonitorExporterOptions } from "../../index.js";
 import * as ai from "../../utils/constants/applicationinsights.js";
 import { StatsbeatMetrics } from "./statsbeatMetrics.js";
 import type { CustomerSDKStatsProperties, StatsbeatOptions } from "./types.js";
-import { CustomerSDKStats, DropCode, RetryCode, ExceptionType, DropReason } from "./types.js";
+import {
+  CustomerSDKStats,
+  DropCode,
+  RetryCode,
+  ExceptionType,
+  DropReason,
+  RetryReason,
+} from "./types.js";
 import { CustomSDKStatsCounter, STATSBEAT_LANGUAGE, TelemetryType } from "./types.js";
 import { getAttachType } from "../../utils/metricUtils.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
@@ -368,6 +375,8 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
         return DropReason.CLIENT_READONLY;
       case DropCode.CLIENT_PERSISTENCE_CAPACITY:
         return DropReason.CLIENT_PERSISTENCE_CAPACITY;
+      case DropCode.CLIENT_STORAGE_DISABLED:
+        return DropReason.CLIENT_STORAGE_DISABLED;
       case DropCode.UNKNOWN:
       default:
         return DropReason.UNKNOWN;
@@ -523,10 +532,10 @@ export class CustomerSDKStatsMetrics extends StatsbeatMetrics {
     // Handle other enum retry codes
     switch (retryCode) {
       case RetryCode.CLIENT_TIMEOUT:
-        return "Client timeout";
+        return RetryReason.CLIENT_TIMEOUT;
       case RetryCode.UNKNOWN:
       default:
-        return "Unknown reason";
+        return RetryReason.UNKNOWN;
     }
   }
 
