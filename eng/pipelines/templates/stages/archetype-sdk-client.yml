@@ -42,6 +42,25 @@ parameters:
   - name: oneESTemplateTag
     type: string
     default: release
+  # New parameters for service-specific customizations (primarily for Cosmos)
+  - name: UseIsolatedTestStage
+    type: boolean
+    default: false
+  - name: IsolatedTestParameters
+    type: object
+    default: {}
+  - name: TestEnvVars
+    type: object
+    default: {}
+  - name: PreTestSteps
+    type: stepList
+    default: []
+  - name: PostTestSteps
+    type: stepList
+    default: []
+  - name: UseFederatedAuth
+    type: boolean
+    default: true
 
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
@@ -73,6 +92,16 @@ extends:
         variables:
           - template: /eng/pipelines/templates/variables/globals.yml@self
           - template: /eng/pipelines/templates/variables/image.yml@self
+
+      # Add support for isolated test stage (used by Cosmos)
+      - ${{ if eq(parameters.UseIsolatedTestStage, true) }}:
+        - template: /eng/pipelines/templates/stages/archetype-sdk-tests-isolated.yml@self
+          parameters:
+            ${{ insert }}: ${{ parameters.IsolatedTestParameters }}
+            PreSteps: ${{ parameters.PreTestSteps }}
+            PostSteps: ${{ parameters.PostTestSteps }}
+            UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+            EnvVars: ${{ parameters.TestEnvVars }}
 
       - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
           - template: archetype-js-release.yml@self
