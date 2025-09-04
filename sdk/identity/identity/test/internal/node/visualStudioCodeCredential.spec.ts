@@ -85,8 +85,8 @@ describe("VisualStudioCodeCredential (internal)", function () {
 
       expect(msalPluginsModule.vsCodeBrokerInfo).toEqual({ broker: mockBroker });
     });
+    
     it("should set disableAutomaticAuthentication to true", async function () {
-      const credential = new VisualStudioCodeCredential();
       vi.spyOn(msalPluginsModule, "hasVSCodePlugin").mockReturnValue(true);
       Object.defineProperty(msalPluginsModule, "vsCodeAuthRecordPath", {
         value: "/path/authRecord.json",
