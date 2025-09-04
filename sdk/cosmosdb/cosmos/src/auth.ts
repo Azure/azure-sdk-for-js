@@ -33,6 +33,7 @@ export async function setAuthorizationHeader(
   resourceType: ResourceType,
   headers: CosmosHeaders,
 ): Promise<void> {
+  console.log("testing CI");
   if (clientOptions.permissionFeed) {
     clientOptions.resourceTokens = {};
     for (const permission of clientOptions.permissionFeed) {
