@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -8,6 +9,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { IoTFirmwareDefenseClient } from "./ioTFirmwareDefenseClient.js";
+export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Operation,
   OperationDisplay,
@@ -56,6 +58,7 @@ export {
   CryptoKeyType,
   CveResource,
   CveResult,
+  CveComponent,
   CvssScore,
   CveLink,
   PasswordHashResource,
@@ -122,3 +125,4 @@ export {
   WorkspacesOperations,
 } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds, AzureSupportedClouds };

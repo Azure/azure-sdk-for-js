@@ -2,7 +2,8 @@
 ## 4.5.1 (2025-09-01)
 
 ### Bugs Fixed
-- [#35739](https://github.com/Azure/azure-sdk-for-js/issues/35739) Fixed an issue with SDK keeping unavailable regions in readable and writeable locations. 
+- [#35739](https://github.com/Azure/azure-sdk-for-js/issues/35739) Fixed an issue where unavailable regions were incorrectly retained in the read and write region lists, potentially causing latency and connectivity issues. The SDK now properly removes regions that are no longer available from both readable and writable locations
+- [#35822](https://github.com/Azure/azure-sdk-for-js/issues/35822) Fixed an issue where ENOTFOUND error was incorrectly retried with defaultRetryPolicy. This error is now handled as part of EndpointDiscoveryPolicy and retried 120 times.
 
 ## 4.5.0 (2025-07-21)
 

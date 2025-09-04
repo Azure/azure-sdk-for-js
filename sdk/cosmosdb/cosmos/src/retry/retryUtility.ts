@@ -61,6 +61,7 @@ export async function execute({
         retryPolicies = {
           endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
             requestContext.globalEndpointManager,
+            requestContext.resourceType,
             requestContext.operationType,
             requestContext.globalPartitionEndpointManager,
           ),
@@ -138,6 +139,7 @@ export async function execute({
         }
 
         if (
+          err.code === StatusCodes.ENOTFOUND ||
           err.code === "REQUEST_SEND_ERROR" ||
           (err.code === StatusCodes.Forbidden &&
             (err.substatus === SubStatusCodes.DatabaseAccountNotFound ||
