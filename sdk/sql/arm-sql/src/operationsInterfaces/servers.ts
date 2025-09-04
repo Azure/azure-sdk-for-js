@@ -83,10 +83,7 @@ export interface Servers {
     parameters: Server,
     options?: ServersCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServersCreateOrUpdateResponse>,
-      ServersCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ServersCreateOrUpdateResponse>, ServersCreateOrUpdateResponse>
   >;
   /**
    * Creates or updates a server.
@@ -139,12 +136,7 @@ export interface Servers {
     serverName: string,
     parameters: ServerUpdate,
     options?: ServersUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ServersUpdateResponse>,
-      ServersUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ServersUpdateResponse>, ServersUpdateResponse>>;
   /**
    * Updates a server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -173,10 +165,7 @@ export interface Servers {
     parameters: ImportNewDatabaseDefinition,
     options?: ServersImportDatabaseOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServersImportDatabaseResponse>,
-      ServersImportDatabaseResponse
-    >
+    SimplePollerLike<OperationState<ServersImportDatabaseResponse>, ServersImportDatabaseResponse>
   >;
   /**
    * Imports a bacpac into a new database.
@@ -204,10 +193,7 @@ export interface Servers {
     serverName: string,
     options?: ServersRefreshStatusOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServersRefreshStatusResponse>,
-      ServersRefreshStatusResponse
-    >
+    SimplePollerLike<OperationState<ServersRefreshStatusResponse>, ServersRefreshStatusResponse>
   >;
   /**
    * Refresh external governance enablement status.

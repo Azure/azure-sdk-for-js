@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ServerDevOpsAuditingSettings,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerDevOpsAuditSettings operations. */
-export class ServerDevOpsAuditSettingsImpl
-  implements ServerDevOpsAuditSettings
-{
+export class ServerDevOpsAuditSettingsImpl implements ServerDevOpsAuditSettings {
   private readonly client: SqlManagementClient;
 
   /**
@@ -59,11 +53,7 @@ export class ServerDevOpsAuditSettingsImpl
     serverName: string,
     options?: ServerDevOpsAuditSettingsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerDevOpsAuditingSettings> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -75,12 +65,7 @@ export class ServerDevOpsAuditSettingsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -119,11 +104,7 @@ export class ServerDevOpsAuditSettingsImpl
     serverName: string,
     options?: ServerDevOpsAuditSettingsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerDevOpsAuditingSettings> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -197,8 +178,7 @@ export class ServerDevOpsAuditSettingsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

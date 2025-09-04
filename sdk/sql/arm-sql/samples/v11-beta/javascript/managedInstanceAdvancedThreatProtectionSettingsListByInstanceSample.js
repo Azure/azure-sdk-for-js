@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the managed instance's Advanced Threat Protection settings.
@@ -26,7 +24,7 @@ async function listTheManagedInstanceAdvancedThreatProtectionSettings() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstanceAdvancedThreatProtectionSettings.listByInstance(
+  for await (const item of client.managedInstanceAdvancedThreatProtectionSettings.listByInstance(
     resourceGroupName,
     managedInstanceName,
   )) {
@@ -36,7 +34,7 @@ async function listTheManagedInstanceAdvancedThreatProtectionSettings() {
 }
 
 async function main() {
-  listTheManagedInstanceAdvancedThreatProtectionSettings();
+  await listTheManagedInstanceAdvancedThreatProtectionSettings();
 }
 
 main().catch(console.error);

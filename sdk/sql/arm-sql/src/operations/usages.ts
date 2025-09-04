@@ -46,11 +46,7 @@ export class UsagesImpl implements Usages {
     instancePoolName: string,
     options?: UsagesListByInstancePoolOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
-    const iter = this.listByInstancePoolPagingAll(
-      resourceGroupName,
-      instancePoolName,
-      options,
-    );
+    const iter = this.listByInstancePoolPagingAll(resourceGroupName, instancePoolName, options);
     return {
       next() {
         return iter.next();
@@ -81,11 +77,7 @@ export class UsagesImpl implements Usages {
     let result: UsagesListByInstancePoolResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstancePool(
-        resourceGroupName,
-        instancePoolName,
-        options,
-      );
+      result = await this._listByInstancePool(resourceGroupName, instancePoolName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

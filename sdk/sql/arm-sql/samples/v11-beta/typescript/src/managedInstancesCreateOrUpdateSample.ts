@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ManagedInstance, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -102,8 +100,8 @@ async function createManagedInstanceWithMinimalProperties(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createManagedInstanceWithAllProperties();
-  createManagedInstanceWithMinimalProperties();
+  await createManagedInstanceWithAllProperties();
+  await createManagedInstanceWithMinimalProperties();
 }
 
 main().catch(console.error);

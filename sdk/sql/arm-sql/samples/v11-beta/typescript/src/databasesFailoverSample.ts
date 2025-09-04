@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   DatabasesFailoverOptionalParams,
   SqlManagementClient,
@@ -42,7 +40,7 @@ async function failoverAnDatabase(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  failoverAnDatabase();
+  await failoverAnDatabase();
 }
 
 main().catch(console.error);

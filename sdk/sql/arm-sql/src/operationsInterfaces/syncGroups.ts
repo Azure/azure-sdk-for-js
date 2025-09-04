@@ -264,12 +264,7 @@ export interface SyncGroups {
     syncGroupName: string,
     parameters: SyncGroup,
     options?: SyncGroupsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SyncGroupsUpdateResponse>,
-      SyncGroupsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<SyncGroupsUpdateResponse>, SyncGroupsUpdateResponse>>;
   /**
    * Updates a sync group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

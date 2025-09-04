@@ -77,11 +77,7 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByLocationNext(
-        locationName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByLocationNext(locationName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -93,10 +89,7 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
     locationName: string,
     options?: SubscriptionUsagesListByLocationOptionalParams,
   ): AsyncIterableIterator<SubscriptionUsage> {
-    for await (const page of this.listByLocationPagingPage(
-      locationName,
-      options,
-    )) {
+    for await (const page of this.listByLocationPagingPage(locationName, options)) {
       yield* page;
     }
   }
@@ -110,10 +103,7 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
     locationName: string,
     options?: SubscriptionUsagesListByLocationOptionalParams,
   ): Promise<SubscriptionUsagesListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      listByLocationOperationSpec,
-    );
+    return this.client.sendOperationRequest({ locationName, options }, listByLocationOperationSpec);
   }
 
   /**
@@ -127,10 +117,7 @@ export class SubscriptionUsagesImpl implements SubscriptionUsages {
     usageName: string,
     options?: SubscriptionUsagesGetOptionalParams,
   ): Promise<SubscriptionUsagesGetResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, usageName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ locationName, usageName, options }, getOperationSpec);
   }
 
   /**
@@ -163,11 +150,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     default: {},
   },
   queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };

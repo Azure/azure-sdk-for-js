@@ -179,10 +179,7 @@ export interface SyncMembers {
     parameters: SyncMember,
     options?: SyncMembersUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SyncMembersUpdateResponse>,
-      SyncMembersUpdateResponse
-    >
+    SimplePollerLike<OperationState<SyncMembersUpdateResponse>, SyncMembersUpdateResponse>
   >;
   /**
    * Updates an existing sync member.

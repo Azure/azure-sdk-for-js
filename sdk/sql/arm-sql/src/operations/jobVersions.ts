@@ -93,13 +93,7 @@ export class JobVersionsImpl implements JobVersions {
     let result: JobVersionsListByJobResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByJob(
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        jobName,
-        options,
-      );
+      result = await this._listByJob(resourceGroupName, serverName, jobAgentName, jobName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

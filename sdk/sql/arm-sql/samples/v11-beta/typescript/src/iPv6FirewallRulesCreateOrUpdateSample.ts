@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { IPv6FirewallRule, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -71,8 +69,8 @@ async function updateAnIPv6FirewallRuleMaxOrMin(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAnIPv6FirewallRuleMaxOrMin();
-  updateAnIPv6FirewallRuleMaxOrMin();
+  await createAnIPv6FirewallRuleMaxOrMin();
+  await updateAnIPv6FirewallRuleMaxOrMin();
 }
 
 main().catch(console.error);

@@ -48,11 +48,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     serverName: string,
     options?: PrivateLinkResourcesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -64,12 +60,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -108,11 +99,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     serverName: string,
     options?: PrivateLinkResourcesListByServerOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }

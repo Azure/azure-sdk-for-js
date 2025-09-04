@@ -29,9 +29,7 @@ export interface InstancePools {
    * Gets a list of all instance pools in the subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: InstancePoolsListOptionalParams,
-  ): PagedAsyncIterableIterator<InstancePool>;
+  list(options?: InstancePoolsListOptionalParams): PagedAsyncIterableIterator<InstancePool>;
   /**
    * Gets a list of instance pools in the resource group
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -125,10 +123,7 @@ export interface InstancePools {
     parameters: InstancePoolUpdate,
     options?: InstancePoolsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<InstancePoolsUpdateResponse>,
-      InstancePoolsUpdateResponse
-    >
+    SimplePollerLike<OperationState<InstancePoolsUpdateResponse>, InstancePoolsUpdateResponse>
   >;
   /**
    * Updates an instance pool.

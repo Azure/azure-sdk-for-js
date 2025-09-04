@@ -85,11 +85,7 @@ export class ManagedInstancePrivateLinkResourcesImpl
     let result: ManagedInstancePrivateLinkResourcesListByManagedInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByManagedInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByManagedInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

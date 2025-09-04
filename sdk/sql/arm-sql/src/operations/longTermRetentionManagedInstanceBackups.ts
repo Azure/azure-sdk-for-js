@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ManagedInstanceLongTermRetentionBackup,
@@ -119,12 +115,7 @@ export class LongTermRetentionManagedInstanceBackupsImpl
     let result: LongTermRetentionManagedInstanceBackupsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        locationName,
-        managedInstanceName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(locationName, managedInstanceName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -172,11 +163,7 @@ export class LongTermRetentionManagedInstanceBackupsImpl
     managedInstanceName: string,
     options?: LongTermRetentionManagedInstanceBackupsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceLongTermRetentionBackup> {
-    const iter = this.listByInstancePagingAll(
-      locationName,
-      managedInstanceName,
-      options,
-    );
+    const iter = this.listByInstancePagingAll(locationName, managedInstanceName, options);
     return {
       next() {
         return iter.next();
@@ -188,12 +175,7 @@ export class LongTermRetentionManagedInstanceBackupsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByInstancePagingPage(
-          locationName,
-          managedInstanceName,
-          options,
-          settings,
-        );
+        return this.listByInstancePagingPage(locationName, managedInstanceName, options, settings);
       },
     };
   }
@@ -207,11 +189,7 @@ export class LongTermRetentionManagedInstanceBackupsImpl
     let result: LongTermRetentionManagedInstanceBackupsListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstance(
-        locationName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByInstance(locationName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -286,11 +264,7 @@ export class LongTermRetentionManagedInstanceBackupsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByLocationNext(
-        locationName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByLocationNext(locationName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -302,10 +276,7 @@ export class LongTermRetentionManagedInstanceBackupsImpl
     locationName: string,
     options?: LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams,
   ): AsyncIterableIterator<ManagedInstanceLongTermRetentionBackup> {
-    for await (const page of this.listByLocationPagingPage(
-      locationName,
-      options,
-    )) {
+    for await (const page of this.listByLocationPagingPage(locationName, options)) {
       yield* page;
     }
   }
@@ -554,11 +525,7 @@ export class LongTermRetentionManagedInstanceBackupsImpl
     let result: LongTermRetentionManagedInstanceBackupsListByResourceGroupLocationResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroupLocation(
-        resourceGroupName,
-        locationName,
-        options,
-      );
+      result = await this._listByResourceGroupLocation(resourceGroupName, locationName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -638,8 +605,7 @@ export class LongTermRetentionManagedInstanceBackupsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -755,10 +721,7 @@ export class LongTermRetentionManagedInstanceBackupsImpl
     locationName: string,
     options?: LongTermRetentionManagedInstanceBackupsListByLocationOptionalParams,
   ): Promise<LongTermRetentionManagedInstanceBackupsListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      listByLocationOperationSpec,
-    );
+    return this.client.sendOperationRequest({ locationName, options }, listByLocationOperationSpec);
   }
 
   /**
@@ -820,8 +783,7 @@ export class LongTermRetentionManagedInstanceBackupsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1202,11 +1164,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };

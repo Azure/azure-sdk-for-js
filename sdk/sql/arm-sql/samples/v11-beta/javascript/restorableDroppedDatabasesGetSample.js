@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a restorable dropped database.
@@ -60,8 +58,8 @@ async function getsARestorableDroppedDatabase() {
 }
 
 async function main() {
-  getsARestorableDroppedDatabaseWithExpandEqualsKeys();
-  getsARestorableDroppedDatabase();
+  await getsARestorableDroppedDatabaseWithExpandEqualsKeys();
+  await getsARestorableDroppedDatabase();
 }
 
 main().catch(console.error);

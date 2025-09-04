@@ -53,12 +53,7 @@ export class JobsImpl implements Jobs {
     jobAgentName: string,
     options?: JobsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<Job> {
-    const iter = this.listByAgentPagingAll(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      options,
-    );
+    const iter = this.listByAgentPagingAll(resourceGroupName, serverName, jobAgentName, options);
     return {
       next() {
         return iter.next();
@@ -91,12 +86,7 @@ export class JobsImpl implements Jobs {
     let result: JobsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByAgent(
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        options,
-      );
+      result = await this._listByAgent(resourceGroupName, serverName, jobAgentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

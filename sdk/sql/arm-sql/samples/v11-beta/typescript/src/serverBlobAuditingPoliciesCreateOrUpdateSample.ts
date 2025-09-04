@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ServerBlobAuditingPolicy, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -83,8 +81,8 @@ async function updateAServerBlobAuditingPolicyWithMinimalParameters(): Promise<v
 }
 
 async function main(): Promise<void> {
-  updateAServerBlobAuditingPolicyWithAllParameters();
-  updateAServerBlobAuditingPolicyWithMinimalParameters();
+  await updateAServerBlobAuditingPolicyWithAllParameters();
+  await updateAServerBlobAuditingPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

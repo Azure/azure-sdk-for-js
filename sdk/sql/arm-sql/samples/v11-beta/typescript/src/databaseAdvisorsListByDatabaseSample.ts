@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   DatabaseAdvisorsListByDatabaseOptionalParams,
   SqlManagementClient,
@@ -67,8 +65,8 @@ async function listOfDatabaseRecommendedActionsForAllAdvisors(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listOfDatabaseAdvisors();
-  listOfDatabaseRecommendedActionsForAllAdvisors();
+  await listOfDatabaseAdvisors();
+  await listOfDatabaseRecommendedActionsForAllAdvisors();
 }
 
 main().catch(console.error);

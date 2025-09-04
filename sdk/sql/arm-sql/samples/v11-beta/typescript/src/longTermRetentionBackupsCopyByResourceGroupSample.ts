@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   CopyLongTermRetentionBackupParameters,
   SqlManagementClient,
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Copy an existing long term retention backup to a different server.
  *
  * @summary Copy an existing long term retention backup to a different server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupCopy.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupCopy.json
  */
 async function copyTheLongTermRetentionBackup(): Promise<void> {
   const subscriptionId =
@@ -52,7 +50,7 @@ async function copyTheLongTermRetentionBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  copyTheLongTermRetentionBackup();
+  await copyTheLongTermRetentionBackup();
 }
 
 main().catch(console.error);

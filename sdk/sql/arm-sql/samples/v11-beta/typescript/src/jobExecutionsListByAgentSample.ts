@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   JobExecutionsListByAgentOptionalParams,
   SqlManagementClient,
@@ -43,7 +41,7 @@ async function listAllJobExecutionsInAJobAgentWithFiltering(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobExecutions.listByAgent(
+  for await (const item of client.jobExecutions.listByAgent(
     resourceGroupName,
     serverName,
     jobAgentName,
@@ -70,7 +68,7 @@ async function listAllJobExecutionsInAJobAgent(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobExecutions.listByAgent(
+  for await (const item of client.jobExecutions.listByAgent(
     resourceGroupName,
     serverName,
     jobAgentName,
@@ -81,8 +79,8 @@ async function listAllJobExecutionsInAJobAgent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAllJobExecutionsInAJobAgentWithFiltering();
-  listAllJobExecutionsInAJobAgent();
+  await listAllJobExecutionsInAJobAgentWithFiltering();
+  await listAllJobExecutionsInAJobAgent();
 }
 
 main().catch(console.error);

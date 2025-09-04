@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists the target executions of a job step execution.
@@ -30,7 +28,7 @@ async function listJobStepTargetExecutions() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobTargetExecutions.listByStep(
+  for await (const item of client.jobTargetExecutions.listByStep(
     resourceGroupName,
     serverName,
     jobAgentName,
@@ -44,7 +42,7 @@ async function listJobStepTargetExecutions() {
 }
 
 async function main() {
-  listJobStepTargetExecutions();
+  await listJobStepTargetExecutions();
 }
 
 main().catch(console.error);

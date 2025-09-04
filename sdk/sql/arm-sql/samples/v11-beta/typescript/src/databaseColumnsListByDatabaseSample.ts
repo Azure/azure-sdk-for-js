@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   DatabaseColumnsListByDatabaseOptionalParams,
   SqlManagementClient,
@@ -41,7 +39,7 @@ async function filterDatabaseColumns(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databaseColumns.listByDatabase(
+  for await (const item of client.databaseColumns.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,
@@ -68,7 +66,7 @@ async function listDatabaseColumns(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databaseColumns.listByDatabase(
+  for await (const item of client.databaseColumns.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,
@@ -79,8 +77,8 @@ async function listDatabaseColumns(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  filterDatabaseColumns();
-  listDatabaseColumns();
+  await filterDatabaseColumns();
+  await listDatabaseColumns();
 }
 
 main().catch(console.error);

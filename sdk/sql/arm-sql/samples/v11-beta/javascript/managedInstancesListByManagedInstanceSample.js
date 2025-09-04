@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get top resource consuming queries of a managed instance.
@@ -32,7 +30,7 @@ async function obtainListOfInstanceTopResourceConsumingQueries() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByManagedInstance(
+  for await (const item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
     options,
@@ -68,7 +66,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAn
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByManagedInstance(
+  for await (const item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
     options,
@@ -92,7 +90,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndR
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByManagedInstance(
+  for await (const item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
   )) {
@@ -102,9 +100,9 @@ async function obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndR
 }
 
 async function main() {
-  obtainListOfInstanceTopResourceConsumingQueries();
-  obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAndResponse();
-  obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndResponse();
+  await obtainListOfInstanceTopResourceConsumingQueries();
+  await obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAndResponse();
+  await obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndResponse();
 }
 
 main().catch(console.error);

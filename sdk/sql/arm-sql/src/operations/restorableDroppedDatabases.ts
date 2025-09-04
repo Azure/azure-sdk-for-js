@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RestorableDroppedDatabases operations. */
-export class RestorableDroppedDatabasesImpl
-  implements RestorableDroppedDatabases
-{
+export class RestorableDroppedDatabasesImpl implements RestorableDroppedDatabases {
   private readonly client: SqlManagementClient;
 
   /**
@@ -50,11 +48,7 @@ export class RestorableDroppedDatabasesImpl
     serverName: string,
     options?: RestorableDroppedDatabasesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<RestorableDroppedDatabase> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -66,12 +60,7 @@ export class RestorableDroppedDatabasesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -110,11 +99,7 @@ export class RestorableDroppedDatabasesImpl
     serverName: string,
     options?: RestorableDroppedDatabasesListByServerOptionalParams,
   ): AsyncIterableIterator<RestorableDroppedDatabase> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -208,11 +193,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  queryParameters: [
-    Parameters.expand,
-    Parameters.filter1,
-    Parameters.apiVersion2,
-  ],
+  queryParameters: [Parameters.expand, Parameters.filter1, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

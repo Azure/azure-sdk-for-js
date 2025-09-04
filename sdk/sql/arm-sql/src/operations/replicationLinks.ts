@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ReplicationLink,
@@ -70,12 +66,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
     databaseName: string,
     options?: ReplicationLinksListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationLink> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -108,12 +99,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
     let result: ReplicationLinksListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -162,11 +148,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
     serverName: string,
     options?: ReplicationLinksListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationLink> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -178,12 +160,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -222,11 +199,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
     serverName: string,
     options?: ReplicationLinksListByServerOptionalParams,
   ): AsyncIterableIterator<ReplicationLink> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -306,8 +279,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -412,8 +384,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -497,10 +468,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
     parameters: ReplicationLinkUpdate,
     options?: ReplicationLinksUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicationLinksUpdateResponse>,
-      ReplicationLinksUpdateResponse
-    >
+    SimplePollerLike<OperationState<ReplicationLinksUpdateResponse>, ReplicationLinksUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -512,8 +480,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -623,8 +590,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -724,8 +690,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -918,7 +883,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters108,
+  requestBody: Parameters.parameters99,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -967,7 +932,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters109,
+  requestBody: Parameters.parameters100,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,

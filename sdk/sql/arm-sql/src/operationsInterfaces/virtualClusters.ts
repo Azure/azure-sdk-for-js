@@ -29,9 +29,7 @@ export interface VirtualClusters {
    * Gets a list of all virtualClusters in the subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: VirtualClustersListOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualCluster>;
+  list(options?: VirtualClustersListOptionalParams): PagedAsyncIterableIterator<VirtualCluster>;
   /**
    * Gets a list of virtual clusters in a resource group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -92,10 +90,7 @@ export interface VirtualClusters {
     parameters: VirtualClusterUpdate,
     options?: VirtualClustersUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualClustersUpdateResponse>,
-      VirtualClustersUpdateResponse
-    >
+    SimplePollerLike<OperationState<VirtualClustersUpdateResponse>, VirtualClustersUpdateResponse>
   >;
   /**
    * Updates an existing virtual cluster.

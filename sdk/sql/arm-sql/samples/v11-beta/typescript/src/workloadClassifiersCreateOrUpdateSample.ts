@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { WorkloadClassifier, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -80,8 +78,8 @@ async function createAWorkloadGroupWithTheRequiredPropertiesSpecified(): Promise
 }
 
 async function main(): Promise<void> {
-  createAWorkloadGroupWithAllPropertiesSpecified();
-  createAWorkloadGroupWithTheRequiredPropertiesSpecified();
+  await createAWorkloadGroupWithAllPropertiesSpecified();
+  await createAWorkloadGroupWithTheRequiredPropertiesSpecified();
 }
 
 main().catch(console.error);

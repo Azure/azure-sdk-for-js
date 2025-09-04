@@ -20,9 +20,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ElasticPoolDatabaseActivities operations. */
-export class ElasticPoolDatabaseActivitiesImpl
-  implements ElasticPoolDatabaseActivities
-{
+export class ElasticPoolDatabaseActivitiesImpl implements ElasticPoolDatabaseActivities {
   private readonly client: SqlManagementClient;
 
   /**
@@ -83,12 +81,7 @@ export class ElasticPoolDatabaseActivitiesImpl
     _settings?: PageSettings,
   ): AsyncIterableIterator<ElasticPoolDatabaseActivity[]> {
     let result: ElasticPoolDatabaseActivitiesListByElasticPoolResponse;
-    result = await this._listByElasticPool(
-      resourceGroupName,
-      serverName,
-      elasticPoolName,
-      options,
-    );
+    result = await this._listByElasticPool(resourceGroupName, serverName, elasticPoolName, options);
     yield result.value || [];
   }
 

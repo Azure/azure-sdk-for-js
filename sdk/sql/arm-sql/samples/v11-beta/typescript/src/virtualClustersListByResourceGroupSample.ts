@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -26,7 +24,7 @@ async function listVirtualClustersByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualClusters.listByResourceGroup(
+  for await (const item of client.virtualClusters.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -35,7 +33,7 @@ async function listVirtualClustersByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listVirtualClustersByResourceGroup();
+  await listVirtualClustersByResourceGroup();
 }
 
 main().catch(console.error);

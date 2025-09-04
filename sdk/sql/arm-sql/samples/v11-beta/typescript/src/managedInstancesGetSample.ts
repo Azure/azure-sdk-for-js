@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -76,9 +74,9 @@ async function getManagedInstanceWithExpandAdministratorsOrActivedirectory(): Pr
 }
 
 async function main(): Promise<void> {
-  getManagedInstance();
-  getManagedInstanceWhileResourceIsUpdating();
-  getManagedInstanceWithExpandAdministratorsOrActivedirectory();
+  await getManagedInstance();
+  await getManagedInstanceWhileResourceIsUpdating();
+  await getManagedInstanceWithExpandAdministratorsOrActivedirectory();
 }
 
 main().catch(console.error);

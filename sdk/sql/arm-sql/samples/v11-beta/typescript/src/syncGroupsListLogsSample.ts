@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -33,7 +31,7 @@ async function getSyncGroupLogs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.syncGroups.listLogs(
+  for await (const item of client.syncGroups.listLogs(
     resourceGroupName,
     serverName,
     databaseName,
@@ -48,7 +46,7 @@ async function getSyncGroupLogs(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getSyncGroupLogs();
+  await getSyncGroupLogs();
 }
 
 main().catch(console.error);

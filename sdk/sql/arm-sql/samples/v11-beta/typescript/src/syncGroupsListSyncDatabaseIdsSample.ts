@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -26,14 +24,16 @@ async function getASyncDatabaseId(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.syncGroups.listSyncDatabaseIds(locationName)) {
+  for await (const item of client.syncGroups.listSyncDatabaseIds(
+    locationName,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  getASyncDatabaseId();
+  await getASyncDatabaseId();
 }
 
 main().catch(console.error);

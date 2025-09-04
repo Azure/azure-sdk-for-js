@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a long term retention backup.
  *
  * @summary Deletes a long term retention backup.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/LongTermRetentionBackupDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/LongTermRetentionBackupDelete.json
  */
 async function deleteTheLongTermRetentionBackup(): Promise<void> {
   const subscriptionId =
@@ -39,7 +37,7 @@ async function deleteTheLongTermRetentionBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteTheLongTermRetentionBackup();
+  await deleteTheLongTermRetentionBackup();
 }
 
 main().catch(console.error);

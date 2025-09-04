@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   StartStopManagedInstanceSchedule,
   SqlManagementClient,
@@ -98,8 +96,8 @@ async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithNoOption
 }
 
 async function main(): Promise<void> {
-  createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithAllOptionalParametersSpecified();
-  createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithNoOptionalParametersSpecified();
+  await createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithAllOptionalParametersSpecified();
+  await createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithNoOptionalParametersSpecified();
 }
 
 main().catch(console.error);

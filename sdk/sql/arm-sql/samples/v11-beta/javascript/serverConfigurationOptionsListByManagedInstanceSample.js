@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a list of managed instance server configuration options.
@@ -26,7 +24,7 @@ async function getsAListOfManagedInstanceServerConfigurationOptions() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverConfigurationOptions.listByManagedInstance(
+  for await (const item of client.serverConfigurationOptions.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
   )) {
@@ -36,7 +34,7 @@ async function getsAListOfManagedInstanceServerConfigurationOptions() {
 }
 
 async function main() {
-  getsAListOfManagedInstanceServerConfigurationOptions();
+  await getsAListOfManagedInstanceServerConfigurationOptions();
 }
 
 main().catch(console.error);

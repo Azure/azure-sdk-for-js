@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Fails over from the current primary managed instance to this managed instance.
@@ -35,7 +33,7 @@ async function plannedFailoverOfAFailoverGroup() {
 }
 
 async function main() {
-  plannedFailoverOfAFailoverGroup();
+  await plannedFailoverOfAFailoverGroup();
 }
 
 main().catch(console.error);

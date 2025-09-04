@@ -17,9 +17,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing RecommendedSensitivityLabels operations. */
-export class RecommendedSensitivityLabelsImpl
-  implements RecommendedSensitivityLabels
-{
+export class RecommendedSensitivityLabelsImpl implements RecommendedSensitivityLabels {
   private readonly client: SqlManagementClient;
 
   /**
@@ -59,7 +57,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/recommendedSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters67,
+  requestBody: Parameters.parameters66,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,

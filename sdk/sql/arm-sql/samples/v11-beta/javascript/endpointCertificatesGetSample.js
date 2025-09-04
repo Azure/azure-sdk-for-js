@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a certificate used on the endpoint with the given id.
@@ -35,7 +33,7 @@ async function getsAnEndpointCertificate() {
 }
 
 async function main() {
-  getsAnEndpointCertificate();
+  await getsAnEndpointCertificate();
 }
 
 main().catch(console.error);

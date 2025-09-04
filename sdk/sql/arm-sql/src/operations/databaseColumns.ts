@@ -54,12 +54,7 @@ export class DatabaseColumnsImpl implements DatabaseColumns {
     databaseName: string,
     options?: DatabaseColumnsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseColumn> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -92,12 +87,7 @@ export class DatabaseColumnsImpl implements DatabaseColumns {
     let result: DatabaseColumnsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

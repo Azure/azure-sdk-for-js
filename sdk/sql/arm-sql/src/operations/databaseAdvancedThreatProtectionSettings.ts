@@ -55,12 +55,7 @@ export class DatabaseAdvancedThreatProtectionSettingsImpl
     databaseName: string,
     options?: DatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseAdvancedThreatProtection> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -93,12 +88,7 @@ export class DatabaseAdvancedThreatProtectionSettingsImpl
     let result: DatabaseAdvancedThreatProtectionSettingsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -292,7 +282,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters72,
+  requestBody: Parameters.parameters71,
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,

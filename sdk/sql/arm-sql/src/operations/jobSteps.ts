@@ -214,13 +214,7 @@ export class JobStepsImpl implements JobSteps {
     let result: JobStepsListByJobResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByJob(
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        jobName,
-        options,
-      );
+      result = await this._listByJob(resourceGroupName, serverName, jobAgentName, jobName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

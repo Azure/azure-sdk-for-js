@@ -53,12 +53,7 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
     jobAgentName: string,
     options?: JobTargetGroupsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<JobTargetGroup> {
-    const iter = this.listByAgentPagingAll(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      options,
-    );
+    const iter = this.listByAgentPagingAll(resourceGroupName, serverName, jobAgentName, options);
     return {
       next() {
         return iter.next();
@@ -91,12 +86,7 @@ export class JobTargetGroupsImpl implements JobTargetGroups {
     let result: JobTargetGroupsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByAgent(
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        options,
-      );
+      result = await this._listByAgent(resourceGroupName, serverName, jobAgentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

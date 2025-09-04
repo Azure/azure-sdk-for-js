@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { FailoverGroup, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -94,8 +92,8 @@ async function createFailoverGroupWithStandbySecondaryDatabaseOnPartnerServer():
 }
 
 async function main(): Promise<void> {
-  createFailoverGroup();
-  createFailoverGroupWithStandbySecondaryDatabaseOnPartnerServer();
+  await createFailoverGroup();
+  await createFailoverGroupWithStandbySecondaryDatabaseOnPartnerServer();
 }
 
 main().catch(console.error);

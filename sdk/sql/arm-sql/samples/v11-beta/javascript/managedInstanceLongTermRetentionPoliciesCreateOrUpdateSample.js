@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Sets a managed database's long term retention policy.
@@ -44,7 +42,7 @@ async function createOrUpdateTheLtrPolicyForTheManagedDatabase() {
 }
 
 async function main() {
-  createOrUpdateTheLtrPolicyForTheManagedDatabase();
+  await createOrUpdateTheLtrPolicyForTheManagedDatabase();
 }
 
 main().catch(console.error);

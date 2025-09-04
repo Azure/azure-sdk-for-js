@@ -19,9 +19,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing MaintenanceWindowsOperations operations. */
-export class MaintenanceWindowsOperationsImpl
-  implements MaintenanceWindowsOperations
-{
+export class MaintenanceWindowsOperationsImpl implements MaintenanceWindowsOperations {
   private readonly client: SqlManagementClient;
 
   /**

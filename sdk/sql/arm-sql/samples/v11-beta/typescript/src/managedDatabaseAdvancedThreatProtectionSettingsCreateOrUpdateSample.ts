@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedDatabaseAdvancedThreatProtection,
   SqlManagementClient,
@@ -78,8 +76,8 @@ async function updateAManagedDatabaseAdvancedThreatProtectionSettingsWithMinimal
 }
 
 async function main(): Promise<void> {
-  updateAManagedDatabaseAdvancedThreatProtectionSettingsWithAllParameters();
-  updateAManagedDatabaseAdvancedThreatProtectionSettingsWithMinimalParameters();
+  await updateAManagedDatabaseAdvancedThreatProtectionSettingsWithAllParameters();
+  await updateAManagedDatabaseAdvancedThreatProtectionSettingsWithMinimalParameters();
 }
 
 main().catch(console.error);

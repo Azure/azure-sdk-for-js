@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates an IPv6 firewall rule.
@@ -67,8 +65,8 @@ async function updateAnIPv6FirewallRuleMaxOrMin() {
 }
 
 async function main() {
-  createAnIPv6FirewallRuleMaxOrMin();
-  updateAnIPv6FirewallRuleMaxOrMin();
+  await createAnIPv6FirewallRuleMaxOrMin();
+  await updateAnIPv6FirewallRuleMaxOrMin();
 }
 
 main().catch(console.error);

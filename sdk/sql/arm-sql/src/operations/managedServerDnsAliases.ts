@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ManagedServerDnsAlias,
@@ -96,11 +92,7 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
     let result: ManagedServerDnsAliasesListByManagedInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByManagedInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByManagedInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -203,8 +195,7 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -303,8 +294,7 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -398,8 +388,7 @@ export class ManagedServerDnsAliasesImpl implements ManagedServerDnsAliases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -554,7 +543,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters74,
+  requestBody: Parameters.parameters73,
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
@@ -599,7 +588,7 @@ const acquireOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters75,
+  requestBody: Parameters.parameters74,
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,

@@ -45,11 +45,7 @@ export class ServiceObjectivesImpl implements ServiceObjectives {
     serverName: string,
     options?: ServiceObjectivesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServiceObjective> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -61,12 +57,7 @@ export class ServiceObjectivesImpl implements ServiceObjectives {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -87,11 +78,7 @@ export class ServiceObjectivesImpl implements ServiceObjectives {
     serverName: string,
     options?: ServiceObjectivesListByServerOptionalParams,
   ): AsyncIterableIterator<ServiceObjective> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }

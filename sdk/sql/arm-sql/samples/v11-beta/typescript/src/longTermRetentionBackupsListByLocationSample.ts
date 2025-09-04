@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists the long term retention backups for a given location.
  *
  * @summary Lists the long term retention backups for a given location.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/LongTermRetentionBackupListByLocation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/LongTermRetentionBackupListByLocation.json
  */
 async function getAllLongTermRetentionBackupsUnderTheLocation(): Promise<void> {
   const subscriptionId =
@@ -26,7 +24,7 @@ async function getAllLongTermRetentionBackupsUnderTheLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.longTermRetentionBackups.listByLocation(
+  for await (const item of client.longTermRetentionBackups.listByLocation(
     locationName,
   )) {
     resArray.push(item);
@@ -35,7 +33,7 @@ async function getAllLongTermRetentionBackupsUnderTheLocation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAllLongTermRetentionBackupsUnderTheLocation();
+  await getAllLongTermRetentionBackupsUnderTheLocation();
 }
 
 main().catch(console.error);

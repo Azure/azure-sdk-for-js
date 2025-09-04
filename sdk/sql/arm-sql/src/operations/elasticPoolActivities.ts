@@ -81,12 +81,7 @@ export class ElasticPoolActivitiesImpl implements ElasticPoolActivities {
     _settings?: PageSettings,
   ): AsyncIterableIterator<ElasticPoolActivity[]> {
     let result: ElasticPoolActivitiesListByElasticPoolResponse;
-    result = await this._listByElasticPool(
-      resourceGroupName,
-      serverName,
-      elasticPoolName,
-      options,
-    );
+    result = await this._listByElasticPool(resourceGroupName, serverName, elasticPoolName, options);
     yield result.value || [];
   }
 

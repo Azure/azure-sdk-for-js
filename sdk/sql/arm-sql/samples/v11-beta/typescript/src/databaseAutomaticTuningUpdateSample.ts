@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DatabaseAutomaticTuning, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -72,8 +70,8 @@ async function updatesDatabaseAutomaticTuningSettingsWithMinimalProperties(): Pr
 }
 
 async function main(): Promise<void> {
-  updatesDatabaseAutomaticTuningSettingsWithAllProperties();
-  updatesDatabaseAutomaticTuningSettingsWithMinimalProperties();
+  await updatesDatabaseAutomaticTuningSettingsWithAllProperties();
+  await updatesDatabaseAutomaticTuningSettingsWithMinimalProperties();
 }
 
 main().catch(console.error);

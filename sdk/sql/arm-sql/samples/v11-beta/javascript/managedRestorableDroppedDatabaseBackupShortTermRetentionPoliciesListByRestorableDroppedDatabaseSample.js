@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a dropped database's short term retention policy list.
@@ -27,7 +25,7 @@ async function getTheShortTermRetentionPolicyListForTheDatabase() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies.listByRestorableDroppedDatabase(
+  for await (const item of client.managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies.listByRestorableDroppedDatabase(
     resourceGroupName,
     managedInstanceName,
     restorableDroppedDatabaseId,
@@ -38,7 +36,7 @@ async function getTheShortTermRetentionPolicyListForTheDatabase() {
 }
 
 async function main() {
-  getTheShortTermRetentionPolicyListForTheDatabase();
+  await getTheShortTermRetentionPolicyListForTheDatabase();
 }
 
 main().catch(console.error);

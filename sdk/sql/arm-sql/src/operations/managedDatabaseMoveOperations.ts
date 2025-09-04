@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedDatabaseMoveOperations operations. */
-export class ManagedDatabaseMoveOperationsImpl
-  implements ManagedDatabaseMoveOperations
-{
+export class ManagedDatabaseMoveOperationsImpl implements ManagedDatabaseMoveOperations {
   private readonly client: SqlManagementClient;
 
   /**
@@ -50,11 +48,7 @@ export class ManagedDatabaseMoveOperationsImpl
     locationName: string,
     options?: ManagedDatabaseMoveOperationsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<ManagedDatabaseMoveOperationResult> {
-    const iter = this.listByLocationPagingAll(
-      resourceGroupName,
-      locationName,
-      options,
-    );
+    const iter = this.listByLocationPagingAll(resourceGroupName, locationName, options);
     return {
       next() {
         return iter.next();
@@ -66,12 +60,7 @@ export class ManagedDatabaseMoveOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByLocationPagingPage(
-          resourceGroupName,
-          locationName,
-          options,
-          settings,
-        );
+        return this.listByLocationPagingPage(resourceGroupName, locationName, options, settings);
       },
     };
   }
@@ -85,11 +74,7 @@ export class ManagedDatabaseMoveOperationsImpl
     let result: ManagedDatabaseMoveOperationsListByLocationResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByLocation(
-        resourceGroupName,
-        locationName,
-        options,
-      );
+      result = await this._listByLocation(resourceGroupName, locationName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -193,11 +178,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  queryParameters: [
-    Parameters.filter1,
-    Parameters.onlyLatestPerDatabase,
-    Parameters.apiVersion9,
-  ],
+  queryParameters: [Parameters.filter1, Parameters.onlyLatestPerDatabase, Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

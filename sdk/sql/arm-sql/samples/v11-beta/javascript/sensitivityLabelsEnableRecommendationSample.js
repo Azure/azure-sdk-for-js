@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns)
@@ -41,7 +39,7 @@ async function enablesSensitivityRecommendationsOnAGivenColumn() {
 }
 
 async function main() {
-  enablesSensitivityRecommendationsOnAGivenColumn();
+  await enablesSensitivityRecommendationsOnAGivenColumn();
 }
 
 main().catch(console.error);

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedDatabaseMoveOperationsListByLocationOptionalParams,
   SqlManagementClient,
@@ -30,7 +28,7 @@ async function getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResou
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseMoveOperations.listByLocation(
+  for await (const item of client.managedDatabaseMoveOperations.listByLocation(
     resourceGroupName,
     locationName,
   )) {
@@ -58,7 +56,7 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseMoveOperations.listByLocation(
+  for await (const item of client.managedDatabaseMoveOperations.listByLocation(
     resourceGroupName,
     locationName,
     options,
@@ -83,7 +81,7 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseMoveOperations.listByLocation(
+  for await (const item of client.managedDatabaseMoveOperations.listByLocation(
     resourceGroupName,
     locationName,
   )) {
@@ -93,9 +91,9 @@ async function getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpe
 }
 
 async function main(): Promise<void> {
-  getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResourceGroupAndLocation();
-  getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocationFilteredByOperationType();
-  getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocation();
+  await getsAllManagedDatabaseMoveOperationsForSpecifiedSubscriptionResourceGroupAndLocation();
+  await getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocationFilteredByOperationType();
+  await getsTheLatestManagedDatabaseMoveOperationsForEachDatabaseUnderSpecifiedSubscriptionResourceGroupAndLocation();
 }
 
 main().catch(console.error);

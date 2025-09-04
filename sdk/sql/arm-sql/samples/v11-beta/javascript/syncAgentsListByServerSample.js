@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists sync agents in a server.
@@ -26,14 +24,14 @@ async function getSyncAgentsUnderAServer() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.syncAgents.listByServer(resourceGroupName, serverName)) {
+  for await (const item of client.syncAgents.listByServer(resourceGroupName, serverName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  getSyncAgentsUnderAServer();
+  await getSyncAgentsUnderAServer();
 }
 
 main().catch(console.error);

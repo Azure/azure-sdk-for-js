@@ -50,12 +50,7 @@ export class DatabaseSchemasImpl implements DatabaseSchemas {
     databaseName: string,
     options?: DatabaseSchemasListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseSchema> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -88,12 +83,7 @@ export class DatabaseSchemasImpl implements DatabaseSchemas {
     let result: DatabaseSchemasListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

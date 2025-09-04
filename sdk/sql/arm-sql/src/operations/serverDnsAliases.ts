@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ServerDnsAlias,
@@ -60,11 +56,7 @@ export class ServerDnsAliasesImpl implements ServerDnsAliases {
     serverName: string,
     options?: ServerDnsAliasesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerDnsAlias> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -76,12 +68,7 @@ export class ServerDnsAliasesImpl implements ServerDnsAliases {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -120,11 +107,7 @@ export class ServerDnsAliasesImpl implements ServerDnsAliases {
     serverName: string,
     options?: ServerDnsAliasesListByServerOptionalParams,
   ): AsyncIterableIterator<ServerDnsAlias> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -178,8 +161,7 @@ export class ServerDnsAliasesImpl implements ServerDnsAliases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -269,8 +251,7 @@ export class ServerDnsAliasesImpl implements ServerDnsAliases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -324,12 +305,7 @@ export class ServerDnsAliasesImpl implements ServerDnsAliases {
     dnsAliasName: string,
     options?: ServerDnsAliasesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serverName,
-      dnsAliasName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, serverName, dnsAliasName, options);
     return poller.pollUntilDone();
   }
 
@@ -382,8 +358,7 @@ export class ServerDnsAliasesImpl implements ServerDnsAliases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

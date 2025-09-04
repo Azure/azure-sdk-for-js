@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DataMaskingPolicy, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -68,8 +66,8 @@ async function createOrUpdateDataMaskingPolicyMin(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateDataMaskingPolicyMax();
-  createOrUpdateDataMaskingPolicyMin();
+  await createOrUpdateDataMaskingPolicyMax();
+  await createOrUpdateDataMaskingPolicyMin();
 }
 
 main().catch(console.error);

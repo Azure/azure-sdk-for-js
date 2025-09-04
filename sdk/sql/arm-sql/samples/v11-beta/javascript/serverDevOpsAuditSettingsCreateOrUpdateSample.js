@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a server's DevOps audit settings.
@@ -71,8 +69,8 @@ async function updateAServerDevOpsAuditSettingsWithMinimalInput() {
 }
 
 async function main() {
-  updateAServerDevOpsAuditSettingsWithAllParams();
-  updateAServerDevOpsAuditSettingsWithMinimalInput();
+  await updateAServerDevOpsAuditSettingsWithAllParams();
+  await updateAServerDevOpsAuditSettingsWithMinimalInput();
 }
 
 main().catch(console.error);

@@ -53,12 +53,7 @@ export class DataWarehouseUserActivitiesOperationsImpl
     databaseName: string,
     options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DataWarehouseUserActivities> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -91,12 +86,7 @@ export class DataWarehouseUserActivitiesOperationsImpl
     let result: DataWarehouseUserActivitiesListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

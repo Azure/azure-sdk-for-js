@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   FailoverGroup,
@@ -66,11 +62,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
     serverName: string,
     options?: FailoverGroupsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<FailoverGroup> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -82,12 +74,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -126,11 +113,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
     serverName: string,
     options?: FailoverGroupsListByServerOptionalParams,
   ): AsyncIterableIterator<FailoverGroup> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -204,8 +187,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -304,8 +286,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -384,10 +365,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
     parameters: FailoverGroupUpdate,
     options?: FailoverGroupsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<FailoverGroupsUpdateResponse>,
-      FailoverGroupsUpdateResponse
-    >
+    SimplePollerLike<OperationState<FailoverGroupsUpdateResponse>, FailoverGroupsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -399,8 +377,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -489,10 +466,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
     failoverGroupName: string,
     options?: FailoverGroupsFailoverOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<FailoverGroupsFailoverResponse>,
-      FailoverGroupsFailoverResponse
-    >
+    SimplePollerLike<OperationState<FailoverGroupsFailoverResponse>, FailoverGroupsFailoverResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -504,8 +478,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -600,8 +573,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -697,8 +669,7 @@ export class FailoverGroupsImpl implements FailoverGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -846,7 +817,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters94,
+  requestBody: Parameters.parameters93,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -891,7 +862,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters95,
+  requestBody: Parameters.parameters94,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,

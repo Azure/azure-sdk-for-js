@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ServerTrustGroup,
@@ -61,11 +57,7 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
     locationName: string,
     options?: ServerTrustGroupsListByLocationOptionalParams,
   ): PagedAsyncIterableIterator<ServerTrustGroup> {
-    const iter = this.listByLocationPagingAll(
-      resourceGroupName,
-      locationName,
-      options,
-    );
+    const iter = this.listByLocationPagingAll(resourceGroupName, locationName, options);
     return {
       next() {
         return iter.next();
@@ -77,12 +69,7 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByLocationPagingPage(
-          resourceGroupName,
-          locationName,
-          options,
-          settings,
-        );
+        return this.listByLocationPagingPage(resourceGroupName, locationName, options, settings);
       },
     };
   }
@@ -96,11 +83,7 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
     let result: ServerTrustGroupsListByLocationResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByLocation(
-        resourceGroupName,
-        locationName,
-        options,
-      );
+      result = await this._listByLocation(resourceGroupName, locationName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -146,11 +129,7 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
     managedInstanceName: string,
     options?: ServerTrustGroupsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ServerTrustGroup> {
-    const iter = this.listByInstancePagingAll(
-      resourceGroupName,
-      managedInstanceName,
-      options,
-    );
+    const iter = this.listByInstancePagingAll(resourceGroupName, managedInstanceName, options);
     return {
       next() {
         return iter.next();
@@ -181,11 +160,7 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
     let result: ServerTrustGroupsListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -270,8 +245,7 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -370,8 +344,7 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

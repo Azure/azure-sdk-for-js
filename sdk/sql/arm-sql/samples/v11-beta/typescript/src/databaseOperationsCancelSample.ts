@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Cancels the asynchronous operation on the database.
  *
  * @summary Cancels the asynchronous operation on the database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-11-01-preview/examples/CancelDatabaseOperation.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/CancelDatabaseOperation.json
  */
 async function cancelTheDatabaseManagementOperation(): Promise<void> {
   const subscriptionId =
@@ -39,7 +37,7 @@ async function cancelTheDatabaseManagementOperation(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cancelTheDatabaseManagementOperation();
+  await cancelTheDatabaseManagementOperation();
 }
 
 main().catch(console.error);

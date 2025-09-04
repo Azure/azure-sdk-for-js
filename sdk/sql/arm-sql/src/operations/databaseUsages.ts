@@ -48,12 +48,7 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
     databaseName: string,
     options?: DatabaseUsagesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseUsage> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -86,12 +81,7 @@ export class DatabaseUsagesImpl implements DatabaseUsages {
     let result: DatabaseUsagesListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

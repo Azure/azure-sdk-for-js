@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   InstancePool,
@@ -56,9 +52,7 @@ export class InstancePoolsImpl implements InstancePools {
    * Gets a list of all instance pools in the subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: InstancePoolsListOptionalParams,
-  ): PagedAsyncIterableIterator<InstancePool> {
+  public list(options?: InstancePoolsListOptionalParams): PagedAsyncIterableIterator<InstancePool> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -128,11 +122,7 @@ export class InstancePoolsImpl implements InstancePools {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -152,11 +142,7 @@ export class InstancePoolsImpl implements InstancePools {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -168,10 +154,7 @@ export class InstancePoolsImpl implements InstancePools {
     resourceGroupName: string,
     options?: InstancePoolsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<InstancePool> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -180,9 +163,7 @@ export class InstancePoolsImpl implements InstancePools {
    * Gets a list of all instance pools in the subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: InstancePoolsListOptionalParams,
-  ): Promise<InstancePoolsListResponse> {
+  private _list(options?: InstancePoolsListOptionalParams): Promise<InstancePoolsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -249,8 +230,7 @@ export class InstancePoolsImpl implements InstancePools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -338,8 +318,7 @@ export class InstancePoolsImpl implements InstancePools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -391,11 +370,7 @@ export class InstancePoolsImpl implements InstancePools {
     instancePoolName: string,
     options?: InstancePoolsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      instancePoolName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, instancePoolName, options);
     return poller.pollUntilDone();
   }
 
@@ -413,10 +388,7 @@ export class InstancePoolsImpl implements InstancePools {
     parameters: InstancePoolUpdate,
     options?: InstancePoolsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<InstancePoolsUpdateResponse>,
-      InstancePoolsUpdateResponse
-    >
+    SimplePollerLike<OperationState<InstancePoolsUpdateResponse>, InstancePoolsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -428,8 +400,7 @@ export class InstancePoolsImpl implements InstancePools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -486,12 +457,7 @@ export class InstancePoolsImpl implements InstancePools {
     parameters: InstancePoolUpdate,
     options?: InstancePoolsUpdateOptionalParams,
   ): Promise<InstancePoolsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      instancePoolName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, instancePoolName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -504,10 +470,7 @@ export class InstancePoolsImpl implements InstancePools {
     nextLink: string,
     options?: InstancePoolsListNextOptionalParams,
   ): Promise<InstancePoolsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -555,11 +518,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     default: {},
   },
   queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -600,7 +559,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters96,
+  requestBody: Parameters.parameters95,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -643,7 +602,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters97,
+  requestBody: Parameters.parameters96,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -664,11 +623,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

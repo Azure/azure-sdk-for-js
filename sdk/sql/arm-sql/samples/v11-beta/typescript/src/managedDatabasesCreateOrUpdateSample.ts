@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ManagedDatabase, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -294,15 +292,15 @@ async function createsANewManagedDatabaseWithMinimalProperties(): Promise<void> 
 }
 
 async function main(): Promise<void> {
-  createsANewManagedDatabaseByRestoringFromAnExternalBackup();
-  createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity();
-  createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup();
-  createsANewManagedDatabaseFromRestoringALongTermRetentionBackup();
-  createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore();
-  createsANewManagedDatabaseUsingPointInTimeRestore();
-  createsANewManagedDatabaseWithLedgerOn();
-  createsANewManagedDatabaseWithMaximalProperties();
-  createsANewManagedDatabaseWithMinimalProperties();
+  await createsANewManagedDatabaseByRestoringFromAnExternalBackup();
+  await createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity();
+  await createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup();
+  await createsANewManagedDatabaseFromRestoringALongTermRetentionBackup();
+  await createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore();
+  await createsANewManagedDatabaseUsingPointInTimeRestore();
+  await createsANewManagedDatabaseWithLedgerOn();
+  await createsANewManagedDatabaseWithMaximalProperties();
+  await createsANewManagedDatabaseWithMinimalProperties();
 }
 
 main().catch(console.error);

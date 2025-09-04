@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedInstanceAdministrator,
   SqlManagementClient,
@@ -80,8 +78,8 @@ async function updateAdministratorOfManagedInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAdministratorOfManagedInstance();
-  updateAdministratorOfManagedInstance();
+  await createAdministratorOfManagedInstance();
+  await updateAdministratorOfManagedInstance();
 }
 
 main().catch(console.error);

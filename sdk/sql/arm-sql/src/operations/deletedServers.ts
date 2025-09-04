@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DeletedServer,
@@ -143,11 +139,7 @@ export class DeletedServersImpl implements DeletedServers {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByLocationNext(
-        locationName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByLocationNext(locationName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -159,10 +151,7 @@ export class DeletedServersImpl implements DeletedServers {
     locationName: string,
     options?: DeletedServersListByLocationOptionalParams,
   ): AsyncIterableIterator<DeletedServer> {
-    for await (const page of this.listByLocationPagingPage(
-      locationName,
-      options,
-    )) {
+    for await (const page of this.listByLocationPagingPage(locationName, options)) {
       yield* page;
     }
   }
@@ -171,9 +160,7 @@ export class DeletedServersImpl implements DeletedServers {
    * Gets a list of all deleted servers in a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: DeletedServersListOptionalParams,
-  ): Promise<DeletedServersListResponse> {
+  private _list(options?: DeletedServersListOptionalParams): Promise<DeletedServersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -203,10 +190,7 @@ export class DeletedServersImpl implements DeletedServers {
     locationName: string,
     options?: DeletedServersListByLocationOptionalParams,
   ): Promise<DeletedServersListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      listByLocationOperationSpec,
-    );
+    return this.client.sendOperationRequest({ locationName, options }, listByLocationOperationSpec);
   }
 
   /**
@@ -220,10 +204,7 @@ export class DeletedServersImpl implements DeletedServers {
     deletedServerName: string,
     options?: DeletedServersRecoverOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DeletedServersRecoverResponse>,
-      DeletedServersRecoverResponse
-    >
+    SimplePollerLike<OperationState<DeletedServersRecoverResponse>, DeletedServersRecoverResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -235,8 +216,7 @@ export class DeletedServersImpl implements DeletedServers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -290,11 +270,7 @@ export class DeletedServersImpl implements DeletedServers {
     deletedServerName: string,
     options?: DeletedServersRecoverOptionalParams,
   ): Promise<DeletedServersRecoverResponse> {
-    const poller = await this.beginRecover(
-      locationName,
-      deletedServerName,
-      options,
-    );
+    const poller = await this.beginRecover(locationName, deletedServerName, options);
     return poller.pollUntilDone();
   }
 
@@ -307,10 +283,7 @@ export class DeletedServersImpl implements DeletedServers {
     nextLink: string,
     options?: DeletedServersListNextOptionalParams,
   ): Promise<DeletedServersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -376,11 +349,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     default: {},
   },
   queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -421,11 +390,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

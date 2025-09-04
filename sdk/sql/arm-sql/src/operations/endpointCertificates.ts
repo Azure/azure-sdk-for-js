@@ -48,11 +48,7 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
     managedInstanceName: string,
     options?: EndpointCertificatesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<EndpointCertificate> {
-    const iter = this.listByInstancePagingAll(
-      resourceGroupName,
-      managedInstanceName,
-      options,
-    );
+    const iter = this.listByInstancePagingAll(resourceGroupName, managedInstanceName, options);
     return {
       next() {
         return iter.next();
@@ -83,11 +79,7 @@ export class EndpointCertificatesImpl implements EndpointCertificates {
     let result: EndpointCertificatesListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

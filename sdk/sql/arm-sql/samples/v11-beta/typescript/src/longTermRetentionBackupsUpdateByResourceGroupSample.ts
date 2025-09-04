@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   UpdateLongTermRetentionBackupParameters,
   SqlManagementClient,
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates an existing long term retention backup.
  *
  * @summary Updates an existing long term retention backup.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupUpdate.json
  */
 async function updateTheLongTermRetentionBackup(): Promise<void> {
   const subscriptionId =
@@ -49,7 +47,7 @@ async function updateTheLongTermRetentionBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateTheLongTermRetentionBackup();
+  await updateTheLongTermRetentionBackup();
 }
 
 main().catch(console.error);

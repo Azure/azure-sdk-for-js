@@ -17,9 +17,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing MaintenanceWindowOptionsOperations operations. */
-export class MaintenanceWindowOptionsOperationsImpl
-  implements MaintenanceWindowOptionsOperations
-{
+export class MaintenanceWindowOptionsOperationsImpl implements MaintenanceWindowOptionsOperations {
   private readonly client: SqlManagementClient;
 
   /**
@@ -70,10 +68,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  queryParameters: [
-    Parameters.apiVersion3,
-    Parameters.maintenanceWindowOptionsName,
-  ],
+  queryParameters: [Parameters.apiVersion3, Parameters.maintenanceWindowOptionsName],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

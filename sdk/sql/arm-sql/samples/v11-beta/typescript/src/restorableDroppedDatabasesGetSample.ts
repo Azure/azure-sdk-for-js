@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   RestorableDroppedDatabasesGetOptionalParams,
   SqlManagementClient,
@@ -67,8 +65,8 @@ async function getsARestorableDroppedDatabase(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getsARestorableDroppedDatabaseWithExpandEqualsKeys();
-  getsARestorableDroppedDatabase();
+  await getsARestorableDroppedDatabaseWithExpandEqualsKeys();
+  await getsARestorableDroppedDatabase();
 }
 
 main().catch(console.error);

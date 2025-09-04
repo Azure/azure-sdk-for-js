@@ -48,12 +48,7 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
     databaseName: string,
     options?: SynapseLinkWorkspacesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<SynapseLinkWorkspace> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -86,12 +81,7 @@ export class SynapseLinkWorkspacesImpl implements SynapseLinkWorkspaces {
     let result: SynapseLinkWorkspacesListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

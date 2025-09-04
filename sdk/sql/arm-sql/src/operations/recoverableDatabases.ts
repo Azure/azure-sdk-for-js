@@ -48,11 +48,7 @@ export class RecoverableDatabasesImpl implements RecoverableDatabases {
     serverName: string,
     options?: RecoverableDatabasesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<RecoverableDatabase> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -64,12 +60,7 @@ export class RecoverableDatabasesImpl implements RecoverableDatabases {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -108,11 +99,7 @@ export class RecoverableDatabasesImpl implements RecoverableDatabases {
     serverName: string,
     options?: RecoverableDatabasesListByServerOptionalParams,
   ): AsyncIterableIterator<RecoverableDatabase> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -206,11 +193,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  queryParameters: [
-    Parameters.expand,
-    Parameters.filter1,
-    Parameters.apiVersion2,
-  ],
+  queryParameters: [Parameters.expand, Parameters.filter1, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

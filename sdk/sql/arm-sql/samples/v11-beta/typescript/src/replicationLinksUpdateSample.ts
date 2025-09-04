@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ReplicationLinkUpdate, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -40,7 +38,7 @@ async function updateReplicationLink(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateReplicationLink();
+  await updateReplicationLink();
 }
 
 main().catch(console.error);

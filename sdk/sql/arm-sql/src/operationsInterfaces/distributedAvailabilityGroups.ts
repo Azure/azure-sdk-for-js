@@ -18,6 +18,12 @@ import {
   DistributedAvailabilityGroupsDeleteOptionalParams,
   DistributedAvailabilityGroupsUpdateOptionalParams,
   DistributedAvailabilityGroupsUpdateResponse,
+  DistributedAvailabilityGroupsFailoverRequest,
+  DistributedAvailabilityGroupsFailoverOptionalParams,
+  DistributedAvailabilityGroupsFailoverResponse,
+  DistributedAvailabilityGroupSetRole,
+  DistributedAvailabilityGroupsSetRoleOptionalParams,
+  DistributedAvailabilityGroupsSetRoleResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -151,4 +157,78 @@ export interface DistributedAvailabilityGroups {
     parameters: DistributedAvailabilityGroup,
     options?: DistributedAvailabilityGroupsUpdateOptionalParams,
   ): Promise<DistributedAvailabilityGroupsUpdateResponse>;
+  /**
+   * Performs requested failover type in this distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group failover request parameters.
+   * @param options The options parameters.
+   */
+  beginFailover(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupsFailoverRequest,
+    options?: DistributedAvailabilityGroupsFailoverOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DistributedAvailabilityGroupsFailoverResponse>,
+      DistributedAvailabilityGroupsFailoverResponse
+    >
+  >;
+  /**
+   * Performs requested failover type in this distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group failover request parameters.
+   * @param options The options parameters.
+   */
+  beginFailoverAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupsFailoverRequest,
+    options?: DistributedAvailabilityGroupsFailoverOptionalParams,
+  ): Promise<DistributedAvailabilityGroupsFailoverResponse>;
+  /**
+   * Sets the role for managed instance in a distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group set role request parameters.
+   * @param options The options parameters.
+   */
+  beginSetRole(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupSetRole,
+    options?: DistributedAvailabilityGroupsSetRoleOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DistributedAvailabilityGroupsSetRoleResponse>,
+      DistributedAvailabilityGroupsSetRoleResponse
+    >
+  >;
+  /**
+   * Sets the role for managed instance in a distributed availability group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param distributedAvailabilityGroupName The distributed availability group name.
+   * @param parameters The distributed availability group set role request parameters.
+   * @param options The options parameters.
+   */
+  beginSetRoleAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    distributedAvailabilityGroupName: string,
+    parameters: DistributedAvailabilityGroupSetRole,
+    options?: DistributedAvailabilityGroupsSetRoleOptionalParams,
+  ): Promise<DistributedAvailabilityGroupsSetRoleResponse>;
 }

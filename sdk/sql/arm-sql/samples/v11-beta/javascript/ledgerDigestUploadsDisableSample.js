@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
@@ -37,7 +35,7 @@ async function disablesUploadingLedgerDigestsForADatabase() {
 }
 
 async function main() {
-  disablesUploadingLedgerDigestsForADatabase();
+  await disablesUploadingLedgerDigestsForADatabase();
 }
 
 main().catch(console.error);

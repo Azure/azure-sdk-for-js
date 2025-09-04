@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   RestorePoint,
@@ -60,12 +56,7 @@ export class RestorePointsImpl implements RestorePoints {
     databaseName: string,
     options?: RestorePointsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<RestorePoint> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -98,12 +89,7 @@ export class RestorePointsImpl implements RestorePoints {
     let result: RestorePointsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -176,10 +162,7 @@ export class RestorePointsImpl implements RestorePoints {
     parameters: CreateDatabaseRestorePointDefinition,
     options?: RestorePointsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RestorePointsCreateResponse>,
-      RestorePointsCreateResponse
-    >
+    SimplePollerLike<OperationState<RestorePointsCreateResponse>, RestorePointsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -191,8 +174,7 @@ export class RestorePointsImpl implements RestorePoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

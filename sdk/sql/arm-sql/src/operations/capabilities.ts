@@ -37,10 +37,7 @@ export class CapabilitiesImpl implements Capabilities {
     locationName: string,
     options?: CapabilitiesListByLocationOptionalParams,
   ): Promise<CapabilitiesListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      listByLocationOperationSpec,
-    );
+    return this.client.sendOperationRequest({ locationName, options }, listByLocationOperationSpec);
   }
 }
 // Operation Specifications
@@ -56,11 +53,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     default: {},
   },
   queryParameters: [Parameters.apiVersion3, Parameters.include],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };

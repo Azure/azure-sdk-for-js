@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of servers in a resource groups.
  *
  * @summary Gets a list of servers in a resource groups.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerListByResourceGroup.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ServerListByResourceGroup.json
  */
 async function listServersByResourceGroup(): Promise<void> {
   const subscriptionId =
@@ -27,7 +25,7 @@ async function listServersByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.servers.listByResourceGroup(
+  for await (const item of client.servers.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -39,7 +37,7 @@ async function listServersByResourceGroup(): Promise<void> {
  * This sample demonstrates how to Gets a list of servers in a resource groups.
  *
  * @summary Gets a list of servers in a resource groups.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerListByResourceGroupWithExpandEqualsAdministrators.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ServerListByResourceGroupWithExpandEqualsAdministrators.json
  */
 async function listServersByResourceGroupWithExpandAdministratorsOrActivedirectory(): Promise<void> {
   const subscriptionId =
@@ -50,7 +48,7 @@ async function listServersByResourceGroupWithExpandAdministratorsOrActivedirecto
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.servers.listByResourceGroup(
+  for await (const item of client.servers.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
@@ -59,8 +57,8 @@ async function listServersByResourceGroupWithExpandAdministratorsOrActivedirecto
 }
 
 async function main(): Promise<void> {
-  listServersByResourceGroup();
-  listServersByResourceGroupWithExpandAdministratorsOrActivedirectory();
+  await listServersByResourceGroup();
+  await listServersByResourceGroupWithExpandAdministratorsOrActivedirectory();
 }
 
 main().catch(console.error);

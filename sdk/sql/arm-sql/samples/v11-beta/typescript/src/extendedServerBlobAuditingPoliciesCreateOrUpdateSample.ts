@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ExtendedServerBlobAuditingPolicy,
   SqlManagementClient,
@@ -87,8 +85,8 @@ async function updateAServerExtendedBlobAuditingPolicyWithMinimalParameters(): P
 }
 
 async function main(): Promise<void> {
-  updateAServerExtendedBlobAuditingPolicyWithAllParameters();
-  updateAServerExtendedBlobAuditingPolicyWithMinimalParameters();
+  await updateAServerExtendedBlobAuditingPolicyWithAllParameters();
+  await updateAServerExtendedBlobAuditingPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

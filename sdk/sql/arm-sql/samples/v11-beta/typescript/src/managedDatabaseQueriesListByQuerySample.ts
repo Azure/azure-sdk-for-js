@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedDatabaseQueriesListByQueryOptionalParams,
   SqlManagementClient,
@@ -33,7 +31,7 @@ async function obtainQueryExecutionStatistics(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseQueries.listByQuery(
+  for await (const item of client.managedDatabaseQueries.listByQuery(
     resourceGroupName,
     managedInstanceName,
     databaseName,
@@ -70,7 +68,7 @@ async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters(): 
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseQueries.listByQuery(
+  for await (const item of client.managedDatabaseQueries.listByQuery(
     resourceGroupName,
     managedInstanceName,
     databaseName,
@@ -102,7 +100,7 @@ async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequ
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseQueries.listByQuery(
+  for await (const item of client.managedDatabaseQueries.listByQuery(
     resourceGroupName,
     managedInstanceName,
     databaseName,
@@ -115,9 +113,9 @@ async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequ
 }
 
 async function main(): Promise<void> {
-  obtainQueryExecutionStatistics();
-  obtainQueryExecutionStatisticsExampleWithAllRequestParameters();
-  obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters();
+  await obtainQueryExecutionStatistics();
+  await obtainQueryExecutionStatisticsExampleWithAllRequestParameters();
+  await obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters();
 }
 
 main().catch(console.error);

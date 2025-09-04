@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ServerAzureADAdministrator,
   SqlManagementClient,
@@ -48,7 +46,7 @@ async function createsOrUpdatesAnExistingAzureActiveDirectoryAdministrator(): Pr
 }
 
 async function main(): Promise<void> {
-  createsOrUpdatesAnExistingAzureActiveDirectoryAdministrator();
+  await createsOrUpdatesAnExistingAzureActiveDirectoryAdministrator();
 }
 
 main().catch(console.error);

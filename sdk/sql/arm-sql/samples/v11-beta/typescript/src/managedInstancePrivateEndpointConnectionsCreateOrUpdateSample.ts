@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedInstancePrivateEndpointConnection,
   SqlManagementClient,
@@ -47,7 +45,7 @@ async function approveOrRejectAPrivateEndpointConnectionWithAGivenName(): Promis
 }
 
 async function main(): Promise<void> {
-  approveOrRejectAPrivateEndpointConnectionWithAGivenName();
+  await approveOrRejectAPrivateEndpointConnectionWithAGivenName();
 }
 
 main().catch(console.error);

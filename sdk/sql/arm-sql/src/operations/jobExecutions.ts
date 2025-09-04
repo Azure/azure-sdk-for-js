@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   JobExecution,
@@ -65,12 +61,7 @@ export class JobExecutionsImpl implements JobExecutions {
     jobAgentName: string,
     options?: JobExecutionsListByAgentOptionalParams,
   ): PagedAsyncIterableIterator<JobExecution> {
-    const iter = this.listByAgentPagingAll(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      options,
-    );
+    const iter = this.listByAgentPagingAll(resourceGroupName, serverName, jobAgentName, options);
     return {
       next() {
         return iter.next();
@@ -103,12 +94,7 @@ export class JobExecutionsImpl implements JobExecutions {
     let result: JobExecutionsListByAgentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByAgent(
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        options,
-      );
+      result = await this._listByAgent(resourceGroupName, serverName, jobAgentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -202,13 +188,7 @@ export class JobExecutionsImpl implements JobExecutions {
     let result: JobExecutionsListByJobResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByJob(
-        resourceGroupName,
-        serverName,
-        jobAgentName,
-        jobName,
-        options,
-      );
+      result = await this._listByJob(resourceGroupName, serverName, jobAgentName, jobName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -315,10 +295,7 @@ export class JobExecutionsImpl implements JobExecutions {
     jobName: string,
     options?: JobExecutionsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<JobExecutionsCreateResponse>,
-      JobExecutionsCreateResponse
-    >
+    SimplePollerLike<OperationState<JobExecutionsCreateResponse>, JobExecutionsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -330,8 +307,7 @@ export class JobExecutionsImpl implements JobExecutions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -486,8 +462,7 @@ export class JobExecutionsImpl implements JobExecutions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

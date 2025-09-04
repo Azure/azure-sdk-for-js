@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DataMaskingRule, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -152,10 +150,10 @@ async function createOrUpdateDataMaskingRuleForText(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdateDataMaskingRuleForDefaultMax();
-  createOrUpdateDataMaskingRuleForDefaultMin();
-  createOrUpdateDataMaskingRuleForNumbers();
-  createOrUpdateDataMaskingRuleForText();
+  await createOrUpdateDataMaskingRuleForDefaultMax();
+  await createOrUpdateDataMaskingRuleForDefaultMin();
+  await createOrUpdateDataMaskingRuleForNumbers();
+  await createOrUpdateDataMaskingRuleForText();
 }
 
 main().catch(console.error);
