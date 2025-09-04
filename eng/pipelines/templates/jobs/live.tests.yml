@@ -119,6 +119,11 @@ jobs:
 
       - script: |
           pnpm build --filter ${{parameters.PackageName}}...
+        env:
+          TURBO_TEAM: azsdkjs
+          TURBO_TEAMID: azsdkjs
+          TURBO_CACHE: local:rw,remote:r
+          TURBO_TOKEN: faketoken
         displayName: "Build libraries"
 
       - pwsh: |
