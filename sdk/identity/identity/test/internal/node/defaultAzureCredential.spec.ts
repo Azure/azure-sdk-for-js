@@ -48,7 +48,10 @@ describe("DefaultAzureCredential", () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
     vi.stubEnv("AZURE_CLIENT_ID", undefined);
     expect(
-      () => new DefaultAzureCredential({ requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"] }),
+      () =>
+        new DefaultAzureCredential({
+          requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
+        }),
     ).toThrowError(
       /Required environment variable 'AZURE_CLIENT_ID' for DefaultAzureCredential is not set or empty\./,
     );
@@ -58,7 +61,10 @@ describe("DefaultAzureCredential", () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", undefined);
     vi.stubEnv("AZURE_CLIENT_ID", "");
     expect(
-      () => new DefaultAzureCredential({ requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"] }),
+      () =>
+        new DefaultAzureCredential({
+          requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
+        }),
     ).toThrowError(
       /Required environment variables 'AZURE_TOKEN_CREDENTIALS, AZURE_CLIENT_ID' for DefaultAzureCredential are not set or empty\./,
     );
@@ -68,7 +74,10 @@ describe("DefaultAzureCredential", () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
     vi.stubEnv("AZURE_CLIENT_ID", "test-client-id");
     expect(
-      () => new DefaultAzureCredential({ requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"] }),
+      () =>
+        new DefaultAzureCredential({
+          requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
+        }),
     ).not.toThrowError();
   });
 });

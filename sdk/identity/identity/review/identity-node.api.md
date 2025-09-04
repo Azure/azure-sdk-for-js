@@ -251,6 +251,8 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
 // @public
 export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     processTimeoutInMs?: number;
+    // Warning: (ae-forgotten-export) The symbol "DefaultAzureCredentialEnvVars" needs to be exported by the entry point index.d.ts
+    requiredEnvVars?: DefaultAzureCredentialEnvVars | DefaultAzureCredentialEnvVars[];
     tenantId?: string;
 }
 
