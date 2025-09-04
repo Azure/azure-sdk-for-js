@@ -6,9 +6,7 @@ export * from "./plugins/consumer.js";
 export { IdentityPlugin } from "./plugins/provider.js";
 
 import type { TokenCredential } from "@azure/core-auth";
-import {
-  DefaultAzureCredential
-} from "./credentials/defaultAzureCredential.js";
+import { DefaultAzureCredential } from "./credentials/defaultAzureCredential.js";
 
 export {
   AuthenticationError,
@@ -48,7 +46,7 @@ export {
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialResourceIdOptions,
-  DefaultAzureCredentialEnvVars
+  DefaultAzureCredentialEnvVars,
 } from "./credentials/defaultAzureCredentialOptions.js";
 
 export { EnvironmentCredential } from "./credentials/environmentCredential.js";
