@@ -7,8 +7,7 @@ export { IdentityPlugin } from "./plugins/provider.js";
 
 import type { TokenCredential } from "@azure/core-auth";
 import {
-  DefaultAzureCredential,
-  DefaultAzureCredentialEnvVars,
+  DefaultAzureCredential
 } from "./credentials/defaultAzureCredential.js";
 
 export {
@@ -49,6 +48,7 @@ export {
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialResourceIdOptions,
+  DefaultAzureCredentialEnvVars
 } from "./credentials/defaultAzureCredentialOptions.js";
 
 export { EnvironmentCredential } from "./credentials/environmentCredential.js";
