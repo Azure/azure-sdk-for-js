@@ -148,8 +148,11 @@ export class VisualStudioCodeCredential implements TokenCredential {
           " and properly configured the extension.",
       );
     }
-
-    return this.msalClient.getTokenByInteractiveRequest(scopeArray, options || {});
+    // Disable automatic authentication to ensure that the user is not prompted interactively if no token is available
+    return this.msalClient.getTokenByInteractiveRequest(scopeArray, {
+      ...options,
+      disableAutomaticAuthentication: true,
+    });
   }
 
   /**
