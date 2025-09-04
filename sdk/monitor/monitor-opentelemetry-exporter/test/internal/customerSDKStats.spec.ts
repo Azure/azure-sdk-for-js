@@ -177,7 +177,7 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(reasonMap).toBeDefined();
       expect(reasonMap.size).toBe(1);
       // Should have "Client storage disabled" as reason for CLIENT_STORAGE_DISABLED
-      const successMap = reasonMap.get("Client storage disabled");
+      const successMap = reasonMap.get("Client local storage disabled");
       expect(successMap).toBeDefined();
       expect(successMap.get(null)).toBe(3);
     });

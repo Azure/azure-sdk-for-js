@@ -245,7 +245,7 @@ export enum ExceptionType {
 export enum DropReason {
   CLIENT_READONLY = "Client readonly",
   CLIENT_PERSISTENCE_CAPACITY = "Client persistence capacity",
-  CLIENT_STORAGE_DISABLED = "Client storage disabled",
+  CLIENT_STORAGE_DISABLED = "Client local storage disabled",
   UNKNOWN = "Unknown reason",
 }
 
