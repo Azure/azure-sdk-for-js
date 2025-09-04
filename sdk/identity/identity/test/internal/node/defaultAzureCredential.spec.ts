@@ -7,6 +7,7 @@ import * as createFunctionsDac from "$internal/credentials/defaultAzureCredentia
 describe("DefaultAzureCredential", () => {
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllEnvs();
     delete process.env.AZURE_TOKEN_CREDENTIALS;
   });
 
@@ -28,51 +29,47 @@ describe("DefaultAzureCredential", () => {
   });
 
   it("should throw if env var in requiredEnvVars is missing (single)", () => {
-    delete process.env.AZURE_TOKEN_CREDENTIALS;
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", undefined);
     expect(
       () => new DefaultAzureCredential({ requiredEnvVars: "AZURE_TOKEN_CREDENTIALS" }),
     ).toThrowError(
-      /Required environment variable\(s\) 'AZURE_TOKEN_CREDENTIALS' for DefaultAzureCredential is not set or empty\./,
+      /Required environment variable 'AZURE_TOKEN_CREDENTIALS' for DefaultAzureCredential is not set or empty\./,
     );
   });
 
   it("should not throw if env var in requiredEnvVars is present (single)", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
     expect(
       () => new DefaultAzureCredential({ requiredEnvVars: "AZURE_TOKEN_CREDENTIALS" }),
     ).not.toThrowError();
-    delete process.env.AZURE_TOKEN_CREDENTIALS;
   });
 
   it("should throw if any env vars in requiredEnvVars are missing (array)", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
-    delete process.env.AZURE_CLIENT_ID;
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
+    vi.stubEnv("AZURE_CLIENT_ID", undefined);
     expect(
       () => new DefaultAzureCredential({ requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"] }),
     ).toThrowError(
-      /Required environment variable\(s\) 'AZURE_CLIENT_ID' for DefaultAzureCredential are not set or empty\./,
+      /Required environment variable 'AZURE_CLIENT_ID' for DefaultAzureCredential is not set or empty\./,
     );
-    delete process.env.AZURE_TOKEN_CREDENTIALS;
   });
 
   it("should throw if multiple env vars in requiredEnvVars are missing (array)", () => {
-    delete process.env.AZURE_TOKEN_CREDENTIALS;
-    delete process.env.AZURE_CLIENT_ID;
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", undefined);
+    vi.stubEnv("AZURE_CLIENT_ID", undefined);
     expect(
       () => new DefaultAzureCredential({ requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"] }),
     ).toThrowError(
-      /Required environment variable\(s\) 'AZURE_TOKEN_CREDENTIALS, AZURE_CLIENT_ID' for DefaultAzureCredential are not set or empty\./,
+      /Required environment variables 'AZURE_TOKEN_CREDENTIALS, AZURE_CLIENT_ID' for DefaultAzureCredential are not set or empty\./,
     );
   });
 
   it("should not throw if all env vars in requiredEnvVars are present (array)", () => {
-    process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
-    process.env.AZURE_CLIENT_ID = "test-client-id";
+    vi.stubEnv("AZURE_TOKEN_CREDENTIALS", "ManagedIdentityCredential");
+    vi.stubEnv("AZURE_CLIENT_ID", "test-client-id");
     expect(
       () => new DefaultAzureCredential({ requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"] }),
     ).not.toThrowError();
-    delete process.env.AZURE_TOKEN_CREDENTIALS;
-    delete process.env.AZURE_CLIENT_ID;
   });
 });
 
