@@ -56,7 +56,7 @@ describe("DefaultAzureCredential", () => {
 
   it("should throw if multiple env vars in requiredEnvVars are missing (array)", () => {
     vi.stubEnv("AZURE_TOKEN_CREDENTIALS", undefined);
-    vi.stubEnv("AZURE_CLIENT_ID", undefined);
+    vi.stubEnv("AZURE_CLIENT_ID", "");
     expect(
       () => new DefaultAzureCredential({ requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"] }),
     ).toThrowError(
