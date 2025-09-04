@@ -39,7 +39,13 @@ export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCre
 /**
  * The commonly supported environment variables for the {@link DefaultAzureCredential} class.
  */
-export type DefaultEnvVars = "AZURE_TOKEN_CREDENTIALS";
+export type DefaultEnvVars = "AZURE_TOKEN_CREDENTIALS" | "AZURE_CLIENT_ID" | "AZURE_TENANT_ID" | "AZURE_CLIENT_SECRET"
+  | "AZURE_CLIENT_CERTIFICATE_PATH"
+  | "AZURE_CLIENT_CERTIFICATE_PASSWORD"
+  | "AZURE_ADDITIONALLY_ALLOWED_TENANTS"
+  | "AZURE_CLIENT_SEND_CERTIFICATE_CHAIN"
+  | "AZURE_FEDERATED_TOKEN_FILE"
+
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.
  */
@@ -61,5 +67,5 @@ export interface DefaultAzureCredentialOptions
   /**
    * The environment variable(s) required for the {@link DefaultAzureCredential} class.
    */
-  requiredEnvVars?: DefaultEnvVars;
+  requiredEnvVars?: DefaultEnvVars | DefaultEnvVars[];
 }

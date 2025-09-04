@@ -94,8 +94,12 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
   constructor(options?: DefaultAzureCredentialOptions) {
     if (options?.requiredEnvVars) {
-      if (!process.env[options.requiredEnvVars]) {
-        const errorMessage = `Required environment variable '${options.requiredEnvVars}' for DefaultAzureCredential is not set or empty.`;
+      const requiredVars = Array.isArray(options.requiredEnvVars)
+        ? options.requiredEnvVars
+        : [options.requiredEnvVars];
+      const missing = requiredVars.filter((envVar) => !process.env[envVar]);
+      if (missing.length > 0) {
+        const errorMessage = `Required environment variable(s) '${missing.join(", ")}' for DefaultAzureCredential ${missing.length === 1 ? "is" : "are"} not set or empty.`;
         logger.warning(errorMessage);
         throw new Error(errorMessage);
       }

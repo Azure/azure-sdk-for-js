@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added a new `requiredEnvVars` option to `DefaultAzureCredential` to require a specific environment variable (`AZURE_TOKEN_CREDENTIALS`) to be set (and non-empty) before credential instantiation. If the variable is missing or empty, an error is thrown.
+- Added a new `requiredEnvVars` option to `DefaultAzureCredential` that can accept a single environment variable or an array of environment variables. All specified variables must be set (and non-empty) before credential instantiation. If any variable is missing or empty, an error is thrown listing all missing variables.
 - Introduced a new `DefaultEnvVars` enum-like type for environment variables that can be required by `DefaultAzureCredential` via the `requiredEnvVars` option.
 
 ### Breaking Changes
@@ -15,6 +15,7 @@
 
 ### Other Changes
 
+- Improved the error message for missing required environment variables in `DefaultAzureCredential` to clearly state when one or more variables are "not set or empty" and to list all missing variables when an array is provided.
 - `AzureCliCredential`, `AzurePowerShellCredential`, and `AzureDeveloperCliCredential` now raise `CredentialUnavailableError` when `claims` are provided to `getToken`, as these credentials do not support claims challenges. The error message includes instructions for handling claims authentication scenarios. [#35493](https://github.com/Azure/azure-sdk-for-js/pull/35493)
 
 ## 4.11.1 (2025-08-05)
