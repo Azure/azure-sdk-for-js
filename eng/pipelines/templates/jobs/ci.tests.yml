@@ -62,7 +62,11 @@ jobs:
 
     steps:
       - checkout: self
-        fetchDepth: 1
+        # PullRequest builds need history to generate diffs
+        ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+          fetchDepth: 0
+        ${{ else }}:
+          fetchDepth: 1
         fetchTags: false
 
       - template: ../steps/common.yml
