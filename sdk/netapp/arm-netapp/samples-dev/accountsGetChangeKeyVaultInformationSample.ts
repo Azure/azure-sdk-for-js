@@ -5,7 +5,7 @@
  * This sample demonstrates how to Contains data from encryption.keyVaultProperties as well as information about which private endpoint is used by each encryption sibling set. Response from this endpoint can be modified and used as request body for POST request.
  *
  * @summary Contains data from encryption.keyVaultProperties as well as information about which private endpoint is used by each encryption sibling set. Response from this endpoint can be modified and used as request body for POST request.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Accounts_GetChangeKeyVaultInformation.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Accounts_GetChangeKeyVaultInformation.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

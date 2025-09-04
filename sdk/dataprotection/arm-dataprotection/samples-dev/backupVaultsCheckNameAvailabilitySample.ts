@@ -5,7 +5,7 @@
  * This sample demonstrates how to API to check for resource name availability
  *
  * @summary API to check for resource name availability
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/CheckBackupVaultsNameAvailability.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/VaultCRUD/CheckBackupVaultsNameAvailability.json
  */
 
 import type { CheckNameAvailabilityRequest } from "@azure/arm-dataprotection";
@@ -15,8 +15,10 @@ import "dotenv/config";
 
 async function checkBackupVaultsNameAvailability(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "0b352192-dcac-4cc7-992e-a96190ccc68c";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "0b352192-dcac-4cc7-992e-a96190ccc68c";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
   const location = "westus";
   const parameters: CheckNameAvailabilityRequest = {
     name: "swaggerExample",

@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns the path associated with the subvolumeName provided
  *
  * @summary Returns the path associated with the subvolumeName provided
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Subvolumes_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Subvolumes_Get.json
  */
 async function subvolumesGet(): Promise<void> {
   const subscriptionId =

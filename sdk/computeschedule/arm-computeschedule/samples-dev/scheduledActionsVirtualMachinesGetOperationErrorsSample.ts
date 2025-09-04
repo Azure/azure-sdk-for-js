@@ -5,7 +5,7 @@
  * This sample demonstrates how to virtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist.
  *
  * @summary virtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist.
- * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesGetOperationErrors_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesGetOperationErrors_MaximumSet_Gen.json
  */
 
 import { ComputeScheduleClient } from "@azure/arm-computeschedule";
@@ -26,7 +26,7 @@ async function scheduledActionsVirtualMachinesGetOperationErrorsMaximumSetGenGen
  * This sample demonstrates how to virtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist.
  *
  * @summary virtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors encountered, additional logs) if they exist.
- * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesGetOperationErrors_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesGetOperationErrors_MinimumSet_Gen.json
  */
 async function scheduledActionsVirtualMachinesGetOperationErrorsMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

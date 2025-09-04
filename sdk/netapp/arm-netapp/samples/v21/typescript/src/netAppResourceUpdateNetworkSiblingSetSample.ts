@@ -14,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Update the network features of the specified network sibling set.
  *
  * @summary Update the network features of the specified network sibling set.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/NetworkSiblingSet_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/NetworkSiblingSet_Update.json
  */
 async function networkFeaturesUpdate(): Promise<void> {
   const subscriptionId =

@@ -5,7 +5,7 @@
  * This sample demonstrates how to Finalizes the relocation of the volume and cleans up the old volume.
  *
  * @summary Finalizes the relocation of the volume and cleans up the old volume.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_FinalizeRelocation.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_FinalizeRelocation.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

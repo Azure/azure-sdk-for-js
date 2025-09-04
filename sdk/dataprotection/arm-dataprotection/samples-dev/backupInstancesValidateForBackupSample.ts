@@ -5,7 +5,7 @@
  * This sample demonstrates how to Validate whether adhoc backup will be successful or not
  *
  * @summary Validate whether adhoc backup will be successful or not
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ValidateForBackup.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/ValidateForBackup.json
  */
 
 import type { ValidateForBackupRequest } from "@azure/arm-dataprotection";
@@ -15,8 +15,10 @@ import "dotenv/config";
 
 async function validateForBackup(): Promise<void> {
   const subscriptionId =
-    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] || "04cf684a-d41f-4550-9f70-7708a3a2283b";
-  const resourceGroupName = process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
   const vaultName = "PratikPrivatePreviewVault1";
   const parameters: ValidateForBackupRequest = {
     backupInstance: {
@@ -48,6 +50,11 @@ async function validateForBackup(): Promise<void> {
         },
       },
       friendlyName: "harshitbi2",
+      identityDetails: {
+        useSystemAssignedIdentity: false,
+        userAssignedIdentityArmUrl:
+          "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourcegroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testUami",
+      },
       objectType: "BackupInstance",
       policyInfo: {
         policyId:

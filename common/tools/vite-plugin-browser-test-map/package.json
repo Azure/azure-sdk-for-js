@@ -38,7 +38,6 @@
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
-    "test:node:esm": "echo skipped",
     "update-snippets": "echo skipped"
   },
   "engines": {
@@ -52,7 +51,7 @@
     "@types/node": "catalog:",
     "eslint": "catalog:",
     "prettier": "^3.3.3",
-    "rimraf": "^5.0.0",
+    "rimraf": "^6.0.1",
     "typescript": "catalog:",
     "typescript-eslint": "~8.39.1"
   }

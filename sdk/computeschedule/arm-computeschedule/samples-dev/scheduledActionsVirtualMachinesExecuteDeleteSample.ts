@@ -5,7 +5,7 @@
  * This sample demonstrates how to virtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary virtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteDelete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesExecuteDelete_MaximumSet_Gen.json
  */
 
 import { ComputeScheduleClient } from "@azure/arm-computeschedule";
@@ -35,7 +35,7 @@ async function scheduledActionsVirtualMachinesExecuteDeleteMaximumSetGenGenerate
  * This sample demonstrates how to virtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
  *
  * @summary virtualMachinesExecuteDelete: Execute delete operation for a batch of virtual machines, this operation is triggered as soon as Computeschedule receives it.
- * x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteDelete_MinimumSet_Gen.json
+ * x-ms-original-file: 2025-04-15-preview/ScheduledActions_VirtualMachinesExecuteDelete_MinimumSet_Gen.json
  */
 async function scheduledActionsVirtualMachinesExecuteDeleteMinimumSetGenGeneratedByMinimumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

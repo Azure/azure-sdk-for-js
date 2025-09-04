@@ -41,8 +41,8 @@ import {
   ApplicationInsightsMessageName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
+  MicrosoftClientIp,
 } from "./constants/applicationinsights.js";
-import { getLocationIp } from "./spanUtils.js";
 
 /**
  * Log to Azure envelope parsing.
@@ -154,7 +154,13 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
   if (isSyntheticSource(log.attributes as Attributes)) {
     tags[KnownContextTagKeys.AiOperationSyntheticSource] = "True";
   }
-  getLocationIp(tags, log.attributes as Attributes);
+
+  // Set ai.location.ip from microsoft.client.ip if it exists
+  const microsoftClientIp = log.attributes?.[MicrosoftClientIp];
+  if (microsoftClientIp) {
+    tags[KnownContextTagKeys.AiLocationIp] = String(microsoftClientIp);
+  }
+
   return tags;
 }
 

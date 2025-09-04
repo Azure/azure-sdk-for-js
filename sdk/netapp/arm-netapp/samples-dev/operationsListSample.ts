@@ -5,7 +5,7 @@
  * This sample demonstrates how to Lists all of the available Microsoft.NetApp Rest API operations
  *
  * @summary Lists all of the available Microsoft.NetApp Rest API operations
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/OperationList.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/OperationList.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

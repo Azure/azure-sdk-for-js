@@ -82,9 +82,8 @@
     "samples:publish": "dev-tool samples publish -f && node scripts/fixSamples.mjs",
     "test": "npm run test:node && npm run test:browser",
     "test:browser": "npm run test:browser:live",
-    "test:node": "npm run test:node:live",
-    "test:node:esm": "dev-tool run test:vitest --esm --no-test-proxy",
-    "test:node:live": "npm run test:node:esm",
+    "test:node": "dev-tool run test:vitest --no-test-proxy",
+    "test:node:live": "npm run test:node",
     "test:browser:live": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets && node scripts/fixSnippets.mjs"
   },

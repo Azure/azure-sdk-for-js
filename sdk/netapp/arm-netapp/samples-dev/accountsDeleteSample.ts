@@ -5,7 +5,7 @@
  * This sample demonstrates how to Delete the specified NetApp account
  *
  * @summary Delete the specified NetApp account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Accounts_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Accounts_Delete.json
  */
 
 import { NetAppManagementClient } from "@azure/arm-netapp";

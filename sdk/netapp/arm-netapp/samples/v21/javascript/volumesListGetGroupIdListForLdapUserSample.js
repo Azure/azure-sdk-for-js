@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Returns the list of group Ids for a specific LDAP User
  *
  * @summary Returns the list of group Ids for a specific LDAP User
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/GroupIdListForLDAPUser.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/GroupIdListForLDAPUser.json
  */
 async function getGroupIdListForUser() {
   const subscriptionId =

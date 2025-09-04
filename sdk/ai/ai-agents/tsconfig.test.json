@@ -1,6 +1,14 @@
 {
-  "extends": ["./tsconfig.src.json", "../../../tsconfig.test.base.json"],
+  "references": [
+    {
+      "path": "./tsconfig.test.node.json"
+    },
+    {
+      "path": "./tsconfig.browser.config.json"
+    }
+  ],
   "compilerOptions": {
-    "skipLibCheck": true
-  }
+    "composite": true
+  },
+  "files": []
 }

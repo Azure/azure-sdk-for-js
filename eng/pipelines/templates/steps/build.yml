@@ -43,9 +43,13 @@ steps:
 
   - script: |
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
-      pnpm install --no-frozen-lockfile
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
+
+  - script: |
+      pnpm install --no-frozen-lockfile
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    displayName: "Install library dependencies after setting dev version"
 
   # Update the package info file to include dev version
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml

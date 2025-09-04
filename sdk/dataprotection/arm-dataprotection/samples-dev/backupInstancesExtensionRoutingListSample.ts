@@ -5,7 +5,7 @@
  * This sample demonstrates how to Gets a list of backup instances associated with a tracked resource
  *
  * @summary Gets a list of backup instances associated with a tracked resource
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ListBackupInstancesExtensionRouting.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-07-01/examples/BackupInstanceOperations/ListBackupInstancesExtensionRouting.json
  */
 
 import { DataProtectionClient } from "@azure/arm-dataprotection";
@@ -18,7 +18,9 @@ async function listBackupInstancesAssociatedWithAnAzureResource(): Promise<void>
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential);
   const resArray = new Array();
-  for await (const item of client.backupInstancesExtensionRouting.list(resourceId)) {
+  for await (const item of client.backupInstancesExtensionRouting.list(
+    resourceId,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);

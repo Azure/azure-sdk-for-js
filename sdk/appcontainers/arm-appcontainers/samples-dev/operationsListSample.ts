@@ -5,7 +5,7 @@
  * This sample demonstrates how to Lists all of the available RP operations.
  *
  * @summary Lists all of the available RP operations.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/Operations_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/Operations_List.json
  */
 
 import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";

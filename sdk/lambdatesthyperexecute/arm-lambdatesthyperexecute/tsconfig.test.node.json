@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-lambdatesthyperexecute": ["./src/index.ts"],
+      "@azure/arm-lambdatesthyperexecute/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

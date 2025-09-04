@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { IoTFirmwareDefenseContext } from "../../api/ioTFirmwareDefenseContext.js";
-import { Firmware, FirmwareUpdateDefinition } from "../../models/models.js";
+import { listByWorkspace, $delete, update, create, get } from "../../api/firmwares/operations.js";
 import {
   FirmwaresListByWorkspaceOptionalParams,
   FirmwaresDeleteOptionalParams,
@@ -10,7 +10,7 @@ import {
   FirmwaresCreateOptionalParams,
   FirmwaresGetOptionalParams,
 } from "../../api/firmwares/options.js";
-import { listByWorkspace, $delete, update, create, get } from "../../api/firmwares/operations.js";
+import { Firmware, FirmwareUpdateDefinition } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Firmwares operations. */

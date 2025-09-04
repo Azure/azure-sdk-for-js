@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-arizeaiobservabilityeval": ["./src/index.ts"],
+      "@azure/arm-arizeaiobservabilityeval/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

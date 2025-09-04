@@ -5,7 +5,7 @@
  * This sample demonstrates how to Create or update the specified NetApp account within the resource group
  *
  * @summary Create or update the specified NetApp account within the resource group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Accounts_CreateOrUpdate.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Accounts_CreateOrUpdate.json
  */
 
 import { NetAppAccount, NetAppManagementClient } from "@azure/arm-netapp";
@@ -33,7 +33,7 @@ async function accountsCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to Create or update the specified NetApp account within the resource group
  *
  * @summary Create or update the specified NetApp account within the resource group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Accounts_CreateOrUpdateAD.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Accounts_CreateOrUpdateAD.json
  */
 async function accountsCreateOrUpdateWithActiveDirectory(): Promise<void> {
   const subscriptionId =
