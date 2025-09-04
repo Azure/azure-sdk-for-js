@@ -76,6 +76,10 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
     }
 
     this.currentRetryAttemptCount++;
+    retryContext.retryCount = this.currentRetryAttemptCount;
+    retryContext.clearSessionTokenNotAvailable = false;
+    retryContext.retryRequestOnPreferredLocations = false;
+    diagnosticNode.addData({ successfulRetryPolicy: "endpointDiscovery" });
 
     // check if this is a readDatabaseAccount call
     // If yes, then simply return true (avoid recursive call triggered for readDatabaseAccount)
@@ -94,11 +98,6 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
         locationEndpoint,
       );
     }
-
-    retryContext.retryCount = this.currentRetryAttemptCount;
-    retryContext.clearSessionTokenNotAvailable = false;
-    retryContext.retryRequestOnPreferredLocations = false;
-    diagnosticNode.addData({ successfulRetryPolicy: "endpointDiscovery" });
     return true;
   }
 }
