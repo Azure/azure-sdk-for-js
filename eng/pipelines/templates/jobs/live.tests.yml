@@ -78,6 +78,10 @@ jobs:
       container: $[ variables['Container'] ]
 
     steps:
+      - checkout: self
+        fetchDepth: 1
+        fetchTags: false
+
       - template: ../steps/common.yml
 
       - ${{ parameters.PreSteps }}

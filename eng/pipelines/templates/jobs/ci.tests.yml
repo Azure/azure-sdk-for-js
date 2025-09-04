@@ -63,7 +63,8 @@ jobs:
     steps:
       - checkout: self
         fetchDepth: 1
-        syncTags: false
+        fetchTags: false
+
       - template: ../steps/common.yml
 
       - template: ../steps/test.yml
