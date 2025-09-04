@@ -13,6 +13,7 @@ import type {
   GetAnalyzeResultParameters,
   DeleteAnalyzeResultParameters,
   GetAnalyzeResultPdfParameters,
+  GetAnalyzeResultPngParameters,
   GetAnalyzeResultFigureParameters,
   AnalyzeDocumentFromStreamParameters,
   AnalyzeDocumentParameters,
@@ -60,6 +61,8 @@ import type {
   DeleteAnalyzeResultDefaultResponse,
   GetAnalyzeResultPdf200Response,
   GetAnalyzeResultPdfDefaultResponse,
+  GetAnalyzeResultPng200Response,
+  GetAnalyzeResultPngDefaultResponse,
   GetAnalyzeResultFigure200Response,
   GetAnalyzeResultFigureDefaultResponse,
   AnalyzeDocumentFromStream202Response,
@@ -178,6 +181,13 @@ export interface GetAnalyzeResultPdf {
   get(
     options?: GetAnalyzeResultPdfParameters,
   ): StreamableMethod<GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse>;
+}
+
+export interface GetAnalyzeResultPng {
+  /** Gets the generated searchable PNG output from document analysis. */
+  get(
+    options?: GetAnalyzeResultPngParameters,
+  ): StreamableMethod<GetAnalyzeResultPng200Response | GetAnalyzeResultPngDefaultResponse>;
 }
 
 export interface GetAnalyzeResultFigure {
@@ -357,6 +367,12 @@ export interface Routes {
     modelId: string,
     resultId: string,
   ): GetAnalyzeResultPdf;
+  /** Resource for '/documentModels/\{modelId\}/analyzeResults/\{resultId\}/png' has methods for the following verbs: get */
+  (
+    path: "/documentModels/{modelId}/analyzeResults/{resultId}/png",
+    modelId: string,
+    resultId: string,
+  ): GetAnalyzeResultPng;
   /** Resource for '/documentModels/\{modelId\}/analyzeResults/\{resultId\}/figures/\{figureId\}' has methods for the following verbs: get */
   (
     path: "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
