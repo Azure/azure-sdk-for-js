@@ -48,7 +48,7 @@
     "@pnpm/catalogs.types": "^1000.0.0",
     "@pnpm/workspace.read-manifest": "^1000.1.5",
     "chalk": "^4.1.1",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.2.1",
     "diff": "^8.0.2",
     "dotenv": "^16.0.0",
     "express": "^5.1.0",
@@ -82,7 +82,7 @@
     "cross-env": "^7.0.3",
     "eslint": "catalog:",
     "mkdirp": "^3.0.1",
-    "rimraf": "^5.0.5",
+    "rimraf": "^6.0.1",
     "typescript-eslint": "~8.39.1",
     "vitest": "catalog:testing"
   }

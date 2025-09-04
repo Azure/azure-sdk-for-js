@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/communication-short-codes",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "SDK for Azure Communication Services which facilitates short code management.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/test-utils-vitest",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "sdk-type": "utility",
   "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
   "type": "module",

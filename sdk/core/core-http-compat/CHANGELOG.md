@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Upgrade `@azure/*` dependencies to latest versions.
+
 ## 2.3.0 (2025-05-01)
 
 ### Features Added
