@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AtlasClient } from "@azure/arm-mongodbatlas";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to list OrganizationResource resources by subscription ID
  *
  * @summary list OrganizationResource resources by subscription ID
  * x-ms-original-file: 2025-06-01/Organizations_ListBySubscription_MaximumSet_Gen.json
  */
-
-import { AtlasClient } from "@azure/arm-mongodbatlas";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function organizationsListBySubscriptionMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4AFC1287-D389-4265-B2D4-59B96A45CACC";

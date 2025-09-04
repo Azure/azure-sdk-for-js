@@ -2,15 +2,6 @@
 // Licensed under the MIT License.
 
 import { AtlasContext } from "../../api/atlasContext.js";
-import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
-import {
-  OrganizationsListBySubscriptionOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsGetOptionalParams,
-} from "../../api/organizations/options.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,6 +10,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/organizations/operations.js";
+import {
+  OrganizationsListBySubscriptionOptionalParams,
+  OrganizationsListByResourceGroupOptionalParams,
+  OrganizationsDeleteOptionalParams,
+  OrganizationsUpdateOptionalParams,
+  OrganizationsCreateOrUpdateOptionalParams,
+  OrganizationsGetOptionalParams,
+} from "../../api/organizations/options.js";
+import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
