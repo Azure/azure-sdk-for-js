@@ -74,7 +74,7 @@ describe.skip("storageMover test", () => {
       tags: { key1: "value1", key2: "value2" },
       properties: {
         description: "Example Storage Mover Description",
-      }
+      },
     });
     assert.equal(res.name, storageMoverName);
   });
@@ -91,7 +91,7 @@ describe.skip("storageMover test", () => {
         description: "Example Agent Description",
         arcResourceId: arcResourceid,
         arcVmUuid: "3bb2c024-eba9-4d18-9e7a-1d772fcc5fe9",
-      }
+      },
     });
     assert.equal(res.name, agentName);
   });
@@ -137,7 +137,7 @@ describe.skip("storageMover test", () => {
     const res = await client.projects.createOrUpdate(resourceGroup, storageMoverName, projectName, {
       properties: {
         description: "Example Project Description",
-      }
+      },
     });
     assert.equal(res.name, projectName);
   });
@@ -157,7 +157,7 @@ describe.skip("storageMover test", () => {
           sourceSubpath: "/",
           targetName: endpointName,
           targetSubpath: "/",
-        }
+        },
       },
     );
     assert.equal(res.name, jobDefinitionName);
