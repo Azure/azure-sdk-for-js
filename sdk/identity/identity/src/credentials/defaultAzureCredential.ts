@@ -94,10 +94,10 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
   constructor(options?: DefaultAzureCredentialOptions) {
     if (options?.requiredEnvVars) {
-        if (!process.env[options.requiredEnvVars]) {
-    const errorMessage = `Required environment variable '${options.requiredEnvVars}' for DefaultAzureCredential is not set or empty.`;
-          logger.warning(errorMessage);
-          throw new Error(errorMessage);
+      if (!process.env[options.requiredEnvVars]) {
+        const errorMessage = `Required environment variable '${options.requiredEnvVars}' for DefaultAzureCredential is not set or empty.`;
+        logger.warning(errorMessage);
+        throw new Error(errorMessage);
       }
     }
     // If AZURE_TOKEN_CREDENTIALS is not set, use the default credential chain.
