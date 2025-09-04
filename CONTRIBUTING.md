@@ -353,6 +353,6 @@ Samples may take the following categories of dependencies:
 
 In general, we prefer taking dependencies on licensed components in the order of the listed categories. In cases where the category may not be well known, we'll document the category so that readers understand the choice that they're making by using that dependency.
 
-### Using MCP Servers in VS COde
+### Using MCP Servers in VS Code
 
 This repository configures MCP servers to be used with GitHub Copilot in VS Code. They are listed in `.vscode/mcp.json`. For example, to use the ESLint MCP server, follow [the instructions at ESLint documentation site](https://eslint.org/docs/latest/use/mcp#using-the-eslint-mcp-server-with-github-copilot).
