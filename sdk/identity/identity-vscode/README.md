@@ -17,6 +17,9 @@ On Linux, the library uses `libsecret` so you may need to install it. Depending 
 - Red Hat-based: `sudo yum install libsecret-devel`
 - Arch Linux: `sudo pacman -S libsecret`
 
+> [!NOTE] 
+> Visual Studio Code authentication is currently only supported on Windows. Linux and macOS is not yet supported.
+
 ### Install the package
 
 This package is designed to be used with Azure Identity for JavaScript. Install both `@azure/identity` and this package using `npm`:
