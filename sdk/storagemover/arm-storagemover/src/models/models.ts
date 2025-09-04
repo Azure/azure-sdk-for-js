@@ -670,8 +670,8 @@ export function timeDeserializer(item: any): Time {
 
 /** The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0. */
 export enum KnownMinute {
-  _0 = 0,
-  _30 = 30,
+  Zero = 0,
+  Thirty = 30,
 }
 
 /**
@@ -685,7 +685,7 @@ export enum KnownMinute {
 export type Minute = number;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource { }
 
 export function proxyResourceSerializer(item: ProxyResource): any {
   return item;

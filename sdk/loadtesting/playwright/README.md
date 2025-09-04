@@ -65,7 +65,7 @@ Follow these steps to run your existing Playwright test suite with the service.
 1. Run this command to install the service package
 
     ```nodejs
-    npm init @azure/playwright
+    npm init @azure/playwright@latest
     ```
 
 Installing the service package will create a service config file named `playwright.service.config.ts`

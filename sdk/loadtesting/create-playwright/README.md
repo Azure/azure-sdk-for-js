@@ -9,9 +9,9 @@ Get started with Azure Playwright with a single command
 ```sh
 npm init @azure/playwright@latest
 # Or for Yarn
-yarn create @azure/playwright
+yarn create @azure/playwright@latest
 # Or for pnpm
-pnpm create @azure/playwright
+pnpm create @azure/playwright@latest
 ```
 
 ## Useful Links

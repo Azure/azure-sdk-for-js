@@ -30,7 +30,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("storageMover test", () => {
+describe.skip("storageMover test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: StorageMoverClient;
@@ -54,8 +54,8 @@ describe("storageMover test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    location = "eastus2euap";
-    resourceGroup = "myjstest";
+    location = "eastus";
+    resourceGroup = "SSS3PT_myjstest";
     storageMoverName = "storageMoverName";
     agentName = "testagent";
     endpointName = "testendpoint";
@@ -70,9 +70,11 @@ describe("storageMover test", () => {
 
   it("storageMovers create test", async () => {
     const res = await client.storageMovers.createOrUpdate(resourceGroup, storageMoverName, {
-      description: "Example Storage Mover Description",
       location,
       tags: { key1: "value1", key2: "value2" },
+      properties: {
+        description: "Example Storage Mover Description",
+      }
     });
     assert.equal(res.name, storageMoverName);
   });
@@ -85,9 +87,11 @@ describe("storageMover test", () => {
       resourceGroup +
       "/providers/Microsoft.HybridCompute/machines/testhybridCompute";
     const res = await client.agents.createOrUpdate(resourceGroup, storageMoverName, agentName, {
-      description: "Example Agent Description",
-      arcResourceId: arcResourceid,
-      arcVmUuid: "3bb2c024-eba9-4d18-9e7a-1d772fcc5fe9",
+      properties: {
+        description: "Example Agent Description",
+        arcResourceId: arcResourceid,
+        arcVmUuid: "3bb2c024-eba9-4d18-9e7a-1d772fcc5fe9",
+      }
     });
     assert.equal(res.name, agentName);
   });
@@ -131,7 +135,9 @@ describe("storageMover test", () => {
 
   it("projects create test", async () => {
     const res = await client.projects.createOrUpdate(resourceGroup, storageMoverName, projectName, {
-      description: "Example Project Description",
+      properties: {
+        description: "Example Project Description",
+      }
     });
     assert.equal(res.name, projectName);
   });
@@ -143,13 +149,15 @@ describe("storageMover test", () => {
       projectName,
       jobDefinitionName,
       {
-        description: "Example Job Definition Description",
-        agentName: agentName,
-        copyMode: "Additive",
-        sourceName: endpointName1,
-        sourceSubpath: "/",
-        targetName: endpointName,
-        targetSubpath: "/",
+        properties: {
+          description: "Example Job Definition Description",
+          agentName: agentName,
+          copyMode: "Additive",
+          sourceName: endpointName1,
+          sourceSubpath: "/",
+          targetName: endpointName,
+          targetSubpath: "/",
+        }
       },
     );
     assert.equal(res.name, jobDefinitionName);

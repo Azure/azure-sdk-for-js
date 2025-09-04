@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0 (2025-08-29)
+## 3.0.0 (2025-09-04)
 
 ### Features Added
   - Added operation AgentsOperations.delete
@@ -49,8 +49,6 @@
   - Added Enum KnownVersions
   - Enum KnownEndpointType has a new value AzureMultiCloudConnector
   - Enum KnownEndpointType has a new value AzureStorageNfsFileShare
-  - Enum KnownMinute has a new value _0
-  - Enum KnownMinute has a new value _30
 
 ### Breaking Changes
   - Removed operation Agents.beginDelete
@@ -155,8 +153,6 @@
   - Type alias "CredentialsUnion" has been changed
   - Type alias "EndpointBasePropertiesUnion" has been changed
   - Type alias "EndpointBaseUpdatePropertiesUnion" has been changed
-  - Enum KnownMinute no longer has value Thirty
-  - Enum KnownMinute no longer has value Zero
 
     
 ## 2.1.0 (2024-06-13)

@@ -527,9 +527,9 @@ export enum KnownManagedServiceIdentityType {
 // @public
 export enum KnownMinute {
     // (undocumented)
-    _0 = 0,
+    Thirty = 30,
     // (undocumented)
-    _30 = 30
+    Zero = 0
 }
 
 // @public
