@@ -27,7 +27,7 @@ describe("DefaultAzureCredential", () => {
     expect(() => new DefaultAzureCredential()).not.toThrowError();
   });
 
-  it("should throw if requiredEnvVar is missing", () => {
+  it("should throw if env var in requiredEnvVars is missing", () => {
     delete process.env.AZURE_TOKEN_CREDENTIALS;
     expect(
       () => new DefaultAzureCredential({ requiredEnvVars: "AZURE_TOKEN_CREDENTIALS" }),
@@ -36,7 +36,7 @@ describe("DefaultAzureCredential", () => {
     );
   });
 
-  it("should not throw if requiredEnvVar is present", () => {
+  it("should not throw if env var in requiredEnvVars is present", () => {
     process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
     expect(
       () => new DefaultAzureCredential({ requiredEnvVars: "AZURE_TOKEN_CREDENTIALS" }),
