@@ -166,10 +166,7 @@ export interface ElasticPools {
     parameters: ElasticPoolUpdate,
     options?: ElasticPoolsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ElasticPoolsUpdateResponse>,
-      ElasticPoolsUpdateResponse
-    >
+    SimplePollerLike<OperationState<ElasticPoolsUpdateResponse>, ElasticPoolsUpdateResponse>
   >;
   /**
    * Updates an elastic pool.

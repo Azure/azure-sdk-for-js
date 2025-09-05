@@ -52,10 +52,7 @@ export interface RestorePoints {
     parameters: CreateDatabaseRestorePointDefinition,
     options?: RestorePointsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RestorePointsCreateResponse>,
-      RestorePointsCreateResponse
-    >
+    SimplePollerLike<OperationState<RestorePointsCreateResponse>, RestorePointsCreateResponse>
   >;
   /**
    * Creates a restore point for a data warehouse.

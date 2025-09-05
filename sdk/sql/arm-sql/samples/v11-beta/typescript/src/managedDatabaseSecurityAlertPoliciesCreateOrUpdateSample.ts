@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedDatabaseSecurityAlertPolicy,
   SqlManagementClient,
@@ -83,8 +81,8 @@ async function updateADatabaseThreatDetectionPolicyWithMinimalParameters(): Prom
 }
 
 async function main(): Promise<void> {
-  updateADatabaseThreatDetectionPolicyWithAllParameters();
-  updateADatabaseThreatDetectionPolicyWithMinimalParameters();
+  await updateADatabaseThreatDetectionPolicyWithAllParameters();
+  await updateADatabaseThreatDetectionPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -38,7 +36,7 @@ async function getAJob(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAJob();
+  await getAJob();
 }
 
 main().catch(console.error);

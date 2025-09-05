@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedDatabaseStartMoveDefinition,
   SqlManagementClient,
@@ -73,8 +71,8 @@ async function startsAManagedDatabaseMoveWithNoOptionalParametersSpecified(): Pr
 }
 
 async function main(): Promise<void> {
-  startsAManagedDatabaseMoveWithAllOptionalParametersSpecified();
-  startsAManagedDatabaseMoveWithNoOptionalParametersSpecified();
+  await startsAManagedDatabaseMoveWithAllOptionalParametersSpecified();
+  await startsAManagedDatabaseMoveWithNoOptionalParametersSpecified();
 }
 
 main().catch(console.error);

@@ -88,10 +88,7 @@ export interface JobExecutions {
     jobName: string,
     options?: JobExecutionsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<JobExecutionsCreateResponse>,
-      JobExecutionsCreateResponse
-    >
+    SimplePollerLike<OperationState<JobExecutionsCreateResponse>, JobExecutionsCreateResponse>
   >;
   /**
    * Starts an elastic job execution.

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedDatabaseMoveDefinition,
   SqlManagementClient,
@@ -44,7 +42,7 @@ async function cancelsAManagedDatabaseMove(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cancelsAManagedDatabaseMove();
+  await cancelsAManagedDatabaseMove();
 }
 
 main().catch(console.error);

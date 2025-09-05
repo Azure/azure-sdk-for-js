@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a job credential.
@@ -42,7 +40,7 @@ async function createOrUpdateACredential() {
 }
 
 async function main() {
-  createOrUpdateACredential();
+  await createOrUpdateACredential();
 }
 
 main().catch(console.error);

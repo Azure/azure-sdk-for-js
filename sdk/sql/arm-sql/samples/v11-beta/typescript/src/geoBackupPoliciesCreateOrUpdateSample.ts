@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { GeoBackupPolicy, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -41,7 +39,7 @@ async function updateGeoBackupPolicy(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateGeoBackupPolicy();
+  await updateGeoBackupPolicy();
 }
 
 main().catch(console.error);

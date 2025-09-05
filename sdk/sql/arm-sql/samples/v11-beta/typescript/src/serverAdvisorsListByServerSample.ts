@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ServerAdvisorsListByServerOptionalParams,
   SqlManagementClient,
@@ -63,8 +61,8 @@ async function listOfServerRecommendedActionsForAllAdvisors(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listOfServerAdvisors();
-  listOfServerRecommendedActionsForAllAdvisors();
+  await listOfServerAdvisors();
+  await listOfServerRecommendedActionsForAllAdvisors();
 }
 
 main().catch(console.error);

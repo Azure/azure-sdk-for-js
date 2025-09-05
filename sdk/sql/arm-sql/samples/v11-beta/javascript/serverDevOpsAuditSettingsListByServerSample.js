@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists DevOps audit settings of a server.
@@ -26,7 +24,7 @@ async function listDevOpsAuditSettingsOfAServer() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverDevOpsAuditSettings.listByServer(
+  for await (const item of client.serverDevOpsAuditSettings.listByServer(
     resourceGroupName,
     serverName,
   )) {
@@ -36,7 +34,7 @@ async function listDevOpsAuditSettingsOfAServer() {
 }
 
 async function main() {
-  listDevOpsAuditSettingsOfAServer();
+  await listDevOpsAuditSettingsOfAServer();
 }
 
 main().catch(console.error);

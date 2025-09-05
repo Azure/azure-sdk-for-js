@@ -22,9 +22,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing DatabaseRecommendedActions operations. */
-export class DatabaseRecommendedActionsImpl
-  implements DatabaseRecommendedActions
-{
+export class DatabaseRecommendedActionsImpl implements DatabaseRecommendedActions {
   private readonly client: SqlManagementClient;
 
   /**

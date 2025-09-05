@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists databases linked to a sync agent.
@@ -27,7 +25,7 @@ async function getSyncAgentLinkedDatabases() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.syncAgents.listLinkedDatabases(
+  for await (const item of client.syncAgents.listLinkedDatabases(
     resourceGroupName,
     serverName,
     syncAgentName,
@@ -38,7 +36,7 @@ async function getSyncAgentLinkedDatabases() {
 }
 
 async function main() {
-  getSyncAgentLinkedDatabases();
+  await getSyncAgentLinkedDatabases();
 }
 
 main().catch(console.error);

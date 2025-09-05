@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedInstanceEncryptionProtector,
   SqlManagementClient,
@@ -77,8 +75,8 @@ async function updateTheEncryptionProtectorToServiceManaged(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updateTheEncryptionProtectorToKeyVault();
-  updateTheEncryptionProtectorToServiceManaged();
+  await updateTheEncryptionProtectorToKeyVault();
+  await updateTheEncryptionProtectorToServiceManaged();
 }
 
 main().catch(console.error);

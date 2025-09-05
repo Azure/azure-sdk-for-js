@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Server,
@@ -64,9 +60,7 @@ export class ServersImpl implements Servers {
    * Gets a list of all servers in the subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: ServersListOptionalParams,
-  ): PagedAsyncIterableIterator<Server> {
+  public list(options?: ServersListOptionalParams): PagedAsyncIterableIterator<Server> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -106,9 +100,7 @@ export class ServersImpl implements Servers {
     }
   }
 
-  private async *listPagingAll(
-    options?: ServersListOptionalParams,
-  ): AsyncIterableIterator<Server> {
+  private async *listPagingAll(options?: ServersListOptionalParams): AsyncIterableIterator<Server> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -136,11 +128,7 @@ export class ServersImpl implements Servers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -160,11 +148,7 @@ export class ServersImpl implements Servers {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -176,10 +160,7 @@ export class ServersImpl implements Servers {
     resourceGroupName: string,
     options?: ServersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Server> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -203,9 +184,7 @@ export class ServersImpl implements Servers {
    * Gets a list of all servers in the subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ServersListOptionalParams,
-  ): Promise<ServersListResponse> {
+  private _list(options?: ServersListOptionalParams): Promise<ServersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -257,10 +236,7 @@ export class ServersImpl implements Servers {
     parameters: Server,
     options?: ServersCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServersCreateOrUpdateResponse>,
-      ServersCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ServersCreateOrUpdateResponse>, ServersCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -272,8 +248,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -361,8 +336,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -414,11 +388,7 @@ export class ServersImpl implements Servers {
     serverName: string,
     options?: ServersDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, serverName, options);
     return poller.pollUntilDone();
   }
 
@@ -435,12 +405,7 @@ export class ServersImpl implements Servers {
     serverName: string,
     parameters: ServerUpdate,
     options?: ServersUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ServersUpdateResponse>,
-      ServersUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ServersUpdateResponse>, ServersUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -451,8 +416,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -509,12 +473,7 @@ export class ServersImpl implements Servers {
     parameters: ServerUpdate,
     options?: ServersUpdateOptionalParams,
   ): Promise<ServersUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      serverName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, serverName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -532,10 +491,7 @@ export class ServersImpl implements Servers {
     parameters: ImportNewDatabaseDefinition,
     options?: ServersImportDatabaseOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServersImportDatabaseResponse>,
-      ServersImportDatabaseResponse
-    >
+    SimplePollerLike<OperationState<ServersImportDatabaseResponse>, ServersImportDatabaseResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -547,8 +503,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -626,10 +581,7 @@ export class ServersImpl implements Servers {
     serverName: string,
     options?: ServersRefreshStatusOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServersRefreshStatusResponse>,
-      ServersRefreshStatusResponse
-    >
+    SimplePollerLike<OperationState<ServersRefreshStatusResponse>, ServersRefreshStatusResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -641,8 +593,7 @@ export class ServersImpl implements Servers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -698,11 +649,7 @@ export class ServersImpl implements Servers {
     serverName: string,
     options?: ServersRefreshStatusOptionalParams,
   ): Promise<ServersRefreshStatusResponse> {
-    const poller = await this.beginRefreshStatus(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const poller = await this.beginRefreshStatus(resourceGroupName, serverName, options);
     return poller.pollUntilDone();
   }
 
@@ -715,10 +662,7 @@ export class ServersImpl implements Servers {
     nextLink: string,
     options?: ServersListNextOptionalParams,
   ): Promise<ServersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -754,7 +698,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters104,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -771,7 +715,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand, Parameters.apiVersion12],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -787,12 +731,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  queryParameters: [Parameters.expand, Parameters.apiVersion12],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -807,7 +747,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand, Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -838,7 +778,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters105,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -861,7 +801,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -892,7 +832,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters106,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -924,7 +864,7 @@ const importDatabaseOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters107,
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -955,7 +895,7 @@ const refreshStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -976,11 +916,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

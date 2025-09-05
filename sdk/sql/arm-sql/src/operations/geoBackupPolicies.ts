@@ -50,12 +50,7 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
     databaseName: string,
     options?: GeoBackupPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<GeoBackupPolicy> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -86,12 +81,7 @@ export class GeoBackupPoliciesImpl implements GeoBackupPolicies {
     _settings?: PageSettings,
   ): AsyncIterableIterator<GeoBackupPolicy[]> {
     let result: GeoBackupPoliciesListByDatabaseResponse;
-    result = await this._listByDatabase(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
     yield result.value || [];
   }
 

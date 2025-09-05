@@ -130,12 +130,7 @@ export interface JobAgents {
     jobAgentName: string,
     parameters: JobAgentUpdate,
     options?: JobAgentsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<JobAgentsUpdateResponse>,
-      JobAgentsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<JobAgentsUpdateResponse>, JobAgentsUpdateResponse>>;
   /**
    * Updates a job agent.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

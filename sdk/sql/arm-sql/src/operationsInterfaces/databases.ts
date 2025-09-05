@@ -206,12 +206,7 @@ export interface Databases {
     databaseName: string,
     parameters: DatabaseUpdate,
     options?: DatabasesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesUpdateResponse>,
-      DatabasesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>>;
   /**
    * Updates an existing database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -243,12 +238,7 @@ export interface Databases {
     databaseName: string,
     parameters: ExportDatabaseDefinition,
     options?: DatabasesExportOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesExportResponse>,
-      DatabasesExportResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<DatabasesExportResponse>, DatabasesExportResponse>>;
   /**
    * Exports a database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -308,12 +298,7 @@ export interface Databases {
     databaseName: string,
     parameters: ImportExistingDatabaseDefinition,
     options?: DatabasesImportOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesImportResponse>,
-      DatabasesImportResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<DatabasesImportResponse>, DatabasesImportResponse>>;
   /**
    * Imports a bacpac into a new database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -359,12 +344,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     options?: DatabasesPauseOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesPauseResponse>,
-      DatabasesPauseResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<DatabasesPauseResponse>, DatabasesPauseResponse>>;
   /**
    * Pauses a database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -392,12 +372,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     options?: DatabasesResumeOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesResumeResponse>,
-      DatabasesResumeResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<DatabasesResumeResponse>, DatabasesResumeResponse>>;
   /**
    * Resumes a database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

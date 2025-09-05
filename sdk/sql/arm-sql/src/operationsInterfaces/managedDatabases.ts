@@ -151,10 +151,7 @@ export interface ManagedDatabases {
     parameters: ManagedDatabaseUpdate,
     options?: ManagedDatabasesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedDatabasesUpdateResponse>,
-      ManagedDatabasesUpdateResponse
-    >
+    SimplePollerLike<OperationState<ManagedDatabasesUpdateResponse>, ManagedDatabasesUpdateResponse>
   >;
   /**
    * Updates an existing database.

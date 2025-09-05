@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ManagedServerSecurityAlertPolicy,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedServerSecurityAlertPolicies operations. */
-export class ManagedServerSecurityAlertPoliciesImpl
-  implements ManagedServerSecurityAlertPolicies
-{
+export class ManagedServerSecurityAlertPoliciesImpl implements ManagedServerSecurityAlertPolicies {
   private readonly client: SqlManagementClient;
 
   /**
@@ -59,11 +53,7 @@ export class ManagedServerSecurityAlertPoliciesImpl
     managedInstanceName: string,
     options?: ManagedServerSecurityAlertPoliciesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedServerSecurityAlertPolicy> {
-    const iter = this.listByInstancePagingAll(
-      resourceGroupName,
-      managedInstanceName,
-      options,
-    );
+    const iter = this.listByInstancePagingAll(resourceGroupName, managedInstanceName, options);
     return {
       next() {
         return iter.next();
@@ -94,11 +84,7 @@ export class ManagedServerSecurityAlertPoliciesImpl
     let result: ManagedServerSecurityAlertPoliciesListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -188,8 +174,7 @@ export class ManagedServerSecurityAlertPoliciesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

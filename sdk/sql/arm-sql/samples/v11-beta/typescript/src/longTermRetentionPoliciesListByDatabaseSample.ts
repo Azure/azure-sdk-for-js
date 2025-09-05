@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a database's long term retention policy.
  *
  * @summary Gets a database's long term retention policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/LongTermRetentionPolicyListByDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/LongTermRetentionPolicyListByDatabase.json
  */
 async function getTheLongTermRetentionPolicyForTheDatabase(): Promise<void> {
   const subscriptionId =
@@ -29,7 +27,7 @@ async function getTheLongTermRetentionPolicyForTheDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.longTermRetentionPolicies.listByDatabase(
+  for await (const item of client.longTermRetentionPolicies.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,
@@ -40,7 +38,7 @@ async function getTheLongTermRetentionPolicyForTheDatabase(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getTheLongTermRetentionPolicyForTheDatabase();
+  await getTheLongTermRetentionPolicyForTheDatabase();
 }
 
 main().catch(console.error);

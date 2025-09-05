@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -28,7 +26,7 @@ async function getsAListOfAzureActiveDirectoryOnlyAuthenticationObject(): Promis
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.serverAzureADOnlyAuthentications.listByServer(
+  for await (const item of client.serverAzureADOnlyAuthentications.listByServer(
     resourceGroupName,
     serverName,
   )) {
@@ -38,7 +36,7 @@ async function getsAListOfAzureActiveDirectoryOnlyAuthenticationObject(): Promis
 }
 
 async function main(): Promise<void> {
-  getsAListOfAzureActiveDirectoryOnlyAuthenticationObject();
+  await getsAListOfAzureActiveDirectoryOnlyAuthenticationObject();
 }
 
 main().catch(console.error);

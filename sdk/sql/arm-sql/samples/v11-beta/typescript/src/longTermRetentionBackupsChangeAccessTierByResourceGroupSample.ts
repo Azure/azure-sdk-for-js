@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ChangeLongTermRetentionBackupAccessTierParameters,
   SqlManagementClient,
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Change a long term retention backup access tier.
  *
  * @summary Change a long term retention backup access tier.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ResourceGroupBasedChangeLongTermRetentionBackupAccessTier.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ResourceGroupBasedChangeLongTermRetentionBackupAccessTier.json
  */
 async function changeTheLongTermRetentionBackupStorageAccessTierForAResourceGroup(): Promise<void> {
   const subscriptionId =
@@ -51,7 +49,7 @@ async function changeTheLongTermRetentionBackupStorageAccessTierForAResourceGrou
 }
 
 async function main(): Promise<void> {
-  changeTheLongTermRetentionBackupStorageAccessTierForAResourceGroup();
+  await changeTheLongTermRetentionBackupStorageAccessTierForAResourceGroup();
 }
 
 main().catch(console.error);

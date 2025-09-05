@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   SyncDatabaseIdProperties,
@@ -87,11 +83,7 @@ export class SyncGroupsImpl implements SyncGroups {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listSyncDatabaseIdsPagingPage(
-          locationName,
-          options,
-          settings,
-        );
+        return this.listSyncDatabaseIdsPagingPage(locationName, options, settings);
       },
     };
   }
@@ -111,11 +103,7 @@ export class SyncGroupsImpl implements SyncGroups {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listSyncDatabaseIdsNext(
-        locationName,
-        continuationToken,
-        options,
-      );
+      result = await this._listSyncDatabaseIdsNext(locationName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -127,10 +115,7 @@ export class SyncGroupsImpl implements SyncGroups {
     locationName: string,
     options?: SyncGroupsListSyncDatabaseIdsOptionalParams,
   ): AsyncIterableIterator<SyncDatabaseIdProperties> {
-    for await (const page of this.listSyncDatabaseIdsPagingPage(
-      locationName,
-      options,
-    )) {
+    for await (const page of this.listSyncDatabaseIdsPagingPage(locationName, options)) {
       yield* page;
     }
   }
@@ -379,12 +364,7 @@ export class SyncGroupsImpl implements SyncGroups {
     databaseName: string,
     options?: SyncGroupsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<SyncGroup> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -417,12 +397,7 @@ export class SyncGroupsImpl implements SyncGroups {
     let result: SyncGroupsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -500,8 +475,7 @@ export class SyncGroupsImpl implements SyncGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -731,8 +705,7 @@ export class SyncGroupsImpl implements SyncGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -837,8 +810,7 @@ export class SyncGroupsImpl implements SyncGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -927,12 +899,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     parameters: SyncGroup,
     options?: SyncGroupsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SyncGroupsUpdateResponse>,
-      SyncGroupsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<SyncGroupsUpdateResponse>, SyncGroupsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -943,8 +910,7 @@ export class SyncGroupsImpl implements SyncGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1157,11 +1123,7 @@ const listSyncDatabaseIdsOperationSpec: coreClient.OperationSpec = {
     default: {},
   },
   queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };

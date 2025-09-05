@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ElasticPoolUpdate, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -212,13 +210,13 @@ async function updateHighAvailabilityReplicaCountOfAHyperscaleElasticPool(): Pro
 }
 
 async function main(): Promise<void> {
-  assignsMaintenanceConfigurationToAnElasticPool();
-  createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault();
-  createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs();
-  resetsMaintenanceConfigurationOfAnElasticPoolToDefault();
-  updateAnElasticPoolWithAllParameter();
-  updateAnElasticPoolWithMinimumParameters();
-  updateHighAvailabilityReplicaCountOfAHyperscaleElasticPool();
+  await assignsMaintenanceConfigurationToAnElasticPool();
+  await createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault();
+  await createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs();
+  await resetsMaintenanceConfigurationOfAnElasticPoolToDefault();
+  await updateAnElasticPoolWithAllParameter();
+  await updateAnElasticPoolWithMinimumParameters();
+  await updateHighAvailabilityReplicaCountOfAHyperscaleElasticPool();
 }
 
 main().catch(console.error);

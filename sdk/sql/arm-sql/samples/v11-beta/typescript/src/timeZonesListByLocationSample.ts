@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -26,14 +24,14 @@ async function listManagedInstanceTimeZonesByLocation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.timeZones.listByLocation(locationName)) {
+  for await (const item of client.timeZones.listByLocation(locationName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  listManagedInstanceTimeZonesByLocation();
+  await listManagedInstanceTimeZonesByLocation();
 }
 
 main().catch(console.error);

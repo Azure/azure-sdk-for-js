@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns a list of geo backup policies.
@@ -27,7 +25,7 @@ async function listGeoBackupPolicies() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.geoBackupPolicies.listByDatabase(
+  for await (const item of client.geoBackupPolicies.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,
@@ -38,7 +36,7 @@ async function listGeoBackupPolicies() {
 }
 
 async function main() {
-  listGeoBackupPolicies();
+  await listGeoBackupPolicies();
 }
 
 main().catch(console.error);

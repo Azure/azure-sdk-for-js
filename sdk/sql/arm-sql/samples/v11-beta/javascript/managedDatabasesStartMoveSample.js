@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Starts a managed database move operation.
@@ -68,8 +66,8 @@ async function startsAManagedDatabaseMoveWithNoOptionalParametersSpecified() {
 }
 
 async function main() {
-  startsAManagedDatabaseMoveWithAllOptionalParametersSpecified();
-  startsAManagedDatabaseMoveWithNoOptionalParametersSpecified();
+  await startsAManagedDatabaseMoveWithAllOptionalParametersSpecified();
+  await startsAManagedDatabaseMoveWithNoOptionalParametersSpecified();
 }
 
 main().catch(console.error);

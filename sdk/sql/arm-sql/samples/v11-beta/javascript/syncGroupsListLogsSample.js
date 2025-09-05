@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a collection of sync group logs.
@@ -31,7 +29,7 @@ async function getSyncGroupLogs() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.syncGroups.listLogs(
+  for await (const item of client.syncGroups.listLogs(
     resourceGroupName,
     serverName,
     databaseName,
@@ -46,7 +44,7 @@ async function getSyncGroupLogs() {
 }
 
 async function main() {
-  getSyncGroupLogs();
+  await getSyncGroupLogs();
 }
 
 main().catch(console.error);

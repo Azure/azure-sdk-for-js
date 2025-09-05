@@ -29,9 +29,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StartStopManagedInstanceSchedules operations. */
-export class StartStopManagedInstanceSchedulesImpl
-  implements StartStopManagedInstanceSchedules
-{
+export class StartStopManagedInstanceSchedulesImpl implements StartStopManagedInstanceSchedules {
   private readonly client: SqlManagementClient;
 
   /**
@@ -54,11 +52,7 @@ export class StartStopManagedInstanceSchedulesImpl
     managedInstanceName: string,
     options?: StartStopManagedInstanceSchedulesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<StartStopManagedInstanceSchedule> {
-    const iter = this.listByInstancePagingAll(
-      resourceGroupName,
-      managedInstanceName,
-      options,
-    );
+    const iter = this.listByInstancePagingAll(resourceGroupName, managedInstanceName, options);
     return {
       next() {
         return iter.next();
@@ -89,11 +83,7 @@ export class StartStopManagedInstanceSchedulesImpl
     let result: StartStopManagedInstanceSchedulesListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -297,7 +287,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters88,
+  requestBody: Parameters.parameters87,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,

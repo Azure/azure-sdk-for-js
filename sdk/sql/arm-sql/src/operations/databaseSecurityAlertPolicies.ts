@@ -28,9 +28,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DatabaseSecurityAlertPolicies operations. */
-export class DatabaseSecurityAlertPoliciesImpl
-  implements DatabaseSecurityAlertPolicies
-{
+export class DatabaseSecurityAlertPoliciesImpl implements DatabaseSecurityAlertPolicies {
   private readonly client: SqlManagementClient;
 
   /**
@@ -55,12 +53,7 @@ export class DatabaseSecurityAlertPoliciesImpl
     databaseName: string,
     options?: DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseSecurityAlertPolicy> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -93,12 +86,7 @@ export class DatabaseSecurityAlertPoliciesImpl
     let result: DatabaseSecurityAlertPoliciesListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

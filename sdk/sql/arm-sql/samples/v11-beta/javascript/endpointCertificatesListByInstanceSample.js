@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List certificates used on endpoints on the target instance.
@@ -26,7 +24,7 @@ async function getAListOfEndpointCertificates() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.endpointCertificates.listByInstance(
+  for await (const item of client.endpointCertificates.listByInstance(
     resourceGroupName,
     managedInstanceName,
   )) {
@@ -36,7 +34,7 @@ async function getAListOfEndpointCertificates() {
 }
 
 async function main() {
-  getAListOfEndpointCertificates();
+  await getAListOfEndpointCertificates();
 }
 
 main().catch(console.error);

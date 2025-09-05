@@ -47,12 +47,7 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     databaseName: string,
     options?: DataMaskingRulesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DataMaskingRule> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -83,12 +78,7 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     _settings?: PageSettings,
   ): AsyncIterableIterator<DataMaskingRule[]> {
     let result: DataMaskingRulesListByDatabaseResponse;
-    result = await this._listByDatabase(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
     yield result.value || [];
   }
 

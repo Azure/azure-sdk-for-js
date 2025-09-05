@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a server.
  *
  * @summary Gets a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ServerGet.json
  */
 async function getServer(): Promise<void> {
   const subscriptionId =
@@ -35,7 +33,7 @@ async function getServer(): Promise<void> {
  * This sample demonstrates how to Gets a server.
  *
  * @summary Gets a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerGetWithExpandEqualsAdministrators.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ServerGetWithExpandEqualsAdministrators.json
  */
 async function getServerWithExpandAdministratorsOrActivedirectory(): Promise<void> {
   const subscriptionId =
@@ -51,8 +49,8 @@ async function getServerWithExpandAdministratorsOrActivedirectory(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  getServer();
-  getServerWithExpandAdministratorsOrActivedirectory();
+  await getServer();
+  await getServerWithExpandAdministratorsOrActivedirectory();
 }
 
 main().catch(console.error);

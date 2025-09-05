@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedInstancesListByManagedInstanceOptionalParams,
   SqlManagementClient,
@@ -37,7 +35,7 @@ async function obtainListOfInstanceTopResourceConsumingQueries(): Promise<void> 
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByManagedInstance(
+  for await (const item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
     options,
@@ -75,7 +73,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAn
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByManagedInstance(
+  for await (const item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
     options,
@@ -101,7 +99,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndR
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByManagedInstance(
+  for await (const item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
   )) {
@@ -111,9 +109,9 @@ async function obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndR
 }
 
 async function main(): Promise<void> {
-  obtainListOfInstanceTopResourceConsumingQueries();
-  obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAndResponse();
-  obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndResponse();
+  await obtainListOfInstanceTopResourceConsumingQueries();
+  await obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAndResponse();
+  await obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndResponse();
 }
 
 main().catch(console.error);

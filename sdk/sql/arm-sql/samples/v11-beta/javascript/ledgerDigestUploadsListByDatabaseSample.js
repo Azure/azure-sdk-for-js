@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets all ledger digest upload settings on a database.
@@ -27,7 +25,7 @@ async function getsListOfLedgerDigestUploadSettingsOnADatabase() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.ledgerDigestUploadsOperations.listByDatabase(
+  for await (const item of client.ledgerDigestUploadsOperations.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,
@@ -38,7 +36,7 @@ async function getsListOfLedgerDigestUploadSettingsOnADatabase() {
 }
 
 async function main() {
-  getsListOfLedgerDigestUploadSettingsOnADatabase();
+  await getsListOfLedgerDigestUploadSettingsOnADatabase();
 }
 
 main().catch(console.error);

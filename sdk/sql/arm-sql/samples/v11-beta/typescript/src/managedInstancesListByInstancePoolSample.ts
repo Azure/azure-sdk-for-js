@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -27,7 +25,7 @@ async function listManagedInstancesByInstancePool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByInstancePool(
+  for await (const item of client.managedInstances.listByInstancePool(
     resourceGroupName,
     instancePoolName,
   )) {
@@ -51,7 +49,7 @@ async function listManagedInstancesByInstancePoolWithExpandAdministratorsOrActiv
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listByInstancePool(
+  for await (const item of client.managedInstances.listByInstancePool(
     resourceGroupName,
     instancePoolName,
   )) {
@@ -61,8 +59,8 @@ async function listManagedInstancesByInstancePoolWithExpandAdministratorsOrActiv
 }
 
 async function main(): Promise<void> {
-  listManagedInstancesByInstancePool();
-  listManagedInstancesByInstancePoolWithExpandAdministratorsOrActivedirectory();
+  await listManagedInstancesByInstancePool();
+  await listManagedInstancesByInstancePoolWithExpandAdministratorsOrActivedirectory();
 }
 
 main().catch(console.error);

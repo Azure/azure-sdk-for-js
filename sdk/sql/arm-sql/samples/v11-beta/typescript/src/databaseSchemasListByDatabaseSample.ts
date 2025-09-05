@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -28,7 +26,7 @@ async function listDatabaseSchemas(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.databaseSchemas.listByDatabase(
+  for await (const item of client.databaseSchemas.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,
@@ -39,7 +37,7 @@ async function listDatabaseSchemas(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listDatabaseSchemas();
+  await listDatabaseSchemas();
 }
 
 main().catch(console.error);

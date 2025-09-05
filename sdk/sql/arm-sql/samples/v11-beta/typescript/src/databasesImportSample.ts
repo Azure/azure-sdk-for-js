@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ImportExistingDatabaseDefinition,
   SqlManagementClient,
@@ -90,8 +88,8 @@ async function importsToAnExistingEmptyDatabase(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount();
-  importsToAnExistingEmptyDatabase();
+  await importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount();
+  await importsToAnExistingEmptyDatabase();
 }
 
 main().catch(console.error);

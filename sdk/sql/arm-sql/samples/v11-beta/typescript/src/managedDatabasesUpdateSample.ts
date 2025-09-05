@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ManagedDatabaseUpdate, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -65,8 +63,8 @@ async function updatesAManagedDatabaseWithMinimalProperties(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  updatesAManagedDatabaseWithMaximalProperties();
-  updatesAManagedDatabaseWithMinimalProperties();
+  await updatesAManagedDatabaseWithMaximalProperties();
+  await updatesAManagedDatabaseWithMinimalProperties();
 }
 
 main().catch(console.error);

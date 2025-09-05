@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   JobAgent,
@@ -60,11 +56,7 @@ export class JobAgentsImpl implements JobAgents {
     serverName: string,
     options?: JobAgentsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<JobAgent> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -76,12 +68,7 @@ export class JobAgentsImpl implements JobAgents {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -120,11 +107,7 @@ export class JobAgentsImpl implements JobAgents {
     serverName: string,
     options?: JobAgentsListByServerOptionalParams,
   ): AsyncIterableIterator<JobAgent> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -198,8 +181,7 @@ export class JobAgentsImpl implements JobAgents {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -298,8 +280,7 @@ export class JobAgentsImpl implements JobAgents {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -353,12 +334,7 @@ export class JobAgentsImpl implements JobAgents {
     jobAgentName: string,
     options?: JobAgentsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, serverName, jobAgentName, options);
     return poller.pollUntilDone();
   }
 
@@ -377,12 +353,7 @@ export class JobAgentsImpl implements JobAgents {
     jobAgentName: string,
     parameters: JobAgentUpdate,
     options?: JobAgentsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<JobAgentsUpdateResponse>,
-      JobAgentsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<JobAgentsUpdateResponse>, JobAgentsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -393,8 +364,7 @@ export class JobAgentsImpl implements JobAgents {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

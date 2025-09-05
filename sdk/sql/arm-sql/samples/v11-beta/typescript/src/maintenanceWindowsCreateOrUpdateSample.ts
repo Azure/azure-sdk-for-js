@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { MaintenanceWindows, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -45,7 +43,7 @@ async function setsMaintenanceWindowSettingsForASelectedDatabase(): Promise<void
 }
 
 async function main(): Promise<void> {
-  setsMaintenanceWindowSettingsForASelectedDatabase();
+  await setsMaintenanceWindowSettingsForASelectedDatabase();
 }
 
 main().catch(console.error);

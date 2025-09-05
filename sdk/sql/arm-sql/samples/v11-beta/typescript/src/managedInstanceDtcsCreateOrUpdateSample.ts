@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ManagedInstanceDtc, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -77,8 +75,8 @@ async function updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecifi
 }
 
 async function main(): Promise<void> {
-  updatesManagedInstanceDtcSettingsByEnablingDtc();
-  updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecified();
+  await updatesManagedInstanceDtcSettingsByEnablingDtc();
+  await updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecified();
 }
 
 main().catch(console.error);

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   DistributedAvailabilityGroup,
   SqlManagementClient,
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a distributed availability group replication mode.
  *
  * @summary Updates a distributed availability group replication mode.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DistributedAvailabilityGroupsUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-08-01-preview/examples/DistributedAvailabilityGroupsUpdate.json
  */
 async function updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletingIt(): Promise<void> {
   const subscriptionId =
@@ -41,7 +39,7 @@ async function updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletin
 }
 
 async function main(): Promise<void> {
-  updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletingIt();
+  await updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletingIt();
 }
 
 main().catch(console.error);

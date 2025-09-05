@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ServerAdvancedThreatProtection,
@@ -59,11 +55,7 @@ export class ServerAdvancedThreatProtectionSettingsImpl
     serverName: string,
     options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerAdvancedThreatProtection> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -75,12 +67,7 @@ export class ServerAdvancedThreatProtectionSettingsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -119,11 +106,7 @@ export class ServerAdvancedThreatProtectionSettingsImpl
     serverName: string,
     options?: ServerAdvancedThreatProtectionSettingsListByServerOptionalParams,
   ): AsyncIterableIterator<ServerAdvancedThreatProtection> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -197,8 +180,7 @@ export class ServerAdvancedThreatProtectionSettingsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -353,7 +335,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters73,
+  requestBody: Parameters.parameters72,
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,

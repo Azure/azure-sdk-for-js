@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualCluster,
@@ -128,11 +124,7 @@ export class VirtualClustersImpl implements VirtualClusters {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -152,11 +144,7 @@ export class VirtualClustersImpl implements VirtualClusters {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -168,10 +156,7 @@ export class VirtualClustersImpl implements VirtualClusters {
     resourceGroupName: string,
     options?: VirtualClustersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<VirtualCluster> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -180,9 +165,7 @@ export class VirtualClustersImpl implements VirtualClusters {
    * Gets a list of all virtualClusters in the subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: VirtualClustersListOptionalParams,
-  ): Promise<VirtualClustersListResponse> {
+  private _list(options?: VirtualClustersListOptionalParams): Promise<VirtualClustersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -242,8 +225,7 @@ export class VirtualClustersImpl implements VirtualClusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -295,11 +277,7 @@ export class VirtualClustersImpl implements VirtualClusters {
     virtualClusterName: string,
     options?: VirtualClustersDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      virtualClusterName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, virtualClusterName, options);
     return poller.pollUntilDone();
   }
 
@@ -317,10 +295,7 @@ export class VirtualClustersImpl implements VirtualClusters {
     parameters: VirtualClusterUpdate,
     options?: VirtualClustersUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualClustersUpdateResponse>,
-      VirtualClustersUpdateResponse
-    >
+    SimplePollerLike<OperationState<VirtualClustersUpdateResponse>, VirtualClustersUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -332,8 +307,7 @@ export class VirtualClustersImpl implements VirtualClusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -426,8 +400,7 @@ export class VirtualClustersImpl implements VirtualClusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -482,11 +455,7 @@ export class VirtualClustersImpl implements VirtualClusters {
     virtualClusterName: string,
     options?: VirtualClustersUpdateDnsServersOptionalParams,
   ): Promise<VirtualClustersUpdateDnsServersResponse> {
-    const poller = await this.beginUpdateDnsServers(
-      resourceGroupName,
-      virtualClusterName,
-      options,
-    );
+    const poller = await this.beginUpdateDnsServers(resourceGroupName, virtualClusterName, options);
     return poller.pollUntilDone();
   }
 
@@ -499,10 +468,7 @@ export class VirtualClustersImpl implements VirtualClusters {
     nextLink: string,
     options?: VirtualClustersListNextOptionalParams,
   ): Promise<VirtualClustersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -550,11 +516,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     default: {},
   },
   queryParameters: [Parameters.apiVersion9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -608,7 +570,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters79,
+  requestBody: Parameters.parameters78,
   queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
@@ -657,11 +619,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

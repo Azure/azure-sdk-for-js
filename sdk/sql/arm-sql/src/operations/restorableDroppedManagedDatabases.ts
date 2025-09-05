@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RestorableDroppedManagedDatabases operations. */
-export class RestorableDroppedManagedDatabasesImpl
-  implements RestorableDroppedManagedDatabases
-{
+export class RestorableDroppedManagedDatabasesImpl implements RestorableDroppedManagedDatabases {
   private readonly client: SqlManagementClient;
 
   /**
@@ -50,11 +48,7 @@ export class RestorableDroppedManagedDatabasesImpl
     managedInstanceName: string,
     options?: RestorableDroppedManagedDatabasesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<RestorableDroppedManagedDatabase> {
-    const iter = this.listByInstancePagingAll(
-      resourceGroupName,
-      managedInstanceName,
-      options,
-    );
+    const iter = this.listByInstancePagingAll(resourceGroupName, managedInstanceName, options);
     return {
       next() {
         return iter.next();
@@ -85,11 +79,7 @@ export class RestorableDroppedManagedDatabasesImpl
     let result: RestorableDroppedManagedDatabasesListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

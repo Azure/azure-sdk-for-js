@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   LogicalDatabaseTransparentDataEncryption,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TransparentDataEncryptions operations. */
-export class TransparentDataEncryptionsImpl
-  implements TransparentDataEncryptions
-{
+export class TransparentDataEncryptionsImpl implements TransparentDataEncryptions {
   private readonly client: SqlManagementClient;
 
   /**
@@ -62,12 +56,7 @@ export class TransparentDataEncryptionsImpl
     databaseName: string,
     options?: TransparentDataEncryptionsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<LogicalDatabaseTransparentDataEncryption> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -100,12 +89,7 @@ export class TransparentDataEncryptionsImpl
     let result: TransparentDataEncryptionsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -219,8 +203,7 @@ export class TransparentDataEncryptionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -385,7 +368,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters89,
+  requestBody: Parameters.parameters88,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,

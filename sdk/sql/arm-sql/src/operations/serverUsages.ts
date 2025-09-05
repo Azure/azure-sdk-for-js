@@ -43,11 +43,7 @@ export class ServerUsagesImpl implements ServerUsages {
     serverName: string,
     options?: ServerUsagesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ServerUsage> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -59,12 +55,7 @@ export class ServerUsagesImpl implements ServerUsages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -85,11 +76,7 @@ export class ServerUsagesImpl implements ServerUsages {
     serverName: string,
     options?: ServerUsagesListByServerOptionalParams,
   ): AsyncIterableIterator<ServerUsage> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }

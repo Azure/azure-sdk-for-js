@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -28,7 +26,7 @@ async function listPrivateEndpointsInAJobAgent(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobPrivateEndpoints.listByAgent(
+  for await (const item of client.jobPrivateEndpoints.listByAgent(
     resourceGroupName,
     serverName,
     jobAgentName,
@@ -39,7 +37,7 @@ async function listPrivateEndpointsInAJobAgent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listPrivateEndpointsInAJobAgent();
+  await listPrivateEndpointsInAJobAgent();
 }
 
 main().catch(console.error);

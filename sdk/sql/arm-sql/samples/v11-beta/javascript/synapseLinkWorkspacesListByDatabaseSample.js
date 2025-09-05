@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets all synapselink workspaces for a database.
@@ -27,7 +25,7 @@ async function listAllSynapselinkWorkspacesForTheGivenDatabase() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.synapseLinkWorkspaces.listByDatabase(
+  for await (const item of client.synapseLinkWorkspaces.listByDatabase(
     resourceGroupName,
     serverName,
     databaseName,
@@ -38,7 +36,7 @@ async function listAllSynapselinkWorkspacesForTheGivenDatabase() {
 }
 
 async function main() {
-  listAllSynapselinkWorkspacesForTheGivenDatabase();
+  await listAllSynapselinkWorkspacesForTheGivenDatabase();
 }
 
 main().catch(console.error);

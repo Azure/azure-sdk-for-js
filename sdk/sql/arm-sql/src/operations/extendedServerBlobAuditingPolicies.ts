@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ExtendedServerBlobAuditingPolicy,
@@ -33,9 +29,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExtendedServerBlobAuditingPolicies operations. */
-export class ExtendedServerBlobAuditingPoliciesImpl
-  implements ExtendedServerBlobAuditingPolicies
-{
+export class ExtendedServerBlobAuditingPoliciesImpl implements ExtendedServerBlobAuditingPolicies {
   private readonly client: SqlManagementClient;
 
   /**
@@ -58,11 +52,7 @@ export class ExtendedServerBlobAuditingPoliciesImpl
     serverName: string,
     options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<ExtendedServerBlobAuditingPolicy> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -74,12 +64,7 @@ export class ExtendedServerBlobAuditingPoliciesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -118,11 +103,7 @@ export class ExtendedServerBlobAuditingPoliciesImpl
     serverName: string,
     options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
   ): AsyncIterableIterator<ExtendedServerBlobAuditingPolicy> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -192,8 +173,7 @@ export class ExtendedServerBlobAuditingPoliciesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -339,7 +319,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters71,
+  requestBody: Parameters.parameters70,
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,

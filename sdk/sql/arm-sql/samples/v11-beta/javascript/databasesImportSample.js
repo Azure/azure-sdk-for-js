@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Imports a bacpac into a new database.
@@ -83,8 +81,8 @@ async function importsToAnExistingEmptyDatabase() {
 }
 
 async function main() {
-  importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount();
-  importsToAnExistingEmptyDatabase();
+  await importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount();
+  await importsToAnExistingEmptyDatabase();
 }
 
 main().catch(console.error);

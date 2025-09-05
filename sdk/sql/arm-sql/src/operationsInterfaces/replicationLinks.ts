@@ -162,10 +162,7 @@ export interface ReplicationLinks {
     parameters: ReplicationLinkUpdate,
     options?: ReplicationLinksUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicationLinksUpdateResponse>,
-      ReplicationLinksUpdateResponse
-    >
+    SimplePollerLike<OperationState<ReplicationLinksUpdateResponse>, ReplicationLinksUpdateResponse>
   >;
   /**
    * Updates the replication link type.

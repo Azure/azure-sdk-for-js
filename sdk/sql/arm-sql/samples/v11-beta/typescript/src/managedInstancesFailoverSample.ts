@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedInstancesFailoverOptionalParams,
   SqlManagementClient,
@@ -40,7 +38,7 @@ async function failoverAManagedInstance(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  failoverAManagedInstance();
+  await failoverAManagedInstance();
 }
 
 main().catch(console.error);

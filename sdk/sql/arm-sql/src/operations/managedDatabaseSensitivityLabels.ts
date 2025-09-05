@@ -37,9 +37,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedDatabaseSensitivityLabels operations. */
-export class ManagedDatabaseSensitivityLabelsImpl
-  implements ManagedDatabaseSensitivityLabels
-{
+export class ManagedDatabaseSensitivityLabelsImpl implements ManagedDatabaseSensitivityLabels {
   private readonly client: SqlManagementClient;
 
   /**
@@ -579,7 +577,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters65,
+  requestBody: Parameters.parameters64,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
@@ -679,7 +677,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters66,
+  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,

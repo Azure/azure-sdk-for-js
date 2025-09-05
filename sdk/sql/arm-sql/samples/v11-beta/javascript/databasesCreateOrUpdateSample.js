@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a new database or updates an existing database.
@@ -645,27 +643,27 @@ async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMi
 }
 
 async function main() {
-  createsAVCoreDatabaseBySpecifyingServiceObjectiveName();
-  createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity();
-  createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABackupOfADroppedDatabase();
-  createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoBackup();
-  createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARestorePointOfAnExistingDatabase();
-  createsADatabaseAsACopy();
-  createsADatabaseAsAStandbySecondary();
-  createsADatabaseAsAnOnLineSecondary();
-  createsADatabaseAsNamedReplicaSecondary();
-  createsADatabaseFromPointInTimeRestore();
-  createsADatabaseWithDefaultEnclaveType();
-  createsADatabaseWithVbsEnclaveType();
-  createsADatabaseWithAvailabilityZoneSpecified();
-  createsADatabaseWithDatabaseLevelCustomerManagedKeys();
-  createsADatabaseWithDefaultMode();
-  createsADatabaseWithLedgerOn();
-  createsADatabaseWithMinimumNumberOfParameters();
-  createsADatabaseWithPreferredMaintenanceWindow();
-  createsADatabaseWithSpecifiedBackupStorageRedundancy();
-  updatesADatabaseToHyperscaleSloWithManualCutover();
-  updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMigrationWorkflow();
+  await createsAVCoreDatabaseBySpecifyingServiceObjectiveName();
+  await createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity();
+  await createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABackupOfADroppedDatabase();
+  await createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoBackup();
+  await createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARestorePointOfAnExistingDatabase();
+  await createsADatabaseAsACopy();
+  await createsADatabaseAsAStandbySecondary();
+  await createsADatabaseAsAnOnLineSecondary();
+  await createsADatabaseAsNamedReplicaSecondary();
+  await createsADatabaseFromPointInTimeRestore();
+  await createsADatabaseWithDefaultEnclaveType();
+  await createsADatabaseWithVbsEnclaveType();
+  await createsADatabaseWithAvailabilityZoneSpecified();
+  await createsADatabaseWithDatabaseLevelCustomerManagedKeys();
+  await createsADatabaseWithDefaultMode();
+  await createsADatabaseWithLedgerOn();
+  await createsADatabaseWithMinimumNumberOfParameters();
+  await createsADatabaseWithPreferredMaintenanceWindow();
+  await createsADatabaseWithSpecifiedBackupStorageRedundancy();
+  await updatesADatabaseToHyperscaleSloWithManualCutover();
+  await updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMigrationWorkflow();
 }
 
 main().catch(console.error);

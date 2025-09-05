@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns elastic pool activities.
@@ -27,7 +25,7 @@ async function listElasticPoolActivity() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticPoolActivities.listByElasticPool(
+  for await (const item of client.elasticPoolActivities.listByElasticPool(
     resourceGroupName,
     serverName,
     elasticPoolName,
@@ -38,7 +36,7 @@ async function listElasticPoolActivity() {
 }
 
 async function main() {
-  listElasticPoolActivity();
+  await listElasticPoolActivity();
 }
 
 main().catch(console.error);

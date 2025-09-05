@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ExtendedDatabaseBlobAuditingPolicy,
   SqlManagementClient,
@@ -121,9 +119,9 @@ async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithMinimalPara
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMinimalParameters();
-  createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParameters();
-  createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithMinimalParameters();
+  await createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMinimalParameters();
+  await createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParameters();
+  await createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

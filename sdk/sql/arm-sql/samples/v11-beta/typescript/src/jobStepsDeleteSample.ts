@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -40,7 +38,7 @@ async function deleteAJobStep(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteAJobStep();
+  await deleteAJobStep();
 }
 
 main().catch(console.error);

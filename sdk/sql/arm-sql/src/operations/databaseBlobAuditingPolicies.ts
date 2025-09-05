@@ -27,9 +27,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DatabaseBlobAuditingPolicies operations. */
-export class DatabaseBlobAuditingPoliciesImpl
-  implements DatabaseBlobAuditingPolicies
-{
+export class DatabaseBlobAuditingPoliciesImpl implements DatabaseBlobAuditingPolicies {
   private readonly client: SqlManagementClient;
 
   /**
@@ -54,12 +52,7 @@ export class DatabaseBlobAuditingPoliciesImpl
     databaseName: string,
     options?: DatabaseBlobAuditingPoliciesListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseBlobAuditingPolicy> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -92,12 +85,7 @@ export class DatabaseBlobAuditingPoliciesImpl
     let result: DatabaseBlobAuditingPoliciesListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -274,7 +262,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters69,
+  requestBody: Parameters.parameters68,
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,

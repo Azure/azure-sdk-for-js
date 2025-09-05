@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -29,7 +27,7 @@ async function listElasticPoolActivity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.elasticPoolActivities.listByElasticPool(
+  for await (const item of client.elasticPoolActivities.listByElasticPool(
     resourceGroupName,
     serverName,
     elasticPoolName,
@@ -40,7 +38,7 @@ async function listElasticPoolActivity(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listElasticPoolActivity();
+  await listElasticPoolActivity();
 }
 
 main().catch(console.error);

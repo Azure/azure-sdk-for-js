@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the list of workload classifiers for a workload group
@@ -28,7 +26,7 @@ async function getTheListOfWorkloadClassifiersForAWorkloadGroup() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workloadClassifiers.listByWorkloadGroup(
+  for await (const item of client.workloadClassifiers.listByWorkloadGroup(
     resourceGroupName,
     serverName,
     databaseName,
@@ -40,7 +38,7 @@ async function getTheListOfWorkloadClassifiersForAWorkloadGroup() {
 }
 
 async function main() {
-  getTheListOfWorkloadClassifiersForAWorkloadGroup();
+  await getTheListOfWorkloadClassifiersForAWorkloadGroup();
 }
 
 main().catch(console.error);

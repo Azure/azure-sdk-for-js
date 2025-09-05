@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a list of inaccessible managed databases in a managed instance
@@ -26,7 +24,7 @@ async function listInaccessibleManagedDatabasesByManagedInstances() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabases.listInaccessibleByInstance(
+  for await (const item of client.managedDatabases.listInaccessibleByInstance(
     resourceGroupName,
     managedInstanceName,
   )) {
@@ -36,7 +34,7 @@ async function listInaccessibleManagedDatabasesByManagedInstances() {
 }
 
 async function main() {
-  listInaccessibleManagedDatabasesByManagedInstances();
+  await listInaccessibleManagedDatabasesByManagedInstances();
 }
 
 main().catch(console.error);

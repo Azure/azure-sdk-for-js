@@ -137,10 +137,7 @@ export interface FailoverGroups {
     parameters: FailoverGroupUpdate,
     options?: FailoverGroupsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<FailoverGroupsUpdateResponse>,
-      FailoverGroupsUpdateResponse
-    >
+    SimplePollerLike<OperationState<FailoverGroupsUpdateResponse>, FailoverGroupsUpdateResponse>
   >;
   /**
    * Updates a failover group.
@@ -172,10 +169,7 @@ export interface FailoverGroups {
     failoverGroupName: string,
     options?: FailoverGroupsFailoverOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<FailoverGroupsFailoverResponse>,
-      FailoverGroupsFailoverResponse
-    >
+    SimplePollerLike<OperationState<FailoverGroupsFailoverResponse>, FailoverGroupsFailoverResponse>
   >;
   /**
    * Fails over from the current primary server to this server.

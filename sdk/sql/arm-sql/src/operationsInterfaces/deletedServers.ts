@@ -25,9 +25,7 @@ export interface DeletedServers {
    * Gets a list of all deleted servers in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: DeletedServersListOptionalParams,
-  ): PagedAsyncIterableIterator<DeletedServer>;
+  list(options?: DeletedServersListOptionalParams): PagedAsyncIterableIterator<DeletedServer>;
   /**
    * Gets a list of deleted servers for a location.
    * @param locationName The name of the region where the resource is located.
@@ -59,10 +57,7 @@ export interface DeletedServers {
     deletedServerName: string,
     options?: DeletedServersRecoverOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DeletedServersRecoverResponse>,
-      DeletedServersRecoverResponse
-    >
+    SimplePollerLike<OperationState<DeletedServersRecoverResponse>, DeletedServersRecoverResponse>
   >;
   /**
    * Recovers a deleted server.

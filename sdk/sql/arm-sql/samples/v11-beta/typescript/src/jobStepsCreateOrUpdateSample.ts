@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { JobStep, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -102,8 +100,8 @@ async function createOrUpdateAJobStepWithMinimalPropertiesSpecified(): Promise<v
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAJobStepWithAllPropertiesSpecified();
-  createOrUpdateAJobStepWithMinimalPropertiesSpecified();
+  await createOrUpdateAJobStepWithAllPropertiesSpecified();
+  await createOrUpdateAJobStepWithMinimalPropertiesSpecified();
 }
 
 main().catch(console.error);

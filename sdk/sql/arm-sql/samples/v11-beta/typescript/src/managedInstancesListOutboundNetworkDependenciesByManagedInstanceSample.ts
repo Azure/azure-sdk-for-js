@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -28,7 +26,7 @@ async function getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedI
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedInstances.listOutboundNetworkDependenciesByManagedInstance(
+  for await (const item of client.managedInstances.listOutboundNetworkDependenciesByManagedInstance(
     resourceGroupName,
     managedInstanceName,
   )) {
@@ -38,7 +36,7 @@ async function getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedI
 }
 
 async function main(): Promise<void> {
-  getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedInstance();
+  await getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedInstance();
 }
 
 main().catch(console.error);

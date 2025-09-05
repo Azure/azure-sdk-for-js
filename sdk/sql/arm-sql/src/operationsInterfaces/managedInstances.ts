@@ -41,9 +41,7 @@ export interface ManagedInstances {
    * Gets a list of all managed instances in the subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: ManagedInstancesListOptionalParams,
-  ): PagedAsyncIterableIterator<ManagedInstance>;
+  list(options?: ManagedInstancesListOptionalParams): PagedAsyncIterableIterator<ManagedInstance>;
   /**
    * Gets a list of all managed instances in an instance pool.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -173,10 +171,7 @@ export interface ManagedInstances {
     parameters: ManagedInstanceUpdate,
     options?: ManagedInstancesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedInstancesUpdateResponse>,
-      ManagedInstancesUpdateResponse
-    >
+    SimplePollerLike<OperationState<ManagedInstancesUpdateResponse>, ManagedInstancesUpdateResponse>
   >;
   /**
    * Updates a managed instance.
@@ -257,10 +252,7 @@ export interface ManagedInstances {
     managedInstanceName: string,
     options?: ManagedInstancesStartOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedInstancesStartResponse>,
-      ManagedInstancesStartResponse
-    >
+    SimplePollerLike<OperationState<ManagedInstancesStartResponse>, ManagedInstancesStartResponse>
   >;
   /**
    * Starts the managed instance.
@@ -286,10 +278,7 @@ export interface ManagedInstances {
     managedInstanceName: string,
     options?: ManagedInstancesStopOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedInstancesStopResponse>,
-      ManagedInstancesStopResponse
-    >
+    SimplePollerLike<OperationState<ManagedInstancesStopResponse>, ManagedInstancesStopResponse>
   >;
   /**
    * Stops the managed instance.

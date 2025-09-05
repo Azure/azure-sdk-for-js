@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Metric,
@@ -131,13 +127,7 @@ export class DatabasesImpl implements Databases {
     _settings?: PageSettings,
   ): AsyncIterableIterator<Metric[]> {
     let result: DatabasesListMetricsResponse;
-    result = await this._listMetrics(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      filter,
-      options,
-    );
+    result = await this._listMetrics(resourceGroupName, serverName, databaseName, filter, options);
     yield result.value || [];
   }
 
@@ -246,11 +236,7 @@ export class DatabasesImpl implements Databases {
     serverName: string,
     options?: DatabasesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Database> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -262,12 +248,7 @@ export class DatabasesImpl implements Databases {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -306,11 +287,7 @@ export class DatabasesImpl implements Databases {
     serverName: string,
     options?: DatabasesListByServerOptionalParams,
   ): AsyncIterableIterator<Database> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }
@@ -421,11 +398,7 @@ export class DatabasesImpl implements Databases {
     serverName: string,
     options?: DatabasesListInaccessibleByServerOptionalParams,
   ): PagedAsyncIterableIterator<Database> {
-    const iter = this.listInaccessibleByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listInaccessibleByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -456,11 +429,7 @@ export class DatabasesImpl implements Databases {
     let result: DatabasesListInaccessibleByServerResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listInaccessibleByServer(
-        resourceGroupName,
-        serverName,
-        options,
-      );
+      result = await this._listInaccessibleByServer(resourceGroupName, serverName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -605,8 +574,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -706,8 +674,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -762,12 +729,7 @@ export class DatabasesImpl implements Databases {
     databaseName: string,
     options?: DatabasesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, serverName, databaseName, options);
     return poller.pollUntilDone();
   }
 
@@ -786,12 +748,7 @@ export class DatabasesImpl implements Databases {
     databaseName: string,
     parameters: DatabaseUpdate,
     options?: DatabasesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesUpdateResponse>,
-      DatabasesUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -802,8 +759,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -894,12 +850,7 @@ export class DatabasesImpl implements Databases {
     databaseName: string,
     parameters: ExportDatabaseDefinition,
     options?: DatabasesExportOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesExportResponse>,
-      DatabasesExportResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<DatabasesExportResponse>, DatabasesExportResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -910,8 +861,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1010,8 +960,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1065,12 +1014,7 @@ export class DatabasesImpl implements Databases {
     databaseName: string,
     options?: DatabasesFailoverOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginFailover(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const poller = await this.beginFailover(resourceGroupName, serverName, databaseName, options);
     return poller.pollUntilDone();
   }
 
@@ -1089,12 +1033,7 @@ export class DatabasesImpl implements Databases {
     databaseName: string,
     parameters: ImportExistingDatabaseDefinition,
     options?: DatabasesImportOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesImportResponse>,
-      DatabasesImportResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<DatabasesImportResponse>, DatabasesImportResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -1105,8 +1044,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1216,12 +1154,7 @@ export class DatabasesImpl implements Databases {
     serverName: string,
     databaseName: string,
     options?: DatabasesPauseOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesPauseResponse>,
-      DatabasesPauseResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<DatabasesPauseResponse>, DatabasesPauseResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -1232,8 +1165,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1290,12 +1222,7 @@ export class DatabasesImpl implements Databases {
     databaseName: string,
     options?: DatabasesPauseOptionalParams,
   ): Promise<DatabasesPauseResponse> {
-    const poller = await this.beginPause(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const poller = await this.beginPause(resourceGroupName, serverName, databaseName, options);
     return poller.pollUntilDone();
   }
 
@@ -1312,12 +1239,7 @@ export class DatabasesImpl implements Databases {
     serverName: string,
     databaseName: string,
     options?: DatabasesResumeOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesResumeResponse>,
-      DatabasesResumeResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<DatabasesResumeResponse>, DatabasesResumeResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -1328,8 +1250,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1386,12 +1307,7 @@ export class DatabasesImpl implements Databases {
     databaseName: string,
     options?: DatabasesResumeOptionalParams,
   ): Promise<DatabasesResumeResponse> {
-    const poller = await this.beginResume(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const poller = await this.beginResume(resourceGroupName, serverName, databaseName, options);
     return poller.pollUntilDone();
   }
 
@@ -1419,8 +1335,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1653,11 +1568,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.expand,
-    Parameters.filter1,
-  ],
+  queryParameters: [Parameters.apiVersion1, Parameters.expand, Parameters.filter1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

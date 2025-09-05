@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ManagedInstanceAdvancedThreatProtection,
@@ -59,11 +55,7 @@ export class ManagedInstanceAdvancedThreatProtectionSettingsImpl
     managedInstanceName: string,
     options?: ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceAdvancedThreatProtection> {
-    const iter = this.listByInstancePagingAll(
-      resourceGroupName,
-      managedInstanceName,
-      options,
-    );
+    const iter = this.listByInstancePagingAll(resourceGroupName, managedInstanceName, options);
     return {
       next() {
         return iter.next();
@@ -94,11 +86,7 @@ export class ManagedInstanceAdvancedThreatProtectionSettingsImpl
     let result: ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -206,8 +194,7 @@ export class ManagedInstanceAdvancedThreatProtectionSettingsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -362,7 +349,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters77,
+  requestBody: Parameters.parameters76,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,

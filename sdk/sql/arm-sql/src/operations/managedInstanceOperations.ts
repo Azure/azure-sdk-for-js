@@ -26,9 +26,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedInstanceOperations operations. */
-export class ManagedInstanceOperationsImpl
-  implements ManagedInstanceOperations
-{
+export class ManagedInstanceOperationsImpl implements ManagedInstanceOperations {
   private readonly client: SqlManagementClient;
 
   /**
@@ -86,11 +84,7 @@ export class ManagedInstanceOperationsImpl
     let result: ManagedInstanceOperationsListByManagedInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByManagedInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByManagedInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

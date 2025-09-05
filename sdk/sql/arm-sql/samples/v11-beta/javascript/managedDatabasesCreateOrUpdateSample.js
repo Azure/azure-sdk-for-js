@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a new database or updates an existing database.
@@ -276,15 +274,15 @@ async function createsANewManagedDatabaseWithMinimalProperties() {
 }
 
 async function main() {
-  createsANewManagedDatabaseByRestoringFromAnExternalBackup();
-  createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity();
-  createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup();
-  createsANewManagedDatabaseFromRestoringALongTermRetentionBackup();
-  createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore();
-  createsANewManagedDatabaseUsingPointInTimeRestore();
-  createsANewManagedDatabaseWithLedgerOn();
-  createsANewManagedDatabaseWithMaximalProperties();
-  createsANewManagedDatabaseWithMinimalProperties();
+  await createsANewManagedDatabaseByRestoringFromAnExternalBackup();
+  await createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity();
+  await createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup();
+  await createsANewManagedDatabaseFromRestoringALongTermRetentionBackup();
+  await createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore();
+  await createsANewManagedDatabaseUsingPointInTimeRestore();
+  await createsANewManagedDatabaseWithLedgerOn();
+  await createsANewManagedDatabaseWithMaximalProperties();
+  await createsANewManagedDatabaseWithMinimalProperties();
 }
 
 main().catch(console.error);

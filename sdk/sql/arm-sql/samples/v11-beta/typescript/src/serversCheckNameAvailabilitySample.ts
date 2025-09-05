@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   CheckNameAvailabilityRequest,
   SqlManagementClient,
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Determines whether a resource can be created with the specified name.
  *
  * @summary Determines whether a resource can be created with the specified name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/CheckNameAvailabilityServerAlreadyExists.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/CheckNameAvailabilityServerAlreadyExists.json
  */
 async function checkForAServerNameThatAlreadyExists(): Promise<void> {
   const subscriptionId =
@@ -39,7 +37,7 @@ async function checkForAServerNameThatAlreadyExists(): Promise<void> {
  * This sample demonstrates how to Determines whether a resource can be created with the specified name.
  *
  * @summary Determines whether a resource can be created with the specified name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/CheckNameAvailabilityServerAvailable.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/CheckNameAvailabilityServerAvailable.json
  */
 async function checkForAServerNameThatIsAvailable(): Promise<void> {
   const subscriptionId =
@@ -59,7 +57,7 @@ async function checkForAServerNameThatIsAvailable(): Promise<void> {
  * This sample demonstrates how to Determines whether a resource can be created with the specified name.
  *
  * @summary Determines whether a resource can be created with the specified name.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/CheckNameAvailabilityServerInvalid.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/CheckNameAvailabilityServerInvalid.json
  */
 async function checkForAServerNameThatIsInvalid(): Promise<void> {
   const subscriptionId =
@@ -76,9 +74,9 @@ async function checkForAServerNameThatIsInvalid(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  checkForAServerNameThatAlreadyExists();
-  checkForAServerNameThatIsAvailable();
-  checkForAServerNameThatIsInvalid();
+  await checkForAServerNameThatAlreadyExists();
+  await checkForAServerNameThatIsAvailable();
+  await checkForAServerNameThatIsInvalid();
 }
 
 main().catch(console.error);

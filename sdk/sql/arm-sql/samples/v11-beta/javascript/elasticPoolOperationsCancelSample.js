@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Cancels the asynchronous operation on the elastic pool.
@@ -37,7 +35,7 @@ async function cancelTheElasticPoolManagementOperation() {
 }
 
 async function main() {
-  cancelTheElasticPoolManagementOperation();
+  await cancelTheElasticPoolManagementOperation();
 }
 
 main().catch(console.error);

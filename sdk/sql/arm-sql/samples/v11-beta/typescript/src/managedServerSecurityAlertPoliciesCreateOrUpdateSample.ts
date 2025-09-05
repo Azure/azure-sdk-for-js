@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedServerSecurityAlertPolicy,
   SqlManagementClient,
@@ -79,8 +77,8 @@ async function updateAManagedServerThreatDetectionPolicyWithMinimalParameters():
 }
 
 async function main(): Promise<void> {
-  updateAManagedServerThreatDetectionPolicyWithAllParameters();
-  updateAManagedServerThreatDetectionPolicyWithMinimalParameters();
+  await updateAManagedServerThreatDetectionPolicyWithAllParameters();
+  await updateAManagedServerThreatDetectionPolicyWithMinimalParameters();
 }
 
 main().catch(console.error);

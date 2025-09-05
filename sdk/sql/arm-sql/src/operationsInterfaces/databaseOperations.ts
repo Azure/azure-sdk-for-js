@@ -18,8 +18,7 @@ import {
 export interface DatabaseOperations {
   /**
    * Gets a list of operations performed on the database.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group that contains the resource.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
    * @param options The options parameters.

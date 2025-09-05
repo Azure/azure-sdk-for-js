@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ManagedInstanceKey,
@@ -57,11 +53,7 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
     managedInstanceName: string,
     options?: ManagedInstanceKeysListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedInstanceKey> {
-    const iter = this.listByInstancePagingAll(
-      resourceGroupName,
-      managedInstanceName,
-      options,
-    );
+    const iter = this.listByInstancePagingAll(resourceGroupName, managedInstanceName, options);
     return {
       next() {
         return iter.next();
@@ -92,11 +84,7 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
     let result: ManagedInstanceKeysListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -199,8 +187,7 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -299,8 +286,7 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -354,12 +340,7 @@ export class ManagedInstanceKeysImpl implements ManagedInstanceKeys {
     keyName: string,
     options?: ManagedInstanceKeysDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      managedInstanceName,
-      keyName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, managedInstanceName, keyName, options);
     return poller.pollUntilDone();
   }
 

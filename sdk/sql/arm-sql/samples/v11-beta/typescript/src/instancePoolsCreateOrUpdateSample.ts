@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { InstancePool, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -76,8 +74,8 @@ async function createAnInstancePoolWithMinProperties(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createAnInstancePoolWithAllProperties();
-  createAnInstancePoolWithMinProperties();
+  await createAnInstancePoolWithAllProperties();
+  await createAnInstancePoolWithMinProperties();
 }
 
 main().catch(console.error);

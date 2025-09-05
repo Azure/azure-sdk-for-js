@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets all versions of a job.
@@ -28,7 +26,7 @@ async function getAllVersionsOfAJob() {
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobVersions.listByJob(
+  for await (const item of client.jobVersions.listByJob(
     resourceGroupName,
     serverName,
     jobAgentName,
@@ -40,7 +38,7 @@ async function getAllVersionsOfAJob() {
 }
 
 async function main() {
-  getAllVersionsOfAJob();
+  await getAllVersionsOfAJob();
 }
 
 main().catch(console.error);

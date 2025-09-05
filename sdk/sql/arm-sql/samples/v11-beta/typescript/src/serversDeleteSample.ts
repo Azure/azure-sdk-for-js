@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a server.
  *
  * @summary Deletes a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-11-01-preview/examples/ServerDelete.json
  */
 async function deleteServer(): Promise<void> {
   const subscriptionId =
@@ -35,7 +33,7 @@ async function deleteServer(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteServer();
+  await deleteServer();
 }
 
 main().catch(console.error);

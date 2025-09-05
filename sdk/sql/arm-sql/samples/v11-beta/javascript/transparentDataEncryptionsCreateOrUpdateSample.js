@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates a logical database's transparent data encryption configuration.
@@ -41,7 +39,7 @@ async function updateADatabaseTransparentDataEncryptionStateWithMinimalParameter
 }
 
 async function main() {
-  updateADatabaseTransparentDataEncryptionStateWithMinimalParameters();
+  await updateADatabaseTransparentDataEncryptionStateWithMinimalParameters();
 }
 
 main().catch(console.error);

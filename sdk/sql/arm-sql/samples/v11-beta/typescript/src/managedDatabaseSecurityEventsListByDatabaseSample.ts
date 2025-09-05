@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ManagedDatabaseSecurityEventsListByDatabaseOptionalParams,
   SqlManagementClient,
@@ -42,7 +40,7 @@ async function getTheManagedDatabaseSecurityEventsWithMaximalParameters(): Promi
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseSecurityEvents.listByDatabase(
+  for await (const item of client.managedDatabaseSecurityEvents.listByDatabase(
     resourceGroupName,
     managedInstanceName,
     databaseName,
@@ -69,7 +67,7 @@ async function getTheManagedDatabaseSecurityEventsWithMinimalParameters(): Promi
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.managedDatabaseSecurityEvents.listByDatabase(
+  for await (const item of client.managedDatabaseSecurityEvents.listByDatabase(
     resourceGroupName,
     managedInstanceName,
     databaseName,
@@ -80,8 +78,8 @@ async function getTheManagedDatabaseSecurityEventsWithMinimalParameters(): Promi
 }
 
 async function main(): Promise<void> {
-  getTheManagedDatabaseSecurityEventsWithMaximalParameters();
-  getTheManagedDatabaseSecurityEventsWithMinimalParameters();
+  await getTheManagedDatabaseSecurityEventsWithMaximalParameters();
+  await getTheManagedDatabaseSecurityEventsWithMinimalParameters();
 }
 
 main().catch(console.error);

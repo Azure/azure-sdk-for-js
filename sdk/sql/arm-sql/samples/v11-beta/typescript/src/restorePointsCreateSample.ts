@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   CreateDatabaseRestorePointDefinition,
   SqlManagementClient,
@@ -44,7 +42,7 @@ async function createsDatawarehouseDatabaseRestorePoint(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createsDatawarehouseDatabaseRestorePoint();
+  await createsDatawarehouseDatabaseRestorePoint();
 }
 
 main().catch(console.error);

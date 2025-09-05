@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ElasticPool, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -221,13 +219,13 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs()
 }
 
 async function main(): Promise<void> {
-  createOrUpdateAnElasticPoolWithAvailabilityZone();
-  createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter();
-  createOrUpdateElasticPoolWithAllParameter();
-  createOrUpdateElasticPoolWithMaintenanceConfigurationParameter();
-  createOrUpdateElasticPoolWithMinimumParameters();
-  createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault();
-  createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs();
+  await createOrUpdateAnElasticPoolWithAvailabilityZone();
+  await createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter();
+  await createOrUpdateElasticPoolWithAllParameter();
+  await createOrUpdateElasticPoolWithMaintenanceConfigurationParameter();
+  await createOrUpdateElasticPoolWithMinimumParameters();
+  await createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault();
+  await createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs();
 }
 
 main().catch(console.error);

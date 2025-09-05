@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { SqlManagementClient } = require("@azure/arm-sql");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns a server communication link.
@@ -35,7 +33,7 @@ async function getAServerCommunicationLink() {
 }
 
 async function main() {
-  getAServerCommunicationLink();
+  await getAServerCommunicationLink();
 }
 
 main().catch(console.error);
