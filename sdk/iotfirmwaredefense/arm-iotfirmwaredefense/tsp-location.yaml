@@ -1,4 +1,4 @@
 directory: specification/fist/IotFirmwareDefense.Management
-commit: 4ae718636a7debbed8a9c0b790fdbfcd7ee05653
+commit: 1ab5b712fee9c3ce0c9b20e5010a8c5ff5e08a1a
 repo: Azure/azure-rest-api-specs
-additionalDirectories:
+additionalDirectories: 

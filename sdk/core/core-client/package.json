@@ -68,16 +68,16 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
-    "@azure/core-auth": "^1.4.0",
-    "@azure/core-rest-pipeline": "^1.20.0",
-    "@azure/core-tracing": "^1.0.0",
-    "@azure/core-util": "^1.6.1",
-    "@azure/logger": "^1.0.0",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.10.0",
+    "@azure/core-rest-pipeline": "^1.22.0",
+    "@azure/core-tracing": "^1.3.0",
+    "@azure/core-util": "^1.13.0",
+    "@azure/logger": "^1.3.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@azure/core-xml": "^1.3.4",
+    "@azure/core-xml": "^1.5.0",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",

@@ -13,9 +13,9 @@ import { CosmosDbDiagnosticLevel } from "../../../../dist/esm/index.js";
 
 describe("DefaultRetryPolicy", () => {
   const dummyError = {
-    name: "ENOTFOUND",
-    code: StatusCodes.ENOTFOUND,
-    message: "Simulated ENOTFOUND error",
+    name: "EPIPE",
+    code: "EPIPE",
+    message: "Simulated EPIPE error",
   };
 
   it("should return true for first 10 invocations and then false (for a 'read' operation)", async () => {
