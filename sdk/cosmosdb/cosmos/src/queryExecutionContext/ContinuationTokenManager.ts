@@ -59,8 +59,6 @@ export class ContinuationTokenManager {
     }
   }  
 
-  
-
   /**
    * Sets the ORDER BY items array for ORDER BY continuation token creation
    * @param orderByItemsArray - Array of ORDER BY items for each document
@@ -108,16 +106,6 @@ export class ContinuationTokenManager {
    */
   public setUnsupportedQueryType(isUnsupported: boolean): void {
     this.isUnsupportedQueryType = isUnsupported;
-  }
-
-  /**
-   * Sets the partition key range map for the partition range manager
-   * @param partitionKeyRangeMap - The partition key range map to set
-   */
-  public setPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
-    if (this.partitionRangeManager && partitionKeyRangeMap) {
-      this.partitionRangeManager.setPartitionKeyRangeMap(partitionKeyRangeMap);
-    }
   }  
   
   private isPartitionExhausted(continuationToken: string | null): boolean {
@@ -189,13 +177,14 @@ export class ContinuationTokenManager {
    */
   public processRangesForCurrentPage(
     pageSize: number,
+    currentBufferLength: number,
     pageResults?: any[],
   ): { endIndex: number; processedRanges: string[] } {
     this.removeExhaustedRangesFromRanges();
     if (this.isOrderByQuery) {
-      return this.processOrderByRanges(pageSize, pageResults);
+      return this.processOrderByRanges(pageSize, currentBufferLength, pageResults);
     } else {
-      return this.processParallelRanges(pageSize);
+      return this.processParallelRanges(pageSize, currentBufferLength);
     }
   }
 
@@ -204,10 +193,12 @@ export class ContinuationTokenManager {
    */
   private processOrderByRanges(
     pageSize: number,
+    currentBufferLength: number,
     pageResults?: any[],
   ): { endIndex: number; processedRanges: string[] } {
     const result = this.partitionRangeManager.processOrderByRanges(
       pageSize,
+      currentBufferLength,
       this.orderByItemsArray
     );
 
@@ -271,9 +262,10 @@ export class ContinuationTokenManager {
    */
   private processParallelRanges(
     pageSize: number,
+    currentBufferLength: number,
   ): { endIndex: number; processedRanges: string[] } {
-    const result = this.partitionRangeManager.processParallelRanges(pageSize);
-
+    const result = this.partitionRangeManager.processParallelRanges(pageSize, currentBufferLength);
+    
     this.compositeContinuationToken = createCompositeQueryContinuationToken(
       this.collectionLink,
       this.ranges,

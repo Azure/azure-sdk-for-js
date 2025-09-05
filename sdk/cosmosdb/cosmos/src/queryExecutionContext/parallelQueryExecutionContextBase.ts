@@ -9,7 +9,7 @@ import type { FeedOptions, Response } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
 import { QueryRange } from "../routing/QueryRange.js";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider.js";
-import type { CosmosHeaders, PartitionKey, PartitionKeyRange } from "../index.js";
+import type { CosmosHeaders, PartitionKeyRange } from "../index.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 import type { SqlQuerySpec } from "./SqlQuerySpec.js";
 import { DocumentProducer } from "./documentProducer.js";
@@ -148,38 +148,26 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           let rangeManager: TargetPartitionRangeManager;
 
           if (queryType === QueryExecutionContextType.OrderBy) {
-            console.log("Using ORDER BY query range strategy");
             rangeManager = TargetPartitionRangeManager.createForOrderByQuery({
               quereyInfo: this.partitionedQueryExecutionInfo,
             });
           } else {
-            console.log("Using Parallel query range strategy");
             rangeManager = TargetPartitionRangeManager.createForParallelQuery({
               quereyInfo: this.partitionedQueryExecutionInfo,
             });
           }
           // Parse continuation token to get range mappings and check for split/merge scenarios
-          const continuationResult = await this._detectAndHandlePartitionChanges(
+          const processedContinuationResponse = await this._handlePartitionRangeChanges(
             this.requestContinuation
           );
           
-          const continuationRanges = continuationResult.ranges;
-          const orderByItems = continuationResult.orderByItems;
-          const rid = continuationResult.rid;
-
-          // Create additional query info containing orderByItems and rid for ORDER BY queries
-          const additionalQueryInfo: any = {};
-          if (orderByItems) {
-            additionalQueryInfo.orderByItems = orderByItems;
-          }
-          if (rid) {
-            additionalQueryInfo.rid = rid;
-          }
+          const continuationRanges = processedContinuationResponse.ranges;
+          const additionalQueryInfo = this._createAdditionalQueryInfo(processedContinuationResponse.orderByItems, processedContinuationResponse.rid);
           
           const filterResult = rangeManager.filterPartitionRanges(
             targetPartitionRanges,
             continuationRanges,
-            Object.keys(additionalQueryInfo).length > 0 ? additionalQueryInfo : undefined,
+            additionalQueryInfo,
           );
 
           // Extract ranges and tokens from the combined result
@@ -189,10 +177,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             const partitionTargetRange = rangeTokenPair.range;
             const continuationToken = rangeTokenPair.continuationToken;
             const filterCondition = rangeTokenPair.filteringCondition ? rangeTokenPair.filteringCondition : undefined;
-            // TODO: add un it test for this
-            // Extract EPK values from the partition range if available
-            const startEpk = (partitionTargetRange as any).epkMin;
-            const endEpk = (partitionTargetRange as any).epkMax;
+            
+            // Find EPK ranges for this partition range from processed continuation response
+            const matchingContinuationRange = continuationRanges.find(cr => cr.range.id === partitionTargetRange.id);
+            const startEpk = matchingContinuationRange?.epkMin;
+            const endEpk = matchingContinuationRange?.epkMax; 
 
             targetPartitionQueryExecutionContextList.push(
               this._createTargetPartitionQueryExecutionContext(
@@ -279,20 +268,27 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return queryType;
   }
 
+  private _createAdditionalQueryInfo(orderByItems?: any[], rid?: string): any {
+    const info: any = {};
+    if (orderByItems) info.orderByItems = orderByItems;
+    if (rid) info.rid = rid;
+    return Object.keys(info).length > 0 ? info : undefined;
+  }
+
   /**
    * Detects partition splits/merges by parsing continuation token ranges and comparing with current topology
    * @param continuationToken - The continuation token containing range mappings to analyze
-   * @returns Object containing processed ranges and optional orderByItems and rid for ORDER BY queries
+   * @returns Object containing processed ranges with EPK info and optional orderByItems and rid for ORDER BY queries
    */
-  private async _detectAndHandlePartitionChanges(
+  private async _handlePartitionRangeChanges(
     continuationToken?: string
-  ): Promise<{ ranges: { range: any; continuationToken?: string }[]; orderByItems?: any[]; rid?: string }> {
+  ): Promise<{ ranges: { range: any; continuationToken?: string; epkMin?: string; epkMax?: string }[]; orderByItems?: any[]; rid?: string }> {
     if (!continuationToken) {
       console.log("No continuation token provided, returning empty processed ranges");
       return { ranges: [] };
     }
 
-    const processedRanges: { range: any; continuationToken?: string }[] = [];
+    const processedRanges: { range: any; continuationToken?: string; epkMin?: string; epkMax?: string }[] = [];
     let orderByItems: any[] | undefined;
     let rid: string | undefined;
 
@@ -329,7 +325,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const rangeMin = queryRange.min;
         const rangeMax = queryRange.max;
 
-
         // Get current overlapping ranges for this continuation token range
         const overlappingRanges = await this.routingProvider.getOverlappingRanges(
           this.collectionLink,
@@ -343,16 +338,21 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // Check if it's the same range (no change) or a merge scenario
           const currentRange = overlappingRanges[0];
           if (currentRange.minInclusive !== rangeMin || currentRange.maxExclusive !== rangeMax) {
+            // Merge scenario - include EPK ranges from original continuation token range
             await this._handleContinuationTokenMerge(rangeWithToken, currentRange);
-            // add epk ranges to current range
-            currentRange.epkMin = rangeMin;
-            currentRange.epkMax = rangeMax;
+            processedRanges.push({
+              range: currentRange,
+              continuationToken: rangeWithToken.continuationToken,
+              epkMin: rangeMin, // Original range min becomes EPK min
+              epkMax: rangeMax  // Original range max becomes EPK max
+            });
+          } else {
+            // Same range - no merge, no EPK ranges needed
+            processedRanges.push({
+              range: currentRange,
+              continuationToken: rangeWithToken.continuationToken
+            });
           }
-          // Add the current overlapping range with its continuation token to processed ranges
-          processedRanges.push({
-            range: currentRange,
-            continuationToken: rangeWithToken.continuationToken
-          });
         } else {
           // Split scenario - one range from continuation token now maps to multiple ranges
           await this._handleContinuationTokenSplit(rangeWithToken, overlappingRanges); 
@@ -504,18 +504,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     error: any,
     diagnosticNode: DiagnosticNodeInternal,
     documentProducer: DocumentProducer,
-  ): Promise<void> {
-    console.log(`=== Handling Partition Split for ${documentProducer.targetPartitionKeyRange.id} ===`);
-    
+  ): Promise<void> {    
     // Get the replacement ranges
     const replacementPartitionKeyRanges = await this._getReplacementPartitionKeyRanges(
       documentProducer,
       diagnosticNode,
-    );
-
-    console.log(
-      `Partition ${documentProducer.targetPartitionKeyRange.id} ${replacementPartitionKeyRanges.length === 1 ? 'merged' : 'split'} into ${replacementPartitionKeyRanges.length} range${replacementPartitionKeyRanges.length > 1 ? 's' : ''}: ` +
-      `[${replacementPartitionKeyRanges.map(r => r.id).join(', ')}]`
     );
 
     if (replacementPartitionKeyRanges.length === 0) {
@@ -540,7 +533,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       );
 
       this.unfilledDocumentProducersQueue.enq(replacementDocumentProducer);
-      console.log(`Created single replacement document producer for merge scenario`);
     } else {
       // Create the replacement documentProducers
       const replacementDocumentProducers: DocumentProducer[] = [];
@@ -563,79 +555,42 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           this.unfilledDocumentProducersQueue.enq(replacementDocumentProducer);
         }
       });
-      console.log(`Created ${replacementDocumentProducers.length} replacement document producers for split scenario`);
     }
   }
 
-  /**
-   * Updates the continuation token to handle both partition split and merge scenarios.
-   * For splits: Removes the old partition range and adds new ranges with preserved EPK boundaries.
-   * For merges: Finds all overlapping ranges, preserves their EPK boundaries, and creates a single merged range.
-   * @param originalDocumentProducer - The document producer for the original partition that was split/merged
-   * @param replacementPartitionKeyRanges - The new partition ranges after the split/merge
-   */
   private _updateContinuationTokenOnPartitionChange(
     originalDocumentProducer: DocumentProducer,
     replacementPartitionKeyRanges: any[],
   ): void {
-    
+    const rangeWithToken = this._createQueryRangeWithContinuationToken(originalDocumentProducer);
     if (replacementPartitionKeyRanges.length === 1) {
-      this._handleContinuationTokenMerge(originalDocumentProducer, replacementPartitionKeyRanges[0]);
+      this._handleContinuationTokenMerge(rangeWithToken, replacementPartitionKeyRanges[0]);
     } else {
-      this._handleContinuationTokenSplit(originalDocumentProducer, replacementPartitionKeyRanges);
+      this._handleContinuationTokenSplit(rangeWithToken, replacementPartitionKeyRanges);
     }
   }
 
   /**
-   * Handles partition merge scenario by updating range with EPK boundaries.
-   * Finds matching range, preserves EPK boundaries, and updates to new merged range properties.
+   * Creates a QueryRangeWithContinuationToken object from a DocumentProducer.
+   * Uses the DocumentProducer's target partition key range and continuation token.
+   * @param documentProducer - The DocumentProducer to convert
+   * @returns QueryRangeWithContinuationToken object for token operations
    */
-  private _handlePartitionMerge(
-    documentProducer: DocumentProducer,
-    newMergedRange: any,
-  ): void {
-    const documentProducerRange = documentProducer.getTargetPartitionKeyRange();
-    // Track the range update for continuation token management (merge scenario)
-    const rangeKey = `${documentProducerRange.minInclusive}-${documentProducerRange.maxExclusive}`;
-    this.updatedContinuationRanges.set(rangeKey, {
-      oldRange: {
-        minInclusive: documentProducerRange.minInclusive,
-        maxExclusive: documentProducerRange.maxExclusive,
-        id: documentProducerRange.id
-      },
-      newRanges: [{
-        minInclusive: newMergedRange.minInclusive,
-        maxExclusive: newMergedRange.maxExclusive,
-        id: newMergedRange.id
-      }],
-      continuationToken: documentProducer.continuationToken
-    });
-  }
+  private _createQueryRangeWithContinuationToken(documentProducer: DocumentProducer): QueryRangeWithContinuationToken {
+    const partitionRange = documentProducer.targetPartitionKeyRange;
+    
+    // Create a QueryRange using the partition key range boundaries
+    const queryRange = new QueryRange(
+      documentProducer.startEpk || partitionRange.minInclusive,
+      documentProducer.endEpk || partitionRange.maxExclusive,
+      true,  // minInclusive is typically true for partition ranges
+      false  // maxExclusive means isMaxInclusive is false
+    );
 
-  /**
-   * Handles partition split scenario by replacing a single range with multiple ranges,
-   * preserving EPK boundaries from the original range.
-   */
-  private _handlePartitionSplit(
-    originalDocumentProducer: DocumentProducer,
-    replacementPartitionKeyRanges: PartitionKey[],
-  ): void {
-    const originalRange = originalDocumentProducer.targetPartitionKeyRange;
-    // Track the range update for continuation token management
-    const rangeKey = `${originalRange.minInclusive}-${originalRange.maxExclusive}`;
-    this.updatedContinuationRanges.set(rangeKey, {
-      oldRange: {
-        minInclusive: originalRange.minInclusive,
-        maxExclusive: originalRange.maxExclusive,
-        id: originalRange.id
-      },
-      newRanges: replacementPartitionKeyRanges.map(range => ({
-        minInclusive: range.minInclusive,
-        maxExclusive: range.maxExclusive,
-        id: range.id
-      })),
-      continuationToken: originalDocumentProducer.continuationToken
-    });
+    return {
+      queryRange: queryRange,
+      continuationToken: documentProducer.continuationToken
+    };
   }
 
   private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {

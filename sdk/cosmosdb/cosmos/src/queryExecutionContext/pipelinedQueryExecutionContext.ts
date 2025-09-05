@@ -20,7 +20,6 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent.js";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent.js";
 import { ContinuationTokenManager } from "./ContinuationTokenManager.js";
-import { validateContinuationTokenSupport } from "./QueryValidationHelper.js";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -48,6 +47,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.pageSize = PipelinedQueryExecutionContext.DEFAULT_PAGE_SIZE;
     }
 
+    // Initialize continuation token manager early so it's available for OffsetLimitEndpointComponent
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
     if(this.options.enableQueryControl){
@@ -78,12 +78,31 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     // Validate continuation token usage for some unsupported query types that should still throw errors
     // Note: OrderedDistinctEndpointComponent is supported, but UnorderedDistinctEndpointComponent
     // requires storing too much duplicate tracking data in continuation tokens
-    validateContinuationTokenSupport(
-      this.options.continuationToken,
-      this.nonStreamingOrderBy,
-      isUnorderedDistinctQuery,
-      isGroupByQuery
-    );
+    if (this.options.continuationToken) {
+      if (this.nonStreamingOrderBy) {
+        throw new ErrorResponse(
+          "Continuation tokens are not supported for non-streaming ORDER BY queries. " +
+          "These queries must process all results to ensure correct ordering and cannot be resumed from an intermediate state. " +
+          "Consider removing the continuation token and using fetchAll() instead for complete results."
+        );
+      }
+      
+      if (isGroupByQuery) {
+        throw new ErrorResponse(
+          "Continuation tokens are not supported for GROUP BY queries. " +
+          "These queries must process all results to compute aggregations and cannot be resumed from an intermediate state. " +
+          "Consider removing the continuation token and using fetchAll() instead for complete results."
+        );
+      }
+
+      if (isUnorderedDistinctQuery) {
+        throw new ErrorResponse(
+          "Continuation tokens are not supported for unordered DISTINCT queries. " +
+          "These queries require tracking large amounts of duplicate data in continuation tokens which is not practical. " +
+          "Consider removing the continuation token and using fetchAll() instead, or use ordered DISTINCT queries which are supported."
+        );
+      }
+    }
 
     // Pick between parallel vs order by execution context
     // TODO: Currently we don't get any field from backend to determine streaming queries
@@ -109,11 +128,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       
+      // Note: Non-streaming queries don't support continuation tokens, so we don't create a shared manager
       const context: ExecutionContext = new ParallelQueryExecutionContext(
         this.clientContext,
         this.collectionLink,
         this.query,
-        this.options,
+        this.options, // Use original options without shared continuation token manager
         this.partitionedQueryExecutionInfo,
         correlatedActivityId,
       );
@@ -194,8 +214,20 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       
       // If offset+limit then add that to the pipeline
       // Check continuation token manager first, then fall back to query info
-      const limit = this.continuationTokenManager?.getLimit() ?? partitionedQueryExecutionInfo.queryInfo.limit;
-      const offset = this.continuationTokenManager?.getOffset() ?? partitionedQueryExecutionInfo.queryInfo.offset;
+      let limit = partitionedQueryExecutionInfo.queryInfo.limit;
+      let offset = partitionedQueryExecutionInfo.queryInfo.offset;
+      
+      if (this.continuationTokenManager) {
+        const tokenLimit = this.continuationTokenManager.getLimit();
+        const tokenOffset = this.continuationTokenManager.getOffset();
+        
+        if (tokenLimit !== undefined) {
+          limit = tokenLimit;
+        }
+        if (tokenOffset !== undefined) {
+          offset = tokenOffset;
+        }
+      }
       
       if (typeof limit === "number" && typeof offset === "number") {
         this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
@@ -205,6 +237,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public hasMoreResults(): boolean {
+    // For enableQueryControl mode, we have more results if:
+    // 1. There are items in the fetch buffer, OR
+    // 2. There are unprocessed ranges in the partition key range map, OR
+    // 3. The endpoint has more results
     if (this.options.enableQueryControl) {
       const hasBufferedItems = this.fetchBuffer.length > 0;
       const hasUnprocessedRanges = this.continuationTokenManager.hasUnprocessedRanges();
@@ -247,8 +283,23 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         return { result: temp, headers: this.fetchMoreRespHeaders };
       } else {
         const response = await this.endpoint.fetchMore(diagnosticNode);
+        let bufferedResults;
+
+        // Handle both old format (just array) and new format (with buffer property)
+        if (Array.isArray(response.result)) {
+          // Old format - result is directly the array
+          bufferedResults = response.result;
+        } else {
+          // New format - result has buffer property or handle undefined/null case
+          bufferedResults = response.result;
+        }
+
         mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-        if (response || response.result || response.result.buffer) {
+        if (
+          response === undefined ||
+          response.result === undefined ||
+          bufferedResults === undefined
+        ) {
           if (this.fetchBuffer.length > 0) {
             const temp = this.fetchBuffer;
             this.fetchBuffer = [];
@@ -257,8 +308,19 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             return { result: undefined, headers: this.fetchMoreRespHeaders };
           }
         }
-        const bufferedResults = response.result.buffer;
         this.fetchBuffer.push(...bufferedResults);
+        // TODO: This section can be removed
+        // if (this.options.enableQueryControl) {
+        //   if (this.fetchBuffer.length >= this.pageSize) {
+        //     const temp = this.fetchBuffer.slice(0, this.pageSize);
+        //     this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
+        //     return { result: temp, headers: this.fetchMoreRespHeaders };
+        //   } else {
+        //     const temp = this.fetchBuffer;
+        //     this.fetchBuffer = [];
+        //     return { result: temp, headers: this.fetchMoreRespHeaders };
+        //   }
+        // }
         // Recursively fetch more results to ensure the pageSize number of results are returned
         // to maintain compatibility with the previous implementation
         return this._fetchMoreImplementation(diagnosticNode);
@@ -283,7 +345,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       // Remove the processed ranges 
       this._clearProcessedRangeMetadata(processedRanges, endIndex);
 
+      // TODO: instead of passing header add a method here to update the header
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
+
       return { result: temp, headers: this.fetchMoreRespHeaders };
     } else {
       this.fetchBuffer = [];
@@ -327,6 +391,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
     const result = this.continuationTokenManager.processRangesForCurrentPage(
       this.pageSize,
+      this.fetchBuffer.length,
       this.fetchBuffer.slice(0, this.fetchBuffer.length),
     );
     return result;
