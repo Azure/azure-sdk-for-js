@@ -23,7 +23,6 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     continuationRanges?: PartitionRangeWithContinuationToken[],
     queryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
-    console.log("=== OrderByQueryRangeStrategy.filterPartitionRanges START ===");
 
     if (!targetRanges || targetRanges.length === 0 || !continuationRanges || continuationRanges.length === 0) {
       return {
