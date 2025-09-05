@@ -2,7 +2,7 @@
   "name": "@azure-samples/arm-guestconfiguration-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for TypeScript (Beta)",
+  "description": "@azure/arm-guestconfiguration client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -18,6 +18,7 @@
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
     "isomorphic"
@@ -31,7 +32,7 @@
   "dependencies": {
     "@azure/arm-guestconfiguration": "next",
     "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.9.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
