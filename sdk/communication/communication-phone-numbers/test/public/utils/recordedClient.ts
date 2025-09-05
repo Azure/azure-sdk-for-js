@@ -11,7 +11,7 @@ import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 import { createOperationLocationFixPolicy } from "./operationLocationFixPolicy.js";
-import { execSync } from "child_process";
+// Do not import child_process in browser
 
 if (isNodeLike) {
   dotenv.config();
@@ -187,7 +187,10 @@ export const testPollerOptions = {
 };
 
 async function assignRoleToExistingResource(): Promise<void> {
-  if (isPlaybackMode()) return; // Only run in live mode
+  // Only run in Node.js and live mode
+  if (isPlaybackMode()) return;
+  const isNode = typeof process !== "undefined" && !!process.versions?.node;
+  if (!isNode) return;
 
   const connectionString = process.env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING;
   if (!connectionString) throw new Error("Missing COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING");
@@ -208,7 +211,8 @@ async function assignRoleToExistingResource(): Promise<void> {
   const resourceId = `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/providers/Microsoft.Communication/CommunicationServices/${resourceName}`;
   const contributorRoleId = "b24988ac-6180-42a0-ab88-20f7382dd24c";
 
-  // Use Azure CLI to assign the role
+  // Dynamically import child_process only in Node
+  const { execSync } = await import("child_process");
   try {
     execSync(
       `az role assignment create --assignee ${principalId} --role ${contributorRoleId} --scope ${resourceId} --subscription ${subscriptionId}`,
