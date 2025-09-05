@@ -35,7 +35,7 @@ describe("DefaultAzureCredential", () => {
     expect(
       () => new DefaultAzureCredential({ requiredEnvVars: "AZURE_TOKEN_CREDENTIALS" }),
     ).toThrowError(
-      /Required environment variable\(s\) 'AZURE_TOKEN_CREDENTIALS' for DefaultAzureCredential is not set or empty\./,
+      /Required environment variable 'AZURE_TOKEN_CREDENTIALS' for DefaultAzureCredential is not set or empty\./,
     );
   });
 
@@ -56,7 +56,7 @@ describe("DefaultAzureCredential", () => {
           requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
         }),
     ).toThrowError(
-      /Required environment variable\(s\) 'AZURE_CLIENT_ID' for DefaultAzureCredential are not set or empty\./,
+      /Required environment variable 'AZURE_CLIENT_ID' for DefaultAzureCredential is not set or empty\./,
     );
     delete process.env.AZURE_TOKEN_CREDENTIALS;
   });
@@ -70,7 +70,7 @@ describe("DefaultAzureCredential", () => {
           requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
         }),
     ).toThrowError(
-      /Required environment variable\(s\) 'AZURE_TOKEN_CREDENTIALS, AZURE_CLIENT_ID' for DefaultAzureCredential are not set or empty\./,
+      /Required environment variables 'AZURE_TOKEN_CREDENTIALS, AZURE_CLIENT_ID' for DefaultAzureCredential are not set or empty\./,
     );
   });
 
