@@ -18,7 +18,7 @@ On Linux, the library uses `libsecret` so you may need to install it. Depending 
 - Arch Linux: `sudo pacman -S libsecret`
 
 > [!NOTE] 
-> Visual Studio Code authentication is currently only supported on Windows. Linux and macOS is not yet supported.
+> Visual Studio Code authentication is currently only supported on Windows. Linux and macOS aren't yet supported.
 
 ### Install the package
 
