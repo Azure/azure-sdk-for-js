@@ -33,4 +33,9 @@ export interface ChangeFeedOptions {
    * Specified the start time to start reading changes from.
    */
   startTime?: Date;
+
+  /**
+   * Excludes one or more Azure regions for the operation.
+   */
+  excludedLocations?: string[];
 }
