@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added a new `requiredEnvVars` option to `DefaultAzureCredential` that can accept a single environment variable or an array of environment variables. All specified variables must be set (and non-empty) before credential instantiation. If any variable is missing or empty, an error is thrown listing all missing variables. [#35832](https://github.com/Azure/azure-sdk-for-js/pull/35832)
+- Introduced a new `DefaultAzureCredentialEnvVars` union type that represents the environment variables supported in `DefaultAzureCredential`. This type is used to specify the required environment variable(s) in the option bag for `DefaultAzureCredential` via `requiredEnvVars`. [#35832](https://github.com/Azure/azure-sdk-for-js/pull/35832)
+
 ### Breaking Changes
 
 ### Bugs Fixed

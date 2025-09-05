@@ -46,6 +46,7 @@ export {
   DefaultAzureCredentialOptions,
   DefaultAzureCredentialClientIdOptions,
   DefaultAzureCredentialResourceIdOptions,
+  DefaultAzureCredentialEnvVars,
 } from "./credentials/defaultAzureCredentialOptions.js";
 
 export { EnvironmentCredential } from "./credentials/environmentCredential.js";
