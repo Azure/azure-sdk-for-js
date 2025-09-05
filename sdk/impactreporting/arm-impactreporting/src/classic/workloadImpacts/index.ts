@@ -2,18 +2,13 @@
 // Licensed under the MIT License.
 
 import { ImpactContext } from "../../api/impactContext.js";
+import { listBySubscription, $delete, get, create } from "../../api/workloadImpacts/operations.js";
 import {
   WorkloadImpactsListBySubscriptionOptionalParams,
   WorkloadImpactsDeleteOptionalParams,
   WorkloadImpactsGetOptionalParams,
   WorkloadImpactsCreateOptionalParams,
-} from "../../api/options.js";
-import {
-  workloadImpactsListBySubscription,
-  workloadImpactsDelete,
-  workloadImpactsGet,
-  workloadImpactsCreate,
-} from "../../api/workloadImpacts/index.js";
+} from "../../api/workloadImpacts/options.js";
 import { WorkloadImpact } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -25,6 +20,11 @@ export interface WorkloadImpactsOperations {
     options?: WorkloadImpactsListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<WorkloadImpact>;
   /** Delete a WorkloadImpact */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     workloadImpactName: string,
     options?: WorkloadImpactsDeleteOptionalParams,
@@ -45,16 +45,16 @@ export interface WorkloadImpactsOperations {
 function _getWorkloadImpacts(context: ImpactContext) {
   return {
     listBySubscription: (options?: WorkloadImpactsListBySubscriptionOptionalParams) =>
-      workloadImpactsListBySubscription(context, options),
+      listBySubscription(context, options),
     delete: (workloadImpactName: string, options?: WorkloadImpactsDeleteOptionalParams) =>
-      workloadImpactsDelete(context, workloadImpactName, options),
+      $delete(context, workloadImpactName, options),
     get: (workloadImpactName: string, options?: WorkloadImpactsGetOptionalParams) =>
-      workloadImpactsGet(context, workloadImpactName, options),
+      get(context, workloadImpactName, options),
     create: (
       workloadImpactName: string,
       resource: WorkloadImpact,
       options?: WorkloadImpactsCreateOptionalParams,
-    ) => workloadImpactsCreate(context, workloadImpactName, resource, options),
+    ) => create(context, workloadImpactName, resource, options),
   };
 }
 
