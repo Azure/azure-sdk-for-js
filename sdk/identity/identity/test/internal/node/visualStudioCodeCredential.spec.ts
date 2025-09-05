@@ -85,5 +85,26 @@ describe("VisualStudioCodeCredential (internal)", function () {
 
       expect(msalPluginsModule.vsCodeBrokerInfo).toEqual({ broker: mockBroker });
     });
+
+    it("should set disableAutomaticAuthentication to true", async function () {
+      vi.spyOn(msalPluginsModule, "hasVSCodePlugin").mockReturnValue(true);
+      Object.defineProperty(msalPluginsModule, "vsCodeAuthRecordPath", {
+        value: "/path/authRecord.json",
+        writable: true,
+        configurable: true,
+      });
+      (credential as any).loadAuthRecord = vi.fn().mockResolvedValue({});
+      const mockGetToken = vi
+        .fn()
+        .mockResolvedValue({ token: "mockToken", expiresOnTimestamp: Date.now() + 3600 });
+      (credential as any).prepare = async function () {
+        this.msalClient = { getTokenByInteractiveRequest: mockGetToken };
+      };
+      await credential.getToken(["scope1"]);
+      expect(mockGetToken).toHaveBeenCalledWith(
+        ["scope1"],
+        expect.objectContaining({ disableAutomaticAuthentication: true }),
+      );
+    });
   });
 });
