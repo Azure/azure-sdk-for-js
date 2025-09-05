@@ -3,22 +3,22 @@
 
 import { ImpactContext } from "../../api/impactContext.js";
 import {
-  connectorsListBySubscription,
-  connectorsDelete,
-  connectorsUpdate,
-  connectorsCreateOrUpdate,
-  connectorsGet,
-} from "../../api/connectors/index.js";
-import { Connector, ConnectorUpdate } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+  listBySubscription,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/connectors/operations.js";
 import {
   ConnectorsListBySubscriptionOptionalParams,
   ConnectorsDeleteOptionalParams,
   ConnectorsUpdateOptionalParams,
   ConnectorsCreateOrUpdateOptionalParams,
   ConnectorsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/connectors/options.js";
+import { Connector, ConnectorUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Connectors operations. */
 export interface ConnectorsOperations {
@@ -27,6 +27,11 @@ export interface ConnectorsOperations {
     options?: ConnectorsListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<Connector>;
   /** Delete a Connector */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (connectorName: string, options?: ConnectorsDeleteOptionalParams) => Promise<void>;
   /** Update a Connector */
   update: (
@@ -47,21 +52,21 @@ export interface ConnectorsOperations {
 function _getConnectors(context: ImpactContext) {
   return {
     listBySubscription: (options?: ConnectorsListBySubscriptionOptionalParams) =>
-      connectorsListBySubscription(context, options),
+      listBySubscription(context, options),
     delete: (connectorName: string, options?: ConnectorsDeleteOptionalParams) =>
-      connectorsDelete(context, connectorName, options),
+      $delete(context, connectorName, options),
     update: (
       connectorName: string,
       properties: ConnectorUpdate,
       options?: ConnectorsUpdateOptionalParams,
-    ) => connectorsUpdate(context, connectorName, properties, options),
+    ) => update(context, connectorName, properties, options),
     createOrUpdate: (
       connectorName: string,
       resource: Connector,
       options?: ConnectorsCreateOrUpdateOptionalParams,
-    ) => connectorsCreateOrUpdate(context, connectorName, resource, options),
+    ) => createOrUpdate(context, connectorName, resource, options),
     get: (connectorName: string, options?: ConnectorsGetOptionalParams) =>
-      connectorsGet(context, connectorName, options),
+      get(context, connectorName, options),
   };
 }
 
