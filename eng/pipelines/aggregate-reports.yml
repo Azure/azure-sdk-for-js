@@ -41,8 +41,12 @@ stages:
               Condition: succeededOrFailed()
 
           - script: 'npm ci'
+            workingDirectory: '$(Build.SourcesDirectory)/eng/tools/eng-package-utils'
+            displayName: 'Install eng-package-utils dependencies'
+
+          - script: 'npm ci'
             workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
-            displayName: 'Install tool dependencies'
+            displayName: 'Install analyze-deps dependencies'
 
           - script: |
               node index.js --verbose --out "$(Build.ArtifactStagingDirectory)/dependencies.html" --dump "$(Build.ArtifactStagingDirectory)"
