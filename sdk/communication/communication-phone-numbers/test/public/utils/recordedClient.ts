@@ -6,11 +6,13 @@ import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-to
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { PhoneNumbersClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
-import type { TokenCredential } from "@azure/identity";
+import { DefaultAzureCredential, type TokenCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 import { createOperationLocationFixPolicy } from "./operationLocationFixPolicy.js";
+import { AuthorizationManagementClient } from "@azure/arm-authorization";
+import { v4 as uuidv4 } from "uuid";
 
 if (isNodeLike) {
   dotenv.config();
@@ -145,6 +147,7 @@ export async function createRecordedClientWithToken(
   context: TestInfo,
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context);
+  await assignRoleToExistingResource();
 
   let credential: TokenCredential;
   let endpoint: string;
@@ -183,3 +186,36 @@ export async function createRecordedClientWithToken(
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
+
+async function assignRoleToExistingResource(): Promise<void> {
+  if (isPlaybackMode()) return; // Only run in live mode
+
+  const connectionString = process.env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING;
+  if (!connectionString) throw new Error("Missing COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING");
+
+  const { endpoint } = parseConnectionString(connectionString);
+  const match = endpoint.match(/https:\/\/([^.]+)\.communication\.azure\.net/);
+  if (!match) throw new Error("Could not parse resource name from endpoint");
+  const resourceName = match[1];
+
+  // Use your existing resource group and subscription
+  const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
+  const resourceGroup = process.env.RESOURCE_GROUP_NAME;
+  if (!subscriptionId || !resourceGroup) throw new Error("Missing subscription or resource group info");
+
+  const resourceId = `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/providers/Microsoft.Communication/CommunicationServices/${resourceName}`;
+  const principalId = process.env.TEST_APPLICATION_OID; // Object ID of your test app
+
+  const credential = new DefaultAzureCredential();
+  const authClient = new AuthorizationManagementClient(credential, subscriptionId);
+
+  // Contributor role definition ID
+  const contributorRoleId = "b24988ac-6180-42a0-ab88-20f7382dd24c";
+  // Assign role
+  await authClient.roleAssignments.create(resourceId, uuidv4(), {
+    principalId,
+    roleDefinitionId: `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${contributorRoleId}`,
+    principalType: "ServicePrincipal"
+  });
+}
+

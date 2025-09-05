@@ -10,5 +10,10 @@ extends:
           SubscriptionConfigurations:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
+      MatrixConfigs:
+        - Name: PhoneNumbers_js_livetest_matrix
+          Path: sdk/communication/communication-phone-numbers/phone-numbers-livetest-matrix.json
+          Selection: sparse
+          GenerateVMJobs: true
       TestResourceDirectories:
         - communication/test-resources/
