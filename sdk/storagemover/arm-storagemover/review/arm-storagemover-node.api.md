@@ -4,22 +4,32 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
 
 // @public
 export interface Agent extends ProxyResource {
+    // (undocumented)
+    properties: AgentProperties;
+}
+
+// @public
+export interface AgentProperties {
     readonly agentStatus?: AgentStatus;
     readonly agentVersion?: string;
     arcResourceId: string;
     arcVmUuid: string;
     description?: string;
+    // (undocumented)
     readonly errorDetails?: AgentPropertiesErrorDetails;
     readonly lastStatusUpdate?: Date;
     readonly localIPAddress?: string;
@@ -32,75 +42,61 @@ export interface Agent extends ProxyResource {
 }
 
 // @public
-export interface AgentList {
-    readonly nextLink?: string;
-    readonly value?: Agent[];
-}
-
-// @public (undocumented)
 export interface AgentPropertiesErrorDetails {
     code?: string;
     message?: string;
 }
 
 // @public
-export interface Agents {
-    beginDelete(resourceGroupName: string, storageMoverName: string, agentName: string, options?: AgentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, storageMoverName: string, agentName: string, options?: AgentsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, storageMoverName: string, agentName: string, agent: Agent, options?: AgentsCreateOrUpdateOptionalParams): Promise<AgentsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, storageMoverName: string, agentName: string, options?: AgentsGetOptionalParams): Promise<AgentsGetResponse>;
-    list(resourceGroupName: string, storageMoverName: string, options?: AgentsListOptionalParams): PagedAsyncIterableIterator<Agent>;
-    update(resourceGroupName: string, storageMoverName: string, agentName: string, agent: AgentUpdateParameters, options?: AgentsUpdateOptionalParams): Promise<AgentsUpdateResponse>;
+export interface AgentsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AgentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AgentsCreateOrUpdateResponse = Agent;
-
-// @public
-export interface AgentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AgentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AgentsGetOptionalParams extends coreClient.OperationOptions {
+export interface AgentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AgentsGetResponse = Agent;
-
-// @public
-export interface AgentsListNextOptionalParams extends coreClient.OperationOptions {
+export interface AgentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AgentsListNextResponse = AgentList;
-
-// @public
-export interface AgentsListOptionalParams extends coreClient.OperationOptions {
+export interface AgentsOperations {
+    createOrUpdate: (resourceGroupName: string, storageMoverName: string, agentName: string, agent: Agent, options?: AgentsCreateOrUpdateOptionalParams) => Promise<Agent>;
+    delete: (resourceGroupName: string, storageMoverName: string, agentName: string, options?: AgentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageMoverName: string, agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
+    list: (resourceGroupName: string, storageMoverName: string, options?: AgentsListOptionalParams) => PagedAsyncIterableIterator<Agent>;
+    update: (resourceGroupName: string, storageMoverName: string, agentName: string, agent: AgentUpdateParameters, options?: AgentsUpdateOptionalParams) => Promise<Agent>;
 }
-
-// @public
-export type AgentsListResponse = AgentList;
 
 // @public
 export type AgentStatus = string;
 
 // @public
-export interface AgentsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AgentsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AgentsUpdateResponse = Agent;
+export interface AgentUpdateParameters {
+    // (undocumented)
+    properties?: AgentUpdateProperties;
+}
 
 // @public
-export interface AgentUpdateParameters {
+export interface AgentUpdateProperties {
     description?: string;
     uploadLimitSchedule?: UploadLimitSchedule;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
@@ -111,15 +107,39 @@ export interface AzureKeyVaultSmbCredentials extends Credentials {
 }
 
 // @public
+export interface AzureMultiCloudConnectorEndpointProperties extends EndpointBaseProperties {
+    awsS3BucketId: string;
+    endpointType: "AzureMultiCloudConnector";
+    multiCloudConnectorId: string;
+}
+
+// @public
+export interface AzureMultiCloudConnectorEndpointUpdateProperties extends EndpointBaseUpdateProperties {
+    endpointType: "AzureMultiCloudConnector";
+}
+
+// @public
 export interface AzureStorageBlobContainerEndpointProperties extends EndpointBaseProperties {
     blobContainerName: string;
     endpointType: "AzureStorageBlobContainer";
     storageAccountResourceId: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AzureStorageBlobContainerEndpointUpdateProperties extends EndpointBaseUpdateProperties {
     endpointType: "AzureStorageBlobContainer";
+}
+
+// @public
+export interface AzureStorageNfsFileShareEndpointProperties extends EndpointBaseProperties {
+    endpointType: "AzureStorageNfsFileShare";
+    fileShareName: string;
+    storageAccountResourceId: string;
+}
+
+// @public
+export interface AzureStorageNfsFileShareEndpointUpdateProperties extends EndpointBaseUpdateProperties {
+    endpointType: "AzureStorageNfsFileShare";
 }
 
 // @public
@@ -135,6 +155,14 @@ export interface AzureStorageSmbFileShareEndpointUpdateProperties extends Endpoi
 }
 
 // @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CopyMode = string;
 
 // @public
@@ -142,11 +170,11 @@ export type CreatedByType = string;
 
 // @public
 export interface Credentials {
-    type: "AzureKeyVaultSmb";
+    type: CredentialType;
 }
 
-// @public (undocumented)
-export type CredentialsUnion = Credentials | AzureKeyVaultSmbCredentials;
+// @public
+export type CredentialsUnion = AzureKeyVaultSmbCredentials | Credentials;
 
 // @public
 export type CredentialType = string;
@@ -156,96 +184,71 @@ export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Frida
 
 // @public
 export interface Endpoint extends ProxyResource {
+    identity?: ManagedServiceIdentity;
     properties: EndpointBasePropertiesUnion;
 }
 
 // @public
 export interface EndpointBaseProperties {
     description?: string;
-    endpointType: "AzureStorageBlobContainer" | "NfsMount" | "AzureStorageSmbFileShare" | "SmbMount";
+    endpointType: EndpointType;
     readonly provisioningState?: ProvisioningState;
 }
 
-// @public (undocumented)
-export type EndpointBasePropertiesUnion = EndpointBaseProperties | AzureStorageBlobContainerEndpointProperties | NfsMountEndpointProperties | AzureStorageSmbFileShareEndpointProperties | SmbMountEndpointProperties;
+// @public
+export type EndpointBasePropertiesUnion = AzureStorageBlobContainerEndpointProperties | NfsMountEndpointProperties | AzureStorageSmbFileShareEndpointProperties | SmbMountEndpointProperties | AzureStorageNfsFileShareEndpointProperties | AzureMultiCloudConnectorEndpointProperties | EndpointBaseProperties;
 
 // @public
 export interface EndpointBaseUpdateParameters {
+    identity?: ManagedServiceIdentity;
     properties?: EndpointBaseUpdatePropertiesUnion;
 }
 
 // @public
 export interface EndpointBaseUpdateProperties {
     description?: string;
-    endpointType: "AzureStorageBlobContainer" | "NfsMount" | "AzureStorageSmbFileShare" | "SmbMount";
-}
-
-// @public (undocumented)
-export type EndpointBaseUpdatePropertiesUnion = EndpointBaseUpdateProperties | AzureStorageBlobContainerEndpointUpdateProperties | NfsMountEndpointUpdateProperties | AzureStorageSmbFileShareEndpointUpdateProperties | SmbMountEndpointUpdateProperties;
-
-// @public
-export interface EndpointList {
-    readonly nextLink?: string;
-    readonly value?: Endpoint[];
+    endpointType: EndpointType;
 }
 
 // @public
-export interface Endpoints {
-    beginDelete(resourceGroupName: string, storageMoverName: string, endpointName: string, options?: EndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, storageMoverName: string, endpointName: string, options?: EndpointsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, storageMoverName: string, endpointName: string, endpoint: Endpoint, options?: EndpointsCreateOrUpdateOptionalParams): Promise<EndpointsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, storageMoverName: string, endpointName: string, options?: EndpointsGetOptionalParams): Promise<EndpointsGetResponse>;
-    list(resourceGroupName: string, storageMoverName: string, options?: EndpointsListOptionalParams): PagedAsyncIterableIterator<Endpoint>;
-    update(resourceGroupName: string, storageMoverName: string, endpointName: string, endpoint: EndpointBaseUpdateParameters, options?: EndpointsUpdateOptionalParams): Promise<EndpointsUpdateResponse>;
+export type EndpointBaseUpdatePropertiesUnion = AzureStorageBlobContainerEndpointUpdateProperties | NfsMountEndpointUpdateProperties | AzureStorageSmbFileShareEndpointUpdateProperties | AzureStorageNfsFileShareEndpointUpdateProperties | AzureMultiCloudConnectorEndpointUpdateProperties | SmbMountEndpointUpdateProperties | EndpointBaseUpdateProperties;
+
+// @public
+export interface EndpointsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface EndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EndpointsCreateOrUpdateResponse = Endpoint;
-
-// @public
-export interface EndpointsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface EndpointsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface EndpointsGetOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EndpointsGetResponse = Endpoint;
-
-// @public
-export interface EndpointsListNextOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type EndpointsListNextResponse = EndpointList;
-
-// @public
-export interface EndpointsListOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsOperations {
+    createOrUpdate: (resourceGroupName: string, storageMoverName: string, endpointName: string, endpointParam: Endpoint, options?: EndpointsCreateOrUpdateOptionalParams) => Promise<Endpoint>;
+    delete: (resourceGroupName: string, storageMoverName: string, endpointName: string, options?: EndpointsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageMoverName: string, endpointName: string, options?: EndpointsGetOptionalParams) => Promise<Endpoint>;
+    list: (resourceGroupName: string, storageMoverName: string, options?: EndpointsListOptionalParams) => PagedAsyncIterableIterator<Endpoint>;
+    update: (resourceGroupName: string, storageMoverName: string, endpointName: string, endpointParam: EndpointBaseUpdateParameters, options?: EndpointsUpdateOptionalParams) => Promise<Endpoint>;
 }
 
 // @public
-export type EndpointsListResponse = EndpointList;
-
-// @public
-export interface EndpointsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface EndpointsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type EndpointsUpdateResponse = Endpoint;
 
 // @public
 export type EndpointType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -264,14 +267,17 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface JobDefinition extends ProxyResource {
+    properties: JobDefinitionProperties;
+}
 
 // @public
-export interface JobDefinition extends ProxyResource {
+export interface JobDefinitionProperties {
     agentName?: string;
     readonly agentResourceId?: string;
     copyMode: CopyMode;
     description?: string;
+    jobType?: JobType;
     readonly latestJobRunName?: string;
     readonly latestJobRunResourceId?: string;
     readonly latestJobRunStatus?: JobRunStatus;
@@ -279,86 +285,61 @@ export interface JobDefinition extends ProxyResource {
     sourceName: string;
     readonly sourceResourceId?: string;
     sourceSubpath?: string;
+    sourceTargetMap?: {
+        value?: SourceTargetMap[];
+    };
     targetName: string;
     readonly targetResourceId?: string;
     targetSubpath?: string;
 }
 
 // @public
-export interface JobDefinitionList {
-    readonly nextLink?: string;
-    readonly value?: JobDefinition[];
+export interface JobDefinitionsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface JobDefinitions {
-    beginDelete(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, jobDefinition: JobDefinition, options?: JobDefinitionsCreateOrUpdateOptionalParams): Promise<JobDefinitionsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsGetOptionalParams): Promise<JobDefinitionsGetResponse>;
-    list(resourceGroupName: string, storageMoverName: string, projectName: string, options?: JobDefinitionsListOptionalParams): PagedAsyncIterableIterator<JobDefinition>;
-    startJob(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsStartJobOptionalParams): Promise<JobDefinitionsStartJobResponse>;
-    stopJob(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsStopJobOptionalParams): Promise<JobDefinitionsStopJobResponse>;
-    update(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, jobDefinition: JobDefinitionUpdateParameters, options?: JobDefinitionsUpdateOptionalParams): Promise<JobDefinitionsUpdateResponse>;
-}
-
-// @public
-export interface JobDefinitionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JobDefinitionsCreateOrUpdateResponse = JobDefinition;
-
-// @public
-export interface JobDefinitionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface JobDefinitionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface JobDefinitionsGetOptionalParams extends coreClient.OperationOptions {
+export interface JobDefinitionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobDefinitionsGetResponse = JobDefinition;
-
-// @public
-export interface JobDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface JobDefinitionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobDefinitionsListNextResponse = JobDefinitionList;
-
-// @public
-export interface JobDefinitionsListOptionalParams extends coreClient.OperationOptions {
+export interface JobDefinitionsOperations {
+    createOrUpdate: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, jobDefinition: JobDefinition, options?: JobDefinitionsCreateOrUpdateOptionalParams) => Promise<JobDefinition>;
+    delete: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsGetOptionalParams) => Promise<JobDefinition>;
+    list: (resourceGroupName: string, storageMoverName: string, projectName: string, options?: JobDefinitionsListOptionalParams) => PagedAsyncIterableIterator<JobDefinition>;
+    startJob: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsStartJobOptionalParams) => Promise<JobRunResourceId>;
+    stopJob: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobDefinitionsStopJobOptionalParams) => Promise<JobRunResourceId>;
+    update: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, jobDefinition: JobDefinitionUpdateParameters, options?: JobDefinitionsUpdateOptionalParams) => Promise<JobDefinition>;
 }
 
 // @public
-export type JobDefinitionsListResponse = JobDefinitionList;
-
-// @public
-export interface JobDefinitionsStartJobOptionalParams extends coreClient.OperationOptions {
+export interface JobDefinitionsStartJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobDefinitionsStartJobResponse = JobRunResourceId;
-
-// @public
-export interface JobDefinitionsStopJobOptionalParams extends coreClient.OperationOptions {
+export interface JobDefinitionsStopJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobDefinitionsStopJobResponse = JobRunResourceId;
-
-// @public
-export interface JobDefinitionsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface JobDefinitionsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type JobDefinitionsUpdateResponse = JobDefinition;
 
 // @public
 export interface JobDefinitionUpdateParameters {
+    properties?: JobDefinitionUpdateProperties;
+}
+
+// @public
+export interface JobDefinitionUpdateProperties {
     agentName?: string;
     copyMode?: CopyMode;
     description?: string;
@@ -366,6 +347,18 @@ export interface JobDefinitionUpdateParameters {
 
 // @public
 export interface JobRun extends ProxyResource {
+    properties?: JobRunProperties;
+}
+
+// @public
+export interface JobRunError {
+    code?: string;
+    message?: string;
+    target?: string;
+}
+
+// @public
+export interface JobRunProperties {
     readonly agentName?: string;
     readonly agentResourceId?: string;
     readonly bytesExcluded?: number;
@@ -383,30 +376,17 @@ export interface JobRun extends ProxyResource {
     readonly itemsScanned?: number;
     readonly itemsTransferred?: number;
     readonly itemsUnsupported?: number;
-    readonly jobDefinitionProperties?: Record<string, unknown>;
+    readonly jobDefinitionProperties?: any;
     readonly lastStatusUpdate?: Date;
     readonly provisioningState?: ProvisioningState;
     readonly scanStatus?: JobRunScanStatus;
     readonly sourceName?: string;
-    readonly sourceProperties?: Record<string, unknown>;
+    readonly sourceProperties?: any;
     readonly sourceResourceId?: string;
     readonly status?: JobRunStatus;
     readonly targetName?: string;
-    readonly targetProperties?: Record<string, unknown>;
+    readonly targetProperties?: any;
     readonly targetResourceId?: string;
-}
-
-// @public
-export interface JobRunError {
-    code?: string;
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface JobRunList {
-    readonly nextLink?: string;
-    readonly value?: JobRun[];
 }
 
 // @public
@@ -415,37 +395,27 @@ export interface JobRunResourceId {
 }
 
 // @public
-export interface JobRuns {
-    get(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, jobRunName: string, options?: JobRunsGetOptionalParams): Promise<JobRunsGetResponse>;
-    list(resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobRunsListOptionalParams): PagedAsyncIterableIterator<JobRun>;
-}
-
-// @public
 export type JobRunScanStatus = string;
 
 // @public
-export interface JobRunsGetOptionalParams extends coreClient.OperationOptions {
+export interface JobRunsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobRunsGetResponse = JobRun;
-
-// @public
-export interface JobRunsListNextOptionalParams extends coreClient.OperationOptions {
+export interface JobRunsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type JobRunsListNextResponse = JobRunList;
-
-// @public
-export interface JobRunsListOptionalParams extends coreClient.OperationOptions {
+export interface JobRunsOperations {
+    get: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, jobRunName: string, options?: JobRunsGetOptionalParams) => Promise<JobRun>;
+    list: (resourceGroupName: string, storageMoverName: string, projectName: string, jobDefinitionName: string, options?: JobRunsListOptionalParams) => PagedAsyncIterableIterator<JobRun>;
 }
-
-// @public
-export type JobRunsListResponse = JobRunList;
 
 // @public
 export type JobRunStatus = string;
+
+// @public
+export type JobType = string;
 
 // @public
 export enum KnownActionType {
@@ -454,17 +424,25 @@ export enum KnownActionType {
 
 // @public
 export enum KnownAgentStatus {
+    // (undocumented)
     Executing = "Executing",
+    // (undocumented)
     Offline = "Offline",
+    // (undocumented)
     Online = "Online",
+    // (undocumented)
     Registering = "Registering",
+    // (undocumented)
     RequiresAttention = "RequiresAttention",
+    // (undocumented)
     Unregistering = "Unregistering"
 }
 
 // @public
 export enum KnownCopyMode {
+    // (undocumented)
     Additive = "Additive",
+    // (undocumented)
     Mirror = "Mirror"
 }
 
@@ -478,47 +456,89 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownCredentialType {
+    // (undocumented)
     AzureKeyVaultSmb = "AzureKeyVaultSmb"
 }
 
 // @public
 export enum KnownEndpointType {
+    // (undocumented)
+    AzureMultiCloudConnector = "AzureMultiCloudConnector",
+    // (undocumented)
     AzureStorageBlobContainer = "AzureStorageBlobContainer",
+    // (undocumented)
+    AzureStorageNfsFileShare = "AzureStorageNfsFileShare",
+    // (undocumented)
     AzureStorageSmbFileShare = "AzureStorageSmbFileShare",
+    // (undocumented)
     NfsMount = "NfsMount",
+    // (undocumented)
     SmbMount = "SmbMount"
 }
 
 // @public
 export enum KnownJobRunScanStatus {
+    // (undocumented)
     Completed = "Completed",
+    // (undocumented)
     NotStarted = "NotStarted",
+    // (undocumented)
     Scanning = "Scanning"
 }
 
 // @public
 export enum KnownJobRunStatus {
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Canceling = "Canceling",
+    // (undocumented)
     CancelRequested = "CancelRequested",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     PausedByBandwidthManagement = "PausedByBandwidthManagement",
+    // (undocumented)
     Queued = "Queued",
+    // (undocumented)
     Running = "Running",
+    // (undocumented)
     Started = "Started",
+    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
+export enum KnownJobType {
+    // (undocumented)
+    CloudToCloud = "CloudToCloud",
+    // (undocumented)
+    OnPremToCloud = "OnPremToCloud"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownMinute {
+    // (undocumented)
     Thirty = 30,
+    // (undocumented)
     Zero = 0
 }
 
 // @public
 export enum KnownNfsVersion {
+    // (undocumented)
     NFSauto = "NFSauto",
+    // (undocumented)
     NFSv3 = "NFSv3",
+    // (undocumented)
     NFSv4 = "NFSv4"
 }
 
@@ -531,11 +551,32 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Succeeded = "Succeeded"
 }
+
+// @public
+export enum KnownVersions {
+    V20240701 = "2024-07-01",
+    V20250701 = "2025-07-01"
+}
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export type Minute = number;
@@ -548,7 +589,7 @@ export interface NfsMountEndpointProperties extends EndpointBaseProperties {
     nfsVersion?: NfsVersion;
 }
 
-// @public (undocumented)
+// @public
 export interface NfsMountEndpointUpdateProperties extends EndpointBaseUpdateProperties {
     endpointType: "NfsMount";
 }
@@ -574,98 +615,77 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface Project extends ProxyResource {
+    properties?: ProjectProperties;
+}
+
+// @public
+export interface ProjectProperties {
     description?: string;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
-export interface ProjectList {
-    readonly nextLink?: string;
-    readonly value?: Project[];
+export interface ProjectsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Projects {
-    beginDelete(resourceGroupName: string, storageMoverName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, storageMoverName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, storageMoverName: string, projectName: string, project: Project, options?: ProjectsCreateOrUpdateOptionalParams): Promise<ProjectsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, storageMoverName: string, projectName: string, options?: ProjectsGetOptionalParams): Promise<ProjectsGetResponse>;
-    list(resourceGroupName: string, storageMoverName: string, options?: ProjectsListOptionalParams): PagedAsyncIterableIterator<Project>;
-    update(resourceGroupName: string, storageMoverName: string, projectName: string, project: ProjectUpdateParameters, options?: ProjectsUpdateOptionalParams): Promise<ProjectsUpdateResponse>;
-}
-
-// @public
-export interface ProjectsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsCreateOrUpdateResponse = Project;
-
-// @public
-export interface ProjectsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ProjectsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ProjectsGetOptionalParams extends coreClient.OperationOptions {
+export interface ProjectsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProjectsGetResponse = Project;
-
-// @public
-export interface ProjectsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ProjectsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProjectsListNextResponse = ProjectList;
-
-// @public
-export interface ProjectsListOptionalParams extends coreClient.OperationOptions {
+export interface ProjectsOperations {
+    createOrUpdate: (resourceGroupName: string, storageMoverName: string, projectName: string, project: Project, options?: ProjectsCreateOrUpdateOptionalParams) => Promise<Project>;
+    delete: (resourceGroupName: string, storageMoverName: string, projectName: string, options?: ProjectsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageMoverName: string, projectName: string, options?: ProjectsGetOptionalParams) => Promise<Project>;
+    list: (resourceGroupName: string, storageMoverName: string, options?: ProjectsListOptionalParams) => PagedAsyncIterableIterator<Project>;
+    update: (resourceGroupName: string, storageMoverName: string, projectName: string, project: ProjectUpdateParameters, options?: ProjectsUpdateOptionalParams) => Promise<Project>;
 }
 
 // @public
-export type ProjectsListResponse = ProjectList;
-
-// @public
-export interface ProjectsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ProjectsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ProjectsUpdateResponse = Project;
 
 // @public
 export interface ProjectUpdateParameters {
+    properties?: ProjectUpdateProperties;
+}
+
+// @public
+export interface ProjectUpdateProperties {
     description?: string;
 }
 
@@ -691,6 +711,16 @@ export interface Resource {
 }
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StorageMoverClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface SmbMountEndpointProperties extends EndpointBaseProperties {
     credentials?: AzureKeyVaultSmbCredentials;
     endpointType: "SmbMount";
@@ -705,121 +735,99 @@ export interface SmbMountEndpointUpdateProperties extends EndpointBaseUpdateProp
 }
 
 // @public
+export interface SourceEndpoint {
+    properties?: SourceEndpointProperties;
+}
+
+// @public
+export interface SourceEndpointProperties {
+    awsS3BucketId?: string;
+    name?: string;
+    sourceEndpointResourceId?: string;
+}
+
+// @public
+export interface SourceTargetMap {
+    // (undocumented)
+    sourceEndpoint: SourceEndpoint;
+    // (undocumented)
+    targetEndpoint: TargetEndpoint;
+}
+
+// @public
 export interface StorageMover extends TrackedResource {
+    properties?: StorageMoverProperties;
+}
+
+// @public (undocumented)
+export class StorageMoverClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: StorageMoverClientOptionalParams);
+    readonly agents: AgentsOperations;
+    readonly endpoints: EndpointsOperations;
+    readonly jobDefinitions: JobDefinitionsOperations;
+    readonly jobRuns: JobRunsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly projects: ProjectsOperations;
+    readonly storageMovers: StorageMoversOperations;
+}
+
+// @public
+export interface StorageMoverClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
+}
+
+// @public
+export interface StorageMoverProperties {
     description?: string;
     readonly provisioningState?: ProvisioningState;
 }
 
-// @public (undocumented)
-export class StorageMoverClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: StorageMoverClientOptionalParams);
-    // (undocumented)
-    agents: Agents;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    endpoints: Endpoints;
-    // (undocumented)
-    jobDefinitions: JobDefinitions;
-    // (undocumented)
-    jobRuns: JobRuns;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    projects: Projects;
-    // (undocumented)
-    storageMovers: StorageMovers;
-    // (undocumented)
-    subscriptionId: string;
+// @public
+export interface StorageMoversCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface StorageMoverClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
-
-// @public
-export interface StorageMoverList {
-    readonly nextLink?: string;
-    readonly value?: StorageMover[];
-}
-
-// @public
-export interface StorageMovers {
-    beginDelete(resourceGroupName: string, storageMoverName: string, options?: StorageMoversDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, storageMoverName: string, options?: StorageMoversDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, storageMoverName: string, storageMover: StorageMover, options?: StorageMoversCreateOrUpdateOptionalParams): Promise<StorageMoversCreateOrUpdateResponse>;
-    get(resourceGroupName: string, storageMoverName: string, options?: StorageMoversGetOptionalParams): Promise<StorageMoversGetResponse>;
-    list(resourceGroupName: string, options?: StorageMoversListOptionalParams): PagedAsyncIterableIterator<StorageMover>;
-    listBySubscription(options?: StorageMoversListBySubscriptionOptionalParams): PagedAsyncIterableIterator<StorageMover>;
-    update(resourceGroupName: string, storageMoverName: string, storageMover: StorageMoverUpdateParameters, options?: StorageMoversUpdateOptionalParams): Promise<StorageMoversUpdateResponse>;
-}
-
-// @public
-export interface StorageMoversCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StorageMoversCreateOrUpdateResponse = StorageMover;
-
-// @public
-export interface StorageMoversDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface StorageMoversDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface StorageMoversGetOptionalParams extends coreClient.OperationOptions {
+export interface StorageMoversGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageMoversGetResponse = StorageMover;
-
-// @public
-export interface StorageMoversListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface StorageMoversListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageMoversListBySubscriptionNextResponse = StorageMoverList;
-
-// @public
-export interface StorageMoversListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface StorageMoversListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type StorageMoversListBySubscriptionResponse = StorageMoverList;
-
-// @public
-export interface StorageMoversListNextOptionalParams extends coreClient.OperationOptions {
+export interface StorageMoversOperations {
+    createOrUpdate: (resourceGroupName: string, storageMoverName: string, storageMover: StorageMover, options?: StorageMoversCreateOrUpdateOptionalParams) => Promise<StorageMover>;
+    delete: (resourceGroupName: string, storageMoverName: string, options?: StorageMoversDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, storageMoverName: string, options?: StorageMoversGetOptionalParams) => Promise<StorageMover>;
+    list: (resourceGroupName: string, options?: StorageMoversListOptionalParams) => PagedAsyncIterableIterator<StorageMover>;
+    listBySubscription: (options?: StorageMoversListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StorageMover>;
+    update: (resourceGroupName: string, storageMoverName: string, storageMover: StorageMoverUpdateParameters, options?: StorageMoversUpdateOptionalParams) => Promise<StorageMover>;
 }
 
 // @public
-export type StorageMoversListNextResponse = StorageMoverList;
-
-// @public
-export interface StorageMoversListOptionalParams extends coreClient.OperationOptions {
+export interface StorageMoversUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type StorageMoversListResponse = StorageMoverList;
-
-// @public
-export interface StorageMoversUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StorageMoversUpdateResponse = StorageMover;
 
 // @public
 export interface StorageMoverUpdateParameters {
+    properties?: StorageMoverUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface StorageMoverUpdateProperties {
     description?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
 }
 
 // @public
@@ -833,6 +841,19 @@ export interface SystemData {
 }
 
 // @public
+export interface TargetEndpoint {
+    properties?: TargetEndpointProperties;
+}
+
+// @public
+export interface TargetEndpointProperties {
+    azureStorageAccountResourceId?: string;
+    azureStorageBlobContainerName?: string;
+    name?: string;
+    targetEndpointResourceId?: string;
+}
+
+// @public
 export interface Time {
     hour: number;
     minute?: Minute;
@@ -841,14 +862,7 @@ export interface Time {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface UploadLimit {
-    limitInMbps: number;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -857,7 +871,14 @@ export interface UploadLimitSchedule {
 }
 
 // @public
-export interface UploadLimitWeeklyRecurrence extends WeeklyRecurrence, UploadLimit {
+export interface UploadLimitWeeklyRecurrence extends WeeklyRecurrence {
+    limitInMbps: number;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
