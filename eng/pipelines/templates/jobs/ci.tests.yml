@@ -61,6 +61,10 @@ jobs:
       - template: ../variables/globals.yml
 
     steps:
+      - checkout: self
+        fetchDepth: 1
+        syncTags: false
+
       - template: ../steps/common.yml
 
       - template: ../steps/test.yml
