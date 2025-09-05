@@ -62,7 +62,7 @@ jobs:
 
     steps:
       - checkout: self
-        fetchDepth: 1
+        fetchDepth: 2
         fetchTags: false
 
       - pwsh: git diff HEAD^...HEAD
