@@ -201,7 +201,9 @@ async function assignRoleToExistingResource(): Promise<void> {
   // Use your existing resource group and subscription
   const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
   const resourceGroup = process.env.RESOURCE_GROUP_NAME;
-  if (!subscriptionId || !resourceGroup) throw new Error("Missing subscription or resource group info");
+  if (!subscriptionId || !resourceGroup) {
+    throw new Error("Missing subscription or resource group info");
+  }
 
   const resourceId = `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/providers/Microsoft.Communication/CommunicationServices/${resourceName}`;
   const principalId = process.env.TEST_APPLICATION_OID; // Object ID of your test app
@@ -215,7 +217,6 @@ async function assignRoleToExistingResource(): Promise<void> {
   await authClient.roleAssignments.create(resourceId, uuidv4(), {
     principalId,
     roleDefinitionId: `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${contributorRoleId}`,
-    principalType: "ServicePrincipal"
+    principalType: "ServicePrincipal",
   });
 }
-
