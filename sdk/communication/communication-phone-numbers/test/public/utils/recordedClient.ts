@@ -212,7 +212,7 @@ async function assignRoleToExistingResource(): Promise<void> {
   try {
     execSync(
       `az role assignment create --assignee ${principalId} --role ${contributorRoleId} --scope ${resourceId} --subscription ${subscriptionId}`,
-      { stdio: "inherit" }
+      { stdio: "inherit" },
     );
   } catch (err) {
     // Ignore if already assigned, otherwise throw
