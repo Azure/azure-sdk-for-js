@@ -54,6 +54,8 @@ steps:
       - pwsh: git -c core.quotepath=off -c i18n.logoutputencoding=utf-8 diff HEAD^...HEAD
       
       - pwsh: git -c core.quotepath=off -c i18n.logoutputencoding=utf-8 diff HEAD^...HEAD  --name-only --diff-filter=d
+      
+      - pwsh: git log -5
 
       # When running in PR mode, we want the detected changed services to be attached to the build as tags.
       # However, the public identity does not have the permissions to attach tags to the build.
