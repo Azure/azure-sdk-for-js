@@ -48,7 +48,7 @@
   "devDependencies": {
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
-    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@types/inquirer": "^9.0.7",
     "@types/mustache": "^4.2.1",
     "@types/node": "catalog:",
