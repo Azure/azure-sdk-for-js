@@ -194,15 +194,15 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
           ].join(" "),
         );
       }
-      // There is a scenario where the VSCode plugin is configured but the broker is not available (e.g., missing native dependencies)
+      // There is a scenario where the VSCode plugin is configured but the broker is not available (e.g., missing native dependencies).
       // This check ensures we throw an error and not proceed with an invalid configuration.
       if (vsCodeBrokerInfo.broker.isBrokerAvailable === false) {
         throw new Error(
           [
-            "Visual Studio Code Credential was requested, and the plugin is configured, but the broker is not available.",
-            "Ensure that the Visual Studio Code broker plugin is properly installed and configured.",
+            "VisualStudioCodeCredential was requested, and the VS Code plugin is configured, but the broker is unavailable.",
+            "Ensure the Visual Studio Code plugin is properly installed and configured.",
             "Check for missing native dependencies and ensure the package is properly installed.",
-            "Please refer to the README documentation for prerequisites on installing and using `@azure/identity-vscode`.",
+            "See the README for prerequisites on installing and using @azure/identity-vscode.",
           ].join(" "),
         );
       }
@@ -223,10 +223,10 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
       if (nativeBrokerInfo.broker.isBrokerAvailable === false) {
         throw new Error(
           [
-            "Broker for WAM was requested, and the plugin is configured, but the broker is not available.",
+            "The broker was requested, and the plugin is configured, but the broker is unavailable.",
             "Ensure that the native broker plugin is properly installed and configured.",
             "Check for missing native dependencies and ensure the package is properly installed.",
-            "Please refer to the README documentation for prerequisites on installing and using `@azure/identity-broker`.",
+            "See the README for prerequisites on installing and using @azure/identity-broker.",
           ].join(" "),
         );
       }
