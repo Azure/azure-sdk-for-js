@@ -51,7 +51,10 @@ describe("DefaultAzureCredential", () => {
     process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
     delete process.env.AZURE_CLIENT_ID;
     expect(
-      () => new DefaultAzureCredential({ requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"] }),
+      () =>
+        new DefaultAzureCredential({
+          requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
+        }),
     ).toThrowError(
       /Required environment variable\(s\) 'AZURE_CLIENT_ID' for DefaultAzureCredential are not set or empty\./,
     );
@@ -62,7 +65,10 @@ describe("DefaultAzureCredential", () => {
     delete process.env.AZURE_TOKEN_CREDENTIALS;
     delete process.env.AZURE_CLIENT_ID;
     expect(
-      () => new DefaultAzureCredential({ requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"] }),
+      () =>
+        new DefaultAzureCredential({
+          requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
+        }),
     ).toThrowError(
       /Required environment variable\(s\) 'AZURE_TOKEN_CREDENTIALS, AZURE_CLIENT_ID' for DefaultAzureCredential are not set or empty\./,
     );
@@ -72,7 +78,10 @@ describe("DefaultAzureCredential", () => {
     process.env.AZURE_TOKEN_CREDENTIALS = "ManagedIdentityCredential";
     process.env.AZURE_CLIENT_ID = "test-client-id";
     expect(
-      () => new DefaultAzureCredential({ requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"] }),
+      () =>
+        new DefaultAzureCredential({
+          requiredEnvVars: ["AZURE_TOKEN_CREDENTIALS", "AZURE_CLIENT_ID"],
+        }),
     ).not.toThrowError();
     delete process.env.AZURE_TOKEN_CREDENTIALS;
     delete process.env.AZURE_CLIENT_ID;

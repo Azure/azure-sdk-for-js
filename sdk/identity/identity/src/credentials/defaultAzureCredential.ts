@@ -93,17 +93,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
   constructor(options?: DefaultAzureCredentialOptions);
 
   constructor(options?: DefaultAzureCredentialOptions) {
-    if (options?.requiredEnvVars) {
-      const requiredVars = Array.isArray(options.requiredEnvVars)
-        ? options.requiredEnvVars
-        : [options.requiredEnvVars];
-      const missing = requiredVars.filter((envVar) => !process.env[envVar]);
-      if (missing.length > 0) {
-        const errorMessage = `Required environment ${missing.length === 1 ? "variable" : "variables"} '${missing.join(", ")}' for DefaultAzureCredential ${missing.length === 1 ? "is" : "are"} not set or empty.`;
-        logger.warning(errorMessage);
-        throw new Error(errorMessage);
-      }
-    }
+    validateRequiredEnvVars(options);
     // If AZURE_TOKEN_CREDENTIALS is not set, use the default credential chain.
     const azureTokenCredentials = process.env.AZURE_TOKEN_CREDENTIALS
       ? process.env.AZURE_TOKEN_CREDENTIALS.trim().toLowerCase()
@@ -184,5 +174,19 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     });
 
     super(...credentials);
+  }
+}
+
+function validateRequiredEnvVars(options?: DefaultAzureCredentialOptions) {
+  if (options?.requiredEnvVars) {
+    const requiredVars = Array.isArray(options.requiredEnvVars)
+      ? options.requiredEnvVars
+      : [options.requiredEnvVars];
+    const missing = requiredVars.filter((envVar) => !process.env[envVar]);
+    if (missing.length > 0) {
+      const errorMessage = `Required environment ${missing.length === 1 ? "variable" : "variables"} '${missing.join(", ")}' for DefaultAzureCredential ${missing.length === 1 ? "is" : "are"} not set or empty.`;
+      logger.warning(errorMessage);
+      throw new Error(errorMessage);
+    }
   }
 }
