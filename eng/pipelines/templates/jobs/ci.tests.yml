@@ -65,7 +65,9 @@ jobs:
         fetchDepth: 2
         fetchTags: false
 
-      - pwsh: git diff HEAD^...HEAD
+      - pwsh: git -c core.quotepath=off -c i18n.logoutputencoding=utf-8 diff HEAD^...HEAD --name-only --diff-filter=d
+
+      - pwsh: git --no-pager log -3
 
       - template: ../steps/common.yml
 
