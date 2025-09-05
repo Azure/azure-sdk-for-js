@@ -73,7 +73,9 @@ export const developerCliCredentialInternals = {
 
     let claimsSections: string[] = [];
     if (claims) {
-      claimsSections = ["--claims", claims];
+      // Encode the claims value
+      const encodedClaims = btoa(claims);
+      claimsSections = ["--claims", encodedClaims];
     }
     return new Promise((resolve, reject) => {
       try {

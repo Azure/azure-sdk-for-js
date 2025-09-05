@@ -154,6 +154,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
     stderr = "";
     const claimsChallenge = "fakeClaimChallenge";
+    const encodedClaims = btoa(claimsChallenge);
     const scope = "https://service/.default";
 
     const credential = new AzureDeveloperCliCredential();
@@ -161,7 +162,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
 
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azdCommands, [
-      `azd auth token --output json --no-prompt --scope ${scope} --claims ${claimsChallenge}`,
+      `azd auth token --output json --no-prompt --scope ${scope} --claims ${encodedClaims}`,
     ]);
   });
 
@@ -169,6 +170,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
     stderr = "";
     const claimsChallenge = "fakeClaimChallenge";
+    const encodedClaims = btoa(claimsChallenge);
     const tenantId = "12345678-1234-1234-1234-123456789012";
     const scope = "https://service/.default";
 
@@ -180,7 +182,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
 
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azdCommands, [
-      `azd auth token --output json --no-prompt --scope ${scope} --tenant-id ${tenantId} --claims ${claimsChallenge}`,
+      `azd auth token --output json --no-prompt --scope ${scope} --tenant-id ${tenantId} --claims ${encodedClaims}`,
     ]);
   });
 
@@ -188,6 +190,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     stdout = '{"token": "token","expiresOn": "1900/01/01T00:00:00Z"}';
     stderr = "";
     const claimsChallenge = "fakeClaimChallenge";
+    const encodedClaims = btoa(claimsChallenge);
     const scopes = ["https://service/.default", "https://management.azure.com/.default"];
 
     const credential = new AzureDeveloperCliCredential();
@@ -195,7 +198,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
 
     assert.equal(actualToken!.token, "token");
     assert.deepEqual(azdCommands, [
-      `azd auth token --output json --no-prompt --scope ${scopes[0]} --scope ${scopes[1]} --claims ${claimsChallenge}`,
+      `azd auth token --output json --no-prompt --scope ${scopes[0]} --scope ${scopes[1]} --claims ${encodedClaims}`,
     ]);
   });
 
