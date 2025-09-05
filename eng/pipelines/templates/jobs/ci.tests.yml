@@ -63,7 +63,9 @@ jobs:
     steps:
       - checkout: self
         fetchDepth: 1
-        syncTags: false
+        fetchTags: false
+
+      - pwsh: git diff HEAD^...HEAD
 
       - template: ../steps/common.yml
 
