@@ -10,6 +10,9 @@ import { createAggregator } from "../Aggregators/index.js";
 import { getInitialHeader, mergeHeaders } from "../headerUtils.js";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup.js";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal.js";
+import type { QueryRangeMapping } from "../QueryRangeMapping.js";
+import type { ParallelQueryResult } from "../ParallelQueryResult.js";
+import { createParallelQueryResult } from "../ParallelQueryResult.js";
 
 interface GroupByResult {
   groupByItems: any[];
@@ -46,14 +49,25 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     const response = await this.executionContext.fetchMore(diagnosticNode);
     mergeHeaders(aggregateHeaders, response.headers);
 
-    if (response === undefined || response.result === undefined) {
+    if (
+      response === undefined ||
+      response.result === undefined ||
+      !Array.isArray(response.result.buffer) ||
+      response.result.buffer.length === 0
+      ) {
       if (this.aggregators.size > 0) {
         return this.generateAggregateResponse(aggregateHeaders);
       }
       return { result: undefined, headers: aggregateHeaders };
     }
 
-    for (const item of response.result as GroupByResult[]) {
+    const parallelResult = response.result as ParallelQueryResult;
+    const dataToProcess: GroupByResult[] = parallelResult.buffer as GroupByResult[];
+    const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
+    const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
+    const orderByItems = parallelResult.orderByItems;
+
+    for (const item of dataToProcess) {
       if (item) {
         let grouping: string = emptyGroup;
         let payload: any = item;
@@ -86,21 +100,41 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
 
     // We bail early since we got an undefined result back `[{}]`
     if (this.completed) {
+      const result = createParallelQueryResult(
+        [],
+        partitionKeyRangeMap,
+        updatedContinuationRanges,
+        orderByItems
+      );
+      
       return {
-        result: undefined,
+        result,
         headers: aggregateHeaders,
       };
     }
 
     if (this.executionContext.hasMoreResults()) {
-      return { result: [], headers: aggregateHeaders };
+      // Return empty buffer but preserve the structure and pass-through fields
+      const result = createParallelQueryResult(
+        [], // empty buffer
+        partitionKeyRangeMap,
+        updatedContinuationRanges,
+        orderByItems
+      );
+      
+      return { result, headers: aggregateHeaders };
     } else {
       // If no results are left in the underlying execution context, convert our aggregate results to an array
-      return this.generateAggregateResponse(aggregateHeaders);
+      return this.generateAggregateResponse(aggregateHeaders, partitionKeyRangeMap, updatedContinuationRanges, orderByItems);
     }
   }
 
-  private generateAggregateResponse(aggregateHeaders: CosmosHeaders): Response<any> {
+  private generateAggregateResponse(
+    aggregateHeaders: CosmosHeaders,
+    partitionKeyRangeMap?: Map<string, QueryRangeMapping>,
+    updatedContinuationRanges?: Record<string, any>,
+    orderByItems?: any[]
+  ): Response<any> {
     for (const aggregator of this.aggregators.values()) {
       const result = aggregator.getResult();
       if (result !== undefined) {
@@ -108,8 +142,17 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       }
     }
     this.completed = true;
+    
+    // Return in the new structure format using the utility function
+    const result = createParallelQueryResult(
+      this.aggregateResultArray,
+      partitionKeyRangeMap || new Map(),
+      updatedContinuationRanges || {},
+      orderByItems
+    );
+    
     return {
-      result: this.aggregateResultArray,
+      result,
       headers: aggregateHeaders,
     };
   }

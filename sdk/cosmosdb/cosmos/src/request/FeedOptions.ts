@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 import type { PartitionKey } from "../documents/index.js";
 import type { SharedOptions } from "./SharedOptions.js";
+import type { ContinuationTokenManager } from "../queryExecutionContext/ContinuationTokenManager.js";
 
 /**
  * The feed options and query methods.

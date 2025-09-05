@@ -37,13 +37,34 @@ const TYPEORDCOMPARATOR: {
 export class OrderByDocumentProducerComparator {
   constructor(public sortOrder: string[]) {} // TODO: This should be an enum
 
+  /**
+   * Compares document producers based on their partition key range minInclusive values.
+   * Uses minEPK as a tie-breaker when minInclusive values are equal.
+   */
   private targetPartitionKeyRangeDocProdComparator(
     docProd1: DocumentProducer,
     docProd2: DocumentProducer,
   ): 0 | 1 | -1 {
-    const a = docProd1.getTargetParitionKeyRange()["minInclusive"];
-    const b = docProd2.getTargetParitionKeyRange()["minInclusive"];
-    return a === b ? 0 : a > b ? 1 : -1;
+    const range1 = docProd1.getTargetPartitionKeyRange() ;
+    const range2 = docProd2.getTargetPartitionKeyRange();
+
+    const a = range1.minInclusive;
+    const b = range2.minInclusive;
+
+    // Primary comparison using minInclusive (ascending lexicographic order)
+    // This handles: "" < "AA" < "BB" < "CC", etc.
+    if (a !== b) {
+      return a < b ? -1 : 1;
+    }
+
+    // Tie-breaker: comparing using minEPK when minInclusive values are equal
+    const epkA = docProd1.startEpk;
+    const epkB = docProd2.startEpk;
+
+    if (epkA !== undefined && epkB !== undefined) {
+      return epkA < epkB ? -1 : epkA > epkB ? 1 : 0;
+    }
+    return 0;
   }
 
   public compare(docProd1: DocumentProducer, docProd2: DocumentProducer): number {
@@ -75,7 +96,9 @@ export class OrderByDocumentProducerComparator {
       }
     }
 
-    return this.targetPartitionKeyRangeDocProdComparator(docProd1, docProd2);
+    // If all ORDER BY comparisons result in equality, use partition range as tie-breaker
+    const partitionRangeResult = this.targetPartitionKeyRangeDocProdComparator(docProd1, docProd2);
+    return partitionRangeResult;
   }
 
   // TODO: This smells funny

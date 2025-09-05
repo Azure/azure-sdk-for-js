@@ -4,8 +4,8 @@
 import type { DocumentProducer } from "./documentProducer.js";
 import type { ExecutionContext } from "./ExecutionContext.js";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase.js";
-import { Response } from "../request/index.js";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import type { Response } from "../request/index.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
 
 /**
  * Provides the ParallelQueryExecutionContext.
@@ -28,7 +28,7 @@ export class ParallelQueryExecutionContext
     docProd1: DocumentProducer,
     docProd2: DocumentProducer,
   ): number {
-    return docProd1.generation - docProd2.generation;
+    return this.compareDocumentProducersByRange(docProd1, docProd2);
   }
 
   /**
@@ -42,7 +42,6 @@ export class ParallelQueryExecutionContext
       // Buffer document producers and fill buffer from the queue
       await this.bufferDocumentProducers(diagnosticNode);
       await this.fillBufferFromBufferQueue();
-
       // Drain buffered items
       return this.drainBufferedItems();
     } catch (error) {
