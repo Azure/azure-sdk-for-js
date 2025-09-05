@@ -8,6 +8,7 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where `AzureCliCredential`, `AzurePowerShellCredential`, and `AzureDeveloperCliCredential` do not properly encode the claims as a base64 encoded string 
 - Fixed an issue where `AzureDeveloperCliCredential` would time out during token requests when `azd` prompts for user interaction. This issue commonly occurred in environments where the `AZD_DEBUG` environment variable was set, causing the Azure Developer CLI to display additional prompts that interfered with automated token acquisition. [#35637](https://github.com/Azure/azure-sdk-for-js/pull/35637)
 
 ### Other Changes
