@@ -193,13 +193,13 @@ export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput exten
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestUploadFileSuccessResponse): Promise<FileUploadAndValidatePoller>;
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestUploadFileSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<FileUploadAndValidatePoller>;
 
 // @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse): Promise<TestRunCompletionPoller>;
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<TestRunCompletionPoller>;
 
 // @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestProfileRunCreateOrUpdateSuccessResponse): Promise<TestProfileRunCompletionPoller>;
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestProfileRunCreateOrUpdateSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<TestProfileRunCompletionPoller>;
 
 // @public
 export type GetPage<TPage> = (pageLink: string) => Promise<{
