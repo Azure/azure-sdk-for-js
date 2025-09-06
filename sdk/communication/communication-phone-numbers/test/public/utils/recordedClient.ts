@@ -6,11 +6,12 @@ import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-to
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { PhoneNumbersClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
-import type { TokenCredential } from "@azure/identity";
+import { type TokenCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 import { createOperationLocationFixPolicy } from "./operationLocationFixPolicy.js";
+// Do not import child_process in browser
 
 if (isNodeLike) {
   dotenv.config();
@@ -145,6 +146,7 @@ export async function createRecordedClientWithToken(
   context: TestInfo,
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context);
+  await assignRoleToExistingResource();
 
   let credential: TokenCredential;
   let endpoint: string;
@@ -183,3 +185,43 @@ export async function createRecordedClientWithToken(
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
+
+async function assignRoleToExistingResource(): Promise<void> {
+  // Only run in Node.js and live mode
+  if (isPlaybackMode()) return;
+  const isNode = typeof process !== "undefined" && !!process.versions?.node;
+  if (!isNode) return;
+
+  const connectionString = process.env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING;
+  if (!connectionString) throw new Error("Missing COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING");
+
+  const { endpoint } = parseConnectionString(connectionString);
+  const match = endpoint.match(/https:\/\/([^.]+)(?:\.[^.]+)*\.communication\.azure/);
+  if (!match) throw new Error("Could not parse resource name from endpoint");
+  const resourceName = match[1];
+
+  const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
+  const resourceGroup = process.env.RESOURCE_GROUP_NAME;
+  const principalId = process.env.TEST_APPLICATION_OID; // Object ID of your test app
+
+  if (!subscriptionId || !resourceGroup || !principalId) {
+    throw new Error("Missing subscription, resource group, or principal info");
+  }
+
+  const resourceId = `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/providers/Microsoft.Communication/CommunicationServices/${resourceName}`;
+  const contributorRoleId = "b24988ac-6180-42a0-ab88-20f7382dd24c";
+
+  // Dynamically import child_process only in Node
+  const { execSync } = await import("child_process");
+  try {
+    execSync(
+      `az role assignment create --assignee ${principalId} --role ${contributorRoleId} --scope ${resourceId} --subscription ${subscriptionId}`,
+      { stdio: "inherit" },
+    );
+  } catch (err) {
+    // Ignore if already assigned, otherwise throw
+    if (!String(err).includes("already exists")) {
+      throw err;
+    }
+  }
+}
