@@ -7,6 +7,7 @@
 ### Breaking Changes
 
 ### Bugs Fixed
+- Fixed error handling so that error responses are properly parsed to match the ErrorResponseOutput type.
 
 ### Other Changes
 
