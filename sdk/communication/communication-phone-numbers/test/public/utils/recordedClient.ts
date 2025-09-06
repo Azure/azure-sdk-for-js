@@ -196,7 +196,7 @@ async function assignRoleToExistingResource(): Promise<void> {
   if (!connectionString) throw new Error("Missing COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING");
 
   const { endpoint } = parseConnectionString(connectionString);
-  const match = endpoint.match(/https:\/\/([^.]+)\.communication\.azure\.net/);
+  const match = endpoint.match(/https:\/\/([^.]+)(?:\.[^.]+)*\.communication\.azure/);
   if (!match) throw new Error("Could not parse resource name from endpoint");
   const resourceName = match[1];
 
