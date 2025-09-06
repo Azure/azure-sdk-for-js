@@ -22,6 +22,10 @@ export interface WebPubSubClientOptions {
    */
   autoRejoinGroups?: boolean;
   /**
+   * Whether to automatically resend unacknowledged stream messages
+   */
+  autoResendStreamMessages?: boolean;
+  /**
    * The retry options for operations like joining group and sending messages
    */
   messageRetryOptions?: WebPubSubRetryOptions;
@@ -206,6 +210,28 @@ export interface OnRejoinGroupFailedArgs {
    * The failure error
    */
   error: Error;
+}
+
+/**
+ * Parameters of OnStream callback
+ */
+export interface OnStreamArgs {
+  /**
+   * The group name
+   */
+  group: string;
+  /**
+   * The stream id
+   */
+  streamId: string;
+  /**
+   * The group stream data message
+   */
+  message: GroupDataMessage;
+  /**
+   * Whether the stream is completed
+   */
+  isCompleted: boolean;
 }
 
 /**
