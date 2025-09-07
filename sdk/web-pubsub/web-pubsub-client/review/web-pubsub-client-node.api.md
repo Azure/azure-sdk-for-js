@@ -85,6 +85,13 @@ export interface IStream {
 }
 
 // @public
+export interface IStreamHandler {
+    onComplete(callback: () => void): void;
+    onError(callback: (error: StreamAckMessageError) => void): void;
+    onMessage(callback: (message: JSONTypes | ArrayBuffer) => void): void;
+}
+
+// @public
 export interface JoinGroupMessage extends WebPubSubMessageBase {
     ackId?: number;
     group: string;
@@ -239,16 +246,8 @@ export interface StreamAckMessageError {
 }
 
 // @public
-export class StreamHandler {
-    // @internal
-    _handleComplete(): void;
-    // @internal
-    _handleError(error: StreamAckMessageError): void;
-    // @internal
-    _handleMessage(message: JSONTypes | ArrayBuffer): void;
-    onComplete(callback: () => void): void;
-    onError(callback: (error: StreamAckMessageError) => void): void;
-    onMessage(callback: (message: JSONTypes | ArrayBuffer) => void): void;
+export class StreamHandlerFactory {
+    static create(): IStreamHandler;
 }
 
 // @public
@@ -317,7 +316,7 @@ export class WebPubSubClient {
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
     on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
-    onStream(groupName: string, callback: (streamId: string) => StreamHandler): void;
+    onStream(groupName: string, callback: (streamId: string) => IStreamHandler): void;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;

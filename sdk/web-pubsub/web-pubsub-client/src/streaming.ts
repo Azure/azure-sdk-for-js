@@ -17,9 +17,33 @@ interface StreamMessage {
 }
 
 /**
- * Stream handler for processing stream messages
+ * Public interface for stream message handlers that customers can use
  */
-export class StreamHandler {
+export interface IStreamHandler {
+  /**
+   * Set the callback for receiving stream messages
+   * @param callback - callback function to handle incoming messages
+   */
+  onMessage(callback: (message: JSONTypes | ArrayBuffer) => void): void;
+
+  /**
+   * Set the callback for stream completion
+   * @param callback - callback function to handle stream completion
+   */
+  onComplete(callback: () => void): void;
+
+  /**
+   * Set the callback for stream errors
+   * @param callback - callback function to handle stream errors
+   */
+  onError(callback: (error: StreamAckMessageError) => void): void;
+}
+
+/**
+ * Stream handler for processing stream messages
+ * @internal - This class is not exported for direct customer use
+ */
+export class StreamHandler implements IStreamHandler {
   private _onMessage?: (message: JSONTypes | ArrayBuffer) => void;
   private _onComplete?: () => void;
   private _onError?: (error: StreamAckMessageError) => void;
@@ -603,5 +627,18 @@ export class Stream implements IStream {
         waiter.reject(new Error(`Stream ${this._streamId} in ${this._groupName} is disposed`));
       }
     }
+  }
+}
+
+/**
+ * Factory implementation for creating stream handlers
+ */
+export class StreamHandlerFactory {
+  /**
+   * Create a new stream handler instance
+   * @returns A new stream handler that implements IStreamHandler
+   */
+  public static create(): IStreamHandler {
+    return new StreamHandler();
   }
 }

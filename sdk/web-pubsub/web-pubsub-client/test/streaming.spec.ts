@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, vi } from "vitest";
-import { Stream, StreamHandler } from "../src/streaming.js";
+import { Stream, StreamHandler, StreamHandlerFactory } from "../src/streaming.js";
 
 describe("StreamHandler", () => {
   let streamHandler: StreamHandler;
@@ -43,6 +43,60 @@ describe("StreamHandler", () => {
       streamHandler._handleError(new Error("Test error"));
       assert.isFunction(streamHandler.onError);
       assert.isTrue(triggered);
+    });
+  });
+});
+
+describe("StreamHandlerFactory", () => {
+  describe("static create method", () => {
+    it("should create a handler that implements IStreamHandler interface", () => {
+      const handler = StreamHandlerFactory.create();
+      
+      // Should have all IStreamHandler methods
+      assert.isFunction(handler.onMessage);
+      assert.isFunction(handler.onComplete);
+      assert.isFunction(handler.onError);
+    });
+
+    it("should create a working handler with proper callback functionality", () => {
+      const handler = StreamHandlerFactory.create();
+      let messageReceived = false;
+      let completed = false;
+      let errorReceived = false;
+
+      // Set up callbacks
+      handler.onMessage(() => {
+        messageReceived = true;
+      });
+      
+      handler.onComplete(() => {
+        completed = true;
+      });
+      
+      handler.onError(() => {
+        errorReceived = true;
+      });
+
+      // Cast to access internal methods for testing (SDK internal usage)
+      const internalHandler = handler as StreamHandler;
+      
+      // Test internal methods work (these would be called by the SDK)
+      internalHandler._handleMessage("test");
+      assert.isTrue(messageReceived);
+      
+      internalHandler._handleComplete();
+      assert.isTrue(completed);
+      
+      internalHandler._handleError({ name: "TestError", message: "Test error" });
+      assert.isTrue(errorReceived);
+    });
+
+    it("should create new instances on each call", () => {
+      const handler1 = StreamHandlerFactory.create();
+      const handler2 = StreamHandlerFactory.create();
+      
+      // Should be different instances
+      assert.notStrictEqual(handler1, handler2);
     });
   });
 });

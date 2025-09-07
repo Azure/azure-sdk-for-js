@@ -43,7 +43,7 @@ import type {
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
-import type { StreamHandler, StreamOptions, IStream } from "./streaming.js";
+import type { IStreamHandler, StreamOptions, IStream , StreamHandler} from "./streaming.js";
 import { Stream } from "./streaming.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
 import { WebSocketClientFactory } from "./websocket/websocketClient.js";
@@ -560,7 +560,7 @@ export class WebPubSubClient {
   public onStream(
     groupName: string,
     // allowOngoingStreams: boolean,
-    callback: (streamId: string) => StreamHandler,
+    callback: (streamId: string) => IStreamHandler,
   ): void {
     this._emitter.on("group-stream-message", (args: OnStreamArgs) => {
       const {
@@ -572,7 +572,10 @@ export class WebPubSubClient {
       if (groupName === sourceGroup) {
         let handler = this._streamHandlers.get(streamId!);
         if (!handler) {
-          handler = callback(streamId!);
+          const userHandler = callback(streamId!);
+          // We expect users to return a handler from StreamHandlerFactory.create() which returns IStreamHandler
+          // but internally we need access to _handle* methods, so we cast to concrete type
+          handler = userHandler as StreamHandler;
           this._streamHandlers.set(streamId!, handler);
         }
         handler._handleMessage(message);
