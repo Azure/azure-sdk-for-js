@@ -51,7 +51,7 @@ describe("StreamHandlerFactory", () => {
   describe("static create method", () => {
     it("should create a handler that implements IStreamHandler interface", () => {
       const handler = StreamHandlerFactory.create();
-      
+
       // Should have all IStreamHandler methods
       assert.isFunction(handler.onMessage);
       assert.isFunction(handler.onComplete);
@@ -68,25 +68,25 @@ describe("StreamHandlerFactory", () => {
       handler.onMessage(() => {
         messageReceived = true;
       });
-      
+
       handler.onComplete(() => {
         completed = true;
       });
-      
+
       handler.onError(() => {
         errorReceived = true;
       });
 
       // Cast to access internal methods for testing (SDK internal usage)
       const internalHandler = handler as StreamHandler;
-      
+
       // Test internal methods work (these would be called by the SDK)
       internalHandler._handleMessage("test");
       assert.isTrue(messageReceived);
-      
+
       internalHandler._handleComplete();
       assert.isTrue(completed);
-      
+
       internalHandler._handleError({ name: "TestError", message: "Test error" });
       assert.isTrue(errorReceived);
     });
@@ -94,7 +94,7 @@ describe("StreamHandlerFactory", () => {
     it("should create new instances on each call", () => {
       const handler1 = StreamHandlerFactory.create();
       const handler2 = StreamHandlerFactory.create();
-      
+
       // Should be different instances
       assert.notStrictEqual(handler1, handler2);
     });

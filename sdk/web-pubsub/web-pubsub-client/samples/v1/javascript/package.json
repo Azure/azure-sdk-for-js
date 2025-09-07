@@ -25,6 +25,6 @@
     "@azure/web-pubsub-client": "latest",
     "dotenv": "latest",
     "@azure/web-pubsub": "^1.1.3",
-    "@azure/identity": "^4.8.0"
+    "@azure/identity": "4.11.1"
   }
 }

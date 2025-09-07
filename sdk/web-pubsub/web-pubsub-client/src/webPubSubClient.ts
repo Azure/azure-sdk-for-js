@@ -43,7 +43,7 @@ import type {
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
-import type { IStreamHandler, StreamOptions, IStream , StreamHandler} from "./streaming.js";
+import type { IStreamHandler, StreamOptions, IStream, StreamHandler } from "./streaming.js";
 import { Stream } from "./streaming.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
 import { WebSocketClientFactory } from "./websocket/websocketClient.js";

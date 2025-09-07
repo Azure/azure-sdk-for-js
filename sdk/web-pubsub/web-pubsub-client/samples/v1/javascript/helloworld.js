@@ -5,7 +5,7 @@
  * @summary Basic usage of web-pubsub-client
  */
 
-const { StreamHandler, WebPubSubClient } = require("@azure/web-pubsub-client");
+const { StreamHandlerFactory, WebPubSubClient } = require("@azure/web-pubsub-client");
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
@@ -57,9 +57,8 @@ async function main() {
   });
 
   client.onStream(groupName, (streamId) => {
-    const streamHandler = new StreamHandler();
+    const streamHandler = StreamHandlerFactory.create();
     const data = [];
-
     streamHandler.onMessage((message) => {
       data.push(message);
     });
