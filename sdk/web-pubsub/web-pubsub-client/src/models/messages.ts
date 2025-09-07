@@ -17,7 +17,7 @@ export type WebPubSubMessage =
   | SendEventMessage
   | SequenceAckMessage
   | AckMessage
-  | SendToStreamMessage
+  | StreamSendMessage
   | StreamAckMessage;
 
 /**
@@ -349,7 +349,7 @@ export interface SendToGroupMessage extends WebPubSubMessageBase {
 /**
  * Send to stream message
  */
-export interface SendToStreamMessage extends WebPubSubMessageBase {
+export interface StreamSendMessage extends WebPubSubMessageBase {
   /**
    * Message type
    */

@@ -38,12 +38,12 @@ import type {
   SendEventMessage,
   AckMessage,
   SequenceAckMessage,
-  SendToStreamMessage,
+  StreamSendMessage,
   StreamAckMessage,
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
-import type { StreamHandler, StreamOptions } from "./streaming.js";
+import type { StreamHandler, StreamOptions, IStream } from "./streaming.js";
 import { Stream } from "./streaming.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
 import { WebSocketClientFactory } from "./websocket/websocketClient.js";
@@ -518,7 +518,7 @@ export class WebPubSubClient {
    * @param options - Stream configuration options (optional, use default values if not provided)
    * @returns Stream instance
    */
-  public stream(groupName: string, streamId?: string, options?: StreamOptions): Stream {
+  public stream(groupName: string, streamId?: string, options?: StreamOptions): IStream {
     const actualStreamId = streamId || this._generateStreamId();
 
     // Check if streamId is already in use
@@ -633,7 +633,7 @@ export class WebPubSubClient {
     endOfStream: boolean,
     abortSignal?: AbortSignalLike,
   ): Promise<void> {
-    const message: SendToStreamMessage = {
+    const message: StreamSendMessage = {
       kind: "sendToStream",
       streamId,
       streamSequenceId,

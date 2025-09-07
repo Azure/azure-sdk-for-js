@@ -6,7 +6,7 @@ import type {
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
-  SendToStreamMessage,
+  StreamSendMessage,
   ServerDataMessage,
   StreamAckMessage,
   WebPubSubDataType,
@@ -103,7 +103,7 @@ export function writeMessage(message: WebPubSubMessage): string {
       break;
     }
     case "sendToStream": {
-      const streamMessage = message as SendToStreamMessage;
+      const streamMessage = message as StreamSendMessage;
       data = {
         type: "sendToGroup",
         group: streamMessage.group,

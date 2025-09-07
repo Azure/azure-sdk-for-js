@@ -115,9 +115,69 @@ export interface StreamOptions {
 }
 
 /**
- * Stream for sending messages to a group
+ * Public interface for stream operations that customers can use
  */
-export class Stream {
+export interface IStream {
+  /**
+   * Get the stream ID
+   */
+  readonly streamId: string;
+
+  /**
+   * Get the group name
+   */
+  readonly groupName: string;
+
+  /**
+   * Set the callback for stream errors
+   * @param callback - callback function to handle stream publish errors
+   */
+  onError(callback: (error: StreamAckMessageError) => void): void;
+
+  /**
+   * Publish a message to the stream
+   * @param content - The content to publish
+   * @param dataType - The data type (optional, auto-detected if not provided)
+   * @param abortSignal - Signal to abort the operation
+   */
+  publish(
+    content: JSONTypes | ArrayBuffer,
+    dataType?: WebPubSubDataType,
+    abortSignal?: AbortSignalLike,
+  ): Promise<void>;
+
+  /**
+   * Publish a message to the stream with a specific sequence ID
+   * @param sequenceId - The sequence ID for the message
+   * @param content - The content to publish
+   * @param dataType - The data type (optional, auto-detected if not provided)
+   * @param abortSignal - Signal to abort the operation
+   */
+  publishWithSequenceId(
+    sequenceId: number,
+    content: JSONTypes | ArrayBuffer,
+    dataType?: WebPubSubDataType,
+    abortSignal?: AbortSignalLike,
+  ): Promise<void>;
+
+  /**
+   * Complete the stream with an optional final message
+   * @param content - Optional final message content
+   * @param dataType - The data type for the final message
+   * @param abortSignal - Signal to abort the operation
+   */
+  complete(
+    content?: JSONTypes | ArrayBuffer,
+    dataType?: WebPubSubDataType,
+    abortSignal?: AbortSignalLike,
+  ): Promise<void>;
+}
+
+/**
+ * Stream for sending messages to a group
+ * @internal - This class is not exported for direct customer use
+ */
+export class Stream implements IStream {
   private readonly _groupName: string;
   private readonly _streamId: string;
   private readonly _sendCallback: (
