@@ -12,12 +12,15 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 import { createOperationLocationFixPolicy } from "./operationLocationFixPolicy.js";
 import { DefaultAzureCredential } from "@azure/identity";
-import fetch from "node-fetch";
-import crypto from "crypto";
-// Do not import child_process in browser
+let fetch: typeof globalThis.fetch;
+let crypto: typeof import("crypto");
 
 if (isNodeLike) {
   dotenv.config();
+  // Only import in Node.js environment
+  // @ts-expect-error: 'node-fetch' types may not be available in all environments, but this is safe in Node.js
+  fetch = (await import("node-fetch")).default;
+  crypto = await import("crypto");
 }
 
 export interface RecordedClient<T> {
