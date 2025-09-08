@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create or update a Service Fabric node type of a given managed cluster.
  *
  * @summary create or update a Service Fabric node type of a given managed cluster.
  * x-ms-original-file: 2025-03-01-preview/NodeTypePutOperationAutoScale_example.json
  */
+
+import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function putANodeTypeWithAutoScaleParameters(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

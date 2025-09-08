@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  OperationResultGetOptionalParams,
-  OperationResultGetResponse,
-} from "../models/index.js";
+import { OperationResultGetOptionalParams, OperationResultGetResponse } from "../models/index.js";
 
 /** Interface representing a OperationResult. */
 export interface OperationResult {

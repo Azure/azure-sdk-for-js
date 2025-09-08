@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VirtualMachineImagesListParameters } from "@azure-rest/arm-compute";
-import createComputeManagementClient from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_List_MaximumSet_Gen.json
  */
+
+import type { VirtualMachineImagesListParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualMachineImagesListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);

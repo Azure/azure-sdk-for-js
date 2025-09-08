@@ -11,9 +11,7 @@
     },
     {
       "path": "./tsconfig.snippets.json"
-    },
-    {
-      "path": "./tsconfig.snippets.json"
     }
-  ]
+  ],
+  "files": []
 }

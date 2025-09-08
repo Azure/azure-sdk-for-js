@@ -93,7 +93,7 @@ export interface AgentsNamedToolChoice {
 }
 
 // @public
-export type AgentsNamedToolChoiceType = "function" | "code_interpreter" | "file_search" | "bing_grounding" | "fabric_dataagent" | "sharepoint_grounding" | "azure_ai_search" | "bing_custom_search" | "connected_agent" | "deep_research" | "mcp";
+export type AgentsNamedToolChoiceType = "function" | "code_interpreter" | "file_search" | "bing_grounding" | "azure_ai_search" | "connected_agent";
 
 // @public
 export interface AgentsResponseFormat {
@@ -182,27 +182,6 @@ export interface AzureFunctionStorageQueue {
 export interface AzureFunctionToolDefinition extends ToolDefinition {
     azureFunction: AzureFunctionDefinition;
     type: "azure_function";
-}
-
-// @public
-export interface BingCustomSearchConfiguration {
-    connectionId: string;
-    count?: number;
-    freshness?: string;
-    instanceName: string;
-    market?: string;
-    setLang?: string;
-}
-
-// @public
-export interface BingCustomSearchToolDefinition extends ToolDefinition {
-    bingCustomSearch: BingCustomSearchToolParameters;
-    type: "bing_custom_search";
-}
-
-// @public
-export interface BingCustomSearchToolParameters {
-    searchConfigurations: BingCustomSearchConfiguration[];
 }
 
 // @public
@@ -296,23 +275,6 @@ export interface CreateThreadAndRunOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DeepResearchBingGroundingConnection {
-    connectionId: string;
-}
-
-// @public
-export interface DeepResearchDetails {
-    bingGroundingConnections: DeepResearchBingGroundingConnection[];
-    model: string;
-}
-
-// @public
-export interface DeepResearchToolDefinition extends ToolDefinition {
-    deepResearch: DeepResearchDetails;
-    type: "deep_research";
-}
-
-// @public
 export interface DeleteAgentOptionalParams extends OperationOptions {
 }
 
@@ -324,11 +286,6 @@ export enum DoneEvent {
 // @public
 export enum ErrorEvent {
     Error = "error"
-}
-
-// @public
-export interface FabricDataAgentToolParameters {
-    connectionList?: ToolConnection[];
 }
 
 // @public
@@ -468,8 +425,7 @@ export function isOutputOfType<T extends {
 // @public
 export enum KnownVersions {
     V1 = "v1",
-    V20250501 = "2025-05-01",
-    V20250515Preview = "2025-05-15-preview"
+    V20250501 = "2025-05-01"
 }
 
 // @public
@@ -482,36 +438,6 @@ export interface ListAgentsOptionalParams extends OperationOptions {
 
 // @public
 export type ListSortOrder = "asc" | "desc";
-
-// @public
-export class MCPTool {
-    constructor(serverLabel: string, serverUrl: string, allowedTools?: string[]);
-    get allowedTools(): string[];
-    allowTool(toolName: string): void;
-    get definitions(): MCPToolDefinition[];
-    disallowTool(toolName: string): void;
-    get headers(): Record<string, string>;
-    get resources(): ToolResources;
-    get serverLabel(): string;
-    get serverUrl(): string;
-    setApprovalMode(requireApproval?: "always" | "never"): void;
-    updateHeaders(key: string, value: string): void;
-}
-
-// @public
-export interface MCPToolDefinition extends ToolDefinition {
-    allowedTools?: string[];
-    serverLabel: string;
-    serverUrl: string;
-    type: "mcp";
-}
-
-// @public
-export interface MCPToolResource {
-    headers: Record<string, string>;
-    requireApproval?: "never" | "always";
-    serverLabel: string;
-}
 
 // @public
 export interface MessageAttachment {
@@ -801,12 +727,6 @@ export interface MessageTextUrlCitationDetails {
 }
 
 // @public
-export interface MicrosoftFabricToolDefinition extends ToolDefinition {
-    fabricDataagent: FabricDataAgentToolParameters;
-    type: "fabric_dataagent";
-}
-
-// @public
 export interface OpenApiAnonymousAuthDetails extends OpenApiAuthDetails {
     type: "anonymous";
 }
@@ -889,7 +809,7 @@ export interface RequiredAction {
 }
 
 // @public
-export type RequiredActionUnion = SubmitToolOutputsAction | SubmitToolApprovalAction | RequiredAction;
+export type RequiredActionUnion = SubmitToolOutputsAction | RequiredAction;
 
 // @public
 export interface RequiredFunctionToolCall extends RequiredToolCall {
@@ -904,21 +824,13 @@ export interface RequiredFunctionToolCallDetails {
 }
 
 // @public
-export interface RequiredMcpToolCall extends RequiredToolCall {
-    arguments: string;
-    name: string;
-    serverLabel: string;
-    type: "mcp";
-}
-
-// @public
 export interface RequiredToolCall {
     id: string;
     type: string;
 }
 
 // @public
-export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredMcpToolCall | RequiredToolCall;
+export type RequiredToolCallUnion = RequiredFunctionToolCall | RequiredToolCall;
 
 // @public
 export type ResponseFormat = "text" | "json_object";
@@ -1004,8 +916,6 @@ export interface RunsOperations {
 // @public
 export interface RunsSubmitToolOutputsToRunOptionalParams extends OperationOptions {
     stream?: boolean | null;
-    toolApprovals?: ToolApproval[];
-    toolOutputs?: ToolOutput[];
 }
 
 // @public
@@ -1035,12 +945,6 @@ export interface RunStep {
 export interface RunStepAzureAISearchToolCall extends RunStepToolCall {
     azureAISearch: Record<string, string>;
     type: "azure_ai_search";
-}
-
-// @public
-export interface RunStepBingCustomSearchToolCall extends RunStepToolCall {
-    bingCustomSearch: Record<string, string>;
-    type: "bing_custom_search";
 }
 
 // @public
@@ -1091,18 +995,6 @@ export interface RunStepCompletionUsage {
     completionTokens: number;
     promptTokens: number;
     totalTokens: number;
-}
-
-// @public
-export interface RunStepDeepResearchToolCall extends RunStepToolCall {
-    deepResearch: RunStepDeepResearchToolCallDetails;
-    type: "deep_research";
-}
-
-// @public
-export interface RunStepDeepResearchToolCallDetails {
-    input: string;
-    output?: string;
 }
 
 // @public
@@ -1260,15 +1152,6 @@ export interface RunStepFunctionToolCallDetails {
 }
 
 // @public
-export interface RunStepMcpToolCall extends RunStepToolCall {
-    arguments: string;
-    name: string;
-    output: string;
-    serverLabel?: string;
-    type: "mcp";
-}
-
-// @public
 export interface RunStepMessageCreationDetails extends RunStepDetails {
     messageCreation: RunStepMessageCreationReference;
     type: "message_creation";
@@ -1280,12 +1163,6 @@ export interface RunStepMessageCreationReference {
 }
 
 // @public
-export interface RunStepMicrosoftFabricToolCall extends RunStepToolCall {
-    microsoftFabric: Record<string, string>;
-    type: "fabric_dataagent";
-}
-
-// @public
 export interface RunStepOpenAPIToolCall extends RunStepToolCall {
     openAPI: Record<string, string>;
     type: "openapi";
@@ -1294,12 +1171,6 @@ export interface RunStepOpenAPIToolCall extends RunStepToolCall {
 // @public
 export interface RunStepsGetRunStepOptionalParams extends OperationOptions {
     include?: RunAdditionalFieldList[];
-}
-
-// @public
-export interface RunStepSharepointToolCall extends RunStepToolCall {
-    sharePoint: Record<string, string>;
-    type: "sharepoint_grounding";
 }
 
 // @public
@@ -1344,7 +1215,7 @@ export interface RunStepToolCallDetails extends RunStepDetails {
 }
 
 // @public
-export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileSearchToolCall | RunStepBingGroundingToolCall | RunStepAzureAISearchToolCall | RunStepMcpToolCall | RunStepSharepointToolCall | RunStepMicrosoftFabricToolCall | RunStepBingCustomSearchToolCall | RunStepFunctionToolCall | RunStepOpenAPIToolCall | RunStepDeepResearchToolCall | RunStepToolCall;
+export type RunStepToolCallUnion = RunStepCodeInterpreterToolCall | RunStepFileSearchToolCall | RunStepBingGroundingToolCall | RunStepAzureAISearchToolCall | RunStepFunctionToolCall | RunStepOpenAPIToolCall | RunStepToolCall;
 
 // @public
 export type RunStepType = "message_creation" | "tool_calls";
@@ -1366,28 +1237,6 @@ export enum RunStreamEvent {
 // @public
 export interface RunsUpdateRunOptionalParams extends OperationOptions {
     metadata?: Record<string, string> | null;
-}
-
-// @public
-export interface SharepointGroundingToolParameters {
-    connectionList?: ToolConnection[];
-}
-
-// @public
-export interface SharepointToolDefinition extends ToolDefinition {
-    sharepointGrounding: SharepointGroundingToolParameters;
-    type: "sharepoint_grounding";
-}
-
-// @public
-export interface SubmitToolApprovalAction extends RequiredAction {
-    submitToolApproval: SubmitToolApprovalDetails;
-    type: "submit_tool_approval";
-}
-
-// @public
-export interface SubmitToolApprovalDetails {
-    toolCalls: RequiredToolCallUnion[];
 }
 
 // @public
@@ -1510,24 +1359,12 @@ export interface ThreadsUpdateThreadOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ToolApproval {
-    approve: boolean;
-    headers?: Record<string, string>;
-    toolCallId: string;
-}
-
-// @public
-export interface ToolConnection {
-    connectionId: string;
-}
-
-// @public
 export interface ToolDefinition {
     type: string;
 }
 
 // @public
-export type ToolDefinitionUnion = CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | BingCustomSearchToolDefinition | ConnectedAgentToolDefinition | DeepResearchToolDefinition | MCPToolDefinition | AzureFunctionToolDefinition | ToolDefinition;
+export type ToolDefinitionUnion = CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | AzureAISearchToolDefinition | OpenApiToolDefinition | ConnectedAgentToolDefinition | AzureFunctionToolDefinition | ToolDefinition;
 
 // @public
 export interface ToolOutput {
@@ -1540,7 +1377,6 @@ export interface ToolResources {
     azureAISearch?: AzureAISearchToolResource;
     codeInterpreter?: CodeInterpreterToolResource;
     fileSearch?: FileSearchToolResource;
-    mcp?: MCPToolResource[];
 }
 
 // @public
@@ -1562,18 +1398,12 @@ export class ToolSet {
     addConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinition;
     };
-    addFabricTool(connectionId: string): {
-        definition: MicrosoftFabricToolDefinition;
-    };
     addFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
     };
     addOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
-    };
-    addSharepointGroundingTool(connectionId: string): {
-        definition: SharepointToolDefinition;
     };
     toolDefinitions: ToolDefinition[];
     toolResources: ToolResources;
@@ -1584,9 +1414,6 @@ export class ToolUtility {
     static createAzureAISearchTool(indexConnectionId: string, indexName: string, options?: AISearchIndexResource): {
         definition: AzureAISearchToolDefinition;
         resources: ToolResources;
-    };
-    static createBingCustomSearchTool(searchConfigurations: BingCustomSearchConfiguration[]): {
-        definition: BingCustomSearchToolDefinition;
     };
     static createBingGroundingTool(searchConfigurations: BingGroundingSearchConfiguration[]): {
         definition: BingGroundingToolDefinition;
@@ -1601,9 +1428,6 @@ export class ToolUtility {
     static createConnectionTool(toolType: connectionToolType, connectionIds: string[]): {
         definition: ToolDefinitionUnion;
     };
-    static createFabricTool(connectionId: string): {
-        definition: MicrosoftFabricToolDefinition;
-    };
     static createFileSearchTool(vectorStoreIds?: string[], vectorStores?: Array<VectorStoreConfigurations>, definitionDetails?: FileSearchToolDefinitionDetails): {
         definition: FileSearchToolDefinition;
         resources: ToolResources;
@@ -1611,16 +1435,8 @@ export class ToolUtility {
     static createFunctionTool(functionDefinition: FunctionDefinition): {
         definition: FunctionToolDefinition;
     };
-    static createMCPTool(options: {
-        serverLabel: string;
-        serverUrl: string;
-        allowedTools?: string[];
-    }): MCPTool;
     static createOpenApiTool(openApiFunctionDefinition: OpenApiFunctionDefinition): {
         definition: OpenApiToolDefinition;
-    };
-    static createSharepointGroundingTool(connectionId: string): {
-        definition: SharepointToolDefinition;
     };
 }
 

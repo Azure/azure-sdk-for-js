@@ -3,15 +3,19 @@ parameters:
 
 steps:
   - script: |
-      node common/scripts/install-run-rush.js install
+      npm install -g pnpm
+    displayName: "Install Pnpm"
+
+  - script: |
+      pnpm install
     displayName: "Install library dependencies"
 
   - pwsh: |
-      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
+      pnpm build --filter @azure/eslint-plugin-azure-sdk... --filter @azure/monitor-opentelemetry-exporter...
       $env:FORCE_COLOR = "1"
-      node eng/tools/rush-runner/index.js lint "${{parameters.ServiceDirectory}}" -p max --verbose
+      node eng/tools/ci-runner/index.js lint "${{parameters.ServiceDirectory}}"
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
-      node common/scripts/install-run-rush.js test -t @azure/eslint-plugin-azure-sdk --verbose
+      pnpm test --filter @azure/eslint-plugin-azure-sdk...
     displayName: "Run ESLint Plugin Unit Tests"

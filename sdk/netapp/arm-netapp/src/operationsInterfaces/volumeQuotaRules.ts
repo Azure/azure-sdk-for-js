@@ -75,10 +75,7 @@ export interface VolumeQuotaRules {
     body: VolumeQuotaRule,
     options?: VolumeQuotaRulesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VolumeQuotaRulesCreateResponse>,
-      VolumeQuotaRulesCreateResponse
-    >
+    SimplePollerLike<OperationState<VolumeQuotaRulesCreateResponse>, VolumeQuotaRulesCreateResponse>
   >;
   /**
    * Create the specified quota rule within the given volume
@@ -118,10 +115,7 @@ export interface VolumeQuotaRules {
     body: VolumeQuotaRulePatch,
     options?: VolumeQuotaRulesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VolumeQuotaRulesUpdateResponse>,
-      VolumeQuotaRulesUpdateResponse
-    >
+    SimplePollerLike<OperationState<VolumeQuotaRulesUpdateResponse>, VolumeQuotaRulesUpdateResponse>
   >;
   /**
    * Patch a quota rule

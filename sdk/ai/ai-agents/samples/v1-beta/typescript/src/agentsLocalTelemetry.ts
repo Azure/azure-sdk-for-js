@@ -27,9 +27,7 @@ const provider = new NodeTracerProvider({
 provider.register();
 
 registerInstrumentations({
-  instrumentations: [
-    createAzureSdkInstrumentation(),
-  ],
+  instrumentations: [createAzureSdkInstrumentation()],
 });
 
 export async function main(): Promise<void> {

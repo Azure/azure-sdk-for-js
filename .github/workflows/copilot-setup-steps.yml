@@ -23,11 +23,11 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install Rush
-        run: npm install -g @microsoft/rush
+      - name: Install Pnpm
+        run: npm install -g pnpm
 
       - name: Install library dependencies
-        run: rush update
+        run: pnpm install
 
       - name: Install azsdk mcp server
         shell: pwsh

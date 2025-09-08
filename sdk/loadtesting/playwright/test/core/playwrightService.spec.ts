@@ -54,7 +54,7 @@ const samplePlaywrightConfigInput = {
   globalTeardown: "sample-teardown.ts",
 };
 
-describe("getServiceConfig", () => {
+describe("createAzurePlaywrightConfig", () => {
   beforeEach(() => {
     vi.spyOn(console, "error");
     vi.spyOn(console, "log");
@@ -71,7 +71,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should exit with error message when fetching service config if service endpoint is not set", async () => {
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
 
@@ -90,7 +90,7 @@ describe("getServiceConfig", () => {
   it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0", async () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
     vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, "1.49.0");
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
 
@@ -107,7 +107,7 @@ describe("getServiceConfig", () => {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
           },
-          timeout: playwrightServiceConfig.timeout,
+          timeout: playwrightServiceConfig.connectTimeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
           slowMo: playwrightServiceConfig.slowMo,
         },
@@ -120,7 +120,7 @@ describe("getServiceConfig", () => {
   it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0 and input global files are string", async () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
     vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, "1.49.0");
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
 
@@ -140,7 +140,7 @@ describe("getServiceConfig", () => {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
           },
-          timeout: playwrightServiceConfig.timeout,
+          timeout: playwrightServiceConfig.connectTimeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
           slowMo: playwrightServiceConfig.slowMo,
         },
@@ -153,7 +153,7 @@ describe("getServiceConfig", () => {
   it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0 and input global files are list", async () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
     vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, "1.49.0");
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
 
@@ -177,7 +177,7 @@ describe("getServiceConfig", () => {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
           },
-          timeout: playwrightServiceConfig.timeout,
+          timeout: playwrightServiceConfig.connectTimeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
           slowMo: playwrightServiceConfig.slowMo,
         },
@@ -190,7 +190,7 @@ describe("getServiceConfig", () => {
   it("should throw error when playwright version is 1.48.0 and input global files are list", async () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
     vi.stubEnv(InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION, "1.48.0");
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
 
@@ -207,7 +207,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should set customer config global setup and teardown scripts in the config if passed", async () => {
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     localGetServiceConfig(samplePlaywrightConfigInput);
@@ -223,7 +223,7 @@ describe("getServiceConfig", () => {
     "should set customer config global setup and teardown scripts to null in the config if not passed",
     { skip: true },
     async () => {
-      const { getServiceConfig: localGetServiceConfig } = await import(
+      const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
         "../../src/core/playwrightService.js"
       );
       const config = localGetServiceConfig(undefined as any);
@@ -238,20 +238,20 @@ describe("getServiceConfig", () => {
 
   it("should set service config options as passed", async () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     localGetServiceConfig(samplePlaywrightConfigInput, {
       os: ServiceOS.WINDOWS,
-      runId: "1234",
+      runId: "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
-    expect(playwrightServiceConfig.runId).to.equal("1234");
+    expect(playwrightServiceConfig.runId).to.equal("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
   });
 
   it("should set service global setup and teardown for entra authentication", async () => {
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     const config = localGetServiceConfig(samplePlaywrightConfigInput);
@@ -260,7 +260,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should not set service global setup and teardown for mpt PAT authentication even if pat is not set", async () => {
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     vi.spyOn(utils, "validateMptPAT").mockReturnValue();
@@ -277,7 +277,7 @@ describe("getServiceConfig", () => {
     vi.stubEnv(InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG, "true");
     const warnIfAccessTokenCloseToExpiryStub = vi.spyOn(utils, "warnIfAccessTokenCloseToExpiry");
     vi.spyOn(utils, "validateMptPAT").mockReturnValue();
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
 
@@ -297,7 +297,7 @@ describe("getServiceConfig", () => {
     vi.spyOn(utils, "validateMptPAT").mockReturnValue();
     vi.mocked(parseJwt).mockReturnValue({ exp: Date.now() / 1000 + 10000 });
 
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
 
@@ -312,7 +312,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should set service global setup and teardown for entra id authentication even if pat is set", async () => {
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
@@ -325,7 +325,7 @@ describe("getServiceConfig", () => {
 
   it("should not set service global setup and teardown for mpt pat authentication if pat is set", async () => {
     vi.mocked(parseJwt).mockReturnValue({ exp: Date.now() / 1000 + 10000 });
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
@@ -338,7 +338,7 @@ describe("getServiceConfig", () => {
 
   it("should return service config with service connect options", async () => {
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     const playwrightServiceConfig = new PlaywrightServiceConfig();
@@ -354,7 +354,7 @@ describe("getServiceConfig", () => {
             Authorization: "Bearer token",
             "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
           },
-          timeout: playwrightServiceConfig.timeout,
+          timeout: playwrightServiceConfig.connectTimeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
           slowMo: playwrightServiceConfig.slowMo,
         },
@@ -364,26 +364,10 @@ describe("getServiceConfig", () => {
     });
   });
 
-  it("should not set connect options if disable scalable execution is true", async () => {
-    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, "token");
-    const { getServiceConfig: localGetServiceConfig } = await import(
-      "../../src/core/playwrightService.js"
-    );
-
-    const config = localGetServiceConfig(samplePlaywrightConfigInput, {
-      useCloudHostedBrowsers: false,
-    });
-
-    expect(config).to.deep.equal({
-      globalSetup: globalSetupPath,
-      globalTeardown: globalTeardownPath,
-    });
-  });
-
-  it("should set token credentials if passed on playwright service entra singleton object", async () => {
+  it("should set token credentials if passed on Playwright workspaces entra singleton object", async () => {
     const accessToken = "token";
     vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, accessToken);
-    const { getServiceConfig: localGetServiceConfig } = await import(
+    const { createAzurePlaywrightConfig: localGetServiceConfig } = await import(
       "../../src/core/playwrightService.js"
     );
     const playwrightServiceEntra = await import("../../src/core/playwrightServiceEntra.js");
@@ -418,21 +402,28 @@ describe("getConnectOptions", () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     delete process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG];
     const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+    const credential = {
+      getToken: vi
+        .fn()
+        .mockResolvedValue({ token: "token", expiresOnTimestamp: Date.now() + 10000 }),
+    };
     await getConnectOptions({
-      runId: "1234",
+      runId: "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
       os: ServiceOS.WINDOWS,
+      credential,
+      serviceAuthType: ServiceAuth.ENTRA_ID,
     });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    expect(playwrightServiceConfig.runId).to.equal("1234");
+    expect(playwrightServiceConfig.runId).to.equal("a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6");
     expect(playwrightServiceConfig.serviceOs).to.equal(ServiceOS.WINDOWS);
   });
 
-  it("should throw error when using both getServiceConfig and getConnectOptions with restricted params", async () => {
+  it("should throw error when using both createAzurePlaywrightConfig and getConnectOptions with restricted params", async () => {
     process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG] = "true";
     const { getConnectOptions } = await import("../../src/core/playwrightService.js");
     await expect(
       getConnectOptions({
-        runId: "1234",
+        runId: "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
       }),
     ).rejects.toThrow(ServiceErrorMessageConstants.INVALID_PARAM_WITH_SERVICE_CONFIG.message);
     delete process.env[InternalEnvironmentVariables.USING_SERVICE_CONFIG];
@@ -443,7 +434,15 @@ describe("getConnectOptions", () => {
     const mockVersion = "1.0.0";
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     vi.spyOn(require("../../package.json"), "version", "get").mockReturnValue(mockVersion);
-    const connectOptions = await getConnectOptions({});
+    const credential = {
+      getToken: vi
+        .fn()
+        .mockResolvedValue({ token: "token", expiresOnTimestamp: Date.now() + 10000 }),
+    };
+    const connectOptions = await getConnectOptions({
+      credential,
+      serviceAuthType: ServiceAuth.ENTRA_ID,
+    });
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(connectOptions).to.deep.equal({
       wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${Constants.LatestAPIVersion}`,
@@ -452,7 +451,7 @@ describe("getConnectOptions", () => {
           Authorization: "Bearer token",
           "x-ms-package-version": `@azure/playwright/${encodeURIComponent(mockVersion)}`,
         },
-        timeout: new PlaywrightServiceConfig().timeout,
+        timeout: new PlaywrightServiceConfig().connectTimeout,
         exposeNetwork: new PlaywrightServiceConfig().exposeNetwork,
         slowMo: new PlaywrightServiceConfig().slowMo,
       },
@@ -463,9 +462,12 @@ describe("getConnectOptions", () => {
   it("should throw error if token is not set", async () => {
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
     const { getConnectOptions } = await import("../../src/core/playwrightService.js");
-    await expect(() => getConnectOptions()).rejects.toThrow(
-      ServiceErrorMessageConstants.NO_AUTH_ERROR.message,
-    );
+
+    await expect(() =>
+      getConnectOptions({
+        serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+      }),
+    ).rejects.toThrow(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
   });
 
   it("should fetch entra token using credentials passed by customer", async () => {
@@ -483,5 +485,61 @@ describe("getConnectOptions", () => {
       credential,
     });
     expect(credential.getToken).toHaveBeenCalled();
+  });
+
+  it("should throw error when ENTRA_ID auth type is specified but no credential is provided", async () => {
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+
+    await expect(() =>
+      getConnectOptions({
+        serviceAuthType: ServiceAuth.ENTRA_ID,
+      }),
+    ).rejects.toThrow(ServiceErrorMessageConstants.NO_CRED_ENTRA_AUTH_ERROR.message);
+  });
+
+  it("should use environment access token when ACCESS_TOKEN auth type is specified", async () => {
+    const accessToken = "token";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, accessToken);
+    vi.spyOn(utils, "validateMptPAT").mockReturnValue();
+    vi.spyOn(utils, "getAccessToken").mockReturnValue(accessToken);
+
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+
+    const connectOptions = await getConnectOptions({
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+    });
+
+    // Access the options correctly based on the structure
+    expect(connectOptions.options?.headers?.Authorization).to.equal(`Bearer ${accessToken}`);
+  });
+
+  it("should throw error when invalid auth type is specified", async () => {
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+
+    await expect(() =>
+      getConnectOptions({
+        serviceAuthType: "INVALID_AUTH_TYPE" as any,
+      }),
+    ).rejects.toThrow(ServiceErrorMessageConstants.INVALID_AUTH_TYPE_ERROR.message);
+  });
+
+  it("should honor serviceAuthType when specified", async () => {
+    const accessToken = "token";
+    vi.stubEnv(ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN, accessToken);
+    vi.spyOn(utils, "validateMptPAT").mockReturnValue();
+
+    const { getConnectOptions } = await import("../../src/core/playwrightService.js");
+
+    const playwrightServiceConfigSpy = vi.spyOn(
+      PlaywrightServiceConfig.prototype,
+      "serviceAuthType",
+      "set",
+    );
+
+    await getConnectOptions({
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+    });
+
+    expect(playwrightServiceConfigSpy).toHaveBeenCalledWith(ServiceAuth.ACCESS_TOKEN);
   });
 });

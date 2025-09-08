@@ -1,6 +1,10 @@
 {
-  "extends": [
-    "./tsconfig.test.json",
-    "../../../tsconfig.browser.base.json"
-  ]
+  "extends": "../../../tsconfig.browser.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-redhatopenshift": ["./dist/browser/index.d.ts"],
+      "@azure/arm-redhatopenshift/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
+    }
+  }
 }

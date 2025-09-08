@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to update a Account
  *
  * @summary update a Account
  * x-ms-original-file: 2024-12-01/Accounts_Update.json
  */
+
+import { AzurePlaywrightServiceClient } from "@azure/arm-playwrighttesting";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function accountsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

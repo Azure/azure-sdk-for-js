@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Delete the specified Backup Vault
  *
  * @summary Delete the specified Backup Vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/BackupVaults_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/BackupVaults_Delete.json
  */
 async function backupVaultsDelete() {
   const subscriptionId =

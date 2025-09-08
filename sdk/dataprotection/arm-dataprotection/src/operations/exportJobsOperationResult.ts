@@ -17,9 +17,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing ExportJobsOperationResult operations. */
-export class ExportJobsOperationResultImpl
-  implements ExportJobsOperationResult
-{
+export class ExportJobsOperationResultImpl implements ExportJobsOperationResult {
   private readonly client: DataProtectionClient;
 
   /**

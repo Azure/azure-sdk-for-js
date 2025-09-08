@@ -108,11 +108,12 @@ useAzureMonitor(options);
       <pre><code class="language-javascript">
 {
   http: { enabled: true },
-  azureSdk: { enabled: false },
-  mongoDb: { enabled: false },
-  mySql: { enabled: false },
-  postgreSql: { enabled: false },
-  redis: { enabled: false },
+  azureSdk: { enabled: true },
+  mongoDb: { enabled: true },
+  mySql: { enabled: true },
+  postgreSql: { enabled: true },
+  redis: { enabled: true },
+  redis4: { enabled: true },
   bunyan: { enabled: false }, 
   winston: { enabled: false } 
 }
@@ -195,6 +196,8 @@ process.env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = "path/to/customConfig.js
 ## Instrumentation libraries
 
 The following OpenTelemetry Instrumentation libraries are included as part of Azure Monitor OpenTelemetry.
+
+**Note:** The Azure SDK, MongoDB, MySQL, PostgreSQL, Redis, and Redis-4 instrumentations are enabled by default for distributed tracing. The HTTP/HTTPS instrumentation is also enabled by default. All other instrumentations are disabled by default and can be enabled by setting `enabled: true` in the instrumentation options.
 
 > _Warning:_ Instrumentation libraries are based on experimental OpenTelemetry specifications. Microsoft's _preview_ support commitment is to ensure that the following libraries emit data to Azure Monitor Application Insights, but it's possible that breaking changes or experimental mapping will block some data elements.
 

@@ -2,7 +2,10 @@
   "name": "@azure-tools/dependency-testing",
   "version": "1.0.0",
   "description": "Utilities for min/max dependency testing",
+  "type": "module",
   "scripts": {
+    "build": "npm run format && npm run typecheck",
+    "typecheck": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore  \"./**/*.{js,json}\""
   },
@@ -22,5 +25,11 @@
     "semver": "^7.5.4",
     "yargs": "^17.7.2",
     "@azure-tools/eng-package-utils": "file:../eng-package-utils"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.33",
+    "@types/node": "^20.0.0",
+    "prettier": "^3.6.2",
+    "typescript": "~5.8.2"
   }
 }

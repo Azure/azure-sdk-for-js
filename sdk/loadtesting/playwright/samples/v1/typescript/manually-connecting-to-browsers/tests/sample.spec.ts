@@ -29,11 +29,9 @@ test("get started link", async ({ browserName }) => {
 
   const playwrightServiceAdditionalOptions: PlaywrightServiceAdditionalOptions = {
     os: os, // Operating system types supported by Azure Playwright
-    runId: new Date().toISOString(), // Run id for the test run
-    timeout: 30000, // Maximum time in milliseconds to wait for the connection to be established
+    connectTimeout: 30000, // Maximum time in milliseconds to wait for the connection to be established
     slowMo: 0, // Slows down Playwright operations by the specified amount of milliseconds
     exposeNetwork: "<loopback>", // Exposes network available on the connecting client to the browser being connected to
-    useCloudHostedBrowsers: true, // Use cloud hosted browsers
     credential: azureCredential, // Custom token credential for Entra ID authentication
     runName: "Typescript V1 - Sample Run", // Run name for the test run
   };

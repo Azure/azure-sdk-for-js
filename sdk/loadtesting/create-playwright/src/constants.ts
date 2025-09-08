@@ -21,7 +21,7 @@ export const ErrorMessages = {
 
 export const Messages = {
   CAN_OVERRIDE_MESSAGE:
-    "There's already a playwright service configuration file present. Do you want to overwrite it?",
+    "There's already a playwright workspaces configuration file present. Do you want to overwrite it?",
   CONFIRMATION_FOR_EXIT_MESSAGE:
     "You won't be able to install and setup up the service without overwriting the existing configuration file. Do you still want to exit the setup process?",
   SETUP_PROCESS_EXIT_MESSAGE: "Exiting the service setup process.",

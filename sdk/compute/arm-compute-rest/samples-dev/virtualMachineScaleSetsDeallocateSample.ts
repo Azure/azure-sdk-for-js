@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { VirtualMachineScaleSetsDeallocateParameters } from "@azure-rest/arm-compute";
-import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
  *
  * @summary Deallocates specific virtual machines in a VM scale set. Shuts down the virtual machines and releases the compute resources. You are not billed for the compute resources that this virtual machine scale set deallocates.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Deallocate_MaximumSet_Gen.json
  */
+
+import type { VirtualMachineScaleSetsDeallocateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function virtualMachineScaleSetsDeallocateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);

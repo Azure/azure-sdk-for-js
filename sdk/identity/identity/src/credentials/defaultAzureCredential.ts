@@ -65,20 +65,10 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * - {@link AzureCliCredential}
  * - {@link AzurePowerShellCredential}
  * - {@link AzureDeveloperCliCredential}
+ * - {@link BrokerCredential}
  *
  * Consult the documentation of these credential types for more information
  * on how they attempt authentication.
- *
- * Selecting credentials
- *
- * Set environment variable AZURE_TOKEN_CREDENTIALS to select a subset of the credential chain.
- * DefaultAzureCredential will try only the specified credential(s), but its other behavior remains the same.
- * Valid values for AZURE_TOKEN_CREDENTIALS are the name of any single type in the above chain, for example
- * "EnvironmentCredential" or "AzureCliCredential", and these special values:
- *
- *   - "dev": try [VisualStudioCodeCredential], [AzureCliCredential], [AzurePowerShellCredential] and [AzureDeveloperCliCredential], in that order
- *   - "prod": try [EnvironmentCredential], [WorkloadIdentityCredential], and [ManagedIdentityCredential], in that order
- *
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
@@ -103,6 +93,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
   constructor(options?: DefaultAzureCredentialOptions);
 
   constructor(options?: DefaultAzureCredentialOptions) {
+    validateRequiredEnvVars(options);
     // If AZURE_TOKEN_CREDENTIALS is not set, use the default credential chain.
     const azureTokenCredentials = process.env.AZURE_TOKEN_CREDENTIALS
       ? process.env.AZURE_TOKEN_CREDENTIALS.trim().toLowerCase()
@@ -183,5 +174,19 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     });
 
     super(...credentials);
+  }
+}
+
+function validateRequiredEnvVars(options?: DefaultAzureCredentialOptions) {
+  if (options?.requiredEnvVars) {
+    const requiredVars = Array.isArray(options.requiredEnvVars)
+      ? options.requiredEnvVars
+      : [options.requiredEnvVars];
+    const missing = requiredVars.filter((envVar) => !process.env[envVar]);
+    if (missing.length > 0) {
+      const errorMessage = `Required environment ${missing.length === 1 ? "variable" : "variables"} '${missing.join(", ")}' for DefaultAzureCredential ${missing.length === 1 ? "is" : "are"} not set or empty.`;
+      logger.warning(errorMessage);
+      throw new Error(errorMessage);
+    }
   }
 }

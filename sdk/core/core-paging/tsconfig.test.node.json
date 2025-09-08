@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/core-paging": ["./src/index.ts"],
+      "@azure/core-paging/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}

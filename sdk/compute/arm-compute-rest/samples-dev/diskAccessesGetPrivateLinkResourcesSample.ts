@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiskAccessesGetPrivateLinkResourcesParameters } from "@azure-rest/arm-compute";
-import createComputeManagementClient from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to Gets the private link resources possible under disk access resource
  *
  * @summary Gets the private link resources possible under disk access resource
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskAccessExamples/DiskAccessPrivateLinkResources_Get.json
  */
+
+import type { DiskAccessesGetPrivateLinkResourcesParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function listAllPossiblePrivateLinkResourcesUnderDiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);

@@ -45,7 +45,6 @@ import {
   SEMRESATTRS_SERVICE_INSTANCE_ID,
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
-  SEMATTRS_ENDUSER_ID,
 } from "@opentelemetry/semantic-conventions";
 
 import type { Tags, Properties, Measurements } from "../../src/types.js";
@@ -1536,13 +1535,13 @@ describe("spanUtils.ts", () => {
       expectedBaseData,
     );
   });
-  it("should ensure SEMATTRS_ENDUSER_ID is not included in properties", () => {
+  it("should ensure ATTR_ENDUSER_ID is not included in properties", () => {
     const spanOptions: SpanOptions = {
       kind: SpanKind.SERVER,
     };
     const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
     span.setAttributes({
-      [SEMATTRS_ENDUSER_ID]: "test-user-id",
+      [experimentalOpenTelemetryValues.ATTR_ENDUSER_ID]: "test-user-id",
       "extra.attribute": "foo",
     });
     span.setStatus({
@@ -1552,7 +1551,7 @@ describe("spanUtils.ts", () => {
     const readableSpan = spanToReadableSpan(span);
     const expectedTags: Tags = {};
     expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-    expectedTags[KnownContextTagKeys.AiUserId] = "test-user-id";
+    expectedTags[KnownContextTagKeys.AiUserAuthUserId] = "test-user-id";
     expectedTags[KnownContextTagKeys.AiOperationName] = "span";
 
     const expectedProperties = {
@@ -1582,10 +1581,65 @@ describe("spanUtils.ts", () => {
       expectedBaseData,
     );
 
-    // Specifically verify that SEMATTRS_ENDUSER_ID is not in properties
+    // Specifically verify that ATTR_ENDUSER_ID is not in properties
     assert.ok(
-      !envelope.data?.baseData?.properties?.[SEMATTRS_ENDUSER_ID],
-      "SEMATTRS_ENDUSER_ID should not be included in properties",
+      !envelope.data?.baseData?.properties?.[experimentalOpenTelemetryValues.ATTR_ENDUSER_ID],
+      "ATTR_ENDUSER_ID should not be included in properties",
+    );
+  });
+
+  it("should ensure ATTR_ENDUSER_PSEUDO_ID is mapped to ai.user.id and not included in properties", () => {
+    const spanOptions: SpanOptions = {
+      kind: SpanKind.SERVER,
+    };
+    const span = tracer.startSpan("span", spanOptions, ROOT_CONTEXT);
+    span.setAttributes({
+      [experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID]: "test-pseudo-user-id",
+      "extra.attribute": "foo",
+    });
+    span.setStatus({
+      code: SpanStatusCode.OK,
+    });
+    span.end();
+    const readableSpan = spanToReadableSpan(span);
+    const expectedTags: Tags = {};
+    expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+    expectedTags[KnownContextTagKeys.AiUserId] = "test-pseudo-user-id";
+    expectedTags[KnownContextTagKeys.AiOperationName] = "span";
+
+    const expectedProperties = {
+      "extra.attribute": "foo",
+    };
+
+    const expectedBaseData: Partial<RequestData> = {
+      id: `${span.spanContext().spanId}`,
+      success: true,
+      responseCode: "0",
+      name: `span`,
+      version: 2,
+      source: undefined,
+      properties: expectedProperties,
+      measurements: {},
+    };
+
+    const envelope = readableSpanToEnvelope(readableSpan, "ikey");
+    assertEnvelope(
+      envelope,
+      "Microsoft.ApplicationInsights.Request",
+      100,
+      "RequestData",
+      expectedTags,
+      expectedProperties,
+      emptyMeasurements,
+      expectedBaseData,
+    );
+
+    // Specifically verify that ATTR_ENDUSER_PSEUDO_ID is not in properties
+    assert.ok(
+      !envelope.data?.baseData?.properties?.[
+        experimentalOpenTelemetryValues.ATTR_ENDUSER_PSEUDO_ID
+      ],
+      "ATTR_ENDUSER_PSEUDO_ID should not be included in properties",
     );
   });
 });

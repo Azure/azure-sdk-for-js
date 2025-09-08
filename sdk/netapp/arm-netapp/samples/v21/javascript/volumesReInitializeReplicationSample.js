@@ -14,7 +14,7 @@ require("dotenv/config");
  * This sample demonstrates how to Re-Initializes the replication connection on the destination volume
  *
  * @summary Re-Initializes the replication connection on the destination volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-03-01/examples/Volumes_ReInitializeReplication.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2025-06-01/examples/Volumes_ReInitializeReplication.json
  */
 async function volumesReInitializeReplication() {
   const subscriptionId =

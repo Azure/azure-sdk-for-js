@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ConnectedEnvironmentsStoragesListOptionalParams,
   ConnectedEnvironmentsStoragesListResponse,
@@ -15,6 +16,7 @@ import {
   ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams,
   ConnectedEnvironmentsStoragesCreateOrUpdateResponse,
   ConnectedEnvironmentsStoragesDeleteOptionalParams,
+  ConnectedEnvironmentsStoragesDeleteResponse,
 } from "../models/index.js";
 
 /** Interface representing a ConnectedEnvironmentsStorages. */
@@ -51,7 +53,27 @@ export interface ConnectedEnvironmentsStorages {
    * @param storageEnvelope Configuration details of storage.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    storageName: string,
+    storageEnvelope: ConnectedEnvironmentStorage,
+    options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsStoragesCreateOrUpdateResponse>,
+      ConnectedEnvironmentsStoragesCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or update storage for a connectedEnvironment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the Environment.
+   * @param storageName Name of the storage.
+   * @param storageEnvelope Configuration details of storage.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     storageName: string,
@@ -65,10 +87,28 @@ export interface ConnectedEnvironmentsStorages {
    * @param storageName Name of the storage.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     connectedEnvironmentName: string,
     storageName: string,
     options?: ConnectedEnvironmentsStoragesDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConnectedEnvironmentsStoragesDeleteResponse>,
+      ConnectedEnvironmentsStoragesDeleteResponse
+    >
+  >;
+  /**
+   * Delete storage for a connectedEnvironment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param connectedEnvironmentName Name of the Environment.
+   * @param storageName Name of the storage.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    connectedEnvironmentName: string,
+    storageName: string,
+    options?: ConnectedEnvironmentsStoragesDeleteOptionalParams,
+  ): Promise<ConnectedEnvironmentsStoragesDeleteResponse>;
 }

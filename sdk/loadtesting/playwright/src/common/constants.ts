@@ -64,7 +64,7 @@ export const Constants = {
   SevenDaysInMS: 7 * 24 * 60 * 60 * 1000,
   OneDayInMS: 24 * 60 * 60 * 1000,
   MinimumSupportedPlaywrightVersion: "1.47.0",
-  LatestAPIVersion: "2025-07-01-preview",
+  LatestAPIVersion: "2025-09-01",
   HTTP_CALL_TIMEOUT: 10000,
 };
 

@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ObservabilityEvalClient } from "@azure/arm-arizeaiobservabilityeval";
-import { DefaultAzureCredential } from "@azure/identity";
-
 /**
  * This sample demonstrates how to create a OrganizationResource
  *
  * @summary create a OrganizationResource
  * x-ms-original-file: 2024-10-01/Organizations_CreateOrUpdate_MaximumSet_Gen.json
  */
+
+import { ObservabilityEvalClient } from "@azure/arm-arizeaiobservabilityeval";
+import { DefaultAzureCredential } from "@azure/identity";
+
 async function organizationsCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "4DEBE8B4-8BA4-42F8-AE50-FBEF318751D1";

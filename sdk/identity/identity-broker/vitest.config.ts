@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { defineConfig, mergeConfig } from "vitest/config";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 import path from "node:path";
 import viteConfig from "../../../vitest.shared.config.ts";
 

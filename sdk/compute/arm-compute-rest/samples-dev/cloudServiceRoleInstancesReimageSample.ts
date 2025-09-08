@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CloudServiceRoleInstancesReimageParameters } from "@azure-rest/arm-compute";
-import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
-
 /**
  * This sample demonstrates how to The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles.
  *
  * @summary The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudServiceRoleInstance_Reimage.json
  */
+
+import type { CloudServiceRoleInstancesReimageParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function reimageCloudServiceRoleInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);

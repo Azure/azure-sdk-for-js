@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { NetworkInterfaceTapConfigurationsCreateOrUpdateParameters } from "@azure-rest/arm-network";
-import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
-import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Tap configuration in the specified NetworkInterface.
@@ -11,6 +7,12 @@ import "dotenv/config";
  * @summary Creates or updates a Tap configuration in the specified NetworkInterface.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceTapConfigurationCreate.json
  */
+
+import type { NetworkInterfaceTapConfigurationsCreateOrUpdateParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
+import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
+
 async function createNetworkInterfaceTapConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
@@ -37,7 +39,7 @@ async function createNetworkInterfaceTapConfigurations(): Promise<void> {
       tapConfigurationName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

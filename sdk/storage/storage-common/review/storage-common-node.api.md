@@ -89,6 +89,12 @@ export function storageCorrectContentLengthPolicy(): PipelinePolicy;
 export const storageCorrectContentLengthPolicyName = "StorageCorrectContentLengthPolicy";
 
 // @public
+export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy;
+
+// @public
+export const storageRequestFailureDetailsParserPolicyName = "storageRequestFailureDetailsParserPolicy";
+
+// @public
 export interface StorageRetryOptions {
     readonly maxRetryDelayInMs?: number;
     readonly maxTries?: number;
