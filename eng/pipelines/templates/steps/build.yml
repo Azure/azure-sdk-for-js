@@ -76,7 +76,6 @@ steps:
       Artifacts: ${{ parameters.Artifacts }}
 
   - pwsh: |
-      npm install ./eng/tools/ci-runner
       node eng/tools/ci-runner/index.js build "$(ChangedServices)" -packages "$(ArtifactPackageNames)"
     env:
       TURBO_TEAM: azsdkjs
