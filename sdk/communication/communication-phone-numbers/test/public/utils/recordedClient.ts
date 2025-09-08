@@ -224,8 +224,8 @@ async function assignRoleToExistingResource(): Promise<void> {
     properties: {
       roleDefinitionId: `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${contributorRoleId}`,
       principalId,
-      principalType: "ServicePrincipal"
-    }
+      principalType: "ServicePrincipal",
+    },
   };
 
   const credential = new DefaultAzureCredential();
@@ -234,10 +234,10 @@ async function assignRoleToExistingResource(): Promise<void> {
   const response = await fetch(url, {
     method: "PUT",
     headers: {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json"
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
