@@ -200,14 +200,14 @@ async function assignRoleToExistingResource(): Promise<void> {
   if (!match) throw new Error("Could not parse resource name from endpoint");
   const resourceName = match[1];
 
-  const subscriptionId = process.env.SubscriptionId;
+  const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
   const resourceGroup = process.env.RESOURCE_GROUP_NAME;
-  const principalId = process.env.testApplicationOid; // Object ID of your test app
+  const principalId = process.env.COMMUNICATION_M365_APP_ID; // Object ID of your test app
 
   const missingParams = [];
-  if (!subscriptionId) missingParams.push("SubscriptionId");
+  if (!subscriptionId) missingParams.push("AZURE_SUBSCRIPTION_ID");
   if (!resourceGroup) missingParams.push("RESOURCE_GROUP_NAME");
-  if (!principalId) missingParams.push("testApplicationOid");
+  if (!principalId) missingParams.push("COMMUNICATION_M365_APP_ID");
   if (missingParams.length > 0) {
     throw new Error(`Missing required environment variables: ${missingParams.join(", ")}`);
   }
