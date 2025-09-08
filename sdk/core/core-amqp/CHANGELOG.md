@@ -1,12 +1,6 @@
 # Release History
 
-## 4.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 4.4.1 (2025-09-11)
 
 ### Other Changes
 
