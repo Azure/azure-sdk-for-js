@@ -24,7 +24,7 @@ import { QueryRange } from "../routing/QueryRange.js";
  * Manages continuation tokens for multi-partition query execution.
  * Handles composite continuation token creation, range mapping updates, and token serialization.
  * Supports both parallel queries (multi-range aggregation) and ORDER BY queries (single-range sequential).
- * @hidden
+ * @internal
  */
 export class ContinuationTokenManager {
   private compositeContinuationToken: CompositeQueryContinuationToken;
@@ -177,14 +177,13 @@ export class ContinuationTokenManager {
    */
   public processRangesForCurrentPage(
     pageSize: number,
-    currentBufferLength: number,
     pageResults?: any[],
   ): { endIndex: number; processedRanges: string[] } {
     this.removeExhaustedRangesFromRanges();
     if (this.isOrderByQuery) {
-      return this.processOrderByRanges(pageSize, currentBufferLength, pageResults);
+      return this.processOrderByRanges(pageSize, pageResults);
     } else {
-      return this.processParallelRanges(pageSize, currentBufferLength);
+      return this.processParallelRanges(pageSize);
     }
   }
 
@@ -193,12 +192,10 @@ export class ContinuationTokenManager {
    */
   private processOrderByRanges(
     pageSize: number,
-    currentBufferLength: number,
     pageResults?: any[],
   ): { endIndex: number; processedRanges: string[] } {
     const result = this.partitionRangeManager.processOrderByRanges(
       pageSize,
-      currentBufferLength,
       this.orderByItemsArray
     );
 
@@ -262,7 +259,6 @@ export class ContinuationTokenManager {
    */
   private processParallelRanges(
     pageSize: number,
-    currentBufferLength: number,
   ): { endIndex: number; processedRanges: string[] } {
     const result = this.partitionRangeManager.processParallelRanges(pageSize);
     

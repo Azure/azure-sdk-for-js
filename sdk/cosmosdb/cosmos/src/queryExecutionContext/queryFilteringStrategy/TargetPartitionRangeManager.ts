@@ -112,6 +112,7 @@ export class TargetPartitionRangeManager {
     const result = this.strategy.filterPartitionRanges(
       targetRanges,
       rangeTokenPairs,
+      mergedQueryInfo
     );
 
     return result;

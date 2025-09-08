@@ -391,7 +391,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
     const result = this.continuationTokenManager.processRangesForCurrentPage(
       this.pageSize,
-      this.fetchBuffer.length,
       this.fetchBuffer.slice(0, this.fetchBuffer.length),
     );
     return result;

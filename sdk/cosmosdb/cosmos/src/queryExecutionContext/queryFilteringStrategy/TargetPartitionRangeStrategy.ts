@@ -34,5 +34,7 @@ export interface TargetPartitionRangeStrategy {
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationRanges?: PartitionRangeWithContinuationToken[],
+    queryInfo?: Record<string, unknown>,
+
   ): PartitionRangeFilterResult;
 }

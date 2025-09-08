@@ -21,6 +21,7 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationRanges?: PartitionRangeWithContinuationToken[],
+    queryInfo?: Record<string, unknown>
   ): PartitionRangeFilterResult {
 
     if (!targetRanges || targetRanges.length === 0 || !continuationRanges || continuationRanges.length === 0) {
