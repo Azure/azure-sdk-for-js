@@ -7,6 +7,7 @@ import { createClientLogger } from "@azure/logger";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes.js";
 import type { FeedOptions, Response } from "../request/index.js";
 import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse.js";
+import { ErrorResponse } from "../request/ErrorResponse.js";
 import { QueryRange } from "../routing/QueryRange.js";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider.js";
 import type { CosmosHeaders, PartitionKeyRange } from "../index.js";
@@ -20,14 +21,14 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal.js";
 import type { ClientContext } from "../ClientContext.js";
 import type { QueryRangeMapping } from "./QueryRangeMapping.js";
-import type { CompositeQueryContinuationToken, QueryRangeWithContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import type { QueryRangeWithContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import { parseOrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import { parseCompositeQueryContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import {
   TargetPartitionRangeManager,
   QueryExecutionContextType,
 } from "./queryFilteringStrategy/TargetPartitionRangeManager.js";
 import { createParallelQueryResult } from "./ParallelQueryResult.js";
-import { parseOrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { PartitionRangeUpdate, PartitionRangeUpdates } from "../documents/ContinuationToken/PartitionRangeUpdate.js";
 
 /** @hidden */
@@ -57,7 +58,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private patchCounter: number = 0;
   private updatedContinuationRanges: Map<string, PartitionRangeUpdate> = new Map();
   private sem: any;
-  // protected continuationTokenManager: ContinuationTokenManager;
   private diagnosticNodeWrapper: {
     consumed: boolean;
     diagnosticNode: DiagnosticNodeInternal;
@@ -103,8 +103,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);
     this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
     this.buffer = [];
-    // this.continuationTokenManager = this.options.continuationTokenManager;
-
     this.requestContinuation = options ? options.continuationToken || options.continuation : null;
     // response headers of undergoing operation
     this.respHeaders = getInitialHeader();
@@ -243,7 +241,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     a: DocumentProducer,
     b: DocumentProducer,
   ): number {
-    // Compare based on minInclusive values to ensure left-to-right range traversal
     const aMinInclusive = a.targetPartitionKeyRange.minInclusive;
     const bMinInclusive = b.targetPartitionKeyRange.minInclusive;
     const minInclusiveComparison = bMinInclusive.localeCompare(aMinInclusive);
@@ -289,119 +286,114 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     }
 
     const processedRanges: { range: any; continuationToken?: string; epkMin?: string; epkMax?: string }[] = [];
-    let orderByItems: any[] | undefined;
-    let rid: string | undefined;
 
-    try {
-      // Parse the continuation token to get range mappings and orderByItems
-      const parsedTokenRanges = this._parseRanges(continuationToken);
-      if (!parsedTokenRanges) {
-        return { ranges: [] };
-      }
+    // Parse continuation token and extract range mappings along with metadata
+    const { rangeMappings, orderByItems: parsedOrderByItems, rid: parsedRid } = this._parseContinuationToken(continuationToken);
 
-      // Extract orderByItems and rid for ORDER BY queries
-      const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
-      if (isOrderByQuery) {
-        // For ORDER BY queries, parse the outer structure to get orderByItems and rid
-        const outerParsed = parseOrderByQueryContinuationToken(continuationToken);
-        if (outerParsed) {
-          if (outerParsed.orderByItems) {
-            orderByItems = outerParsed.orderByItems;
-          }
-          if (outerParsed.rid) {
-            rid = outerParsed.rid;
-          }
-        }
-      }
+    if (!rangeMappings || rangeMappings.length === 0) {
+      return { ranges: [], orderByItems: parsedOrderByItems, rid: parsedRid };
+    }
 
-      const compositeContinuationToken = parsedTokenRanges;
-      if (!compositeContinuationToken || !compositeContinuationToken.rangeMappings) {
-        return { ranges: [], orderByItems, rid };
-      }
+    // Set the extracted metadata
+    const orderByItems = parsedOrderByItems;
+    const rid: string | undefined = parsedRid;
 
-      // Check each range mapping for potential splits/merges
-      for (const rangeWithToken of compositeContinuationToken.rangeMappings) {
-        const queryRange = rangeWithToken.queryRange;
-        const rangeMin = queryRange.min;
-        const rangeMax = queryRange.max;
+    // Check each range mapping for potential splits/merges
+    for (const rangeWithToken of rangeMappings) {
+      const queryRange = rangeWithToken.queryRange;
+      const rangeMin = queryRange.min;
+      const rangeMax = queryRange.max;
 
-        // Get current overlapping ranges for this continuation token range
-        const overlappingRanges = await this.routingProvider.getOverlappingRanges(
-          this.collectionLink,
-          [queryRange],
-          this.getDiagnosticNode()
-        );
-        // Detect split/merge scenario based on the number of overlapping ranges
-        if (overlappingRanges.length === 0) {
-          continue;
-        } else if (overlappingRanges.length === 1) {
-          // Check if it's the same range (no change) or a merge scenario
-          const currentRange = overlappingRanges[0];
-          if (currentRange.minInclusive !== rangeMin || currentRange.maxExclusive !== rangeMax) {
-            // Merge scenario - include EPK ranges from original continuation token range
-            await this._handleContinuationTokenMerge(rangeWithToken, currentRange);
-            processedRanges.push({
-              range: currentRange,
-              continuationToken: rangeWithToken.continuationToken,
-              epkMin: rangeMin, // Original range min becomes EPK min
-              epkMax: rangeMax  // Original range max becomes EPK max
-            });
-          } else {
-            // Same range - no merge, no EPK ranges needed
-            processedRanges.push({
-              range: currentRange,
-              continuationToken: rangeWithToken.continuationToken
-            });
-          }
+      // Get current overlapping ranges for this continuation token range
+      const overlappingRanges = await this.routingProvider.getOverlappingRanges(
+        this.collectionLink,
+        [queryRange],
+        this.getDiagnosticNode()
+      );
+      
+      // Detect split/merge scenario based on the number of overlapping ranges
+      if (overlappingRanges.length === 0) {
+        continue;
+      } else if (overlappingRanges.length === 1) {
+        // Check if it's the same range (no change) or a merge scenario
+        const currentRange = overlappingRanges[0];
+        if (currentRange.minInclusive !== rangeMin || currentRange.maxExclusive !== rangeMax) {
+          // Merge scenario - include EPK ranges from original continuation token range
+          await this._handleContinuationTokenMerge(rangeWithToken, currentRange);
+          processedRanges.push({
+            range: currentRange,
+            continuationToken: rangeWithToken.continuationToken,
+            epkMin: rangeMin, // Original range min becomes EPK min
+            epkMax: rangeMax  // Original range max becomes EPK max
+          });
         } else {
-          // Split scenario - one range from continuation token now maps to multiple ranges
-          await this._handleContinuationTokenSplit(rangeWithToken, overlappingRanges); 
-          // Add all overlapping ranges with the same continuation token to processed ranges
-          overlappingRanges.forEach(range => {
-            processedRanges.push({
-              range: range,
-              continuationToken: rangeWithToken.continuationToken
-            });
+          // Same range - no merge, no EPK ranges needed
+          processedRanges.push({
+            range: currentRange,
+            continuationToken: rangeWithToken.continuationToken
           });
         }
+      } else {
+        // Split scenario - one range from continuation token now maps to multiple ranges
+        await this._handleContinuationTokenSplit(rangeWithToken, overlappingRanges); 
+        // Add all overlapping ranges with the same continuation token to processed ranges
+        overlappingRanges.forEach(range => {
+          processedRanges.push({
+            range: range,
+            continuationToken: rangeWithToken.continuationToken
+          });
+        });
       }
-
-      return { ranges: processedRanges, orderByItems, rid };
-    } catch (error) {
-      console.error("Error detecting partition changes:", error);
-      // Fall back to empty array if detection fails
-      return { ranges: [] };
     }
+
+    return { ranges: processedRanges, orderByItems, rid };
+  
   }
 
   /**
-   * Parses the continuation token to extract range mappings
+   * Parses the continuation token to extract range mappings and metadata
+   * Handles both ORDER BY and parallel query continuation tokens uniformly
+   * @param continuationToken - The continuation token string to parse
+   * @returns Object containing rangeMappings, orderByItems (for ORDER BY queries), and rid
+   * @throws ErrorResponse when continuation token is malformed or cannot be parsed
    */
-  private _parseRanges(continuationToken: string): CompositeQueryContinuationToken | null {
+  private _parseContinuationToken(continuationToken: string): {
+    rangeMappings: QueryRangeWithContinuationToken[] | null;
+    orderByItems?: any[];
+    rid?: string;
+  } {
+
     try {
-      // Handle both ORDER BY and parallel query continuation tokens
       const isOrderByQuery = this.sortOrders && this.sortOrders.length > 0;
-      
+      let parsed: any;
       if (isOrderByQuery) {
-        // For ORDER BY queries, the continuation token has rangeMappings property
-        const parsed = JSON.parse(continuationToken);
+        // For ORDER BY queries, parse the token and extract all needed information
+        parsed = parseOrderByQueryContinuationToken(continuationToken);
+        
         if (parsed && parsed.rangeMappings) {
-          // Convert rangeMappings directly to composite token structure
           return {
+            rangeMappings: parsed.rangeMappings,
+            orderByItems: parsed.orderByItems,
             rid: parsed.rid,
-            rangeMappings: parsed.rangeMappings
           };
         }
       } else {
-        // For parallel queries, parse directly
-        return parseCompositeQueryContinuationToken(continuationToken);
+        // For parallel queries, parse directly and extract range mappings
+        parsed = parseCompositeQueryContinuationToken(continuationToken);
+        if (parsed && parsed.rangeMappings) {
+          return {
+            rangeMappings: parsed.rangeMappings,
+          };
+        }
       }
-      
-      return null;
-    } catch (error) {
-      console.error("Failed to parse continuation token:", error);
-      return null;
-    }
+} catch (e) {
+    // Common error for both query types when rangeMappings is missing or invalid
+    throw new ErrorResponse(
+      `Invalid continuation token format. Expected token with rangeMappings property. ` +
+      `Ensure the continuation token was generated by a compatible query and has not been modified.`
+    );
+  }
+  
   }
 
   /**
