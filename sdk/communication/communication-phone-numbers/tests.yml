@@ -1,5 +1,8 @@
 trigger: none
 
+variables:
+  AZURE_SUBSCRIPTION_ID: $(acs-subscription-id)
+
 extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
@@ -18,5 +21,3 @@ extends:
           GenerateVMJobs: true
       TestResourceDirectories:
         - communication/test-resources/
-      env:
-        AZURE_SUBSCRIPTION_ID: $(acs-subscription-id)
