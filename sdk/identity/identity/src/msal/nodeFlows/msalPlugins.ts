@@ -183,58 +183,67 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
   }
 
   if (options.brokerOptions?.enabled) {
-    if (options.isVSCodeCredential) {
-      if (vsCodeBrokerInfo === undefined) {
-        throw new Error(
-          [
-            "Visual Studio Code Credential was requested, but no plugin was configured or no authentication record was found.",
-            "You must install the identity-vscode plugin package (`npm install --save @azure/identity-vscode`)",
-            "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-            "`useIdentityPlugin(vsCodePlugin)` before using `enableBroker`.",
-          ].join(" "),
-        );
-      }
-      // There is a scenario where the VSCode plugin is configured but the broker is not available (e.g., missing native dependencies).
-      // This check ensures we throw an error and not proceed with an invalid configuration.
-      if (vsCodeBrokerInfo.broker.isBrokerAvailable === false) {
-        throw new Error(
-          [
-            "VisualStudioCodeCredential was requested, and the VS Code plugin is configured, but the broker is unavailable.",
-            "Ensure the Visual Studio Code plugin is properly installed and configured.",
-            "Check for missing native dependencies and ensure the package is properly installed.",
-            "See the README for prerequisites on installing and using @azure/identity-vscode.",
-          ].join(" "),
-        );
-      }
-      config.broker.nativeBrokerPlugin = vsCodeBrokerInfo!.broker;
-    } else {
-      if (nativeBrokerInfo === undefined) {
-        throw new Error(
-          [
-            "Broker for WAM was requested to be enabled, but no native broker was configured.",
-            "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
-            "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-            "`useIdentityPlugin(brokerPlugin)` before using `enableBroker`.",
-          ].join(" "),
-        );
-      }
-      // There is a scenario where the VSCode plugin is configured but the broker is not available (e.g., missing native dependencies)
-      // This check ensures we throw an error and not proceed with an invalid configuration.
-      if (nativeBrokerInfo.broker.isBrokerAvailable === false) {
-        throw new Error(
-          [
-            "The broker was requested, and the plugin is configured, but the broker is unavailable.",
-            "Ensure that the native broker plugin is properly installed and configured.",
-            "Check for missing native dependencies and ensure the package is properly installed.",
-            "See the README for prerequisites on installing and using @azure/identity-broker.",
-          ].join(" "),
-        );
-      }
-      config.broker.nativeBrokerPlugin = nativeBrokerInfo!.broker;
-    }
+    config.broker.nativeBrokerPlugin = getBrokerPlugin(options.isVSCodeCredential || false);
   }
-
   return config;
+}
+
+// Broker error message templates with variables for credential and package names
+const brokerErrorTemplates = {
+  missing: (credentialName: string, packageName: string, pluginVar: string) =>
+    [
+      `${credentialName} was requested, but no plugin was configured or no authentication record was found.`,
+      `You must install the ${packageName} plugin package (npm install --save ${packageName})`,
+      "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
+      `useIdentityPlugin(${pluginVar}) before using enableBroker.`,
+    ].join(" "),
+  unavailable: (credentialName: string, packageName: string) =>
+    [
+      `${credentialName} was requested, and the plugin is configured, but the broker is unavailable.`,
+      `Ensure the ${credentialName} plugin is properly installed and configured.`,
+      "Check for missing native dependencies and ensure the package is properly installed.",
+      `See the README for prerequisites on installing and using ${packageName}.`,
+    ].join(" "),
+};
+
+/**
+ * Checks broker plugin configuration and throws appropriate error if invalid.
+ * @param isVSCode true for VSCode broker, false for native broker
+ */
+const brokerConfig = {
+  vsCode: {
+    credentialName: "Visual Studio Code Credential",
+    packageName: "@azure/identity-vscode",
+    pluginVar: "vsCodePlugin",
+    get brokerInfo() {
+      return vsCodeBrokerInfo;
+    },
+  },
+  native: {
+    credentialName: "Broker for WAM",
+    packageName: "@azure/identity-broker",
+    pluginVar: "nativeBrokerPlugin",
+    get brokerInfo() {
+      return nativeBrokerInfo;
+    },
+  },
+} as const;
+
+/**
+ * Set appropriate broker plugin based on whether VSCode or native broker is requested.
+ * @param isVSCodePlugin true for VSCode broker, false for native broker
+ * @returns the broker plugin if available
+ */
+function getBrokerPlugin(isVSCodePlugin: boolean): msalNode.INativeBrokerPlugin {
+  const { credentialName, packageName, pluginVar, brokerInfo } =
+    brokerConfig[isVSCodePlugin ? "vsCode" : "native"];
+  if (brokerInfo === undefined) {
+    throw new Error(brokerErrorTemplates.missing(credentialName, packageName, pluginVar));
+  }
+  if (brokerInfo.broker.isBrokerAvailable === false) {
+    throw new Error(brokerErrorTemplates.unavailable(credentialName, packageName));
+  }
+  return brokerInfo.broker;
 }
 
 /**
