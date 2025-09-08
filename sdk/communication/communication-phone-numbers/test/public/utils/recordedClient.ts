@@ -11,6 +11,9 @@ import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 import { createOperationLocationFixPolicy } from "./operationLocationFixPolicy.js";
+import { DefaultAzureCredential } from "@azure/identity";
+import fetch from "node-fetch";
+import crypto from "crypto";
 // Do not import child_process in browser
 
 if (isNodeLike) {
@@ -202,30 +205,43 @@ async function assignRoleToExistingResource(): Promise<void> {
 
   const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
   const resourceGroup = process.env.RESOURCE_GROUP_NAME;
-  const principalId = process.env.COMMUNICATION_M365_APP_ID; // Object ID of your test app
+  const principalId = process.env.TEST_APPLICATION_OID; // Object ID of your test app
 
   const missingParams = [];
   if (!subscriptionId) missingParams.push("AZURE_SUBSCRIPTION_ID");
   if (!resourceGroup) missingParams.push("RESOURCE_GROUP_NAME");
-  if (!principalId) missingParams.push("COMMUNICATION_M365_APP_ID");
+  if (!principalId) missingParams.push("TEST_APPLICATION_OID");
   if (missingParams.length > 0) {
     throw new Error(`Missing required environment variables: ${missingParams.join(", ")}`);
   }
 
   const resourceId = `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/providers/Microsoft.Communication/CommunicationServices/${resourceName}`;
   const contributorRoleId = "b24988ac-6180-42a0-ab88-20f7382dd24c";
+  const assignmentId = crypto.randomUUID();
+  const url = `https://management.azure.com${resourceId}/providers/Microsoft.Authorization/roleAssignments/${assignmentId}?api-version=2022-04-01`;
 
-  // Dynamically import child_process only in Node
-  const { execSync } = await import("child_process");
-  try {
-    execSync(
-      `az role assignment create --assignee ${principalId} --role ${contributorRoleId} --scope ${resourceId} --subscription ${subscriptionId}`,
-      { stdio: "inherit" },
-    );
-  } catch (err) {
-    // Ignore if already assigned, otherwise throw
-    if (!String(err).includes("already exists")) {
-      throw err;
+  const body = {
+    properties: {
+      roleDefinitionId: `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${contributorRoleId}`,
+      principalId,
+      principalType: "ServicePrincipal"
     }
+  };
+
+  const credential = new DefaultAzureCredential();
+  const token = (await credential.getToken("https://management.azure.com/.default")).token;
+
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Role assignment failed: ${error}`);
   }
 }
