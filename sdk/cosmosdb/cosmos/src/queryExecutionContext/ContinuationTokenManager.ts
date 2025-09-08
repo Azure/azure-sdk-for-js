@@ -264,7 +264,7 @@ export class ContinuationTokenManager {
     pageSize: number,
     currentBufferLength: number,
   ): { endIndex: number; processedRanges: string[] } {
-    const result = this.partitionRangeManager.processParallelRanges(pageSize, currentBufferLength);
+    const result = this.partitionRangeManager.processParallelRanges(pageSize);
     
     this.compositeContinuationToken = createCompositeQueryContinuationToken(
       this.collectionLink,
@@ -459,5 +459,13 @@ export class ContinuationTokenManager {
     };
 
     this.ranges.push(newRangeWithToken);
+  }
+
+  /**
+   * Sets the partition key range map on the internal PartitionRangeManager
+   * @param partitionKeyRangeMap - Map of range IDs to QueryRangeMapping objects
+   */
+  public setPartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
+    this.partitionRangeManager.setPartitionKeyRangeMap(partitionKeyRangeMap);
   }
 }

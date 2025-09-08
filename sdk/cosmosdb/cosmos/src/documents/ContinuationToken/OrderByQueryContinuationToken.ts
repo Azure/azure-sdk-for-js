@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { QueryRangeWithContinuationToken } from "./CompositeQueryContinuationToken.js";
-import type { QueryRangeMapping } from "../../queryExecutionContext/QueryRangeMapping.js";
 
 /**
  * Continuation token for order by queries.

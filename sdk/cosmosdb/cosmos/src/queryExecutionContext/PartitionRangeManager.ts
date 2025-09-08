@@ -108,7 +108,6 @@ export class PartitionRangeManager {
    */
   public processOrderByRanges(
     pageSize: number,
-    currentBufferLength: number,
     orderByItemsArray?: any[][],
   ): { endIndex: number; processedRanges: string[]; lastRangeBeforePageLimit: QueryRangeMapping | null } {
     console.log("=== Processing ORDER BY Query (Sequential Mode) ===");
@@ -163,7 +162,6 @@ export class PartitionRangeManager {
    */
   public processParallelRanges(
     pageSize: number,
-    currentBufferLength: number,
   ): { endIndex: number; processedRanges: string[]; lastPartitionBeforeCutoff?: { rangeId: string; mapping: QueryRangeMapping } } {
 
     let endIndex = 0;

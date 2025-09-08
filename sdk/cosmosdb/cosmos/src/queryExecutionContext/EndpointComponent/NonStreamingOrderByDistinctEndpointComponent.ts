@@ -9,7 +9,6 @@ import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult.js"
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue.js";
 import { NonStreamingOrderByMap } from "../../utils/nonStreamingOrderByMap.js";
 import { OrderByComparator } from "../orderByComparator.js";
-import type { QueryRangeMapping } from "../QueryRangeMapping.js";
 import type { ParallelQueryResult } from "../ParallelQueryResult.js";
 import { createParallelQueryResult } from "../ParallelQueryResult.js";
 

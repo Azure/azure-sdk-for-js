@@ -29,12 +29,10 @@ export interface TargetPartitionRangeStrategy {
    * Filters target partition ranges based on the continuation token and query-specific logic
    * @param targetRanges - All available target partition ranges
    * @param continuationToken - The continuation token to resume from (if any)
-   * @param queryInfo - Additional query information for filtering decisions
    * @returns Filtered partition ranges and metadata
    */
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationRanges?: PartitionRangeWithContinuationToken[],
-    queryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult;
 }

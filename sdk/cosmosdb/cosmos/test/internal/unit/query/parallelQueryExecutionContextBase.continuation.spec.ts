@@ -320,7 +320,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
   });
 
   describe("Error Scenarios", () => {
-    it("should throw error when continuation token is provided without enableQueryControl", async () => {
+    it("should throw error when continuation token is provided without enableQueryControl", () => {
       const options: FeedOptions = { 
         maxItemCount: 10, 
         maxDegreeOfParallelism: 2,
@@ -354,17 +354,22 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         { id: "0", minInclusive: "00", maxExclusive: "FF" }
       ]);
 
-      // Should throw an error for malformed continuation token
-      expect(() => {
-        new TestParallelQueryExecutionContext(
-          clientContext,
-          collectionLink,
-          "SELECT * FROM c",
-          options,
-          createPartitionedQueryExecutionInfo(false),
-          correlatedActivityId,
-        );
-      }).toThrow(/Invalid.*continuation token format|Failed to parse.*continuation token/);
+      // Create context and check for error after async initialization
+      const context = new TestParallelQueryExecutionContext(
+        clientContext,
+        collectionLink,
+        "SELECT * FROM c",
+        options,
+        createPartitionedQueryExecutionInfo(false),
+        correlatedActivityId,
+      );
+
+      // Wait for async initialization to complete
+      await new Promise(resolve => setTimeout(resolve, 200));
+
+      // Should have error stored in context for malformed continuation token
+      assert.exists(context["err"]);
+      assert.match(context["err"].message, /Invalid.*continuation token format/);
     });
   });
 
@@ -434,6 +439,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
           correlatedActivityId,
         );
 
+        // Wait for async initialization to complete
+        await new Promise(resolve => setTimeout(resolve, 200));
+
         // Verify context is created without errors
         assert.isUndefined(context["err"]);
         assert.exists(context["unfilledDocumentProducersQueue"]);
@@ -451,6 +459,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
           correlatedActivityId,
         );
 
+        // Wait for async initialization to complete
+        await new Promise(resolve => setTimeout(resolve, 200));
+
         const queryType = context["getQueryType"]();
         const expectedType = scenario.queryType === "orderBy" ? "OrderBy" : "Parallel";
         assert.equal(queryType, expectedType);
@@ -465,6 +476,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
           partitionedQueryExecutionInfo,
           correlatedActivityId,
         );
+
+        // Wait for async initialization to complete
+        await new Promise(resolve => setTimeout(resolve, 200));
 
         const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
                               context["bufferedDocumentProducersQueue"].size();
@@ -489,6 +503,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
           partitionedQueryExecutionInfo,
           correlatedActivityId,
         );
+
+        // Wait for async initialization to complete
+        await new Promise(resolve => setTimeout(resolve, 200));
 
         // Check that at least one document producer has EPK ranges set
         let producersWithEpkRanges = 0;
@@ -528,6 +545,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
           correlatedActivityId,
         );
 
+        // Wait for async initialization to complete
+        await new Promise(resolve => setTimeout(resolve, 200));
+
         const updatedRanges = context["updatedContinuationRanges"];
         
         assert.equal(
@@ -550,6 +570,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
           partitionedQueryExecutionInfo,
           correlatedActivityId,
         );
+
+        // Wait for async initialization to complete
+        await new Promise(resolve => setTimeout(resolve, 200));
 
         // Verify that the filtering logic was applied
         const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
@@ -660,6 +683,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         correlatedActivityId,
       );
 
+      // Wait for async initialization to complete
+      await new Promise(resolve => setTimeout(resolve, 200));
+
       // Should handle empty ranges gracefully
       assert.equal(context["unfilledDocumentProducersQueue"].size(), 0, "Should have no producers for empty ranges");
       assert.equal(context["bufferedDocumentProducersQueue"].size(), 0, "Should have no buffered producers for empty ranges");
@@ -678,6 +704,10 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         createPartitionedQueryExecutionInfo(false),
         correlatedActivityId,
       );
+
+      // Wait for async initialization to complete
+      await new Promise(resolve => setTimeout(resolve, 200));
+
       const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
                             context["bufferedDocumentProducersQueue"].size();
       assert.equal(totalProducers, 1, "Should have exactly one producer for single range");
@@ -702,6 +732,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         createPartitionedQueryExecutionInfo(false),
         correlatedActivityId,
       );
+
+      // Wait for async initialization to complete
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       // Should not create more producers than partitions
       const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
@@ -729,6 +762,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         createPartitionedQueryExecutionInfo(false),
         correlatedActivityId,
       );
+
+      // Wait for async initialization to complete
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       // Should use all available ranges when maxDegreeOfParallelism is undefined
       const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
@@ -776,6 +812,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         createPartitionedQueryExecutionInfo(false),
         correlatedActivityId,
       );
+
+      // Wait for async initialization to complete
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       // Should create producers for all ranges, but only active ones should have continuation tokens
       const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
@@ -874,6 +913,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         partitionedQueryExecutionInfo,
         correlatedActivityId,
       );
+
+      // Wait for async initialization to complete
+      await new Promise(resolve => setTimeout(resolve, 200));
 
       // Should handle rewritten query with filter placeholder
       const totalProducers = context["unfilledDocumentProducersQueue"].size() + 

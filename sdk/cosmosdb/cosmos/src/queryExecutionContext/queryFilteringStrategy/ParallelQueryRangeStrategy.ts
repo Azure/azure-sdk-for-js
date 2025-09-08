@@ -47,7 +47,6 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationRanges?: PartitionRangeWithContinuationToken[],
-    queryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
     console.log("=== ParallelQueryRangeStrategy.filterPartitionRanges START ===")
 

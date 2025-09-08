@@ -104,6 +104,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.sortOrders = this.partitionedQueryExecutionInfo.queryInfo.orderBy;
     this.buffer = [];
     this.requestContinuation = options ? options.continuationToken || options.continuation : null;
+    
+    // Validate continuation token usage immediately
+    if (this.requestContinuation && !this.options.enableQueryControl) {
+      throw new Error("Continuation tokens are supported when enableQueryControl is set true in FeedOptions");
+    }
+    
     // response headers of undergoing operation
     this.respHeaders = getInitialHeader();
     // Make priority queue for documentProducers
@@ -138,9 +144,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
 
         if (this.requestContinuation) {
-          if(!this.options.enableQueryControl){
-             throw new Error("Continuation tokens are supported when enableQueryControl is set true in FeedOptions");
-          }
           // Determine the query type based on the context
           const queryType = this.getQueryType();
           let rangeManager: TargetPartitionRangeManager;
