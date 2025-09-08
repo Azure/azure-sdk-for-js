@@ -206,10 +206,7 @@ const brokerErrorTemplates = {
     ].join(" "),
 };
 
-/**
- * Checks broker plugin configuration and throws appropriate error if invalid.
- * @param isVSCode - true for VSCode broker, false for native broker
- */
+// Values for VSCode and native broker configurations for error message
 const brokerConfig = {
   vsCode: {
     credentialName: "Visual Studio Code Credential",
