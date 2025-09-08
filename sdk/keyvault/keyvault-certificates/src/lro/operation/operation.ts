@@ -3,6 +3,8 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { OperationOptions } from "@azure-rest/core-client";
+import { isRestError } from "@azure/core-rest-pipeline";
+import { delay } from "@azure/core-util";
 import type {
   CancelCertificateOperationOptions,
   CertificateOperation,
@@ -57,12 +59,39 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
       "CertificateOperationPoller.cancelCertificateOperation",
       options,
       async (updatedOptions) => {
-        const response = await this.client.updateCertificateOperation(
-          certificateName,
-          { cancellationRequested: true },
-          updatedOptions,
-        );
-        return getCertificateOperationFromCoreOperation(certificateName, response);
+        const maxRetries = 3;
+        let attempt = 0;
+        let lastError: unknown;
+
+        while (attempt < maxRetries) {
+          try {
+            const response = await this.client.updateCertificateOperation(
+              certificateName,
+              { cancellationRequested: true },
+              updatedOptions,
+            );
+            return getCertificateOperationFromCoreOperation(certificateName, response);
+          } catch (error) {
+            lastError = error;
+            
+            // Only retry on 409 conflict errors
+            if (isRestError(error) && error.statusCode === 409) {
+              attempt++;
+              if (attempt < maxRetries) {
+                // Exponential backoff: 500ms, 1000ms, 2000ms
+                const delayMs = 500 * Math.pow(2, attempt - 1);
+                await delay(delayMs);
+                continue;
+              }
+            }
+            
+            // For non-conflict errors or max retries reached, rethrow the error
+            throw error;
+          }
+        }
+
+        // This should never be reached, but TypeScript requires it
+        throw lastError;
       },
     );
   }
