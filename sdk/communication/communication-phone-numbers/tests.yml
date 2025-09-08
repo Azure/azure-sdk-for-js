@@ -1,8 +1,5 @@
 trigger: none
 
-variables:
-  AZURE_SUBSCRIPTION_ID: $(acs-subscription-id)
-
 extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
@@ -13,6 +10,7 @@ extends:
           SubscriptionConfigurations:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
+            - $(acs-subscription-id)
       MatrixConfigs:
         - Name: PhoneNumbers_js_livetest_matrix
           Path: sdk/communication/communication-phone-numbers/phone-numbers-livetest-matrix.json
@@ -20,3 +18,5 @@ extends:
           GenerateVMJobs: true
       TestResourceDirectories:
         - communication/test-resources/
+      EnvVars:
+        AZURE_SUBSCRIPTION_ID: $(acs-subscription-id)
