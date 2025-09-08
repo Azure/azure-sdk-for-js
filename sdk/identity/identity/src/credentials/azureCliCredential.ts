@@ -155,7 +155,6 @@ export class AzureCliCredential implements TokenCredential {
     const scope = typeof scopes === "string" ? scopes : scopes[0];
     const claimsValue = options.claims;
     if (claimsValue && claimsValue.trim()) {
-      // Encode the claims value
       const encodedClaims = btoa(claimsValue);
       let loginCmd = `az login --claims-challenge ${encodedClaims} --scope ${scope}`;
 
