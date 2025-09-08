@@ -231,7 +231,9 @@ async function assignRoleToExistingResource(): Promise<void> {
     },
   };
 
-  const credential = new DefaultAzureCredential();
+  const credential = new DefaultAzureCredential({
+    tenantId: process.env.COMMUNICATION_M365_AAD_TENANT,
+  });
   const token = (await credential.getToken("https://management.azure.com/.default")).token;
 
   const response = await fetch(url, {
