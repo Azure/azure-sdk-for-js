@@ -208,7 +208,7 @@ const brokerErrorTemplates = {
 
 /**
  * Checks broker plugin configuration and throws appropriate error if invalid.
- * @param isVSCode true for VSCode broker, false for native broker
+ * @param isVSCode - true for VSCode broker, false for native broker
  */
 const brokerConfig = {
   vsCode: {
@@ -231,7 +231,7 @@ const brokerConfig = {
 
 /**
  * Set appropriate broker plugin based on whether VSCode or native broker is requested.
- * @param isVSCodePlugin true for VSCode broker, false for native broker
+ * @param isVSCodePlugin - true for VSCode broker, false for native broker
  * @returns the broker plugin if available
  */
 function getBrokerPlugin(isVSCodePlugin: boolean): msalNode.INativeBrokerPlugin {
