@@ -76,7 +76,7 @@ export interface DefaultAzureCredentialOptions
    * {@link DefaultAzureCredential} constructor will throw an error.
    *
    * Use this to enforce that your application has the necessary environment configuration before
-   * continuing execution
+   * continuing execution.
    */
 
   requiredEnvVars?: DefaultAzureCredentialEnvVars | DefaultAzureCredentialEnvVars[];
