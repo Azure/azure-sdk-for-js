@@ -550,8 +550,11 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
       .container("foo")
       .items.batch(
         [
-          { operationType: "Create", resourceBody: { id: "b1", _partitionKey: "pk1" } },
-          { operationType: "Upsert", resourceBody: { id: "b2", _partitionKey: "pk1" } },
+          { operationType: "Create", resourceBody: { id: "b1" } },
+          { operationType: "Upsert", resourceBody: { id: "b2" } },
+          { operationType: "Delete", id: "b2" },
+          { operationType: "Replace", id: "b1", resourceBody: { id: "b3" } },
+          { operationType: "Read", id: "b3" },
         ],
         "pk1",
         requestOptions as any,
@@ -566,8 +569,11 @@ describe("Excluded Region tests", { timeout: 30000 }, () => {
       .container("foo")
       .items.batch(
         [
-          { operationType: "Create", resourceBody: { id: "b3", _partitionKey: "pk1" } },
-          { operationType: "Upsert", resourceBody: { id: "b4", _partitionKey: "pk1" } },
+          { operationType: "Create", resourceBody: { id: "b1" } },
+          { operationType: "Upsert", resourceBody: { id: "b2" } },
+          { operationType: "Delete", id: "b2" },
+          { operationType: "Replace", id: "b1", resourceBody: { id: "b3" } },
+          { operationType: "Read", id: "b3" },
         ],
         "pk1",
         requestOptions as any,

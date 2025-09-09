@@ -112,7 +112,6 @@ export enum ChangeFeedMode {
 // @public
 export interface ChangeFeedOptions {
     continuation?: string;
-    excludedLocations?: string[];
     maxItemCount?: number;
     sessionToken?: string;
     startFromBeginning?: boolean;

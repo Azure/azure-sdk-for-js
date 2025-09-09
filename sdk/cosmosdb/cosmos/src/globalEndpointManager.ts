@@ -199,7 +199,6 @@ export class GlobalEndpointManager {
       ? this.readableLocations
       : this.writeableLocations;
 
-    // Get effective excluded locations (request-level overrides client-level)
     const excludedLocations = this.getEffectiveExcludedLocations(options, resourceType);
     diagnosticNode.addData(
       { excludedLocations: Array.from(excludedLocations) },

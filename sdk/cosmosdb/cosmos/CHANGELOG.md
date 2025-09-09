@@ -1,7 +1,30 @@
 # Release History
+
+## 4.5.2 (2025-09-10)
+
+### Features Added
+
+- Excluded Locations Support: This feature adds support for excluded locations, allowing requests to avoid specified Azure regions when performing operations. By excluding certain regions at the request level, applications can control data residency, compliance, and latency, ensuring that operations are served only from preferred regions. This enhances availability and reliability by preventing requests from being routed to undesired or unavailable regions. [docs](https://devblogs.microsoft.com/cosmosdb/new-sdk-options-for-fine-grained-request-routing-to-azure-cosmos-db/)
+
+```js
+const requestOptions = { excludedLocations: ["West US"] };
+const cities = [
+  { id: "1", name: "Olympia", state: "WA", isCapitol: true },
+  { id: "2", name: "Redmond", state: "WA", isCapitol: false },
+  { id: "3", name: "Chicago", state: "IL", isCapitol: false },
+];
+
+for (const city of cities) {
+  await container.items.create(city, requestOptions);
+}
+
+await container.item("1").delete(requestOptions);
+```
+
 ## 4.5.1 (2025-09-01)
 
 ### Bugs Fixed
+
 - [#35739](https://github.com/Azure/azure-sdk-for-js/issues/35739) Fixed an issue where unavailable regions were incorrectly retained in the read and write region lists, potentially causing latency and connectivity issues. The SDK now properly removes regions that are no longer available from both readable and writable locations
 - [#35822](https://github.com/Azure/azure-sdk-for-js/issues/35822) Fixed an issue where ENOTFOUND error was incorrectly retried with defaultRetryPolicy. This error is now handled as part of EndpointDiscoveryPolicy and retried 120 times.
 
@@ -31,22 +54,25 @@ const client = new CosmosClient({
 - [#35049](https://github.com/Azure/azure-sdk-for-js/pull/35049) Moved `@azure/logger` from the devDependencies to the runtime dependencies in the Cosmos DB client package, ensuring that client loggers can be created at runtime.
 - [#35189](https://github.com/Azure/azure-sdk-for-js/pull/35189) Fixed the RU calculation bug where RU (Request Unit) charges were not aggregated when document producer returned empty responses.
 - [#34765](https://github.com/Azure/azure-sdk-for-js/pull/34765) Fixed partition key extraction bug enhancing the partition key extraction logic to correctly handle migrated containers using the systemKey flag.
-- [#32044](https://github.com/Azure/azure-sdk-for-js/pull/32044) Fixed an issue of Client retrying 120*120 times on an inaccessible endpoint.
+- [#32044](https://github.com/Azure/azure-sdk-for-js/pull/32044) Fixed an issue of Client retrying 120\*120 times on an inaccessible endpoint.
 - [#34933](https://github.com/Azure/azure-sdk-for-js/pull/34933) Fixed an issue of SDK throwing an error on executing parameterized RRF queries.
 
 ## 4.4.1 (2025-05-15)
 
 ### Bugs Fixed
 
-[#34346](https://github.com/Azure/azure-sdk-for-js/pull/34346) Fixed an issue where `require` is being used in an ESM context. 
+[#34346](https://github.com/Azure/azure-sdk-for-js/pull/34346) Fixed an issue where `require` is being used in an ESM context.
 
 ## 4.4.0 (2025-05-13)
 
 ### Features Added
+
 #### New Bulk API (Preview)
+
 The new `executeBulkOperations` API in the SDK brings significant enhancements for bulk workloads. It removes the previous 100-operation limit, adds operation-level retries for improved resilience, and introduces dynamic congestion control to optimize performance based on real-time system feedback.
 
 Example of using `executeBulkOperations`:
+
 ```js
 const operations: OperationInput[] = [
     {
@@ -68,74 +94,86 @@ const operations: OperationInput[] = [
 ```
 
 #### Weighted RRF
+
 Adds WeightedRankFusion query feature and support of component weights for weighted rank fusion in Hybrid Search.
 
 #### Optimized query plan that skips the order by rewrite
-Adds support for the optimized query plan that skips the order by rewrite. 
+
+Adds support for the optimized query plan that skips the order by rewrite.
 This optimization is enabled by default. Use flag `disableHybridSearchQueryPlanOptimization:true` in FeedOptions to disable this feature.
 
 ### Bugs Fixed
+
 #### [#34088](https://github.com/Azure/azure-sdk-for-js/pull/34088) Fix documentation for default values of `useMultipleWriteLocations` and `enableBackgroundEndpointRefreshing`.
+
 #### [#33869](https://github.com/Azure/azure-sdk-for-js/pull/33869) Fix ChangeFeed Iterator merge
 
 ### Other Changes
+
 #### Migrated the codebase to ESM. This change is internal and should not affect customers.
+
 #### Migrated tests to vitest.
+
 #### [#34244](https://github.com/Azure/azure-sdk-for-js/pull/34244) Update murmurHash to use Uint8Array instead of Buffer.
+
 #### [#33728](https://github.com/Azure/azure-sdk-for-js/pull/33728) Update Entra authentication samples
 
 ## 4.3.0 (2025-03-18)
 
 ### Features Added
+
 #### Client-side Encryption (Preview) [#28760](https://github.com/Azure/azure-sdk-for-js/issues/28760)
+
 Add support for Client-Side Encryption. Read more here: [docs](https://learn.microsoft.com/azure/cosmos-db/how-to-always-encrypted)
- 
+
 Example of using Client-Side Encryption:
- ```js
-  const credentials = new DefaultAzureCredential();
-  const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
-  const cosmosClient = new CosmosClient({connectionString: "<ConnectionString>", clientEncryptionOptions: { keyEncryptionKeyResolver: keyResolver }});
-  const database = cosmosClient.database("my-database");
-  const metadata: EncryptionKeyWrapMetadata = {
-      type: EncryptionKeyResolverName.AzureKeyVault, 
-      name: "akvKey", 
-      value: "https://<my-key-vault>.vault.azure.net/keys/<key>/<version>",
-      algorithm: KeyEncryptionAlgorithm.RSA_OAEP
-  };
 
-  await database.createClientEncryptionKey(
-      "my-key",
-      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-      metadata);
+```js
+ const credentials = new DefaultAzureCredential();
+ const keyResolver = new AzureKeyVaultEncryptionKeyResolver(credentials);
+ const cosmosClient = new CosmosClient({connectionString: "<ConnectionString>", clientEncryptionOptions: { keyEncryptionKeyResolver: keyResolver }});
+ const database = cosmosClient.database("my-database");
+ const metadata: EncryptionKeyWrapMetadata = {
+     type: EncryptionKeyResolverName.AzureKeyVault,
+     name: "akvKey",
+     value: "https://<my-key-vault>.vault.azure.net/keys/<key>/<version>",
+     algorithm: KeyEncryptionAlgorithm.RSA_OAEP
+ };
 
-  const path1 : ClientEncryptionIncludedPath = {
-    path: "/property1",
-    clientEncryptionKeyId: "my-key",
-    encryptionType: EncryptionType.DETERMINISTIC,
-    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-  };
-  const path2 : ClientEncryptionIncludedPath = {
-    path: "/property2",
-    clientEncryptionKeyId: "my-key",
-    encryptionType: EncryptionType.DETERMINISTIC,
-    encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
-  };
-  const paths = [path1, path2];
-  const clientEncryptionPolicy = {
-      includedPaths: [path],
-      policyFormatVersion: 2,
-  };
-  const containerDefinition = {
-      id: "my-container",
-      partitionKey: {
-        paths: ["/id"],
-      },
-      clientEncryptionPolicy: clientEncryptionPolicy,
-  };
-  await database.containers.createIfNotExists(containerDefinition);
- ```
+ await database.createClientEncryptionKey(
+     "my-key",
+     EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+     metadata);
+
+ const path1 : ClientEncryptionIncludedPath = {
+   path: "/property1",
+   clientEncryptionKeyId: "my-key",
+   encryptionType: EncryptionType.DETERMINISTIC,
+   encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+ };
+ const path2 : ClientEncryptionIncludedPath = {
+   path: "/property2",
+   clientEncryptionKeyId: "my-key",
+   encryptionType: EncryptionType.DETERMINISTIC,
+   encryptionAlgorithm: EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+ };
+ const paths = [path1, path2];
+ const clientEncryptionPolicy = {
+     includedPaths: [path],
+     policyFormatVersion: 2,
+ };
+ const containerDefinition = {
+     id: "my-container",
+     partitionKey: {
+       paths: ["/id"],
+     },
+     clientEncryptionPolicy: clientEncryptionPolicy,
+ };
+ await database.containers.createIfNotExists(containerDefinition);
+```
 
 #### New Query Pipeline
+
 Introduced `enableQueryControl` flag to enhance query pipeline, giving users more control over their query execution.
 
 By default, value of `enableQueryControl` is set as `false` keeping query pipeline older behavior as default, as explained below:
@@ -145,6 +183,7 @@ Previously, the SDK guaranteed that each fetchNext call would return `maxItemCou
 When `enableQueryControl` is set to `true`, Each `fetchNext` call will now query up to `maxDegreeOfParallelism` physical partitions. If no results are found, the SDK will return empty pages instead of continuing to search all partitions. Returning fewer or empty results in each iteration consumes less RUs and hands control back to the users, allowing them to decide whether to continue fetching more data. This approach provides more granular control over RU consumption.
 
 Eg. usage of this flag to enable new query pipeline:
+
 ```js
 const options : FeedOptions = {
   enableQueryControl: true, // Flag to enable new query pipeline. Default value is false
@@ -157,18 +196,22 @@ const res = await queryIterator.fetchNext();
 ```
 
 #### Partition merge support
- This feature adds support for Partition merge (preview) feature. Requests from SDK will not be blocked, when the feature is enabled on the CosmosDB account. 
- Read more about merge here: [docs](https://learn.microsoft.com/azure/cosmos-db/merge)
+
+This feature adds support for Partition merge (preview) feature. Requests from SDK will not be blocked, when the feature is enabled on the CosmosDB account.
+Read more about merge here: [docs](https://learn.microsoft.com/azure/cosmos-db/merge)
 
 #### RU Bucketing (Preview)
+
 Read more about RU Bucketing here: https://aka.ms/cosmsodb-bucketing
 
 #### Partial hierarchical partition key support in Change Feed [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
-This feature adds support for partial hierarchical partition key in Change Feed allowing the SDK to work seamlessly with partial Hierarchical partition keys, returning accurate change feed results regardless of which partition key components are provided in the iterator. 
+
+This feature adds support for partial hierarchical partition key in Change Feed allowing the SDK to work seamlessly with partial Hierarchical partition keys, returning accurate change feed results regardless of which partition key components are provided in the iterator.
 
 Eg. Container has partition key ["/name", "/zip", "/state"], change feed will work if, only value of name and zip is provided eg: ["john", "11011"]
 
 #### Index Metrics V2 support
+
 This feature adds support for V2 version of index metrics that returns the response in JSON format.
 
 Example output of older version
@@ -197,13 +240,15 @@ Example output of version V2
 ```
 
 #### Add `connectionString` in CosmosClientOptions
+
 ConnectionString can now be configured in CosmosClientOptions along with other configurations for client initialization.
-Eg. usage: 
+Eg. usage:
+
 ```js
 const options = {
   connectionString: "<ConnectionString>",
-  consistencyLevel: ConsistencyLevel.Strong
-}
+  consistencyLevel: ConsistencyLevel.Strong,
+};
 ```
 
 ### Bugs Fixed
@@ -212,7 +257,9 @@ const options = {
 - Fixed the issue for incorrect results in Changefeed in case of internal TimeoutErrors [#32652](https://github.com/Azure/azure-sdk-for-js/issues/32652)
 - Fix RequestOptions and SharedOptions [#27336](https://github.com/Azure/azure-sdk-for-js/issues/27336)
 - Set default values in RetryOptions [#27312](https://github.com/Azure/azure-sdk-for-js/issues/27312)
+
 ### Other Changes
+
 - Deprecate the older `changeFeed` iterator in favor of the newer `getChangeFeedIterator()` method. [#32650](https://github.com/Azure/azure-sdk-for-js/issues/32650)
 
 ## 4.2.0 (2024-11-19)
@@ -453,7 +500,6 @@ await database.containers.createIfNotExists(containerDefinition);
   ```
 
 - Definition of PartitionKey has been changed to support Hierarchical partitioning. Here is how to use the new definition.
-
   - The operations for which PartitionKey can be derived from Request body, providing PartitionKey is optional as always i.e
     ```js
     const item = {
