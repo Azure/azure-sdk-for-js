@@ -16,8 +16,6 @@ import { endpoint } from "../../common/_testConfig.js";
 import { masterKey } from "../../common/_fakeTestSecrets.js";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time.js";
 import { describe, it, assert, beforeAll } from "vitest";
-import { create } from "domain";
-
 describe("test batch operations", () => {
   describe("v2 multi partition container", async () => {
     let container: Container;
@@ -136,7 +134,6 @@ describe("test batch operations", () => {
       ];
 
       const response = await container.items.batch(operations, "B");
-      console.log("Batch Response: ", response);
       assert(isOperationResponse(response.result[0]));
       assert.strictEqual(response.result[0].statusCode, 201);
       assert.strictEqual(response.result[1].statusCode, 201);
