@@ -69,7 +69,7 @@ export interface DefaultAzureCredentialOptions
    */
   processTimeoutInMs?: number;
   /**
-   * /**
+   *
    * List of environment variables that must be defined at runtime.
    *
    * If any variable in this list is missing or set to an empty value,
