@@ -12,7 +12,7 @@
 ### Bugs Fixed
 
 - Fixed an issue where `AzureDeveloperCliCredential` would time out during token requests when `azd` prompts for user interaction. This issue commonly occurred in environments where the `AZD_DEBUG` environment variable was set, causing the Azure Developer CLI to display additional prompts that interfered with automated token acquisition. [#35637](https://github.com/Azure/azure-sdk-for-js/pull/35637)
-
+- Fixed an issue where `VisualStudioCodeCredential` will show interactive authentication when the plugin is set but the broker is not available. [#35837](https://github.com/Azure/azure-sdk-for-js/pull/35837)
 ### Other Changes
 
 - `AzureCliCredential`, `AzurePowerShellCredential`, and `AzureDeveloperCliCredential` now raise `CredentialUnavailableError` when `claims` are provided to `getToken`, as these credentials do not support claims challenges. The error message includes instructions for handling claims authentication scenarios. [#35493](https://github.com/Azure/azure-sdk-for-js/pull/35493) & [#35855](https://github.com/Azure/azure-sdk-for-js/pull/35855)

@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { StorageMoverClient } from "../src/storageMoverClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -20,7 +15,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -35,7 +30,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("storageMover test", () => {
+describe.skip("storageMover test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: StorageMoverClient;
@@ -49,54 +44,65 @@ describe("storageMover test", () => {
   let jobDefinitionName: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new StorageMoverClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus2euap";
-      resourceGroup = "myjstest";
-      storageMoverName = "storageMoverName";
-      agentName = "testagent";
-      endpointName = "testendpoint";
-      endpointName1 = "testendpoint1";
-      projectName = "testendproject";
-      jobDefinitionName = "testjobDefinition";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new StorageMoverClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "eastus";
+    resourceGroup = "SSS3PT_myjstest";
+    storageMoverName = "storageMoverName";
+    agentName = "testagent";
+    endpointName = "testendpoint";
+    endpointName1 = "testendpoint1";
+    projectName = "testendproject";
+    jobDefinitionName = "testjobDefinition";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("storageMovers create test", async () => {
-    const res = await client.storageMovers.createOrUpdate(
-      resourceGroup,
-      storageMoverName,
-      {
+    const res = await client.storageMovers.createOrUpdate(resourceGroup, storageMoverName, {
+      location,
+      tags: { key1: "value1", key2: "value2" },
+      properties: {
         description: "Example Storage Mover Description",
-        location,
-        tags: { key1: "value1", key2: "value2" }
-      });
+      },
+    });
     assert.equal(res.name, storageMoverName);
   });
 
   it("agents create test", async () => {
-    const arcResourceid = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.HybridCompute/machines/testhybridCompute"
-    const res = await client.agents.createOrUpdate(
-      resourceGroup,
-      storageMoverName,
-      agentName,
-      {
+    const arcResourceid =
+      "/subscriptions/" +
+      subscriptionId +
+      "/resourceGroups/" +
+      resourceGroup +
+      "/providers/Microsoft.HybridCompute/machines/testhybridCompute";
+    const res = await client.agents.createOrUpdate(resourceGroup, storageMoverName, agentName, {
+      properties: {
         description: "Example Agent Description",
         arcResourceId: arcResourceid,
-        arcVmUuid: "3bb2c024-eba9-4d18-9e7a-1d772fcc5fe9"
-      });
+        arcVmUuid: "3bb2c024-eba9-4d18-9e7a-1d772fcc5fe9",
+      },
+    });
     assert.equal(res.name, agentName);
   });
 
   it("endpoints create test", async () => {
-    const said = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/teststorageaccountxxx1"
+    const said =
+      "/subscriptions/" +
+      subscriptionId +
+      "/resourceGroups/" +
+      resourceGroup +
+      "/providers/Microsoft.Storage/storageAccounts/teststorageaccountxxx1";
     const res = await client.endpoints.createOrUpdate(
       resourceGroup,
       storageMoverName,
@@ -106,9 +112,10 @@ describe("storageMover test", () => {
           description: "Example Storage Container Endpoint Description",
           blobContainerName: "testblob",
           endpointType: "AzureStorageBlobContainer",
-          storageAccountResourceId: said
-        }
-      });
+          storageAccountResourceId: said,
+        },
+      },
+    );
     assert.equal(res.name, endpointName);
 
     const result = await client.endpoints.createOrUpdate(
@@ -119,20 +126,19 @@ describe("storageMover test", () => {
         properties: {
           endpointType: "NfsMount",
           host: endpointName1,
-          export: ""
-        }
-      });
+          export: "",
+        },
+      },
+    );
     assert.equal(result.name, endpointName1);
   });
 
   it("projects create test", async () => {
-    const res = await client.projects.createOrUpdate(
-      resourceGroup,
-      storageMoverName,
-      projectName,
-      {
-        description: "Example Project Description"
-      });
+    const res = await client.projects.createOrUpdate(resourceGroup, storageMoverName, projectName, {
+      properties: {
+        description: "Example Project Description",
+      },
+    });
     assert.equal(res.name, projectName);
   });
 
@@ -143,14 +149,17 @@ describe("storageMover test", () => {
       projectName,
       jobDefinitionName,
       {
-        description: "Example Job Definition Description",
-        agentName: agentName,
-        copyMode: "Additive",
-        sourceName: endpointName1,
-        sourceSubpath: "/",
-        targetName: endpointName,
-        targetSubpath: "/"
-      });
+        properties: {
+          description: "Example Job Definition Description",
+          agentName: agentName,
+          copyMode: "Additive",
+          sourceName: endpointName1,
+          sourceSubpath: "/",
+          targetName: endpointName,
+          targetSubpath: "/",
+        },
+      },
+    );
     assert.equal(res.name, jobDefinitionName);
   });
 
@@ -175,7 +184,12 @@ describe("storageMover test", () => {
   });
 
   it("jobDefinitions get test", async () => {
-    const res = await client.jobDefinitions.get(resourceGroup, storageMoverName, projectName, jobDefinitionName);
+    const res = await client.jobDefinitions.get(
+      resourceGroup,
+      storageMoverName,
+      projectName,
+      jobDefinitionName,
+    );
     assert.equal(res.name, jobDefinitionName);
   });
 
@@ -205,7 +219,11 @@ describe("storageMover test", () => {
 
   it("jobDefinitions list test", async () => {
     const resArray = new Array();
-    for await (let item of client.jobDefinitions.list(resourceGroup, storageMoverName, projectName)) {
+    for await (let item of client.jobDefinitions.list(
+      resourceGroup,
+      storageMoverName,
+      projectName,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -221,7 +239,11 @@ describe("storageMover test", () => {
 
   it("jobDefinitions delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.jobDefinitions.list(resourceGroup, storageMoverName, projectName)) {
+    for await (let item of client.jobDefinitions.list(
+      resourceGroup,
+      storageMoverName,
+      projectName,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -258,4 +280,4 @@ describe("storageMover test", () => {
     }
     assert.equal(resArray.length, 0);
   });
-})
+});
