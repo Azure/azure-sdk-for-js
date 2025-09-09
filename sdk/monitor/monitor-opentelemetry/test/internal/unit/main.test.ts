@@ -512,42 +512,49 @@ describe("Main functions", () => {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
     };
-    
+
     // Initialize the SDK
     useAzureMonitor(config);
-    
+
     // Get the internal SDK instance
     const internalSdk = _getInternalSdk();
     assert.ok(internalSdk, "Internal SDK should be available");
-    
+
     // Access the meter provider from the SDK
     const meterProvider = internalSdk["_meterProvider"];
     assert.ok(meterProvider, "MeterProvider should be available from SDK");
-    
+
     // Extract metric readers from the meter provider's internal structure
     const sharedState = meterProvider["_sharedState"];
     let metricReaders = null;
     let foundProperty = null;
-    
+
     if (sharedState && sharedState.metricCollectors) {
       // Extract metric readers from metricCollectors
       metricReaders = sharedState.metricCollectors.map((collector: any) => collector._metricReader);
       foundProperty = "_sharedState.metricCollectors[].._metricReader";
     }
-    
-    assert.ok(metricReaders, `MetricReaders should be available from MeterProvider via property: ${foundProperty}`);
+
+    assert.ok(
+      metricReaders,
+      `MetricReaders should be available from MeterProvider via property: ${foundProperty}`,
+    );
     assert.ok(Array.isArray(metricReaders), "MetricReaders should be an array");
-    
+
     // Should have exactly 2 metric readers: Azure Monitor + OTLP
-    assert.strictEqual(metricReaders.length, 2, "Should have both Azure Monitor and OTLP metric readers");
-    
+    assert.strictEqual(
+      metricReaders.length,
+      2,
+      "Should have both Azure Monitor and OTLP metric readers",
+    );
+
     // Check that we have both types of metric readers
     let hasAzureMonitorReader = false;
     let hasOTLPReader = false;
-    
+
     for (const reader of metricReaders) {
       const readerConstructor = reader.constructor.name;
-      
+
       if (readerConstructor === "PeriodicExportingMetricReader") {
         // Check if this is the OTLP reader by examining the exporter
         const exporter = reader["_exporter"];
@@ -557,7 +564,11 @@ describe("Main functions", () => {
           const delegate = exporter["_delegate"];
           if (delegate) {
             const transportParams = delegate._transport._transport._parameters;
-            assert.strictEqual(transportParams.url, "http://localhost:4318/v1/metrics", "OTLP exporter should have correct URL");
+            assert.strictEqual(
+              transportParams.url,
+              "http://localhost:4318/v1/metrics",
+              "OTLP exporter should have correct URL",
+            );
           }
         } else {
           // This should be the Azure Monitor reader
@@ -565,14 +576,22 @@ describe("Main functions", () => {
         }
       }
     }
-    
+
     assert.ok(hasAzureMonitorReader, "Should have Azure Monitor metric reader");
     assert.ok(hasOTLPReader, "Should have OTLP metric reader");
-    
+
     // Verify environment variables were processed correctly
-    assert.strictEqual(process.env["OTEL_METRICS_EXPORTER"], "otlp", "OTEL_METRICS_EXPORTER should be set");
-    assert.strictEqual(process.env["OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"], "http://localhost:4318/v1/metrics", "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT should be set");
-    
+    assert.strictEqual(
+      process.env["OTEL_METRICS_EXPORTER"],
+      "otlp",
+      "OTEL_METRICS_EXPORTER should be set",
+    );
+    assert.strictEqual(
+      process.env["OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"],
+      "http://localhost:4318/v1/metrics",
+      "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT should be set",
+    );
+
     void shutdownAzureMonitor();
   });
 });

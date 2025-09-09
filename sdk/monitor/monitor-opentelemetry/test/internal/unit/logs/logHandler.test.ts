@@ -52,7 +52,7 @@ describe("LogHandler", () => {
         }),
     );
     const loggerProvider: LoggerProvider = new LoggerProvider({
-      processors: [handler.getBatchLogRecordProcessor(), handler.getAzureLogRecordProcessor()]
+      processors: [handler.getBatchLogRecordProcessor(), handler.getAzureLogRecordProcessor()],
     });
     logs.setGlobalLoggerProvider(loggerProvider);
 

@@ -43,7 +43,11 @@ export function partialBreezeResponse(statusCodes: number[]): {
   };
 }
 
-export function createMockSdkLogRecord(resource?: any, instrumentationScope?: any, initialData: any = {}): SdkLogRecord {
+export function createMockSdkLogRecord(
+  resource?: any,
+  instrumentationScope?: any,
+  initialData: any = {},
+): SdkLogRecord {
   const { body, ...otherData } = initialData;
   return {
     resource: resource || { attributes: {} },

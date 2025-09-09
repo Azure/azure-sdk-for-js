@@ -53,16 +53,24 @@ describe("#LiveMetrics", () => {
     autoCollect.activateMetrics({ collectionInterval: 100 });
 
     const resource = resourceFromAttributes({});
-    const traceLog = createMockSdkLogRecord(resource, { name: "test" }, {
-      body: "testMessage",
-    });
+    const traceLog = createMockSdkLogRecord(
+      resource,
+      { name: "test" },
+      {
+        body: "testMessage",
+      },
+    );
     autoCollect.recordLog(traceLog as any);
-    
+
     // Create separate exception logs
     for (let i = 0; i < 5; i++) {
-      const exceptionLog = createMockSdkLogRecord(resource, { name: "test" }, {
-        body: "testMessage",
-      });
+      const exceptionLog = createMockSdkLogRecord(
+        resource,
+        { name: "test" },
+        {
+          body: "testMessage",
+        },
+      );
       exceptionLog.attributes["exception.type"] = "testExceptionType";
       exceptionLog.attributes["exception.message"] = "testExceptionMessage";
       autoCollect.recordLog(exceptionLog as any);
@@ -298,16 +306,24 @@ describe("#LiveMetrics", () => {
     autoCollect.activateMetrics({ collectionInterval: 100 });
 
     const resource = resourceFromAttributes({});
-    const traceLog = createMockSdkLogRecord(resource, { name: "test" }, {
-      body: "testMessage",
-    });
+    const traceLog = createMockSdkLogRecord(
+      resource,
+      { name: "test" },
+      {
+        body: "testMessage",
+      },
+    );
     autoCollect.recordLog(traceLog as any);
-    
+
     // Create separate exception logs
     for (let i = 0; i < 5; i++) {
-      const exceptionLog = createMockSdkLogRecord(resource, { name: "test" }, {
-        body: "testMessage",
-      });
+      const exceptionLog = createMockSdkLogRecord(
+        resource,
+        { name: "test" },
+        {
+          body: "testMessage",
+        },
+      );
       exceptionLog.attributes["exception.type"] = "testExceptionType";
       exceptionLog.attributes["exception.message"] = "testExceptionMessage";
       autoCollect.recordLog(exceptionLog as any);

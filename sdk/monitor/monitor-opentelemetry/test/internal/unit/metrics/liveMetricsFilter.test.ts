@@ -678,9 +678,13 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
 
   it("Can parse a Log into an ExceptionData", () => {
     const resource = resourceFromAttributes({});
-    const traceLog = createMockSdkLogRecord(resource, { name: "test" }, {
-      body: "testMessage",
-    });
+    const traceLog = createMockSdkLogRecord(
+      resource,
+      { name: "test" },
+      {
+        body: "testMessage",
+      },
+    );
     traceLog.attributes["exception.stacktrace"] = "testStackTrace";
     traceLog.attributes["exception.message"] = "testExceptionMessage";
     traceLog.attributes["customAttribute"] = "test";
@@ -694,9 +698,13 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
 
   it("Can parse a Log into a TraceData", () => {
     const resource = resourceFromAttributes({});
-    const traceLog = createMockSdkLogRecord(resource, { name: "test" }, {
-      body: "testMessage",
-    });
+    const traceLog = createMockSdkLogRecord(
+      resource,
+      { name: "test" },
+      {
+        body: "testMessage",
+      },
+    );
     traceLog.attributes["customAttribute"] = "test";
 
     const trace: TraceData = getLogData(traceLog) as TraceData;

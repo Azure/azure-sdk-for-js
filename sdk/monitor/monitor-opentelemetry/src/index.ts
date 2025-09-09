@@ -86,13 +86,17 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
 
   // Prepare metric readers - always include Azure Monitor
   const metricReaders: MetricReader[] = [metricHandler.getMetricReader()];
-  
+
   // Add OTLP metric reader if configured via environment variables
-  if (process.env.OTEL_METRICS_EXPORTER === "otlp" && 
-      (process.env.OTEL_EXPORTER_OTLP_ENDPOINT || process.env.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT)) {
+  if (
+    process.env.OTEL_METRICS_EXPORTER === "otlp" &&
+    (process.env.OTEL_EXPORTER_OTLP_ENDPOINT || process.env.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT)
+  ) {
     try {
       const otlpExporter = new OTLPMetricExporter({
-        url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || process.env.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT,
+        url:
+          process.env.OTEL_EXPORTER_OTLP_ENDPOINT ||
+          process.env.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT,
       });
       const otlpMetricReader = new PeriodicExportingMetricReader({
         exporter: otlpExporter,
@@ -100,7 +104,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
       });
       metricReaders.push(otlpMetricReader);
     } catch (error) {
-      console.warn('Failed to create OTLP metric reader: ', error);
+      console.warn("Failed to create OTLP metric reader: ", error);
     }
   }
 
