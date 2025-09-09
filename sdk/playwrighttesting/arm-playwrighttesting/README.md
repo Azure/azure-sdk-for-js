@@ -1,5 +1,9 @@
 # AzurePlaywrightService client library for JavaScript
 
+**Deprecation message**
+ 
+This package has been deprecated and will no longer be maintained after **March 8, 2026**. Upgrade to the replacement package, **@azure/arm-playwright**, to continue receiving updates. Refer to the [migration guide](https://aka.ms/mpt/migration-guidance) for guidance on upgrading. Refer to our [deprecation policy](https://azure.github.io/azure-sdk/policies_support.html) for more details.
+
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for AzurePlaywrightService client.
 
 Microsoft.AzurePlaywrightService Resource Provider Management API.
