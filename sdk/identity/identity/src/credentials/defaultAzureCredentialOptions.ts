@@ -69,15 +69,11 @@ export interface DefaultAzureCredentialOptions
    */
   processTimeoutInMs?: number;
   /**
-   *
    * List of environment variables that must be defined at runtime.
-   *
    * If any variable in this list is missing or set to an empty value,
    * {@link DefaultAzureCredential} constructor will throw an error.
-   *
    * Use this to enforce that your application has the necessary environment configuration before
    * continuing execution.
    */
-
   requiredEnvVars?: DefaultAzureCredentialEnvVars | DefaultAzureCredentialEnvVars[];
 }
