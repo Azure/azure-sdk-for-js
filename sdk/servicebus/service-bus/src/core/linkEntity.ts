@@ -235,7 +235,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     options: LinkOptionsT<LinkT>,
     abortSignal?: AbortSignalLike,
   ): Promise<void> {
-    const checkAborted = (): void => {
+    const checkAborted = async (): Promise<void> => {
       if (abortSignal?.aborted) {
         this._link?.close();
         throw new AbortError(StandardAbortMessage);
@@ -243,7 +243,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     };
 
     const connectionId = this._context.connectionId;
-    checkAborted();
+    await checkAborted();
 
     if (options.name) {
       this.name = options.name;
@@ -271,12 +271,12 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         timeoutInMs: Constants.defaultOperationTimeoutInMs,
       });
 
-      checkAborted();
+      await checkAborted();
       this.checkIfConnectionReady();
 
       this._logger.verbose(`${this._logPrefix} Creating with options %O`, options);
       this._link = await this.createRheaLink(options);
-      checkAborted();
+      await checkAborted();
 
       this._ensureTokenRenewal();
 
