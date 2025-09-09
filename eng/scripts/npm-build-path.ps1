@@ -1,57 +1,89 @@
-# Build a package using pnpm by reading the package.json and executing the build command.
+# Build a specific Azure SDK package using pnpm
+# This script validates the package path, installs dependencies, and builds the package
+
+[CmdletBinding(SupportsShouldProcess = $true)]
 param (
-  [string]$packagePath  # Path to the package (absolute or relative)
+  [Parameter(Mandatory = $true)]
+  [string]$packagePath
 )
 
-# Resolve the path to an absolute path
-$resolvedPath = Resolve-Path $packagePath
+# Validates package path and extracts package information
+function Get-PackageInfo {
+  param (
+    [Parameter(Mandatory = $true)]
+    [string]$packagePath
+  )
+  
+  $resolvedPath = Resolve-Path $packagePath
 
-# Check if the specified path exists
-if (-not (Test-Path $resolvedPath)) {
-  Write-Host "Error: The specified path does not exist: $resolvedPath"
-  exit 1  # If the path doesn't exist, return 1 (failure)
+  if (-not (Test-Path $resolvedPath)) {
+    Write-Host "Error: The specified path does not exist: $resolvedPath"
+    exit 1
+  }
+
+  $packageJsonPath = Join-Path $resolvedPath "package.json"
+
+  if (-not (Test-Path $packageJsonPath)) {
+    Write-Host "Error: package.json file not found at: $packageJsonPath"
+    exit 1
+  }
+
+  try {
+    $packageJson = Get-Content $packageJsonPath | ConvertFrom-Json
+  }
+  catch {
+    Write-Host "Error: Unable to parse the $packageJsonPath file. Please check the file format."
+    exit 1
+  }
+
+  if (-not $packageJson.PSObject.Properties["name"]) {
+    Write-Host "Error: 'name' field not found in package.json"
+    exit 1
+  }
+
+  return @{
+    Name = $packageJson.name
+    Path = $resolvedPath
+  }
 }
 
-# Construct the path to package.json
-$packageJsonPath = Join-Path $resolvedPath "package.json"
+# Extract package information and prepare for build
+$packageInfo = Get-PackageInfo -packagePath $packagePath
+$packageName = $packageInfo.Name
 
-# Check if package.json exists at the given path
-if (-not (Test-Path $packageJsonPath)) {
-  Write-Host "Error: package.json file not found at: $packageJsonPath"
-  exit 1  # If package.json doesn't exist, return 1 (failure)
-}
-
-# Read the contents of package.json
-try {
-  $packageJson = Get-Content $packageJsonPath | ConvertFrom-Json
-}
-catch {
-  Write-Host "Error: Unable to parse the $packageJsonPath file. Please check the file format."
-  exit 1  # If reading or parsing fails, return 1 (failure)
-}
-
-# Check if the 'name' field exists in package.json
-if (-not $packageJson.PSObject.Properties["name"]) {
-  Write-Host "Error: 'name' field not found in package.json"
-  exit 1  # If 'name' field is missing, return 1 (failure)
-}
-
-# Extract the package name from the 'name' field
-$packageName = $packageJson.name
 Write-Host "Building package: $packageName"
 
-# Execute the pnpm build command with the package name as a filter
+# Install dependencies
+Write-Host "Installing dependencies..."
 try {
-  # Run the pnpm build command with the specified package name
-  $command = "pnpm run build --filter=$packageName..."
-  Write-Host "Executing command: $command"
-  & $command  # Run the command
+  pnpm install
+  if ($LASTEXITCODE -ne 0) {
+    Write-Host "Error: pnpm install failed with exit code $LASTEXITCODE"
+    exit $LASTEXITCODE
+  }
+  Write-Host "Dependencies installed successfully"
+}
+catch {
+  Write-Host "Error: Failed to install dependencies"
+  exit 1
+}
 
-  # If the build command succeeds, return 0 (success)
-  Write-Host "Build succeeded!"
-  exit 0
+# Execute build command
+try {
+  $command = "pnpm build --filter=$packageName..."
+  Write-Host "Executing command: $command"
+  
+  Invoke-Expression $command
+  
+  if ($LASTEXITCODE -eq 0) {
+    Write-Host "Build succeeded!"
+    exit 0
+  } else {
+    Write-Host "Error: Build failed with exit code $LASTEXITCODE"
+    exit $LASTEXITCODE
+  }
 }
 catch {
   Write-Host "Error: Build failed. Please check the pnpm command or package configuration."
-  exit 1  # If build fails, return 1 (failure)
+  exit 1
 }
