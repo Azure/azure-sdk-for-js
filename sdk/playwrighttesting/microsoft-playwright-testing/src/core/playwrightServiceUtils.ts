@@ -9,5 +9,9 @@ import { fileURLToPath } from "node:url";
 // @ts-ignore ESM only output
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
-export const globalSetupPath = path.join(path.join(currentDir, "./global/playwright-service-global-setup.js"));
-export const globalTeardownPath = path.join(path.join(currentDir, "./global/playwright-service-global-teardown.js"));
+export const globalSetupPath = path.join(
+  path.join(currentDir, "./global/playwright-service-global-setup.js"),
+);
+export const globalTeardownPath = path.join(
+  path.join(currentDir, "./global/playwright-service-global-teardown.js"),
+);
