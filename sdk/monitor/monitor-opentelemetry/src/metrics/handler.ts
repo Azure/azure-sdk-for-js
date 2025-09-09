@@ -4,6 +4,7 @@
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import type { PeriodicExportingMetricReaderOptions, ViewOptions } from "@opentelemetry/sdk-metrics";
 import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
 import { StandardMetrics } from "./standardMetrics.js";
 import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
@@ -93,7 +94,7 @@ export class MetricHandler {
     this._performanceCounters?.recordSpan(span);
   }
 
-  public recordLog(logRecord: any): void {
+  public recordLog(logRecord: SdkLogRecord): void {
     this._standardMetrics?.recordLog(logRecord);
     this._liveMetrics?.recordLog(logRecord);
     this._performanceCounters?.recordLog(logRecord);

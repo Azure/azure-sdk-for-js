@@ -3,6 +3,7 @@
 import type { Attributes } from "@opentelemetry/api";
 import { SpanStatusCode } from "@opentelemetry/api";
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import {
   SEMATTRS_PEER_SERVICE,
   SEMATTRS_EXCEPTION_MESSAGE,
@@ -127,7 +128,7 @@ export function isSqlDB(dbSystem: string): boolean {
   );
 }
 
-export function isExceptionTelemetry(logRecord: any): boolean {
+export function isExceptionTelemetry(logRecord: SdkLogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "ExceptionData") {
@@ -141,7 +142,7 @@ export function isExceptionTelemetry(logRecord: any): boolean {
   return false;
 }
 
-export function isTraceTelemetry(logRecord: any): boolean {
+export function isTraceTelemetry(logRecord: SdkLogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "MessageData") {
@@ -155,7 +156,7 @@ export function isTraceTelemetry(logRecord: any): boolean {
   return false;
 }
 
-export function isSyntheticLoad(record: any): boolean {
+export function isSyntheticLoad(record: SdkLogRecord | ReadableSpan): boolean {
   const userAgent = String(getUserAgent(record.attributes as Attributes));
   return userAgent !== null && userAgent.includes("AlwaysOn") ? true : false;
 }

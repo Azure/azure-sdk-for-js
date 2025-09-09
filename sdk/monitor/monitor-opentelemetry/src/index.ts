@@ -137,3 +137,11 @@ export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
   return sdk?.shutdown();
 }
+
+/**
+ * Get the internal SDK instance for testing purposes
+ * @internal
+ */
+export function _getInternalSdk(): NodeSDK | undefined {
+  return sdk;
+}

@@ -39,7 +39,8 @@ import {
 } from "../../../../src/metrics/quickpulse/types.js";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { millisToHrTime } from "@opentelemetry/core";
-import { LogRecord, LoggerProvider } from "@opentelemetry/sdk-logs";
+import { resourceFromAttributes } from "@opentelemetry/resources";
+import { createMockSdkLogRecord } from "../../../utils/breezeTestUtils.js";
 import {
   getLogData,
   getSpanData,
@@ -676,16 +677,10 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
   });
 
   it("Can parse a Log into an ExceptionData", () => {
-    const loggerProvider = new LoggerProvider();
-    const logger = loggerProvider.getLogger("testLogger") as any;
-    const traceLog = new LogRecord(
-      logger["_sharedState"],
-      { name: "test" },
-      {
-        body: "testMessage",
-        timestamp: 1234567890,
-      },
-    );
+    const resource = resourceFromAttributes({});
+    const traceLog = createMockSdkLogRecord(resource, { name: "test" }, {
+      body: "testMessage",
+    });
     traceLog.attributes["exception.stacktrace"] = "testStackTrace";
     traceLog.attributes["exception.message"] = "testExceptionMessage";
     traceLog.attributes["customAttribute"] = "test";
@@ -698,16 +693,10 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
   });
 
   it("Can parse a Log into a TraceData", () => {
-    const loggerProvider = new LoggerProvider();
-    const logger = loggerProvider.getLogger("testLogger") as any;
-    const traceLog = new LogRecord(
-      logger["_sharedState"],
-      { name: "test" },
-      {
-        body: "testMessage",
-        timestamp: 1234567890,
-      },
-    );
+    const resource = resourceFromAttributes({});
+    const traceLog = createMockSdkLogRecord(resource, { name: "test" }, {
+      body: "testMessage",
+    });
     traceLog.attributes["customAttribute"] = "test";
 
     const trace: TraceData = getLogData(traceLog) as TraceData;

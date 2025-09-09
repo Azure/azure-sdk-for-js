@@ -9,6 +9,7 @@ import type {
   ObservableResult,
 } from "@opentelemetry/api";
 import { SpanKind, ValueType } from "@opentelemetry/api";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import type {
   MeterProviderOptions,
@@ -213,7 +214,7 @@ export class PerformanceCounterMetrics {
    * Record Log metrics
    * @internal
    */
-  public recordLog(logRecord: any): void {
+  public recordLog(logRecord: SdkLogRecord): void {
     const columns: TraceData | ExceptionData = getLogData(logRecord);
     if (isExceptionData(columns)) {
       this.totalExceptionCount++;

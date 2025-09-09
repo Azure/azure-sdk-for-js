@@ -6,6 +6,7 @@ import type {
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import type { InternalConfig } from "../shared/config.js";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import type { Counter, Histogram, Meter } from "@opentelemetry/api";
@@ -144,7 +145,7 @@ export class StandardMetrics {
    * Record LogRecord metrics, add attribute so data is not aggregated again in ingestion
    * @internal
    */
-  public recordLog(logRecord: any): void {
+  public recordLog(logRecord: SdkLogRecord): void {
     if (isSyntheticLoad(logRecord)) {
       logRecord.setAttribute("operation/synthetic", "True");
     }

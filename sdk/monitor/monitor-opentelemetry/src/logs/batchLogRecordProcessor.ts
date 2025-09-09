@@ -4,6 +4,7 @@
 import { TraceFlags } from "@opentelemetry/api";
 import type {
   LogRecordExporter,
+  SdkLogRecord,
 } from "@opentelemetry/sdk-logs";
 import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 
@@ -22,7 +23,7 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
     this._options = options;
   }
 
-  public onEmit(logRecord: any): void {
+  public onEmit(logRecord: SdkLogRecord): void {
     // Trace based sampling for logs
     if (this._options.enableTraceBasedSamplingForLogs) {
       if (logRecord.spanContext && logRecord.spanContext.spanId) {
