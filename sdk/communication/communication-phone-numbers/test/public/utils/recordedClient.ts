@@ -8,11 +8,11 @@ import { PhoneNumbersClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
 import { type TokenCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
-import { randomUUID } from "@azure/core-util";
+// import { randomUUID } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 import { createOperationLocationFixPolicy } from "./operationLocationFixPolicy.js";
-import { DefaultAzureCredential } from "@azure/identity";
+// import { DefaultAzureCredential } from "@azure/identity";
 
 if (isNodeLike) {
   dotenv.config();
@@ -147,19 +147,20 @@ export async function createRecordedClientWithToken(
   context: TestInfo,
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context);
-  await assignRoleToExistingResource();
 
   let credential: TokenCredential;
-  let endpoint: string;
+  const endpoint = parseConnectionString(
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+  ).endpoint;
 
   if (isPlaybackMode()) {
-    credential = createMockToken();
-    endpoint = envSetupForPlayback["COMMUNICATION_ENDPOINT"];
+    credential = {
+      getToken: async (_scopes: any) => {
+        return { token: "testToken", expiresOnTimestamp: 11111 };
+      },
+    };
   } else {
     credential = createTestCredential();
-    endpoint = parseConnectionString(
-      env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-    ).endpoint;
   }
 
   const client = new PhoneNumbersClient(
@@ -187,6 +188,7 @@ export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
 
+/* 
 async function assignRoleToExistingResource(): Promise<void> {
   // Only run in Node.js and live mode
   if (isPlaybackMode()) return;
@@ -244,4 +246,4 @@ async function assignRoleToExistingResource(): Promise<void> {
     const error = await response.text();
     throw new Error(`Role assignment failed: ${error}`);
   }
-}
+} */
