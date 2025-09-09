@@ -6,4 +6,9 @@ export * from "./webPubSubClientCredential.js";
 export * from "./models/index.js";
 export * from "./protocols/index.js";
 export * from "./errors/index.js";
-export { WebPubSubStreamHandler, StreamOptions, WebPubSubStream, createStreamHandler } from "./streaming.js";
+export {
+  WebPubSubStreamHandler,
+  StreamOptions,
+  WebPubSubStream,
+  createStreamHandler,
+} from "./streaming.js";

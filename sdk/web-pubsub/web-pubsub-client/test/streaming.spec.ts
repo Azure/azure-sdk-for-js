@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, vi } from "vitest";
-import { Stream, StreamHandler, StreamHandlerFactory, createStreamHandler } from "../src/streaming.js";
+import {
+  Stream,
+  StreamHandler,
+  StreamHandlerFactory,
+  createStreamHandler,
+} from "../src/streaming.js";
 
 describe("StreamHandler", () => {
   let streamHandler: StreamHandler;

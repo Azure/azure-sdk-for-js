@@ -43,7 +43,12 @@ import type {
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
-import type { WebPubSubStreamHandler, StreamOptions, WebPubSubStream, StreamHandler } from "./streaming.js";
+import type {
+  WebPubSubStreamHandler,
+  StreamOptions,
+  WebPubSubStream,
+  StreamHandler,
+} from "./streaming.js";
 import { Stream } from "./streaming.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
 import { WebSocketClientFactory } from "./websocket/websocketClient.js";
@@ -556,17 +561,9 @@ export class WebPubSubClient {
    * @param groupName - The group name
    * @param callback - Callback handler to
    */
-  public onStream(
-    groupName: string,
-    callback: (e: OnStreamArgs) => WebPubSubStreamHandler,
-  ): void {
+  public onStream(groupName: string, callback: (e: OnStreamArgs) => WebPubSubStreamHandler): void {
     this._emitter.on("group-stream-message", (e: OnStreamArgs) => {
-      const {
-        streamId,
-        group: sourceGroup,
-        data: message,
-        endOfStream: isCompleted,
-      } = e.message;
+      const { streamId, group: sourceGroup, data: message, endOfStream: isCompleted } = e.message;
       if (groupName === sourceGroup) {
         let handler = this._streamHandlers.get(streamId!);
         if (!handler) {
