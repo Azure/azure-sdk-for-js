@@ -1,5 +1,3 @@
-param testApplicationOid string
-
 var communicationServiceName = 'live-testing-unitedstates'
 
 var contributorRoleId = 'b24988ac-6180-42a0-ab88-20f7382dd24c'
