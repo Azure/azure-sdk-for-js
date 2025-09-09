@@ -1,5 +1,7 @@
-param communicationServiceName string
-param principalId string // Object ID of the user/service principal
+param testApplicationOid string
+
+var communicationServiceName = 'live-testing-unitedstates'
+
 var contributorRoleId = 'b24988ac-6180-42a0-ab88-20f7382dd24c'
 param testApplicationOid string
 
@@ -10,7 +12,7 @@ resource existingCommunicationService 'Microsoft.Communication/communicationServ
 
 // Assign Contributor Role
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(existingCommunicationService.id, principalId, contributorRoleId)
+  name: guid(existingCommunicationService.id, testApplicationOid, contributorRoleId)
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', contributorRoleId)
     principalId: testApplicationOid
