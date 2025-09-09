@@ -2,18 +2,24 @@
 // Licensed under the MIT License.
 
 import type { QueryRangeMapping } from "./QueryRangeMapping.js";
-import type { CompositeQueryContinuationToken, QueryRangeWithContinuationToken } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
-import { 
+import type {
+  CompositeQueryContinuationToken,
+  QueryRangeWithContinuationToken,
+} from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
+import {
   createCompositeQueryContinuationToken,
   serializeCompositeToken,
-  parseCompositeQueryContinuationToken
+  parseCompositeQueryContinuationToken,
 } from "../documents/ContinuationToken/CompositeQueryContinuationToken.js";
 import type { OrderByQueryContinuationToken } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
-import type { PartitionRangeUpdate, PartitionRangeUpdates } from "../documents/ContinuationToken/PartitionRangeUpdate.js";
-import { 
+import type {
+  PartitionRangeUpdate,
+  PartitionRangeUpdates,
+} from "../documents/ContinuationToken/PartitionRangeUpdate.js";
+import {
   createOrderByQueryContinuationToken,
   parseOrderByQueryContinuationToken,
-  serializeOrderByQueryContinuationToken
+  serializeOrderByQueryContinuationToken,
 } from "../documents/ContinuationToken/OrderByQueryContinuationToken.js";
 import type { CosmosHeaders } from "./CosmosHeaders.js";
 import { Constants } from "../common/index.js";
@@ -29,7 +35,7 @@ import { QueryRange } from "../routing/QueryRange.js";
 export class ContinuationTokenManager {
   private compositeContinuationToken: CompositeQueryContinuationToken;
   private orderByQueryContinuationToken: OrderByQueryContinuationToken;
-  
+
   private ranges: QueryRangeWithContinuationToken[] = [];
 
   private partitionRangeManager: PartitionRangeManager = new PartitionRangeManager();
@@ -46,18 +52,19 @@ export class ContinuationTokenManager {
     this.isOrderByQuery = isOrderByQuery;
     this.collectionLink = collectionLink;
     if (initialContinuationToken) {
-        if (this.isOrderByQuery) {
-          this.orderByQueryContinuationToken = parseOrderByQueryContinuationToken(initialContinuationToken);
-          this.ranges = this.orderByQueryContinuationToken.rangeMappings || [];
-        } else {
-          this.compositeContinuationToken =
-            parseCompositeQueryContinuationToken(initialContinuationToken);
-          this.ranges = this.compositeContinuationToken.rangeMappings || [];
-        }
+      if (this.isOrderByQuery) {
+        this.orderByQueryContinuationToken =
+          parseOrderByQueryContinuationToken(initialContinuationToken);
+        this.ranges = this.orderByQueryContinuationToken.rangeMappings || [];
+      } else {
+        this.compositeContinuationToken =
+          parseCompositeQueryContinuationToken(initialContinuationToken);
+        this.ranges = this.compositeContinuationToken.rangeMappings || [];
+      }
     } else {
       this.ranges = [];
     }
-  }  
+  }
 
   /**
    * Sets the ORDER BY items array for ORDER BY continuation token creation
@@ -99,15 +106,14 @@ export class ContinuationTokenManager {
     return this.orderByQueryContinuationToken?.hashedLastResult || undefined;
   }
 
-
   /**
    * Sets whether this query type supports continuation tokens
    * @param isUnsupported - True if the query type doesn't support continuation tokens
    */
   public setUnsupportedQueryType(isUnsupported: boolean): void {
     this.isUnsupportedQueryType = isUnsupported;
-  }  
-  
+  }
+
   private isPartitionExhausted(continuationToken: string | null): boolean {
     return (
       !continuationToken ||
@@ -151,18 +157,18 @@ export class ContinuationTokenManager {
 
     // Filter out exhausted ranges from the common ranges array
     this.ranges = this.ranges.filter((mapping) => {
-        // Check if mapping is valid
-        if (!mapping) {
-          return false;
-        }
-        // Check if this mapping has an exhausted continuation token
-        const isExhausted = this.isPartitionExhausted(mapping.continuationToken);
+      // Check if mapping is valid
+      if (!mapping) {
+        return false;
+      }
+      // Check if this mapping has an exhausted continuation token
+      const isExhausted = this.isPartitionExhausted(mapping.continuationToken);
 
-        if (isExhausted) {
-          return false; // Filter out exhausted mappings
-        }
-        return true; // Keep non-exhausted mappings
-      });
+      if (isExhausted) {
+        return false; // Filter out exhausted mappings
+      }
+      return true; // Keep non-exhausted mappings
+    });
   }
 
   /**
@@ -196,12 +202,12 @@ export class ContinuationTokenManager {
   ): { endIndex: number; processedRanges: string[] } {
     const result = this.partitionRangeManager.processOrderByRanges(
       pageSize,
-      this.orderByItemsArray
+      this.orderByItemsArray,
     );
 
     const { lastRangeBeforePageLimit } = result;
 
-    // Store the range mapping 
+    // Store the range mapping
     if (lastRangeBeforePageLimit) {
       this.addOrUpdateRangeMapping(lastRangeBeforePageLimit);
     }
@@ -232,7 +238,7 @@ export class ContinuationTokenManager {
         skipCount = pageResults.filter((doc) => doc && doc._rid === documentRid).length;
         // Exclude the last document from the skip count
         skipCount -= 1;
-      } 
+      }
     }
 
     // Create ORDER BY specific continuation token with resume values
@@ -248,7 +254,8 @@ export class ContinuationTokenManager {
     if (lastRangeBeforePageLimit) {
       this.orderByQueryContinuationToken.offset = lastRangeBeforePageLimit.offset;
       this.orderByQueryContinuationToken.limit = lastRangeBeforePageLimit.limit;
-      this.orderByQueryContinuationToken.hashedLastResult = lastRangeBeforePageLimit.hashedLastResult;
+      this.orderByQueryContinuationToken.hashedLastResult =
+        lastRangeBeforePageLimit.hashedLastResult;
     }
 
     return { endIndex: result.endIndex, processedRanges: result.processedRanges };
@@ -257,11 +264,9 @@ export class ContinuationTokenManager {
   /**
    * Processes ranges for parallel queries - multi-range aggregation
    */
-  private processParallelRanges(
-    pageSize: number,
-  ): { endIndex: number; processedRanges: string[] } {
+  private processParallelRanges(pageSize: number): { endIndex: number; processedRanges: string[] } {
     const result = this.partitionRangeManager.processParallelRanges(pageSize);
-    
+
     this.compositeContinuationToken = createCompositeQueryContinuationToken(
       this.collectionLink,
       this.ranges,
@@ -305,12 +310,12 @@ export class ContinuationTokenManager {
         rangeMapping.partitionKeyRange.minInclusive,
         rangeMapping.partitionKeyRange.maxExclusive,
         true, // minInclusive
-        false // maxInclusive (exclusive max)
+        false, // maxInclusive (exclusive max)
       );
-      
+
       const newRangeWithToken: QueryRangeWithContinuationToken = {
         queryRange: queryRange,
-        continuationToken: rangeMapping.continuationToken
+        continuationToken: rangeMapping.continuationToken,
       };
       this.ranges.push(newRangeWithToken);
     }
@@ -329,7 +334,7 @@ export class ContinuationTokenManager {
 
     if (this.isOrderByQuery && this.orderByQueryContinuationToken) {
       return serializeOrderByQueryContinuationToken(this.orderByQueryContinuationToken);
-    } else if (this.compositeContinuationToken){
+    } else if (this.compositeContinuationToken) {
       return serializeCompositeToken(this.compositeContinuationToken);
     }
     return undefined;
@@ -355,13 +360,11 @@ export class ContinuationTokenManager {
   /**
    * Handles partition range changes (splits/merges) by updating the composite continuation token.
    * Creates new range mappings for split scenarios and updates existing mappings for merge scenarios.
-   * 
+   *
    * @param updatedContinuationRanges - Map of range changes from parallel query execution context
    * @param requestContinuationToken - The original continuation token from the request
    */
-  public handlePartitionRangeChanges(
-    updatedContinuationRanges: PartitionRangeUpdates,
-  ): void {
+  public handlePartitionRangeChanges(updatedContinuationRanges: PartitionRangeUpdates): void {
     if (updatedContinuationRanges && Object.keys(updatedContinuationRanges).length === 0) {
       return; // No range changes to process
     }
@@ -369,17 +372,13 @@ export class ContinuationTokenManager {
     Object.entries(updatedContinuationRanges).forEach(([rangeKey, rangeChange]) => {
       this.processRangeChange(rangeKey, rangeChange);
     });
-
   }
 
   /**
    * Processes a single range change (split or merge scenario).
    * Updates the composite continuation token structure accordingly.
    */
-  private processRangeChange(
-    _rangeKey: string, 
-    rangeChange: PartitionRangeUpdate
-  ): void {
+  private processRangeChange(_rangeKey: string, rangeChange: PartitionRangeUpdate): void {
     const { oldRange, newRanges, continuationToken } = rangeChange;
     if (newRanges.length === 1) {
       this.handleRangeMerge(oldRange, newRanges[0], continuationToken);
@@ -392,26 +391,26 @@ export class ContinuationTokenManager {
    * Handles range merge scenario by updating the existing range mapping.
    */
   private handleRangeMerge(oldRange: any, newRange: any, continuationToken: string): void {
-    
     // Find existing range mapping to update in the common ranges array
     const existingMappingIndex = this.ranges.findIndex(
-      mapping => mapping.queryRange.min === oldRange.minInclusive &&
-                 mapping.queryRange.max === oldRange.maxExclusive
+      (mapping) =>
+        mapping.queryRange.min === oldRange.minInclusive &&
+        mapping.queryRange.max === oldRange.maxExclusive,
     );
 
-    if(existingMappingIndex < 0) {
-     return;
+    if (existingMappingIndex < 0) {
+      return;
     }
 
     // Update existing mapping with new range properties
     const existingMapping = this.ranges[existingMappingIndex];
-    
+
     // Create new QueryRange with updated boundaries
     const updatedQueryRange = new QueryRange(
       newRange.minInclusive,
       newRange.maxExclusive,
       true, // minInclusive
-      false // maxInclusive (exclusive max)
+      false, // maxInclusive (exclusive max)
     );
 
     // Update the mapping
@@ -423,15 +422,17 @@ export class ContinuationTokenManager {
    * Handles range split scenario by replacing one range with multiple ranges.
    */
   private handleRangeSplit(oldRange: any, newRanges: any[], continuationToken: string): void {
-    
     // Remove the old range mapping from the common ranges array
     this.ranges = this.ranges.filter(
-      mapping => !(mapping.queryRange.min === oldRange.minInclusive &&
-                   mapping.queryRange.max === oldRange.maxExclusive)
+      (mapping) =>
+        !(
+          mapping.queryRange.min === oldRange.minInclusive &&
+          mapping.queryRange.max === oldRange.maxExclusive
+        ),
     );
 
     // Add new range mappings for each split range
-    newRanges.forEach(newRange => {
+    newRanges.forEach((newRange) => {
       this.createNewRangeMapping(newRange, continuationToken);
     });
   }
@@ -445,13 +446,13 @@ export class ContinuationTokenManager {
       partitionKeyRange.minInclusive,
       partitionKeyRange.maxExclusive,
       true, // minInclusive
-      false // maxInclusive (exclusive max)
+      false, // maxInclusive (exclusive max)
     );
 
     // Create new QueryRangeWithContinuationToken
     const newRangeWithToken: QueryRangeWithContinuationToken = {
       queryRange: queryRange,
-      continuationToken: continuationToken
+      continuationToken: continuationToken,
     };
 
     this.ranges.push(newRangeWithToken);

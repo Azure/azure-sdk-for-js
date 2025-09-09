@@ -35,6 +35,5 @@ export interface TargetPartitionRangeStrategy {
     targetRanges: PartitionKeyRange[],
     continuationRanges?: PartitionRangeWithContinuationToken[],
     queryInfo?: Record<string, unknown>,
-
   ): PartitionRangeFilterResult;
 }

@@ -27,13 +27,8 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0
     ) {
-      const result = createParallelQueryResult(
-        [],
-        new Map(),
-        {},
-        undefined
-      );
-      
+      const result = createParallelQueryResult([], new Map(), {}, undefined);
+
       return { result, headers: response.headers };
     }
 
@@ -58,7 +53,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
       buffer,
       partitionKeyRangeMap,
       updatedContinuationRanges,
-      orderByItems
+      orderByItems,
     );
 
     return { result, headers: response.headers };

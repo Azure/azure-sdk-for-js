@@ -21,12 +21,16 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
   filterPartitionRanges(
     targetRanges: PartitionKeyRange[],
     continuationRanges?: PartitionRangeWithContinuationToken[],
-    queryInfo?: Record<string, unknown>
+    queryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
-
-    if (!targetRanges || targetRanges.length === 0 || !continuationRanges || continuationRanges.length === 0) {
+    if (
+      !targetRanges ||
+      targetRanges.length === 0 ||
+      !continuationRanges ||
+      continuationRanges.length === 0
+    ) {
       return {
-        rangeTokenPairs: []
+        rangeTokenPairs: [],
       };
     }
 
@@ -41,23 +45,21 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     if (continuationRanges && continuationRanges.length > 0) {
       resumeRangeFound = true;
       // Find the range to resume from based on the composite token
-      const targetRangeMapping =
-        continuationRanges[continuationRanges.length - 1].range;
+      const targetRangeMapping = continuationRanges[continuationRanges.length - 1].range;
       // It is assumed that range mapping array is going to contain only range
       const targetRange: PartitionKeyRange = targetRangeMapping;
 
       const targetContinuationToken =
         continuationRanges[continuationRanges.length - 1].continuationToken;
 
-      const leftRanges = targetRanges.filter(
-        (mapping) => this.isRangeBeforeAnother(mapping.maxExclusive, targetRangeMapping.minInclusive),
+      const leftRanges = targetRanges.filter((mapping) =>
+        this.isRangeBeforeAnother(mapping.maxExclusive, targetRangeMapping.minInclusive),
       );
       // TODO: add units
       let queryPlanInfo: Record<string, unknown> = {};
       if (queryInfo && queryInfo.queryInfo) {
         queryPlanInfo = queryInfo.queryInfo as Record<string, unknown>;
       }
-      
 
       // Create filtering condition for left ranges based on ORDER BY items and sort orders
       const leftFilter = this.createRangeFilterCondition(
@@ -66,8 +68,8 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
         "left",
       );
 
-      const rightRanges = targetRanges.filter(
-        (mapping) => this.isRangeAfterAnother(mapping.minInclusive, targetRangeMapping.maxExclusive),
+      const rightRanges = targetRanges.filter((mapping) =>
+        this.isRangeAfterAnother(mapping.minInclusive, targetRangeMapping.maxExclusive),
       );
 
       // Create filtering condition for right ranges based on ORDER BY items and sort orders
@@ -81,34 +83,34 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
       if (leftRanges.length > 0) {
         console.log(`Applying filter condition to ${leftRanges.length} left ranges`);
 
-        leftRanges.forEach(range => {
+        leftRanges.forEach((range) => {
           result.rangeTokenPairs.push({
             range: range,
             continuationToken: undefined,
-            filteringCondition: leftFilter
+            filteringCondition: leftFilter,
           });
         });
       }
       const targetFilter = this.createTargetRangeFilterCondition(
         (queryInfo?.orderByItems as any[]) || [],
         queryInfo?.rid as string,
-        queryInfo
+        queryInfo,
       );
 
       // Add the target range with its continuation token
       result.rangeTokenPairs.push({
         range: targetRange,
         continuationToken: targetContinuationToken,
-        filteringCondition: targetFilter
+        filteringCondition: targetFilter,
       });
 
       // Apply filtering logic for right ranges
       if (rightRanges.length > 0) {
-        rightRanges.forEach(range => {
+        rightRanges.forEach((range) => {
           result.rangeTokenPairs.push({
             range: range,
             continuationToken: undefined,
-            filteringCondition: rightFilter
+            filteringCondition: rightFilter,
           });
         });
       }
@@ -118,11 +120,11 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     // This can happen with certain types of ORDER BY continuation tokens
     if (!resumeRangeFound) {
       filteredRanges = [...targetRanges];
-      filteredRanges.forEach(range => {
+      filteredRanges.forEach((range) => {
         result.rangeTokenPairs.push({
           range: range,
           continuationToken: undefined,
-          filteringCondition: undefined
+          filteringCondition: undefined,
         });
       });
     }
@@ -143,14 +145,13 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     rid: string | undefined,
     queryInfo: Record<string, unknown> | undefined,
   ): string {
-
     // Create the right filter condition first (same logic as right ranges)
     const rightFilter = this.createRangeFilterCondition(orderByItems, queryInfo, "right");
-    
+
     // Add _rid check if available
     if (rid) {
       const ridCondition = `c._rid > '${rid.replace(/'/g, "''")}'`;
-      
+
       if (rightFilter) {
         // Combine ORDER BY filter with RID filter using AND logic
         // This ensures we get documents that :
@@ -404,12 +405,11 @@ export class OrderByQueryRangeStrategy implements TargetPartitionRangeStrategy {
     // Handle empty string cases (empty string represents the minimum boundary)
     if (boundary1 === "" && boundary2 === "") return 0;
     if (boundary1 === "") return -1; // "" < "AA"
-    if (boundary2 === "") return 1;  // "AA" > ""
-    
+    if (boundary2 === "") return 1; // "AA" > ""
+
     // Use standard lexicographic comparison for non-empty boundaries
     return boundary1.localeCompare(boundary2);
   }
-
 
   private isRangeBeforeAnother(range1MaxExclusive: string, range2MinInclusive: string): boolean {
     // Since range1.maxExclusive is NOT part of range1, and range2.minInclusive IS part of range2,

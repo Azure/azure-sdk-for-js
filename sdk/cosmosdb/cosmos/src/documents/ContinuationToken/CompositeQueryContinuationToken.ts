@@ -35,24 +35,27 @@ export interface CompositeQueryContinuationToken {
  * @hidden
  */
 export function createCompositeQueryContinuationToken(
-  rid: string, 
-  rangeMappings: QueryRangeWithContinuationToken[], 
+  rid: string,
+  rangeMappings: QueryRangeWithContinuationToken[],
   offset?: number,
-  limit?: number
+  limit?: number,
 ): CompositeQueryContinuationToken {
   // const queryRanges = convertRangeMappingsToQueryRangesWithTokens(rangeMappings);
-  
+
   return {
     rid,
     rangeMappings: rangeMappings,
     offset,
     limit,
   };
-}/**
+} /**
  * Adds a range mapping to the continuation token by converting it to QueryRange
  * @hidden
  */
-export function addRangeMappingToCompositeToken(token: CompositeQueryContinuationToken, rangeMapping: QueryRangeMapping): void {
+export function addRangeMappingToCompositeToken(
+  token: CompositeQueryContinuationToken,
+  rangeMapping: QueryRangeMapping,
+): void {
   // Convert the QueryRangeMapping to QueryRange before adding
   const queryRange = convertRangeMappingToQueryRange(rangeMapping);
   token.rangeMappings.push(queryRange);
@@ -70,11 +73,11 @@ export function serializeCompositeToken(token: CompositeQueryContinuationToken):
  * Deserializes a JSON string to a CompositeQueryContinuationToken
  * @hidden
  */
-export function parseCompositeQueryContinuationToken(tokenString: string): CompositeQueryContinuationToken {
+export function parseCompositeQueryContinuationToken(
+  tokenString: string,
+): CompositeQueryContinuationToken {
   return JSON.parse(tokenString);
 }
-
-
 
 /**
  * @hidden
@@ -98,13 +101,15 @@ export interface QueryRangeWithContinuationToken {
  * @returns QueryRangeWithContinuationToken with appropriate boundaries and continuation token
  * @hidden
  */
-export function convertRangeMappingToQueryRange(rangeMapping: QueryRangeMapping): QueryRangeWithContinuationToken {
+export function convertRangeMappingToQueryRange(
+  rangeMapping: QueryRangeMapping,
+): QueryRangeWithContinuationToken {
   if (!rangeMapping.partitionKeyRange) {
     throw new Error("QueryRangeMapping must have a partitionKeyRange");
   }
 
   const pkRange = rangeMapping.partitionKeyRange;
-  
+
   // Prefer EPK boundaries if they exist, otherwise use logical boundaries
   const minInclusive = pkRange.epkMin || pkRange.minInclusive;
   const maxExclusive = pkRange.epkMax || pkRange.maxExclusive;
@@ -112,8 +117,8 @@ export function convertRangeMappingToQueryRange(rangeMapping: QueryRangeMapping)
   const queryRange = new QueryRange(
     minInclusive,
     maxExclusive,
-    true,  // minInclusive is always true for our use case
-    false  // maxInclusive is always false for our use case (maxExclusive)
+    true, // minInclusive is always true for our use case
+    false, // maxInclusive is always false for our use case (maxExclusive)
   );
 
   return {
@@ -128,6 +133,8 @@ export function convertRangeMappingToQueryRange(rangeMapping: QueryRangeMapping)
  * @returns Array of QueryRangeWithContinuationToken with appropriate boundaries and continuation tokens
  * @hidden
  */
-export function convertRangeMappingsToQueryRangesWithTokens(rangeMappings: QueryRangeMapping[]): QueryRangeWithContinuationToken[] {
-  return rangeMappings.map(mapping => convertRangeMappingToQueryRange(mapping));
+export function convertRangeMappingsToQueryRangesWithTokens(
+  rangeMappings: QueryRangeMapping[],
+): QueryRangeWithContinuationToken[] {
+  return rangeMappings.map((mapping) => convertRangeMappingToQueryRange(mapping));
 }

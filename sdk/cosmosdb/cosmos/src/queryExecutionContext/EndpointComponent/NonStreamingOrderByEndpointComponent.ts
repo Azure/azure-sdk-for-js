@@ -70,7 +70,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     let resHeaders = getInitialHeader();
     let partitionKeyRangeMap: Map<string, QueryRangeMapping> | undefined;
     let updatedContinuationRanges: Record<string, any> | undefined;
-    
+
     // if size is 0, just return undefined to signal to more results. Valid if query is TOP 0 or LIMIT 0
     if (this.priorityQueueBufferSize <= 0) {
       return {
@@ -97,7 +97,8 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
 
       // New structure: { result: { buffer: bufferedResults, partitionKeyRangeMap: ..., updatedContinuationRanges: ... } }
       const parallelResult = response.result as ParallelQueryResult;
-      const dataToProcess: NonStreamingOrderByResult[] = parallelResult.buffer as NonStreamingOrderByResult[];
+      const dataToProcess: NonStreamingOrderByResult[] =
+        parallelResult.buffer as NonStreamingOrderByResult[];
 
       for (const item of dataToProcess) {
         if (item !== undefined) {
@@ -111,9 +112,9 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       const result = createParallelQueryResult(
         [], // empty buffer
         partitionKeyRangeMap || new Map(),
-        updatedContinuationRanges || {}
+        updatedContinuationRanges || {},
       );
-      
+
       return {
         result,
         headers: resHeaders,
@@ -123,16 +124,16 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     // If all results are fetched from backend, prepare final results
     if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
       this.isCompleted = true;
-      return this.buildFinalResultArray(resHeaders, partitionKeyRangeMap, updatedContinuationRanges);
+      return this.buildFinalResultArray(
+        resHeaders,
+        partitionKeyRangeMap,
+        updatedContinuationRanges,
+      );
     }
 
     // If pq is empty, return undefined to signal that there are no more results.
-    const result = createParallelQueryResult(
-      [],
-      new Map(),
-      {}
-    );
-    
+    const result = createParallelQueryResult([], new Map(), {});
+
     return {
       result,
       headers: resHeaders,
@@ -142,7 +143,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   private async buildFinalResultArray(
     resHeaders: CosmosHeaders,
     partitionKeyRangeMap?: Map<string, QueryRangeMapping>,
-    updatedContinuationRanges?: Record<string, any>
+    updatedContinuationRanges?: Record<string, any>,
   ): Promise<Response<any>> {
     // Set isCompleted to true.
     this.isCompleted = true;
@@ -175,9 +176,9 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
         buffer,
         partitionKeyRangeMap || new Map(),
         updatedContinuationRanges || {},
-        undefined
+        undefined,
       );
-      
+
       return {
         result,
         headers: resHeaders,

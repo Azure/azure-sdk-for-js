@@ -48,13 +48,10 @@ describe("OrderByQueryRangeStrategy", () => {
               partitionKeyRange: { id: "1", minInclusive: "AA", maxExclusive: "BB" },
               continuationToken: "mock-token",
               itemCount: 5,
-            }
-          ]
+            },
+          ],
         }),
-        orderByItems: [
-          { item: "value1" },
-          { item: "value2" }
-        ]
+        orderByItems: [{ item: "value1" }, { item: "value2" }],
       });
 
       assert.isTrue(strategy.validateContinuationToken(validToken));
@@ -67,14 +64,14 @@ describe("OrderByQueryRangeStrategy", () => {
 
     it("should reject token without compositeToken", () => {
       const invalidToken = JSON.stringify({
-        orderByItems: [{ item: "value" }]
+        orderByItems: [{ item: "value" }],
       });
       assert.isFalse(strategy.validateContinuationToken(invalidToken));
     });
 
     it("should reject token without orderByItems", () => {
       const invalidToken = JSON.stringify({
-        compositeToken: "some-token"
+        compositeToken: "some-token",
       });
       assert.isFalse(strategy.validateContinuationToken(invalidToken));
     });
@@ -82,7 +79,7 @@ describe("OrderByQueryRangeStrategy", () => {
     it("should reject token with non-array orderByItems", () => {
       const invalidToken = JSON.stringify({
         compositeToken: "some-token",
-        orderByItems: "not-an-array"
+        orderByItems: "not-an-array",
       });
       assert.isFalse(strategy.validateContinuationToken(invalidToken));
     });
@@ -90,7 +87,7 @@ describe("OrderByQueryRangeStrategy", () => {
     it("should reject token with non-string compositeToken", () => {
       const invalidToken = JSON.stringify({
         compositeToken: { nested: "object" },
-        orderByItems: []
+        orderByItems: [],
       });
       assert.isFalse(strategy.validateContinuationToken(invalidToken));
     });
@@ -98,7 +95,7 @@ describe("OrderByQueryRangeStrategy", () => {
     it("should reject token with empty orderByItems array", () => {
       const invalidToken = JSON.stringify({
         compositeToken: "valid-composite-token",
-        orderByItems: []
+        orderByItems: [],
       });
       assert.isFalse(strategy.validateContinuationToken(invalidToken));
     });
@@ -141,26 +138,26 @@ describe("OrderByQueryRangeStrategy", () => {
         const compositeToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "1", 
-                minInclusive: "AA", 
+              partitionKeyRange: {
+                id: "1",
+                minInclusive: "AA",
                 maxExclusive: "BB",
                 ridPrefix: 1,
                 throughputFraction: 1.0,
                 status: "Online",
-                parents: []
+                parents: [],
               },
               continuationToken: "target-token",
-              itemCount: 5
-            }
-          ]
+              itemCount: 5,
+            },
+          ],
         });
 
         const orderByToken = JSON.stringify({
           compositeToken: compositeToken,
           orderByItems: [{ item: "test-value" }],
           rid: "test-rid",
-          skipCount: 10
+          skipCount: 10,
         });
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
@@ -170,11 +167,11 @@ describe("OrderByQueryRangeStrategy", () => {
         assert.equal(result.filteredRanges[1].id, "1");
         assert.equal(result.filteredRanges[1].minInclusive, "AA");
         assert.equal(result.filteredRanges[1].maxExclusive, "BB");
-        
+
         // Should have the continuation token for the target range
         assert.equal(result.continuationToken?.length, 4);
         assert.equal(result.continuationToken?.[1], "target-token");
-        
+
         // Should have empty filtering conditions array
         assert.equal(result.filteringConditions?.length, 4);
         assert.isDefined(result.filteringConditions?.[1]);
@@ -185,64 +182,67 @@ describe("OrderByQueryRangeStrategy", () => {
         const compositeToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "1", 
-                minInclusive: "AA", 
+              partitionKeyRange: {
+                id: "1",
+                minInclusive: "AA",
                 maxExclusive: "BB",
                 ridPrefix: 1,
                 throughputFraction: 1.0,
                 status: "Online",
-                parents: []
+                parents: [],
               },
               continuationToken: "middle-token",
-              itemCount: 8
-            }
-          ]
+              itemCount: 8,
+            },
+          ],
         });
 
         const orderByToken = JSON.stringify({
           compositeToken: compositeToken,
-          orderByItems: [{ item: "filter-value" }]
+          orderByItems: [{ item: "filter-value" }],
         });
 
         // Provide queryInfo to enable filtering
         const queryInfo = {
           orderByExpressions: ["c.timestamp"],
-          orderBy: ["Ascending"]
+          orderBy: ["Ascending"],
         };
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
 
         // Should include:
         // - Left ranges: ranges with maxExclusive < "AA" → range "0" (""-"AA")
-        // - Target range: range "1" ("AA"-"BB") 
+        // - Target range: range "1" ("AA"-"BB")
         // - Right ranges: ranges with minInclusive > "BB" → ranges "2" ("BB"-"FF"), "3" ("FF"-"ZZ")
         assert.equal(result.filteredRanges.length, 4);
-        
+
         // Verify left range
-        const leftRange = result.filteredRanges.find(r => r.maxExclusive <= "AA");
+        const leftRange = result.filteredRanges.find((r) => r.maxExclusive <= "AA");
         assert.isDefined(leftRange);
         assert.equal(leftRange?.id, "0");
-        
-        // Verify target range 
-        const targetRange = result.filteredRanges.find(r => r.id === "1");
+
+        // Verify target range
+        const targetRange = result.filteredRanges.find((r) => r.id === "1");
         assert.isDefined(targetRange);
         assert.equal(targetRange?.minInclusive, "AA");
         assert.equal(targetRange?.maxExclusive, "BB");
-        
+
         // Verify right ranges
-        const rightRanges = result.filteredRanges.filter(r => r.minInclusive >= "BB");
+        const rightRanges = result.filteredRanges.filter((r) => r.minInclusive >= "BB");
         assert.equal(rightRanges.length, 2);
-        assert.includeMembers(rightRanges.map(r => r.id), ["2", "3"]);
+        assert.includeMembers(
+          rightRanges.map((r) => r.id),
+          ["2", "3"],
+        );
 
         // Verify continuation tokens: only target range should have one
-        const targetIndex = result.filteredRanges.findIndex(r => r.id === "1");
+        const targetIndex = result.filteredRanges.findIndex((r) => r.id === "1");
         assert.equal(result.continuationToken?.[targetIndex], "middle-token");
-        
+
         // Left and right ranges should have undefined continuation tokens
-        const leftIndex = result.filteredRanges.findIndex(r => r.id === "0");
-        const rightIndex1 = result.filteredRanges.findIndex(r => r.id === "2");
-        const rightIndex2 = result.filteredRanges.findIndex(r => r.id === "3");
+        const leftIndex = result.filteredRanges.findIndex((r) => r.id === "0");
+        const rightIndex1 = result.filteredRanges.findIndex((r) => r.id === "2");
+        const rightIndex2 = result.filteredRanges.findIndex((r) => r.id === "3");
         assert.isUndefined(result.continuationToken?.[leftIndex]);
         assert.isUndefined(result.continuationToken?.[rightIndex1]);
         assert.isUndefined(result.continuationToken?.[rightIndex2]);
@@ -255,24 +255,24 @@ describe("OrderByQueryRangeStrategy", () => {
         const compositeToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "external", 
-                minInclusive: "ZZ", 
+              partitionKeyRange: {
+                id: "external",
+                minInclusive: "ZZ",
                 maxExclusive: "ZZZ",
                 ridPrefix: 99,
                 throughputFraction: 1.0,
                 status: "Online",
-                parents: []
+                parents: [],
               },
               continuationToken: "external-token",
-              itemCount: 2
-            }
-          ]
+              itemCount: 2,
+            },
+          ],
         });
 
         const orderByToken = JSON.stringify({
           compositeToken: compositeToken,
-          orderByItems: [{ item: "external-value" }]
+          orderByItems: [{ item: "external-value" }],
         });
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
@@ -290,29 +290,29 @@ describe("OrderByQueryRangeStrategy", () => {
         const compositeToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "0", 
-                minInclusive: "", 
+              partitionKeyRange: {
+                id: "0",
+                minInclusive: "",
                 maxExclusive: "AA",
                 ridPrefix: 0,
                 throughputFraction: 1.0,
                 status: "Online",
-                parents: []
+                parents: [],
               },
               continuationToken: "first-token",
-              itemCount: 12
-            }
-          ]
+              itemCount: 12,
+            },
+          ],
         });
 
         const orderByToken = JSON.stringify({
           compositeToken: compositeToken,
-          orderByItems: [{ item: "first-value" }]
+          orderByItems: [{ item: "first-value" }],
         });
 
         const queryInfo = {
           orderByExpressions: ["c.id"],
-          orderBy: ["Ascending"]
+          orderBy: ["Ascending"],
         };
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
@@ -321,17 +321,17 @@ describe("OrderByQueryRangeStrategy", () => {
         // Target: "0" (""-"AA")
         // Right: "1" ("AA"-"BB"), "2" ("BB"-"FF"), "3" ("FF"-"ZZ")
         assert.equal(result.filteredRanges.length, 4);
-        
+
         // Verify target range is included
-        const targetRange = result.filteredRanges.find(r => r.id === "0");
+        const targetRange = result.filteredRanges.find((r) => r.id === "0");
         assert.isDefined(targetRange);
-        
+
         // Verify right ranges are included
-        const rightRanges = result.filteredRanges.filter(r => r.minInclusive >= "AA");
+        const rightRanges = result.filteredRanges.filter((r) => r.minInclusive >= "AA");
         assert.equal(rightRanges.length, 3);
-        
+
         // Only target should have continuation token
-        const targetIndex = result.filteredRanges.findIndex(r => r.id === "0");
+        const targetIndex = result.filteredRanges.findIndex((r) => r.id === "0");
         assert.equal(result.continuationToken?.[targetIndex], "first-token");
       });
 
@@ -340,29 +340,29 @@ describe("OrderByQueryRangeStrategy", () => {
         const compositeToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "3", 
-                minInclusive: "FF", 
+              partitionKeyRange: {
+                id: "3",
+                minInclusive: "FF",
                 maxExclusive: "ZZ",
                 ridPrefix: 3,
                 throughputFraction: 1.0,
                 status: "Online",
-                parents: []
+                parents: [],
               },
               continuationToken: "last-token",
-              itemCount: 6
-            }
-          ]
+              itemCount: 6,
+            },
+          ],
         });
 
         const orderByToken = JSON.stringify({
           compositeToken: compositeToken,
-          orderByItems: [{ item: "last-value" }]
+          orderByItems: [{ item: "last-value" }],
         });
 
         const queryInfo = {
           orderByExpressions: ["c.timestamp"],
-          orderBy: ["Descending"]
+          orderBy: ["Descending"],
         };
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
@@ -371,28 +371,28 @@ describe("OrderByQueryRangeStrategy", () => {
         // Left: "0" (""-"AA"), "1" ("AA"-"BB"), "2" ("BB"-"FF")
         // Target: "3" ("FF"-"ZZ")
         assert.equal(result.filteredRanges.length, 4);
-        
+
         // Verify target range is included
-        const targetRange = result.filteredRanges.find(r => r.id === "3");
+        const targetRange = result.filteredRanges.find((r) => r.id === "3");
         assert.isDefined(targetRange);
-        
+
         // Verify left ranges are included
-        const leftRanges = result.filteredRanges.filter(r => r.maxExclusive <= "FF");
+        const leftRanges = result.filteredRanges.filter((r) => r.maxExclusive <= "FF");
         assert.equal(leftRanges.length, 3);
-        
+
         // Only target should have continuation token
-        const targetIndex = result.filteredRanges.findIndex(r => r.id === "3");
+        const targetIndex = result.filteredRanges.findIndex((r) => r.id === "3");
         assert.equal(result.continuationToken?.[targetIndex], "last-token");
       });
 
       it("should reject empty range mappings in composite token as invalid", () => {
         const compositeToken = JSON.stringify({
-          rangeMappings: []
+          rangeMappings: [],
         });
 
         const orderByToken = JSON.stringify({
           compositeToken: compositeToken,
-          orderByItems: [{ item: "value" }]
+          orderByItems: [{ item: "value" }],
         });
 
         // Empty range mappings should be treated as invalid continuation token
@@ -408,7 +408,7 @@ describe("OrderByQueryRangeStrategy", () => {
       it("should reject malformed composite token as invalid", () => {
         const orderByToken = JSON.stringify({
           compositeToken: "invalid-json-here",
-          orderByItems: [{ item: "value" }]
+          orderByItems: [{ item: "value" }],
         });
 
         // Malformed composite token should be treated as invalid continuation token
@@ -427,26 +427,26 @@ describe("OrderByQueryRangeStrategy", () => {
         const compositeToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "custom-split", 
-                minInclusive: "AA", 
+              partitionKeyRange: {
+                id: "custom-split",
+                minInclusive: "AA",
                 maxExclusive: "AB",
                 ridPrefix: 42,
                 throughputFraction: 0.25,
                 status: "Splitting",
                 parents: ["original-1", "original-2"],
                 epkMin: "epk-min-value",
-                epkMax: "epk-max-value"
+                epkMax: "epk-max-value",
               },
               continuationToken: "split-token",
-              itemCount: 100
-            }
-          ]
+              itemCount: 100,
+            },
+          ],
         });
 
         const orderByToken = JSON.stringify({
           compositeToken: compositeToken,
-          orderByItems: [{ item: "split-scenario" }]
+          orderByItems: [{ item: "split-scenario" }],
         });
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
@@ -462,21 +462,21 @@ describe("OrderByQueryRangeStrategy", () => {
         const compositeToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "minimal", 
-                minInclusive: "BB", 
-                maxExclusive: "CC"
+              partitionKeyRange: {
+                id: "minimal",
+                minInclusive: "BB",
+                maxExclusive: "CC",
                 // Missing ridPrefix, throughputFraction, status, parents, epk properties
               },
               continuationToken: "minimal-token",
-              itemCount: 1
-            }
-          ]
+              itemCount: 1,
+            },
+          ],
         });
 
         const orderByToken = JSON.stringify({
           compositeToken: compositeToken,
-          orderByItems: [{ item: "minimal-test" }]
+          orderByItems: [{ item: "minimal-test" }],
         });
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
@@ -499,19 +499,19 @@ describe("OrderByQueryRangeStrategy", () => {
         const compositeToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "2", 
-                minInclusive: "BB", 
+              partitionKeyRange: {
+                id: "2",
+                minInclusive: "BB",
                 maxExclusive: "FF",
                 ridPrefix: 2,
                 throughputFraction: 1.0,
                 status: "Online",
-                parents: []
+                parents: [],
               },
               continuationToken: "multi-order-token",
-              itemCount: 25
-            }
-          ]
+              itemCount: 25,
+            },
+          ],
         });
 
         const orderByToken = JSON.stringify({
@@ -519,13 +519,13 @@ describe("OrderByQueryRangeStrategy", () => {
           orderByItems: [
             { item: "timestamp-value" },
             { item: "priority-value" },
-            { item: "id-value" }
+            { item: "id-value" },
           ],
           rid: "complex-rid",
           skipCount: 50,
           offset: 1000,
           limit: 200,
-          hashedLastResult: "hashed-result-value"
+          hashedLastResult: "hashed-result-value",
         });
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
@@ -539,51 +539,47 @@ describe("OrderByQueryRangeStrategy", () => {
         const compositeToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "1", 
-                minInclusive: "AA", 
+              partitionKeyRange: {
+                id: "1",
+                minInclusive: "AA",
                 maxExclusive: "BB",
                 ridPrefix: 1,
                 throughputFraction: 1.0,
                 status: "Online",
-                parents: []
+                parents: [],
               },
               continuationToken: "complex-filter-token",
-              itemCount: 15
-            }
-          ]
+              itemCount: 15,
+            },
+          ],
         });
 
         const orderByToken = JSON.stringify({
           compositeToken: compositeToken,
-          orderByItems: [
-            { item: "2023-01-01T10:00:00Z" },
-            { item: 100 }
-          ]
+          orderByItems: [{ item: "2023-01-01T10:00:00Z" }, { item: 100 }],
         });
 
         // Complex queryInfo with multiple sort orders
         const queryInfo = {
           orderByExpressions: ["c.timestamp", "c.priority"],
-          orderBy: ["Ascending", "Descending"]
+          orderBy: ["Ascending", "Descending"],
         };
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
 
         // Should include left + target + right ranges with appropriate filtering conditions
         assert.isAtLeast(result.filteredRanges.length, 1);
-        
+
         // Verify target range is present
-        const targetRange = result.filteredRanges.find(r => r.id === "1");
+        const targetRange = result.filteredRanges.find((r) => r.id === "1");
         assert.isDefined(targetRange);
-        
+
         // Verify continuation token for target
-        const targetIndex = result.filteredRanges.findIndex(r => r.id === "1");
+        const targetIndex = result.filteredRanges.findIndex((r) => r.id === "1");
         assert.equal(result.continuationToken?.[targetIndex], "complex-filter-token");
       });
     });
   });
-
 
   describe("Error Handling", () => {
     it("should throw error for invalid continuation token format", () => {
@@ -600,7 +596,7 @@ describe("OrderByQueryRangeStrategy", () => {
         compositeToken: "valid-composite",
         orderByItems: [{ item: "test" }],
         rid: null, // This might cause issues in constructor
-        skipCount: "invalid-number" // Non-numeric skip count
+        skipCount: "invalid-number", // Non-numeric skip count
       });
 
       expect(() => {
@@ -615,13 +611,13 @@ describe("OrderByQueryRangeStrategy", () => {
             partitionKeyRange: null, // Invalid range
             continuationToken: "token",
             itemCount: 0,
-          }
-        ]
+          },
+        ],
       });
 
       const orderByToken = JSON.stringify({
         compositeToken: compositeToken,
-        orderByItems: [{ item: "value" }]
+        orderByItems: [{ item: "value" }],
       });
 
       // Null partition key range should be treated as invalid continuation token
@@ -645,12 +641,12 @@ describe("OrderByQueryRangeStrategy", () => {
 
     it("should handle very large number of ranges efficiently", () => {
       // Create 1000 partition ranges
-      const largeRangeSet = Array.from({ length: 1000 }, (_, i) => 
+      const largeRangeSet = Array.from({ length: 1000 }, (_, i) =>
         createMockPartitionKeyRange(
           i.toString(),
-          i.toString().padStart(4, '0'),
-          (i + 1).toString().padStart(4, '0')
-        )
+          i.toString().padStart(4, "0"),
+          (i + 1).toString().padStart(4, "0"),
+        ),
       );
 
       const startTime = Date.now();
@@ -672,24 +668,24 @@ describe("OrderByQueryRangeStrategy", () => {
       const compositeToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "unicode", 
-              minInclusive: "β", 
+            partitionKeyRange: {
+              id: "unicode",
+              minInclusive: "β",
               maxExclusive: "γ",
               ridPrefix: 1,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "unicode-token",
             itemCount: 1,
-          }
-        ]
+          },
+        ],
       });
 
       const orderByToken = JSON.stringify({
         compositeToken: compositeToken,
-        orderByItems: [{ item: "unicode-value" }]
+        orderByItems: [{ item: "unicode-value" }],
       });
 
       const result = strategy.filterPartitionRanges(unicodeRanges, orderByToken);
@@ -700,7 +696,6 @@ describe("OrderByQueryRangeStrategy", () => {
       assert.equal(result.filteredRanges[1].minInclusive, "β");
       assert.equal(result.filteredRanges[1].maxExclusive, "γ");
     });
-
   });
 
   describe("Integration Scenarios", () => {
@@ -709,28 +704,26 @@ describe("OrderByQueryRangeStrategy", () => {
       const compositeToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "0", 
-              minInclusive: "", 
+            partitionKeyRange: {
+              id: "0",
+              minInclusive: "",
               maxExclusive: "AA",
               ridPrefix: 0,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "order-by-token-0",
             itemCount: 25,
-          }
-        ]
+          },
+        ],
       });
 
       const orderByToken = JSON.stringify({
         compositeToken: compositeToken,
-        orderByItems: [
-          { item: "last-processed-value" }
-        ],
+        orderByItems: [{ item: "last-processed-value" }],
         rid: "last-processed-rid",
-        skipCount: 10
+        skipCount: 10,
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
@@ -746,30 +739,28 @@ describe("OrderByQueryRangeStrategy", () => {
       const compositeToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "merged-0-1", 
-              minInclusive: "", 
+            partitionKeyRange: {
+              id: "merged-0-1",
+              minInclusive: "",
               maxExclusive: "BB", // Covers original ranges 0 and 1
               ridPrefix: 0,
               throughputFraction: 1.0,
               status: "Online",
-              parents: ["0", "1"]
+              parents: ["0", "1"],
             },
             continuationToken: "merged-order-by-token",
             itemCount: 50,
-          }
-        ]
+          },
+        ],
       });
 
       const orderByToken = JSON.stringify({
         compositeToken: compositeToken,
-        orderByItems: [
-          { item: "merged-range-value" }
-        ],
+        orderByItems: [{ item: "merged-range-value" }],
         rid: "merged-rid",
         skipCount: 15,
         offset: 100,
-        limit: 50
+        limit: 50,
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
@@ -787,28 +778,26 @@ describe("OrderByQueryRangeStrategy", () => {
       const compositeToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "split-2a", 
-              minInclusive: "BB", 
+            partitionKeyRange: {
+              id: "split-2a",
+              minInclusive: "BB",
               maxExclusive: "CC",
               ridPrefix: 2,
               throughputFraction: 0.3,
               status: "Online",
-              parents: ["2"]
+              parents: ["2"],
             },
             continuationToken: "split-order-by-token",
             itemCount: 15,
-          }
-        ]
+          },
+        ],
       });
 
       const orderByToken = JSON.stringify({
         compositeToken: compositeToken,
-        orderByItems: [
-          { item: "split-range-value" }
-        ],
+        orderByItems: [{ item: "split-range-value" }],
         rid: "split-rid",
-        skipCount: 8
+        skipCount: 8,
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
@@ -824,19 +813,19 @@ describe("OrderByQueryRangeStrategy", () => {
       const compositeToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "1", 
-              minInclusive: "AA", 
+            partitionKeyRange: {
+              id: "1",
+              minInclusive: "AA",
               maxExclusive: "BB",
               ridPrefix: 1,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "complex-token",
             itemCount: 42,
-          }
-        ]
+          },
+        ],
       });
 
       const orderByToken = JSON.stringify({
@@ -844,13 +833,13 @@ describe("OrderByQueryRangeStrategy", () => {
         orderByItems: [
           { item: "first-sort-value" },
           { item: "second-sort-value" },
-          { item: "third-sort-value" }
+          { item: "third-sort-value" },
         ],
         rid: "complex-rid",
         skipCount: 25,
         offset: 200,
         limit: 100,
-        hashedLastResult: "hashed-value"
+        hashedLastResult: "hashed-value",
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
@@ -865,39 +854,39 @@ describe("OrderByQueryRangeStrategy", () => {
       const compositeToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "1", 
-              minInclusive: "AA", 
+            partitionKeyRange: {
+              id: "1",
+              minInclusive: "AA",
               maxExclusive: "BB",
               ridPrefix: 1,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "filter-token",
             itemCount: 20,
-          }
-        ]
+          },
+        ],
       });
 
       const orderByToken = JSON.stringify({
         compositeToken: compositeToken,
-        orderByItems: [{ item: "filter-value" }]
+        orderByItems: [{ item: "filter-value" }],
       });
 
       // Provide queryInfo to enable filtering logic
       const queryInfo = {
         orderByExpressions: ["c.timestamp"],
-        orderBy: ["Ascending"]
+        orderBy: ["Ascending"],
       };
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
 
       // Should include target range and potentially left/right ranges with filtering conditions
       assert.isAtLeast(result.filteredRanges.length, 1);
-      
+
       // Find the target range
-      const targetRangeIndex = result.filteredRanges.findIndex(r => r.id === "1");
+      const targetRangeIndex = result.filteredRanges.findIndex((r) => r.id === "1");
       assert.isAtLeast(targetRangeIndex, 0);
       assert.equal(result.continuationToken?.[targetRangeIndex], "filter-token");
     });
@@ -909,55 +898,57 @@ describe("OrderByQueryRangeStrategy", () => {
         name: "null continuation token",
         continuationToken: null,
         expectedToken: null,
-        description: "Range is exhausted with null continuation token"
+        description: "Range is exhausted with null continuation token",
       },
       {
         name: "undefined continuation token",
         continuationToken: undefined,
         expectedToken: undefined,
-        description: "Range is exhausted with undefined continuation token"
+        description: "Range is exhausted with undefined continuation token",
       },
       {
         name: "empty string continuation token",
         continuationToken: "",
         expectedToken: "",
-        description: "Range is exhausted with empty string continuation token"
-      }
+        description: "Range is exhausted with empty string continuation token",
+      },
     ];
 
-    exhaustedTokenTestCases.forEach(testCase => {
+    exhaustedTokenTestCases.forEach((testCase) => {
       it(`should handle exhausted continuation token with ${testCase.name}`, () => {
         const compositeToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "1", 
-                minInclusive: "AA", 
+              partitionKeyRange: {
+                id: "1",
+                minInclusive: "AA",
                 maxExclusive: "BB",
                 ridPrefix: 1,
                 throughputFraction: 1.0,
                 status: "Online",
-                parents: []
+                parents: [],
               },
-              ...(testCase.continuationToken !== undefined && { continuationToken: testCase.continuationToken }),
-              itemCount: 0
-            }
-          ]
+              ...(testCase.continuationToken !== undefined && {
+                continuationToken: testCase.continuationToken,
+              }),
+              itemCount: 0,
+            },
+          ],
         });
 
         const orderByToken = JSON.stringify({
           compositeToken: compositeToken,
           orderByItems: [{ item: `${testCase.name}-value` }],
-          rid: `${testCase.name}-rid`
+          rid: `${testCase.name}-rid`,
         });
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken);
 
         // Should still include the target range with the expected continuation token
         assert.equal(result.filteredRanges.length, 4);
-        const targetIndex = result.filteredRanges.findIndex(r => r.id === "1");
+        const targetIndex = result.filteredRanges.findIndex((r) => r.id === "1");
         assert.isAtLeast(targetIndex, 0);
-        
+
         if (testCase.expectedToken === null) {
           assert.isNull(result.continuationToken?.[targetIndex]);
         } else if (testCase.expectedToken === undefined) {
@@ -968,47 +959,46 @@ describe("OrderByQueryRangeStrategy", () => {
       });
     });
 
-
     it("should handle exhausted continuation token with filtering enabled", () => {
       const compositeToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "1", 
-              minInclusive: "AA", 
+            partitionKeyRange: {
+              id: "1",
+              minInclusive: "AA",
               maxExclusive: "BB",
               ridPrefix: 1,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: null, // Exhausted
-            itemCount: 0
-          }
-        ]
+            itemCount: 0,
+          },
+        ],
       });
 
       const orderByToken = JSON.stringify({
         compositeToken: compositeToken,
         orderByItems: [{ item: "exhausted-filter-value" }],
-        rid: "exhausted-filter-rid"
+        rid: "exhausted-filter-rid",
       });
 
       const queryInfo = {
         orderByExpressions: ["c.status"],
-        orderBy: ["Descending"]
+        orderBy: ["Descending"],
       };
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, orderByToken, queryInfo);
 
       // Should include left + target + right ranges with appropriate filtering conditions
       assert.equal(result.filteredRanges.length, 4);
-      
+
       // Target range should have null continuation token but still be included
-      const targetIndex = result.filteredRanges.findIndex(r => r.id === "1");
+      const targetIndex = result.filteredRanges.findIndex((r) => r.id === "1");
       assert.isAtLeast(targetIndex, 0);
       assert.isNull(result.continuationToken?.[targetIndex]);
-      
+
       // Should have filtering conditions applied
       assert.isDefined(result.filteringConditions?.[targetIndex]);
     });

@@ -494,7 +494,7 @@ describe("parallelQueryExecutionContextBase", () => {
 
       // Create partition key ranges with different minInclusive values (intentionally out of order)
       const mockPartitionKeyRange1 = createMockPartitionKeyRange("range3", "FF", "ZZ"); // Should be third
-      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range1", "00", "AA"); // Should be first  
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range1", "00", "AA"); // Should be first
       const mockPartitionKeyRange3 = createMockPartitionKeyRange("range2", "BB", "EE"); // Should be second
 
       const fetchAllInternalStub = vi.fn().mockResolvedValue({
@@ -519,13 +519,12 @@ describe("parallelQueryExecutionContextBase", () => {
 
       // Mock the SmartRoutingMapProvider's getOverlappingRanges method
       vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockResolvedValue([
-        mockPartitionKeyRange1, 
-        mockPartitionKeyRange2, 
-        mockPartitionKeyRange3
+        mockPartitionKeyRange1,
+        mockPartitionKeyRange2,
+        mockPartitionKeyRange3,
       ]);
 
-      const context = new TestParallelQueryExecutionContext
-      (
+      const context = new TestParallelQueryExecutionContext(
         clientContext,
         collectionLink,
         query,
@@ -535,7 +534,7 @@ describe("parallelQueryExecutionContextBase", () => {
       );
 
       // Wait for async initialization to complete
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 50));
 
       // Verify that the unfilled queue has the correct number of items
       assert.equal(context["unfilledDocumentProducersQueue"].size(), 3);
@@ -556,14 +555,20 @@ describe("parallelQueryExecutionContextBase", () => {
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
 
       // Create partition key ranges with mixed alphanumeric values
-      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "Z9", "ZZ");  // Should be last
-      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "01", "10");  // Should be second
-      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "A0", "AZ");  // Should be third
-      const mockPartitionKeyRange4 = createMockPartitionKeyRange("range4", "00", "01");  // Should be first
-      const mockPartitionKeyRange5 = createMockPartitionKeyRange("range5", "B1", "BZ");  // Should be fourth
+      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "Z9", "ZZ"); // Should be last
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "01", "10"); // Should be second
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "A0", "AZ"); // Should be third
+      const mockPartitionKeyRange4 = createMockPartitionKeyRange("range4", "00", "01"); // Should be first
+      const mockPartitionKeyRange5 = createMockPartitionKeyRange("range5", "B1", "BZ"); // Should be fourth
 
       const fetchAllInternalStub = vi.fn().mockResolvedValue({
-        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3, mockPartitionKeyRange4, mockPartitionKeyRange5],
+        resources: [
+          mockPartitionKeyRange1,
+          mockPartitionKeyRange2,
+          mockPartitionKeyRange3,
+          mockPartitionKeyRange4,
+          mockPartitionKeyRange5,
+        ],
         headers: { "x-ms-request-charge": "1.23" },
         code: 200,
       });
@@ -583,11 +588,11 @@ describe("parallelQueryExecutionContextBase", () => {
 
       // Mock the SmartRoutingMapProvider's getOverlappingRanges method
       vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockResolvedValue([
-        mockPartitionKeyRange1, 
-        mockPartitionKeyRange2, 
-        mockPartitionKeyRange3, 
-        mockPartitionKeyRange4, 
-        mockPartitionKeyRange5
+        mockPartitionKeyRange1,
+        mockPartitionKeyRange2,
+        mockPartitionKeyRange3,
+        mockPartitionKeyRange4,
+        mockPartitionKeyRange5,
       ]);
 
       const context = new TestParallelQueryExecutionContext(
@@ -600,7 +605,7 @@ describe("parallelQueryExecutionContextBase", () => {
       );
 
       // Wait for initialization
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       assert.equal(context["unfilledDocumentProducersQueue"].size(), 5);
 
@@ -620,13 +625,18 @@ describe("parallelQueryExecutionContextBase", () => {
       const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
 
       // Create partition key ranges with edge cases
-      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "", "00");     // Empty string should be first
+      const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "", "00"); // Empty string should be first
       const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "FF", "FFFF"); // Should be last
-      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "00", "AA");   // Should be second
-      const mockPartitionKeyRange4 = createMockPartitionKeyRange("range4", "AA", "FF");   // Should be third
+      const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "00", "AA"); // Should be second
+      const mockPartitionKeyRange4 = createMockPartitionKeyRange("range4", "AA", "FF"); // Should be third
 
       const fetchAllInternalStub = vi.fn().mockResolvedValue({
-        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3, mockPartitionKeyRange4],
+        resources: [
+          mockPartitionKeyRange1,
+          mockPartitionKeyRange2,
+          mockPartitionKeyRange3,
+          mockPartitionKeyRange4,
+        ],
         headers: { "x-ms-request-charge": "1.23" },
         code: 200,
       });
@@ -646,10 +656,10 @@ describe("parallelQueryExecutionContextBase", () => {
 
       // Mock the SmartRoutingMapProvider's getOverlappingRanges method
       vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockResolvedValue([
-        mockPartitionKeyRange1, 
-        mockPartitionKeyRange2, 
-        mockPartitionKeyRange3, 
-        mockPartitionKeyRange4
+        mockPartitionKeyRange1,
+        mockPartitionKeyRange2,
+        mockPartitionKeyRange3,
+        mockPartitionKeyRange4,
       ]);
 
       const context = new TestParallelQueryExecutionContext(
@@ -662,7 +672,7 @@ describe("parallelQueryExecutionContextBase", () => {
       );
 
       // Wait for initialization
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       assert.equal(context["unfilledDocumentProducersQueue"].size(), 4);
 
@@ -683,12 +693,17 @@ describe("parallelQueryExecutionContextBase", () => {
 
       // Create partition key ranges with identical minInclusive but different EPK ranges
       const mockPartitionKeyRange1 = createMockPartitionKeyRange("range1", "AA", "BB");
-      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "AA", "BB"); 
+      const mockPartitionKeyRange2 = createMockPartitionKeyRange("range2", "AA", "BB");
       const mockPartitionKeyRange3 = createMockPartitionKeyRange("range3", "AA", "BB");
       const mockPartitionKeyRange4 = createMockPartitionKeyRange("range4", "AA", "BB");
 
       const fetchAllInternalStub = vi.fn().mockResolvedValue({
-        resources: [mockPartitionKeyRange1, mockPartitionKeyRange2, mockPartitionKeyRange3, mockPartitionKeyRange4],
+        resources: [
+          mockPartitionKeyRange1,
+          mockPartitionKeyRange2,
+          mockPartitionKeyRange3,
+          mockPartitionKeyRange4,
+        ],
         headers: { "x-ms-request-charge": "1.23" },
         code: 200,
       });
@@ -708,36 +723,50 @@ describe("parallelQueryExecutionContextBase", () => {
 
       // Mock the SmartRoutingMapProvider to return ranges in specific order
       vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockResolvedValue([
-        mockPartitionKeyRange1, 
-        mockPartitionKeyRange2, 
-        mockPartitionKeyRange3, 
-        mockPartitionKeyRange4
+        mockPartitionKeyRange1,
+        mockPartitionKeyRange2,
+        mockPartitionKeyRange3,
+        mockPartitionKeyRange4,
       ]);
 
       // Mock the _createTargetPartitionQueryExecutionContext to return DocumentProducers with specific EPK values
-      const originalCreateMethod = TestParallelQueryExecutionContext.prototype['_createTargetPartitionQueryExecutionContext'];
-      vi.spyOn(TestParallelQueryExecutionContext.prototype, '_createTargetPartitionQueryExecutionContext' as any)
-        .mockImplementation(function(this: any, partitionKeyTargetRange: any, continuationToken?: any, startEpk?: string, endEpk?: string) {
-          // Create mock DocumentProducer with specific EPK values based on range ID
-          const mockDocumentProducer = {
-            targetPartitionKeyRange: partitionKeyTargetRange,
-            continuationToken: continuationToken,
-            // Set different EPK values for secondary sorting
-            startEpk: partitionKeyTargetRange.id === "range1" ? "epk-ZZ" :  // Should be last
-                     partitionKeyTargetRange.id === "range2" ? "epk-AA" :  // Should be first
-                     partitionKeyTargetRange.id === "range3" ? "epk-BB" :  // Should be second
-                     partitionKeyTargetRange.id === "range4" ? "epk-CC" :  // Should be third
-                     undefined,
-            endEpk: endEpk,
-            populateEpkRangeHeaders: !!(startEpk && endEpk),
-            hasMoreResults: vi.fn().mockReturnValue(false),
-            bufferMore: vi.fn().mockResolvedValue({}),
-            peakNextItem: vi.fn().mockReturnValue(undefined),
-            fetchNextItem: vi.fn().mockResolvedValue({ result: undefined, headers: {} }),
-            fetchBufferedItems: vi.fn().mockResolvedValue({ result: [], headers: {} })
-          };
-          return mockDocumentProducer;
-        });
+      const originalCreateMethod =
+        TestParallelQueryExecutionContext.prototype["_createTargetPartitionQueryExecutionContext"];
+      vi.spyOn(
+        TestParallelQueryExecutionContext.prototype,
+        "_createTargetPartitionQueryExecutionContext" as any,
+      ).mockImplementation(function (
+        this: any,
+        partitionKeyTargetRange: any,
+        continuationToken?: any,
+        startEpk?: string,
+        endEpk?: string,
+      ) {
+        // Create mock DocumentProducer with specific EPK values based on range ID
+        const mockDocumentProducer = {
+          targetPartitionKeyRange: partitionKeyTargetRange,
+          continuationToken: continuationToken,
+          // Set different EPK values for secondary sorting
+          startEpk:
+            partitionKeyTargetRange.id === "range1"
+              ? "epk-ZZ" // Should be last
+              : partitionKeyTargetRange.id === "range2"
+                ? "epk-AA" // Should be first
+                : partitionKeyTargetRange.id === "range3"
+                  ? "epk-BB" // Should be second
+                  : partitionKeyTargetRange.id === "range4"
+                    ? "epk-CC" // Should be third
+                    : undefined,
+          endEpk: endEpk,
+          populateEpkRangeHeaders: !!(startEpk && endEpk),
+          hasMoreResults: vi.fn().mockReturnValue(false),
+          bufferMore: vi.fn().mockResolvedValue({}),
+          peakNextItem: vi.fn().mockReturnValue(undefined),
+          fetchNextItem: vi.fn().mockResolvedValue({ result: undefined, headers: {} }),
+          fetchBufferedItems: vi.fn().mockResolvedValue({ result: [], headers: {} }),
+        };
+        return mockDocumentProducer;
+      });
 
       const context = new TestParallelQueryExecutionContext(
         clientContext,
@@ -749,7 +778,7 @@ describe("parallelQueryExecutionContextBase", () => {
       );
 
       // Wait for initialization
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       assert.equal(context["unfilledDocumentProducersQueue"].size(), 4);
 
@@ -800,27 +829,33 @@ describe("parallelQueryExecutionContextBase", () => {
       });
 
       vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockResolvedValue([
-        mockPartitionKeyRange1, 
-        mockPartitionKeyRange2, 
-        mockPartitionKeyRange3
+        mockPartitionKeyRange1,
+        mockPartitionKeyRange2,
+        mockPartitionKeyRange3,
       ]);
 
       // Mock to return DocumentProducers without EPK values
-      vi.spyOn(TestParallelQueryExecutionContext.prototype, '_createTargetPartitionQueryExecutionContext' as any)
-        .mockImplementation(function(this: any, partitionKeyTargetRange: any, continuationToken?: any) {
-          const mockDocumentProducer = {
-            targetPartitionKeyRange: partitionKeyTargetRange,
-            continuationToken: continuationToken,
-            startEpk: undefined, // No EPK values
-            endEpk: undefined,
-            hasMoreResults: vi.fn().mockReturnValue(false),
-            bufferMore: vi.fn().mockResolvedValue({}),
-            peakNextItem: vi.fn().mockReturnValue(undefined),
-            fetchNextItem: vi.fn().mockResolvedValue({ result: undefined, headers: {} }),
-            fetchBufferedItems: vi.fn().mockResolvedValue({ result: [], headers: {} })
-          };
-          return mockDocumentProducer;
-        });
+      vi.spyOn(
+        TestParallelQueryExecutionContext.prototype,
+        "_createTargetPartitionQueryExecutionContext" as any,
+      ).mockImplementation(function (
+        this: any,
+        partitionKeyTargetRange: any,
+        continuationToken?: any,
+      ) {
+        const mockDocumentProducer = {
+          targetPartitionKeyRange: partitionKeyTargetRange,
+          continuationToken: continuationToken,
+          startEpk: undefined, // No EPK values
+          endEpk: undefined,
+          hasMoreResults: vi.fn().mockReturnValue(false),
+          bufferMore: vi.fn().mockResolvedValue({}),
+          peakNextItem: vi.fn().mockReturnValue(undefined),
+          fetchNextItem: vi.fn().mockResolvedValue({ result: undefined, headers: {} }),
+          fetchBufferedItems: vi.fn().mockResolvedValue({ result: [], headers: {} }),
+        };
+        return mockDocumentProducer;
+      });
 
       const context = new TestParallelQueryExecutionContext(
         clientContext,
@@ -832,7 +867,7 @@ describe("parallelQueryExecutionContextBase", () => {
       );
 
       // Wait for initialization
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       assert.equal(context["unfilledDocumentProducersQueue"].size(), 3);
 

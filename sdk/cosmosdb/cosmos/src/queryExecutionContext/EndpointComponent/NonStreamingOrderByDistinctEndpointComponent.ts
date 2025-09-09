@@ -121,13 +121,8 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         this.isCompleted = true;
         if (this.aggregateMap.size() > 0) {
           await this.buildFinalResultArray();
-          const result = createParallelQueryResult(
-            this.finalResultArray,
-            new Map(),
-            {},
-            undefined
-          );
-          
+          const result = createParallelQueryResult(this.finalResultArray, new Map(), {}, undefined);
+
           return {
             result,
             headers: response.headers,
@@ -136,10 +131,11 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         return { result: undefined, headers: response.headers };
       }
       resHeaders = response.headers;
-      
+
       // New structure: { result: { buffer: bufferedResults, partitionKeyRangeMap: ..., updatedContinuationRanges: ... } }
       const parallelResult = response.result as ParallelQueryResult;
-      const dataToProcess: NonStreamingOrderByResult[] = parallelResult.buffer as NonStreamingOrderByResult[];
+      const dataToProcess: NonStreamingOrderByResult[] =
+        parallelResult.buffer as NonStreamingOrderByResult[];
       const partitionKeyRangeMap = parallelResult.partitionKeyRangeMap;
       const updatedContinuationRanges = parallelResult.updatedContinuationRanges;
       const orderByItems = parallelResult.orderByItems;
@@ -157,9 +153,9 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
           [], // empty buffer
           partitionKeyRangeMap,
           updatedContinuationRanges,
-          orderByItems
+          orderByItems,
         );
-        
+
         return {
           result,
           headers: resHeaders,
@@ -171,26 +167,16 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     if (!this.executionContext.hasMoreResults() && !this.isCompleted) {
       this.isCompleted = true;
       await this.buildFinalResultArray();
-      const result = createParallelQueryResult(
-        this.finalResultArray,
-        new Map(),
-        {},
-        undefined
-      );
-      
+      const result = createParallelQueryResult(this.finalResultArray, new Map(), {}, undefined);
+
       return {
         result,
         headers: resHeaders,
       };
     }
     // Signal that there are no more results.
-    const result = createParallelQueryResult(
-      [],
-      new Map(),
-      {},
-      undefined
-    );
-    
+    const result = createParallelQueryResult([], new Map(), {}, undefined);
+
     return {
       result,
       headers: resHeaders,

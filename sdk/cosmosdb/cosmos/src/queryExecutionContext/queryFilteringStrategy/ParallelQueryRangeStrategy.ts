@@ -23,21 +23,21 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
     if (!continuationToken) {
       return false;
     }
-    
+
     try {
       const parsed = JSON.parse(continuationToken);
       // Check if it's a composite continuation token (has rangeMappings)
       if (!parsed || !Array.isArray(parsed.rangeMappings)) {
         return false;
       }
-      
+
       // Validate each range mapping has a non-null partitionKeyRange
       for (const rangeMapping of parsed.rangeMappings) {
         if (!rangeMapping || !rangeMapping.partitionKeyRange) {
           return false;
         }
       }
-      
+
       return true;
     } catch {
       return false;
@@ -48,18 +48,18 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
     targetRanges: PartitionKeyRange[],
     continuationRanges?: PartitionRangeWithContinuationToken[],
   ): PartitionRangeFilterResult {
-    console.log("=== ParallelQueryRangeStrategy.filterPartitionRanges START ===")
+    console.log("=== ParallelQueryRangeStrategy.filterPartitionRanges START ===");
 
-    if(!targetRanges || targetRanges.length === 0) {
+    if (!targetRanges || targetRanges.length === 0) {
       return { rangeTokenPairs: [] };
     }
 
     // If no continuation ranges, return all ranges as range-token pairs
     if (!continuationRanges || continuationRanges.length === 0) {
-      const rangeTokenPairs = targetRanges.map(range => ({
+      const rangeTokenPairs = targetRanges.map((range) => ({
         range,
         continuationToken: undefined as string | undefined,
-        filteringCondition: undefined as string | undefined
+        filteringCondition: undefined as string | undefined,
       }));
       return { rangeTokenPairs };
     }
@@ -68,11 +68,9 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
     let lastProcessedRange: PartitionKeyRange | null = null;
 
     // sort continuationRanges in ascending order using their minInclusive values
-    continuationRanges.sort(
-      (a, b) => {
-        return a.range.minInclusive.localeCompare(b.range.minInclusive);
-      },
-    );
+    continuationRanges.sort((a, b) => {
+      return a.range.minInclusive.localeCompare(b.range.minInclusive);
+    });
 
     for (const range of continuationRanges) {
       // Always track the last processed range, even if it's exhausted
@@ -82,7 +80,7 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
         rangeTokenPairs.push({
           range: range.range,
           continuationToken: range.continuationToken,
-          filteringCondition: range.filteringCondition
+          filteringCondition: range.filteringCondition,
         });
       }
     }
@@ -95,7 +93,7 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
           rangeTokenPairs.push({
             range: targetRange,
             continuationToken: undefined as string | undefined,
-            filteringCondition: undefined as string | undefined
+            filteringCondition: undefined as string | undefined,
           });
         }
       }
@@ -105,7 +103,7 @@ export class ParallelQueryRangeStrategy implements TargetPartitionRangeStrategy 
         rangeTokenPairs.push({
           range: targetRange,
           continuationToken: undefined as string | undefined,
-          filteringCondition: undefined as string | undefined
+          filteringCondition: undefined as string | undefined,
         });
       }
     }

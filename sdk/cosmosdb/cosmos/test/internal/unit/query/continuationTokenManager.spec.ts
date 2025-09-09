@@ -579,8 +579,11 @@ describe("ContinuationTokenManager", () => {
       manager.setOrderByItemsArray(orderByItems);
 
       const pageResults = [
-        { _rid: "rid1", id: "1" }, { _rid: "rid2", id: "2" }, { _rid: "rid3", id: "3" },
-        { _rid: "rid4", id: "4" }, { _rid: "rid5", id: "5" },
+        { _rid: "rid1", id: "1" },
+        { _rid: "rid2", id: "2" },
+        { _rid: "rid3", id: "3" },
+        { _rid: "rid4", id: "4" },
+        { _rid: "rid5", id: "5" },
       ];
 
       assert.throws(() => {
@@ -602,7 +605,7 @@ describe("ContinuationTokenManager", () => {
         [{ value: "item6" }],
         [{ value: "item7" }],
         [{ value: "item8" }],
-        [{ value: "item9" }]
+        [{ value: "item9" }],
       ];
       manager.setOrderByItemsArray(orderByItems);
 
@@ -624,7 +627,7 @@ describe("ContinuationTokenManager", () => {
       // Verify ORDER BY continuation token was created
       const tokenString = manager.getTokenString();
       assert.isString(tokenString);
-      
+
       const parsedToken = JSON.parse(tokenString);
       assert.property(parsedToken, "compositeToken");
       assert.property(parsedToken, "orderByItems");
@@ -643,15 +646,25 @@ describe("ContinuationTokenManager", () => {
 
       // Set up order by items array
       const orderByItems = [
-        [{ value: "item1" }], [{ value: "item2" }], [{ value: "item3" }],
-        [{ value: "item4" }], [{ value: "item5" }], [{ value: "item6" }],
-        [{ value: "item7" }], [{ value: "item8" }], [{ value: "item9" }],
+        [{ value: "item1" }],
+        [{ value: "item2" }],
+        [{ value: "item3" }],
+        [{ value: "item4" }],
+        [{ value: "item5" }],
+        [{ value: "item6" }],
+        [{ value: "item7" }],
+        [{ value: "item8" }],
+        [{ value: "item9" }],
       ];
       manager.setOrderByItemsArray(orderByItems);
 
       const pageResults = [
-        { _rid: "rid1", id: "1" }, { _rid: "rid2", id: "2" }, { _rid: "rid3", id: "3" },
-        { _rid: "rid4", id: "4" }, { _rid: "rid5", id: "5" }, { _rid: "rid6", id: "6" },
+        { _rid: "rid1", id: "1" },
+        { _rid: "rid2", id: "2" },
+        { _rid: "rid3", id: "3" },
+        { _rid: "rid4", id: "4" },
+        { _rid: "rid5", id: "5" },
+        { _rid: "rid6", id: "6" },
       ];
 
       const result = manager.processRangesForCurrentPage(6, 20, pageResults); // Page size = 6
@@ -739,11 +752,7 @@ describe("ContinuationTokenManager", () => {
       manager.updatePartitionRangeMapping("range1", mapping);
 
       // Set orderByItemsArray with exactly the right number of items
-      const orderByItems = [
-        [{ value: "item1" }], 
-        [{ value: "item2" }], 
-        [{ value: "item3" }],
-      ];
+      const orderByItems = [[{ value: "item1" }], [{ value: "item2" }], [{ value: "item3" }]];
       manager.setOrderByItemsArray(orderByItems);
 
       const pageResults = [
@@ -768,8 +777,11 @@ describe("ContinuationTokenManager", () => {
       manager.updatePartitionRangeMapping("range1", mapping);
 
       const orderByItems = [
-        [{ value: "item1" }], [{ value: "item2" }], [{ value: "item3" }],
-        [{ value: "item4" }], [{ value: "item5" }],
+        [{ value: "item1" }],
+        [{ value: "item2" }],
+        [{ value: "item3" }],
+        [{ value: "item4" }],
+        [{ value: "item5" }],
       ];
       manager.setOrderByItemsArray(orderByItems);
 
@@ -793,14 +805,11 @@ describe("ContinuationTokenManager", () => {
       assert.strictEqual(parsedToken.skipCount, 1); // One other document with rid3 before the last one
     });
 
-
     it("should handle page results without _rid property", () => {
       const mapping = createMockRangeMapping("00", "AA", "token1", [0, 1]);
       manager.updatePartitionRangeMapping("range1", mapping);
 
-      const orderByItems = [
-        [{ value: "item1" }], [{ value: "item2" }],
-      ];
+      const orderByItems = [[{ value: "item1" }], [{ value: "item2" }]];
       manager.setOrderByItemsArray(orderByItems);
 
       // Page results without _rid property
@@ -820,11 +829,10 @@ describe("ContinuationTokenManager", () => {
       assert.isUndefined(parsedToken.rid);
     });
 
-
     it("should process ranges in order and stop at first that doesn't fit", () => {
       // Create ranges with specific order
       const mapping1 = createMockRangeMapping("00", "33", "token1", [0, 1]); // 2 items
-      const mapping2 = createMockRangeMapping("33", "66", "token2", [2, 3]); // 2 items  
+      const mapping2 = createMockRangeMapping("33", "66", "token2", [2, 3]); // 2 items
       const mapping3 = createMockRangeMapping("66", "99", "token3", [4, 7]); // 4 items - won't fit
       const mapping4 = createMockRangeMapping("99", "FF", "token4", [8, 9]); // 2 items - shouldn't be reached
 
@@ -834,9 +842,16 @@ describe("ContinuationTokenManager", () => {
       manager.updatePartitionRangeMapping("range4", mapping4);
 
       const orderByItems = [
-        [{ value: "item1" }], [{ value: "item2" }], [{ value: "item3" }], [{ value: "item4" }],
-        [{ value: "item5" }], [{ value: "item6" }], [{ value: "item7" }], [{ value: "item8" }],
-        [{ value: "item9" }], [{ value: "item10" }],
+        [{ value: "item1" }],
+        [{ value: "item2" }],
+        [{ value: "item3" }],
+        [{ value: "item4" }],
+        [{ value: "item5" }],
+        [{ value: "item6" }],
+        [{ value: "item7" }],
+        [{ value: "item8" }],
+        [{ value: "item9" }],
+        [{ value: "item10" }],
       ];
       manager.setOrderByItemsArray(orderByItems);
 
@@ -860,14 +875,20 @@ describe("ContinuationTokenManager", () => {
       manager.updatePartitionRangeMapping("range1", mapping);
 
       const orderByItems = [
-        [{ value: "item1" }], [{ value: "item2" }], [{ value: "item3" }],
-        [{ value: "item4" }], [{ value: "item5" }],
+        [{ value: "item1" }],
+        [{ value: "item2" }],
+        [{ value: "item3" }],
+        [{ value: "item4" }],
+        [{ value: "item5" }],
       ];
       manager.setOrderByItemsArray(orderByItems);
 
       const pageResults = [
-        { _rid: "rid1", id: "1" }, { _rid: "rid2", id: "2" }, { _rid: "rid3", id: "3" },
-        { _rid: "rid4", id: "4" }, { _rid: "rid5", id: "5" },
+        { _rid: "rid1", id: "1" },
+        { _rid: "rid2", id: "2" },
+        { _rid: "rid3", id: "3" },
+        { _rid: "rid4", id: "4" },
+        { _rid: "rid5", id: "5" },
       ];
 
       const result = manager.processRangesForCurrentPage(5, 20, pageResults); // Exact match
@@ -923,8 +944,8 @@ describe("ContinuationTokenManager", () => {
       // Verify all ranges were added to composite continuation token
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 3);
-      
-      const tokens = compositeContinuationToken.rangeMappings.map(m => m.continuationToken);
+
+      const tokens = compositeContinuationToken.rangeMappings.map((m) => m.continuationToken);
       assert.includeMembers(tokens, ["token1", "token2", "token3"]);
     });
 
@@ -950,8 +971,8 @@ describe("ContinuationTokenManager", () => {
       // Verify only processed ranges were added to composite continuation token
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 2);
-      
-      const tokens = compositeContinuationToken.rangeMappings.map(m => m.continuationToken);
+
+      const tokens = compositeContinuationToken.rangeMappings.map((m) => m.continuationToken);
       assert.includeMembers(tokens, ["token1", "token2"]);
       assert.notInclude(tokens, "token3");
       assert.notInclude(tokens, "token4");
@@ -976,10 +997,10 @@ describe("ContinuationTokenManager", () => {
       const validMapping = createMockRangeMapping("00", "AA", "valid-token", [0, 4]);
       const invalidMapping1 = { ...createMockRangeMapping("AA", "BB", "invalid1", [5, 9]) };
       invalidMapping1.indexes = [] as any; // Empty indexes array
-      
+
       const invalidMapping2 = { ...createMockRangeMapping("BB", "CC", "invalid2", [10, 14]) };
       invalidMapping2.indexes = null as any; // Null indexes
-      
+
       const undefinedMapping = undefined as any; // Undefined mapping
 
       manager.updatePartitionRangeMapping("valid", validMapping);
@@ -997,7 +1018,10 @@ describe("ContinuationTokenManager", () => {
       // Verify only valid range was added to composite continuation token
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
-      assert.strictEqual(compositeContinuationToken.rangeMappings[0].continuationToken, "valid-token");
+      assert.strictEqual(
+        compositeContinuationToken.rangeMappings[0].continuationToken,
+        "valid-token",
+      );
     });
 
     it("should process ranges in iteration order", () => {
@@ -1021,8 +1045,8 @@ describe("ContinuationTokenManager", () => {
       // Verify ranges were added to composite continuation token in correct order
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 3);
-      
-      const tokens = compositeContinuationToken.rangeMappings.map(m => m.continuationToken);
+
+      const tokens = compositeContinuationToken.rangeMappings.map((m) => m.continuationToken);
       assert.deepStrictEqual(tokens, ["second", "first", "third"]);
     });
 
@@ -1039,7 +1063,10 @@ describe("ContinuationTokenManager", () => {
       // Verify range was added to composite continuation token
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
-      assert.strictEqual(compositeContinuationToken.rangeMappings[0].continuationToken, "exact-fit");
+      assert.strictEqual(
+        compositeContinuationToken.rangeMappings[0].continuationToken,
+        "exact-fit",
+      );
     });
 
     it("should handle range that is larger than page size", () => {
@@ -1088,12 +1115,20 @@ describe("ContinuationTokenManager", () => {
       // Should process all ranges including exhausted ones
       assert.strictEqual(result.endIndex, 20); // 5 + 5 + 5 + 5 = 20 items
       assert.strictEqual(result.processedRanges.length, 4);
-      assert.includeMembers(result.processedRanges, ["active", "exhausted1", "exhausted2", "exhausted3"]);
+      assert.includeMembers(result.processedRanges, [
+        "active",
+        "exhausted1",
+        "exhausted2",
+        "exhausted3",
+      ]);
 
       // Verify only non-exhausted range was added to composite continuation token
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 4);
-      assert.strictEqual(compositeContinuationToken.rangeMappings[0].continuationToken, "active-token");
+      assert.strictEqual(
+        compositeContinuationToken.rangeMappings[0].continuationToken,
+        "active-token",
+      );
     });
 
     it("should update existing range mappings in composite continuation token", () => {
@@ -1102,10 +1137,13 @@ describe("ContinuationTokenManager", () => {
 
       // First processing - adds initial mapping
       manager.processRangesForCurrentPage(10, 20);
-      
+
       let compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
-      assert.strictEqual(compositeContinuationToken.rangeMappings[0].continuationToken, "initial-token");
+      assert.strictEqual(
+        compositeContinuationToken.rangeMappings[0].continuationToken,
+        "initial-token",
+      );
 
       // Update the mapping with new token and indexes
       const updatedMapping = createMockRangeMapping("00", "AA", "updated-token", [5, 9]);
@@ -1116,8 +1154,8 @@ describe("ContinuationTokenManager", () => {
 
       compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1); // Original + new
-      
-      const tokens = compositeContinuationToken.rangeMappings.map(m => m.continuationToken);
+
+      const tokens = compositeContinuationToken.rangeMappings.map((m) => m.continuationToken);
       assert.includeMembers(tokens, ["updated-token"]);
     });
 
@@ -1157,8 +1195,8 @@ describe("ContinuationTokenManager", () => {
       // Verify correct ranges were added to composite continuation token
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 2);
-      
-      const tokens = compositeContinuationToken.rangeMappings.map(m => m.continuationToken);
+
+      const tokens = compositeContinuationToken.rangeMappings.map((m) => m.continuationToken);
       assert.includeMembers(tokens, ["token1", "token2"]);
       assert.notInclude(tokens, "token3");
     });
@@ -1171,21 +1209,21 @@ describe("ContinuationTokenManager", () => {
 
     it("should add new range mapping to composite continuation token", () => {
       const mapping = createMockRangeMapping("00", "AA", "token1", [0, 5]);
-      
+
       // Add mapping to partition key range map
       manager.updatePartitionRangeMapping("range1", mapping);
-      
+
       // Verify initial state - no range mappings in composite continuation token yet
       const initialCompositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(initialCompositeContinuationToken.rangeMappings.length, 0);
-      
+
       // Process ranges to trigger addOrUpdateRangeMapping
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Verify mapping was added to composite continuation token
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
-      
+
       const addedMapping = compositeContinuationToken.rangeMappings[0];
       assert.strictEqual(addedMapping.continuationToken, "token1");
       assert.strictEqual(addedMapping.partitionKeyRange.minInclusive, "00");
@@ -1196,29 +1234,29 @@ describe("ContinuationTokenManager", () => {
     it("should update existing range mapping with new indexes and continuation token", () => {
       // Create initial mapping
       const initialMapping = createMockRangeMapping("00", "AA", "token1", [0, 5]);
-      
+
       // Add mapping to partition key range map and process to add to composite token
       manager.updatePartitionRangeMapping("range1", initialMapping);
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Verify initial state
       let compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
       assert.strictEqual(compositeContinuationToken.rangeMappings[0].continuationToken, "token1");
       assert.deepStrictEqual(compositeContinuationToken.rangeMappings[0].indexes, [0, 5]);
-      
+
       // Clear partition key range map and add updated mapping with same range bounds
       manager.clearRangeMappings();
       const updatedMapping = createMockRangeMapping("00", "AA", "token2", [6, 15]);
       manager.updatePartitionRangeMapping("range1", updatedMapping);
-      
+
       // Process ranges again to trigger addOrUpdateRangeMapping
       manager.processRangesForCurrentPage(20, 30);
-      
+
       // Verify mapping was updated, not added as new
       compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
-      
+
       const updatedMappingInToken = compositeContinuationToken.rangeMappings[0];
       assert.strictEqual(updatedMappingInToken.continuationToken, "token2");
       assert.strictEqual(updatedMappingInToken.partitionKeyRange.minInclusive, "00");
@@ -1231,25 +1269,25 @@ describe("ContinuationTokenManager", () => {
       const mapping1 = createMockRangeMapping("00", "AA", "token1", [0, 5]);
       const mapping2 = createMockRangeMapping("AA", "BB", "token2", [6, 10]);
       const mapping3 = createMockRangeMapping("BB", "CC", "token3", [11, 15]);
-      
+
       // Add mappings to partition key range map
       manager.updatePartitionRangeMapping("range1", mapping1);
       manager.updatePartitionRangeMapping("range2", mapping2);
       manager.updatePartitionRangeMapping("range3", mapping3);
-      
+
       // Process ranges to add all mappings to composite continuation token
       manager.processRangesForCurrentPage(20, 30);
-      
+
       // Verify all mappings were added
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 3);
-      
+
       // Verify each mapping has correct values
-      const tokens = compositeContinuationToken.rangeMappings.map(m => m.continuationToken);
+      const tokens = compositeContinuationToken.rangeMappings.map((m) => m.continuationToken);
       assert.includeMembers(tokens, ["token1", "token2", "token3"]);
-      
-      const rangeBounds = compositeContinuationToken.rangeMappings.map(m => 
-        `${m.partitionKeyRange.minInclusive}-${m.partitionKeyRange.maxExclusive}`
+
+      const rangeBounds = compositeContinuationToken.rangeMappings.map(
+        (m) => `${m.partitionKeyRange.minInclusive}-${m.partitionKeyRange.maxExclusive}`,
       );
       assert.includeMembers(rangeBounds, ["00-AA", "AA-BB", "BB-CC"]);
     });
@@ -1260,17 +1298,17 @@ describe("ContinuationTokenManager", () => {
       const invalidMapping = {
         partitionKeyRange: null,
         indexes: [0, 5],
-        continuationToken: "token1"
+        continuationToken: "token1",
       } as any;
-      
+
       // Add invalid mapping to partition key range map
       manager.updatePartitionRangeMapping("invalid", invalidMapping);
-      
+
       // Process ranges - should not throw error and should not add invalid mapping
       assert.doesNotThrow(() => {
         manager.processRangesForCurrentPage(10, 20);
       });
-      
+
       // Verify no mappings were added to composite continuation token
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 0);
@@ -1281,17 +1319,17 @@ describe("ContinuationTokenManager", () => {
       const invalidMapping = {
         partitionKeyRange: undefined,
         indexes: [0, 5],
-        continuationToken: "token1"
+        continuationToken: "token1",
       } as any;
-      
+
       // Add invalid mapping to partition key range map
       manager.updatePartitionRangeMapping("invalid", invalidMapping);
-      
+
       // Process ranges - should not throw error
       assert.doesNotThrow(() => {
         manager.processRangesForCurrentPage(10, 20);
       });
-      
+
       // Verify no mappings were added to composite continuation token
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 0);
@@ -1301,36 +1339,38 @@ describe("ContinuationTokenManager", () => {
       // Create initial mappings with different bounds
       const mapping1 = createMockRangeMapping("00", "AA", "token1", [0, 5]);
       const mapping2 = createMockRangeMapping("AA", "BB", "token2", [6, 10]);
-      
+
       // Add mappings and process to add to composite token
       manager.updatePartitionRangeMapping("range1", mapping1);
       manager.updatePartitionRangeMapping("range2", mapping2);
       manager.processRangesForCurrentPage(20, 30);
-      
+
       // Verify initial state
       let compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 2);
-      
+
       // Clear and add updated mapping that only matches first range bounds
       manager.clearRangeMappings();
       const updatedMapping1 = createMockRangeMapping("00", "AA", "updated-token1", [100, 105]);
       manager.updatePartitionRangeMapping("range1", updatedMapping1);
-      
+
       // Process ranges to trigger update
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Verify only the matching mapping was updated
       compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 2);
-      
+
       // Find the updated mapping
       const updatedMapping = compositeContinuationToken.rangeMappings.find(
-        m => m.partitionKeyRange.minInclusive === "00" && m.partitionKeyRange.maxExclusive === "AA"
+        (m) =>
+          m.partitionKeyRange.minInclusive === "00" && m.partitionKeyRange.maxExclusive === "AA",
       );
       const unchangedMapping = compositeContinuationToken.rangeMappings.find(
-        m => m.partitionKeyRange.minInclusive === "AA" && m.partitionKeyRange.maxExclusive === "BB"
+        (m) =>
+          m.partitionKeyRange.minInclusive === "AA" && m.partitionKeyRange.maxExclusive === "BB",
       );
-      
+
       assert.isDefined(updatedMapping);
       assert.isDefined(unchangedMapping);
       assert.strictEqual(updatedMapping!.continuationToken, "updated-token1");
@@ -1343,33 +1383,33 @@ describe("ContinuationTokenManager", () => {
       // Create valid mapping
       const validMapping = createMockRangeMapping("00", "AA", "token1", [0, 5]);
       manager.updatePartitionRangeMapping("range1", validMapping);
-      
+
       // Process to add to composite token
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Manually add undefined mapping to simulate edge case
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       compositeContinuationToken.rangeMappings.push(undefined as any);
-      
+
       // Verify initial state has undefined mapping
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 2);
       assert.isUndefined(compositeContinuationToken.rangeMappings[1]);
-      
+
       // Clear partition key range map and add new mapping
       manager.clearRangeMappings();
       const newMapping = createMockRangeMapping("BB", "CC", "token2", [10, 15]);
       manager.updatePartitionRangeMapping("range2", newMapping);
-      
+
       // Process ranges - should handle undefined mapping gracefully
       assert.doesNotThrow(() => {
         manager.processRangesForCurrentPage(10, 20);
       });
-      
+
       // Verify new mapping was added and undefined mapping was ignored
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 2);
-      
+
       const newMappingInToken = compositeContinuationToken.rangeMappings.find(
-        m => m && m.partitionKeyRange.minInclusive === "BB"
+        (m) => m && m.partitionKeyRange.minInclusive === "BB",
       );
       assert.isDefined(newMappingInToken);
       assert.strictEqual(newMappingInToken!.continuationToken, "token2");
@@ -1379,19 +1419,22 @@ describe("ContinuationTokenManager", () => {
       // Create mapping
       const mapping = createMockRangeMapping("00", "AA", "token1", [0, 5]);
       manager.updatePartitionRangeMapping("range1", mapping);
-      
+
       // Ensure composite continuation token has empty rangeMappings
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       compositeContinuationToken.rangeMappings = [];
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 0);
-      
+
       // Process ranges - should add new mapping to empty array
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Verify mapping was added
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
       assert.strictEqual(compositeContinuationToken.rangeMappings[0].continuationToken, "token1");
-      assert.strictEqual(compositeContinuationToken.rangeMappings[0].partitionKeyRange.minInclusive, "00");
+      assert.strictEqual(
+        compositeContinuationToken.rangeMappings[0].partitionKeyRange.minInclusive,
+        "00",
+      );
     });
 
     it("should handle updating mapping with same exact range bounds", () => {
@@ -1399,27 +1442,39 @@ describe("ContinuationTokenManager", () => {
       const originalMapping = createMockRangeMapping("A0", "B5", "original-token", [0, 10]);
       manager.updatePartitionRangeMapping("range1", originalMapping);
       manager.processRangesForCurrentPage(15, 25);
-      
+
       // Verify initial state
       let compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
-      assert.strictEqual(compositeContinuationToken.rangeMappings[0].continuationToken, "original-token");
-      
+      assert.strictEqual(
+        compositeContinuationToken.rangeMappings[0].continuationToken,
+        "original-token",
+      );
+
       // Clear and add mapping with identical bounds but different values
       manager.clearRangeMappings();
       const identicalBoundsMapping = createMockRangeMapping("A0", "B5", "updated-token", [50, 75]);
       manager.updatePartitionRangeMapping("range1", identicalBoundsMapping);
-      
+
       // Process ranges to trigger update
       manager.processRangesForCurrentPage(30, 40);
-      
+
       // Verify mapping was updated, not added as new
       compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
-      assert.strictEqual(compositeContinuationToken.rangeMappings[0].continuationToken, "updated-token");
+      assert.strictEqual(
+        compositeContinuationToken.rangeMappings[0].continuationToken,
+        "updated-token",
+      );
       assert.deepStrictEqual(compositeContinuationToken.rangeMappings[0].indexes, [50, 75]);
-      assert.strictEqual(compositeContinuationToken.rangeMappings[0].partitionKeyRange.minInclusive, "A0");
-      assert.strictEqual(compositeContinuationToken.rangeMappings[0].partitionKeyRange.maxExclusive, "B5");
+      assert.strictEqual(
+        compositeContinuationToken.rangeMappings[0].partitionKeyRange.minInclusive,
+        "A0",
+      );
+      assert.strictEqual(
+        compositeContinuationToken.rangeMappings[0].partitionKeyRange.maxExclusive,
+        "B5",
+      );
     });
   });
 
@@ -1560,7 +1615,7 @@ describe("ContinuationTokenManager", () => {
       // Verify initial state - no ranges
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 0);
-      
+
       // Should return undefined when no ranges exist
       const tokenString = manager.getTokenString();
       assert.isUndefined(tokenString);
@@ -1570,18 +1625,18 @@ describe("ContinuationTokenManager", () => {
       // Create and process mappings for parallel query
       const mapping1 = createMockRangeMapping("00", "AA", "token1", [0, 5]);
       const mapping2 = createMockRangeMapping("AA", "BB", "token2", [6, 10]);
-      
+
       manager.updatePartitionRangeMapping("range1", mapping1);
       manager.updatePartitionRangeMapping("range2", mapping2);
-      
+
       // Process ranges to add to composite continuation token
       manager.processRangesForCurrentPage(20, 30);
-      
+
       // Should return composite continuation token string
       const tokenString = manager.getTokenString();
       assert.isString(tokenString);
       assert.isTrue(tokenString!.length > 0);
-      
+
       // Parse the token to verify it's a composite token
       const parsedToken = JSON.parse(tokenString!);
       assert.property(parsedToken, "rid");
@@ -1594,28 +1649,27 @@ describe("ContinuationTokenManager", () => {
     it("should return ORDER BY continuation token string for ORDER BY queries", () => {
       // Create ORDER BY manager
       manager = new ContinuationTokenManager(collectionLink, undefined, true);
-      
+
       // Set up ORDER BY items array
-      const orderByItems = [
-        [{ value: "item1" }],
-        [{ value: "item2" }],
-        [{ value: "item3" }],
-      ];
+      const orderByItems = [[{ value: "item1" }], [{ value: "item2" }], [{ value: "item3" }]];
       manager.setOrderByItemsArray(orderByItems);
-      
+
       // Create mapping and process for ORDER BY
       const mapping = createMockRangeMapping("00", "AA", "orderby-token", [0, 2]);
       manager.updatePartitionRangeMapping("range1", mapping);
-      
+
       // Process with page results to create ORDER BY token
-      const pageResults = [{ _rid: "doc1", id: "1" }, { _rid: "doc2", id: "2" }];
+      const pageResults = [
+        { _rid: "doc1", id: "1" },
+        { _rid: "doc2", id: "2" },
+      ];
       manager.processRangesForCurrentPage(5, 10, pageResults);
-      
+
       // Should return ORDER BY continuation token string
       const tokenString = manager.getTokenString();
       assert.isString(tokenString);
       assert.isTrue(tokenString!.length > 0);
-      
+
       // Parse the token to verify it's an ORDER BY token
       const parsedToken = JSON.parse(tokenString!);
       assert.property(parsedToken, "compositeToken");
@@ -1629,19 +1683,19 @@ describe("ContinuationTokenManager", () => {
     it("should handle empty ORDER BY items array for ORDER BY queries", () => {
       // Create ORDER BY manager
       manager = new ContinuationTokenManager(collectionLink, undefined, true);
-      
+
       // Set empty ORDER BY items array
       manager.setOrderByItemsArray([]);
-      
+
       // Add mapping to composite token
       const mapping = createMockRangeMapping("00", "AA", "token", [0, 5]);
       manager.updatePartitionRangeMapping("range1", mapping);
-      
+
       // Process ranges should throw error for empty ORDER BY items
       assert.throws(() => {
         manager.processRangesForCurrentPage(10, 20, []);
       }, /orderByItemsArray is required but was not provided or is empty/);
-      
+
       // Should return undefined since ORDER BY token wasn't created
       const tokenString = manager.getTokenString();
       assert.isUndefined(tokenString);
@@ -1650,15 +1704,15 @@ describe("ContinuationTokenManager", () => {
     it("should return composite token as fallback for ORDER BY queries without ORDER BY token", () => {
       // Create ORDER BY manager
       manager = new ContinuationTokenManager(collectionLink, undefined, true);
-      
+
       // Manually add mapping to composite continuation token (bypassing normal processing)
       const mapping = createMockRangeMapping("00", "AA", "fallback-token", [0, 5]);
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       compositeContinuationToken.addRangeMapping(mapping);
-      
+
       // Verify composite token has ranges
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
-      
+
       // Since no ORDER BY token was created, should fall back to composite token
       // But for ORDER BY queries without proper ORDER BY token, it returns undefined
       const tokenString = manager.getTokenString();
@@ -1668,7 +1722,7 @@ describe("ContinuationTokenManager", () => {
     it("should handle undefined composite continuation token gracefully", () => {
       // Force composite continuation token to undefined
       (manager as any).compositeContinuationToken = undefined;
-      
+
       // Should return undefined without throwing error
       const tokenString = manager.getTokenString();
       assert.isUndefined(tokenString);
@@ -1679,7 +1733,7 @@ describe("ContinuationTokenManager", () => {
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       compositeContinuationToken.rangeMappings = [];
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 0);
-      
+
       // Should return undefined for empty range mappings
       const tokenString = manager.getTokenString();
       assert.isUndefined(tokenString);
@@ -1690,11 +1744,11 @@ describe("ContinuationTokenManager", () => {
       const mapping = createMockRangeMapping("00", "AA", "json-test-token", [0, 3]);
       manager.updatePartitionRangeMapping("range1", mapping);
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Get token string
       const tokenString = manager.getTokenString();
       assert.isString(tokenString);
-      
+
       // Should be valid JSON that can be parsed without error
       assert.doesNotThrow(() => {
         const parsed = JSON.parse(tokenString!);
@@ -1713,17 +1767,17 @@ describe("ContinuationTokenManager", () => {
       const mapping = createMockRangeMapping("00", "AA", "header-token", [0, 5]);
       manager.updatePartitionRangeMapping("range1", mapping);
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Verify token exists
       const tokenString = manager.getTokenString();
       assert.isString(tokenString);
-      
+
       // Create mock headers object
       const headers: any = {};
-      
+
       // Set continuation token in headers
       manager.setContinuationTokenInHeaders(headers);
-      
+
       // Verify header was set with correct value
       assert.property(headers, "x-ms-continuation");
       assert.strictEqual(headers["x-ms-continuation"], tokenString);
@@ -1733,13 +1787,13 @@ describe("ContinuationTokenManager", () => {
       // Ensure no token exists
       const tokenString = manager.getTokenString();
       assert.isUndefined(tokenString);
-      
+
       // Create mock headers object
       const headers: any = {};
-      
+
       // Set continuation token in headers
       manager.setContinuationTokenInHeaders(headers);
-      
+
       // Verify header was not set
       assert.notProperty(headers, "x-ms-continuation");
       assert.isUndefined(headers["x-ms-continuation"]);
@@ -1750,21 +1804,21 @@ describe("ContinuationTokenManager", () => {
       const mapping = createMockRangeMapping("00", "AA", "new-token", [0, 5]);
       manager.updatePartitionRangeMapping("range1", mapping);
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Create mock headers object with existing continuation header
       const headers: any = {
         "x-ms-continuation": "old-token-value",
-        "other-header": "other-value"
+        "other-header": "other-value",
       };
-      
+
       // Set continuation token in headers
       manager.setContinuationTokenInHeaders(headers);
-      
+
       // Verify header was overwritten with new value
       const expectedToken = manager.getTokenString();
       assert.strictEqual(headers["x-ms-continuation"], expectedToken);
       assert.notStrictEqual(headers["x-ms-continuation"], "old-token-value");
-      
+
       // Verify other headers were not affected
       assert.strictEqual(headers["other-header"], "other-value");
     });
@@ -1774,15 +1828,15 @@ describe("ContinuationTokenManager", () => {
       const mapping = createMockRangeMapping("00", "AA", "empty-headers-token", [0, 3]);
       manager.updatePartitionRangeMapping("range1", mapping);
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Create empty headers object
       const headers: any = {};
-      
+
       // Should not throw error with empty headers
       assert.doesNotThrow(() => {
         manager.setContinuationTokenInHeaders(headers);
       });
-      
+
       // Verify header was added
       assert.property(headers, "x-ms-continuation");
       assert.isString(headers["x-ms-continuation"]);
@@ -1793,17 +1847,17 @@ describe("ContinuationTokenManager", () => {
       const mapping = createMockRangeMapping("00", "AA", "existing-props-token", [0, 2]);
       manager.updatePartitionRangeMapping("range1", mapping);
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Create headers object with existing properties
       const headers: any = {
         "content-type": "application/json",
         "x-ms-request-charge": "2.5",
-        "x-ms-item-count": "10"
+        "x-ms-item-count": "10",
       };
-      
+
       // Set continuation token in headers
       manager.setContinuationTokenInHeaders(headers);
-      
+
       // Verify continuation header was added without affecting existing headers
       assert.property(headers, "x-ms-continuation");
       assert.isString(headers["x-ms-continuation"]);
@@ -1815,17 +1869,17 @@ describe("ContinuationTokenManager", () => {
     it("should not modify headers when getTokenString returns undefined", () => {
       // Ensure no token exists
       assert.isUndefined(manager.getTokenString());
-      
+
       // Create headers object with existing properties
       const originalHeaders = {
         "content-type": "application/json",
-        "x-ms-request-charge": "1.0"
+        "x-ms-request-charge": "1.0",
       };
       const headers: any = { ...originalHeaders };
-      
+
       // Set continuation token in headers
       manager.setContinuationTokenInHeaders(headers);
-      
+
       // Verify headers were not modified
       assert.deepStrictEqual(headers, originalHeaders);
       assert.notProperty(headers, "x-ms-continuation");
@@ -1840,7 +1894,7 @@ describe("ContinuationTokenManager", () => {
     it("should return false when partition key range map is empty", () => {
       // Verify initial state - no ranges
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 0);
-      
+
       // Should return false for empty map
       assert.strictEqual(manager.hasUnprocessedRanges(), false);
     });
@@ -1849,10 +1903,10 @@ describe("ContinuationTokenManager", () => {
       // Add range mapping
       const mapping = createMockRangeMapping("00", "AA", "unprocessed-token", [0, 5]);
       manager.updatePartitionRangeMapping("range1", mapping);
-      
+
       // Verify range was added
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 1);
-      
+
       // Should return true when ranges exist
       assert.strictEqual(manager.hasUnprocessedRanges(), true);
     });
@@ -1862,14 +1916,14 @@ describe("ContinuationTokenManager", () => {
       const mapping1 = createMockRangeMapping("00", "AA", "token1", [0, 5]);
       const mapping2 = createMockRangeMapping("AA", "BB", "token2", [6, 10]);
       const mapping3 = createMockRangeMapping("BB", "CC", "token3", [11, 15]);
-      
+
       manager.updatePartitionRangeMapping("range1", mapping1);
       manager.updatePartitionRangeMapping("range2", mapping2);
       manager.updatePartitionRangeMapping("range3", mapping3);
-      
+
       // Verify ranges were added
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 3);
-      
+
       // Should return true when multiple ranges exist
       assert.strictEqual(manager.hasUnprocessedRanges(), true);
     });
@@ -1878,16 +1932,16 @@ describe("ContinuationTokenManager", () => {
       // Add range mappings first
       const mapping1 = createMockRangeMapping("00", "AA", "token1", [0, 5]);
       const mapping2 = createMockRangeMapping("AA", "BB", "token2", [6, 10]);
-      
+
       manager.updatePartitionRangeMapping("range1", mapping1);
       manager.updatePartitionRangeMapping("range2", mapping2);
-      
+
       // Verify ranges exist
       assert.strictEqual(manager.hasUnprocessedRanges(), true);
-      
+
       // Clear all ranges
       manager.clearRangeMappings();
-      
+
       // Should return false after clearing
       assert.strictEqual(manager.hasUnprocessedRanges(), false);
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 0);
@@ -1897,19 +1951,19 @@ describe("ContinuationTokenManager", () => {
       // Add range mappings first
       const mapping1 = createMockRangeMapping("00", "AA", "token1", [0, 5]);
       const mapping2 = createMockRangeMapping("AA", "BB", "token2", [6, 10]);
-      
+
       manager.updatePartitionRangeMapping("range1", mapping1);
       manager.updatePartitionRangeMapping("range2", mapping2);
-      
+
       // Verify ranges exist
       assert.strictEqual(manager.hasUnprocessedRanges(), true);
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 2);
-      
+
       // Remove ranges one by one
       manager.removePartitionRangeMapping("range1");
       assert.strictEqual(manager.hasUnprocessedRanges(), true);
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 1);
-      
+
       manager.removePartitionRangeMapping("range2");
       assert.strictEqual(manager.hasUnprocessedRanges(), false);
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 0);
@@ -1918,16 +1972,16 @@ describe("ContinuationTokenManager", () => {
     it("should reflect current state after adding and removing ranges", () => {
       // Start with empty state
       assert.strictEqual(manager.hasUnprocessedRanges(), false);
-      
+
       // Add range
       const mapping = createMockRangeMapping("00", "AA", "dynamic-token", [0, 5]);
       manager.updatePartitionRangeMapping("range1", mapping);
       assert.strictEqual(manager.hasUnprocessedRanges(), true);
-      
+
       // Remove range
       manager.removePartitionRangeMapping("range1");
       assert.strictEqual(manager.hasUnprocessedRanges(), false);
-      
+
       // Add multiple ranges
       const mapping2 = createMockRangeMapping("AA", "BB", "token2", [6, 10]);
       const mapping3 = createMockRangeMapping("BB", "CC", "token3", [11, 15]);
@@ -1935,7 +1989,7 @@ describe("ContinuationTokenManager", () => {
       manager.updatePartitionRangeMapping("range3", mapping3);
       assert.strictEqual(manager.hasUnprocessedRanges(), true);
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 2);
-      
+
       // Clear all
       manager.clearRangeMappings();
       assert.strictEqual(manager.hasUnprocessedRanges(), false);
@@ -1945,23 +1999,23 @@ describe("ContinuationTokenManager", () => {
       // Add range to partition key range map
       const mapping = createMockRangeMapping("00", "AA", "independence-token", [0, 5]);
       manager.updatePartitionRangeMapping("range1", mapping);
-      
+
       // Verify unprocessed ranges exist
       assert.strictEqual(manager.hasUnprocessedRanges(), true);
-      
+
       // Process ranges to add to composite continuation token
       manager.processRangesForCurrentPage(10, 20);
-      
+
       // Verify composite continuation token has ranges
       const compositeContinuationToken = manager.getCompositeContinuationToken();
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1);
-      
+
       // hasUnprocessedRanges should still return true (depends only on partition key range map)
       assert.strictEqual(manager.hasUnprocessedRanges(), true);
-      
+
       // Remove from partition key range map
       manager.removePartitionRangeMapping("range1");
-      
+
       // Should return false even though composite token still has ranges
       assert.strictEqual(manager.hasUnprocessedRanges(), false);
       assert.strictEqual(compositeContinuationToken.rangeMappings.length, 1); // Still has ranges
@@ -1970,20 +2024,20 @@ describe("ContinuationTokenManager", () => {
     it("should work correctly with ORDER BY queries", () => {
       // Create ORDER BY manager
       manager = new ContinuationTokenManager(collectionLink, undefined, true);
-      
+
       // Start with no ranges
       assert.strictEqual(manager.hasUnprocessedRanges(), false);
-      
+
       // Add range for ORDER BY query
       const mapping = createMockRangeMapping("00", "AA", "orderby-unprocessed", [0, 3]);
       manager.updatePartitionRangeMapping("range1", mapping);
-      
+
       // Should return true for ORDER BY queries with ranges
       assert.strictEqual(manager.hasUnprocessedRanges(), true);
-      
+
       // Remove range
       manager.removePartitionRangeMapping("range1");
-      
+
       // Should return false after removal
       assert.strictEqual(manager.hasUnprocessedRanges(), false);
     });
@@ -1994,7 +2048,7 @@ describe("ContinuationTokenManager", () => {
 
     beforeEach(() => {
       manager = new ContinuationTokenManager(collectionLink);
-      
+
       // Create a mock hash function that returns predictable hashes
       mockHashObject = vi.fn().mockImplementation(async (item: any) => {
         if (!item) return "empty-hash";
@@ -2004,9 +2058,9 @@ describe("ContinuationTokenManager", () => {
 
     it("should return early when partition key range map is empty", async () => {
       const originalBuffer = [{ id: "1" }, { id: "2" }];
-      
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // No calls to hash function should be made
       assert.strictEqual((mockHashObject as any).mock.calls.length, 0);
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 0);
@@ -2015,11 +2069,11 @@ describe("ContinuationTokenManager", () => {
     it("should return early when partition key range map is null/undefined", async () => {
       // Force partition key range map to be null
       (manager as any).partitionKeyRangeMap = null;
-      
+
       const originalBuffer = [{ id: "1" }, { id: "2" }];
-      
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // No calls to hash function should be made
       assert.strictEqual((mockHashObject as any).mock.calls.length, 0);
     });
@@ -2028,22 +2082,22 @@ describe("ContinuationTokenManager", () => {
       // Set up range mapping with itemCount
       const rangeMapping = {
         ...createMockRangeMapping("00", "AA"),
-        itemCount: 3
+        itemCount: 3,
       };
       manager.updatePartitionRangeMapping("range1", rangeMapping);
-      
+
       const originalBuffer = [
         { id: "item1", value: "a" },
-        { id: "item2", value: "b" }, 
-        { id: "item3", value: "c" }
+        { id: "item2", value: "b" },
+        { id: "item3", value: "c" },
       ];
-      
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // Should hash only the last item in the range (item3)
       assert.strictEqual((mockHashObject as any).mock.calls.length, 1);
       assert.deepStrictEqual((mockHashObject as any).mock.calls[0][0], { id: "item3", value: "c" });
-      
+
       // Check that hashedLastResult was updated
       const updatedMapping = manager.getPartitionKeyRangeMap().get("range1");
       assert.strictEqual(updatedMapping?.hashedLastResult, 'hash-{"id":"item3","value":"c"}');
@@ -2054,33 +2108,33 @@ describe("ContinuationTokenManager", () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 2 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 3 };
       const rangeMapping3 = { ...createMockRangeMapping("66", "FF"), itemCount: 1 };
-      
+
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
       manager.updatePartitionRangeMapping("range3", rangeMapping3);
-      
+
       const originalBuffer = [
         { id: "item1", range: "1" }, // range1: index 0
         { id: "item2", range: "1" }, // range1: index 1 (last in range1)
         { id: "item3", range: "2" }, // range2: index 2
-        { id: "item4", range: "2" }, // range2: index 3  
+        { id: "item4", range: "2" }, // range2: index 3
         { id: "item5", range: "2" }, // range2: index 4 (last in range2)
         { id: "item6", range: "3" }, // range3: index 5 (last in range3)
       ];
-      
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // Should hash the last item from each range (item2, item5, item6)
       assert.strictEqual((mockHashObject as any).mock.calls.length, 3);
       assert.deepStrictEqual((mockHashObject as any).mock.calls[0][0], { id: "item2", range: "1" });
       assert.deepStrictEqual((mockHashObject as any).mock.calls[1][0], { id: "item5", range: "2" });
       assert.deepStrictEqual((mockHashObject as any).mock.calls[2][0], { id: "item6", range: "3" });
-      
+
       // Check hashedLastResult for each range
       const updatedMapping1 = manager.getPartitionKeyRangeMap().get("range1");
-      const updatedMapping2 = manager.getPartitionKeyRangeMap().get("range2"); 
+      const updatedMapping2 = manager.getPartitionKeyRangeMap().get("range2");
       const updatedMapping3 = manager.getPartitionKeyRangeMap().get("range3");
-      
+
       assert.strictEqual(updatedMapping1?.hashedLastResult, 'hash-{"id":"item2","range":"1"}');
       assert.strictEqual(updatedMapping2?.hashedLastResult, 'hash-{"id":"item5","range":"2"}');
       assert.strictEqual(updatedMapping3?.hashedLastResult, 'hash-{"id":"item6","range":"3"}');
@@ -2090,29 +2144,29 @@ describe("ContinuationTokenManager", () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 2 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 0 }; // Empty range
       const rangeMapping3 = { ...createMockRangeMapping("66", "FF"), itemCount: 1 };
-      
+
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
       manager.updatePartitionRangeMapping("range3", rangeMapping3);
-      
+
       const originalBuffer = [
         { id: "item1" }, // range1: index 0
         { id: "item2" }, // range1: index 1 (last in range1)
         { id: "item3" }, // range3: index 2 (last in range3)
       ];
-      
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // Should hash only last items from range1 and range3 (skip range2)
       assert.strictEqual((mockHashObject as any).mock.calls.length, 2);
       assert.deepStrictEqual((mockHashObject as any).mock.calls[0][0], { id: "item2" });
       assert.deepStrictEqual((mockHashObject as any).mock.calls[1][0], { id: "item3" });
-      
+
       // Check hashedLastResult updates
       const updatedMapping1 = manager.getPartitionKeyRangeMap().get("range1");
       const updatedMapping2 = manager.getPartitionKeyRangeMap().get("range2");
       const updatedMapping3 = manager.getPartitionKeyRangeMap().get("range3");
-      
+
       assert.strictEqual(updatedMapping1?.hashedLastResult, 'hash-{"id":"item2"}');
       assert.isUndefined(updatedMapping2?.hashedLastResult); // Should remain undefined for empty range
       assert.strictEqual(updatedMapping3?.hashedLastResult, 'hash-{"id":"item3"}');
@@ -2121,28 +2175,28 @@ describe("ContinuationTokenManager", () => {
     it("should handle buffer shorter than total itemCount", async () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 3 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 3 };
-      
+
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
-      
+
       // Buffer has only 4 items, but total itemCount is 6
       const originalBuffer = [
         { id: "item1" },
         { id: "item2" },
         { id: "item3" }, // Last item in range1
-        { id: "item4" }  // Only one item available for range2
+        { id: "item4" }, // Only one item available for range2
       ];
-      
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // Should hash last available items from each range
       assert.strictEqual((mockHashObject as any).mock.calls.length, 2);
       assert.deepStrictEqual((mockHashObject as any).mock.calls[0][0], { id: "item3" });
       assert.deepStrictEqual((mockHashObject as any).mock.calls[1][0], { id: "item4" });
-      
+
       const updatedMapping1 = manager.getPartitionKeyRangeMap().get("range1");
       const updatedMapping2 = manager.getPartitionKeyRangeMap().get("range2");
-      
+
       assert.strictEqual(updatedMapping1?.hashedLastResult, 'hash-{"id":"item3"}');
       assert.strictEqual(updatedMapping2?.hashedLastResult, 'hash-{"id":"item4"}');
     });
@@ -2150,19 +2204,19 @@ describe("ContinuationTokenManager", () => {
     it("should handle null/undefined items in buffer", async () => {
       const rangeMapping = { ...createMockRangeMapping("00", "AA"), itemCount: 3 };
       manager.updatePartitionRangeMapping("range1", rangeMapping);
-      
+
       const originalBuffer = [
         { id: "item1" },
-        null,                // null item
-        { id: "item3" }     // Last valid item
+        null, // null item
+        { id: "item3" }, // Last valid item
       ];
-      
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // Should hash the last valid item (item3)
       assert.strictEqual((mockHashObject as any).mock.calls.length, 1);
       assert.deepStrictEqual((mockHashObject as any).mock.calls[0][0], { id: "item3" });
-      
+
       const updatedMapping = manager.getPartitionKeyRangeMap().get("range1");
       assert.strictEqual(updatedMapping?.hashedLastResult, 'hash-{"id":"item3"}');
     });
@@ -2170,17 +2224,17 @@ describe("ContinuationTokenManager", () => {
     it("should handle range where last item is null/undefined", async () => {
       const rangeMapping = { ...createMockRangeMapping("00", "AA"), itemCount: 2 };
       manager.updatePartitionRangeMapping("range1", rangeMapping);
-      
+
       const originalBuffer = [
         { id: "item1" },
-        null                // Last item is null
+        null, // Last item is null
       ];
-      
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // Hash function should not be called since last item is null
       assert.strictEqual((mockHashObject as any).mock.calls.length, 0);
-      
+
       const updatedMapping = manager.getPartitionKeyRangeMap().get("range1");
       assert.isUndefined(updatedMapping?.hashedLastResult);
     });
@@ -2190,24 +2244,24 @@ describe("ContinuationTokenManager", () => {
         ...createMockRangeMapping("00", "AA"),
         itemCount: 2,
         customProperty: "customValue",
-        existingHash: "existing-hash"
+        existingHash: "existing-hash",
       };
       manager.updatePartitionRangeMapping("range1", originalMapping);
-      
-      const originalBuffer = [
-        { id: "item1" },
-        { id: "item2" }
-      ];
-      
+
+      const originalBuffer = [{ id: "item1" }, { id: "item2" }];
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       const updatedMapping = manager.getPartitionKeyRangeMap().get("range1");
-      
+
       // Should preserve all existing properties
-      assert.strictEqual(updatedMapping?.partitionKeyRange.id, originalMapping.partitionKeyRange.id);
+      assert.strictEqual(
+        updatedMapping?.partitionKeyRange.id,
+        originalMapping.partitionKeyRange.id,
+      );
       assert.strictEqual(updatedMapping?.itemCount, 2);
       assert.strictEqual((updatedMapping as any)?.customProperty, "customValue");
-      
+
       // Should update hashedLastResult
       assert.strictEqual(updatedMapping?.hashedLastResult, 'hash-{"id":"item2"}');
     });
@@ -2215,47 +2269,44 @@ describe("ContinuationTokenManager", () => {
     it("should handle empty buffer gracefully", async () => {
       const rangeMapping = { ...createMockRangeMapping("00", "AA"), itemCount: 2 };
       manager.updatePartitionRangeMapping("range1", rangeMapping);
-      
+
       const originalBuffer: any[] = [];
-      
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // No hash function calls should be made
       assert.strictEqual((mockHashObject as any).mock.calls.length, 0);
-      
+
       const updatedMapping = manager.getPartitionKeyRangeMap().get("range1");
       assert.isUndefined(updatedMapping?.hashedLastResult);
     });
 
     it("should handle hash function that throws errors", async () => {
       const errorHashFunction = vi.fn().mockRejectedValue(new Error("Hash function error"));
-      
+
       const rangeMapping = { ...createMockRangeMapping("00", "AA"), itemCount: 1 };
       manager.updatePartitionRangeMapping("range1", rangeMapping);
-      
+
       const originalBuffer = [{ id: "item1" }];
-      
+
       // Should propagate the error from hash function
       await expect(
-        manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, errorHashFunction)
+        manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, errorHashFunction),
       ).rejects.toThrow("Hash function error");
     });
 
     it("should handle itemCount larger than buffer for single range", async () => {
       const rangeMapping = { ...createMockRangeMapping("00", "AA"), itemCount: 10 };
       manager.updatePartitionRangeMapping("range1", rangeMapping);
-      
-      const originalBuffer = [
-        { id: "item1" },
-        { id: "item2" }
-      ]; // Only 2 items but itemCount is 10
-      
+
+      const originalBuffer = [{ id: "item1" }, { id: "item2" }]; // Only 2 items but itemCount is 10
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // Should hash the last available item in buffer
       assert.strictEqual((mockHashObject as any).mock.calls.length, 1);
       assert.deepStrictEqual((mockHashObject as any).mock.calls[0][0], { id: "item2" });
-      
+
       const updatedMapping = manager.getPartitionKeyRangeMap().get("range1");
       assert.strictEqual(updatedMapping?.hashedLastResult, 'hash-{"id":"item2"}');
     });
@@ -2265,19 +2316,19 @@ describe("ContinuationTokenManager", () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 1 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 1 };
       const rangeMapping3 = { ...createMockRangeMapping("66", "FF"), itemCount: 1 };
-      
+
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
       manager.updatePartitionRangeMapping("range3", rangeMapping3);
-      
+
       const originalBuffer = [
         { id: "item1", order: 1 },
         { id: "item2", order: 2 },
-        { id: "item3", order: 3 }
+        { id: "item3", order: 3 },
       ];
-      
+
       await manager.processDistinctQueryAndUpdateRangeMap(originalBuffer, mockHashObject);
-      
+
       // Should process in Map iteration order (insertion order for Maps)
       assert.strictEqual((mockHashObject as any).mock.calls.length, 3);
       assert.strictEqual((mockHashObject as any).mock.calls[0][0].order, 1);
@@ -2293,19 +2344,19 @@ describe("ContinuationTokenManager", () => {
 
     it("should return early when partition key range map is empty", () => {
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 0);
-      
+
       // Should return early without throwing error
       assert.doesNotThrow(() => {
         manager.processOffsetLimitAndUpdateRangeMap(10, 5, 20, 15, 100);
       });
-      
+
       assert.strictEqual(manager.getPartitionKeyRangeMap().size, 0);
     });
 
     it("should return early when partition key range map is null/undefined", () => {
       // Force partition key range map to be null
       (manager as any).partitionKeyRangeMap = null;
-      
+
       // Should return early without throwing error
       assert.doesNotThrow(() => {
         manager.processOffsetLimitAndUpdateRangeMap(10, 5, 20, 15, 100);
@@ -2315,16 +2366,16 @@ describe("ContinuationTokenManager", () => {
     it("should calculate offset/limit values for single range", () => {
       const rangeMapping = {
         ...createMockRangeMapping("00", "AA"),
-        itemCount: 10
+        itemCount: 10,
       };
       manager.updatePartitionRangeMapping("range1", rangeMapping);
-      
+
       // Initial: offset=5, finalOffset=0, initialLimit=10, finalLimit=5
       // This means 5 items consumed by offset, 5 items consumed by limit
       manager.processOffsetLimitAndUpdateRangeMap(5, 0, 10, 5, 10);
-      
+
       const updatedMapping = manager.getPartitionKeyRangeMap().get("range1");
-      
+
       // After consuming 5 items from offset, remaining offset should be 0
       // After consuming 5 items from limit, remaining limit should be 5
       assert.strictEqual(updatedMapping?.offset, 0);
@@ -2335,27 +2386,27 @@ describe("ContinuationTokenManager", () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 5 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 8 };
       const rangeMapping3 = { ...createMockRangeMapping("66", "FF"), itemCount: 3 };
-      
+
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
       manager.updatePartitionRangeMapping("range3", rangeMapping3);
-      
+
       // Initial: offset=7, limit=10
       // Range1 (5 items): offset consumes all 5, remaining offset=2, limit=10
       // Range2 (8 items): offset consumes 2, remaining 6 items, limit consumes 6, remaining offset=0, limit=4
       // Range3 (3 items): offset=0, limit consumes 3, remaining limit=1
       manager.processOffsetLimitAndUpdateRangeMap(7, 0, 10, 3, 16);
-      
+
       const updatedMapping1 = manager.getPartitionKeyRangeMap().get("range1");
       const updatedMapping2 = manager.getPartitionKeyRangeMap().get("range2");
       const updatedMapping3 = manager.getPartitionKeyRangeMap().get("range3");
 
       assert.strictEqual(updatedMapping1?.offset, 2); // 7 - 5 = 2
       assert.strictEqual(updatedMapping1?.limit, 10);
-      
-      assert.strictEqual(updatedMapping2?.offset, 0); // 2 - 2 = 0  
+
+      assert.strictEqual(updatedMapping2?.offset, 0); // 2 - 2 = 0
       assert.strictEqual(updatedMapping2?.limit, 4); // 10 - 6 = 4
-      
+
       assert.strictEqual(updatedMapping3?.offset, 0);
       assert.strictEqual(updatedMapping3?.limit, 1); // 4 - 3 = 1
     });
@@ -2364,25 +2415,25 @@ describe("ContinuationTokenManager", () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 0 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 5 };
       const rangeMapping3 = { ...createMockRangeMapping("66", "FF"), itemCount: 0 };
-      
+
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
       manager.updatePartitionRangeMapping("range3", rangeMapping3);
-      
+
       manager.processOffsetLimitAndUpdateRangeMap(3, 0, 10, 8, 5);
-      
+
       const updatedMapping1 = manager.getPartitionKeyRangeMap().get("range1");
       const updatedMapping2 = manager.getPartitionKeyRangeMap().get("range2");
       const updatedMapping3 = manager.getPartitionKeyRangeMap().get("range3");
-      
+
       // Zero itemCount ranges should have unchanged offset/limit
       assert.strictEqual(updatedMapping1?.offset, 3);
       assert.strictEqual(updatedMapping1?.limit, 10);
-      
+
       // Range2 should consume 3 offset and 2 limit
       assert.strictEqual(updatedMapping2?.offset, 0);
       assert.strictEqual(updatedMapping2?.limit, 8);
-      
+
       // Range3 should have same values as range1 (no consumption)
       assert.strictEqual(updatedMapping3?.offset, 0);
       assert.strictEqual(updatedMapping3?.limit, 8);
@@ -2391,20 +2442,20 @@ describe("ContinuationTokenManager", () => {
     it("should handle offset larger than total itemCount", () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 3 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 4 };
-      
+
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
-      
+
       // Offset=10 is larger than total itemCount (3+4=7)
       manager.processOffsetLimitAndUpdateRangeMap(10, 3, 5, 5, 7);
-      
+
       const updatedMapping1 = manager.getPartitionKeyRangeMap().get("range1");
       const updatedMapping2 = manager.getPartitionKeyRangeMap().get("range2");
-      
+
       // Range1: all 3 items consumed by offset, remaining offset=7
       assert.strictEqual(updatedMapping1?.offset, 7);
       assert.strictEqual(updatedMapping1?.limit, 5);
-      
+
       // Range2: all 4 items consumed by offset, remaining offset=3
       assert.strictEqual(updatedMapping2?.offset, 3);
       assert.strictEqual(updatedMapping2?.limit, 5);
@@ -2413,21 +2464,21 @@ describe("ContinuationTokenManager", () => {
     it("should handle limit consumption after offset", () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 10 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 15 };
-      
+
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
-      
+
       // offset=5 consumes 5 from range1, remaining 5 items in range1 consumed by limit
       // limit still has 5 capacity, so range2 has offset=0, limit consumes 5 from range2
       manager.processOffsetLimitAndUpdateRangeMap(5, 0, 10, 5, 25);
-      
+
       const updatedMapping1 = manager.getPartitionKeyRangeMap().get("range1");
       const updatedMapping2 = manager.getPartitionKeyRangeMap().get("range2");
-      
+
       // Range1: offset consumes 5, limit consumes remaining 5
       assert.strictEqual(updatedMapping1?.offset, 0);
       assert.strictEqual(updatedMapping1?.limit, 5);
-      
+
       // Range2: offset already 0, limit consumes 5 out of 15
       assert.strictEqual(updatedMapping2?.offset, 0);
       assert.strictEqual(updatedMapping2?.limit, 0);
@@ -2438,20 +2489,20 @@ describe("ContinuationTokenManager", () => {
         ...createMockRangeMapping("00", "AA"),
         itemCount: 5,
         customProperty: "customValue",
-        existingToken: "token123"
+        existingToken: "token123",
       };
       manager.updatePartitionRangeMapping("range1", rangeMapping);
-      
+
       manager.processOffsetLimitAndUpdateRangeMap(2, 0, 8, 6, 5);
-      
+
       const updatedMapping = manager.getPartitionKeyRangeMap().get("range1");
-      
+
       // Should preserve all existing properties
       assert.strictEqual(updatedMapping?.partitionKeyRange.id, rangeMapping.partitionKeyRange.id);
       assert.strictEqual(updatedMapping?.itemCount, 5);
       assert.strictEqual((updatedMapping as any)?.customProperty, "customValue");
       assert.strictEqual((updatedMapping as any)?.existingToken, "token123");
-      
+
       // Should add offset/limit values - actual implementation result
       assert.strictEqual(updatedMapping?.offset, 0);
       assert.strictEqual(updatedMapping?.limit, 5); // Changed from 6 to 5
@@ -2460,15 +2511,15 @@ describe("ContinuationTokenManager", () => {
     it("should handle zero offset and zero limit", () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 10 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 5 };
-      
+
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
-      
+
       manager.processOffsetLimitAndUpdateRangeMap(0, 0, 0, 0, 15);
-      
+
       const updatedMapping1 = manager.getPartitionKeyRangeMap().get("range1");
       const updatedMapping2 = manager.getPartitionKeyRangeMap().get("range2");
-      
+
       // With zero offset and limit, values should remain zero
       assert.strictEqual(updatedMapping1?.offset, 0);
       assert.strictEqual(updatedMapping1?.limit, 0);
@@ -2480,29 +2531,29 @@ describe("ContinuationTokenManager", () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 3 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 4 };
       const rangeMapping3 = { ...createMockRangeMapping("66", "FF"), itemCount: 5 };
-      
+
       // Add in specific order
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
       manager.updatePartitionRangeMapping("range3", rangeMapping3);
-      
+
       // initialOffset=5, finalOffset=0, initialLimit=10, finalLimit=7, bufferLength=12
       // removedOffset = 5-0 = 5, removedLimit = 10-7 = 3
       manager.processOffsetLimitAndUpdateRangeMap(5, 0, 10, 7, 12);
-      
+
       const updatedMapping1 = manager.getPartitionKeyRangeMap().get("range1");
       const updatedMapping2 = manager.getPartitionKeyRangeMap().get("range2");
       const updatedMapping3 = manager.getPartitionKeyRangeMap().get("range3");
-      
+
       // Should process in insertion order: range1, range2, range3
       // Range1: offset consumes all 3, remaining offset=2
       assert.strictEqual(updatedMapping1?.offset, 2);
       assert.strictEqual(updatedMapping1?.limit, 10);
-      
+
       // Range2: offset consumes 2, remaining 2 items, limit consumes 2, remaining limit=8
       assert.strictEqual(updatedMapping2?.offset, 0);
       assert.strictEqual(updatedMapping2?.limit, 8);
-      
+
       // Range3: offset=0, limit consumption calculation based on actual implementation
       assert.strictEqual(updatedMapping3?.offset, 0);
       assert.strictEqual(updatedMapping3?.limit, 3); // Changed from 7 to 3 based on actual behavior
@@ -2511,15 +2562,15 @@ describe("ContinuationTokenManager", () => {
     it("should handle negative offset/limit differences gracefully", () => {
       const rangeMapping = {
         ...createMockRangeMapping("00", "AA"),
-        itemCount: 10
+        itemCount: 10,
       };
       manager.updatePartitionRangeMapping("range1", rangeMapping);
-      
+
       // Edge case: finalOffset > initialOffset (shouldn't happen in practice)
       manager.processOffsetLimitAndUpdateRangeMap(5, 8, 10, 12, 10);
-      
+
       const updatedMapping = manager.getPartitionKeyRangeMap().get("range1");
-      
+
       // Should handle gracefully and not crash
       assert.isDefined(updatedMapping);
       assert.strictEqual(updatedMapping?.itemCount, 10);
@@ -2528,22 +2579,21 @@ describe("ContinuationTokenManager", () => {
     it("should update internal partition key range map reference", () => {
       const rangeMapping1 = { ...createMockRangeMapping("00", "33"), itemCount: 5 };
       const rangeMapping2 = { ...createMockRangeMapping("33", "66"), itemCount: 3 };
-      
+
       manager.updatePartitionRangeMapping("range1", rangeMapping1);
       manager.updatePartitionRangeMapping("range2", rangeMapping2);
-      
+
       const originalMapReference = manager.getPartitionKeyRangeMap();
       assert.strictEqual(originalMapReference.size, 2);
-      
+
       manager.processOffsetLimitAndUpdateRangeMap(3, 0, 5, 3, 8);
-      
+
       const updatedMapReference = manager.getPartitionKeyRangeMap();
-      
+
       // The map reference should be updated (new map created internally)
       assert.strictEqual(updatedMapReference.size, 2);
       assert.isDefined(updatedMapReference.get("range1")?.offset);
       assert.isDefined(updatedMapReference.get("range2")?.offset);
     });
   });
-
 });

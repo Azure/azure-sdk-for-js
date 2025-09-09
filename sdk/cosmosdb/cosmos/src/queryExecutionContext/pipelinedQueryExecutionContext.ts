@@ -50,29 +50,32 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     // Initialize continuation token manager early so it's available for OffsetLimitEndpointComponent
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     const isOrderByQuery = Array.isArray(sortOrders) && sortOrders.length > 0;
-    if(this.options.enableQueryControl){
+    if (this.options.enableQueryControl) {
       this.continuationTokenManager = new ContinuationTokenManager(
         this.collectionLink,
         this.options.continuationToken,
         isOrderByQuery,
       );
     }
-    
 
     // Pick between Nonstreaming and streaming endpoints
     this.nonStreamingOrderBy = partitionedQueryExecutionInfo.queryInfo.hasNonStreamingOrderBy;
 
     // Check if this is a GROUP BY query
-    const isGroupByQuery = 
+    const isGroupByQuery =
       Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length > 0 ||
       partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
       partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0;
 
     // Check if this is an unordered DISTINCT query
-    const isUnorderedDistinctQuery = partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
+    const isUnorderedDistinctQuery =
+      partitionedQueryExecutionInfo.queryInfo.distinctType === "Unordered";
 
     // Configure continuation token manager for unsupported query types
-    if (this.continuationTokenManager && (isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy)) {
+    if (
+      this.continuationTokenManager &&
+      (isUnorderedDistinctQuery || isGroupByQuery || this.nonStreamingOrderBy)
+    ) {
       this.continuationTokenManager.setUnsupportedQueryType(true);
     }
     // Validate continuation token usage for some unsupported query types that should still throw errors
@@ -82,24 +85,24 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (this.nonStreamingOrderBy) {
         throw new ErrorResponse(
           "Continuation tokens are not supported for non-streaming ORDER BY queries. " +
-          "These queries must process all results to ensure correct ordering and cannot be resumed from an intermediate state. " +
-          "Consider removing the continuation token and using fetchAll() instead for complete results."
+            "These queries must process all results to ensure correct ordering and cannot be resumed from an intermediate state. " +
+            "Consider removing the continuation token and using fetchAll() instead for complete results.",
         );
       }
-      
+
       if (isGroupByQuery) {
         throw new ErrorResponse(
           "Continuation tokens are not supported for GROUP BY queries. " +
-          "These queries must process all results to compute aggregations and cannot be resumed from an intermediate state. " +
-          "Consider removing the continuation token and using fetchAll() instead for complete results."
+            "These queries must process all results to compute aggregations and cannot be resumed from an intermediate state. " +
+            "Consider removing the continuation token and using fetchAll() instead for complete results.",
         );
       }
 
       if (isUnorderedDistinctQuery) {
         throw new ErrorResponse(
           "Continuation tokens are not supported for unordered DISTINCT queries. " +
-          "These queries require tracking large amounts of duplicate data in continuation tokens which is not practical. " +
-          "Consider removing the continuation token and using fetchAll() instead, or use ordered DISTINCT queries which are supported."
+            "These queries require tracking large amounts of duplicate data in continuation tokens which is not practical. " +
+            "Consider removing the continuation token and using fetchAll() instead, or use ordered DISTINCT queries which are supported.",
         );
       }
     }
@@ -127,7 +130,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       }
 
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
-      
+
       // Note: Non-streaming queries don't support continuation tokens, so we don't create a shared manager
       const context: ExecutionContext = new ParallelQueryExecutionContext(
         this.clientContext,
@@ -154,9 +157,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.emitRawOrderByPayload,
         );
       }
-    } else {    
-     
-
+    } else {
       if (Array.isArray(sortOrders) && sortOrders.length > 0) {
         // Need to wrap orderby execution context in endpoint component, since the data is nested as a
         //     "payload" property.
@@ -211,16 +212,16 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (typeof top === "number") {
         this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, 0, top);
       }
-      
+
       // If offset+limit then add that to the pipeline
       // Check continuation token manager first, then fall back to query info
       let limit = partitionedQueryExecutionInfo.queryInfo.limit;
       let offset = partitionedQueryExecutionInfo.queryInfo.offset;
-      
+
       if (this.continuationTokenManager) {
         const tokenLimit = this.continuationTokenManager.getLimit();
         const tokenOffset = this.continuationTokenManager.getOffset();
-        
+
         if (tokenLimit !== undefined) {
           limit = tokenLimit;
         }
@@ -228,7 +229,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           offset = tokenOffset;
         }
       }
-      
+
       if (typeof limit === "number" && typeof offset === "number") {
         this.endpoint = new OffsetLimitEndpointComponent(this.endpoint, offset, limit);
       }
@@ -237,10 +238,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public hasMoreResults(): boolean {
-    // For enableQueryControl mode, we have more results if:
-    // 1. There are items in the fetch buffer, OR
-    // 2. There are unprocessed ranges in the partition key range map, OR
-    // 3. The endpoint has more results
     if (this.options.enableQueryControl) {
       const hasBufferedItems = this.fetchBuffer.length > 0;
       const hasUnprocessedRanges = this.continuationTokenManager.hasUnprocessedRanges();
@@ -263,7 +260,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     console.log("=== END hasMoreResults DEBUG ===");
     return result;
   }
-  // TODO: make contract of fetchMore to be consistent as other internal ones
+
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     this.fetchMoreRespHeaders = getInitialHeader();
     console.log("fetchMore Options", this.options.enableQueryControl);
@@ -313,7 +310,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       const temp = this.fetchBuffer.slice(0, endIndex);
       this.fetchBuffer = this.fetchBuffer.slice(endIndex);
 
-      // Remove the processed ranges 
+      // Remove the processed ranges
       this._clearProcessedRangeMetadata(processedRanges, endIndex);
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
 
@@ -322,22 +319,27 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.fetchBuffer = [];
       const response = await this.endpoint.fetchMore(diagnosticNode);
       mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-      if (!response || !response.result || !response.result.buffer || response.result.buffer.length === 0) {
+      if (
+        !response ||
+        !response.result ||
+        !response.result.buffer ||
+        response.result.buffer.length === 0
+      ) {
         return this.createEmptyResultWithHeaders(response?.headers);
       }
 
       // Process response and update continuation token manager
       this.fetchBuffer = response.result.buffer;
       this.continuationTokenManager.setPartitionKeyRangeMap(response.result.partitionKeyRangeMap);
-      
+
       // Handle partition range changes (splits/merges) if they occurred
-      if(response.result.updatedContinuationRanges) {
+      if (response.result.updatedContinuationRanges) {
         this.continuationTokenManager.handlePartitionRangeChanges(
-          response.result.updatedContinuationRanges
+          response.result.updatedContinuationRanges,
         );
       }
 
-      if(response.result.orderByItems){
+      if (response.result.orderByItems) {
         this.continuationTokenManager.setOrderByItemsArray(response.result.orderByItems);
       }
 

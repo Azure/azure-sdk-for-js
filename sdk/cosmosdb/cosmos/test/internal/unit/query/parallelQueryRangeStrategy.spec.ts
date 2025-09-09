@@ -47,8 +47,8 @@ describe("ParallelQueryRangeStrategy", () => {
             partitionKeyRange: { id: "1", minInclusive: "AA", maxExclusive: "BB" },
             continuationToken: "mock-token",
             itemCount: 5,
-          }
-        ]
+          },
+        ],
       });
 
       assert.isTrue(strategy.validateContinuationToken(validToken));
@@ -61,21 +61,21 @@ describe("ParallelQueryRangeStrategy", () => {
 
     it("should reject token without rangeMappings", () => {
       const invalidToken = JSON.stringify({
-        someOtherProperty: "value"
+        someOtherProperty: "value",
       });
       assert.isFalse(strategy.validateContinuationToken(invalidToken));
     });
 
     it("should reject token with non-array rangeMappings", () => {
       const invalidToken = JSON.stringify({
-        rangeMappings: "not-an-array"
+        rangeMappings: "not-an-array",
       });
       assert.isFalse(strategy.validateContinuationToken(invalidToken));
     });
 
     it("should validate empty rangeMappings array", () => {
       const validToken = JSON.stringify({
-        rangeMappings: []
+        rangeMappings: [],
       });
       assert.isTrue(strategy.validateContinuationToken(validToken));
     });
@@ -118,32 +118,32 @@ describe("ParallelQueryRangeStrategy", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "1", 
-              minInclusive: "AA", 
+            partitionKeyRange: {
+              id: "1",
+              minInclusive: "AA",
               maxExclusive: "BB",
               ridPrefix: 1,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "mock-token-1",
             itemCount: 3,
           },
           {
-            partitionKeyRange: { 
-              id: "2", 
-              minInclusive: "BB", 
+            partitionKeyRange: {
+              id: "2",
+              minInclusive: "BB",
               maxExclusive: "FF",
               ridPrefix: 2,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "mock-token-2",
             itemCount: 7,
-          }
-        ]
+          },
+        ],
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
@@ -151,13 +151,13 @@ describe("ParallelQueryRangeStrategy", () => {
       // Should include ranges from continuation token plus target ranges after the last one
       assert.equal(result.filteredRanges.length, 3); // 2 from token + 1 target range after
       assert.equal(result.continuationToken?.length, 3);
-      
+
       // First two should be from continuation token
       assert.equal(result.filteredRanges[0].id, "1");
       assert.equal(result.filteredRanges[1].id, "2");
       // Third should be the target range after the last continuation token range
       assert.equal(result.filteredRanges[2].id, "3"); // Range "FF" to "ZZ"
-      
+
       // Continuation tokens should match
       assert.equal(result.continuationToken?.[0], "mock-token-1");
       assert.equal(result.continuationToken?.[1], "mock-token-2");
@@ -168,32 +168,32 @@ describe("ParallelQueryRangeStrategy", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "1", 
-              minInclusive: "AA", 
+            partitionKeyRange: {
+              id: "1",
+              minInclusive: "AA",
               maxExclusive: "BB",
               ridPrefix: 1,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "mock-token-1",
             itemCount: 3,
           },
           {
-            partitionKeyRange: { 
-              id: "2", 
-              minInclusive: "BB", 
+            partitionKeyRange: {
+              id: "2",
+              minInclusive: "BB",
               maxExclusive: "FF",
               ridPrefix: 2,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: null, // Exhausted partition
             itemCount: 0,
-          }
-        ]
+          },
+        ],
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
@@ -206,23 +206,23 @@ describe("ParallelQueryRangeStrategy", () => {
 
     it("should handle different exhausted token formats", () => {
       const exhaustedFormats = ["", "null", "NULL", "Null"];
-      
+
       for (const exhaustedToken of exhaustedFormats) {
         const continuationToken = JSON.stringify({
           rangeMappings: [
             {
-              partitionKeyRange: { 
-                id: "1", 
-                minInclusive: "AA", 
+              partitionKeyRange: {
+                id: "1",
+                minInclusive: "AA",
                 maxExclusive: "BB",
                 ridPrefix: 1,
                 throughputFraction: 1.0,
                 status: "Online",
-                parents: []
+                parents: [],
               },
               continuationToken: exhaustedToken,
-            }
-          ]
+            },
+          ],
         });
 
         const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
@@ -237,32 +237,32 @@ describe("ParallelQueryRangeStrategy", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "2", 
-              minInclusive: "BB", 
+            partitionKeyRange: {
+              id: "2",
+              minInclusive: "BB",
               maxExclusive: "FF",
               ridPrefix: 2,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "mock-token-2",
             itemCount: 7,
           },
           {
-            partitionKeyRange: { 
-              id: "1", 
-              minInclusive: "AA", 
+            partitionKeyRange: {
+              id: "1",
+              minInclusive: "AA",
               maxExclusive: "BB",
               ridPrefix: 1,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "mock-token-1",
             itemCount: 3,
-          }
-        ]
+          },
+        ],
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
@@ -278,19 +278,19 @@ describe("ParallelQueryRangeStrategy", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "0", 
-              minInclusive: "", 
+            partitionKeyRange: {
+              id: "0",
+              minInclusive: "",
               maxExclusive: "AA",
               ridPrefix: 0,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "mock-token-0",
             itemCount: 5,
-          }
-        ]
+          },
+        ],
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
@@ -308,19 +308,19 @@ describe("ParallelQueryRangeStrategy", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "big-range", 
-              minInclusive: "AA", 
+            partitionKeyRange: {
+              id: "big-range",
+              minInclusive: "AA",
               maxExclusive: "GG", // Goes beyond "FF"
               ridPrefix: 99,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "mock-token-big",
             itemCount: 10,
-          }
-        ]
+          },
+        ],
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
@@ -328,14 +328,14 @@ describe("ParallelQueryRangeStrategy", () => {
       // Should include continuation range plus only target ranges that start at or after "GG"
       assert.equal(result.filteredRanges.length, 1); // Only the continuation token range
       assert.equal(result.filteredRanges[0].id, "big-range");
-      
+
       // No target ranges should be added since none start at or after "GG"
       assert.equal(result.continuationToken?.length, 1);
     });
 
     it("should handle empty continuation token rangeMappings", () => {
       const continuationToken = JSON.stringify({
-        rangeMappings: []
+        rangeMappings: [],
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
@@ -343,7 +343,7 @@ describe("ParallelQueryRangeStrategy", () => {
       // Should return all target ranges since no continuation ranges
       assert.deepEqual(result.filteredRanges, mockPartitionRanges);
       assert.equal(result.continuationToken?.length, 4);
-      result.continuationToken?.forEach(token => assert.isUndefined(token));
+      result.continuationToken?.forEach((token) => assert.isUndefined(token));
     });
   });
 
@@ -351,9 +351,9 @@ describe("ParallelQueryRangeStrategy", () => {
     it("should throw error for invalid continuation token format", () => {
       const invalidToken = "invalid-json";
 
-      expect(() =>
-        strategy.filterPartitionRanges(mockPartitionRanges, invalidToken)
-      ).toThrow("Invalid continuation token format for parallel query strategy");
+      expect(() => strategy.filterPartitionRanges(mockPartitionRanges, invalidToken)).toThrow(
+        "Invalid continuation token format for parallel query strategy",
+      );
     });
 
     it("should throw error for malformed composite continuation token", () => {
@@ -363,29 +363,29 @@ describe("ParallelQueryRangeStrategy", () => {
             // Missing required fields
             partitionKeyRange: null,
             continuationToken: "token",
-          }
-        ]
+          },
+        ],
       });
 
-      expect(() =>
-        strategy.filterPartitionRanges(mockPartitionRanges, malformedToken)
-      ).toThrow("Invalid continuation token format for parallel query strategy");
+      expect(() => strategy.filterPartitionRanges(mockPartitionRanges, malformedToken)).toThrow(
+        "Invalid continuation token format for parallel query strategy",
+      );
     });
 
     it("should handle missing optional fields in partition key range", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "minimal", 
-              minInclusive: "AA", 
-              maxExclusive: "BB"
+            partitionKeyRange: {
+              id: "minimal",
+              minInclusive: "AA",
+              maxExclusive: "BB",
               // Missing optional fields
             },
             continuationToken: "mock-token",
             itemCount: 3,
-          }
-        ]
+          },
+        ],
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
@@ -422,12 +422,12 @@ describe("ParallelQueryRangeStrategy", () => {
 
     it("should handle very large number of ranges efficiently", () => {
       // Create 1000 partition ranges
-      const largeRangeSet = Array.from({ length: 1000 }, (_, i) => 
+      const largeRangeSet = Array.from({ length: 1000 }, (_, i) =>
         createMockPartitionKeyRange(
           i.toString(),
-          i.toString().padStart(4, '0'),
-          (i + 1).toString().padStart(4, '0')
-        )
+          i.toString().padStart(4, "0"),
+          (i + 1).toString().padStart(4, "0"),
+        ),
       );
 
       const startTime = Date.now();
@@ -462,19 +462,19 @@ describe("ParallelQueryRangeStrategy", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "unicode", 
-              minInclusive: "α", 
+            partitionKeyRange: {
+              id: "unicode",
+              minInclusive: "α",
               maxExclusive: "β",
               ridPrefix: 0,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "unicode-token",
             itemCount: 1,
-          }
-        ]
+          },
+        ],
       });
 
       const result = strategy.filterPartitionRanges(unicodeRanges, continuationToken);
@@ -492,32 +492,32 @@ describe("ParallelQueryRangeStrategy", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "0", 
-              minInclusive: "", 
+            partitionKeyRange: {
+              id: "0",
+              minInclusive: "",
               maxExclusive: "AA",
               ridPrefix: 0,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: "token-0-continued",
             itemCount: 15,
           },
           {
-            partitionKeyRange: { 
-              id: "1", 
-              minInclusive: "AA", 
+            partitionKeyRange: {
+              id: "1",
+              minInclusive: "AA",
               maxExclusive: "BB",
               ridPrefix: 1,
               throughputFraction: 1.0,
               status: "Online",
-              parents: []
+              parents: [],
             },
             continuationToken: undefined, // This range is exhausted
             itemCount: 0,
-          }
-        ]
+          },
+        ],
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
@@ -538,19 +538,19 @@ describe("ParallelQueryRangeStrategy", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "merged-0-1", 
-              minInclusive: "", 
+            partitionKeyRange: {
+              id: "merged-0-1",
+              minInclusive: "",
               maxExclusive: "BB", // Covers original ranges 0 and 1
               ridPrefix: 0,
               throughputFraction: 1.0,
               status: "Online",
-              parents: ["0", "1"]
+              parents: ["0", "1"],
             },
             continuationToken: "merged-token",
             itemCount: 25,
-          }
-        ]
+          },
+        ],
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);
@@ -567,32 +567,32 @@ describe("ParallelQueryRangeStrategy", () => {
       const continuationToken = JSON.stringify({
         rangeMappings: [
           {
-            partitionKeyRange: { 
-              id: "split-2a", 
-              minInclusive: "BB", 
+            partitionKeyRange: {
+              id: "split-2a",
+              minInclusive: "BB",
               maxExclusive: "CC",
               ridPrefix: 2,
               throughputFraction: 0.5,
               status: "Online",
-              parents: ["2"]
+              parents: ["2"],
             },
             continuationToken: "split-token-a",
             itemCount: 10,
           },
           {
-            partitionKeyRange: { 
-              id: "split-2b", 
-              minInclusive: "CC", 
+            partitionKeyRange: {
+              id: "split-2b",
+              minInclusive: "CC",
               maxExclusive: "FF",
               ridPrefix: 3,
               throughputFraction: 0.5,
               status: "Online",
-              parents: ["2"]
+              parents: ["2"],
             },
             continuationToken: "split-token-b",
             itemCount: 8,
-          }
-        ]
+          },
+        ],
       });
 
       const result = strategy.filterPartitionRanges(mockPartitionRanges, continuationToken);

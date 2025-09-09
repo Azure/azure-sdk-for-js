@@ -54,7 +54,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       response.result === undefined ||
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0
-      ) {
+    ) {
       if (this.aggregators.size > 0) {
         return this.generateAggregateResponse(aggregateHeaders);
       }
@@ -104,9 +104,9 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
         [],
         partitionKeyRangeMap,
         updatedContinuationRanges,
-        orderByItems
+        orderByItems,
       );
-      
+
       return {
         result,
         headers: aggregateHeaders,
@@ -119,13 +119,18 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
         [], // empty buffer
         partitionKeyRangeMap,
         updatedContinuationRanges,
-        orderByItems
+        orderByItems,
       );
-      
+
       return { result, headers: aggregateHeaders };
     } else {
       // If no results are left in the underlying execution context, convert our aggregate results to an array
-      return this.generateAggregateResponse(aggregateHeaders, partitionKeyRangeMap, updatedContinuationRanges, orderByItems);
+      return this.generateAggregateResponse(
+        aggregateHeaders,
+        partitionKeyRangeMap,
+        updatedContinuationRanges,
+        orderByItems,
+      );
     }
   }
 
@@ -133,7 +138,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     aggregateHeaders: CosmosHeaders,
     partitionKeyRangeMap?: Map<string, QueryRangeMapping>,
     updatedContinuationRanges?: Record<string, any>,
-    orderByItems?: any[]
+    orderByItems?: any[],
   ): Response<any> {
     for (const aggregator of this.aggregators.values()) {
       const result = aggregator.getResult();
@@ -142,15 +147,15 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       }
     }
     this.completed = true;
-    
+
     // Return in the new structure format using the utility function
     const result = createParallelQueryResult(
       this.aggregateResultArray,
       partitionKeyRangeMap || new Map(),
       updatedContinuationRanges || {},
-      orderByItems
+      orderByItems,
     );
-    
+
     return {
       result,
       headers: aggregateHeaders,

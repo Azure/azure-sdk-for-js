@@ -12,58 +12,58 @@
 export function calculateOffsetLimitForPartitionRanges(
   partitionKeyRangeMap: Map<string, any>,
   initialOffset: number,
-  initialLimit: number
+  initialLimit: number,
 ): Map<string, any> {
-    if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0) {
-      return partitionKeyRangeMap;
-    }
+  if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0) {
+    return partitionKeyRangeMap;
+  }
 
-    const updatedMap = new Map<string, any>();
-    let currentOffset = initialOffset;
-    let currentLimit = initialLimit;
+  const updatedMap = new Map<string, any>();
+  let currentOffset = initialOffset;
+  let currentLimit = initialLimit;
 
-    for (const [rangeId, rangeMapping] of partitionKeyRangeMap) {
-      const { itemCount } = rangeMapping;
-      
-      let offsetAfterThisRange = currentOffset;
-      let limitAfterThisRange = currentLimit;
-      
-      if (itemCount > 0) {
-        if (currentOffset > 0) {
-          const offsetConsumption = Math.min(currentOffset, itemCount);
-          offsetAfterThisRange = currentOffset - offsetConsumption;
-          
-          const remainingItems = itemCount - offsetConsumption;
-          if (remainingItems > 0 && currentLimit > 0) {
-            const limitConsumption = Math.min(currentLimit, remainingItems);
-            limitAfterThisRange = currentLimit - limitConsumption;
-          } else {
-            limitAfterThisRange = currentLimit;
-          }
-        } else if (currentLimit > 0) {
-          const limitConsumption = Math.min(currentLimit, itemCount);
+  for (const [rangeId, rangeMapping] of partitionKeyRangeMap) {
+    const { itemCount } = rangeMapping;
+
+    let offsetAfterThisRange = currentOffset;
+    let limitAfterThisRange = currentLimit;
+
+    if (itemCount > 0) {
+      if (currentOffset > 0) {
+        const offsetConsumption = Math.min(currentOffset, itemCount);
+        offsetAfterThisRange = currentOffset - offsetConsumption;
+
+        const remainingItems = itemCount - offsetConsumption;
+        if (remainingItems > 0 && currentLimit > 0) {
+          const limitConsumption = Math.min(currentLimit, remainingItems);
           limitAfterThisRange = currentLimit - limitConsumption;
-          offsetAfterThisRange = 0;
+        } else {
+          limitAfterThisRange = currentLimit;
         }
-        
-        currentOffset = offsetAfterThisRange;
-        currentLimit = limitAfterThisRange;
+      } else if (currentLimit > 0) {
+        const limitConsumption = Math.min(currentLimit, itemCount);
+        limitAfterThisRange = currentLimit - limitConsumption;
+        offsetAfterThisRange = 0;
       }
 
-      updatedMap.set(rangeId, {
-        ...rangeMapping,
-        offset: offsetAfterThisRange,
-        limit: limitAfterThisRange,
-      });
+      currentOffset = offsetAfterThisRange;
+      currentLimit = limitAfterThisRange;
     }
 
-    return updatedMap;
+    updatedMap.set(rangeId, {
+      ...rangeMapping,
+      offset: offsetAfterThisRange,
+      limit: limitAfterThisRange,
+    });
+  }
+
+  return updatedMap;
 }
 
 /**
  * Processes distinct query logic and updates partition key range map with hashedLastResult
  * @param originalBuffer - Original buffer containing query results
- * @param partitionKeyRangeMap - Map of partition key ranges  
+ * @param partitionKeyRangeMap - Map of partition key ranges
  * @param hashFunction - Hash function for items
  * @returns Updated partition key range map with hashedLastResult for each range
  * @hidden
@@ -71,7 +71,7 @@ export function calculateOffsetLimitForPartitionRanges(
 export async function processDistinctQueryAndUpdateRangeMap(
   originalBuffer: any[],
   partitionKeyRangeMap: Map<string, any>,
-  hashFunction: (item: any) => Promise<string>
+  hashFunction: (item: any) => Promise<string>,
 ): Promise<Map<string, any>> {
   if (!partitionKeyRangeMap || partitionKeyRangeMap.size === 0) {
     return partitionKeyRangeMap;
@@ -82,20 +82,20 @@ export async function processDistinctQueryAndUpdateRangeMap(
 
   for (const [rangeId, rangeMapping] of partitionKeyRangeMap) {
     const { itemCount } = rangeMapping;
-    
+
     let lastHashForThisRange: string | undefined;
-    
+
     if (itemCount > 0 && bufferIndex < originalBuffer.length) {
       const rangeEndIndex = Math.min(bufferIndex + itemCount, originalBuffer.length);
       const lastItemIndex = rangeEndIndex - 1;
-      
+
       const lastItem = originalBuffer[lastItemIndex];
       if (lastItem) {
         lastHashForThisRange = await hashFunction(lastItem);
       }
       bufferIndex = rangeEndIndex;
     }
-    
+
     updatedMap.set(rangeId, {
       ...rangeMapping,
       hashedLastResult: lastHashForThisRange,

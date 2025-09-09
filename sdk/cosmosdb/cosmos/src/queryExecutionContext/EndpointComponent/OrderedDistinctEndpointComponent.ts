@@ -12,11 +12,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
   // TODO: pass on hashedLast result from outside
   private hashedLastResult: string;
 
-  constructor(
-    private executionContext: ExecutionContext,
-  ) {
-    
-  }
+  constructor(private executionContext: ExecutionContext) {}
 
   public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
@@ -31,13 +27,8 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0
     ) {
-      const result = createParallelQueryResult(
-        [],
-        new Map(),
-        {},
-        undefined
-      );
-      
+      const result = createParallelQueryResult([], new Map(), {}, undefined);
+
       return { result, headers: response.headers };
     }
 
@@ -63,7 +54,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
     const updatedPartitionKeyRangeMap = await processDistinctQueryAndUpdateRangeMap(
       dataToProcess,
       partitionKeyRangeMap,
-      hashObject
+      hashObject,
     );
 
     // Return in the new structure format using the utility function
@@ -71,12 +62,12 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
       buffer,
       updatedPartitionKeyRangeMap,
       updatedContinuationRanges,
-      orderByItems
+      orderByItems,
     );
 
     return {
       result,
-      headers: response.headers
+      headers: response.headers,
     };
   }
 }

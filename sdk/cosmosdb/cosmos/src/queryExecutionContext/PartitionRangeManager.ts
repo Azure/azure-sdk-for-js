@@ -67,7 +67,9 @@ export class PartitionRangeManager {
    * Resets and initializes the partition key range map with new mappings
    * @param partitionKeyRangeMap - New partition key range map to set
    */
-  public resetInitializePartitionKeyRangeMap(partitionKeyRangeMap: Map<string, QueryRangeMapping>): void {
+  public resetInitializePartitionKeyRangeMap(
+    partitionKeyRangeMap: Map<string, QueryRangeMapping>,
+  ): void {
     this.partitionKeyRangeMap = partitionKeyRangeMap;
   }
 
@@ -109,13 +111,17 @@ export class PartitionRangeManager {
   public processOrderByRanges(
     pageSize: number,
     orderByItemsArray?: any[][],
-  ): { endIndex: number; processedRanges: string[]; lastRangeBeforePageLimit: QueryRangeMapping | null } {
+  ): {
+    endIndex: number;
+    processedRanges: string[];
+    lastRangeBeforePageLimit: QueryRangeMapping | null;
+  } {
     console.log("=== Processing ORDER BY Query (Sequential Mode) ===");
 
     // ORDER BY queries require orderByItemsArray to be present and non-empty
     if (!orderByItemsArray || orderByItemsArray.length === 0) {
       throw new Error(
-        "ORDER BY query processing failed: orderByItemsArray is required but was not provided or is empty"
+        "ORDER BY query processing failed: orderByItemsArray is required but was not provided or is empty",
       );
     }
 
@@ -147,7 +153,6 @@ export class PartitionRangeManager {
         lastRangeBeforePageLimit = value;
         endIndex += itemCount;
         processedRanges.push(rangeId);
-
       } else {
         // Page limit reached - store the last complete range in continuation token
         break;
@@ -160,10 +165,11 @@ export class PartitionRangeManager {
   /**
    * Processes ranges for parallel queries - multi-range aggregation
    */
-  public processParallelRanges(
-    pageSize: number,
-  ): { endIndex: number; processedRanges: string[]; lastPartitionBeforeCutoff?: { rangeId: string; mapping: QueryRangeMapping } } {
-
+  public processParallelRanges(pageSize: number): {
+    endIndex: number;
+    processedRanges: string[];
+    lastPartitionBeforeCutoff?: { rangeId: string; mapping: QueryRangeMapping };
+  } {
     let endIndex = 0;
     const processedRanges: string[] = [];
     let rangesAggregatedInCurrentToken = 0;

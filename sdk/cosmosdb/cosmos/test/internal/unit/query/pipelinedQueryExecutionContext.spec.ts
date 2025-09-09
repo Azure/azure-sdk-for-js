@@ -16,7 +16,7 @@ describe("PipelineQueryExecutionContext", () => {
     const collectionLink = "/dbs/testDb/colls/testCollection";
     const query = "SELECT * FROM c";
     const correlatedActivityId = "sample-activity-id";
-    
+
     const queryInfo: QueryInfo = {
       distinctType: "None",
       top: null,
@@ -92,7 +92,7 @@ describe("PipelineQueryExecutionContext", () => {
       const mockHasUnprocessedRanges = vi.fn().mockReturnValue(true);
       const mockSetContinuationTokenInHeaders = vi.fn();
       const mockRemovePartitionRangeMapping = vi.fn();
-      
+
       context["continuationTokenManager"] = {
         hasUnprocessedRanges: mockHasUnprocessedRanges,
         setContinuationTokenInHeaders: mockSetContinuationTokenInHeaders,
@@ -112,16 +112,16 @@ describe("PipelineQueryExecutionContext", () => {
       assert.strictEqual(result.result[0].id, "1");
       assert.strictEqual(result.result[1].id, "2");
       assert.strictEqual(result.result[2].id, "3");
-      
+
       // Verify buffer was updated
       assert.strictEqual(context["fetchBuffer"].length, 3);
       assert.strictEqual(context["fetchBuffer"][0].id, "4");
-      
+
       // Verify processed ranges were removed
       assert.strictEqual(mockRemovePartitionRangeMapping.mock.calls.length, 2);
       assert.strictEqual(mockRemovePartitionRangeMapping.mock.calls[0][0], "range1");
       assert.strictEqual(mockRemovePartitionRangeMapping.mock.calls[1][0], "range2");
-      
+
       // Verify headers were updated
       assert.strictEqual(mockSetContinuationTokenInHeaders.mock.calls.length, 1);
     });
@@ -149,9 +149,7 @@ describe("PipelineQueryExecutionContext", () => {
             createMockDocument("7", "doc7", "value7"),
             createMockDocument("8", "doc8", "value8"),
           ],
-          partitionKeyRangeMap: new Map([
-            ["range3", createMockQueryRangeMapping("range3")],
-          ]),
+          partitionKeyRangeMap: new Map([["range3", createMockQueryRangeMapping("range3")]]),
           orderByItemsArray: [{ item: "orderByValue" }],
         },
         headers: { "x-ms-continuation": "continuation-token" },
@@ -171,7 +169,7 @@ describe("PipelineQueryExecutionContext", () => {
       const mockSetPartitionKeyRangeMap = vi.fn();
       const mockSetOrderByItemsArray = vi.fn();
       const mockRemovePartitionRangeMapping = vi.fn();
-      
+
       context["continuationTokenManager"] = {
         hasUnprocessedRanges: mockHasUnprocessedRanges,
         setContinuationTokenInHeaders: mockSetContinuationTokenInHeaders,
@@ -190,16 +188,16 @@ describe("PipelineQueryExecutionContext", () => {
 
       // Verify endpoint was called
       assert.strictEqual(mockEndpoint.fetchMore.mock.calls.length, 1);
-      
+
       // Verify continuation token manager methods were called
       assert.strictEqual(mockSetPartitionKeyRangeMap.mock.calls.length, 1);
       assert.strictEqual(mockSetOrderByItemsArray.mock.calls.length, 1);
-      
+
       // Verify result
       assert.strictEqual(result.result.length, 2);
       assert.strictEqual(result.result[0].id, "7");
       assert.strictEqual(result.result[1].id, "8");
-      
+
       // Verify buffer was cleared after processing
       assert.strictEqual(context["fetchBuffer"].length, 0);
     });
@@ -323,7 +321,7 @@ describe("PipelineQueryExecutionContext", () => {
 
       const mockSetContinuationTokenInHeaders = vi.fn();
       const mockSetPartitionKeyRangeMap = vi.fn();
-      
+
       context["continuationTokenManager"] = {
         hasUnprocessedRanges: vi.fn().mockReturnValue(false),
         setContinuationTokenInHeaders: mockSetContinuationTokenInHeaders,
@@ -363,9 +361,7 @@ describe("PipelineQueryExecutionContext", () => {
       const mockEndpointResponse = {
         result: {
           buffer: [createMockDocument("3", "doc3", "value3")],
-          partitionKeyRangeMap: new Map([
-            ["range1", createMockQueryRangeMapping("range1")],
-          ]),
+          partitionKeyRangeMap: new Map([["range1", createMockQueryRangeMapping("range1")]]),
         },
         headers: { "x-ms-continuation": "continuation-token" },
         diagnostics: getEmptyCosmosDiagnostics(),
@@ -383,7 +379,7 @@ describe("PipelineQueryExecutionContext", () => {
       const mockSetContinuationTokenInHeaders = vi.fn();
       const mockSetPartitionKeyRangeMap = vi.fn();
       const mockRemovePartitionRangeMapping = vi.fn();
-      
+
       context["continuationTokenManager"] = {
         hasUnprocessedRanges: mockHasUnprocessedRanges,
         setContinuationTokenInHeaders: mockSetContinuationTokenInHeaders,
@@ -429,7 +425,7 @@ describe("PipelineQueryExecutionContext", () => {
       const mockHasUnprocessedRanges = vi.fn().mockReturnValue(true);
       const mockSetContinuationTokenInHeaders = vi.fn();
       const mockRemovePartitionRangeMapping = vi.fn();
-      
+
       context["continuationTokenManager"] = {
         hasUnprocessedRanges: mockHasUnprocessedRanges,
         setContinuationTokenInHeaders: mockSetContinuationTokenInHeaders,
@@ -448,7 +444,7 @@ describe("PipelineQueryExecutionContext", () => {
       assert.strictEqual(result.result.length, 2);
       assert.strictEqual(result.result[0].id, "1");
       assert.strictEqual(result.result[1].id, "2");
-      
+
       // Verify remaining items stay in buffer
       assert.strictEqual(context["fetchBuffer"].length, 2);
       assert.strictEqual(context["fetchBuffer"][0].id, "3");
@@ -491,7 +487,7 @@ describe("PipelineQueryExecutionContext", () => {
       const mockSetContinuationTokenInHeaders = vi.fn();
       const mockSetOrderByItemsArray = vi.fn();
       const mockRemovePartitionRangeMapping = vi.fn();
-      
+
       context["continuationTokenManager"] = {
         hasUnprocessedRanges: vi.fn().mockReturnValue(false),
         setContinuationTokenInHeaders: mockSetContinuationTokenInHeaders,
@@ -510,7 +506,7 @@ describe("PipelineQueryExecutionContext", () => {
       // Verify orderByItemsArray was processed
       assert.strictEqual(mockSetOrderByItemsArray.mock.calls.length, 1);
       assert.deepStrictEqual(mockSetOrderByItemsArray.mock.calls[0][0], [{ item: "orderByValue" }]);
-      
+
       // Verify result
       assert.strictEqual(result.result.length, 1);
       assert.strictEqual(result.result[0].id, "1");

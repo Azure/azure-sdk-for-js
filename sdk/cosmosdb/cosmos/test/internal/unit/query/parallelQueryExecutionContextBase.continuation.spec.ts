@@ -11,9 +11,7 @@ import type {
 import { CosmosDbDiagnosticLevel } from "../../../../src/index.js";
 import type { ClientContext } from "../../../../src/index.js";
 import { TestParallelQueryExecutionContext } from "../common/TestParallelQueryExecutionContext.js";
-import {
-  createTestClientContext,
-} from "../../../public/common/TestHelpers.js";
+import { createTestClientContext } from "../../../public/common/TestHelpers.js";
 import { describe, it, assert, expect, beforeEach, vi, afterEach } from "vitest";
 import { SmartRoutingMapProvider } from "../../../../src/routing/smartRoutingMapProvider.js";
 import type { PartitionedQueryExecutionInfo } from "../../../../src/request/ErrorResponse.js";
@@ -63,18 +61,19 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
     id: string,
     minInclusive: string,
     maxExclusive: string,
-  ): PartitionKeyRange => ({
-    id,
-    _rid: `range-rid-${id}`,
-    minInclusive,
-    maxExclusive,
-    _etag: "sample-etag",
-    _self: `/dbs/sample-db/colls/sample-collection/pkranges/${id}`,
-    throughputFraction: 1.0,
-    status: "Online",
-    ridPrefix: `ridPrefix-${id}`,
-    parents: [],
-  } as unknown as PartitionKeyRange);
+  ): PartitionKeyRange =>
+    ({
+      id,
+      _rid: `range-rid-${id}`,
+      minInclusive,
+      maxExclusive,
+      _etag: "sample-etag",
+      _self: `/dbs/sample-db/colls/sample-collection/pkranges/${id}`,
+      throughputFraction: 1.0,
+      status: "Online",
+      ridPrefix: `ridPrefix-${id}`,
+      parents: [],
+    }) as unknown as PartitionKeyRange;
 
   const createMockDocument = (id: string, name: string, value: string): any => ({
     id,
@@ -86,21 +85,24 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
     value,
   });
 
-  const createQueryInfo = (isOrderBy: boolean): QueryInfo => ({
-    orderBy: isOrderBy ? ["Ascending"] : [],
-    rewrittenQuery: "SELECT * FROM c",
-    distinctType: "None",
-    top: null,
-    offset: null,
-    limit: null,
-    groupByExpressions: [],
-    aggregates: [],
-    groupByAliasToAggregateType: {},
-    hasNonStreamingOrderBy: isOrderBy,
-    hasSelectValue: false,
-  } as QueryInfo);
+  const createQueryInfo = (isOrderBy: boolean): QueryInfo =>
+    ({
+      orderBy: isOrderBy ? ["Ascending"] : [],
+      rewrittenQuery: "SELECT * FROM c",
+      distinctType: "None",
+      top: null,
+      offset: null,
+      limit: null,
+      groupByExpressions: [],
+      aggregates: [],
+      groupByAliasToAggregateType: {},
+      hasNonStreamingOrderBy: isOrderBy,
+      hasSelectValue: false,
+    }) as QueryInfo;
 
-  const createPartitionedQueryExecutionInfo = (isOrderBy: boolean): PartitionedQueryExecutionInfo => ({
+  const createPartitionedQueryExecutionInfo = (
+    isOrderBy: boolean,
+  ): PartitionedQueryExecutionInfo => ({
     queryRanges: [
       { min: "00", max: "AA", isMinInclusive: true, isMaxInclusive: false },
       { min: "AA", max: "BB", isMinInclusive: true, isMaxInclusive: false },
@@ -111,7 +113,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
   });
 
   const createParallelQueryContinuationToken = (ranges: MockContinuationRange[]): string => {
-    const rangeMappings = ranges.map(r => ({
+    const rangeMappings = ranges.map((r) => ({
       queryRange: {
         min: r.epkMin || r.range.minInclusive,
         max: r.epkMax || r.range.maxExclusive,
@@ -129,11 +131,11 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
 
   const createOrderByQueryContinuationToken = (
     ranges: MockContinuationRange[],
-    orderByItems: any[] = [{ "item": "value" }],
+    orderByItems: any[] = [{ item: "value" }],
     rid: string = "test-rid",
     skipCount: number = 0,
   ): string => {
-    const rangeMappings = ranges.map(r => ({
+    const rangeMappings = ranges.map((r) => ({
       queryRange: {
         min: r.epkMin || r.range.minInclusive,
         max: r.epkMax || r.range.maxExclusive,
@@ -156,9 +158,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
     splitMergeScenario: "split" | "merge" | "none" = "none",
   ): ClientContext => {
     const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel);
-    
-    const mockPartitionRanges = targetRanges.map(r => 
-      createMockPartitionKeyRange(r.id, r.minInclusive, r.maxExclusive)
+
+    const mockPartitionRanges = targetRanges.map((r) =>
+      createMockPartitionKeyRange(r.id, r.minInclusive, r.maxExclusive),
     );
 
     const fetchAllInternalStub = vi.fn().mockResolvedValue({
@@ -182,7 +184,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
 
     // Mock SmartRoutingMapProvider for split/merge scenarios
     const mockGetOverlappingRanges = vi.fn();
-    
+
     if (splitMergeScenario === "split") {
       // One range splits into multiple ranges
       mockGetOverlappingRanges.mockImplementation(async (_collectionLink, queryRanges) => {
@@ -194,8 +196,8 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
             createMockPartitionKeyRange("1", "AA", "BB"),
           ];
         }
-        return mockPartitionRanges.filter(r => 
-          r.minInclusive >= queryRange.min && r.maxExclusive <= queryRange.max
+        return mockPartitionRanges.filter(
+          (r) => r.minInclusive >= queryRange.min && r.maxExclusive <= queryRange.max,
         );
       });
     } else if (splitMergeScenario === "merge") {
@@ -203,11 +205,11 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       mockGetOverlappingRanges.mockImplementation(async (_collectionLink, queryRanges) => {
         const queryRange = queryRanges[0];
         if (queryRange.min === "00" && queryRange.max === "AA") {
-          // Range "00-AA" is now part of merged range "00-BB" 
+          // Range "00-AA" is now part of merged range "00-BB"
           return [createMockPartitionKeyRange("merged", "00", "BB")];
         }
-        return mockPartitionRanges.filter(r => 
-          r.minInclusive >= queryRange.min && r.maxExclusive <= queryRange.max
+        return mockPartitionRanges.filter(
+          (r) => r.minInclusive >= queryRange.min && r.maxExclusive <= queryRange.max,
         );
       });
     } else {
@@ -215,8 +217,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       mockGetOverlappingRanges.mockResolvedValue(mockPartitionRanges);
     }
 
-    vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges")
-      .mockImplementation(mockGetOverlappingRanges);
+    vi.spyOn(SmartRoutingMapProvider.prototype, "getOverlappingRanges").mockImplementation(
+      mockGetOverlappingRanges,
+    );
 
     return clientContext;
   };
@@ -261,7 +264,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       expectedProducersWithTokens: 2, // Based on continuation token setup
     },
     {
-      name: "order by query with continuation token - no split/merge", 
+      name: "order by query with continuation token - no split/merge",
       queryType: "orderBy",
       mockTargetRanges: [
         { id: "0", minInclusive: "00", maxExclusive: "AA" },
@@ -321,14 +324,14 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
 
   describe("Error Scenarios", () => {
     it("should throw error when continuation token is provided without enableQueryControl", () => {
-      const options: FeedOptions = { 
-        maxItemCount: 10, 
+      const options: FeedOptions = {
+        maxItemCount: 10,
         maxDegreeOfParallelism: 2,
         enableQueryControl: false, // This should cause an error
         continuationToken: "some-token",
       };
       const clientContext = setupMockClientContext([
-        { id: "0", minInclusive: "00", maxExclusive: "FF" }
+        { id: "0", minInclusive: "00", maxExclusive: "FF" },
       ]);
 
       expect(() => {
@@ -340,18 +343,20 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
           createPartitionedQueryExecutionInfo(false),
           correlatedActivityId,
         );
-      }).toThrow("Continuation tokens are supported when enableQueryControl is set true in FeedOptions");
+      }).toThrow(
+        "Continuation tokens are supported when enableQueryControl is set true in FeedOptions",
+      );
     });
 
     it("should throw error for malformed continuation token", async () => {
-      const options: FeedOptions = { 
-        maxItemCount: 10, 
+      const options: FeedOptions = {
+        maxItemCount: 10,
         maxDegreeOfParallelism: 2,
         enableQueryControl: true,
         continuationToken: "invalid-json-{malformed}",
       };
       const clientContext = setupMockClientContext([
-        { id: "0", minInclusive: "00", maxExclusive: "FF" }
+        { id: "0", minInclusive: "00", maxExclusive: "FF" },
       ]);
 
       // Create context and check for error after async initialization
@@ -365,7 +370,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       );
 
       // Wait for async initialization to complete
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       // Should have error stored in context for malformed continuation token
       assert.exists(context["err"]);
@@ -384,7 +389,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       beforeEach(() => {
         clientContext = setupMockClientContext(
           scenario.mockTargetRanges,
-          scenario.mockSplitMergeScenario
+          scenario.mockSplitMergeScenario,
         );
 
         options = {
@@ -393,24 +398,34 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
           enableQueryControl: true,
         };
 
-        query = scenario.queryType === "orderBy" 
-          ? "SELECT * FROM c ORDER BY c.name ASC"
-          : "SELECT * FROM c";
+        query =
+          scenario.queryType === "orderBy"
+            ? "SELECT * FROM c ORDER BY c.name ASC"
+            : "SELECT * FROM c";
 
         partitionedQueryExecutionInfo = createPartitionedQueryExecutionInfo(
-          scenario.queryType === "orderBy"
+          scenario.queryType === "orderBy",
         );
 
         // Create continuation token if specified in scenario
-        if (scenario.continuationToken !== undefined || 
-            (scenario.mockSplitMergeScenario && scenario.mockSplitMergeScenario !== "none")) {
-          
+        if (
+          scenario.continuationToken !== undefined ||
+          (scenario.mockSplitMergeScenario && scenario.mockSplitMergeScenario !== "none")
+        ) {
           const mockRanges: MockContinuationRange[] = [
             {
-              range: { id: "0", minInclusive: "00", maxExclusive: scenario.mockSplitMergeScenario === "merge" ? "BB" : "AA" },
+              range: {
+                id: "0",
+                minInclusive: "00",
+                maxExclusive: scenario.mockSplitMergeScenario === "merge" ? "BB" : "AA",
+              },
               continuationToken: "token-for-range-0",
               epkMin: scenario.expectedEpkRanges ? "00" : undefined,
-              epkMax: scenario.expectedEpkRanges ? (scenario.mockSplitMergeScenario === "merge" ? "BB" : "AA") : undefined,
+              epkMax: scenario.expectedEpkRanges
+                ? scenario.mockSplitMergeScenario === "merge"
+                  ? "BB"
+                  : "AA"
+                : undefined,
             },
           ];
 
@@ -421,10 +436,11 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
             });
           }
 
-          continuationToken = scenario.queryType === "orderBy"
-            ? createOrderByQueryContinuationToken(mockRanges)
-            : createParallelQueryContinuationToken(mockRanges);
-          
+          continuationToken =
+            scenario.queryType === "orderBy"
+              ? createOrderByQueryContinuationToken(mockRanges)
+              : createParallelQueryContinuationToken(mockRanges);
+
           options.continuationToken = continuationToken;
         }
       });
@@ -440,7 +456,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         );
 
         // Wait for async initialization to complete
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
 
         // Verify context is created without errors
         assert.isUndefined(context["err"]);
@@ -460,7 +476,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         );
 
         // Wait for async initialization to complete
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
 
         const queryType = context["getQueryType"]();
         const expectedType = scenario.queryType === "orderBy" ? "OrderBy" : "Parallel";
@@ -478,15 +494,16 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         );
 
         // Wait for async initialization to complete
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
 
-        const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
-                              context["bufferedDocumentProducersQueue"].size();
-        
+        const totalProducers =
+          context["unfilledDocumentProducersQueue"].size() +
+          context["bufferedDocumentProducersQueue"].size();
+
         assert.equal(
-          totalProducers, 
-          scenario.expectedProducerCount, 
-          `Should have exactly ${scenario.expectedProducerCount} document producers for ${scenario.mockSplitMergeScenario || 'normal'} scenario`
+          totalProducers,
+          scenario.expectedProducerCount,
+          `Should have exactly ${scenario.expectedProducerCount} document producers for ${scenario.mockSplitMergeScenario || "normal"} scenario`,
         );
       });
 
@@ -505,7 +522,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         );
 
         // Wait for async initialization to complete
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
 
         // Check that at least one document producer has EPK ranges set
         let producersWithEpkRanges = 0;
@@ -525,14 +542,18 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         }
 
         assert.equal(
-          producersWithEpkRanges, 
-          1, 
-          "Exactly one document producer should have EPK ranges in merge scenario"
+          producersWithEpkRanges,
+          1,
+          "Exactly one document producer should have EPK ranges in merge scenario",
         );
       });
 
       it("should track updated continuation ranges for split/merge scenarios", async () => {
-        if (!scenario.mockSplitMergeScenario || scenario.mockSplitMergeScenario === "none" || !scenario.expectedUpdatedRanges) {
+        if (
+          !scenario.mockSplitMergeScenario ||
+          scenario.mockSplitMergeScenario === "none" ||
+          !scenario.expectedUpdatedRanges
+        ) {
           return; // Skip for scenarios without split/merge or expected ranges
         }
 
@@ -546,14 +567,14 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         );
 
         // Wait for async initialization to complete
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
 
         const updatedRanges = context["updatedContinuationRanges"];
-        
+
         assert.equal(
-          updatedRanges.size, 
-          scenario.expectedUpdatedRanges, 
-          `Should track exactly ${scenario.expectedUpdatedRanges} updated continuation range(s) for ${scenario.mockSplitMergeScenario} scenario`
+          updatedRanges.size,
+          scenario.expectedUpdatedRanges,
+          `Should track exactly ${scenario.expectedUpdatedRanges} updated continuation range(s) for ${scenario.mockSplitMergeScenario} scenario`,
         );
       });
 
@@ -572,16 +593,17 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         );
 
         // Wait for async initialization to complete
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
 
         // Verify that the filtering logic was applied
-        const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
-                              context["bufferedDocumentProducersQueue"].size();
+        const totalProducers =
+          context["unfilledDocumentProducersQueue"].size() +
+          context["bufferedDocumentProducersQueue"].size();
 
         assert.equal(
-          totalProducers, 
-          scenario.expectedProducerCount, 
-          `Should have exactly ${scenario.expectedProducerCount} producers after filtering for ${scenario.mockSplitMergeScenario || 'normal'} scenario`
+          totalProducers,
+          scenario.expectedProducerCount,
+          `Should have exactly ${scenario.expectedProducerCount} producers after filtering for ${scenario.mockSplitMergeScenario || "normal"} scenario`,
         );
       });
 
@@ -617,9 +639,9 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         }
 
         assert.equal(
-          producersWithTokens, 
-          scenario.expectedProducersWithTokens, 
-          `Should have exactly ${scenario.expectedProducersWithTokens} document producers with continuation tokens for ${scenario.mockSplitMergeScenario || 'normal'} scenario`
+          producersWithTokens,
+          scenario.expectedProducersWithTokens,
+          `Should have exactly ${scenario.expectedProducersWithTokens} document producers with continuation tokens for ${scenario.mockSplitMergeScenario || "normal"} scenario`,
         );
       });
 
@@ -634,7 +656,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         );
 
         // Wait for async initialization
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 200));
 
         // Extract ranges in order from unfilled queue
         const rangeOrder: string[] = [];
@@ -647,7 +669,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         }
 
         // Restore queue
-        tempQueue.forEach(producer => {
+        tempQueue.forEach((producer) => {
           context["unfilledDocumentProducersQueue"].enq(producer);
         });
 
@@ -656,7 +678,7 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
           assert.isAtMost(
             rangeOrder[i - 1].localeCompare(rangeOrder[i]),
             0,
-            "Partition ranges should be ordered lexicographically"
+            "Partition ranges should be ordered lexicographically",
           );
         }
       });
@@ -684,11 +706,19 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       );
 
       // Wait for async initialization to complete
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       // Should handle empty ranges gracefully
-      assert.equal(context["unfilledDocumentProducersQueue"].size(), 0, "Should have no producers for empty ranges");
-      assert.equal(context["bufferedDocumentProducersQueue"].size(), 0, "Should have no buffered producers for empty ranges");
+      assert.equal(
+        context["unfilledDocumentProducersQueue"].size(),
+        0,
+        "Should have no producers for empty ranges",
+      );
+      assert.equal(
+        context["bufferedDocumentProducersQueue"].size(),
+        0,
+        "Should have no buffered producers for empty ranges",
+      );
     });
 
     it("should handle single partition range", async () => {
@@ -706,10 +736,11 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       );
 
       // Wait for async initialization to complete
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
-      const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
-                            context["bufferedDocumentProducersQueue"].size();
+      const totalProducers =
+        context["unfilledDocumentProducersQueue"].size() +
+        context["bufferedDocumentProducersQueue"].size();
       assert.equal(totalProducers, 1, "Should have exactly one producer for single range");
     });
 
@@ -719,8 +750,8 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         { id: "1", minInclusive: "AA", maxExclusive: "FF" },
       ];
       const clientContext = setupMockClientContext(mockRanges);
-      const options: FeedOptions = { 
-        maxItemCount: 10, 
+      const options: FeedOptions = {
+        maxItemCount: 10,
         maxDegreeOfParallelism: 10, // Much higher than partition count
       };
 
@@ -734,12 +765,17 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       );
 
       // Wait for async initialization to complete
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       // Should not create more producers than partitions
-      const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
-                            context["bufferedDocumentProducersQueue"].size();
-      assert.equal(totalProducers, mockRanges.length, "Should have exactly same number of producers as partition count");
+      const totalProducers =
+        context["unfilledDocumentProducersQueue"].size() +
+        context["bufferedDocumentProducersQueue"].size();
+      assert.equal(
+        totalProducers,
+        mockRanges.length,
+        "Should have exactly same number of producers as partition count",
+      );
     });
 
     it("should handle undefined maxDegreeOfParallelism", async () => {
@@ -749,8 +785,8 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         { id: "2", minInclusive: "BB", maxExclusive: "FF" },
       ];
       const clientContext = setupMockClientContext(mockRanges);
-      const options: FeedOptions = { 
-        maxItemCount: 10, 
+      const options: FeedOptions = {
+        maxItemCount: 10,
         maxDegreeOfParallelism: undefined, // Should default to range count
       };
 
@@ -764,12 +800,17 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       );
 
       // Wait for async initialization to complete
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       // Should use all available ranges when maxDegreeOfParallelism is undefined
-      const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
-                            context["bufferedDocumentProducersQueue"].size();
-      assert.equal(totalProducers, mockRanges.length, "Should use all ranges when maxDegreeOfParallelism is undefined");
+      const totalProducers =
+        context["unfilledDocumentProducersQueue"].size() +
+        context["bufferedDocumentProducersQueue"].size();
+      assert.equal(
+        totalProducers,
+        mockRanges.length,
+        "Should use all ranges when maxDegreeOfParallelism is undefined",
+      );
     });
   });
 
@@ -797,8 +838,8 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       ];
 
       const clientContext = setupMockClientContext(mockRanges);
-      const options: FeedOptions = { 
-        maxItemCount: 10, 
+      const options: FeedOptions = {
+        maxItemCount: 10,
         maxDegreeOfParallelism: 2,
         enableQueryControl: true,
         continuationToken: createParallelQueryContinuationToken(continuationRanges),
@@ -814,13 +855,14 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       );
 
       // Wait for async initialization to complete
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       // Should create producers for all ranges, but only active ones should have continuation tokens
-      const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
-                            context["bufferedDocumentProducersQueue"].size();
+      const totalProducers =
+        context["unfilledDocumentProducersQueue"].size() +
+        context["bufferedDocumentProducersQueue"].size();
       assert.equal(totalProducers, 3, "Should have exactly 3 producers for 3 ranges");
-      
+
       // Count producers with tokens
       let producersWithTokens = 0;
       const allProducers: DocumentProducer[] = [];
@@ -836,26 +878,32 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
           producersWithTokens++;
         }
       }
-      
-      assert.equal(producersWithTokens, 2, "Should have exactly 2 producers with continuation tokens (active ranges)");
+
+      assert.equal(
+        producersWithTokens,
+        2,
+        "Should have exactly 2 producers with continuation tokens (active ranges)",
+      );
     });
 
     it("should handle order by continuation token with skipCount and rid", async () => {
       const mockRanges = [{ id: "0", minInclusive: "00", maxExclusive: "FF" }];
       const clientContext = setupMockClientContext(mockRanges);
-      
+
       const orderByToken = createOrderByQueryContinuationToken(
-        [{ 
-          range: mockRanges[0], 
-          continuationToken: "order-by-token" 
-        }],
-        [{ "name": "test-value" }], // orderByItems
+        [
+          {
+            range: mockRanges[0],
+            continuationToken: "order-by-token",
+          },
+        ],
+        [{ name: "test-value" }], // orderByItems
         "test-document-rid", // rid
-        5 // skipCount
+        5, // skipCount
       );
 
-      const options: FeedOptions = { 
-        maxItemCount: 10, 
+      const options: FeedOptions = {
+        maxItemCount: 10,
         maxDegreeOfParallelism: 1,
         enableQueryControl: true,
         continuationToken: orderByToken,
@@ -870,39 +918,45 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
         correlatedActivityId,
       );
 
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       // Should parse ORDER BY specific fields correctly
-      const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
-                            context["bufferedDocumentProducersQueue"].size();
-      assert.equal(totalProducers, 1, "Should have exactly 1 producer for ORDER BY query with single range");
+      const totalProducers =
+        context["unfilledDocumentProducersQueue"].size() +
+        context["bufferedDocumentProducersQueue"].size();
+      assert.equal(
+        totalProducers,
+        1,
+        "Should have exactly 1 producer for ORDER BY query with single range",
+      );
     });
 
     it("should properly handle filtering conditions in rewritten queries", async () => {
       // Create partitioned query execution info with rewritten query
       const partitionedQueryExecutionInfo = {
-        queryRanges: [
-          { min: "00", max: "FF", isMinInclusive: true, isMaxInclusive: false },
-        ],
+        queryRanges: [{ min: "00", max: "FF", isMinInclusive: true, isMaxInclusive: false }],
         queryInfo: {
           ...createQueryInfo(true),
-          rewrittenQuery: "SELECT * FROM c WHERE {documentdb-formattableorderbyquery-filter} ORDER BY c.name ASC",
+          rewrittenQuery:
+            "SELECT * FROM c WHERE {documentdb-formattableorderbyquery-filter} ORDER BY c.name ASC",
         },
         partitionedQueryExecutionInfoVersion: 1,
       };
 
       const clientContext = setupMockClientContext([
-        { id: "0", minInclusive: "00", maxExclusive: "FF" }
+        { id: "0", minInclusive: "00", maxExclusive: "FF" },
       ]);
 
-      const options: FeedOptions = { 
-        maxItemCount: 10, 
+      const options: FeedOptions = {
+        maxItemCount: 10,
         maxDegreeOfParallelism: 1,
         enableQueryControl: true,
-        continuationToken: createOrderByQueryContinuationToken([{
-          range: { id: "0", minInclusive: "00", maxExclusive: "FF" },
-          continuationToken: "token-with-filter"
-        }]),
+        continuationToken: createOrderByQueryContinuationToken([
+          {
+            range: { id: "0", minInclusive: "00", maxExclusive: "FF" },
+            continuationToken: "token-with-filter",
+          },
+        ]),
       };
 
       const context = new TestParallelQueryExecutionContext(
@@ -915,11 +969,12 @@ describe("ParallelQueryExecutionContextBase Constructor Tests", () => {
       );
 
       // Wait for async initialization to complete
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       // Should handle rewritten query with filter placeholder
-      const totalProducers = context["unfilledDocumentProducersQueue"].size() + 
-                            context["bufferedDocumentProducersQueue"].size();
+      const totalProducers =
+        context["unfilledDocumentProducersQueue"].size() +
+        context["bufferedDocumentProducersQueue"].size();
       assert.equal(totalProducers, 1, "Should create producer with filtered query");
     });
   });

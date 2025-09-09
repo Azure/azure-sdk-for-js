@@ -45,7 +45,7 @@ export class OrderByDocumentProducerComparator {
     docProd1: DocumentProducer,
     docProd2: DocumentProducer,
   ): 0 | 1 | -1 {
-    const range1 = docProd1.getTargetPartitionKeyRange() ;
+    const range1 = docProd1.getTargetPartitionKeyRange();
     const range2 = docProd2.getTargetPartitionKeyRange();
 
     const a = range1.minInclusive;

@@ -56,7 +56,7 @@ export function createOrderByQueryContinuationToken(
   skipCount: number,
   offset?: number,
   limit?: number,
-  hashedLastResult?: string
+  hashedLastResult?: string,
 ): OrderByQueryContinuationToken {
   return {
     rangeMappings,
@@ -73,7 +73,9 @@ export function createOrderByQueryContinuationToken(
  * Serializes an OrderByQueryContinuationToken to a JSON string
  * @internal
  */
-export function serializeOrderByQueryContinuationToken(token: OrderByQueryContinuationToken): string {
+export function serializeOrderByQueryContinuationToken(
+  token: OrderByQueryContinuationToken,
+): string {
   return JSON.stringify(token);
 }
 
@@ -81,7 +83,9 @@ export function serializeOrderByQueryContinuationToken(token: OrderByQueryContin
  * Deserializes a JSON string to an OrderByQueryContinuationToken
  * @internal
  */
-export function parseOrderByQueryContinuationToken(tokenString: string): OrderByQueryContinuationToken {
+export function parseOrderByQueryContinuationToken(
+  tokenString: string,
+): OrderByQueryContinuationToken {
   return JSON.parse(tokenString);
 }
 
@@ -91,6 +95,8 @@ export function parseOrderByQueryContinuationToken(tokenString: string): OrderBy
  * @returns Array of QueryRangeWithContinuationToken
  * @internal
  */
-export function getRangeMappingsFromOrderByToken(token: OrderByQueryContinuationToken): QueryRangeWithContinuationToken[] {
+export function getRangeMappingsFromOrderByToken(
+  token: OrderByQueryContinuationToken,
+): QueryRangeWithContinuationToken[] {
   return token.rangeMappings || [];
 }

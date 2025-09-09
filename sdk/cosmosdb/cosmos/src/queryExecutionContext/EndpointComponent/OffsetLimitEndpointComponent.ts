@@ -14,8 +14,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     private executionContext: ExecutionContext,
     private offset: number,
     private limit: number,
-  ) {
-  }
+  ) {}
 
   public hasMoreResults(): boolean {
     return (this.offset > 0 || this.limit > 0) && this.executionContext.hasMoreResults();
@@ -32,13 +31,8 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       !Array.isArray(response.result.buffer) ||
       response.result.buffer.length === 0
     ) {
-      const result = createParallelQueryResult(
-        [],
-        new Map(),
-        {},
-        undefined
-      );
-      
+      const result = createParallelQueryResult([], new Map(), {}, undefined);
+
       return { result, headers: response.headers };
     }
 
@@ -64,7 +58,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     const updatedPartitionKeyRangeMap = calculateOffsetLimitForPartitionRanges(
       partitionKeyRangeMap,
       initialOffset,
-      initialLimit
+      initialLimit,
     );
 
     // Return in the new structure format using the utility function
@@ -72,12 +66,12 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       buffer,
       updatedPartitionKeyRangeMap,
       updatedContinuationRanges,
-      orderByItems
+      orderByItems,
     );
 
     return {
       result,
-      headers: aggregateHeaders
+      headers: aggregateHeaders,
     };
   }
 }

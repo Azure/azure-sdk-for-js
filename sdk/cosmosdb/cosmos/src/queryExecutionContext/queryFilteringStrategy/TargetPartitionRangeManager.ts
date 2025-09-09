@@ -100,19 +100,18 @@ export class TargetPartitionRangeManager {
     rangeTokenPairs?: PartitionRangeWithContinuationToken[],
     additionalQueryInfo?: Record<string, unknown>,
   ): PartitionRangeFilterResult {
-    
     // Validate inputs
     if (!targetRanges || targetRanges.length === 0) {
       return { rangeTokenPairs: [] };
     }
-    
+
     // Merge base queryInfo with additional queryInfo (additional takes precedence)
     const mergedQueryInfo = { ...this.config.queryInfo, ...additionalQueryInfo };
 
     const result = this.strategy.filterPartitionRanges(
       targetRanges,
       rangeTokenPairs,
-      mergedQueryInfo
+      mergedQueryInfo,
     );
 
     return result;
