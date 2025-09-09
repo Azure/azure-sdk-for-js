@@ -7,7 +7,7 @@
 
 import "dotenv/config";
 import { CosmosClient, BulkOperationType } from "@azure/cosmos";
-import { handleError, logStep } from "./Shared/handleError";
+import { handleError, logStep } from "./Shared/handleError.js";
 
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const key = process.env.COSMOS_KEY || "<cosmos key>";

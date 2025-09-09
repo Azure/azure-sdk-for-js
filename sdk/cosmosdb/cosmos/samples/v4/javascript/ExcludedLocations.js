@@ -7,7 +7,7 @@
 
 require("dotenv/config");
 const { CosmosClient, BulkOperationType } = require("@azure/cosmos");
-const { handleError, logStep } = require("./Shared/handleError");
+const { handleError, logStep } = require("./Shared/handleError.js");
 
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const key = process.env.COSMOS_KEY || "<cosmos key>";

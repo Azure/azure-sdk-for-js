@@ -507,7 +507,7 @@ The `excludedLocations` option at the request level allows user to specify one o
 This example shows various APIs supporting Excluded Locations.
 
 ```ts snippet:ReadmeSampleWithExcludedLocations
-import { CosmosClient } from "@azure/cosmos";
+import { CosmosClient, OperationInput, BulkOperationType } from "@azure/cosmos";
 
 const endpoint = "https://your-account.documents.azure.com";
 const key = "<database account masterkey>";
@@ -519,8 +519,8 @@ const { container } = await database.containers.createIfNotExists({ id: "Test Co
 
 const requestOptions = { excludedLocations: ["Test Region"] };
 
-// Read
 await container.item("id", "1").read(requestOptions);
+
 const iterator = container.items.readAll(requestOptions);
 await iterator.fetchNext();
 
@@ -530,28 +530,23 @@ const cities = [
   { id: "3", name: "Chicago", state: "IL", isCapitol: false },
 ];
 
-// Create
 for (const city of cities) {
   await container.items.create(city, requestOptions);
 }
 
-// Upsert
 for (const city of cities) {
   await container.items.upsert(city, requestOptions);
 }
 
-// Delete
 await container.item("1").delete(requestOptions);
 
-// Replace
 await container.item("1", "A").replace({ id: "1", name: "Zues" }, requestOptions);
 
-// Query
 const { resources: queryResults } = await container.items
   .query("SELECT * from c WHERE c.name = Zues", requestOptions)
   .fetchAll();
 console.log("Query Results:", queryResults);
-// Bulk
+
 const bulkOperations: OperationInput[] = [
   {
     operationType: BulkOperationType.Create,
@@ -563,9 +558,9 @@ const bulkOperations: OperationInput[] = [
     },
   },
 ];
+
 await container.items.executeBulkOperations(bulkOperations, requestOptions);
 
-// Batch
 const batchOperations: OperationInput[] = [
   {
     operationType: "Create",
