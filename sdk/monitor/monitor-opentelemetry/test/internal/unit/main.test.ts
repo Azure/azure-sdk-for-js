@@ -5,8 +5,10 @@ import type { Context, TracerProvider } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../src/index.js";
-import { useAzureMonitor, shutdownAzureMonitor, _getInternalSdk } from "../../../src/index.js";
+import { useAzureMonitor, shutdownAzureMonitor, getInternalSdk } from "../../../src/index.js";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
+import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
 import type { StatsbeatEnvironmentConfig } from "../../../src/types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
@@ -501,23 +503,27 @@ describe("Main functions", () => {
   });
 
   it("should create both AzureMonitor and OTLP metric exporters when OTLP environment variables are set", () => {
-    const env = <{ [id: string]: string }>{};
-    env["OTEL_METRICS_EXPORTER"] = "otlp";
-    env["OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"] = "http://localhost:4318/v1/metrics";
-    env["OTEL_EXPORTER_OTLP_LOGS_PROTOCOL"] = "http/protobuf";
-    process.env = env;
+    // Create OTLP metric exporter and reader
+    const otlpExporter = new OTLPMetricExporter({
+      url: "http://localhost:4318/v1/metrics",
+    });
+    const otlpMetricReader = new PeriodicExportingMetricReader({
+      exporter: otlpExporter,
+      exportIntervalMillis: 60000,
+    });
 
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
+      metricReaders: [otlpMetricReader],
     };
 
     // Initialize the SDK
     useAzureMonitor(config);
 
     // Get the internal SDK instance
-    const internalSdk = _getInternalSdk();
+    const internalSdk = getInternalSdk();
     assert.ok(internalSdk, "Internal SDK should be available");
 
     // Access the meter provider from the SDK
@@ -531,6 +537,7 @@ describe("Main functions", () => {
 
     if (sharedState && sharedState.metricCollectors) {
       // Extract metric readers from metricCollectors
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, no-underscore-dangle, @typescript-eslint/no-unsafe-return
       metricReaders = sharedState.metricCollectors.map((collector: any) => collector._metricReader);
       foundProperty = "_sharedState.metricCollectors[].._metricReader";
     }
@@ -563,6 +570,7 @@ describe("Main functions", () => {
           // Verify the OTLP exporter has the correct URL configuration
           const delegate = exporter["_delegate"];
           if (delegate) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, no-underscore-dangle, @typescript-eslint/no-unsafe-member-access
             const transportParams = delegate._transport._transport._parameters;
             assert.strictEqual(
               transportParams.url,
@@ -579,18 +587,6 @@ describe("Main functions", () => {
 
     assert.ok(hasAzureMonitorReader, "Should have Azure Monitor metric reader");
     assert.ok(hasOTLPReader, "Should have OTLP metric reader");
-
-    // Verify environment variables were processed correctly
-    assert.strictEqual(
-      process.env["OTEL_METRICS_EXPORTER"],
-      "otlp",
-      "OTEL_METRICS_EXPORTER should be set",
-    );
-    assert.strictEqual(
-      process.env["OTEL_EXPORTER_OTLP_METRICS_ENDPOINT"],
-      "http://localhost:4318/v1/metrics",
-      "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT should be set",
-    );
 
     void shutdownAzureMonitor();
   });

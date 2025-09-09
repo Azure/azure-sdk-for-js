@@ -21,7 +21,7 @@ import {
   ATTR_SERVER_PORT,
 } from "@opentelemetry/semantic-conventions";
 import { ExportResultCode } from "@opentelemetry/core";
-import { SdkLogRecord } from "@opentelemetry/sdk-logs";
+import type { SdkLogRecord } from "@opentelemetry/sdk-logs";
 import { resourceFromAttributes } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";

@@ -83,7 +83,10 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   const logRecordProcessors: LogRecordProcessor[] = options?.logRecordProcessors || [];
 
   // Prepare metric readers - always include Azure Monitor
-  const metricReaders: MetricReader[] = [metricHandler.getMetricReader(), ...(options?.metricReaders || [])];
+  const metricReaders: MetricReader[] = [
+    metricHandler.getMetricReader(),
+    ...(options?.metricReaders || []),
+  ];
 
   // Initialize OpenTelemetry SDK
   const sdkConfig: Partial<NodeSDKConfiguration> = {
@@ -123,6 +126,6 @@ export function shutdownAzureMonitor(): Promise<void> {
  * Get the internal SDK instance for testing purposes
  * @internal
  */
-export function _getInternalSdk(): NodeSDK | undefined {
+export function getInternalSdk(): NodeSDK | undefined {
   return sdk;
 }
