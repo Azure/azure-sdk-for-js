@@ -851,6 +851,102 @@ describe("BatchingReceiver unit tests", () => {
 
     assert.equal(1, results.length);
   });
+
+  describe("receiver.close() error handling", () => {
+    it("handles errors when receiver.close() fails during drain timeout", async () => {
+      const fakeRheaReceiver = createFakeReceiver();
+      const closeError = new Error("Close failed");
+      
+      // Make receiver.close() reject
+      fakeRheaReceiver["close"] = () => Promise.reject(closeError);
+
+      const batchingReceiverLite = new BatchingReceiverLite(
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        async () => fakeRheaReceiver,
+        "peekLock",
+        false,
+        false,
+      );
+
+      // Set a very short drain timeout for testing
+      batchingReceiverLite["_drainTimeoutInMs"] = 1;
+
+      const receiveIsReady = getReceiveIsReadyPromise(batchingReceiverLite);
+      
+      const receivePromise = batchingReceiverLite.receiveMessages({
+        maxMessageCount: 1,
+        maxTimeAfterFirstMessageInMs: 100,
+        maxWaitTimeInMs: 100,
+      });
+
+      await receiveIsReady;
+      
+      // Add credits and trigger drain timeout by not emitting drain event
+      fakeRheaReceiver.drainCredit = () => {
+        fakeRheaReceiver.drain = true;
+        // Don't emit the drain event to trigger timeout
+      };
+      
+      // Trigger the final action which will cause drain timeout
+      const finalAction = batchingReceiverLite["_finalAction"];
+      if (finalAction) {
+        finalAction();
+      }
+
+      // Advance timers to trigger drain timeout
+      vi.advanceTimersByTime(10);
+
+      const messages = await receivePromise;
+      expect(messages).toEqual([]);
+      
+      // Test passes if no unhandled promise rejection occurs
+    });
+
+    it("handles errors when receiver.close() fails during abort signal cleanup", async () => {
+      const abortController = new AbortController();
+      const fakeRheaReceiver = createFakeReceiver();
+      const closeError = new Error("Close failed during abort");
+      
+      // Make receiver.close() reject
+      fakeRheaReceiver["close"] = () => Promise.reject(closeError);
+
+      const batchingReceiverLite = new BatchingReceiverLite(
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        async () => fakeRheaReceiver,
+        "peekLock",
+        false,
+        false,
+      );
+
+      const receiveIsReady = getReceiveIsReadyPromise(batchingReceiverLite);
+      
+      const receivePromise = batchingReceiverLite.receiveMessages({
+        maxMessageCount: 1,
+        maxTimeAfterFirstMessageInMs: 100,
+        maxWaitTimeInMs: 100,
+        abortSignal: abortController.signal,
+      });
+
+      await receiveIsReady;
+      
+      // Start a drain operation
+      fakeRheaReceiver.drain = true;
+      
+      // Abort the operation which should trigger the cleanup that calls receiver.close()
+      abortController.abort();
+
+      try {
+        await receivePromise;
+        assert.fail("Should have thrown due to abort");
+      } catch (err: any) {
+        assert.equal(err.name, "AbortError");
+      }
+      
+      // Test passes if no unhandled promise rejection occurs
+    });
+  });
 });
 
 function getReceiveIsReadyPromise(batchingReceiverLite: BatchingReceiverLite): Promise<void> {
