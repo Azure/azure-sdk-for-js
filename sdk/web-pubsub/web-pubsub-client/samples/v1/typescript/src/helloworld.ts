@@ -10,7 +10,7 @@ import type {
   GetClientAccessUrlOptions,
   JSONTypes,
 } from "@azure/web-pubsub-client";
-import { StreamHandlerFactory, WebPubSubClient } from "@azure/web-pubsub-client";
+import { createStreamHandler, WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -63,15 +63,15 @@ async function main(): Promise<void> {
     }
   });
 
-  client.onStream(groupName, (streamId) => {
-    const streamHandler = StreamHandlerFactory.create();
+  client.onStream(groupName, (e) => {
+    const streamHandler = createStreamHandler();
     const data: JSONTypes[] = [];
     streamHandler.onMessage((message: JSONTypes) => {
       data.push(message);
     });
 
     streamHandler.onComplete(() => {
-      console.log(`Stream ${streamId} completed with data: ${data.join(" ")}`);
+      console.log(`Stream ${e.message.streamId} completed with data: ${data.join(" ")}`);
     });
 
     streamHandler.onError((error: any) => {

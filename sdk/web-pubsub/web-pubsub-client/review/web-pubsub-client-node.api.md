@@ -29,6 +29,9 @@ export interface ConnectedMessage extends WebPubSubMessageBase {
 }
 
 // @public
+export function createStreamHandler(): WebPubSubStreamHandler;
+
+// @public
 export interface DisconnectedMessage extends WebPubSubMessageBase {
     readonly kind: "disconnected";
     message: string;
@@ -223,11 +226,6 @@ export interface StreamAckMessage extends WebPubSubMessageBase {
 export interface StreamAckMessageError {
     message: string;
     name: "StreamNotFound" | "InvalidSequenceId" | "Forbidden" | "InternalServerError" | string;
-}
-
-// @public
-export class StreamHandlerFactory {
-    static create(): WebPubSubStreamHandler;
 }
 
 // @public

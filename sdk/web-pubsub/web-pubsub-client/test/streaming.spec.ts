@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, vi } from "vitest";
-import { Stream, StreamHandler, StreamHandlerFactory } from "../src/streaming.js";
+import { Stream, StreamHandler, StreamHandlerFactory, createStreamHandler } from "../src/streaming.js";
 
 describe("StreamHandler", () => {
   let streamHandler: StreamHandler;
@@ -98,6 +98,58 @@ describe("StreamHandlerFactory", () => {
       // Should be different instances
       assert.notStrictEqual(handler1, handler2);
     });
+  });
+});
+
+describe("createStreamHandler function", () => {
+  it("should create a handler that implements WebPubSubStreamHandler interface", () => {
+    const handler = createStreamHandler();
+
+    // Should have all WebPubSubStreamHandler methods
+    assert.isFunction(handler.onMessage);
+    assert.isFunction(handler.onComplete);
+    assert.isFunction(handler.onError);
+  });
+
+  it("should create a working handler with proper callback functionality", () => {
+    const handler = createStreamHandler();
+    let messageReceived = false;
+    let completed = false;
+    let errorReceived = false;
+
+    // Set up callbacks
+    handler.onMessage(() => {
+      messageReceived = true;
+    });
+
+    handler.onComplete(() => {
+      completed = true;
+    });
+
+    handler.onError(() => {
+      errorReceived = true;
+    });
+
+    // Cast to access internal methods for testing (SDK internal usage)
+    const internalHandler = handler as StreamHandler;
+
+    // Test internal methods work (these would be called by the SDK)
+    internalHandler._handleMessage("test");
+    assert.isTrue(messageReceived);
+
+    internalHandler._handleComplete();
+    assert.isTrue(completed);
+
+    internalHandler._handleError({ name: "TestError", message: "Test error" });
+    assert.isTrue(errorReceived);
+  });
+
+  it("should create new instances on each call", () => {
+    const handler1 = createStreamHandler();
+    const handler2 = createStreamHandler();
+
+    // Should be different instances
+    assert.notStrictEqual(handler1, handler2);
   });
 });
 

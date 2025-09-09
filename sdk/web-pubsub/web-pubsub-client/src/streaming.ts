@@ -636,9 +636,17 @@ export class Stream implements WebPubSubStream {
 export class StreamHandlerFactory {
   /**
    * Create a new stream handler instance
-   * @returns A new stream handler that implements IStreamHandler
+   * @returns A new stream handler that implements WebPubSubStreamHandler
    */
   public static create(): WebPubSubStreamHandler {
     return new StreamHandler();
   }
+}
+
+/**
+ * Create a new stream handler instance
+ * @returns A new stream handler that implements WebPubSubStreamHandler
+ */
+export function createStreamHandler(): WebPubSubStreamHandler {
+  return StreamHandlerFactory.create();
 }
