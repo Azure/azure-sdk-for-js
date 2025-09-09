@@ -3,8 +3,5 @@
 
 import path from "node:path";
 
-export const globalSetupPath = path.join(__dirname, "./global/playwright-service-global-setup.js");
-export const globalTeardownPath = path.join(
-  __dirname,
-  "./global/playwright-service-global-teardown.js",
-);
+export const globalSetupPath = path.join(path.join(__dirname, "./global/playwright-service-global-setup.js"));
+export const globalTeardownPath = path.join(path.join(__dirname, "./global/playwright-service-global-teardown.js"));
