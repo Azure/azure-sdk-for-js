@@ -283,23 +283,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         return { result: temp, headers: this.fetchMoreRespHeaders };
       } else {
         const response = await this.endpoint.fetchMore(diagnosticNode);
-        let bufferedResults;
-
-        // Handle both old format (just array) and new format (with buffer property)
-        if (Array.isArray(response.result)) {
-          // Old format - result is directly the array
-          bufferedResults = response.result;
-        } else {
-          // New format - result has buffer property or handle undefined/null case
-          bufferedResults = response.result;
-        }
-
         mergeHeaders(this.fetchMoreRespHeaders, response.headers);
-        if (
-          response === undefined ||
-          response.result === undefined ||
-          bufferedResults === undefined
-        ) {
+        if (!response || !response.result || !response.result.buffer) {
           if (this.fetchBuffer.length > 0) {
             const temp = this.fetchBuffer;
             this.fetchBuffer = [];
@@ -308,21 +293,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             return { result: undefined, headers: this.fetchMoreRespHeaders };
           }
         }
-        this.fetchBuffer.push(...bufferedResults);
-        // TODO: This section can be removed
-        // if (this.options.enableQueryControl) {
-        //   if (this.fetchBuffer.length >= this.pageSize) {
-        //     const temp = this.fetchBuffer.slice(0, this.pageSize);
-        //     this.fetchBuffer = this.fetchBuffer.slice(this.pageSize);
-        //     return { result: temp, headers: this.fetchMoreRespHeaders };
-        //   } else {
-        //     const temp = this.fetchBuffer;
-        //     this.fetchBuffer = [];
-        //     return { result: temp, headers: this.fetchMoreRespHeaders };
-        //   }
-        // }
-        // Recursively fetch more results to ensure the pageSize number of results are returned
-        // to maintain compatibility with the previous implementation
+        this.fetchBuffer.push(...response.result.buffer);
         return this._fetchMoreImplementation(diagnosticNode);
       }
     } catch (err: any) {
@@ -344,17 +315,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
       // Remove the processed ranges 
       this._clearProcessedRangeMetadata(processedRanges, endIndex);
-
-      // TODO: instead of passing header add a method here to update the header
       this.continuationTokenManager.setContinuationTokenInHeaders(this.fetchMoreRespHeaders);
 
       return { result: temp, headers: this.fetchMoreRespHeaders };
     } else {
       this.fetchBuffer = [];
       const response = await this.endpoint.fetchMore(diagnosticNode);
-      console.log("Fetched more results from endpoint", JSON.stringify(response));
-
-      // Handle case where there are no more results from endpoint
+      mergeHeaders(this.fetchMoreRespHeaders, response.headers);
       if (!response || !response.result || !response.result.buffer || response.result.buffer.length === 0) {
         return this.createEmptyResultWithHeaders(response?.headers);
       }

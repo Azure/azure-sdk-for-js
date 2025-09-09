@@ -268,8 +268,8 @@ export class ContinuationTokenManager {
     );
     // Update internal state based on the result
     if (result.lastPartitionBeforeCutoff && result.lastPartitionBeforeCutoff.mapping) {
-      this.orderByQueryContinuationToken.offset = result.lastPartitionBeforeCutoff.mapping.offset;
-      this.orderByQueryContinuationToken.limit = result.lastPartitionBeforeCutoff.mapping.limit;
+      this.compositeContinuationToken.offset = result.lastPartitionBeforeCutoff.mapping.offset;
+      this.compositeContinuationToken.limit = result.lastPartitionBeforeCutoff.mapping.limit;
     }
     return { endIndex: result.endIndex, processedRanges: result.processedRanges };
   }
