@@ -2,15 +2,9 @@
   "extends": "../../../tsconfig.browser.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/microsoft-playwright-testing": [
-        "./dist/browser/index.d.ts"
-      ],
-      "@azure/microsoft-playwright-testing/*": [
-        "./dist/browser/*"
-      ],
-      "$internal/*": [
-        "./dist/browser/*"
-      ]
+      "@azure/microsoft-playwright-testing": ["./dist/browser/index.d.ts"],
+      "@azure/microsoft-playwright-testing/*": ["./dist/browser/*"],
+      "$internal/*": ["./dist/browser/*"]
     }
   }
 }

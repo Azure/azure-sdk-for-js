@@ -1,5 +1,3 @@
 {
-  "extends": [
-    "../../../tsconfig.snippets.base.json"
-  ]
+  "extends": ["../../../tsconfig.snippets.base.json"]
 }
