@@ -19,7 +19,7 @@ interface StreamMessage {
 /**
  * Public interface for stream message handlers that customers can use
  */
-export interface IStreamHandler {
+export interface WebPubSubStreamHandler {
   /**
    * Set the callback for receiving stream messages
    * @param callback - callback function to handle incoming messages
@@ -43,7 +43,7 @@ export interface IStreamHandler {
  * Stream handler for processing stream messages
  * @internal - This class is not exported for direct customer use
  */
-export class StreamHandler implements IStreamHandler {
+export class StreamHandler implements WebPubSubStreamHandler {
   private _onMessage?: (message: JSONTypes | ArrayBuffer) => void;
   private _onComplete?: () => void;
   private _onError?: (error: StreamAckMessageError) => void;
@@ -141,7 +141,7 @@ export interface StreamOptions {
 /**
  * Public interface for stream operations that customers can use
  */
-export interface IStream {
+export interface WebPubSubStream {
   /**
    * Get the stream ID
    */
@@ -201,7 +201,7 @@ export interface IStream {
  * Stream for sending messages to a group
  * @internal - This class is not exported for direct customer use
  */
-export class Stream implements IStream {
+export class Stream implements WebPubSubStream {
   private readonly _groupName: string;
   private readonly _streamId: string;
   private readonly _sendCallback: (
@@ -638,7 +638,7 @@ export class StreamHandlerFactory {
    * Create a new stream handler instance
    * @returns A new stream handler that implements IStreamHandler
    */
-  public static create(): IStreamHandler {
+  public static create(): WebPubSubStreamHandler {
     return new StreamHandler();
   }
 }

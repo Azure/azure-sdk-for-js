@@ -265,9 +265,7 @@ describe("WebPubSubClient Streaming Integration", function () {
 
   describe("onStream() method", () => {
     it("should register stream handler factory", () => {
-      client.onStream("testGroup", (streamId: string) => {
-        assert.isString(streamId);
-        assert.isTrue(streamId.length > 0);
+      client.onStream("testGroup", () => {
         return new StreamHandler();
       });
 

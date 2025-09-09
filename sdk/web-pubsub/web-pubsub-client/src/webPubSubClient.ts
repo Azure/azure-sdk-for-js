@@ -43,7 +43,7 @@ import type {
 } from "./models/messages.js";
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
-import type { IStreamHandler, StreamOptions, IStream, StreamHandler } from "./streaming.js";
+import type { WebPubSubStreamHandler, StreamOptions, WebPubSubStream, StreamHandler } from "./streaming.js";
 import { Stream } from "./streaming.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
 import { WebSocketClientFactory } from "./websocket/websocketClient.js";
@@ -518,7 +518,7 @@ export class WebPubSubClient {
    * @param options - Stream configuration options (optional, use default values if not provided)
    * @returns Stream instance
    */
-  public stream(groupName: string, streamId?: string, options?: StreamOptions): IStream {
+  public stream(groupName: string, streamId?: string, options?: StreamOptions): WebPubSubStream {
     const actualStreamId = streamId || this._generateStreamId();
 
     // Check if streamId is already in use
@@ -554,25 +554,23 @@ export class WebPubSubClient {
   /**
    * Register a callback handler for stream messages in a group
    * @param groupName - The group name
-   * @param allowOngoingStreams - Whether to allow receiving ongoing streams
    * @param callback - Callback handler to
    */
   public onStream(
     groupName: string,
-    // allowOngoingStreams: boolean,
-    callback: (streamId: string) => IStreamHandler,
+    callback: (e: OnStreamArgs) => WebPubSubStreamHandler,
   ): void {
-    this._emitter.on("group-stream-message", (args: OnStreamArgs) => {
+    this._emitter.on("group-stream-message", (e: OnStreamArgs) => {
       const {
         streamId,
         group: sourceGroup,
         data: message,
         endOfStream: isCompleted,
-      } = args.message;
+      } = e.message;
       if (groupName === sourceGroup) {
         let handler = this._streamHandlers.get(streamId!);
         if (!handler) {
-          const userHandler = callback(streamId!);
+          const userHandler = callback(e);
           // We expect users to return a handler from StreamHandlerFactory.create() which returns IStreamHandler
           // but internally we need access to _handle* methods, so we cast to concrete type
           handler = userHandler as StreamHandler;

@@ -63,7 +63,7 @@ async function main(): Promise<void> {
     }
   });
 
-  client.onStream(groupName, (streamId) => {
+  client.onStream(groupName, (e) => {
     const streamHandler = StreamHandlerFactory.create();
     const data: JSONTypes[] = [];
     streamHandler.onMessage((message: JSONTypes) => {
@@ -71,7 +71,7 @@ async function main(): Promise<void> {
     });
 
     streamHandler.onComplete(() => {
-      console.log(`Stream ${streamId} completed with data: ${data.join(" ")}`);
+      console.log(`Stream ${e.message.streamId} completed with data: ${data.join(" ")}`);
     });
 
     streamHandler.onError((error: any) => {

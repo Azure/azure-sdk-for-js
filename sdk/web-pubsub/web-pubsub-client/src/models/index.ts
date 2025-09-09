@@ -217,21 +217,9 @@ export interface OnRejoinGroupFailedArgs {
  */
 export interface OnStreamArgs {
   /**
-   * The group name
-   */
-  group: string;
-  /**
-   * The stream id
-   */
-  streamId: string;
-  /**
    * The group stream data message
    */
   message: GroupDataMessage;
-  /**
-   * Whether the stream is completed
-   */
-  isCompleted: boolean;
 }
 
 /**
