@@ -160,6 +160,28 @@ describe("CustomerSDKStatsMetrics", () => {
       expect(successMap.get(null)).toBe(2);
     });
 
+    it("should store correct drop.reason for CLIENT_STORAGE_DISABLED drop code", () => {
+      customerSDKStatsMetrics.countDroppedItems(
+        createMockEnvelopes(3, TelemetryType.TRACE),
+        DropCode.CLIENT_STORAGE_DISABLED,
+      );
+
+      const counter = (customerSDKStatsMetrics as any).customerSDKStatsCounter;
+      expect(counter.totalItemDropCount.size).toBe(1);
+
+      const dropCodeMap = counter.totalItemDropCount.get(TelemetryType.TRACE);
+      expect(dropCodeMap).toBeDefined();
+      expect(dropCodeMap.size).toBe(1);
+
+      const reasonMap = dropCodeMap.get(DropCode.CLIENT_STORAGE_DISABLED);
+      expect(reasonMap).toBeDefined();
+      expect(reasonMap.size).toBe(1);
+      // Should have "Client storage disabled" as reason for CLIENT_STORAGE_DISABLED
+      const successMap = reasonMap.get("Client local storage disabled");
+      expect(successMap).toBeDefined();
+      expect(successMap.get(null)).toBe(3);
+    });
+
     it("should aggregate counts for same drop code and exception message", () => {
       const exceptionMessage = "Repeated error";
 

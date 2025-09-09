@@ -4,15 +4,18 @@
 
 ### Features Added
 
+- Added a new `requiredEnvVars` option to `DefaultAzureCredential` that can accept a single environment variable or an array of environment variables. All specified variables must be set (and non-empty) before credential instantiation. If any variable is missing or empty, an error is thrown listing all missing variables. [#35832](https://github.com/Azure/azure-sdk-for-js/pull/35832)
+- Introduced a new `DefaultAzureCredentialEnvVars` union type that represents the environment variables supported in `DefaultAzureCredential`. This type is used to specify the required environment variable(s) in the option bag for `DefaultAzureCredential` via `requiredEnvVars`. [#35832](https://github.com/Azure/azure-sdk-for-js/pull/35832)
+
 ### Breaking Changes
 
 ### Bugs Fixed
 
 - Fixed an issue where `AzureDeveloperCliCredential` would time out during token requests when `azd` prompts for user interaction. This issue commonly occurred in environments where the `AZD_DEBUG` environment variable was set, causing the Azure Developer CLI to display additional prompts that interfered with automated token acquisition. [#35637](https://github.com/Azure/azure-sdk-for-js/pull/35637)
-
+- Fixed an issue where `VisualStudioCodeCredential` will show interactive authentication when the plugin is set but the broker is not available. [#35837](https://github.com/Azure/azure-sdk-for-js/pull/35837)
 ### Other Changes
 
-- `AzureCliCredential`, `AzurePowerShellCredential`, and `AzureDeveloperCliCredential` now raise `CredentialUnavailableError` when `claims` are provided to `getToken`, as these credentials do not support claims challenges. The error message includes instructions for handling claims authentication scenarios. [#35493](https://github.com/Azure/azure-sdk-for-js/pull/35493)
+- `AzureCliCredential`, `AzurePowerShellCredential`, and `AzureDeveloperCliCredential` now raise `CredentialUnavailableError` when `claims` are provided to `getToken`, as these credentials do not support claims challenges. The error message includes instructions for handling claims authentication scenarios. [#35493](https://github.com/Azure/azure-sdk-for-js/pull/35493) & [#35855](https://github.com/Azure/azure-sdk-for-js/pull/35855)
 
 ## 4.11.1 (2025-08-05)
 
