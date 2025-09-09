@@ -8,19 +8,14 @@ import { PhoneNumbersClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
 import { type TokenCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
+import { randomUUID } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 import { createOperationLocationFixPolicy } from "./operationLocationFixPolicy.js";
 import { DefaultAzureCredential } from "@azure/identity";
-let fetch: typeof globalThis.fetch;
-let crypto: typeof import("crypto");
 
 if (isNodeLike) {
   dotenv.config();
-  // Only import in Node.js environment
-  // @ts-expect-error: 'node-fetch' types may not be available in all environments, but this is safe in Node.js
-  fetch = (await import("node-fetch")).default;
-  crypto = await import("crypto");
 }
 
 export interface RecordedClient<T> {
@@ -220,7 +215,7 @@ async function assignRoleToExistingResource(): Promise<void> {
 
   const resourceId = `/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/providers/Microsoft.Communication/CommunicationServices/${resourceName}`;
   const contributorRoleId = "b24988ac-6180-42a0-ab88-20f7382dd24c";
-  const assignmentId = crypto.randomUUID();
+  const assignmentId = randomUUID();
   const url = `https://management.azure.com${resourceId}/providers/Microsoft.Authorization/roleAssignments/${assignmentId}?api-version=2022-04-01`;
 
   const body = {
