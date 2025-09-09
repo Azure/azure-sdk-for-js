@@ -547,10 +547,10 @@ await container.item("1").delete(requestOptions);
 await container.item("1", "A").replace({ id: "1", name: "Zues" }, requestOptions);
 
 // Query
-const { resources } = await container.items
+const { resources: queryResults } = await container.items
   .query("SELECT * from c WHERE c.name = Zues", requestOptions)
   .fetchAll();
-
+console.log("Query Results:", queryResults);
 // Bulk
 const bulkOperations: OperationInput[] = [
   {
@@ -573,7 +573,7 @@ const batchOperations: OperationInput[] = [
   },
 ];
 
-const response = await container.items.batch(operations, "A", requestOptions);
+await container.items.batch(batchOperations, "A", requestOptions);
 ```
 
 ## Error Handling

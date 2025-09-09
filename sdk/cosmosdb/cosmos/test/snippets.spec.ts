@@ -514,6 +514,70 @@ describe("snippets", () => {
     }
   });
 
+  it("ReadmeSampleWithExcludedLocations", async () => {
+    const endpoint = "https://your-account.documents.azure.com";
+    const key = "<database account masterkey>";
+    const client = new CosmosClient({ endpoint, key });
+    // @ts-preserve-whitespace
+    const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+    // @ts-preserve-whitespace
+    const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+    // @ts-preserve-whitespace
+    const requestOptions = { excludedLocations: ["Test Region"] };
+    // @ts-preserve-whitespace
+    await container.item("id", "1").read(requestOptions);
+    // @ts-preserve-whitespace
+    const iterator = container.items.readAll(requestOptions);
+    await iterator.fetchNext();
+    // @ts-preserve-whitespace
+    const cities = [
+      { id: "1", name: "Olympia", state: "WA", isCapitol: true },
+      { id: "2", name: "Redmond", state: "WA", isCapitol: false },
+      { id: "3", name: "Chicago", state: "IL", isCapitol: false },
+    ];
+    // @ts-preserve-whitespace
+    for (const city of cities) {
+      await container.items.create(city, requestOptions);
+    }
+    // @ts-preserve-whitespace
+    for (const city of cities) {
+      await container.items.upsert(city, requestOptions);
+    }
+    // @ts-preserve-whitespace
+    await container.item("1").delete(requestOptions);
+    // @ts-preserve-whitespace
+    await container.item("1", "A").replace({ id: "1", name: "Zues" }, requestOptions);
+    // @ts-preserve-whitespace
+    const { resources: queryResults } = await container.items
+      .query("SELECT * from c WHERE c.name = Zues", requestOptions)
+      .fetchAll();
+    console.log("Query Results:", queryResults);
+    // @ts-preserve-whitespace
+    const bulkOperations: OperationInput[] = [
+      {
+        operationType: BulkOperationType.Create,
+        partitionKey: "A",
+        resourceBody: {
+          id: "1",
+          name: "sample",
+          key: "A",
+        },
+      },
+    ];
+    // @ts-preserve-whitespace
+    await container.items.executeBulkOperations(bulkOperations, requestOptions);
+
+    // @ts-preserve-whitespace
+    const batchOperations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "A", key: "A", school: "high" },
+      },
+    ];
+    // @ts-preserve-whitespace
+    await container.items.batch(batchOperations, "A", requestOptions);
+  });
+
   it("CosmosClientCreate", async () => {
     const endpoint = "https://your-account.documents.azure.com";
     const key = "<database account masterkey>";
