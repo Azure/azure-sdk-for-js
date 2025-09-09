@@ -11,4 +11,4 @@ extends:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
       TestResourceDirectories:
-        - communication/test-resources/
+        - communication/communication-phone-numbers/
