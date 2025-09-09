@@ -1,0 +1,70 @@
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - api-extractor-base.json
+      - package.json
+      - turbo.json
+      - pnpm-*.yaml
+      - tsconfig.json
+      - tsconfig.src.build.json
+
+pr: none
+
+stages:
+  - stage:
+    displayName: Building All Packages
+
+    pool:
+      name: azsdk-pool
+      demands: ImageOverride -equals ubuntu-24.04
+
+    jobs:
+      - job: BuildAllPackages
+        timeoutInMinutes: 180
+        variables:
+          - template: /eng/pipelines/templates/variables/globals.yml
+        steps:
+          - checkout: self
+            fetchDepth: 1
+            fetchTags: false
+
+          - template: /eng/pipelines/templates/steps/use-node-version.yml
+            parameters:
+              NodeVersion: $(NODE_VERSION_LTS_ACTIVE)
+
+          - script: |
+              git log -m --abbrev-commit --pretty=format:'%h  %s (%cr) %an <%ae>' -50
+            displayName: git log
+
+          - script: |
+              npm install -g pnpm
+            displayName: "Install Pnpm"
+
+          - script: |
+              pnpm install
+            displayName: "Install library dependencies"
+
+          - script: |
+              pnpm build
+            env:
+              TURBO_TEAM: azsdkjs
+              TURBO_TEAMID: azsdkjs
+              TURBO_TOKEN: $(js-turborepo-cache-token)
+              TURBO_CACHE: local:rw,remote:rw
+            condition: not(eq(variables['dataPlaneOnly'], 'true'))
+            displayName: "Build All Packages"
+
+          - script: |
+              pnpm exec turbo build --filter='!@azure/arm-*' --filter='!@azure-rest/arm-*'
+            env:
+              TURBO_TEAM: azsdkjs
+              TURBO_TEAMID: azsdkjs
+              TURBO_TOKEN: $(js-turborepo-cache-token)
+              TURBO_CACHE: local:rw,remote:rw
+            condition: eq(variables['dataPlaneOnly'], 'true')
+            displayName: "Build All Data-plane Packages"
