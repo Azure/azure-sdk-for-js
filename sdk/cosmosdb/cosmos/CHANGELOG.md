@@ -1,4 +1,25 @@
 # Release History
+## 4.5.2 (2025-09-10)
+
+### Features Added
+
+- Excluded Locations Support: This feature adds support for excluded locations, allowing requests to avoid specified Azure regions when performing operations. By excluding certain regions at the request level, applications can control data residency, compliance, and latency, ensuring that operations are served only from preferred regions. This enhances availability and reliability by preventing requests from being routed to undesired or unavailable regions. [docs](https://devblogs.microsoft.com/cosmosdb/new-sdk-options-for-fine-grained-request-routing-to-azure-cosmos-db/)
+
+```js
+const requestOptions = { excludedLocations: ["West US"] };
+const cities = [
+  { id: "1", name: "Olympia", state: "WA", isCapitol: true },
+  { id: "2", name: "Redmond", state: "WA", isCapitol: false },
+  { id: "3", name: "Chicago", state: "IL", isCapitol: false },
+];
+
+for (const city of cities) {
+  await container.items.create(city, requestOptions);
+}
+
+await container.item("1").delete(requestOptions);
+```
+
 ## 4.5.1 (2025-09-01)
 
 ### Bugs Fixed
