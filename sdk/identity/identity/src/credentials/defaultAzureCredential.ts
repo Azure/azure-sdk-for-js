@@ -73,6 +73,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * The following example demonstrates how to use the `requiredEnvVars` option to ensure that certain environment variables are set before the `DefaultAzureCredential` is instantiated.
  * If any of the specified environment variables are missing or empty, an error will be thrown, preventing the application from continuing execution without the necessary configuration.
  * It also demonstrates how to set the `AZURE_TOKEN_CREDENTIALS` environment variable to control which credentials are included in the chain.
+ 
  * ```ts snippet:defaultazurecredential_requiredEnvVars
  * import { DefaultAzureCredential } from "@azure/identity";
  *
