@@ -74,9 +74,10 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * If any of the specified environment variables are missing or empty, an error will be thrown, preventing the application from continuing execution without the necessary configuration.
  * It also demonstrates how to set the `AZURE_TOKEN_CREDENTIALS` environment variable to control which credentials are included in the chain.
  *
- * @example ```ts
- * import { DefaultAzureCredential } from "@azure/identity";
- * import { SecretClient } from "@azure/keyvault-secrets";
+ * @example
+ * ```ts
+ * import { DefaultAzureCredential } from "\\@azure/identity";
+ * import { SecretClient } from "\\@azure/keyvault-secrets";
  * // AZURE_TOKEN_CREDENTIALS can be set to `EnvironmentCredential` in the .env file in this example.
  * const credential = new DefaultAzureCredential({
  *   requiredEnvVars: ["AZURE_CLIENT_ID", "AZURE_TENANT_ID", "AZURE_CLIENT_SECRET", "AZURE_TOKEN_CREDENTIALS"]
@@ -84,6 +85,7 @@ export class UnavailableDefaultCredential implements TokenCredential {
  * const vaultName = "<your-key-vault-name>";
  * const url = `https://${vaultName}.vault.azure.net`;
  * const client = new SecretClient(url, credential);
+ * ```
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
