@@ -74,7 +74,6 @@
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/api-logs": "^0.204.0",
     "@opentelemetry/core": "^2.1.0",
-    "@opentelemetry/exporter-metrics-otlp-http": "^0.204.0",
     "@opentelemetry/instrumentation": "^0.204.0",
     "@opentelemetry/instrumentation-bunyan": "^0.50.0",
     "@opentelemetry/instrumentation-http": "^0.204.0",
